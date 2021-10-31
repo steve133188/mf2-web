@@ -1,0 +1,11 @@
+.message-alert{
+    top: 30px;
+    left: 1493px;
+    width: 400px;
+    height: 88px;
+    /*background: var(--unnamed-color-f8f9fb) 0% 0% no-repeat padding-box;*/
+    background: #F8F9FB 0% 0% no-repeat padding-box;
+    box-shadow: 0px 7px 10px #0000001A;
+    border-radius: 10px;
+    opacity: 1;
+}
