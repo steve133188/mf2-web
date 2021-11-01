@@ -96,7 +96,7 @@ export function MultipleLineChart({children,...props}) {
                 id: 'fb',
                 group: 'social',
                 type: 'line',
-                height: "35%"
+                height: "350"
             },
             stroke: {
                 curve: 'straight'
@@ -106,7 +106,7 @@ export function MultipleLineChart({children,...props}) {
                 align: 'left'
             },
             markers: {
-                size: 6,
+                size: 0,
             },
             xaxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
