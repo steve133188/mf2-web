@@ -12,7 +12,7 @@ import * as React from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import {Checkbox1, Checkbox2} from "./Checkbox";
+import {Checkbox1, Checkbox2, CheckboxNew, CheckboxNew2, CheckboxNewSingle} from "./Checkbox";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {CancelButton, NormalButton2} from "./Button";
 
@@ -136,10 +136,10 @@ export function ContactList() {
                                     }}
                                 >
                                     {teamsSelect.map(({
-                                        value,
-                                        title,
-                                        number
-                                    }) => {
+                                                          value,
+                                                          title,
+                                                          number
+                                                      }) => {
                                         return (
                                             <MenuItem value={value} key={title} sx={{
                                                 color: "#2198FA",
@@ -166,32 +166,32 @@ export function ContactList() {
             {isFilter ?
 
                 (<div className="filterArea">
-                    <CheckboxGroup1 title="Filter">
-                        <Checkbox1 checked="checked">Unread</Checkbox1>
-                        <Checkbox1>Unassigned</Checkbox1>
-                        <Checkbox1>ChatBot</Checkbox1>
-                    </CheckboxGroup1>
-                    <CheckboxGroup2>
-                        <Checkbox2 src="https://clipart.info/images/ccovers/1499955335whatsapp-icon-logo-png.png">
-                            All Channel
-                        </Checkbox2>
-                        <Checkbox2 src="https://clipart.info/images/ccovers/1499955335whatsapp-icon-logo-png.png"
-                                   checked="checked">
-                            WhatsApp
-                        </Checkbox2>
-                        <Checkbox2 src="https://clipart.info/images/ccovers/1499955335whatsapp-icon-logo-png.png">
-                            WhatsApp Business API
-                        </Checkbox2>
-                        <Checkbox2 src="https://clipart.info/images/ccovers/1499955335whatsapp-icon-logo-png.png">
-                            Messager
-                        </Checkbox2>
-                        <Checkbox2 src="https://clipart.info/images/ccovers/1499955335whatsapp-icon-logo-png.png">
-                            WeChat
-                        </Checkbox2>
-                    </CheckboxGroup2>
+                    <div className="checkboxGroup1">
+                        <h1>Filter</h1>
+                        <div className="checkboxGrp">
+                            <CheckboxNew2 checked="checked">Unread</CheckboxNew2>
+                            <CheckboxNew2>Unassigned</CheckboxNew2>
+                            <CheckboxNew2>ChatBot</CheckboxNew2>
+                        </div>
+                    </div>
+                    <div className="checkboxGroup2">
+                        <p>Channel</p>
+                        <div className="checkboxGrp">
+                            <CheckboxNew src={"/allchannel.svg"}>All Channel
+                            </CheckboxNew>
+                            <CheckboxNew src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp
+                            </CheckboxNew>
+                            <CheckboxNew src={"/wbaCheck.svg"}>WhatsApp Business API
+                            </CheckboxNew>
+                            <CheckboxNew src={"/messageCheck.svg"}>Messager
+                            </CheckboxNew>
+                            <CheckboxNew src={"/wechatCheck.svg"}>WeChat
+                            </CheckboxNew>
+                        </div>
+                    </div>
                     <div className="agentFilter">
                         <p>Agent</p>
-                        <LabelSelect2/>
+                        <LabelSelect2 placeholder={"Choose Agent"} select1={"Mary Foster"} select2={"Vincent Sullivan"} select3={"Walter Jackson"} select4={"Alex Walker"}/>
                         <div className="agentGroup">
                             <Pill color="lightYellow" size="size30">MF</Pill>
                             <Pill color="lightBlue" size="size30">MF</Pill>
@@ -201,7 +201,7 @@ export function ContactList() {
                         <p>Tag</p>
                         <div className="tagGroup">
                             <Pill color="vip">VIP</Pill>
-                            <Checkbox3/>
+                            <CheckboxNewSingle/>
                         </div>
                     </div>
                     <div className="buttonGrp">

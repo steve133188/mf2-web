@@ -82,7 +82,8 @@ export function TeamFilterSelect({children, ...props}) {
 }
 
 
-export function LabelSelect2() {
+export function LabelSelect2({children,...props}) {
+    const {select1, select2, select3, select4, placeholder} = props;
     const [age, setAge] = React.useState('');
 
     const handleChange = (event) => {
@@ -94,14 +95,14 @@ export function LabelSelect2() {
                 value={age}
                 onChange={handleChange}
                 displayEmpty
-
             >
                 <MenuItem value="">
-                    <span>None</span>
+                    <span>{placeholder}</span>
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={10}>{select1}</MenuItem>
+                <MenuItem value={20}>{select2}</MenuItem>
+                <MenuItem value={30}>{select3}</MenuItem>
+                <MenuItem value={30}>{select4}</MenuItem>
             </Select>
         </div>
     )

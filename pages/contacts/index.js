@@ -9,7 +9,7 @@ import {PaginationControlled} from "../../components/Pagination";
 import {useContext, useEffect, useState} from "react";
 import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
-import { CheckboxPill, SingleBox} from "../../components/Checkbox"
+import {CheckboxNewSingle, CheckboxPill, SingleBox} from "../../components/Checkbox"
 import * as React from "react";
 import {Dropzone} from "../../components/ImportContact";
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -118,7 +118,7 @@ function EnhancedTable2Head(props) {
     return (
         <TableHead>
             <TableRow >
-                <th style={{ width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}><SingleBox /></th>
+                <th style={{ width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}><CheckboxNewSingle /></th>
                 {headCells2.map((headCell2) => (
                     <TableCell
                         key={headCell2.id}
@@ -176,7 +176,7 @@ export default function Contacts() {
 
     const rows = [
         createData("0000001",<div style={{display: "flex", alignItems: "center"}}><Avatar alt="Remy Sharp"
-                                                                src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/><span style={{marginLeft: "11px"}}>Debra Patel</span>
+                                                                                          src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/><span style={{marginLeft: "11px"}}>Debra Patel</span>
         </div>, <Pill color="teamA">Team A</Pill>, <div className="channel"><img
             width="24px" height="24px" src="./whatsappChannel.svg"
             alt=""/></div>, <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill color="lightPurple">New
@@ -538,12 +538,12 @@ export default function Contacts() {
                                             <span>Agnet</span>
                                         </MenuItem>
 
-                                            <MenuItem
-                                                value={"Mary Foster"}
-                                                // style={getStyles(personeName, personName, theme)}
-                                            >
-                                                {"Mary Foster"}
-                                            </MenuItem>
+                                        <MenuItem
+                                            value={"Mary Foster"}
+                                            // style={getStyles(personeName, personName, theme)}
+                                        >
+                                            {"Mary Foster"}
+                                        </MenuItem>
                                         <MenuItem
                                             value={"Harry Stewart"}
                                             // style={getStyles(personeName, personName, theme)}
@@ -678,7 +678,7 @@ export default function Contacts() {
                                                         tabIndex={-1}
                                                         key={d.name}
                                                     >
-                                                        <td style={{ width: "30px", textAlign: "center", borderBottom: "1px #e0e0e0 solid"}}><SingleBox /></td>
+                                                        <td style={{ width: "30px", textAlign: "center", borderBottom: "1px #e0e0e0 solid"}}><CheckboxNewSingle /></td>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.customerID}</TableCell>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.name}</TableCell>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.team}</TableCell>

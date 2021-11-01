@@ -1,8 +1,8 @@
 .checkboxGroup1 {
   margin-left: 11px;
   margin-top: 39px;
-  margin-right: 30px;
   color: #444444;
+  padding-right: 30px;
 
   h1 {
     font-size: 16px;
@@ -13,7 +13,18 @@
   .checkboxGrp {
     display: flex;
     justify-content: space-between;
+
     /* The container */
+    .newCheckboxContainer {
+      margin-bottom: 12px;
+      margin-right: 5px;
+      .newCheckboxLabel {
+        margin-right: 8px;
+      }
+      .checkboxContentGrp {
+
+      }
+    }
     .checkboxContainer {
       position: relative;
       padding-left: 35px;
@@ -71,6 +82,10 @@
   .checkboxGrp {
     display: flex;
     flex-flow: column;
+
+    .newCheckboxContainer {
+      margin-bottom: 25px;
+    }
 
     .checkboxContainer {
       margin-bottom: 25px;
@@ -209,5 +224,62 @@
 
   .columnCheckboxContainer:active input ~ .checkmark {
 
+  }
+}
+
+.newCheckboxContainer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  .checkboxContentGrp {
+    img {
+      margin-right: 4px;
+      margin-bottom: 3px;
+      width: 16.48px;
+      height: 16.48px;
+    }
+  }
+  .newCheckboxLabel {
+    font-family: system-ui, sans-serif;
+    font-weight: bold;
+    line-height: 1.1;
+    margin-top: 1px;
+  }
+  input[type="checkbox"] {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: #2198FA;
+    width: 21px;
+    height: 21px;
+    border: 1px solid #2198FA;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+  }
+
+  .newCheckboxLabel + .newCheckboxLabel {
+    margin-top: 1em;
+  }
+  input[type="checkbox"] {
+    /* ...existing styles */
+    display: grid;
+    place-content: center;
+    border-radius: 5px;
+  }
+
+  input[type="checkbox"]::before {
+    content: "";
+    width: 17px;
+    height: 17px;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #2198FA;
+    border-radius: 3px;
+  }
+
+  input[type="checkbox"]:checked::before {
+    transform: scale(1);
+    background-color: #2198fa;
   }
 }

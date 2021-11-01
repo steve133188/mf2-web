@@ -114,9 +114,10 @@
         justify-content: space-between;
 
         .left {
-          cursor: pointer;
+          margin-left: 14px;
           span {
             margin-right: 23px;
+            cursor: pointer;
             img {
 
             }
@@ -124,9 +125,10 @@
         }
 
         .right {
-          cursor: pointer;
+
           span {
             margin-left: 15px;
+            cursor: pointer;
             img {
 
             }

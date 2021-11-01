@@ -37,6 +37,7 @@
       p {
         margin-left: 12px;
         font-size: 12px;
+        color: #444444;
       }
       .agentGroup {
         margin-left: 10px;
@@ -58,11 +59,14 @@
       margin-top: 10px;
       p {
         margin-left: 12px;
+        color: #444444;
         font-size: 12px;
       }
       .tagGroup {
         display: flex;
         justify-content: space-between;
+        padding-right: 32px;
+        padding-left: 5px;
       }
       .agentGroup {
         margin-left: 10px;
