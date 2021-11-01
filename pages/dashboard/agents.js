@@ -7,6 +7,7 @@ export default function Agents(){
     return(
         <div className="dashboard-layout">
             <div className="navbarPurple">
+
                 <img src="" alt=""/>
             </div>
 
