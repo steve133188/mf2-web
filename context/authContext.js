@@ -46,7 +46,11 @@ export const AuthContextProvider = ({children}) =>{
             setUser({userInfo:{name:"Lewis.chan " , email: email , role:"admin" , organization: {"Matrixsense":"Developer"}}, authReady: true})
             router.push("/dashboard/livechat")
 
-        }else{
+        }else if(email =="test@test.tech"  && pwd == "1234"){
+            setUser({userInfo:{name:"Lewis.chan " , email: email , role:"admin" , organization: {"Matrixsense":"Developer"}}, authReady: true})
+            router.push("/dashboard/livechat")
+
+        }else {
             console.log("Something went Wrong")
             return "Something went Wrong"
         }

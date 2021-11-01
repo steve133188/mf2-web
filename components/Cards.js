@@ -16,7 +16,7 @@ export function Card_channel(props) {
                     <img
                         src={props.src} width="40px" height="40px" alt=""/>
                     <label className="tickSVG" onClick={toggle} style={{
-                        display: showMe ? "block" : "none"
+                        display:  "block"
                     }}>
                         <Button id="connectedBtn" variant="outlined" style={{
                             borderRadius: "10px",
@@ -28,7 +28,7 @@ export function Card_channel(props) {
                         </Button>
                     </label>
                     <label className="tickSVG" onClick={toggle} style={{
-                        display: showMe ? "none" : "block"
+                        display: "none"
                     }}>
                         <Button id="connectedBtn" variant="outlined" style={{
                             borderRadius: "10px",
