@@ -7,12 +7,12 @@ import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
     useEffect(()=>{
-        client.onopen = () => {
-            console.log('WebSocket Client Connected');
-        };
-        client.onmessage = (message) => {
-            console.log(message);
-        };
+        // client.onopen = () => {
+        //     console.log('WebSocket Client Connected');
+        // };
+        // client.onmessage = (message) => {
+        //     console.log(message);
+        // };
     },[])
   return(
       <>
