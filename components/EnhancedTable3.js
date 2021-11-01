@@ -146,8 +146,8 @@ export function EnhancedTable3() {
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy))
-                                .map((row, index) => {
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                .map((row) => {
+                                    // const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
@@ -156,11 +156,8 @@ export function EnhancedTable3() {
                                             tabIndex={-1}
                                             key={row.name}
                                         >
-
                                             <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.tag}</TableCell>
                                             <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.total}</TableCell>
-
-
                                         </TableRow>
                                     );
                                 })}

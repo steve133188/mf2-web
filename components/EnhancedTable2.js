@@ -159,8 +159,8 @@ export function EnhancedTable2() {
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy))
-                                .map((row, index) => {
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                .map((row) => {
+                                    // const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow

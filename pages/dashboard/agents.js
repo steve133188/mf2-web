@@ -1,4 +1,4 @@
-import {AverageDailyCard, LineChartCard} from "../../components/Cards";
+import {AverageDailyCard, ChangingPercentageCard, LineChartCard} from "../../components/Cards";
 import {MultipleLineChart} from "../../components/LineChart1";
 import {EnhancedTable2} from "../../components/EnhancedTable2";
 import * as React from "react";
@@ -90,7 +90,19 @@ export default function Agents() {
                     <AverageDailyCard/>
                 </div>
                 <div className="lineCardGroup2">
-
+                    <ChangingPercentageCard title={"Total Assigned Contacts"} total={34} changing={"- 25%"} />
+                    <ChangingPercentageCard title={"Active Contacts"} total={30} changing={"+ 8%"} />
+                    <ChangingPercentageCard title={"Delivered Contacts"} total={28} changing={"+ 8%"} />
+                    <ChangingPercentageCard title={"Unhandled Contacts"} total={28} changing={"+ 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
                 </div>
             </div>
             <div className="chartGroup">

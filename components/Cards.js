@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -105,7 +105,34 @@ export function LineChartCard({children,...props}) {
     )
 }
 
-export function ChangingPercentageCard() {
+export function ChangingPercentageCard({children,...props}) {
+    const {title, total, changing} = props;
+    let classnamee= "";
+
+    if(changing.charAt(0)=='+') {
+        classnamee = "changingPercentagePos";
+    } else if (changing.charAt(0)=='-') {
+        classnamee = "changingPercentageNeg";
+    }
+    else {
+        return null;
+    }
+    return (
+        <div className={"changingPercentageCard"}>
+            <div className={"changingPercentageCardTitle"}>
+                {title}
+            </div>
+            <div className={"dataGroup"}>
+                <div className={"number"}>{total}</div>
+                <div className={classnamee}>
+                    {changing}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export function BigChangingPercentageCard() {
     return (
         <div className={"changingPercentageCard"}>
             <div className={"changingPercentageCardTitle"}>
