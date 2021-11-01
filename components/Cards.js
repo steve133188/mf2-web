@@ -132,16 +132,41 @@ export function ChangingPercentageCard({children,...props}) {
     )
 }
 
-export function BigChangingPercentageCard() {
+export function BigChangingPercentageCard({children,...props}) {
+    const {title, leftTitle, leftTotal, leftPercentage, rightTitle, rightTotal, rightPercentage} = props;
+    let leftClass = "";
+    let rightClass = ""
+
+    if(leftPercentage.charAt(0)=='+') {
+        leftClass = "changingPercentagePos";
+    } else if (leftPercentage.charAt(0)=='-') {
+        leftClass = "changingPercentageNeg";
+    }
+    else {
+        leftClass = "changingPercentage";
+    }
+
+    if(rightPercentage.charAt(0)=='+') {
+        rightClass = "changingPercentagePos";
+    } else if (rightPercentage.charAt(0)=='-') {
+        rightClass = "changingPercentageNeg";
+    }
+    else {
+        rightClass = "changingPercentage";
+    }
+
     return (
-        <div className={"changingPercentageCard"}>
-            <div className={"changingPercentageCardTitle"}>
-                Total Assigned Contacts
-            </div>
-            <div className={"dataGroup"}>
-                <div className={"number"}>34</div>
-                <div className="changingPercentageNeg">
-                    - 25%
+        <div className={"bigChangingPercentageCard"}>
+            <p>{title}</p>
+            <div className="dataGroup">
+                <div className="left">
+                    <p>{leftTitle}</p>
+                    <div className={"dataSet"}><span className={"totalData"}>{leftTotal}</span><span className={leftClass}>{leftPercentage}</span></div>
+                </div>
+                <div className={"straightLine"}></div>
+                <div className="right">
+                    <p>{rightTitle}</p>
+                    <div className={"dataSet"}><span className={"totalData"}>{rightTotal}</span><span className={rightClass}>{rightPercentage}</span></div>
                 </div>
             </div>
         </div>

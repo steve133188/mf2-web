@@ -3,7 +3,7 @@ import {LabelSelect2, SingleSelect2} from "../../components/Select";
 import {EnhancedTable} from "../../components/Table";
 import {EnhancedTable2} from "../../components/EnhancedTable2";
 import {EnhancedTable3} from "../../components/EnhancedTable3";
-import {AverageDailyCard, LineChartCard} from "../../components/Cards";
+import {AverageDailyCard, BigChangingPercentageCard, LineChartCard} from "../../components/Cards";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {CheckboxNew} from "../../components/Checkbox";
@@ -26,14 +26,6 @@ export default function Livechat() {
     return (
         <div className="dashboard-layout">
             <div className="navbarPurple">
-
-                <div className="imageBtnGrp">
-                    <img src="/dateDropdown.png" height="37px" width="264px"
-                         style={{borderRadius: "10px", cursor: "pointer", marginRight: "20px"}} alt=""/>
-                    <span onClick={handleClickOut} style={{cursor: "pointer"}}><img src="/grayFilter.svg"
-                                                                                    alt=""/></span>
-
-                </div>
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2198fa"
                      className="bi bi-upload" viewBox="0 0 16 16" style={{cursor: "pointer"}}>
@@ -88,7 +80,7 @@ export default function Livechat() {
                     </div>
                 </span>
             ) : null}
-            <img src="/dataFa.png" alt="" width="436px" height="153px" style={{borderRadius: "10px"}}/>
+            <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
             <div className="chartGroup">
                 <div className="dashboardRow">
                     <div className="dashboardColumn"><LineChart1 title={"All Contacts"} data={[25, 24, 32, 36, 32, 30, 33, 33, 20, 17, 19, 34]} yaxis={"Contacts"} total={"34"} percentage={"+5%"} /></div>

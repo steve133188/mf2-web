@@ -131,3 +131,62 @@
     }
   }
 }
+
+.bigChangingPercentageCard {
+  width: 436px;
+  height: 153px;
+  box-shadow: 0px 7px 10px #0000001A;
+  background: white;
+  padding: 17px 22px 26px 22px;
+  border-radius: 10px;
+  box-shadow: 0px 7px 10px #0000001A;
+
+  p {
+    color: #707070;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 34px;
+  }
+  .dataGroup {
+    display: flex;
+    justify-content: space-between;
+    .totalData {
+      margin-right: 69px;
+      color: #000000;
+      font-size: 24px;
+      font-weight: 500;
+    }
+    p {
+      margin-bottom: 9px;
+    }
+
+    .changingPercentage {
+      font-weight: 300;
+      color: #444444;
+      font-size: 12px;
+    }
+    .changingPercentagePos {
+      font-weight: 300;
+      color: #34C38F;
+      font-size: 12px;
+    }
+    .changingPercentageNeg {
+      font-weight: 300;
+      color: #FC736A;
+      font-size: 12px;
+    }
+    .left {
+      p {
+
+      }
+
+    }
+    .straightLine {
+      width: 1px;
+      background: #E4E7ED;
+    }
+    .right {
+
+    }
+  }
+}
