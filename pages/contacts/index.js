@@ -446,7 +446,7 @@ export default function Contacts() {
                             <div className="editColumnPopperContainer">
                                 <ClickAwayListener onClickAway={handleClickAway}>
                                     <Box sx={{position: 'relative'}}>
-                                        <div className="textWithIconButton">
+                                        <div className="textWithIconButton" onClick={handleClick}>
                                             <ThemeProvider theme={theme2}>
                                                 <Button variant="contained" color="neutral">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -480,11 +480,12 @@ export default function Contacts() {
                                                                             {(provided) => (
                                                                                 <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
                                                                                     className="columnCheckboxContainer">
-                                                                                    <img
-                                                                                        src="icon-columnControl.svg"
-                                                                                        alt=""/>{columnName}
-                                                                                    <input type="checkbox"/>
-                                                                                    <span className="checkmark"></span>
+                                                                                    <div>
+                                                                                        <img
+                                                                                            src="icon-columnControl.svg"
+                                                                                            alt=""/>{columnName}
+                                                                                        </div>
+                                                                                    <CheckboxNewSingle />
                                                                                 </li>
                                                                             )}
                                                                         </Draggable>
@@ -575,6 +576,24 @@ export default function Contacts() {
                                                     <label className="checkboxContainer">
                                                             <span className="pillContainer">
                                                                 <span className="pill vip">VIP</span>
+                                                            </span>
+                                                        <CheckboxNewSingle/>
+                                                    </label>
+                                                    <label className="checkboxContainer">
+                                                            <span className="pillContainer">
+                                                                <span className="pill newCustomer">New Customer</span>
+                                                            </span>
+                                                        <CheckboxNewSingle/>
+                                                    </label>
+                                                    <label className="checkboxContainer">
+                                                            <span className="pillContainer">
+                                                                <span className="pill promotions">Promotions</span>
+                                                            </span>
+                                                        <CheckboxNewSingle/>
+                                                    </label>
+                                                    <label className="checkboxContainer">
+                                                            <span className="pillContainer">
+                                                                <span className="pill vvip">VVIP</span>
                                                             </span>
                                                         <CheckboxNewSingle/>
                                                     </label>

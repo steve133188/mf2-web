@@ -5,6 +5,8 @@
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 1;
+
+
   .assigneeGroup {
     .pillContainer {
       margin-right: 5px;
@@ -58,11 +60,11 @@
           margin-bottom: 30px;
 
           button {
-            max-height: 36px;
+            max-height: 38px;
             border-radius: 10px;
             text-transform: unset;
-            height: 34px;
-
+            height: 38px;
+            box-shadow: none;
 
             img {
               margin-right: 6px;
@@ -92,6 +94,7 @@
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
+                margin-bottom: 22px;
                 .pillContainer {
                   .pill {
                     padding: 4px 18px;
@@ -100,6 +103,7 @@
               }
             }
           }
+
         }
       }
 

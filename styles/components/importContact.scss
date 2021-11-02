@@ -19,10 +19,24 @@
   display: flex;
   flex-flow: column;
   justify-content: space-between;
+  .normalButton {
+    button {
+      box-shadow: none;
+    }
+  }
   .header {
     margin-bottom: 33px;
     display: flex;
     justify-content: space-between;
+    .buttonGrp {
+      span {
+        .cancelButton {
+          button {
+            box-shadow: none;
+          }
+        }
+      }
+    }
     span {
       align-self: end;
       color: #444444;

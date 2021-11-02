@@ -181,31 +181,18 @@
 }
 
 .columnCheckboxContainer {
-  position: relative;
-  cursor: pointer;
+
 
   img {
-    margin-right: 15px;
-    cursor: grab;
+
   }
 
   input {
-    float: right;
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+
   }
 
   .checkmark {
-    position: absolute;
-    top: 23px;
-    right: 21px;
-    height: 21px;
-    width: 21px;
-    border: 1.5px solid #E7E8EC;
-    border-radius: 5px;
+
   }
 
   /* On mouse-over, add a grey background color */
