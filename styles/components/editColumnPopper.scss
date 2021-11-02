@@ -3,33 +3,72 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 32px;
+
+    .normalButton {
+      button {
+        height: 34px;
+      }
+    }
+
+    span {
+      margin-left: 28px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #444444;
+    }
   }
+
   .columnGroup {
     padding-left: 0px;
+
     .columnCheckboxContainer {
       display: flex;
-      padding: 17px 45px 17px 21px;
+      padding: 17px 32px 17px 21px;
       border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      justify-content: space-between;
+
+      .newCheckboxLabel {
+        align-self: center;
+      }
+
       .leftHandSide {
         display: flex;
+
         img {
           margin-right: 20px;
           cursor: grab;
         }
+
         span {
 
         }
       }
+
       .testCheckboxContainer {
         input {
 
         }
+
         .checkmark {
-          top: 5px;
-          left: 122px;
+
         }
       }
     }
+
+    .columnCheckboxContainer:hover input ~ .checkmark {
+      background-color: #c1e3ff;
+    }
+
+    input:checked ~ .checkmark {
+      background-color: #2198FA;
+      box-shadow: 0px 3px 6px #00000029;
+      width: 21px;
+      height: 21px;
+      border: none;
+    }
+
     .columnCheckboxContainer:hover {
       background: #F8F9FB;
       box-shadow: 0px 3px 6px #00000029;

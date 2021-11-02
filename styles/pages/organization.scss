@@ -18,7 +18,11 @@
       margin-left: auto;
 
       .navbarPurple {
-
+        .newContactButton {
+          button {
+            box-shadow: none;
+          }
+        }
 
       }
 
@@ -51,6 +55,8 @@
             text-transform: unset;
             box-shadow: none;
             margin-left: 15px;
+            box-shadow: none;
+            height: 38px;
 
             img {
               margin-right: 6px;

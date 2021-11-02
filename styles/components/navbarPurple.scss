@@ -56,8 +56,14 @@
       margin-top: 33px;
       display: flex;
       justify-content: space-evenly;
+      button {
+        box-shadow: none;
+        height: 38px;
+        font-size: 16px;
+      }
       span {
         margin-left: 0;
+
       }
     }
   }

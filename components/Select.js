@@ -171,7 +171,7 @@ export function MultipleSelectPlaceholder({ children,...props }) {
                         input={<OutlinedInput/>}
                         renderValue={(selected) => {
                             if (selected.length === 0) {
-                                return <span>Agent</span>;
+                                return <span>{placeholder}</span>;
                             }
                             return selected.join('');
                         }}
@@ -179,7 +179,7 @@ export function MultipleSelectPlaceholder({ children,...props }) {
                         inputProps={{'aria-label': 'Without label'}}
                 >
                     <MenuItem disabled value="">
-                        <span>Agnet</span>
+                        <span>{placeholder}</span>
                     </MenuItem>
                     {names.map((name) => (
                         <MenuItem
