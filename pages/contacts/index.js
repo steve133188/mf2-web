@@ -469,6 +469,7 @@ export default function Contacts() {
                                                     <span>Column Setting</span>
                                                     <NormalButton>Add</NormalButton>
                                                 </div>
+
                                                 <DragDropContext onDragEnd={handleOnDragEnd}>
                                                     <Droppable droppableId="columns">
                                                         {(provided) => (

@@ -1,6 +1,8 @@
 import {Input2} from "../../components/Input";
 import {Pill} from "../../components/Pill";
 import * as React from "react";
+import {CancelButton, NormalButton2} from "../../components/Button";
+import Link from "next/link"
 
 export default function addContacts() {
     return (
@@ -31,8 +33,12 @@ export default function addContacts() {
                             <Input2 title="Country">Hong Kong</Input2>
                         </div>
                         <span className="longInput"><Input2
-                            title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2></span>
-
+                            title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2>
+                        </span>
+                        <div className={"addContactBtnGroup"}>
+                            <NormalButton2>+ New Contact</NormalButton2>
+                            <Link href="/contacts"><a><CancelButton></CancelButton></a></Link>
+                        </div>
                     </div>
                 </div>
                 <div className={"inputSetContainer"} style={{marginTop: "170px"}}>
@@ -89,6 +95,7 @@ export default function addContacts() {
                                 <Pill color="lightGreen" size="size30">VS</Pill>
                                 <Pill color="lightGreen" size="size30">VS</Pill>
                                 <Pill color="lightGreen" size="size30">VS</Pill>
+                                <Pill color={"add"} size={"30"}>+</Pill>
                             </div>
                         </div>
                     </div>

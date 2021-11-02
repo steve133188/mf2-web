@@ -29,7 +29,9 @@
     text-transform: none;
   }
   .newContactButton {
-
+    .button {
+      box-shadow: none;
+    }
   }
   .cancelButton {
     button {

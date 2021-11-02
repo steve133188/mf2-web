@@ -3,7 +3,7 @@
 
   .infoTagContainer {
     display: flex;
-    flex-flow: column;
+    justify-content: space-evenly;
 
     h5 {
       font-size: 16px;
@@ -18,18 +18,31 @@
       margin-bottom: 23px;
     }
 
-    .bottomArea {
-      display: flex;
-      .inputSetContainer {
-        margin-bottom: 20px;
 
-        .contactDescription {
-          display: flex;
-          flex-flow: column;
-          justify-content: space-between;
+    .inputSetContainer {
+      margin-bottom: 20px;
+
+      .contactDescription {
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+        p {
+          font-size: 12px;
+          color: #444444;
+        }
+        span {
+          margin-bottom: 3px;
+        }
+      }
+      .tagsGroup {
+        .tagsGroup {
+          .size30 {
+            height: 28px;
+          }
         }
       }
     }
+
 
     .pillContainer {
       margin-right: 12px;
@@ -55,6 +68,26 @@
     input {
       max-width: 507px;
 
+    }
+  }
+  .addContactBtnGroup {
+    display: flex;
+    margin-top: 154px;
+    .button {
+      height: 38px;
+    }
+
+    .newContactButton {
+      margin-right: 22px;
+      button {
+        height: 38px;
+        box-shadow: none;
+      }
+    }
+    .cancelButton {
+      button {
+        height: 38px;
+      }
     }
   }
 }
