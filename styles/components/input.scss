@@ -101,6 +101,7 @@
     color: #444444;
     font-size: 16px;
   }
+
   input::placeholder {
 
   }
@@ -120,6 +121,7 @@
   display: flex;
   flex-flow: column;
   border-radius: 15px;
+
   .requiredMessage {
     color: #E90000;
     //margin-left: 40.5px;
@@ -127,9 +129,11 @@
     margin-bottom: 7px;
     visibility: hidden;
   }
+
   .wrongPwd {
     visibility: visible;
   }
+
   .searchSVG {
     position: relative;
     border-radius: 10px;
@@ -189,10 +193,12 @@
   }
 
 }
+
 // xxxSVG classes below defined the SVG logo in the input field.
 .emailSVG:before {
   background: url("../../public/icon-email.svg") center / contain no-repeat;
 }
+
 .passwordSVG:before {
   background: url("../../public/icon-lock.svg") center / contain no-repeat;
 }
@@ -209,6 +215,7 @@
     margin-bottom: 7px;
     visibility: hidden;
   }
+
   .searchSVG {
     position: relative;
     border-radius: 10px;
@@ -431,33 +438,3 @@
   }
 }
 
-.newContactFormContainer {
-  .inputSetContainer {
-    margin-bottom: 20px;
-    .contactDescription {
-      display: flex;
-      flex-flow: column;
-      justify-content: space-between;
-    }
-  }
-  .pillContainer {
-    margin-right: 12px;
-  }
-  .infoTagContainer {
-    display: flex;
-    justify-content: space-evenly;
-  }
-  .inputSet {
-    display: flex;
-    margin-bottom: 50px;
-    height: 68px;
-    .inputField {
-      margin-right: 5em;
-    }
-  }
-}
-.longInput {
-  input {
-    max-width: 500px;
-  }
-}

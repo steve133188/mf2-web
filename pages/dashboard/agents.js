@@ -93,7 +93,6 @@ export default function Agents() {
                     <ChangingPercentageCard title={"Delivered Contacts"} total={28} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Unhandled Contacts"} total={28} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
-    z
                 </div>
             </div>
             <div className="chartGroup">
