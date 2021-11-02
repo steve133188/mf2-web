@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
 import {CheckboxNewSingle} from "../../components/Checkbox"
 import * as React from "react";
-import {Dropzone} from "../../components/ImportContact";
+import { ImportDropzone} from "../../components/ImportContact";
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -69,9 +69,8 @@ function stableSort(array, comparator) {
 
 // useEffect()
 
-function EnhancedTable2Head(props) {
-    const {order, orderBy, onRequestSort} =
-        props;
+function EnhancedTable2Head({isSelectRow, ...props}) {
+    const {order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -118,7 +117,8 @@ function EnhancedTable2Head(props) {
     return (
         <TableHead>
             <TableRow>
-                <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}><CheckboxNewSingle/>
+                <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}>
+                    {isSelectRow?<CheckboxNewSingle/>:null}
                 </th>
                 {headCells2.map((headCell2) => (
                     <TableCell
@@ -163,34 +163,20 @@ export default function Contacts() {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('role');
 
-    function createData(customerID, name, team, channel, tags, assignee) {
-        return {
-            customerID,
-            name,
-            team,
-            channel,
-            tags,
-            assignee
-        };
-    }
 
-    const rows = [
-        createData("0000001", <div style={{display: "flex", alignItems: "center"}}><Avatar alt="Remy Sharp"
-                                                                                           src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/><span
-            style={{marginLeft: "11px"}}>Debra Patel</span>
-        </div>, <Pill color="teamA">Team A</Pill>, <div className="channel"><img
-            width="24px" height="24px" src="./whatsappChannel.svg"
-            alt=""/></div>, <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill color="lightPurple">New
-            Customer</Pill></div>, <div className="assigneeGroup">
-            <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
-            <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
-            <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
-            <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
-            <Pill color="lightRed" size="roundedPill size30">KA</Pill>
-        </div>),
-
-
-    ];
+    // const sampleRow = ( <div style={{display: "flex", alignItems: "center"}}><Avatar alt="Remy Sharp"
+    //                                                                                        src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/><span
+    //         style={{marginLeft: "11px"}}>Debra Patel</span>
+    //     </div>, <Pill color="teamA">Team A</Pill>, <div className="channel"><img
+    //         width="24px" height="24px" src="./whatsappChannel.svg"
+    //         alt=""/></div>, <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill color="lightPurple">New
+    //         Customer</Pill></div>, <div className="assigneeGroup">
+    //         <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
+    //         <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
+    //         <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
+    //         <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
+    //         <Pill color="lightRed" size="roundedPill size30">KA</Pill>
+    //     </div>)
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -219,7 +205,7 @@ export default function Contacts() {
         },
     });
 
-    const [isSelectRow, setSelectRow] = useState({"all": false});
+    const [isSelectRow, setSelectRow] = useState( false);
 
     function toggleSelectRow() {
         setSelectRow(!isSelectRow);
@@ -366,15 +352,6 @@ export default function Contacts() {
         }
     ];
 
-    // function getStyles(name, personName, theme) {
-    //     return {
-    //         fontWeight:
-    //             personName.indexOf(name) === -1
-    //                 ? theme.typography.fontWeightRegular
-    //                 : theme.typography.fontWeightMedium,
-    //     };
-    // }
-
     const theme = useTheme();
     const [personName, setPersonName] = React.useState([]);
 
@@ -423,19 +400,18 @@ export default function Contacts() {
 
     const [isShowDropzone, setIsShowDropzone] = useState(false);
 
-    function showDropzone() {
-        setIsShowDropzone(true);
+    function toggleDropzone() {
+        setIsShowDropzone(!isShowDropzone);
     }
 
-    function closeDropzone() {
-        setIsShowDropzone(false);
-    }
 
     return (
         <div className="contacts-layout">
-            <span style={{display: isShowDropzone ? "block" : "none"}}><Dropzone onClick={closeDropzone}
-                                                                                 isShowDropzone={isShowDropzone}
-                                                                                 setIsShowDropzone={setIsShowDropzone}/></span>
+            <span style={{display: isShowDropzone ? "block" : "none"}}>
+                {/*DND Import Data start */}
+                <ImportDropzone onClose={toggleDropzone} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                {/*DND Import Data end */}
+            </span>
             <div className="rightContent">
                 <div className="contactsContainer">
                     <div className="topBar">
@@ -511,10 +487,12 @@ export default function Contacts() {
                                     </Box>
                                 </ClickAwayListener>
                             </div>
-                            <NormalButton onClick={showDropzone}>Import</NormalButton>
+                            <NormalButton onClick={toggleDropzone}>Import</NormalButton>
                             <NormalButton2>+ New Contact</NormalButton2>
                         </div>
                     </div>
+                    {/* drag and drop end*/}
+
                     <div className="navbarPurple">
                         <div className="selectButtonGroup">
                             <div className="multipleSelectPlaceholder">
@@ -542,45 +520,39 @@ export default function Contacts() {
                                             inputProps={{'aria-label': 'Without label'}}
                                     >
                                         <MenuItem disabled value="">
-                                            <span>Agnet</span>
+                                            <span>Agent</span>
                                         </MenuItem>
 
                                         <MenuItem
                                             value={"Mary Foster"}
-                                            // style={getStyles(personeName, personName, theme)}
                                         >
                                             {"Mary Foster"}
                                         </MenuItem>
-                                        <MenuItem
-                                            value={"Harry Stewart"}
-                                            // style={getStyles(personeName, personName, theme)}
-                                        >
-                                            {"Harry Stewart"}
-                                        </MenuItem>
-                                        <MenuItem
-                                            value={"Jasmine Miller"}
-                                            // style={getStyles(personeName, personName, theme)}
-                                        >
-                                            {"Jasmine Miller"}
-                                        </MenuItem>
-                                        <MenuItem
-                                            value={"Chris Chavez"}
-                                            // style={getStyles(personeName, personName, theme)}
-                                        >
-                                            {"Chris Chavez"}
-                                        </MenuItem>
-                                        <MenuItem
-                                            value={"Kathy Collins"}
-                                            // style={getStyles(personeName, personName, theme)}
-                                        >
-                                            {"Kathy Collins"}
-                                        </MenuItem>
-                                        <MenuItem
-                                            value={"Joan Wallace"}
-                                            // style={getStyles(personeName, personName, theme)}
-                                        >
-                                            {"Joan Wallace"}
-                                        </MenuItem>
+                                        {/*<MenuItem*/}
+                                        {/*    value={"Harry Stewart"}*/}
+                                        {/*>*/}
+                                        {/*    {"Harry Stewart"}*/}
+                                        {/*</MenuItem>*/}
+                                        {/*<MenuItem*/}
+                                        {/*    value={"Jasmine Miller"}*/}
+                                        {/*>*/}
+                                        {/*    {"Jasmine Miller"}*/}
+                                        {/*</MenuItem>*/}
+                                        {/*<MenuItem*/}
+                                        {/*    value={"Chris Chavez"}*/}
+                                        {/*>*/}
+                                        {/*    {"Chris Chavez"}*/}
+                                        {/*</MenuItem>*/}
+                                        {/*<MenuItem*/}
+                                        {/*    value={"Kathy Collins"}*/}
+                                        {/*>*/}
+                                        {/*    {"Kathy Collins"}*/}
+                                        {/*</MenuItem>*/}
+                                        {/*<MenuItem*/}
+                                        {/*    value={"Joan Wallace"}*/}
+                                        {/*>*/}
+                                        {/*    {"Joan Wallace"}*/}
+                                        {/*</MenuItem>*/}
                                     </Select>
 
                                 </FormControl>
@@ -674,138 +646,67 @@ export default function Contacts() {
                                         order={order}
                                         orderBy={orderBy}
                                         onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
+                                        rowCount={1}
+                                        isSelectRow={isSelectRow}
                                     />
                                     <TableBody>
-                                        {stableSort(rows, getComparator(order, orderBy))
-                                            .map((d) => {
-
-                                                return (
                                                     <TableRow
                                                         hover
                                                         role="checkbox"
                                                         tabIndex={-1}
-                                                        key={d.name}
                                                     >
                                                         <td style={{
                                                             width: "30px",
                                                             textAlign: "center",
                                                             borderBottom: "1px #e0e0e0 solid"
-                                                        }}><CheckboxNewSingle/></td>
+                                                        }}>  <div className="newCheckboxContainer">
+                                                            {isSelectRow? <label className="newCheckboxLabel">
+                                                                <input type="checkbox" name="checkbox"/>
+                                                            </label>:null}
+
+                                                        </div></td>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.customerID}</TableCell>
+                                                                   align="left">
+                                                            <div style={{display: "flex", alignItems: "center"}}>
+                                                            <Avatar alt="Remy Sharp" src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/>
+                                                            </div>
+                                                            </TableCell>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.name}</TableCell>
+                                                                   align="left">
+                                                            <span style={{marginLeft: "11px"}}>Debra Patel</span>
+                                                            </TableCell>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.team}</TableCell>
+                                                                   align="left">
+                                                            <Pill color="teamA">
+                                                                Team A</Pill>
+                                                        </TableCell>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.channel}</TableCell>
+                                                                   align="left">
+                                                            <img width="24px" height="24px" src="./whatsappChannel.svg"
+                                                                    alt=""/>
+                                                        </TableCell>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.tags}</TableCell>
+                                                                   align="left"><div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill color="lightPurple">New
+                                                            Customer</Pill></div></TableCell>
                                                         <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.assignee}</TableCell>
+                                                                   align="left">
+                                                            <div className="assigneeGroup">
+                                                                <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
+                                                                <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
+                                                                <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
+                                                                <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
+                                                                <Pill color="lightRed" size="roundedPill size30">KA</Pill>
+                                                            </div>
+                                                        </TableCell>
 
                                                     </TableRow>
-                                                );
-                                            })}
+                                        {/*        );*/}
+                                        {/*    })}*/}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </Paper>
                     </Box>
-                    <div style={{display: "none"}} className={"newContactFormContainer"}>
-
-
-                        <div className="infoTagContainer">
-                            <div>
-                                <div className={"inputSetContainer"}>
-                                    <div className="contactDescription">
-                                        <h6>New Contact</h6>
-                                        <p>*At least one phone number or an email address is required to create the
-                                            profile.</p>
-                                    </div>
-                                    <div className={"inputSet"}>
-                                        <Input2 title="Phone*">+852 9765 0348</Input2>
-                                        <Input2 title="Email*">debra.patel@gmail.com</Input2>
-                                    </div>
-                                </div>
-                                <div className={"inputSetContainer"}>
-                                    <div className="contactDescription">
-                                        <h6>Basic Information (Optional)</h6>
-                                    </div>
-                                    <div className={"inputSet"}>
-                                        <Input2 title="First Name">Debra</Input2>
-                                        <Input2 title="Last Name">Patel</Input2>
-                                    </div>
-                                    <div className={"inputSet"}>
-                                        <Input2 title="Birthday">Birthday</Input2>
-                                        <Input2 title="Country">Hong Kong</Input2>
-                                    </div>
-                                    <span className="longInput"><Input2
-                                        title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2></span>
-
-                                </div>
-                            </div>
-                            <div className={"inputSetContainer"} style={{marginTop: "170px"}}>
-                                <div className="contactDescription" style={{display: "flex", maxWidth: "430px"}}>
-                                    <div className={"tagsGroup"}>
-                                        <h6>Tags & Assignee</h6>
-                                        <p>Tags</p>
-                                        <div className={"tagsGroup"}>
-                                            <Pill color="vip">VIP</Pill>
-                                            <Pill color="newCustomer">New customer</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="vvip">VVIP</Pill>
-                                            <Pill color="promotions">Promotions</Pill>
-                                            <Pill color={"add"}>+</Pill>
-                                        </div>
-                                    </div>
-                                    <div className={"tagsGroup"}>
-                                        <p>Assignee</p>
-                                        <div className={"tagsGroup"}>
-                                            <Pill color="lightYellow" size="size30">MF</Pill>
-                                            <Pill color="lightBlue" size="size30">VS</Pill>
-                                            <Pill color="lightPurple" size="size30">VS</Pill>
-                                            <Pill color="lightRed" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                            <Pill color="lightGreen" size="size30">VS</Pill>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <PaginationControlled/>
                 </div>
             </div>

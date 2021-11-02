@@ -1,9 +1,9 @@
-import React, {useMemo} from 'react';
+import React, {useMemo ,useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import {NormalButton, NormalButton2, CancelButton} from './Button';
 
-export function Dropzone({children,...props}) {
-    const {onClick} = props;
+export function ImportDropzone({children,...props}) {
+    const {  onClose } = props;
     const {
         getRootProps,
         getInputProps,
@@ -12,6 +12,10 @@ export function Dropzone({children,...props}) {
         isDragReject,
         acceptedFiles
     } = useDropzone();
+
+    const api = "localhost:3020/"
+
+    // const [file , setFile] = useState(null)
 
     const baseStyle = {
         flex: 1,
@@ -39,6 +43,17 @@ export function Dropzone({children,...props}) {
             {file.path} - {file.size} bytes
         </li>
     ));
+    const handleUpload = (e)=>{
+        e.preventDefault()
+        if (acceptedFiles.length == 0 ){
+            console.log("no file here")
+            return
+        }
+        console.log(acceptedFiles[0].arrayBuffer())
+        acceptedFiles.pop()
+
+        // axios.post("api/uploadfile", formData);
+    }
 
     const activeStyle = {
         borderColor: '#2385FC'
@@ -69,8 +84,8 @@ export function Dropzone({children,...props}) {
                 <div className="header">
                     <span>Import Contacts</span>
                     <div className="buttonGrp">
-                        <NormalButton2>Confirm</NormalButton2>
-                        <span style={{marginLeft: "30px"}} onClick={onClick}><CancelButton>Cancel</CancelButton></span>
+                        <NormalButton2 disabled={acceptedFiles.length==0?true:false} onClick={handleUpload}>Confirm</NormalButton2>
+                        <span style={{marginLeft: "30px"}} onClick={onClose}><CancelButton>Cancel</CancelButton></span>
                     </div>
                 </div>
                 <div {...getRootProps({style})}>

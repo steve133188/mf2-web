@@ -4,6 +4,8 @@ import {AuthContextProvider} from "../context/authContext";
 import {useEffect} from "react";
 import {client} from "../services/websocket";
 import Head from "next/head";
+// import { HTML5Backend } from 'react-dnd-html5-backend'
+// import { DndProvider } from 'react-dnd'
 
 function MyApp({ Component, pageProps }) {
     useEffect(()=>{
@@ -22,9 +24,12 @@ function MyApp({ Component, pageProps }) {
           <link rel="icon" href="/MS_logo-square.svg"/>
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>
+
     <AuthContextProvider>
       <Layout>
+          {/*<DndProvider backend={HTML5Backend}>*/}
       <Component {...pageProps} />
+      {/*</DndProvider>*/}
       </Layout>
     </AuthContextProvider>
       </>
