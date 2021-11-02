@@ -423,7 +423,7 @@ export default function Contacts() {
         <div className="contacts-layout">
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
-                <ImportDropzone onClose={toggleDropzone} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
             <div className="rightContent">
@@ -543,31 +543,6 @@ export default function Contacts() {
                                         >
                                             {"Mary Foster"}
                                         </MenuItem>
-                                        {/*<MenuItem*/}
-                                        {/*    value={"Harry Stewart"}*/}
-                                        {/*>*/}
-                                        {/*    {"Harry Stewart"}*/}
-                                        {/*</MenuItem>*/}
-                                        {/*<MenuItem*/}
-                                        {/*    value={"Jasmine Miller"}*/}
-                                        {/*>*/}
-                                        {/*    {"Jasmine Miller"}*/}
-                                        {/*</MenuItem>*/}
-                                        {/*<MenuItem*/}
-                                        {/*    value={"Chris Chavez"}*/}
-                                        {/*>*/}
-                                        {/*    {"Chris Chavez"}*/}
-                                        {/*</MenuItem>*/}
-                                        {/*<MenuItem*/}
-                                        {/*    value={"Kathy Collins"}*/}
-                                        {/*>*/}
-                                        {/*    {"Kathy Collins"}*/}
-                                        {/*</MenuItem>*/}
-                                        {/*<MenuItem*/}
-                                        {/*    value={"Joan Wallace"}*/}
-                                        {/*>*/}
-                                        {/*    {"Joan Wallace"}*/}
-                                        {/*</MenuItem>*/}
                                     </Select>
 
                                 </FormControl>
