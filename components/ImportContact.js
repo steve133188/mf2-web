@@ -64,7 +64,7 @@ export function Dropzone({children,...props}) {
         isDragAccept
     ]);
     return (
-        <div className={"container importContactCenter"}>
+        <div className={"importContactCenter"}>
             <div className={"importContactContainer"}>
                 <div className="header">
                     <span>Import Contacts</span>

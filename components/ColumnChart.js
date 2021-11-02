@@ -4,7 +4,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function ColumnChart() {
 
-    const [state, setState] = useState({
+    const [columnState, setColumnState] = useState({
         series: [{
             name: 'Unhandled Contacts',
             data: [44, 55, 41, 67, 22, 43, 14, 16, 28, 60]
@@ -55,7 +55,7 @@ export function ColumnChart() {
     return (
 
         <div id="chart">
-            <Chart options={state.options} series={state.series} type="bar" height={350} />
+            <Chart options={columnState.options} series={columnState.series} type="bar" height={350} />
         </div>
     )
 }

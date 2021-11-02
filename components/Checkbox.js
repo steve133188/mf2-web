@@ -71,7 +71,7 @@ export function CheckboxPill({children, ...props}) {
     return (
         <>
             <label className="checkboxContainer" onClick={onClick}>
-                <Pill color={color}>children</Pill>
+                <Pill color={color}>{children}</Pill>
                 <input type="checkbox" checked={checked}/>
                 <span className="checkmark"></span>
             </label>

@@ -1,9 +1,7 @@
 import {LineChart1, MultipleLineChart} from "../../components/LineChart1";
 import {LabelSelect2, SingleSelect2} from "../../components/Select";
-import {EnhancedTable} from "../../components/Table";
-import {EnhancedTable2} from "../../components/EnhancedTable2";
-import {EnhancedTable3} from "../../components/EnhancedTable3";
-import {AverageDailyCard, BigChangingPercentageCard, LineChartCard} from "../../components/Cards";
+// import {EnhancedTable3} from "../../components/EnhancedTable3";
+import {BigChangingPercentageCard} from "../../components/Cards";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {CheckboxNew} from "../../components/Checkbox";
@@ -17,11 +15,6 @@ export default function Livechat() {
     const handleClickOut = () => {
         setOpen(true);
     };
-    const lineChartCardCell = [
-        {
-
-        }
-    ]
 
     return (
         <div className="dashboard-layout">
@@ -100,7 +93,7 @@ export default function Livechat() {
                 </div>
                 <div className="dashboardRow">
                     <div className="tableSet">
-                        <div className="dashboardColumn" style={{width: "55%"}}><EnhancedTable3/></div>
+                        {/*<div className="dashboardColumn" style={{width: "55%"}}><EnhancedTable3/></div>*/}
                     </div>
                 </div>
             </div>

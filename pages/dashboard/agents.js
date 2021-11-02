@@ -1,10 +1,8 @@
 import {AverageDailyCard, ChangingPercentageCard, LineChartCard} from "../../components/Cards";
 import {MultipleLineChart} from "../../components/LineChart1";
-import {EnhancedTable2} from "../../components/EnhancedTable2";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
-import {ContactFilterList} from "../../components/ContactFilterList";
-import {CheckboxNew, CheckboxNew2, CheckboxNewSingle} from "../../components/Checkbox";
+import {CheckboxNew} from "../../components/Checkbox";
 import {LabelSelect2} from "../../components/Select";
 import {Pill} from "../../components/Pill";
 
@@ -95,7 +93,7 @@ export default function Agents() {
                     <ChangingPercentageCard title={"Delivered Contacts"} total={28} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Unhandled Contacts"} total={28} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
-
+    z
                 </div>
             </div>
             <div className="chartGroup">
@@ -148,9 +146,7 @@ export default function Agents() {
                                                                         min1={"12"} min2={12} min3={12}/></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="tableSet">
-                        <div className="dashboardColumn" style={{width: "55%"}}><EnhancedTable2/></div>
-                    </div>
+
                 </div>
             </div>
 

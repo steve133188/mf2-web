@@ -9,7 +9,7 @@ import {PaginationControlled} from "../../components/Pagination";
 import {useContext, useEffect, useState} from "react";
 import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
-import {CheckboxNewSingle, CheckboxPill, SingleBox} from "../../components/Checkbox"
+import {CheckboxNewSingle} from "../../components/Checkbox"
 import * as React from "react";
 import {Dropzone} from "../../components/ImportContact";
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -32,7 +32,7 @@ import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import {AuthContext, checkTokenExpirationMiddleware} from "../../context/authContext";
+import {AuthContext} from "../../context/authContext";
 import {MSelect2} from "../../components/multiSelects/MSelect2";
 import {MSelect3} from "../../components/multiSelects/MSelect3";
 import {MSelect4} from "../../components/multiSelects/MSelect4";
@@ -70,7 +70,7 @@ function stableSort(array, comparator) {
 // useEffect()
 
 function EnhancedTable2Head(props) {
-    const { order, orderBy, onRequestSort } =
+    const {order, orderBy, onRequestSort} =
         props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -117,8 +117,9 @@ function EnhancedTable2Head(props) {
 
     return (
         <TableHead>
-            <TableRow >
-                <th style={{ width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}><CheckboxNewSingle /></th>
+            <TableRow>
+                <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}><CheckboxNewSingle/>
+                </th>
                 {headCells2.map((headCell2) => (
                     <TableCell
                         key={headCell2.id}
@@ -128,7 +129,7 @@ function EnhancedTable2Head(props) {
                         sx={{padding: "26px"}}
                     >
                         <TableSortLabel
-                            sx={{ fontWeight: "bold", color: "#495057"}}
+                            sx={{fontWeight: "bold", color: "#495057"}}
                             active={orderBy === headCell2.id}
                             direction={orderBy === headCell2.id ? order : 'asc'}
                             onClick={createSortHandler(headCell2.id)}
@@ -141,7 +142,6 @@ function EnhancedTable2Head(props) {
                             ) : null}
                         </TableSortLabel>
                     </TableCell>
-
                 ))}
             </TableRow>
         </TableHead>
@@ -175,8 +175,9 @@ export default function Contacts() {
     }
 
     const rows = [
-        createData("0000001",<div style={{display: "flex", alignItems: "center"}}><Avatar alt="Remy Sharp"
-                                                                                          src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/><span style={{marginLeft: "11px"}}>Debra Patel</span>
+        createData("0000001", <div style={{display: "flex", alignItems: "center"}}><Avatar alt="Remy Sharp"
+                                                                                           src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/><span
+            style={{marginLeft: "11px"}}>Debra Patel</span>
         </div>, <Pill color="teamA">Team A</Pill>, <div className="channel"><img
             width="24px" height="24px" src="./whatsappChannel.svg"
             alt=""/></div>, <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill color="lightPurple">New
@@ -421,16 +422,20 @@ export default function Contacts() {
     }
 
     const [isShowDropzone, setIsShowDropzone] = useState(false);
+
     function showDropzone() {
         setIsShowDropzone(true);
     }
+
     function closeDropzone() {
         setIsShowDropzone(false);
     }
 
     return (
         <div className="contacts-layout">
-            <span style={{display: isShowDropzone ? "block" : "none"}}><Dropzone onClick={closeDropzone} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/></span>
+            <span style={{display: isShowDropzone ? "block" : "none"}}><Dropzone onClick={closeDropzone}
+                                                                                 isShowDropzone={isShowDropzone}
+                                                                                 setIsShowDropzone={setIsShowDropzone}/></span>
             <div className="rightContent">
                 <div className="contactsContainer">
                     <div className="topBar">
@@ -454,8 +459,10 @@ export default function Contacts() {
                                         <div className="textWithIconButton">
                                             <ThemeProvider theme={theme2}>
                                                 <Button variant="contained" color="neutral">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                         className="bi bi-pencil" viewBox="0 0 16 16" style={{marginRight: "4px"}}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor"
+                                                         className="bi bi-pencil" viewBox="0 0 16 16"
+                                                         style={{marginRight: "4px"}}>
                                                         <path
                                                             d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                     </svg>
@@ -577,9 +584,9 @@ export default function Contacts() {
                                     </Select>
 
                                 </FormControl>
-                                <MSelect2 />
-                                <MSelect3 />
-                                <MSelect4 />
+                                <MSelect2/>
+                                <MSelect3/>
+                                <MSelect4/>
                             </div>
                         </div>
 
@@ -602,13 +609,15 @@ export default function Contacts() {
                                                     <NormalButton2>Confirm</NormalButton2>
                                                 </div>
                                                 <Search3 type="search">Search</Search3>
-                                                <div className="checkboxGroup2">
-                                                    <p></p>
-                                                    <div className="checkboxGrp">
-                                                        <CheckboxPill color={"vip"} checked={"checked"}>VIP</CheckboxPill>
-                                                        <CheckboxPill color={"vip"} checked={""}>VIP</CheckboxPill>
-                                                    </div>
+                                                <div className="checkboxGrp">
+                                                    <label className="checkboxContainer">
+                                                            <span className="pillContainer">
+                                                                <span className="pill vip">VIP</span>
+                                                            </span>
+                                                        <CheckboxNewSingle/>
+                                                    </label>
                                                 </div>
+
                                             </Box>
                                         ) : null}
                                     </Box>
@@ -654,11 +663,11 @@ export default function Contacts() {
                             {/*    */}
                         </div>
                     </div>
-                    <Box sx={{ maxWidth: '1925px' }}>
-                        <Paper sx={{ width: '100%', mb: 2, boxShadow: "none" }}>
+                    <Box sx={{}}>
+                        <Paper sx={{width: '100%', mb: 2, boxShadow: "none"}}>
                             <TableContainer>
                                 <Table
-                                    sx={{ minWidth: 750 }}
+                                    sx={{minWidth: 750}}
                                     aria-labelledby="tableTitle"
                                 >
                                     <EnhancedTable2Head
@@ -670,7 +679,7 @@ export default function Contacts() {
                                     <TableBody>
                                         {stableSort(rows, getComparator(order, orderBy))
                                             .map((d) => {
-                                                const labelId = `enhanced-table-checkbox-${d.index}`;
+
                                                 return (
                                                     <TableRow
                                                         hover
@@ -678,13 +687,23 @@ export default function Contacts() {
                                                         tabIndex={-1}
                                                         key={d.name}
                                                     >
-                                                        <td style={{ width: "30px", textAlign: "center", borderBottom: "1px #e0e0e0 solid"}}><CheckboxNewSingle /></td>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.customerID}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.name}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.team}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.channel}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.tags}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{d.assignee}</TableCell>
+                                                        <td style={{
+                                                            width: "30px",
+                                                            textAlign: "center",
+                                                            borderBottom: "1px #e0e0e0 solid"
+                                                        }}><CheckboxNewSingle/></td>
+                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                                   align="left">{d.customerID}</TableCell>
+                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                                   align="left">{d.name}</TableCell>
+                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                                   align="left">{d.team}</TableCell>
+                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                                   align="left">{d.channel}</TableCell>
+                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                                   align="left">{d.tags}</TableCell>
+                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                                   align="left">{d.assignee}</TableCell>
 
                                                     </TableRow>
                                                 );
@@ -702,7 +721,8 @@ export default function Contacts() {
                                 <div className={"inputSetContainer"}>
                                     <div className="contactDescription">
                                         <h6>New Contact</h6>
-                                        <p>*At least one phone number or an email address is required to create the profile.</p>
+                                        <p>*At least one phone number or an email address is required to create the
+                                            profile.</p>
                                     </div>
                                     <div className={"inputSet"}>
                                         <Input2 title="Phone*">+852 9765 0348</Input2>
@@ -721,7 +741,8 @@ export default function Contacts() {
                                         <Input2 title="Birthday">Birthday</Input2>
                                         <Input2 title="Country">Hong Kong</Input2>
                                     </div>
-                                    <span className="longInput"><Input2 title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2></span>
+                                    <span className="longInput"><Input2
+                                        title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2></span>
 
                                 </div>
                             </div>

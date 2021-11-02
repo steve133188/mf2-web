@@ -12,7 +12,10 @@
   }
   .tagsGroup {
     .pillContainer {
-      margin-right: 5px;
+      margin-right: 10px;
+      span {
+        padding: 5px 21px;
+      }
     }
   }
   .leftMenu {
@@ -58,6 +61,7 @@
             max-height: 36px;
             border-radius: 10px;
             text-transform: unset;
+            height: 34px;
 
 
             img {
@@ -80,6 +84,27 @@
         .selectContainer {
 
         }
+        .tagsButtonGroup {
+          .addPopperContainer {
+            .checkboxGrp {
+              .checkboxContainer {
+                align-items: center;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                .pillContainer {
+                  .pill {
+                    padding: 4px 18px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .newCheckboxContainer {
+        justify-content: right;
       }
     }
   }
