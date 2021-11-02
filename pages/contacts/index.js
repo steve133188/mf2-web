@@ -5,12 +5,11 @@ import {
     NormalButton,
     NormalButton2,
 } from "../../components/Button";
-import {PaginationControlled} from "../../components/Pagination";
 import {useContext, useEffect, useState} from "react";
 import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
 import {CheckboxNewSingle} from "../../components/Checkbox"
-import * as React from "react";
+import * as React from 'react';
 import {Dropzone} from "../../components/ImportContact";
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import MenuItem from '@mui/material/MenuItem';
@@ -36,6 +35,9 @@ import {AuthContext} from "../../context/authContext";
 import {MSelect2} from "../../components/multiSelects/MSelect2";
 import {MSelect3} from "../../components/multiSelects/MSelect3";
 import {MSelect4} from "../../components/multiSelects/MSelect4";
+import Stack from "@mui/material/Stack";
+import Pagination from "@mui/material/Pagination";
+import Link from 'next/link';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -53,8 +55,6 @@ function getComparator(order, orderBy) {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -66,8 +66,6 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
-
-// useEffect()
 
 function EnhancedTable2Head(props) {
     const {order, orderBy, onRequestSort} =
@@ -156,6 +154,11 @@ EnhancedTable2Head.propTypes = {
 };
 
 export default function Contacts() {
+    const [page, setPage] = React.useState(1);
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
+
     const {user} = useContext(AuthContext)
     useEffect(() => {
 
@@ -366,15 +369,6 @@ export default function Contacts() {
         }
     ];
 
-    // function getStyles(name, personName, theme) {
-    //     return {
-    //         fontWeight:
-    //             personName.indexOf(name) === -1
-    //                 ? theme.typography.fontWeightRegular
-    //                 : theme.typography.fontWeightMedium,
-    //     };
-    // }
-
     const theme = useTheme();
     const [personName, setPersonName] = React.useState([]);
 
@@ -383,7 +377,6 @@ export default function Contacts() {
             target: {value},
         } = event;
         setPersonName(
-            // On autofill we get a the stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
@@ -476,7 +469,6 @@ export default function Contacts() {
                                                     <span>Column Setting</span>
                                                     <NormalButton>Add</NormalButton>
                                                 </div>
-
                                                 <DragDropContext onDragEnd={handleOnDragEnd}>
                                                     <Droppable droppableId="columns">
                                                         {(provided) => (
@@ -512,7 +504,7 @@ export default function Contacts() {
                                 </ClickAwayListener>
                             </div>
                             <NormalButton onClick={showDropzone}>Import</NormalButton>
-                            <NormalButton2>+ New Contact</NormalButton2>
+                            <Link href="/contacts/addContacts"><a><NormalButton2>+ New Contact</NormalButton2></a></Link>
                         </div>
                     </div>
                     <div className="navbarPurple">
@@ -660,62 +652,58 @@ export default function Contacts() {
                                     </Box>
                                 </ClickAwayListener>
                             </div>
-                            {/*    */}
                         </div>
                     </div>
-                    <Box sx={{}}>
-                        <Paper sx={{width: '100%', mb: 2, boxShadow: "none"}}>
-                            <TableContainer>
-                                <Table
-                                    sx={{minWidth: 750}}
-                                    aria-labelledby="tableTitle"
-                                >
-                                    <EnhancedTable2Head
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
-                                    />
-                                    <TableBody>
-                                        {stableSort(rows, getComparator(order, orderBy))
-                                            .map((d) => {
 
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        role="checkbox"
-                                                        tabIndex={-1}
-                                                        key={d.name}
-                                                    >
-                                                        <td style={{
-                                                            width: "30px",
-                                                            textAlign: "center",
-                                                            borderBottom: "1px #e0e0e0 solid"
-                                                        }}><CheckboxNewSingle/></td>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.customerID}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.name}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.team}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.channel}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.tags}</TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">{d.assignee}</TableCell>
+                    <Paper sx={{width: '100%', mb: 2, boxShadow: "none"}}>
+                        <TableContainer>
+                            <Table
+                                sx={{minWidth: 750}}
+                                aria-labelledby="tableTitle"
+                            >
+                                <EnhancedTable2Head
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onRequestSort={handleRequestSort}
+                                    rowCount={rows.length}
+                                />
+                                <TableBody>
+                                    {stableSort(rows, getComparator(order, orderBy))
+                                        .map((d) => {
 
-                                                    </TableRow>
-                                                );
-                                            })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Paper>
-                    </Box>
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    role="checkbox"
+                                                    tabIndex={-1}
+                                                    key={d.name}
+                                                >
+                                                    <td style={{
+                                                        width: "30px",
+                                                        textAlign: "center",
+                                                        borderBottom: "1px #e0e0e0 solid"
+                                                    }}><CheckboxNewSingle/></td>
+                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                               align="left">{d.customerID}</TableCell>
+                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                               align="left">{d.name}</TableCell>
+                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                               align="left">{d.team}</TableCell>
+                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                               align="left">{d.channel}</TableCell>
+                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                               align="left">{d.tags}</TableCell>
+                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                               align="left">{d.assignee}</TableCell>
+
+                                                </TableRow>
+                                            );
+                                        })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
                     <div style={{display: "none"}} className={"newContactFormContainer"}>
-
-
                         <div className="infoTagContainer">
                             <div>
                                 <div className={"inputSetContainer"}>
@@ -806,7 +794,11 @@ export default function Contacts() {
                             </div>
                         </div>
                     </div>
-                    <PaginationControlled/>
+                    <div className="pagination">
+                        <Stack spacing={2}>
+                            <Pagination count={10} page={page} onChange={handlePageChange} shape="rounded"/>
+                        </Stack>
+                    </div>
                 </div>
             </div>
 

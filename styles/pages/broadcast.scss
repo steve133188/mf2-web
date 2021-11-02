@@ -17,6 +17,29 @@
       margin-right: auto;
       margin-left: auto;
 
+      .newCheckboxContainer {
+        justify-content: right;
+      }
+
+      td {
+        .pillContainer {
+
+          .pill {
+            background: #CCF0E3;
+            border: #A6E5CE;
+            color: #34C38F;
+            width: 110px;
+            height: 25px;
+            padding: 13px 24px;
+            display: flex;
+            align-items: center;
+            li {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+
       .navbarPurple {
         .tagsButtonGroup {
           display: none;
