@@ -2,13 +2,13 @@ import Link from "next/link"
 import {Search2} from "./Input"
 import {NormalButton2} from "./Button"
 import {Switch} from "./Switch";
-import {AuthContext} from "../context/authContext";
+import {GlobalContext} from "../context/GlobalContextContext";
 import {useContext , useState} from "react";
 import {Alert} from "./Alert";
 import {Note} from "./Note";
 
 export function LoginPanel() {
-    const { login,user } = useContext(AuthContext);
+    const { login,user } = useContext(GlobalContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isInvalid, setInvalid] = useState("");
