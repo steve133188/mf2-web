@@ -15,10 +15,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
-import { visuallyHidden } from '@mui/utils';
+import {visuallyHidden} from '@mui/utils';
 
 export function ContactTable() {
-    return(
+    return (
         <div className="contactTable">
             <table className="table">
                 <thead>
@@ -36,7 +36,7 @@ export function ContactTable() {
                     <td>0000001</td>
                     <td>Jacosdas dasdasdb</td>
                     <td>Thorntsadaasdason@com</td>
-                    <td className="channel"><ContactType />lori.foster@mail.com</td>
+                    <td className="channel"><ContactType/>lori.foster@mail.com</td>
                     <td><span className="tagsGroup"><Pill color="vip">VIP</Pill></span></td>
                     <td>Mary Foster</td>
                 </tr>
@@ -44,8 +44,16 @@ export function ContactTable() {
                     <td>0000002</td>
                     <td>Jacosdas dasdasdb</td>
                     <td>Thorntsadaasdason@com</td>
-                    <td className="channel"><ContactType />lori.foster@mail.com</td>
-                    <td><span className="tagsGroup"><Pill color="vip">VIP</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill></span></td>
+                    <td className="channel"><ContactType/>lori.foster@mail.com</td>
+                    <td><span className="tagsGroup"><Pill color="vip">VIP</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill></span></td>
                     <td className="assignee">Mary Foster</td>
                 </tr>
                 </tbody>
@@ -55,39 +63,39 @@ export function ContactTable() {
 }
 
 export function BroadcastTable() {
-    return(
+    return (
         <div className="broadcastTable">
             <table className="table">
                 <thead>
-                    <tr className="headTr">
-                        <th className="trID">Name</th>
-                        <th>Period</th>
-                        <th>Group</th>
-                        <th>Status</th>
-                        <th>Created By</th>
-                        <th>Created Date</th>
-                        <th>Description</th>
-                    </tr>
+                <tr className="headTr">
+                    <th className="trID">Name</th>
+                    <th>Period</th>
+                    <th>Group</th>
+                    <th>Status</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                    <th>Description</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr className="bodyTr">
-                        <td>Broadcast 1</td>
-                        <td>Sep 30, 2021 7:00 AM - Oct 30, 2021 7:00 AM</td>
-                        <td><Badge color="gp1">Group1</Badge></td>
-                        <td><StatusPill color="statusActive">Active</StatusPill></td>
-                        <td>Lorem Ipsum</td>
-                        <td>Mary Foster</td>
-                        <td>s</td>
-                    </tr>
-                    <tr>
-                        <td>Broadcast 2</td>
-                        <td>Sep 30, 2021 7:00 AM - Oct 30, 2021 7:00 AM</td>
-                        <td><Badge color="gp2">Group2</Badge></td>
-                        <td><StatusPill color="statusPending">Pending</StatusPill></td>
-                        <td>s</td>
-                        <td>s</td>
-                        <td>Mary Foster</td>
-                    </tr>
+                <tr className="bodyTr">
+                    <td>Broadcast 1</td>
+                    <td>Sep 30, 2021 7:00 AM - Oct 30, 2021 7:00 AM</td>
+                    <td><Badge color="gp1">Group1</Badge></td>
+                    <td><StatusPill color="statusActive">Active</StatusPill></td>
+                    <td>Lorem Ipsum</td>
+                    <td>Mary Foster</td>
+                    <td>s</td>
+                </tr>
+                <tr>
+                    <td>Broadcast 2</td>
+                    <td>Sep 30, 2021 7:00 AM - Oct 30, 2021 7:00 AM</td>
+                    <td><Badge color="gp2">Group2</Badge></td>
+                    <td><StatusPill color="statusPending">Pending</StatusPill></td>
+                    <td>s</td>
+                    <td>s</td>
+                    <td>Mary Foster</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -142,9 +150,8 @@ function stableSort(array, comparator) {
 }
 
 
-
 function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } =
+    const {order, orderBy, onRequestSort} =
         props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -231,7 +238,7 @@ function EnhancedTableHead(props) {
                         sx={{padding: "26px"}}
                     >
                         <TableSortLabel
-                            sx={{ fontWeight: "bold", color: "#495057"}}
+                            sx={{fontWeight: "bold", color: "#495057"}}
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
@@ -334,11 +341,11 @@ export function EnhancedTable() {
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     return (
-        <Box sx={{ maxWidth: '1925px' }}>
-            <Paper sx={{ width: '100%', mb: 2, boxShadow: "none" }}>
+        <Box sx={{maxWidth: '1925px'}}>
+            <Paper sx={{width: '100%', mb: 2, boxShadow: "none"}}>
                 <TableContainer>
                     <Table
-                        sx={{ minWidth: 750 }}
+                        sx={{minWidth: 750}}
                         aria-labelledby="tableTitle"
                     >
                         <EnhancedTableHead
@@ -366,17 +373,28 @@ export function EnhancedTable() {
                                             selected={isItemSelected}
                                         >
 
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.name}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.role}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.status}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.averageDailyOnlineTime}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.assignedContacts}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.activeContacts}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.deliveredContacts}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.unhandledContacts}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.totalMessagesSent}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.averageResponseTime}</TableCell>
-                                            <TableCell sx={{padding: "26px", fontSize: "16px"}} align="left">{row.averageFirstResponseTime}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.name}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.role}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.status}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.averageDailyOnlineTime}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.assignedContacts}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.activeContacts}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.deliveredContacts}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.unhandledContacts}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.totalMessagesSent}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.averageResponseTime}</TableCell>
+                                            <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                       align="left">{row.averageFirstResponseTime}</TableCell>
                                         </TableRow>
                                     );
                                 })}

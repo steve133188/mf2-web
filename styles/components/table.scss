@@ -1,5 +1,5 @@
-.contactTable {
-  padding: 20px 17px;
+.contactsTable {
+  padding: 20px 10px;
 
   table {
     thead {
@@ -14,10 +14,46 @@
         border-bottom: none;
       }
 
+      .team {
+        .pillContainer {
+          margin-top: 6px;
+        }
+      }
       td {
         border-bottom: none;
         padding: 20px 0px;
         padding-right: 10px;
+
+        .newCheckboxContainer {
+          margin-top: 8px;
+        }
+
+        .customerID {
+          margin-top: 8px;
+        }
+        img {
+           margin-top: 4px;
+         }
+        .contactName {
+          display: flex;
+          align-items: center;
+          img {
+            margin-top: 0px;
+          }
+        }
+
+        .tagsGroup {
+          margin-top: 5px;
+          .pillContainer {
+            margin-right: 10px;
+          }
+        }
+        .assigneeGroup {
+          margin-top: 3px;
+          .pillContainer {
+            margin-right: 10px;
+          }
+        }
       }
 
       .channel {

@@ -8,3 +8,9 @@ export function IconWithPill(props) {
         </span>
     )
 }
+export function Avatar({children, ...props}) {
+    const {src} = props;
+    return (
+        <img src={src} alt="" className={"avatar"}/>
+    )
+}
