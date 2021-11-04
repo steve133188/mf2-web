@@ -71,7 +71,7 @@ export default function Layout({children}) {
     useEffect(()=>{
         if(!user.authReady){
             console.log("please log in")
-            router.push("/login")
+            //router.push("/login")
             layout = (<div className={"unauth"}>{children}</div>)
         }
     },[])

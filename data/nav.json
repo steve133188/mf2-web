@@ -61,6 +61,10 @@
       "name": "Admin",
       "url": "/admin",
       "sub_page": [
+        {
+          "name": "Edit Agent",
+          "url": "/editAgent/:id"
+        }
       ],
       "icon": ""
     }

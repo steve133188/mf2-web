@@ -1,0 +1,24 @@
+.swal2-title{
+    text-align: left !important;
+}
+
+.swal2-input-label{
+    margin: 3em auto 0 2em !important;
+}
+.swal2-input {
+    border:solid 1px #ccc !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+}
+.swal2-styled{
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    &.swal2-confirm{
+        margin-right: 2em;
+        background-color: #2198FA !important;
+    }
+    &.swal2-cancel {
+        background-color: #F5F6F8 !important;
+        color: #000 !important;
+    }
+}

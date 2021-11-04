@@ -44,11 +44,11 @@ export function CheckboxNew2({children, ...props}) {
     )
 }
 
-export function CheckboxNewSingle() {
+export function CheckboxNewSingle({checked, id, onChange}) {
     return (
         <div className="newCheckboxContainer">
             <label className="newCheckboxLabel">
-                <input type="checkbox" name="checkbox"/>
+                <input type="checkbox" name="checkbox" checked={checked} id={id} onChange={onChange}/>
             </label>
         </div>
     )
