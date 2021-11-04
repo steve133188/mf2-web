@@ -49,7 +49,7 @@ export default function Layout({children}) {
                                 <MenuItem value={""}>
                                     <div className={'selectStatusOnline'}></div>
                                     <span>{user.userInfo.name}</span></MenuItem>
-                                <MenuItem value={"offine"}>
+                                <MenuItem value={"offline"}>
                                     <div className={'selectStatusOffline'}></div>
                                     <span>{user.userInfo.name}</span></MenuItem>
                                 <MenuItem value={"other"}>

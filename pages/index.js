@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {LineChart} from "../components/LineChart"
 
 export default function Home() {
     return (
@@ -13,8 +12,8 @@ export default function Home() {
                 <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
             </Head>
             <main>
-                <div id={"dashboard"}>
-                    <LineChart />
+                <div className={"landing"}>
+
                 </div>
             </main>
         </div>
