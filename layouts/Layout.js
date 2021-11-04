@@ -1,7 +1,7 @@
 import {navItems} from "./nav-item";
 import {useRouter} from "next/router";
 import {useEffect, useContext, useState} from "react";
-import {AuthContext} from "../context/authContext"
+import {GlobalContext} from "../context/GlobalContextContext"
 import SideBar from "./SideBar";
 import {MultipleSelectPlaceholder, SingleSelect, SingleSelect2} from "../components/Select";
 import * as React from "react";
@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 export default function Layout({children}) {
     const [userSelect , setUserSelect] = useState("")
     const router = useRouter()
-    const {user} = useContext(AuthContext)
+    const {user} = useContext(GlobalContext)
 
 
     let layout = (
@@ -49,7 +49,7 @@ export default function Layout({children}) {
                                 <MenuItem value={""}>
                                     <div className={'selectStatusOnline'}></div>
                                     <span>{user.userInfo.name}</span></MenuItem>
-                                <MenuItem value={"offine"}>
+                                <MenuItem value={"offline"}>
                                     <div className={'selectStatusOffline'}></div>
                                     <span>{user.userInfo.name}</span></MenuItem>
                                 <MenuItem value={"other"}>
@@ -69,13 +69,13 @@ export default function Layout({children}) {
 
     let unAuth = (<div className={"unauth"}>{children}</div>)
     useEffect(()=>{
-        if(!user.authReady){
+        if(user.userInfo == null){
             console.log("please log in")
             //router.push("/login")
             layout = (<div className={"unauth"}>{children}</div>)
         }
     },[])
     return (
-        user["authReady"] ? layout : unAuth
+        user.userInfo!=null ? layout : unAuth
     )
 }

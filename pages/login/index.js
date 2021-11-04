@@ -4,16 +4,16 @@ import React, {useContext, useEffect} from "react";
 import {LoginPanel} from "../../components/LoginPanel";
 import {ForgetPasswordPanel} from "../../components/ForgetPasswordPanel";
 import {useRouter} from "next/router";
-import {AuthContext} from "../../context/authContext";
+import {GlobalContext} from "../../context/GlobalContextContext";
 import AuthService from "../../services/auth";
 
 
 
 export default function Login(){
     const router = useRouter()
-    const {user , login} = useContext(AuthContext)
+    const {user , login} = useContext(GlobalContext)
     useEffect(()=>{
-        if(user["authReady"]){
+        if(user["userInfo"]){
             router.back()
         }
     },[])

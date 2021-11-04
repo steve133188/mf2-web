@@ -3,12 +3,12 @@ import {useRouter} from "next/router";
 import {redirect} from "next/dist/server/api-utils";
 import AuthService from "../services/auth";
 
-export const AuthContext = createContext({
+export const GlobalContext = createContext({
     userInfo:null,
-    authReady : false,
+    // authReady : false,
 })
 
-export const AuthContextProvider = ({children}) =>{
+export const GlobalContextProvider = ({children}) =>{
     const [user , setUser] = useState({
         userInfo: {
             name:null ,
@@ -20,7 +20,7 @@ export const AuthContextProvider = ({children}) =>{
             status:"online",
             notification:0,
         } ,
-        authReady : false,
+        // authReady : false,
     })
 
     const router = useRouter()
@@ -56,6 +56,6 @@ export const AuthContextProvider = ({children}) =>{
         }
     }
     return(
-        <AuthContext.Provider value={{user, login}}>{children}</AuthContext.Provider>
+        <GlobalContext.Provider value={{user, login}}>{children}</GlobalContext.Provider>
     )
 }
