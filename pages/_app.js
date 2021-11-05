@@ -1,7 +1,8 @@
 import '../styles/globals.scss'
 import Layout from "../layouts/Layout";
-import {AuthContextProvider} from "../context/authContext";
+import { GlobalContextProvider} from "../context/GlobalContext";
 import {useEffect} from "react";
+import AuthLayer from "../HOC/AuthLayer"
 import {client} from "../services/websocket";
 import Head from "next/head";
 // import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -25,13 +26,15 @@ function MyApp({ Component, pageProps }) {
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>
 
-    <AuthContextProvider>
+    <GlobalContextProvider>
+        <AuthLayer>
       <Layout>
           {/*<DndProvider backend={HTML5Backend}>*/}
       <Component {...pageProps} />
       {/*</DndProvider>*/}
       </Layout>
-    </AuthContextProvider>
+        </AuthLayer>
+    </GlobalContextProvider>
       </>
 )
 }

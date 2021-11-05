@@ -1,0 +1,33 @@
+.contactsContainer {
+    .commonMarginTop {
+        margin-top: 5vh;
+    }
+    h3 {
+        color: #495057;
+        font-weight: bold;
+        width: 10vw;
+        text-align: center;
+    }
+
+    .avaterContainer {
+        display: flex;
+    }
+    .nameAvater {
+        width: 10vw;
+        height: 10vw;
+        background-color: #FCECD2;
+        border-radius: 50%;
+        font-size: 5vw;
+        text-align: center;
+        color: #f1b44c;
+        line-height: 10vw;
+    }
+    .avaterButtons{
+        display: flex;
+        justify-content: space-between;
+        width: 13vw;
+        align-items: center;
+        margin-left: 3vw;
+        
+    }
+}

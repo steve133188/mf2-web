@@ -75,6 +75,19 @@ export function NormalButton2({ children ,...props}) {
     )
 }
 
+export function CustomColorButton({ children ,...props}) {
+    const {disabled , onClick, color} = props
+    return (
+        <div className="newContactButton">
+            <ThemeProvider theme={theme}>
+                <Button variant="contained" color={color} disabled={disabled} onClick={onClick}>
+                    {children}
+                </Button>
+            </ThemeProvider>
+        </div>
+    )
+}
+
 export function CancelButton() {
     return (
         <div className="cancelButton">
@@ -91,7 +104,7 @@ export function NormalButton3(props) {
     return (
         <div className="newNoteButton">
             <ThemeProvider theme={theme}>
-                <Button variant="contained" color="secondary" onClick={onClick}>
+                <Button variant="contained" color="secondary" onClick={props.onClick}>
                     {props.children}
                 </Button>
             </ThemeProvider>

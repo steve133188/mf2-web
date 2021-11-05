@@ -4,7 +4,7 @@ import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import Link from "next/link"
 
-export default function addContacts() {
+export default function addcontact() {
     return (
         <div className={"addContactFormContainer"}>
             <div className="infoTagContainer">

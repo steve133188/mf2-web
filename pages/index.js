@@ -1,9 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {LineChart} from "../components/LineChart"
+import {useContext, useEffect} from "react";
+import {useRouter} from "next/router";
+import {GlobalContext} from "../context/GlobalContext";
 
 export default function Home() {
+    const {user} = useContext(GlobalContext)
+    const router = useRouter()
+    useEffect(()=>{ if(!user.token)router.push("/login") ;router.push("/dashboard/livechat")} , [])
+
     return (
         <div className={styles.container}>
             <Head>
@@ -13,8 +19,8 @@ export default function Home() {
                 <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
             </Head>
             <main>
-                <div id={"dashboard"}>
-                    <LineChart />
+                <div className={"loading"}>
+
                 </div>
             </main>
         </div>

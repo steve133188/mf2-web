@@ -61,7 +61,7 @@ export function Search3({children,...props}) {
         <div className="logoInputContainer2">
             <span className="requiredMessage">This field is required.</span>
             <label className="searchSVG">
-                <input placeholder={children}/>
+                <input placeholder={children} onChange={props.onChange}/>
             </label>
         </div>
     )

@@ -2,6 +2,16 @@ import {CustomerProfileInfo} from "../../components/CustomerProfileInfo";
 import {CustomerProfileCategory} from "../../components/CustomerProfileCategory"
 import {CustomerProfileChannel} from "../../components/CustomerProfileChannel";
 import {CustomerProfileActivityLog} from "../../components/CustomerProfileActivityLog";
+import axios from "axios";
+
+
+async function getUser(id){
+    const user = await axios.get(process.env["USERS_API "]+"id="+id)
+        .then(res=>{console.log(res)})
+        .catch(err=>alert(err))
+    return user
+}
+
 
 export default function Customer_profile() {
     return (
