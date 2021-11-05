@@ -1,7 +1,8 @@
 import '../styles/globals.scss'
 import Layout from "../layouts/Layout";
-import {GlobalContext, GlobalContextProvider} from "../context/GlobalContextContext";
+import { GlobalContextProvider} from "../context/GlobalContext";
 import {useEffect} from "react";
+import AuthLayer from "../HOC/AuthLayer"
 import {client} from "../services/websocket";
 import Head from "next/head";
 // import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -26,11 +27,13 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
     <GlobalContextProvider>
+        <AuthLayer>
       <Layout>
           {/*<DndProvider backend={HTML5Backend}>*/}
       <Component {...pageProps} />
       {/*</DndProvider>*/}
       </Layout>
+        </AuthLayer>
     </GlobalContextProvider>
       </>
 )

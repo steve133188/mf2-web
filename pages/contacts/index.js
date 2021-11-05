@@ -30,7 +30,7 @@ import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import {GlobalContextContext} from "../../context/GlobalContextContext";
+import {GlobalContext} from "../../context/GlobalContext";
 import {MSelect2} from "../../components/multiSelects/MSelect2";
 import {MSelect3} from "../../components/multiSelects/MSelect3";
 import {MSelect4} from "../../components/multiSelects/MSelect4";
@@ -163,7 +163,7 @@ export default function Contacts() {
         setPage(value);
     };
 
-    const {user} = useContext(GlobalContextContext)
+    const {user} = useContext(GlobalContext)
     useEffect(() => {
 
     });

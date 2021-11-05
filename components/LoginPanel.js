@@ -2,7 +2,7 @@ import Link from "next/link"
 import {Search2} from "./Input"
 import {NormalButton2} from "./Button"
 import {Switch} from "./Switch";
-import {GlobalContext} from "../context/GlobalContextContext";
+import {GlobalContext} from "../context/GlobalContext";
 import {useContext , useState} from "react";
 import {Alert} from "./Alert";
 import {Note} from "./Note";
