@@ -28,6 +28,35 @@
         width: 13vw;
         align-items: center;
         margin-left: 3vw;
-        
+    }
+
+    .commonFormRow {
+        display: flex;
+        width: 35vw;
+        justify-content: space-between;
+        margin-bottom: 10vh;
+        input {
+            width: 283px;
+        }
+    }
+
+    .teamList {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 14vw;
+        flex-wrap: wrap;
+        span {
+            padding: 0.5vh 1.3vw;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        .team1{
+            background-color: #68C093;
+        }
+        .team2{
+            background-color: #F1B44C;
+        }
     }
 }

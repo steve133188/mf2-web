@@ -18,7 +18,7 @@ export function Input2(props) {
     return (
         <div className="inputField">
             <span>{props.title}</span>
-            <input type="text" placeholder={props.children} disabled={props.disabled}/>
+            <input type={props.type ?? "text"} placeholder={props.placeholder} disabled={props.disabled ? "disabled" : ""} onChange={props.onChange} value={props.value} />
         </div>
     )
 }
@@ -261,46 +261,6 @@ export function ValidationInput() {
             </div>
         </form>
     )
-}
-
-export function CheckboxGroup1(props) {
-    return (
-        <div className="checkboxGroup1">
-            <h1>{props.title}</h1>
-            <div className="checkboxGrp">
-                {props.children}
-            </div>
-        </div>
-    )
-}
-
-export function CheckboxGroup2(props) {
-    return (
-        <div className="checkboxGroup2">
-            <p>{props.title}</p>
-            <div className="checkboxGrp">
-                {props.children}
-            </div>
-        </div>
-    )
-}
-
-export function Checkbox3() {
-    return (
-        <div className="checkbox3">
-            <label className="checkboxContainer">
-                <input type="checkbox" checked="checked"/>
-                <span className="checkmark"></span>
-            </label>
-        </div>
-    )
-}
-
-export function Checkbox() {
-    return (
-        <div></div>
-    )
-
 }
 
 export function LogoTextField(props) {
