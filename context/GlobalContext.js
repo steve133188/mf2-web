@@ -8,7 +8,7 @@ export const GlobalContext = createContext({})
 
 export const GlobalContextProvider = ({children}) =>{
     const [user , setUser] = useState({user:{ },token:null,})
-    const {errors , setErrors} = useState()
+    const [errors , setErrors] = useState("")
     // JSON.parse(localStorage.getItem("user"))
     // localStorage.getItem("token")
     const router = useRouter()
@@ -17,6 +17,7 @@ export const GlobalContextProvider = ({children}) =>{
             user:JSON.parse(localStorage.getItem("user")) || {},
             token:localStorage.getItem("token") || null
         })
+
         // if(!user.token){
         //     console.log("context get token failed")
         //     // router.push("/login")
@@ -35,18 +36,26 @@ export const GlobalContextProvider = ({children}) =>{
                 localStorage.setItem("token", token)
                 localStorage.setItem("user", JSON.stringify(data))
                 setUser({
-                    user: localStorage.getItem("user"),
-                    token
+                    user: JSON.parse(localStorage.getItem("user")),
+                    token:localStorage.getItem("token")
                 });
+                // console.log(user)
+                setErrors(null)
                 if (user.token) console.log("user: " , user.user.username, "login success")
                 return response;
             }).catch(err=>{
                 console.log(err)
+                setErrors("Email or password incorrect")
                 return err
             })
+        console.log(user)
+        // setUser({
+        //     user: localStorage.getItem("user"),
+        //     token:localStorage.getItem("token")
+        // });
         if(res.status == 200) router.push("/dashboard/livechat")
 
-        return res
+        // return res
     }
 
     const logout = ()=>{

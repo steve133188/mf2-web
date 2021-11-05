@@ -22,7 +22,7 @@ export default function Layout({children}) {
                 <div className={"page-title"}> {router.pathname.charAt(1).toUpperCase()+router.pathname.substring(2)}</div>
                 <div className={'d-flex user-session'}>
                     <div className={'notificationDropdownSet'}>
-                        {u.notification!=0? <div className={'badge'}> 10</div>: null}
+                        {/*{u.notification!=0? <div className={'badge'}> 10</div>: null}*/}
 
                         <div className="notificationDropdown">
                             <SingleSelect2/>

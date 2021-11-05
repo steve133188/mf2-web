@@ -14,7 +14,6 @@ export default function Login(){
     const { login, user , errors } = useContext(GlobalContext);
     const [credential, setCredential] = useState({email:"",password:""});
     const [isInvalid, setInvalid] = useState("");
-
     function validateForm() {
         return credential.email.length > 0 && credential.password.length > 0;
     }
@@ -49,6 +48,7 @@ export default function Login(){
                     </div>
                     <div className="mainContent">
                         <div className="welcomeMessage">
+                            {errors?<h4 className={"red-text"}>{errors}</h4>:null}
                             <h1>Log In</h1>
                             <p>Welcome back! Login with your data that <br/> you entered during registration</p>
                         </div>
