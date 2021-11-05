@@ -16,8 +16,8 @@ export function CheckboxNew({children, ...props}) {
     const {src, checked} = props;
     return (
         <div className="newCheckboxContainer">
-            <div className="checkboxContentGrp">
-                <img src={src} alt=""/>{children}
+            <div className="checkboxContentGrp teamSelect">
+                {src ? <img src={src} alt=""/> : "" }{children}
             </div>
             <label className="newCheckboxLabel">
 
@@ -39,6 +39,27 @@ export function CheckboxNew2({children, ...props}) {
             </label>
             <div className="checkboxContentGrp">
                 {children}
+            </div>
+        </div>
+    )
+}
+
+export function CheckboxNewChannels ({children, ...props}) {
+    const {src, checked} = props;
+    return (
+        <div className="newCheckboxContainerChannels">
+            <div className="checkboxContentGrp teamSelect">
+                {src ? <img src={src} alt=""/> : "" }{children}
+            </div>
+            <div className="checkboxGroupContainer">
+                <label className="newCheckboxLabel">
+                    <input type="checkbox" name="checkbox"/>
+                    All Chats
+                </label>
+                <label className="newCheckboxLabel">
+                    <input type="checkbox" name="checkbox"/>
+                    Assigned
+                </label>
             </div>
         </div>
     )
@@ -98,20 +119,4 @@ export function ColumnCheckbox(props) {
             <span className="checkmark"></span>
         </label>
     )
-}
-
-{/*
-<label className="checkboxContainer">Unread
-    <input type="checkbox" checked="checked"/>
-    <span className="checkmark"></span>
-</label>
-<label className="checkboxContainer">Unassigned
-    <input type="checkbox"/>
-    <span className="checkmark"></span>
-</label>
-<label className="checkboxContainer">ChatBox
-    <input type="checkbox"/>
-    <span className="checkmark"></span>
-</label>
-*/
 }

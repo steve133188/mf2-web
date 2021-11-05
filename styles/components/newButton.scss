@@ -1,0 +1,61 @@
+.newButton {
+  button {
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: #2198FA;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    text-transform: none;
+    letter-spacing: 0px;
+    min-width: 64px;
+  }
+
+  button:hover {
+    background: #2172fa;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition-property: background-color, box-shadow, border-color, color;
+    transition-duration: 250ms, 250ms, 250ms, 250ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0ms, 0ms, 0ms, 0ms;
+  }
+
+  .smaller {
+    padding: 0.5rem;
+  }
+
+  .lightBlue {
+    background: #DEF0FF;
+    color: #2198FA;
+  }
+
+  .lightBlue:hover {
+    background: #bedef8;
+  }
+
+  .cancel {
+    background: #F5F6F8;
+    color: #444444
+  }
+
+  .cancel:hover {
+    background: #e8e8e9;
+  }
+
+  .loginBtn {
+    box-shadow: 0px 3px 6px #00000029;
+    width: 50%;
+    font-weight: 100;
+    font-size: 18px;
+    padding: 1rem;
+  }
+
+  button:disabled {
+    color: rgba(0, 0, 0, 0.26);
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.12);
+    pointer-events: none;
+    cursor: default;
+  }
+}

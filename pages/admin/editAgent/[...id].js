@@ -11,21 +11,39 @@ import {
     TextWithIconButton
 } from "../../../components/Button";
 
+import {
+    Input2,
+} from "../../../components/Input";
+
+import { MSelectWithImages } from "../../../components/multiSelects/MSelectWithImages";
+import { SingleSelectCommon } from "../../../components/multiSelects/SingleSelectCommon";
+import {CheckboxNewChannels } from "../../../components/Checkbox";
+
 export default function editAgent() {
     const router = useRouter()
     const {id} = router.query;
     const [agent, setAgent] = useState(
         {
             id: "1",
+            username: "harry.stewart",
             name: "Harry Stewart",
             role: "Admin",
-            email: "Harry.stewart@gmail.com",
+            email: "harry.stewart@gmail.com",
             phone: "+852 9765 0348",
             no_of_leads: 7,
             online_status: "online",
-            locked: false
+            locked: false,
+            profile_pic: "",
+            password: "",
+            confirm_password: "",
         }
     );
+
+    const roleList = [
+        {id:"1",name: "Admin"},
+        {id:"2", name: "Manager"},
+        {id:"3", name: "Agent"}
+    ]
     
     function getInitial(name) {
         var [first_name, last_name] = name.split(" ");
@@ -36,6 +54,14 @@ export default function editAgent() {
 
     function removeAvater(){
 
+    }
+
+    const handleInput = (field, value) => {
+        setAgent({...agent, [field]: value});
+    }
+
+    function cancelEdit (){
+        router.push("/admin")
     }
 
     return (
@@ -60,9 +86,64 @@ export default function editAgent() {
                     <div className="commonMarginTop"></div>
                     <hr/>
                     <div className="commonMarginTop"></div>
-                    <div className="commonContainer">
-                        
+                    <div className="common2ColumnsContainer">
+                        <div className="commonFormRow">
+                            <Input2 title="Username" placeholder="Username" onChange={(e)=>handleInput("username", e.target.value)} value={agent.username}></Input2>
+                            <Input2 title="Email" placeholder="Email" disabled={true} value={agent.email}></Input2>
+                        </div>
+                        <div className="commonFormRow">
+                            <Input2 title="Phone" placeholder="+852" onChange={(e)=>handleInput("phone", e.target.value)} value={agent.phone}></Input2>
+                        </div>
                     </div>
+                    <div className="commonMarginTop"></div>
+                    <hr/>
+                    <div className="commonMarginTop"></div>
+                    <div className="common2ColumnsContainer">
+                        <div className="commonFormRow">
+                            <Input2 type="password" title="Reset Password" placeholder="reset password" onChange={(e)=>handleInput("password", e.target.value)} value={agent.password}></Input2>
+                            <Input2 type="password" title="Confirm Password" placeholder="confirm password" onChange={(e)=>handleInput("confirm_password", e.target.value)} value={agent.confirm_password}></Input2>
+                        </div>
+                    </div>
+                    <div className="commonMarginTop"></div>
+                    <hr/>
+                    <div className="commonMarginTop"></div>
+                    <div className="common2ColumnsContainer">
+                        <div className="commonFormRow">
+                            <MSelectWithImages title="Assign To"></MSelectWithImages>
+                            <div className="teamList">
+                                <span className="team1">Team A</span>
+                                <span className="team2">Team B</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="common2ColumnsContainer">
+                        <div className="commonFormRow">
+                            <SingleSelectCommon title="Role" selectionList={roleList} selected="Manager"></SingleSelectCommon>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div className="commonMarginTop"></div>
+                    <div className="checkboxGroup2">
+                        <p>Channel</p>
+                        <div className="checkboxGrp">
+                            <CheckboxNewChannels  src={"/allchannel.svg"}>All Channel
+                            </CheckboxNewChannels >
+                            <CheckboxNewChannels  src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp
+                            </CheckboxNewChannels >
+                            <CheckboxNewChannels  src={"/wbaCheck.svg"}>WhatsApp Business API
+                            </CheckboxNewChannels >
+                            <CheckboxNewChannels  src={"/messageCheck.svg"}>Messager
+                            </CheckboxNewChannels >
+                            <CheckboxNewChannels  src={"/wechatCheck.svg"}>WeChat
+                            </CheckboxNewChannels >
+                        </div>
+                    </div>
+                    <div className="commonMarginTop"></div>
+                    <div className="avaterButtons">
+                        <NormalButton2>Create</NormalButton2>
+                        <CustomColorButton color="cancel" onClick={cancelEdit}>Cancel</CustomColorButton>
+                    </div>
+                    <div className="commonMarginTop">&nbsp;</div>
                 </div>
             </div>
         </div>

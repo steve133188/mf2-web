@@ -5,3 +5,11 @@ export function ContactFileImage(props) {
         </span>
     )
 }
+
+export function ProfileImage(props) {
+    return(
+        <span className="profileImageContainer">
+            <img src={props.src} alt=""/>
+        </span>
+    )
+}
