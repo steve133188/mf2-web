@@ -11,6 +11,7 @@
   min-width: 232px;
   height: 100%;
   border-right: 2px solid #F1F1F1;
+  position: relative;
 
   .brand-logo {
     display: flex;
@@ -34,10 +35,16 @@
     opacity: 1;
     background-color: #D0E9FF;
     color: #2198FA;
+
+    .nav-item {
+
+    }
   }
-  .active_text{
+
+  .active_text {
     color: #2198FA;
   }
+
   .nav-items {
     margin-top: 1rem;
   }
@@ -45,17 +52,51 @@
 
   .nav-item {
     padding: 1rem;
-    padding-left:1.5rem ;
+    padding-left: 1.5rem;
     text-align: left;
     align-items: center;
     display: flex;
 
     svg {
       margin-right: 12.2px;
+
     }
+
+    #expand_more-24px {
+      margin-left: auto;
+      margin-right: 0
+    }
+
   }
+
   .sub-nav-item {
     padding-left: 3.9rem;
+  }
+
+  .collapseButton {
+    background: #D0E9FF;
+    border-radius: 10px 0 0 10px;
+    border: none;
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.15rem;
+    margin-top: 8rem;
+    color: #2198FA;
+
+    .collapseIcon {
+      transform: rotate(90deg);
+    }
+  }
+
+  .collapseButton:hover {
+    background: #bedef8;
+
+    svg {
+      width: 19px;
+      height: 19px;
+    }
   }
 }
 
@@ -66,13 +107,14 @@
 }
 
 .side-item {
-  padding: .5rem ;
+  padding: .5rem;
   //padding: 0 .5rem ;
   cursor: pointer;
-  &:hover,&:focus{
-    transform: translate(-2.5px,0);
+
+  &:hover, &:focus {
+    transform: translate(-2.5px, 0);
     transition: all 250ms ease-in-out;
-    color:#2198FA;
+    color: #2198FA;
     text-decoration: underline 2px;
     text-underline-offset: 0.4em;
 
@@ -81,7 +123,10 @@
 
 .active-side-item {
   padding: 0 .5rem;
-  border-right:3px solid #2198FA;
+  border-right: 3px solid #2198FA;
+
+  #expand_more-24px {
+  }
 }
 
 .page-title {
@@ -112,6 +157,7 @@
   border-radius: 50%;
   padding: 1px;
 }
+
 .user-session {
   display: inline;
 
@@ -175,7 +221,7 @@
   z-index: 1;
   opacity: 1;
   transition: opacity 289ms;
-  transform-origin: 125px 0px;
+  transform-origin: 125px 0;
 
   .dropdown-item {
     height: 34px;
@@ -199,13 +245,31 @@
   vertical-align: center;
 }
 
-.main-content{
+.collapseLayout {
+  .brand-logo {
+    img {
+
+    }
+  }
+  .nav-items {
+    .side-item-name {
+      display: none;
+    }
+  }
+  .collapseButton {
+    .collapseIcon {
+      transform: rotate(270deg);
+    }
+  }
+}
+
+.main-content {
   height: 100%;
 }
 
 .layout-main {
   flex-direction: column;
-  padding: 0rem;
+  padding: 0;
   margin: 0;
   display: flex;
   width: 95%;
@@ -214,7 +278,7 @@
   overflow: scroll;
 }
 
-.main-content{
+.main-content {
   overflow: scroll;
   width: 100%;
   max-width: 95vw;
@@ -223,6 +287,7 @@
 .notificationDropdownSet {
   margin-right: 40px;
   margin-top: 2px;
+
   .badge {
     position: absolute;
     font-size: xx-small;
@@ -233,14 +298,17 @@
     color: #FFFFFF;
     opacity: 1;
   }
+
   .notificationDropdown {
     div {
-      padding: 0px;
+      padding: 0;
       margin-top: 1px;
+
       div {
         padding: 9px !important;
         background: url("../../public/bell.svg") center / contain no-repeat;
-        font-size: 0px;
+        font-size: 0;
+
         div {
         }
       }
@@ -256,6 +324,7 @@
     }
   }
 }
+
 .loggingStatusDropdown {
   div {
 
