@@ -1,5 +1,5 @@
 export const checkAuthHelper = ()=>{
-    if(!localStorage.getItem("user")||!localStorage.getItem("token")){
+    if(getUser == ""||getToken == ""){
         return false
     }
     return  true

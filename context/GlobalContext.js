@@ -26,7 +26,12 @@ export const GlobalContextProvider = ({children}) =>{
         const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/login"
         const res = await axios.post(url , credentials)
             .then(response => {
+
+                if(response.status != 200){
+                    return "something went wrong"
+                }
                 const { token, data } = response.data;
+                console.log(token , data )
                 localStorage.setItem("token", token)
                 localStorage.setItem("user", JSON.stringify(data))
                 setUser({
@@ -39,7 +44,8 @@ export const GlobalContextProvider = ({children}) =>{
                 console.log(err)
                 return err
             })
-        router.push("/dashboard/livechat")
+        if(res.status == 200) router.push("/dashboard/livechat")
+
         return res
     }
 
