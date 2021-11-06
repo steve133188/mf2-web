@@ -60,7 +60,7 @@ export function SingleSelectCommon(props) {
                 </MenuItem>
                 {objects.map((obj, index) => {
                     return(
-                        <MenuItem value={obj.id}>
+                        <MenuItem key={index} value={obj.id}>
                             {obj.name}               
                         </MenuItem>
                     )

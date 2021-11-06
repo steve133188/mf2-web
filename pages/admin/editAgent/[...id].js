@@ -20,6 +20,7 @@ import { SingleSelectCommon } from "../../../components/multiSelects/SingleSelec
 import {CheckboxNewChannels } from "../../../components/Checkbox";
 
 export default function editAgent() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
     const {id} = router.query;
     const [agent, setAgent] = useState(
@@ -50,6 +51,7 @@ export default function editAgent() {
         return first_name.charAt(0)+last_name.charAt(0);
     }
     
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [initialName, setInitialName] = useState(getInitial(agent.name));
 
     function removeAvater(){
