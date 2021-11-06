@@ -479,19 +479,20 @@ export default function Admin() {
                                 {isSelectRow ? (
                                     <th><CheckboxNewSingle onChange={handleSelect} id="all"/></th>
                                 ) : "" }
-                                {tableColumns.map((column) => {
+                                {tableColumns.map((column , index) => {
                                     return (
-                                        <th className= {column.columnName === "Name" ? "trID" : ""}>{column.columnName}</th>                                        
+                                        <th key={index} className= {column.columnName === "Name" ? "trID" : ""}>{column.columnName}</th>
                                     );
                                 })}
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                                {agents.map((agent) => {
+                                {/*add index to key prop*/}
+                                {agents.map((agent,index) => {
                                     let online_class = (agent.online_status == "online" ? "selectStatusOnline" : "selectStatusOffline")
                                     return (
-                                        <tr className="bodyTr">
+                                        <tr key={index} className="bodyTr">
                                             {isSelectRow ? (
                                                 <td><CheckboxNewSingle checked={selectedRow[agent.id] ?? false} onChange={handleSelect} id={agent.id}/></td>
                                             ) : ""}
@@ -503,21 +504,22 @@ export default function Admin() {
                                             <td>{agent.phone}</td>
                                             <td>{agent.no_of_leads}</td>
                                             <td>
-                                                {agent.locked ? 
-                                                    <svg id="trash-alt" width="25" height="25" viewBox="0 0 18 18">
-                                                        <defs>
-                                                            <clipPath id="clip-path">
-                                                            <rect id="Background" width="25" height="25" fill="none"/>
-                                                            </clipPath>
-                                                        </defs>
-                                                        <rect id="Background-2" data-name="Background" width="25" height="25" fill="none"/>
-                                                        <g id="trash-alt-2" data-name="trash-alt" clip-path="url(#clip-path)">
-                                                            <g id="noun_locked_lock_1010538" data-name="noun_locked lock_1010538" transform="translate(-19.672 -15.931)">
-                                                            <path id="Path_34516" data-name="Path 34516" d="M33.569,32.261H23.777A1.359,1.359,0,0,1,22.416,30.9V23.846a1.359,1.359,0,0,1,1.361-1.358h.262v-.266h.009a4.624,4.624,0,0,1,9.249,0c0,.093,0,.18,0,.265h.269a1.359,1.359,0,0,1,1.361,1.358V30.9A1.359,1.359,0,0,1,33.569,32.261ZM28.692,19.23a2.991,2.991,0,0,0-3,2.986h-.006v.272h5.983v-.021c.008-.079.014-.16.014-.25A2.992,2.992,0,0,0,28.692,19.23ZM33.3,24.667a.544.544,0,0,0-.544-.543H24.587a.544.544,0,0,0-.544.543v5.425a.544.544,0,0,0,.544.543H32.76a.544.544,0,0,0,.544-.543ZM28.806,29h-.272a.677.677,0,0,1-.678-.676V26.446a.677.677,0,0,1,.678-.676h.272a.677.677,0,0,1,.678.676v1.876A.677.677,0,0,1,28.806,29Z" fill="#5b73e8"/>
-                                                            </g>
-                                                        </g>
-                                                    </svg> : 
-                                                "" }
+                                                {/*build fail Error: Unknown property 'clip-path' found, use 'clipPath' instead react/no-unknown-property*/}
+                                                {/*{agent.locked ? */}
+                                                {/*    <svg id="trash-alt" width="25" height="25" viewBox="0 0 18 18">*/}
+                                                {/*        <defs>*/}
+                                                {/*            <clipPath id="clip-path">*/}
+                                                {/*            <rect id="Background" width="25" height="25" fill="none"/>*/}
+                                                {/*            </clipPath>*/}
+                                                {/*        </defs>*/}
+                                                {/*        <rect id="Background-2" data-name="Background" width="25" height="25" fill="none"/>*/}
+                                                {/*        <g id="trash-alt-2" data-name="trash-alt" clip-path="url(#clip-path)">*/}
+                                                {/*            <g id="noun_locked_lock_1010538" data-name="noun_locked lock_1010538" transform="translate(-19.672 -15.931)">*/}
+                                                {/*            <path id="Path_34516" data-name="Path 34516" d="M33.569,32.261H23.777A1.359,1.359,0,0,1,22.416,30.9V23.846a1.359,1.359,0,0,1,1.361-1.358h.262v-.266h.009a4.624,4.624,0,0,1,9.249,0c0,.093,0,.18,0,.265h.269a1.359,1.359,0,0,1,1.361,1.358V30.9A1.359,1.359,0,0,1,33.569,32.261ZM28.692,19.23a2.991,2.991,0,0,0-3,2.986h-.006v.272h5.983v-.021c.008-.079.014-.16.014-.25A2.992,2.992,0,0,0,28.692,19.23ZM33.3,24.667a.544.544,0,0,0-.544-.543H24.587a.544.544,0,0,0-.544.543v5.425a.544.544,0,0,0,.544.543H32.76a.544.544,0,0,0,.544-.543ZM28.806,29h-.272a.677.677,0,0,1-.678-.676V26.446a.677.677,0,0,1,.678-.676h.272a.677.677,0,0,1,.678.676v1.876A.677.677,0,0,1,28.806,29Z" fill="#5b73e8"/>*/}
+                                                {/*            </g>*/}
+                                                {/*        </g>*/}
+                                                {/*    </svg> : */}
+                                                {/*"" }*/}
                                             </td>
                                         </tr>
                                     );
