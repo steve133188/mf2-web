@@ -38,6 +38,7 @@ import Stack from "@mui/material/Stack";
 import Pagination from "@mui/material/Pagination";
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'
+import axios from "axios";
 
 
 function descendingComparator(a, b, orderBy) {
@@ -48,24 +49,6 @@ function descendingComparator(a, b, orderBy) {
         return 1;
     }
     return 0;
-}
-
-function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
 }
 
 
@@ -159,31 +142,18 @@ EnhancedTable2Head.propTypes = {
 
 export default function Contacts() {
     const [page, setPage] = React.useState(1);
+    // const [contacts, setContacts] = React.useState([]);
     const handlePageChange = (event, value) => {
         setPage(value);
     };
-
-    const {user} = useContext(GlobalContext)
-    useEffect(() => {
-
-    });
+    let cons;
+    const { contacts , get_contacts} = useContext(GlobalContext)
+    useEffect( async () => {
+         await get_contacts()
+        console.log("data:",contacts)
+    },[]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('role');
-
-
-    // const sampleRow = ( <div style={{display: "flex", alignItems: "center"}}><Avatar alt="Remy Sharp"
-    //                                                                                        src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/><span
-    //         style={{marginLeft: "11px"}}>Debra Patel</span>
-    //     </div>, <Pill color="teamA">Team A</Pill>, <div className="channel"><img
-    //         width="24px" height="24px" src="./whatsappChannel.svg"
-    //         alt=""/></div>, <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill color="lightPurple">New
-    //         Customer</Pill></div>, <div className="assigneeGroup">
-    //         <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
-    //         <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
-    //         <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
-    //         <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
-    //         <Pill color="lightRed" size="roundedPill size30">KA</Pill>
-    //     </div>)
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -216,20 +186,6 @@ export default function Contacts() {
 
     function toggleSelectRow() {
         setSelectRow(!isSelectRow);
-    }
-
-    function handleSelect(key, value) {
-        setSelectRow(isSelectRow.key == !value, ...isSelectRow)
-        if (key == "all") {
-
-        }
-    }
-
-
-    const [isFillCheckbox, setIsFillCheckbox] = useState(false);
-
-    function toggleFill() {
-        setIsFillCheckbox(!isFillCheckbox);
     }
 
     const [open, setOpen] = React.useState(false);
@@ -314,60 +270,10 @@ export default function Contacts() {
         },
     };
 
-    const names = [
-        'Oliver Hansen',
-        'Van Henry',
-        'April Tucker',
-        'Ralph Hubbard',
-        'Omar Alexander',
-        'Carlos Abbott',
-        'Miriam Wagner',
-        'Bradley Wilkerson',
-        'Virginia Andrews',
-        'Kelly Snyder',
-    ];
-    const selects = [
-        {
-            selectTitle: 'Agent',
-            selectItems: [
-                'Oliver Hansen',
-                'Van Henry',
-                'April Tucker',
-
-            ]
-        },
-        {
-            selectTitle: 'Team',
-            selectItems: [
-                'Ralph Hubbard',
-                'Omar Alexander',
-            ]
-        },
-        {
-            selectTitle: 'Tags',
-            selectItems: [
-                'Carlos Abbott',
-                'Miriam Wagner',
-            ]
-        },
-        {
-            selectTitle: 'Channel',
-            selectItems: [
-                'Bradley Wilkerson',
-                'Virginia Andrews',
-                'Kelly Snyder',
-            ]
-        }
-    ];
-
     function showDropzone() {
         setIsShowDropzone(true);
     }
 
-    function closeDropzone() {
-        setIsShowDropzone(false);
-    }
-    const theme = useTheme();
     const [personName, setPersonName] = React.useState([]);
 
     const handleChange = (event) => {
@@ -503,7 +409,7 @@ export default function Contacts() {
                                 </ClickAwayListener>
                             </div>
                             <NormalButton onClick={showDropzone}>Import</NormalButton>
-                            <Link href="/contacts/addContacts"><a><NormalButton2>+ New Contact</NormalButton2></a></Link>
+                            <Link href="/contacts/addcontact"><a><NormalButton2>+ New Contact</NormalButton2></a></Link>
 
                         </div>
                     </div>
@@ -659,56 +565,70 @@ export default function Contacts() {
                                         isSelectRow={isSelectRow}
                                     />
                                     <TableBody>
-                                                    <TableRow
-                                                        hover
-                                                        role="checkbox"
-                                                        tabIndex={-1}
-                                                    >
-                                                        <td style={{
-                                                            width: "30px",
-                                                            textAlign: "center",
-                                                            borderBottom: "1px #e0e0e0 solid"
-                                                        }}>  <div className="newCheckboxContainer">
-                                                            {isSelectRow? <label className="newCheckboxLabel">
-                                                                <input type="checkbox" name="checkbox"/>
-                                                            </label>:null}
+                                        {/*{<li>{contacts}</li>}*/}
+                                        {contacts.map((c ) => {
+                                           return(  <TableRow
+                                                key={c.id}
+                                                hover
+                                                role="checkbox"
+                                                tabIndex={-1}
+                                            >
+                                                <td style={{
+                                                    width: "30px",
+                                                    textAlign: "center",
+                                                    borderBottom: "1px #e0e0e0 solid"
+                                                }}>
+                                                    <div className="newCheckboxContainer">
+                                                        {isSelectRow ? <label className="newCheckboxLabel">
+                                                            <input type="checkbox" name="checkbox"/>
+                                                        </label> : null}
 
-                                                        </div></td>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">
-                                                            <div style={{display: "flex", alignItems: "center"}}>
-                                                            <Avatar alt="Remy Sharp" src="https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg"/>
-                                                            </div>
-                                                            </TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">
-                                                            <span style={{marginLeft: "11px"}}>Debra Patel</span>
-                                                            </TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">
-                                                            <Pill color="teamA">
-                                                                Team A</Pill>
-                                                        </TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">
-                                                            <img width="24px" height="24px" src="./whatsappChannel.svg"
-                                                                    alt=""/>
-                                                        </TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left"><div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill color="lightPurple">New
-                                                            Customer</Pill></div></TableCell>
-                                                        <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                                   align="left">
-                                                            <div className="assigneeGroup">
-                                                                <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
-                                                                <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
-                                                                <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
-                                                                <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
-                                                                <Pill color="lightRed" size="roundedPill size30">KA</Pill>
-                                                            </div>
-                                                        </TableCell>
+                                                    </div>
+                                                </td>
+                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                           align="left">
+                                                    <div style={{display: "flex", alignItems: "center"}}>
+                                                        <Avatar alt="Remy Sharp"
+                                                                src={c.img_url||""}/>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                           align="left">
+                                                    <span style={{marginLeft: "11px"}}>{c.name}</span>
+                                                </TableCell>
+                                                {/*name*/}
+                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                           align="left">
+                                                    <Pill color="teamA">{c.team}</Pill>
+                                                </TableCell>
+                                                {/*team*/}
+                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                           align="left">
+                                                    <img width="24px" height="24px" src="./whatsappChannel.svg"
+                                                         alt=""/>
+                                                </TableCell>
+                                                {/*channel*/}
+                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                           align="left">
+                                                    <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill
+                                                        color="lightPurple">New
+                                                        Customer</Pill></div>
+                                                </TableCell>
+                                                {/*tags*/}
+                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
+                                                           align="left">
+                                                    <div className="assigneeGroup">
+                                                        <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
+                                                        <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
+                                                        <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
+                                                        <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
+                                                        <Pill color="lightRed" size="roundedPill size30">KA</Pill>
+                                                    </div>
+                                                </TableCell>
+                                            {/*    assignee*/}
 
-                                                    </TableRow>
+                                            </TableRow>)
+                                        })}
                                         {/*        );*/}
                                         {/*    })}*/}
                                     </TableBody>
@@ -716,11 +636,11 @@ export default function Contacts() {
                             </TableContainer>
                         </Paper>
                     </Box>
-                    <div className="pagination">
-                        <Stack spacing={2}>
-                            <Pagination count={10} page={page} onChange={handlePageChange} shape="rounded"/>
-                        </Stack>
-                    </div>
+                    {/*<div className="pagination">*/}
+                    {/*    <Stack spacing={2}>*/}
+                    {/*        <Pagination count={10} page={page} onChange={handlePageChange} shape="rounded"/>*/}
+                    {/*    </Stack>*/}
+                    {/*</div>*/}
 
                 </div>
             </div>

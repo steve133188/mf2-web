@@ -23,8 +23,8 @@ export default function Layout({children}) {
                 <div className={'d-flex user-session'}>
                     <div className={'notificationDropdownSet'}>
                         {/*{u.notification!=0? <div className={'badge'}> 10</div>: null}*/}
-
                         <div className="notificationDropdown">
+                            {/*<img src="bell.svg" alt="" width={"15px"} height={"15px"}/>*/}
                             <SingleSelect2/>
                         </div>
                     </div>
