@@ -10,29 +10,17 @@ import {
 } from "../../components/Button";
 import Swal from 'sweetalert2';
 import {useRouter} from "next/router";
-import {NavbarPurple} from "../../components/NavbarPurple";
-import {NormalTable} from "../../components/Table";
 import {PaginationControlled} from "../../components/Pagination";
 import {useState, useEffect} from "react";
-import Avatar from "@mui/material/Avatar";
 import {CheckboxNewSingle} from "../../components/Checkbox"
-import {Pill} from "../../components/Pill";
-import {Checkbox1, CheckboxPill, SingleBox} from "../../components/Checkbox"
-import {EditColumnPopper} from "../../components/EditColumnPopper";
-import {MultipleSelectPlaceholder} from "../../components/Select";
-import {AddPopper} from "../../components/AddPopper";
-import {DeletePopper} from "../../components/DeletePopper";
 import * as React from "react";
-import {Dropzone} from "../../components/ImportContact";
 import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import {ColumnCheckbox} from "../../components/Checkbox";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from "@mui/material/OutlinedInput";
 import {useTheme} from "@mui/material/styles";
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {BlueMenu2} from "../../components/BlueMenu";
 
 export default function Admin() {

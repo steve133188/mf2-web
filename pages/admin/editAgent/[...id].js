@@ -23,6 +23,7 @@ export default function editAgent() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
     const {id} = router.query;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [agent, setAgent] = useState(
         {
             id: "1",
