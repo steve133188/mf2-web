@@ -1,6 +1,6 @@
 // Cannot resize Switches
 
-import React, {useState} from "react"
+import React  from "react"
 
 export function Input(props) {
     return (
@@ -67,100 +67,100 @@ export function Search3({children,...props}) {
     )
 }
 
-export function Check() {
-    return (
-        <div>
-            <div className="form-check mb-3">
-                <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="defaultCheck1"
-                />
-                <label
-                    className="form-check-label"
-                    htmlFor="defaultCheck1"
-                >
-                    Form Checkbox
-                </label>
-            </div>
-            <div className="form-check form-check-end">
-                <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="defaultCheck2"
-                    defaultChecked
-                />
-                <label
-                    className="form-check-label"
-                    htmlFor="defaultCheck2"
-                >
-                    Form Checkbox checked
-                </label>
-            </div>
-        </div>
-    )
-}
+// export function Check() {
+//     return (
+//         <div>
+//             <div className="form-check mb-3">
+//                 <input
+//                     className="form-check-input"
+//                     type="checkbox"
+//                     value=""
+//                     id="defaultCheck1"
+//                 />
+//                 <label
+//                     className="form-check-label"
+//                     htmlFor="defaultCheck1"
+//                 >
+//                     Form Checkbox
+//                 </label>
+//             </div>
+//             <div className="form-check form-check-end">
+//                 <input
+//                     className="form-check-input"
+//                     type="checkbox"
+//                     value=""
+//                     id="defaultCheck2"
+//                     defaultChecked
+//                 />
+//                 <label
+//                     className="form-check-label"
+//                     htmlFor="defaultCheck2"
+//                 >
+//                     Form Checkbox checked
+//                 </label>
+//             </div>
+//         </div>
+//     )
+// }
 
-export function Radio() {
-    return (
-        <>
-            <div>
-                <div className="form-check mb-3">
-                    <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="option1"
-                        defaultChecked
-                    />
-                    <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                    >
-                        Form Radio
-                    </label>
-                </div>
-                <div className="form-check">
-                    <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios2"
-                        value="option2"
-                    />
-                    <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios2"
-                    >
-                        Form Radio checked
-                    </label>
-                </div>
-            </div>
-        </>
-    )
-}
-
-export function TextRadio() {
-    return (
-        <ul className="textRadio">
-            <li>
-                <input type='radio' value='1' name='textRadio' id='textRadio1'/>
-                <label htmlFor='textRadio1'>Value 1</label>
-            </li>
-            <li>
-                <input type='radio' value='2' name='textRadio' id='textRadio2'/>
-                <label htmlFor='textRadio2'>Value 2</label>
-            </li>
-            <li>
-                <input type='radio' value='3' name='textRadio' id='textRadio3'/>
-                <label htmlFor='textRadio3'>Value 3</label>
-            </li>
-        </ul>
-    )
-}
+// export function Radio() {
+//     return (
+//         <>
+//             <div>
+//                 <div className="form-check mb-3">
+//                     <input
+//                         className="form-check-input"
+//                         type="radio"
+//                         name="exampleRadios"
+//                         id="exampleRadios1"
+//                         value="option1"
+//                         defaultChecked
+//                     />
+//                     <label
+//                         className="form-check-label"
+//                         htmlFor="exampleRadios1"
+//                     >
+//                         Form Radio
+//                     </label>
+//                 </div>
+//                 <div className="form-check">
+//                     <input
+//                         className="form-check-input"
+//                         type="radio"
+//                         name="exampleRadios"
+//                         id="exampleRadios2"
+//                         value="option2"
+//                     />
+//                     <label
+//                         className="form-check-label"
+//                         htmlFor="exampleRadios2"
+//                     >
+//                         Form Radio checked
+//                     </label>
+//                 </div>
+//             </div>
+//         </>
+//     )
+// }
+//
+// export function TextRadio() {
+//     return (
+//         <ul className="textRadio">
+//             <li>
+//                 <input type='radio' value='1' name='textRadio' id='textRadio1'/>
+//                 <label htmlFor='textRadio1'>Value 1</label>
+//             </li>
+//             <li>
+//                 <input type='radio' value='2' name='textRadio' id='textRadio2'/>
+//                 <label htmlFor='textRadio2'>Value 2</label>
+//             </li>
+//             <li>
+//                 <input type='radio' value='3' name='textRadio' id='textRadio3'/>
+//                 <label htmlFor='textRadio3'>Value 3</label>
+//             </li>
+//         </ul>
+//     )
+// }
 
 export function TextRadio2() {
     return (
@@ -181,50 +181,26 @@ export function TextRadio2() {
     )
 }
 
-export function Switches(props) {
-    const [toggleSwitch, settoggleSwitch] = useState(true)
-    // Size: sm md lg
-    const size = "form-check form-switch form-switch-" + props.size + " mb-3";
-
-    return (
-        <div className={size}>
-            <input
-                type="checkbox"
-                className="form-check-input"
-                id="customSwitchsize"
-                onClick={e => {
-                    settoggleSwitch(!toggleSwitch)
-                }}
-            />
-        </div>
-    )
-}
+// export function Switches(props) {
+//     const [toggleSwitch, settoggleSwitch] = useState(true)
+//     // Size: sm md lg
+//     const size = "form-check form-switch form-switch-" + props.size + " mb-3";
+//
+//     return (
+//         <div className={size}>
+//             <input
+//                 type="checkbox"
+//                 className="form-check-input"
+//                 id="customSwitchsize"
+//                 onClick={e => {
+//                     settoggleSwitch(!toggleSwitch)
+//                 }}
+//             />
+//         </div>
+//     )
+// }
 
 export function Select() {
-    const optionGroup = [
-        {
-            label: "Picnic",
-            options: [
-                {label: "Mustard", value: "Mustard"},
-                {label: "Ketchup", value: "Ketchup"},
-                {label: "Relish", value: "Relish"}
-            ]
-        },
-        {
-            label: "Camping",
-            options: [
-                {label: "Tent", value: "Tent"},
-                {label: "Flashlight", value: "Flashlight"},
-                {label: "Toilet Paper", value: "Toilet Paper"}
-            ]
-        }
-    ]
-    const [selectedGroup, setselectedGroup] = useState(null)
-
-    function handleSelectGroup(selectedGroup) {
-        setselectedGroup(selectedGroup)
-    }
-
     return (
         <div className="mb-3">
             <label>Single Select</label>
@@ -238,40 +214,40 @@ export function Select() {
     )
 }
 
-export function ValidationInput() {
-    return (
-        <form className="row g-3 needs-validation" noValidate>
-            <div className="col-md-8">
-                <label htmlFor="validationCustom01" className="form-label">First name</label>
-                <input type="text" className="form-control" id="validationCustom01" value="Mark" required/>
-                <div className="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <div className="col-md-8">
-                <label htmlFor="validationCustom03" className="form-label">City</label>
-                <input type="text" className="form-control" id="validationCustom03" required/>
-                <div className="invalid-feedback">
-                    Please provide a valid city.
-                </div>
-            </div>
-
-            <div className="col-12">
-                <button className="btn btn-primary" type="submit">Submit form</button>
-            </div>
-        </form>
-    )
-}
-
-export function LogoTextField(props) {
-    return (
-        <div>
-            <label className="LogoTextField">
-                <input type="text" placeholder={props.children}/>
-            </label>
-        </div>
-    )
-}
+// export function ValidationInput() {
+//     return (
+//         <form className="row g-3 needs-validation" noValidate>
+//             <div className="col-md-8">
+//                 <label htmlFor="validationCustom01" className="form-label">First name</label>
+//                 <input type="text" className="form-control" id="validationCustom01" value="Mark" required/>
+//                 <div className="valid-feedback">
+//                     Looks good!
+//                 </div>
+//             </div>
+//             <div className="col-md-8">
+//                 <label htmlFor="validationCustom03" className="form-label">City</label>
+//                 <input type="text" className="form-control" id="validationCustom03" required/>
+//                 <div className="invalid-feedback">
+//                     Please provide a valid city.
+//                 </div>
+//             </div>
+//
+//             <div className="col-12">
+//                 <button className="btn btn-primary" type="submit">Submit form</button>
+//             </div>
+//         </form>
+//     )
+// }
+//
+// export function LogoTextField(props) {
+//     return (
+//         <div>
+//             <label className="LogoTextField">
+//                 <input type="text" placeholder={props.children}/>
+//             </label>
+//         </div>
+//     )
+// }
 
 export function LogInputField(props) {
     return (

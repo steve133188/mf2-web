@@ -4,7 +4,7 @@ import {LabelSelect2, SingleSelect2} from "../../components/Select";
 import {BigChangingPercentageCard} from "../../components/Cards";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
-import {CheckboxNew} from "../../components/Checkbox";
+import {Checkbox} from "../../components/Checkbox";
 import {Pill} from "../../components/Pill";
 
 export default function Livechat() {
@@ -12,9 +12,7 @@ export default function Livechat() {
     const handleClickAway = () => {
         setOpen(false);
     };
-    const handleClickOut = () => {
-        setOpen(true);
-    };
+
 
     return (
         <div className="dashboard-layout">
@@ -41,16 +39,16 @@ export default function Livechat() {
                         <div className="checkboxGroup2">
                             <p>Channel</p>
                             <div className="checkboxGrp">
-                                <CheckboxNew src={"/allchannel.svg"}>All Channel
-                                </CheckboxNew>
-                                <CheckboxNew src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp
-                                </CheckboxNew>
-                                <CheckboxNew src={"/wbaCheck.svg"}>WhatsApp Business API
-                                </CheckboxNew>
-                                <CheckboxNew src={"/messageCheck.svg"}>Messager
-                                </CheckboxNew>
-                                <CheckboxNew src={"/wechatCheck.svg"}>WeChat
-                                </CheckboxNew>
+                                <Checkbox src={"/allchannel.svg"}>All Channel
+                                </Checkbox>
+                                <Checkbox src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp
+                                </Checkbox>
+                                <Checkbox src={"/wbaCheck.svg"}>WhatsApp Business API
+                                </Checkbox>
+                                <Checkbox src={"/messageCheck.svg"}>Messager
+                                </Checkbox>
+                                <Checkbox src={"/wechatCheck.svg"}>WeChat
+                                </Checkbox>
                             </div>
                         </div>
                         <div className="agentFilter">

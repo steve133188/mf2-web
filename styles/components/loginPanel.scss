@@ -1,85 +1,99 @@
-.loginPanel {
-  box-shadow: 0px 7px 20px #00000017;
-  background-color: #fff;
-  border-radius: 40px;
-  //padding: 53px 86.5px 62px 56px;
-  padding: 4rem;
-  height: 773px;
-  width: 720px;
-
-  .companyLogo {
-    img {
-      width: 88.26px;
-      height: 78.47px;
-    }
-  }
-  .welcomeMessage {
-    text-align: center;
-    //margin: 1rem;
-    //padding: 1rem;
-
-    h1 {
-      color: var(--unnamed-color-2198fa);
-      text-align: center;
-      font: normal normal 900 45px/62px Manrope;
-      letter-spacing: 0px;
-      color: #2198FA;
-      opacity: 1;
-      padding: 1rem;
-
-    }
-
-    p {
-      padding: 1rem;
-      color: var(--unnamed-color-8b8b8b);
-      text-align: center;
-      font: normal normal normal 400 20px/31px Monrope;
-      letter-spacing: 0.8px;
-      color: #8B8B8B;
-      opacity: 1;
-    }
-  }
-  .mainContent {
-    margin: auto;
-    .inputSet {
-      display: flex;
-      flex-flow: column;
-    }
-
-    .passwordSupportSet {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 61px;
-      margin-top: 31px;
-
-      .rememberMe {
-        display: flex;
-        align-items: center;
-        color: #7E7E7E;
-
-        label {
-          margin-right: 10px;
-        }
-      }
-
-      .forgotPassword {
-        color: #2198FA;
-      }
-
-      .forgotPassword:hover {
-        color: #0077d8;
-      }
-    }
-
-    .newContactButton {
-      text-align: center;
-
-      button {
-        width: 50%;
-        font-weight: 100;
-        height: 50px;
-        font-size: 18px;
-      }
-    }
-  }
-}
+//.Panel {
+//  display: flex;
+//  flex-direction: column;
+//  box-shadow: 0px 7px 20px #00000017;
+//  background-color: #fff;
+//  border-radius: 40px;
+//  box-sizing: border-box;
+//  //padding: 53px 86.5px 62px 56px;
+//  //padding: 4rem;
+//  max-height: 773px;
+//  height: 71%;
+//  width: 720px;
+//  //min-width: 37.5%;
+//  .companyLogo {
+//    display: flex;
+//
+//    img {
+//      margin-top: 4%;
+//      margin-left: 4%;
+//      //width: 88.26px;
+//      //height: 78.47px;
+//      min-height: 11%;
+//      min-width: 11%;
+//      max-width: 88.26px;
+//      max-height: 78.47px;
+//    }
+//  }
+//  .welcomeMessage {
+//    text-align: center;
+//    //margin: 1rem;
+//    //padding: 1rem;
+//    h1 {
+//      color: var(--unnamed-color-2198fa);
+//      text-align: center;
+//      font: normal normal 900 3rem/4rem Manrope;
+//      letter-spacing: 0px;
+//      color: #2198FA;
+//      opacity: 1;
+//      //padding: 1rem;
+//    }
+//
+//    p {
+//      padding: 1%;
+//      color: var(--unnamed-color-8b8b8b);
+//      text-align: center;
+//      font: normal normal normal 400 1rem/2rem Monrope;
+//      letter-spacing: 0.8px;
+//      color: #8B8B8B;
+//      opacity: 1;
+//    }
+//  }
+//  .mainContent {
+//    width: 100%;
+//    height: 100%;
+//    //margin: auto;
+//    .inputSet {
+//      align-items: center;
+//      justify-content: center;
+//      //display: flex;
+//      //flex-flow: column;
+//    }
+//
+//    .passwordSupportSet {
+//      display: flex;
+//      justify-content: space-around;
+//      margin-bottom: 4%;
+//      margin-top: 1rem;
+//
+//      .rememberMe {
+//        display: flex;
+//        align-items: center;
+//        color: #7E7E7E;
+//
+//        label {
+//          margin-right: 10px;
+//        }
+//      }
+//
+//      .forgotPassword {
+//        color: #2198FA;
+//      }
+//
+//      .forgotPassword:hover {
+//        color: #0077d8;
+//      }
+//    }
+//
+//    .newContactButton {
+//      text-align: center;
+//
+//      button {
+//        width: 50%;
+//        font-weight: 100;
+//        height: 50px;
+//        font-size: 18px;
+//      }
+//    }
+//  }
+//}

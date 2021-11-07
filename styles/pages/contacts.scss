@@ -114,3 +114,23 @@
   }
 }
 
+.searchInput{
+  background: url("../../public/icon-search.svg") no-repeat scroll 7px 7px;
+  width: 421px;
+  height: 47px;
+  font-size: 15px;
+  padding-left:30px;
+  background: var(--unnamed-color-f8f9fb) 0% 0% no-repeat padding-box;
+  background: #F8F9FB 0% 0% no-repeat padding-box;
+  border-radius: 15px;
+  opacity: 1;
+  border: none;
+  &:active{
+    outline: none;
+    border: 1px solid #2385FC;
+  }
+  &:focus{
+    outline: none;
+    border: 1px solid #2385FC;
+  }
+}

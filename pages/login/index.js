@@ -3,8 +3,6 @@ import Image from 'next/image'
 import React, {useContext, useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {GlobalContext} from "../../context/GlobalContext";
-import {Search2} from "../../components/Input";
-import {Switch} from "../../components/Switch";
 import Link from "next/link";
 import {NormalButton2} from "../../components/Button";
 
@@ -13,25 +11,17 @@ import {NormalButton2} from "../../components/Button";
 export default function Login(){
     const { login, user , errors } = useContext(GlobalContext);
     const [credential, setCredential] = useState({email:"",password:""});
-    const [isInvalid, setInvalid] = useState("");
+
     function validateForm() {
+
         return credential.email.length > 0 && credential.password.length > 0;
     }
 
     function handleSubmit(event) {
         event.preventDefault()
-        validatePassword()
         login(credential)
     }
-    function validatePassword() {
-        if (errors) {
-            console.log("Email or password invalid")
-            setInvalid(errors)
-        } else {
-            console.log("Email and password are valid")
-            return ""
-        }
-    }
+
     const router = useRouter()
     useEffect(()=>{
         if(user.token){
@@ -42,31 +32,51 @@ export default function Login(){
         <div className={"login-layout"}>
             <div className="container">
                 {/*<Alert />*/}
-                <div className="loginPanel">
-                    <div className="companyLogo">
-                        <img src="MS_logo-square.svg" alt=""/>
-                    </div>
-                    <div className="mainContent">
+                <div className="Panel container-fluid ">
+                    <div className="panel-top">
+                            <img className={"login-logo"} src="MS_logo-square.svg" alt=""/>
                         <div className="welcomeMessage">
                             {errors?<h4 className={"red-text"}>{errors}</h4>:null}
-                            <h1>Log In</h1>
+                            <h4 className={"login-title"}>Log In</h4>
                             <p>Welcome back! Login with your data that <br/> you entered during registration</p>
                         </div>
-                        <div className="inputSet">
-                            <Search2 type="text" value={credential.email} svg={"emailSVG"} invalid={isInvalid} handleChange={(e)=> {
-                                setCredential({...credential, ['email'] :e.target.value})
-                            }}>Email or Username</Search2>
-                            <Search2 type="password"  value={credential.password} svg={"passwordSVG"} invalid={isInvalid} handleChange={(e)=> {
-                                setCredential({...credential, ['password'] :e.target.value});
-                            }}>Password</Search2>
+                    </div>
+                    <div className={"login-form"}>
+                    <form action="" >
+                        <div className="logoInputContainer">
+                                {/*<span className={""}>Email or Password invalid</span>*/}
+                                <label className={"searchSVG emailSVG"}>
+                                    <input
+                                        type={"email"}
+                                        value={credential.email}
+                                        onChange={(e)=>{setCredential({...credential, ['email']: e.target.value})}}
+                                        placeholder={"Email"}
+                                        // className={invalid}
+                                    />
+                                </label>
+                            </div>
+                        <div className="logoInputContainer">
+                                <label className={"searchSVG passwordSVG"}>
+                                    <input
+                                        type={"password"}
+                                        value={credential.password}
+                                        onChange={(e)=>{setCredential({...credential, ['password']: e.target.value})}}
+                                        placeholder={"Password"}
+                                        // className={invalid}
+                                    />
+                                </label>
+                            </div>
+                        <div className={"form-bottom"}>
+                            <span className="rememberMe"><label className="toggleSwitch"><input type="checkbox"/><span className="slider"></span></label>Remember me</span>
+                            <Link href="/login/recovery"><a><span className="forgotPassword">Forgot Password?</span></a></Link>
                         </div>
-                        <div className="passwordSupportSet">
-                            <span className="rememberMe"><Switch/>Remember me</span>
-                            <Link href="/recovery"><a><span className="forgotPassword">Forgot Password?</span></a></Link>
+
+                        <div className={"submit-row"}>
+                            <button className={"login-btn align-self-center"} disabled={!validateForm()} onClick={handleSubmit}>
+                                Login
+                            </button>
                         </div>
-                        <NormalButton2 disabled={!validateForm()} onClick={handleSubmit}>
-                            Login
-                        </NormalButton2>
+                    </form>
                     </div>
                 </div>
             </div>

@@ -1,17 +1,12 @@
-import {ContactList} from "../../components/ContactList";
-import {ChatArea} from "../../components/ChatArea"
-import {ContactInfo} from "../../components/ContactInfo";
-import {ContactFilterList} from "../../components/ContactFilterList";
-import {ContactNote} from "../../components/ContactNote";
-import {ContactFile} from "../../components/ContactFile"
-import {Alert} from "../../components/Alert";
 
 export default function Live_chat() {
     return (
         <div className="live_chat-layout">
-            <ContactList/>
-            <ChatArea/>
-            <ContactFile/>
+            {/*<button className={""}>test</button>*/}
+            <h1>Live Chat </h1>
+            {/*<ContactList/>*/}
+            {/*<ChatArea/>*/}
+            {/*<ContactFile/>*/}
         </div>
     )
 }

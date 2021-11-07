@@ -1,32 +1,19 @@
-import {Input2, Search3} from "../../components/Input";
-import {
-    CancelButton,
-    SelectButton,
-    NormalButton,
-    NormalButton2,
-} from "../../components/Button";
+import {Search3} from "../../components/Input";
+// import {
+//     CancelButton,
+//     SelectButton,
+//     NormalButton,
+//     NormalButton2,
+// } from "../../components/Button";
 import {useContext, useEffect, useState} from "react";
 import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
-import {CheckboxNewSingle} from "../../components/Checkbox"
+import {Checkbox} from "../../components/Checkbox"
 import * as React from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import OutlinedInput from "@mui/material/OutlinedInput";
-import {ThemeProvider, useTheme} from "@mui/material/styles";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import Button from "@mui/material/Button";
-import {createTheme} from '@mui/material/styles';
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Box from "@mui/material/Box";
-import {visuallyHidden} from "@mui/utils";
-import PropTypes from "prop-types";
-import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -34,111 +21,98 @@ import {GlobalContext} from "../../context/GlobalContext";
 import {MSelect2} from "../../components/multiSelects/MSelect2";
 import {MSelect3} from "../../components/multiSelects/MSelect3";
 import {MSelect4} from "../../components/multiSelects/MSelect4";
-import Stack from "@mui/material/Stack";
-import Pagination from "@mui/material/Pagination";
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'
 import axios from "axios";
 
 
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
 
-
-
-function EnhancedTable2Head({isSelectRow, ...props}) {
-    const {order, orderBy, onRequestSort } = props;
-
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    const headCells2 = [
-        {
-            id: 'customerID',
-            numeric: false,
-            disablePadding: false,
-            label: 'Customer ID',
-        },
-        {
-            id: 'name',
-            numeric: true,
-            disablePadding: false,
-            label: 'Name',
-        },
-        {
-            id: 'team',
-            numeric: true,
-            disablePadding: false,
-            label: 'Team',
-        },
-        {
-            id: 'channel',
-            numeric: true,
-            disablePadding: false,
-            label: 'Channel',
-        },
-        {
-            id: 'tags',
-            numeric: true,
-            disablePadding: false,
-            label: 'Tags'
-        },
-        {
-            id: 'assignee',
-            numeric: true,
-            disablePadding: false,
-            label: 'Assignee'
-        }
-    ];
-
-    return (
-        <TableHead>
-            <TableRow>
-                <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}>
-                    {isSelectRow?<CheckboxNewSingle/>:null}
-                </th>
-                {headCells2.map((headCell2) => (
-                    <TableCell
-                        key={headCell2.id}
-                        align="left"
-                        padding={headCell2.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell2.id ? order : false}
-                        sx={{padding: "26px"}}
-                    >
-                        <TableSortLabel
-                            sx={{fontWeight: "bold", color: "#495057"}}
-                            active={orderBy === headCell2.id}
-                            direction={orderBy === headCell2.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell2.id)}
-                        >
-                            {headCell2.label}
-                            {orderBy === headCell2.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-}
-
-EnhancedTable2Head.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
+// function EnhancedTable2Head({isSelectRow, ...props}) {
+//     const {order, orderBy, onRequestSort } = props;
+//
+//     const createSortHandler = (property) => (event) => {
+//         onRequestSort(event, property);
+//     };
+//
+//     const headCells2 = [
+//         {
+//             id: 'customerID',
+//             numeric: false,
+//             disablePadding: false,
+//             label: 'Customer ID',
+//         },
+//         {
+//             id: 'name',
+//             numeric: true,
+//             disablePadding: false,
+//             label: 'Name',
+//         },
+//         {
+//             id: 'team',
+//             numeric: true,
+//             disablePadding: false,
+//             label: 'Team',
+//         },
+//         {
+//             id: 'channel',
+//             numeric: true,
+//             disablePadding: false,
+//             label: 'Channel',
+//         },
+//         {
+//             id: 'tags',
+//             numeric: true,
+//             disablePadding: false,
+//             label: 'Tags'
+//         },
+//         {
+//             id: 'assignee',
+//             numeric: true,
+//             disablePadding: false,
+//             label: 'Assignee'
+//         }
+//     ];
+//
+//     return (
+//         <TableHead>
+//             <TableRow>
+//                 <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}>
+//                     {isSelectRow?<Checkbox/>:null}
+//                 </th>
+//                 {headCells2.map((headCell2) => (
+//                     <TableCell
+//                         key={headCell2.id}
+//                         align="left"
+//                         padding={headCell2.disablePadding ? 'none' : 'normal'}
+//                         sortDirection={orderBy === headCell2.id ? order : false}
+//                         sx={{padding: "26px"}}
+//                     >
+//                         <TableSortLabel
+//                             sx={{fontWeight: "bold", color: "#495057"}}
+//                             active={orderBy === headCell2.id}
+//                             direction={orderBy === headCell2.id ? order : 'asc'}
+//                             onClick={createSortHandler(headCell2.id)}
+//                         >
+//                             {headCell2.label}
+//                             {orderBy === headCell2.id ? (
+//                                 <Box component="span" sx={visuallyHidden}>
+//                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+//                                 </Box>
+//                             ) : null}
+//                         </TableSortLabel>
+//                     </TableCell>
+//                 ))}
+//             </TableRow>
+//         </TableHead>
+//     );
+// }
+//
+// EnhancedTable2Head.propTypes = {
+//     onRequestSort: PropTypes.func.isRequired,
+//     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+//     orderBy: PropTypes.string.isRequired,
+//     rowCount: PropTypes.number.isRequired,
+// };
 
 export default function Contacts() {
     const [page, setPage] = React.useState(1);
@@ -161,26 +135,6 @@ export default function Contacts() {
         setOrderBy(property);
     };
 
-    const theme2 = createTheme({
-        palette: {
-            neutral: {
-                main: '#DEF0FF',
-                contrastText: '#2198FA',
-            },
-            primary: {
-                main: '#2198FA',
-                contrastText: 'white',
-            },
-            secondary: {
-                main: '#F1B44C',
-                contrastText: 'white',
-            },
-            cancel: {
-                main: '#F5F6F8',
-                contrastText: '#444444',
-            }
-        },
-    });
 
     const [isSelectRow, setSelectRow] = useState( false);
 
@@ -207,49 +161,49 @@ export default function Contacts() {
     const handleClickAwayAddPopper = () => {
         setOpenAddPopper(false);
     };
-    const addStyles = {
-        position: 'absolute',
-        top: 50,
-        right: -30,
-        borderRadius: 2,
-        zIndex: 1,
-        boxShadow: 3,
-        p: 1,
-        bgcolor: 'background.paper',
-        textAlign: "center",
-        padding: "41px 32px 28px 32px",
-        width: 457,
-        lineHeight: 2
-    };
-
-    const editColumnStyles = {
-        position: 'absolute',
-        top: 55,
-        right: -10,
-        borderRadius: 2,
-        zIndex: 2,
-        boxShadow: 3,
-        p: 1,
-        bgcolor: 'background.paper',
-        textAlign: "center",
-        padding: "32px 29px 48px 29px",
-        width: 376,
-        lineHeight: 2
-    };
-    const deleteStyles = {
-        position: 'absolute',
-        top: 55,
-        right: -10,
-        borderRadius: 2,
-        zIndex: 1,
-        boxShadow: 3,
-        p: 1,
-        bgcolor: 'background.paper',
-        textAlign: "center",
-        padding: "41px 32px 28px 32px",
-        width: 376,
-        lineHeight: 2
-    };
+    // const addStyles = {
+    //     position: 'absolute',
+    //     top: 50,
+    //     right: -30,
+    //     borderRadius: 2,
+    //     zIndex: 1,
+    //     boxShadow: 3,
+    //     p: 1,
+    //     bgcolor: 'background.paper',
+    //     textAlign: "center",
+    //     padding: "41px 32px 28px 32px",
+    //     width: 457,
+    //     lineHeight: 2
+    // };
+    //
+    // const editColumnStyles = {
+    //     position: 'absolute',
+    //     top: 55,
+    //     right: -10,
+    //     borderRadius: 2,
+    //     zIndex: 2,
+    //     boxShadow: 3,
+    //     p: 1,
+    //     bgcolor: 'background.paper',
+    //     textAlign: "center",
+    //     padding: "32px 29px 48px 29px",
+    //     width: 376,
+    //     lineHeight: 2
+    // };
+    // const deleteStyles = {
+    //     position: 'absolute',
+    //     top: 55,
+    //     right: -10,
+    //     borderRadius: 2,
+    //     zIndex: 1,
+    //     boxShadow: 3,
+    //     p: 1,
+    //     bgcolor: 'background.paper',
+    //     textAlign: "center",
+    //     padding: "41px 32px 28px 32px",
+    //     width: 376,
+    //     lineHeight: 2
+    // };
     const [openDeletePopper, setOpenDeletePopper] = React.useState(false);
 
     const handleClickDeletePopper = () => {
@@ -259,64 +213,44 @@ export default function Contacts() {
     const handleClickAwayDeletePopper = () => {
         setOpenDeletePopper(false);
     };
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 250,
-            },
-        },
-    };
 
     function showDropzone() {
         setIsShowDropzone(true);
     }
 
-    const [personName, setPersonName] = React.useState([]);
+    //
+    // const contactColumns = [
+    //     {
+    //         columnName: 'Customer ID'
+    //     },
+    //     {
+    //         columnName: 'Name'
+    //     },
+    //     {
+    //         columnName: 'Team'
+    //     },
+    //     {
+    //         columnName: 'Channel'
+    //     },
+    //     {
+    //         columnName: 'Tags'
+    //     },
+    //     {
+    //         columnName: 'Assignee'
+    //     }
+    // ];
 
-    const handleChange = (event) => {
-        const {
-            target: {value},
-        } = event;
-        setPersonName(
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
+    // const [columns, updateColumns] = useState(contactColumns);
 
-    const contactColumns = [
-        {
-            columnName: 'Customer ID'
-        },
-        {
-            columnName: 'Name'
-        },
-        {
-            columnName: 'Team'
-        },
-        {
-            columnName: 'Channel'
-        },
-        {
-            columnName: 'Tags'
-        },
-        {
-            columnName: 'Assignee'
-        }
-    ];
-
-    const [columns, updateColumns] = useState(contactColumns);
-
-    function handleOnDragEnd(result) {
-        if (!result.destination) return;
-
-        const items = Array.from(columns);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-
-        updateColumns(items);
-    }
+    // function handleOnDragEnd(result) {
+    //     if (!result.destination) return;
+    //
+    //     const items = Array.from(columns);
+    //     const [reorderedItem] = items.splice(result.source.index, 1);
+    //     items.splice(result.destination.index, 0, reorderedItem);
+    //
+    //     updateColumns(items);
+    // }
 
     const [isShowDropzone, setIsShowDropzone] = useState(false);
 
@@ -336,25 +270,23 @@ export default function Contacts() {
                 <div className="contactsContainer">
                     <div className="topBar">
                         <div className="searchBar">
-                            <div className="logoInputContainer2">
-                                <span className="requiredMessage">This field is required.</span>
-                                <label className="searchSVG">
-                                    <input placeholder="Search"/>
-                                </label>
+                            <div >
+                                {/*<label className="searchSVG">*/}
+                                    <input className="searchInput" placeholder="Search"/>
+                                {/*</label>*/}
                             </div>
                         </div>
                         <div className="buttonGrp">
                             {isSelectRow ? (
-                                <span onClick={toggleSelectRow}><CancelButton/></span>
+                                <span onClick={toggleSelectRow}><button/></span>
                             ) : (
-                                <span onClick={toggleSelectRow}><SelectButton/></span>
+                                <span onClick={toggleSelectRow}><button/></span>
                             )}
                             <div className="editColumnPopperContainer">
                                 <ClickAwayListener onClickAway={handleClickAway}>
-                                    <Box sx={{position: 'relative'}}>
+                                    <div sx={{position: 'relative'}}>
                                         <div className="textWithIconButton" onClick={handleClick}>
-                                            <ThemeProvider theme={theme2}>
-                                                <Button variant="contained" color="neutral">
+                                                <button variant="contained" color="neutral">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor"
                                                          className="bi bi-pencil" viewBox="0 0 16 16"
@@ -363,53 +295,52 @@ export default function Contacts() {
                                                             d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                     </svg>
                                                     <span>Edit Column</span>
-                                                </Button>
-                                            </ThemeProvider>
+                                                </button>
                                         </div>
                                         {open ? (
-                                            <Box sx={editColumnStyles}>
+                                            <>
                                                 <div className="topSide">
                                                     <span>Column Setting</span>
-                                                    <NormalButton>Add</NormalButton>
+                                                    <button>Add</button>
                                                 </div>
 
-                                                <DragDropContext onDragEnd={handleOnDragEnd}>
+                                                <DragDropContext >
                                                     <Droppable droppableId="columns">
                                                         {(provided) => (
                                                             <ul className="columnGroup" {...provided.droppableProps}
                                                                 ref={provided.innerRef}>
-                                                                {columns.map(({columnName}, index) => {
-                                                                    return (
-                                                                        <Draggable key={columnName}
-                                                                                   draggableId={columnName}
-                                                                                   index={index}>
-                                                                            {(provided) => (
-                                                                                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                                                                    className="columnCheckboxContainer">
-                                                                                    <div>
-                                                                                        <img
-                                                                                            src="icon-columnControl.svg"
-                                                                                            alt=""/>{columnName}
-                                                                                        </div>
-                                                                                    <CheckboxNewSingle />
-                                                                                </li>
-                                                                            )}
-                                                                        </Draggable>
-                                                                    );
-                                                                })}
+                                                                {/*{columns.map(({columnName}, index) => {*/}
+                                                                {/*    return (*/}
+                                                                {/*        <Draggable key={columnName}*/}
+                                                                {/*                   draggableId={columnName}*/}
+                                                                {/*                   index={index}>*/}
+                                                                {/*            {(provided) => (*/}
+                                                                {/*                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}*/}
+                                                                {/*                    className="columnCheckboxContainer">*/}
+                                                                {/*                    <div>*/}
+                                                                {/*                        <img*/}
+                                                                {/*                            src="icon-columnControl.svg"*/}
+                                                                {/*                            alt=""/>{columnName}*/}
+                                                                {/*                        </div>*/}
+                                                                {/*                    <Checkbox />*/}
+                                                                {/*                </li>*/}
+                                                                {/*            )}*/}
+                                                                {/*        </Draggable>*/}
+                                                                {/*    );*/}
+                                                                {/*})}*/}
                                                                 {provided.placeholder}
                                                             </ul>
                                                         )}
                                                     </Droppable>
                                                 </DragDropContext>
-                                            </Box>
+                                            </>
                                         ) : null}
 
-                                    </Box>
+                                    </div>
                                 </ClickAwayListener>
                             </div>
-                            <NormalButton onClick={showDropzone}>Import</NormalButton>
-                            <Link href="/contacts/addcontact"><a><NormalButton2>+ New Contact</NormalButton2></a></Link>
+                            <button onClick={showDropzone}>Import</button>
+                            <Link href="/contacts/addcontact"><a><button>+ New Contact</button></a></Link>
 
                         </div>
                     </div>
@@ -418,51 +349,51 @@ export default function Contacts() {
                     <div className="navbarPurple">
                         <div className="selectButtonGroup">
                             <div className="multipleSelectPlaceholder">
-                                <FormControl sx={{m: 0, width: 171, mt: 1}}>
+                                {/*<FormControl sx={{m: 0, width: 171, mt: 1}}>*/}
 
-                                    <Select sx={{
-                                        height: 28,
-                                        marginBottom: 0.3,
-                                        marginRight: 3,
-                                        borderRadius: 2,
-                                        background: "white"
-                                    }}
-                                            multiple
-                                            displayEmpty
-                                            value={personName}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput/>}
-                                            renderValue={(selected) => {
-                                                if (selected.length === 0) {
-                                                    return <span>Agnet</span>;
-                                                }
-                                                return selected.join('');
-                                            }}
-                                            MenuProps={MenuProps}
-                                            inputProps={{'aria-label': 'Without label'}}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <span>Agent</span>
-                                        </MenuItem>
+                                {/*    <Select sx={{*/}
+                                {/*        height: 28,*/}
+                                {/*        marginBottom: 0.3,*/}
+                                {/*        marginRight: 3,*/}
+                                {/*        borderRadius: 2,*/}
+                                {/*        background: "white"*/}
+                                {/*    }}*/}
+                                {/*            multiple*/}
+                                {/*            displayEmpty*/}
+                                {/*            value={personName}*/}
+                                {/*            onChange={handleChange}*/}
+                                {/*            input={<OutlinedInput/>}*/}
+                                {/*            renderValue={(selected) => {*/}
+                                {/*                if (selected.length === 0) {*/}
+                                {/*                    return <span>Agnet</span>;*/}
+                                {/*                }*/}
+                                {/*                return selected.join('');*/}
+                                {/*            }}*/}
+                                {/*            MenuProps={MenuProps}*/}
+                                {/*            inputProps={{'aria-label': 'Without label'}}*/}
+                                {/*    >*/}
+                                {/*        <MenuItem disabled value="">*/}
+                                {/*            <span>Agent</span>*/}
+                                {/*        </MenuItem>*/}
 
-                                        <MenuItem
-                                            value={"Mary Foster"}
-                                        >
-                                            {"Mary Foster"}
-                                        </MenuItem>
-                                    </Select>
+                                {/*        <MenuItem*/}
+                                {/*            value={"Mary Foster"}*/}
+                                {/*        >*/}
+                                {/*            {"Mary Foster"}*/}
+                                {/*        </MenuItem>*/}
+                                {/*    </Select>*/}
 
-                                </FormControl>
-                                <MSelect2/>
-                                <MSelect3/>
-                                <MSelect4/>
+                                {/*</FormControl>*/}
+                                {/*<MSelect2/>*/}
+                                {/*<MSelect3/>*/}
+                                {/*<MSelect4/>*/}
                             </div>
                         </div>
 
                         <div className="tagsButtonGroup">
                             <div className="addPopperContainer">
                                 <ClickAwayListener onClickAway={handleClickAwayAddPopper}>
-                                    <Box sx={{position: 'relative'}}>
+                                    <div >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                              fill="currentColor"
                                              className="bi bi-tag" viewBox="0 0 16 16" onClick={handleClickAddPopper}>
@@ -472,10 +403,10 @@ export default function Contacts() {
                                                 d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
                                         </svg>
                                         {openAddPopper ? (
-                                            <Box sx={addStyles}>
+                                            <div>
                                                 <div className="addTagHeader">
                                                     <span>Add Tag</span>
-                                                    <NormalButton2>Confirm</NormalButton2>
+                                                    <button>Confirm</button>
                                                 </div>
                                                 <Search3 type="search">Search</Search3>
                                                 <div className="checkboxGrp">
@@ -483,31 +414,31 @@ export default function Contacts() {
                                                             <span className="pillContainer">
                                                                 <span className="pill vip">VIP</span>
                                                             </span>
-                                                        <CheckboxNewSingle/>
+                                                        <Checkbox/>
                                                     </label>
                                                     <label className="checkboxContainer">
                                                             <span className="pillContainer">
                                                                 <span className="pill newCustomer">New Customer</span>
                                                             </span>
-                                                        <CheckboxNewSingle/>
+                                                        <Checkbox/>
                                                     </label>
                                                     <label className="checkboxContainer">
                                                             <span className="pillContainer">
                                                                 <span className="pill promotions">Promotions</span>
                                                             </span>
-                                                        <CheckboxNewSingle/>
+                                                        <Checkbox/>
                                                     </label>
                                                     <label className="checkboxContainer">
                                                             <span className="pillContainer">
                                                                 <span className="pill vvip">VVIP</span>
                                                             </span>
-                                                        <CheckboxNewSingle/>
+                                                        <Checkbox/>
                                                     </label>
                                                 </div>
 
-                                            </Box>
+                                            </div>
                                         ) : null}
-                                    </Box>
+                                    </div>
                                 </ClickAwayListener>
                             </div>
                             <div>
@@ -522,7 +453,7 @@ export default function Contacts() {
                             </div>
                             <div className="deletePopperContainer">
                                 <ClickAwayListener onClickAway={handleClickAwayDeletePopper}>
-                                    <Box sx={{position: 'relative'}}>
+                                    <div>
 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#f46a6b"
                                              cursor="pointer"
@@ -534,36 +465,29 @@ export default function Contacts() {
                                                   d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                         </svg>
                                         {openDeletePopper ? (
-                                            <Box sx={deleteStyles}>
+                                            <div>
                                                 Delete 2 contacts? <br/>
                                                 All conversation history will also be erased.
                                                 <div className="controlButtonGroup">
-                                                    <NormalButton2>Delete</NormalButton2>
+                                                    <button>Delete</button>
                                                     <span
-                                                        onClick={handleClickDeletePopper}><CancelButton></CancelButton></span>
+                                                        onClick={handleClickDeletePopper}><button></button></span>
                                                 </div>
-                                            </Box>
+                                            </div>
                                         ) : null}
-                                    </Box>
+                                    </div>
                                 </ClickAwayListener>
                             </div>
                         </div>
                     </div>
                     {/**/}
-                    <Box sx={{}}>
-                        <Paper sx={{width: '100%', mb: 2, boxShadow: "none"}}>
+                    <div sx={{}}>
+                        <div >
                             <TableContainer>
                                 <Table
                                     sx={{minWidth: 750}}
                                     aria-labelledby="tableTitle"
                                 >
-                                    <EnhancedTable2Head
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={1}
-                                        isSelectRow={isSelectRow}
-                                    />
                                     <TableBody>
                                         {/*{<li>{contacts}</li>}*/}
                                         {contacts.map((c ) => {
@@ -634,13 +558,8 @@ export default function Contacts() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </Paper>
-                    </Box>
-                    {/*<div className="pagination">*/}
-                    {/*    <Stack spacing={2}>*/}
-                    {/*        <Pagination count={10} page={page} onChange={handlePageChange} shape="rounded"/>*/}
-                    {/*    </Stack>*/}
-                    {/*</div>*/}
+                        </div>
+                    </div>
 
                 </div>
             </div>

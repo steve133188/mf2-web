@@ -1,38 +1,32 @@
 import React, {useState} from 'react';
 import {ChatBubble} from "./ChatBubble";
 import TextField from '@mui/material/TextField';
-import {IconButton} from "./Button";
 import {LabelSelect} from "./Select";
 import {ContactType} from "./ContactType";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import Button from "@mui/material/Button";
 
 export function ChatArea() {
-    const [value, setValue] = React.useState('Controlled');
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
-
-    const theme = createTheme({
-        palette: {
-            neutral: {
-                main: '#DEF0FF',
-                contrastText: '#2198FA',
-            },
-            primary: {
-                main: '#2198FA',
-                contrastText: 'white',
-            },
-            secondary: {
-                main: '#F1B44C',
-                contrastText: 'white',
-            },
-            cancel: {
-                main: '#F5F6F8',
-                contrastText: '#444444',
-            }
-        },
-    });
+    //
+    // const theme = createTheme({
+    //     palette: {
+    //         neutral: {
+    //             main: '#DEF0FF',
+    //             contrastText: '#2198FA',
+    //         },
+    //         primary: {
+    //             main: '#2198FA',
+    //             contrastText: 'white',
+    //         },
+    //         secondary: {
+    //             main: '#F1B44C',
+    //             contrastText: 'white',
+    //         },
+    //         cancel: {
+    //             main: '#F5F6F8',
+    //             contrastText: '#444444',
+    //         }
+    //     },
+    // });
 
     const isSent = false;
 
@@ -49,7 +43,7 @@ export function ChatArea() {
                 </div>
                 <div className="buttonGrp">
                     <div className="iconButtonContainer">
-                    <ThemeProvider theme={theme}>
+
                         {/*<Button variant="contained" color="neutral">*/}
                         {/*    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="white" className="bi bi-arrow-repeat"*/}
                         {/*         viewBox="0 0 16 16">*/}
@@ -60,7 +54,6 @@ export function ChatArea() {
                         {/*    </svg>*/}
                         {/*</Button>*/}
                         <img src="turnIcon.svg" alt="" style={{marginRight: "25px"}}/>
-                    </ThemeProvider>
                 </div>
                     <LabelSelect/>
                 </div>
@@ -68,25 +61,25 @@ export function ChatArea() {
             <div className="chatBubbleContainer">
                 <div className="messageDate">3 Jun 2021, 08:56 PM</div>
                 <div className="chatBubbleGroup">
-                    <ChatBubble type={isSent ? "sent" : "received"} messageTime="02:00 PM">Hello there. I am Ben Chow,
-                        nice to
-                        meet</ChatBubble>
-                    <ChatBubble type={isSent ? "sent" : "received"} messageTime="">Lorem ipsum dolor sit amet,
-                        consetetur sadipscing elitr,
-                        sed diam nonumy</ChatBubble>
-                    <ChatBubble type={isSent ? "sent" : "received"} messageTime="Mary Foster_02:05 PM">Lorem ipsum dolor
-                        sit amet,
-                        consetetur sadipscing elitr, sed diam nonumy</ChatBubble>
-                    <ChatBubble type={isSent ? "sent" : "received"} messageTime="02:10 PM">Lorem ipsum dolor sit
-                        amet</ChatBubble>
-                    <ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,
-                        consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>
-                    <ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,
-                        consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>
-                    <ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,
-                        consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>
-                    <ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,
-                        consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>
+                    {/*<ChatBubble type={isSent ? "sent" : "received"} messageTime="02:00 PM">Hello there. I am Ben Chow,*/}
+                    {/*    nice to*/}
+                    {/*    meet</ChatBubble>*/}
+                    {/*<ChatBubble type={isSent ? "sent" : "received"} messageTime="">Lorem ipsum dolor sit amet,*/}
+                    {/*    consetetur sadipscing elitr,*/}
+                    {/*    sed diam nonumy</ChatBubble>*/}
+                    {/*<ChatBubble type={isSent ? "sent" : "received"} messageTime="Mary Foster_02:05 PM">Lorem ipsum dolor*/}
+                    {/*    sit amet,*/}
+                    {/*    consetetur sadipscing elitr, sed diam nonumy</ChatBubble>*/}
+                    {/*<ChatBubble type={isSent ? "sent" : "received"} messageTime="02:10 PM">Lorem ipsum dolor sit*/}
+                    {/*    amet</ChatBubble>*/}
+                    {/*<ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,*/}
+                    {/*    consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>*/}
+                    {/*<ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,*/}
+                    {/*    consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>*/}
+                    {/*<ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,*/}
+                    {/*    consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>*/}
+                    {/*<ChatBubble type="sent" messageTime="Mary Foster_02:13 PM">Lorem ipsum dolor sit amet,*/}
+                    {/*    consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</ChatBubble>*/}
                 </div>
             </div>
             <div className="messageInputFieldContainer">

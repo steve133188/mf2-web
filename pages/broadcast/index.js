@@ -10,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-import {CheckboxNewSingle} from "../../components/Checkbox";
+import {Checkbox} from "../../components/Checkbox";
 import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import TableHead from "@mui/material/TableHead";
@@ -21,124 +21,57 @@ import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
 import {createTheme} from "@mui/material/styles";
 
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
 
-function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-}
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-}
-
-function EnhancedTable2Head(props) {
-    const {order, orderBy, onRequestSort} =
-        props;
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    const headCells2 = [
-        {
-            id: 'name',
-            numeric: false,
-            disablePadding: false,
-            label: 'Name',
-        },
-        {
-            id: 'period',
-            numeric: true,
-            disablePadding: false,
-            label: 'Period',
-        },
-        {
-            id: 'group',
-            numeric: true,
-            disablePadding: false,
-            label: 'Gorup',
-        },
-        {
-            id: 'status',
-            numeric: true,
-            disablePadding: false,
-            label: 'Status',
-        },
-        {
-            id: 'createby',
-            numeric: true,
-            disablePadding: false,
-            label: 'Created By'
-        },
-        {
-            id: 'createDate',
-            numeric: true,
-            disablePadding: false,
-            label: 'Created Date'
-        },
-        {
-            id: 'description',
-            numbeic: true,
-            disablePadding: false,
-            label: "Description"
-        }
-    ];
-
-    return (
-        <TableHead>
-            <TableRow>
-                <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}><CheckboxNewSingle/>
-                </th>
-                {headCells2.map((headCell2) => (
-                    <TableCell
-                        key={headCell2.id}
-                        align="left"
-                        padding={headCell2.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell2.id ? order : false}
-                        sx={{padding: "26px"}}
-                    >
-                        <TableSortLabel
-                            sx={{fontWeight: "bold", color: "#495057"}}
-                            active={orderBy === headCell2.id}
-                            direction={orderBy === headCell2.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell2.id)}
-                        >
-                            {headCell2.label}
-                            {orderBy === headCell2.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-}
-
-EnhancedTable2Head.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
+// function getComparator(order, orderBy) {
+//     return order === 'desc'
+//         ? (a, b) => descendingComparator(a, b, orderBy)
+//         : (a, b) => -descendingComparator(a, b, orderBy);
+// }
+// function stableSort(array, comparator) {
+//     const stabilizedThis = array.map((el, index) => [el, index]);
+//     stabilizedThis.sort((a, b) => {
+//         const order = comparator(a[0], b[0]);
+//         if (order !== 0) {
+//             return order;
+//         }
+//         return a[1] - b[1];
+//     });
+//     return stabilizedThis.map((el) => el[0]);
+// }
+//
+//
+//     return (
+//         <TableHead>
+//             <TableRow>
+//                 <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}><Checkbox/>
+//                 </th>
+//                 {headCells2.map((headCell2) => (
+//                     <TableCell
+//                         key={headCell2.id}
+//                         align="left"
+//                         padding={headCell2.disablePadding ? 'none' : 'normal'}
+//                         sortDirection={orderBy === headCell2.id ? order : false}
+//                         sx={{padding: "26px"}}
+//                     >
+//                         <TableSortLabel
+//                             sx={{fontWeight: "bold", color: "#495057"}}
+//                             active={orderBy === headCell2.id}
+//                             direction={orderBy === headCell2.id ? order : 'asc'}
+//                             onClick={createSortHandler(headCell2.id)}
+//                         >
+//                             {headCell2.label}
+//                             {orderBy === headCell2.id ? (
+//                                 <Box component="span" sx={visuallyHidden}>
+//                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+//                                 </Box>
+//                             ) : null}
+//                         </TableSortLabel>
+//                     </TableCell>
+//                 ))}
+//             </TableRow>
+//         </TableHead>
+//     );
+// }
 
 export default function Broadcast() {
 
@@ -240,45 +173,40 @@ export default function Broadcast() {
                                 sx={{minWidth: 750}}
                                 aria-labelledby="tableTitle"
                             >
-                                <EnhancedTable2Head
-                                    order={order}
-                                    orderBy={orderBy}
-                                    onRequestSort={handleRequestSort}
-                                    rowCount={rows.length}
-                                />
+                                
                                 <TableBody>
-                                    {stableSort(rows, getComparator(order, orderBy))
-                                        .map((d) => {
-
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    role="checkbox"
-                                                    tabIndex={-1}
-                                                    key={d.name}
-                                                >
-                                                    <td style={{
-                                                        width: "30px",
-                                                        textAlign: "center",
-                                                        borderBottom: "1px #e0e0e0 solid"
-                                                    }}><CheckboxNewSingle/></td>
-                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                               align="left">{d.name}</TableCell>
-                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                               align="left">{d.period}</TableCell>
-                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                               align="left">{d.group}</TableCell>
-                                                    <TableCell sx={{padding: "26px", fontSize: "16px",  width: "330px"}}
-                                                               align="left">{d.status}</TableCell>
-                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                               align="left">{d.createby}</TableCell>
-                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                               align="left">{d.createDate}</TableCell>
-                                                    <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                               align="left">{d.description}</TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
+                                    {/*{stableSort(rows, getComparator(order, orderBy))*/}
+                                    {/*    .map((d) => {*/}
+                                    
+                                    {/*        return (*/}
+                                    {/*            <TableRow*/}
+                                    {/*                hover*/}
+                                    {/*                role="checkbox"*/}
+                                    {/*                tabIndex={-1}*/}
+                                    {/*                key={d.name}*/}
+                                    {/*            >*/}
+                                    {/*                <td style={{*/}
+                                    {/*                    width: "30px",*/}
+                                    {/*                    textAlign: "center",*/}
+                                    {/*                    borderBottom: "1px #e0e0e0 solid"*/}
+                                    {/*                }}><Checkbox/></td>*/}
+                                    {/*                <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                                    {/*                           align="left">{d.name}</TableCell>*/}
+                                    {/*                <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                                    {/*                           align="left">{d.period}</TableCell>*/}
+                                    {/*                <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                                    {/*                           align="left">{d.group}</TableCell>*/}
+                                    {/*                <TableCell sx={{padding: "26px", fontSize: "16px",  width: "330px"}}*/}
+                                    {/*                           align="left">{d.status}</TableCell>*/}
+                                    {/*                <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                                    {/*                           align="left">{d.createby}</TableCell>*/}
+                                    {/*                <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                                    {/*                           align="left">{d.createDate}</TableCell>*/}
+                                    {/*                <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                                    {/*                           align="left">{d.description}</TableCell>*/}
+                                    {/*            </TableRow>*/}
+                                    {/*        );*/}
+                                    {/*    })}*/}
                                 </TableBody>
                             </Table>
                         </TableContainer>

@@ -1,7 +1,7 @@
 import Avatar from '@mui/material/Avatar';
-import {NormalButton,NormalButton2, CancelButton, NormalButton3} from "./Button";
-import {Input2, CheckboxGroup1, Checkbox2, Checkbox3} from "./Input"
-import {Checkbox1} from "./Checkbox"
+import {NormalButton,NormalButton2, CancelButton} from "./Button";
+import {Input2} from "./Input"
+import {Checkbox} from "./Checkbox"
 
 export function AccountSettingPanel() {
     return (
@@ -28,11 +28,11 @@ export function AccountSettingPanel() {
                     <Input2 title="Phone2"></Input2>
                 </div>
             </div>
-            <CheckboxGroup1 title="Filter">
-                <Checkbox1 checked="checked">ENG</Checkbox1>
-                <Checkbox1>繁中</Checkbox1>
-                <Checkbox1>简中</Checkbox1>
-            </CheckboxGroup1>
+            {/*<CheckboxGroup1 title="Filter">*/}
+                <Checkbox checked="checked">ENG</Checkbox>
+                <Checkbox>繁中</Checkbox>
+                <Checkbox>简中</Checkbox>
+            {/*</CheckboxGroup1>*/}
             <NormalButton2>Save Changes</NormalButton2>
         </div>
     )

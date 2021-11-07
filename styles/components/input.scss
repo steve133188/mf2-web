@@ -118,12 +118,15 @@
   display: flex;
   flex-flow: column;
   border-radius: 15px;
-
+  //padding: 1rem;
+  max-width: 547px;
+  width: 76%;
+  margin: 2rem auto;
   .requiredMessage {
     color: #E90000;
     //margin-left: 40.5px;
     //margin-top: 14px;
-    margin-bottom: 7px;
+    //margin-bottom: 7px;
     visibility: hidden;
   }
 
@@ -135,12 +138,6 @@
     position: relative;
     border-radius: 10px;
 
-    input {
-      height: 2em;
-      border-radius: 15px;
-      opacity: 1;
-      background: white;
-    }
 
     input::placeholder {
       font-size: 16px;
@@ -149,15 +146,12 @@
 
     input {
       width: 100%;
-      //width: 351px;
-      height: 68px;
       border: white;
-      font-size: 16px;
-      padding: 25px 0px;
-      padding-left: 100px;
+      font-size: 15px;
+      padding: 15px 30px 15px 100px;
+      border-radius: 15px;
       box-shadow: 0px 3px 6px #00000029;
       color: #444444;
-      padding-right: 30px;
     }
 
     input:active {
@@ -191,7 +185,6 @@
 
 }
 
-// xxxSVG classes below defined the SVG logo in the input field.
 .emailSVG:before {
   background: url("../../public/icon-email.svg") center / contain no-repeat;
 }
@@ -200,71 +193,63 @@
   background: url("../../public/icon-lock.svg") center / contain no-repeat;
 }
 
-.logoInputContainer2 {
-  display: flex;
-  flex-flow: column;
-  margin-bottom: 26px;
-
-  .requiredMessage {
-    color: #E90000;
-    margin-left: 40.5px;
-    //margin-top: 14px;
-    margin-bottom: 7px;
-    visibility: hidden;
-  }
-
-  .searchSVG {
-    position: relative;
-    border-radius: 10px;
-
-    input {
-      height: 2em;
-      border-radius: 10px;
-      opacity: 1;
-      background: #F8F9FB;
-    }
-
-    input::placeholder {
-      font-size: 16px;
-      color: #8B8B8B;
-    }
-
-    input {
-      width: 100%;
-      border: white;
-      font-size: 16px;
-      padding: 25px 0px;
-      padding-left: 100px;
-      box-shadow: 0px 3px 6px #00000029;
-      color: #444444;
-    }
-
-    input:active {
-      border: 1px solid #2385FC;
-    }
-
-    input:focus {
-      outline: none;
-      border: 1px solid #2385FC;
-    }
-
-    input:hover {
-      box-shadow: 0px 3px 6px #00000029;
-    }
-  }
-
-  .searchSVG:before {
-    content: "";
-    position: absolute;
-    left: 1rem;
-    top: 0;
-    bottom: 0;
-    width: 18px;
-    opacity: 0.5;
-    cursor: text;
-    background: url("../../public/icon-search2.png") center / contain no-repeat;
-  }
-}
+//.logoInputContainer {
+//  display: flex;
+//  flex-flow: column;
+//  margin-bottom: 26px;
+//
+//  .requiredMessage {
+//    color: #E90000;
+//    margin-left: 40.5px;
+//    //margin-top: 14px;
+//    margin-bottom: 7px;
+//    visibility: hidden;
+//  }
+//
+//  .searchSVG {
+//    position: relative;
+//    border-radius: 10px;
+//
+//    input::placeholder {
+//      font-size: 15px;
+//      color: #8B8B8B;
+//    }
+//
+//    input {
+//      width: 100%;
+//      border: white;
+//      font-size: 16px;
+//      padding: 15.5px 100px 15.5px 24px;
+//      box-shadow: 0px 3px 6px #00000029;
+//      color: #444444;
+//    }
+//
+//    input:active {
+//      border: 1px solid #2385FC;
+//    }
+//
+//    input:focus {
+//      outline: none;
+//      border: 1px solid #2385FC;
+//    }
+//
+//    input:hover {
+//      box-shadow: 0px 3px 6px #00000029;
+//    }
+//  }
+//
+//  .searchSVG:before {
+//    content: "";
+//    position: absolute;
+//    left: 1rem;
+//    top: 0;
+//    bottom: 0;
+//    width: 18px;
+//    opacity: 0.5;
+//    cursor: text;
+//    background: url("../../public/icon-search2.png") center / contain no-repeat;
+//  }
+//}
 
 .logoInputField {
   position: relative;
