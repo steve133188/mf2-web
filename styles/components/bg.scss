@@ -3,3 +3,18 @@
 .mf_bg_primary{
   background-color: variables.$mf_primary_color;
 }
+.mf_bg_danger{
+  background-color: variables.$mf_light_danger;
+}
+.mf_bg_warning{
+  background-color: variables.$mf_light_warning;
+}
+.mf_bg_success{
+  background-color: variables.$mf_light_success;
+}
+.mf_bg_blue{
+  background-color: variables.$mf_blue_color;
+}
+.mf_bg_light_grey{
+  background-color: variables.$mf_grey_bg_color;
+}
