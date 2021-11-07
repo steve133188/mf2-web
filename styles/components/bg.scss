@@ -1,7 +1,7 @@
 @use "../variables/variables";
 
 .mf_bg_primary{
-  background-color: variables.$mf_primary_color;
+  background-color: variables.$mf_primary_light_color;
 }
 .mf_bg_danger{
   background-color: variables.$mf_light_danger;
@@ -17,4 +17,7 @@
 }
 .mf_bg_light_grey{
   background-color: variables.$mf_grey_bg_color;
+}
+.mf_bg_light_purple {
+  background-color: variables.$mf_light_purple;
 }

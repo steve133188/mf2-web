@@ -1,4 +1,4 @@
-@import "variables/_variables";
+@use "../variables/variables";
 
 .regular_text {
     font-size: 1vw;
@@ -21,29 +21,29 @@
     font-weight: bold;
 }
 .select_text {
-    color: $primary-color;
+    color: variables.$mf_primary_color;
 }
 
 .ok_button_text {
-    color: $white-color;
+    color: white;
 }
 
 .cancel_button_text {
-    color: $text-color;
+    color: variables.$mf_text_color;
 }
 
 .title_text {
-    color: $primary-color;
+    color: variables.$mf_primary_color;
     font-size: 2vw;
 }
 
 .field_title_text {
-    color: $text-color;
+    color: variables.$mf_text_color;
     font-size: 0.9vw;
 }
 
 .field_text {
-    color: $text-color;
+    color: variables.$mf_text_color;
     font-size: 1vw;
     font-weight: 100;
 }
@@ -53,47 +53,47 @@
 }
 
 .tag_team_text {
-    color: $white-color;
+    color: white;
 }
 
 .tag_1 {
-    color: $primary-color;
+    color: variables.$mf_primary_color;
 }
 .tag_2 {
-    color: $purple;
+    color: variables.$mf_purple;
 }
 .tag_3 {
-    color: $warning;
+    color: variables.$mf_warning;
 }
 .tag_4 {
-    color: $danger;
+    color: variables.$mf_danger;
 }
 
 .assignee_text {
     font-size: 0.8vw;
 }
 .assignee_1 {
-    color: $primary-color;
+    color: variables.$mf_primary_color;
 }
 .assignee_2 {
-    color: $warning;
+    color: variables.$mf_warning;
 }
 .assignee_3 {
-    color: $success;
+    color: variables.$mf_light_success;
 }
 .assignee_4 {
-    color: $purple;
+    color: variables.$mf_purple;
 }
 .assignee_5 {
-    color: $danger;
+    color: variables.$mf_danger;
 }
 
 .highlight_text {
-    color: $primary-color;
+    color: variables.$mf_primary_color;
 }
 
 .notification_num_text {
-    color: $white-color;
+    color: white;
     font-size: 0.7vw;
 }
 
