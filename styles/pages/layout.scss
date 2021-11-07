@@ -73,31 +73,7 @@
     padding-left: 3.9rem;
   }
 
-  .collapseButton {
-    background: #D0E9FF;
-    border-radius: 10px 0 0 10px;
-    border: none;
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    padding: 1rem 0.15rem;
-    margin-top: 8rem;
-    color: #2198FA;
 
-    .collapseIcon {
-      transform: rotate(90deg);
-    }
-  }
-
-  .collapseButton:hover {
-    background: #bedef8;
-
-    svg {
-      width: 19px;
-      height: 19px;
-    }
-  }
 }
 
 .navbar {
@@ -216,7 +192,7 @@
   position: absolute;
   vertical-align: center;
   justify-content: center;
-  top: 45px;
+  top: 31px;
   left: -15px;
   z-index: 1;
   opacity: 1;
@@ -263,6 +239,32 @@
   }
 }
 
+.collapseButton {
+  background: #D0E9FF;
+  border-radius: 10px 0 0 10px;
+  border: none;
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 1vh 0.15vw;
+  margin-top: 6vh;
+  color: #2198FA;
+
+  .collapseIcon {
+    transform: rotate(90deg);
+  }
+}
+
+.collapseButton:hover {
+  background: #bedef8;
+
+  svg {
+    width: 19px;
+    height: 19px;
+  }
+}
+
 .main-content {
   height: 100%;
 }
@@ -285,8 +287,8 @@
 }
 
 .notificationDropdownSet {
-  margin-right: 40px;
-  margin-top: 2px;
+  margin-right: -50px;
+  margin-top: 5px;
 
   .badge {
     position: absolute;
@@ -294,7 +296,7 @@
     margin-left: 13px;
     background-color: #F46A6A;
     border-radius: 160px;
-    text-align: left;
+    text-align: center;
     color: #FFFFFF;
     opacity: 1;
   }
@@ -304,15 +306,14 @@
       padding: 0;
       margin-top: 1px;
 
-      div {
-        padding: 9px !important;
-        background: url("../../public/bell.svg") center / contain no-repeat;
-        background-size: 15px 15px;
-        font-size: 0;
+
 
         div {
+          padding: 7px !important;
+          background: url("../../public/bell.svg") center / contain no-repeat;
+          background-size: 15px 15px;
+          font-size: 0;
         }
-      }
 
       svg {
         display: none;
