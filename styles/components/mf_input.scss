@@ -1,9 +1,8 @@
 @use "../variables/variables";
 
 .mf_input{
-  //background: url("../../public/icon-search.svg") no-repeat scroll 7px 7px;
   width: 100%;
-  padding: 1rem 1rem 1rem 15%;
+  padding: 1rem;
   font-size: 15px;
   box-sizing: border-box;
   border-radius: 15px;
@@ -26,12 +25,32 @@
 .mf_icon_input_block{
   border-radius: 15px;
   position:relative;
+  max-width: 547px;;
+  width: 75%;
+  margin: 5% auto;
+  .mf_input{
+    width: 100%;
+    padding: 1.5rem 1.5rem 1.5rem 20%;
+    font-size: 15px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    opacity: 1;
+    border: none;
+    &:active{
+      outline: none;
+      border: 1px solid #2385FC;
+    }
+    &:focus{
+      outline: none;
+      border: 1px solid #2385FC;
+    }
+  }
 }
 
 .mf_inside_icon{
   position:absolute;
   left: 7.5%;
-  top: .75rem;
+  height: 100%;
   padding:1rem;
   color:#30A3F1;
 }
@@ -42,10 +61,15 @@
 }
 
 .mf_email_icon{
-  background-image: url("../../public/icon-email.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  color: variables.$mf_text_color;
+  mask-image: url("../../public/icon-email.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   background-color: variables.$mf_text_color;
-;
+}
+
+.mf_pwd_icon{
+  mask-image: url("../../public/icon-lock.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: variables.$mf_text_color;
 }

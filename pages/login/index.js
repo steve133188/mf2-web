@@ -4,8 +4,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {GlobalContext} from "../../context/GlobalContext";
 import Link from "next/link";
-import {NormalButton2} from "../../components/Button";
-
+import styles from "../../styles/Login.module.css";
 
 
 export default function Login(){
@@ -29,15 +28,16 @@ export default function Login(){
         }
     },[])
     return(
-        <div className={"login-layout"}>
+        <div className={styles.login_layout}>
             <div className="container">
                 {/*<Alert />*/}
-                <div className="Panel container-fluid ">
-                    <div className="panel-top">
-                            <img className={"login-logo"} src="MS_logo-square.svg" alt=""/>
-                        <div className="welcomeMessage">
+                {/*<div className="Panel container-fluid ">*/}
+                <div className={styles.Panel}>
+                    <div className={styles.panel_top}>
+                            <img className={styles.login_logo} src="MS_logo-square.svg" alt=""/>
+                        <div className={styles.welcomeMessage}>
                             {errors?<h4 className={"red-text"}>{errors}</h4>:null}
-                            <h4 className={"login-title"}>Log In</h4>
+                            <h4 className={styles.login_title}>Log In</h4>
                             <p>Welcome back! Login with your data that <br/> you entered during registration</p>
                         </div>
                     </div>
@@ -56,20 +56,21 @@ export default function Login(){
                                         // className={invalid}
                                     />
                             </div>
-                        <div className="logoInputContainer">
-                                <label className={"searchSVG passwordSVG"}>
+                        <div className="mf_icon_input_block mf_input_shadow">
+                                <div className={"mf_inside_icon mf_pwd_icon"} > </div>
                                     <input
+                                        className={"mf_input"}
                                         type={"password"}
                                         value={credential.password}
                                         onChange={(e)=>{setCredential({...credential, ['password']: e.target.value})}}
                                         placeholder={"Password"}
                                         // className={invalid}
                                     />
-                                </label>
+
                             </div>
-                        <div className={"form-bottom"}>
-                            <span className="rememberMe"><label className="toggleSwitch"><input type="checkbox"/><span className="slider"></span></label>Remember me</span>
-                            <Link href="/login/recovery"><a><span className="forgotPassword">Forgot Password?</span></a></Link>
+                        <div className={styles.form_bottom}>
+                            <span className={styles.rememberMe}><label className="toggleSwitch"><input type="checkbox"/><span className="slider"></span></label>Remember me</span>
+                            <Link href="/login/recovery"><a><span className={styles.forgotPassword}>Forgot Password?</span></a></Link>
                         </div>
 
                         <div className={"submit-row"}>
