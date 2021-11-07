@@ -1,3 +1,12 @@
+.circle-icon {
+  background: #ffffff;
+  border-radius: 50%;
+  text-align: center;
+  display: inline-block;
+  padding: 1em;
+}
+
+// Lewis code
 .iconPillContainer {
   background-color: #555;
   color: white;
@@ -5,16 +14,17 @@
   position: relative;
   display: inline-block;
   border-radius: 50px;
-  .iconWithPill {
-    background-color: #555;
-    color: white;
-    text-decoration: none;
-    width: 50px;
-    position: relative;
-    display: inline-block;
-    border-radius: 50px;
-    height: 50px;
-  }
+}
+
+.iconWithPill {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  width: 50px;
+  position: relative;
+  display: inline-block;
+  border-radius: 50px;
+  height: 50px;
 }
 
 .avatar {
