@@ -1,0 +1,102 @@
+@import "variables/_variables";
+
+.regular_text {
+    font-size: 1vw;
+    font-weight: 100;
+}
+
+.bold_text {
+    font-size: 1.1vw;
+    font-weight: bold;
+}
+.link_text{
+    font-size: 1vw;
+    text-decoration: underline;
+}
+.menu_text {
+    font-size: 1.1vw;
+}
+.sub_menu_text {
+    font-size: 1.1vw;
+    font-weight: bold;
+}
+.select_text {
+    color: $primary-color;
+}
+
+.ok_button_text {
+    color: $white-color;
+}
+
+.cancel_button_text {
+    color: $text-color;
+}
+
+.title_text {
+    color: $primary-color;
+    font-size: 2vw;
+}
+
+.field_title_text {
+    color: $text-color;
+    font-size: 0.9vw;
+}
+
+.field_text {
+    color: $text-color;
+    font-size: 1vw;
+    font-weight: 100;
+}
+
+.tag_text {
+    font-size: 0.8vw;
+}
+
+.tag_team_text {
+    color: $white-color;
+}
+
+.tag_1 {
+    color: $primary-color;
+}
+.tag_2 {
+    color: $purple;
+}
+.tag_3 {
+    color: $warning;
+}
+.tag_4 {
+    color: $danger;
+}
+
+.assignee_text {
+    font-size: 0.8vw;
+}
+.assignee_1 {
+    color: $primary-color;
+}
+.assignee_2 {
+    color: $warning;
+}
+.assignee_3 {
+    color: $success;
+}
+.assignee_4 {
+    color: $purple;
+}
+.assignee_5 {
+    color: $danger;
+}
+
+.highlight_text {
+    color: $primary-color;
+}
+
+.notification_num_text {
+    color: $white-color;
+    font-size: 0.7vw;
+}
+
+.avatar_text {
+    font-size: 5vw;
+}
