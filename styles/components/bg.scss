@@ -1,0 +1,5 @@
+@use "../variables/variables";
+
+.mf_bg_primary{
+  background-color: variables.$mf_primary_color;
+}

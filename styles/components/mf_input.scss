@@ -1,0 +1,51 @@
+@use "../variables/variables";
+
+.mf_input{
+  //background: url("../../public/icon-search.svg") no-repeat scroll 7px 7px;
+  width: 100%;
+  padding: 1rem 1rem 1rem 15%;
+  font-size: 15px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  opacity: 1;
+  border: none;
+  &:active{
+    outline: none;
+    border: 1px solid #2385FC;
+  }
+  &:focus{
+    outline: none;
+    border: 1px solid #2385FC;
+  }
+}
+
+.mf_input_block{
+
+}
+
+.mf_icon_input_block{
+  border-radius: 15px;
+  position:relative;
+}
+
+.mf_inside_icon{
+  position:absolute;
+  left: 7.5%;
+  top: .75rem;
+  padding:1rem;
+  color:#30A3F1;
+}
+
+.mf_input_shadow{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+}
+
+.mf_email_icon{
+  background-image: url("../../public/icon-email.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  color: variables.$mf_text_color;
+  background-color: variables.$mf_text_color;
+;
+}

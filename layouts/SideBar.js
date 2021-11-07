@@ -26,7 +26,7 @@ export default function SideBar(props) {
 
         <div className={isCollapse ? ("layout-sidebar collapseLayout") : ("layout-sidebar")}>
 
-            <div className={"brand-logo"}>
+            <div className={"brand-logo "}>
                 <img src="/MS_logo-square (1).svg" alt="MatrixForce"/>
             </div>
             <div className={"nav-items"}>

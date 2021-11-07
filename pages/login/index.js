@@ -43,17 +43,18 @@ export default function Login(){
                     </div>
                     <div className={"login-form"}>
                     <form action="" >
-                        <div className="logoInputContainer">
+                        <div className="mf_icon_input_block mf_input_shadow">
                                 {/*<span className={""}>Email or Password invalid</span>*/}
-                                <label className={"searchSVG emailSVG"}>
+                                {/*<label className={"searchSVG emailSVG"}>*/}
+                                <div className={"mf_inside_icon mf_email_icon"} > </div>
                                     <input
+                                        className={"mf_input"}
                                         type={"email"}
                                         value={credential.email}
                                         onChange={(e)=>{setCredential({...credential, ['email']: e.target.value})}}
                                         placeholder={"Email"}
                                         // className={invalid}
                                     />
-                                </label>
                             </div>
                         <div className="logoInputContainer">
                                 <label className={"searchSVG passwordSVG"}>

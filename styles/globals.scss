@@ -40,6 +40,8 @@
 @import "components/importContact.scss";
 @import "components/alert.scss";
 @import "components/button";
+@import "components/bg";
+@import "components/mf_input";
 
 @import "pages/login.scss";
 @import "pages/recovery.scss";
@@ -70,7 +72,7 @@ body {
   padding: 0;
   margin: 0;
   font-family:$font-stack;
-  font: normal normal bold 15px/21px Manrope;;
+  font: normal normal bold 15px Manrope;;
   color: #8B8B8B;
 }
 
