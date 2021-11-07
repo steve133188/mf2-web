@@ -27,10 +27,13 @@
   position:relative;
   max-width: 547px;;
   width: 75%;
+  height: 6.3vh;
+  max-height: 68px;
   margin: 5% auto;
   .mf_input{
     width: 100%;
-    padding: 1.5rem 1.5rem 1.5rem 20%;
+    height: 100%;
+    padding: 1rem 1.5rem 1rem 20%;
     font-size: 15px;
     box-sizing: border-box;
     border-radius: 15px;

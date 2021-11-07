@@ -21,14 +21,16 @@
 }
 .login_logo{
     position: absolute;
-    left: 55px;
-    top:53px;
-    width: 88px;
-    height: 78px;
+    left: 7.74%;
+    top:6.8%;
+    max-width: 88px;
+    max-height: 78px;
+    /*width: 4.5vw;*/
+    /*width: 7.2vh;*/
 }
-.panel_top{
-    margin-top: 10%;
-}
+/*.panel_top{*/
+/*    margin-top: 19.2%;*/
+/*}*/
 
 .Panel {
     position: relative;
@@ -44,17 +46,8 @@
     max-width: 720px;
     justify-content: center;
     vertical-align: center;
-    /*max-height: 773px;*/
-    /*height: 80%;*/
-    /*max-width: 720px;*/
-    /*min-width: 37.5%;*/
 }
-/*img{*/
-/*    min-height: 11%;*/
-/*    min-width: 11%;*/
-/*    max-width: 88.26px;*/
-/*    max-height: 78.47px;*/
-/*}*/
+
 .form_bottom{
     margin: 5% auto;
     display: flex;
@@ -63,9 +56,14 @@
     align-items: center;
 }
 
+.submit_row{
+    display: flex;
+    justify-content: center;
+}
+
 .forgotPassword{
     color: #2198FA;
-    }
+}
 
 .login_form{
     justify-content: center;
@@ -80,9 +78,10 @@
     opacity: 1;
 }
 .welcomeMessage {
+    margin-top: 4.3vh ;
     text-align: center;
-
+    gap: 3.2vh;
 }
 .rememberMe{
-    display: inline-block;
+    vertical-align: baseline;
 }
