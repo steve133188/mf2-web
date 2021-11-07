@@ -2,7 +2,6 @@ import {AverageDailyCard, ChangingPercentageCard, LineChartCard} from "../../com
 import {MultipleLineChart} from "../../components/LineChart1";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
-import {CheckboxNew} from "../../components/Checkbox";
 import {LabelSelect2} from "../../components/Select";
 import {Pill} from "../../components/Pill";
 
@@ -47,16 +46,16 @@ export default function Agents() {
                         <div className="checkboxGroup2">
                             <p>Channel</p>
                             <div className="checkboxGrp">
-                                <CheckboxNew src={"/allchannel.svg"}>All Channel
-                                </CheckboxNew>
-                                <CheckboxNew src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp
-                                </CheckboxNew>
-                                <CheckboxNew src={"/wbaCheck.svg"}>WhatsApp Business API
-                                </CheckboxNew>
-                                <CheckboxNew src={"/messageCheck.svg"}>Messager
-                                </CheckboxNew>
-                                <CheckboxNew src={"/wechatCheck.svg"}>WeChat
-                                </CheckboxNew>
+                                {/*<CheckboxNew src={"/allchannel.svg"}>All Channel*/}
+                                {/*</CheckboxNew>*/}
+                                {/*<CheckboxNew src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp*/}
+                                {/*</CheckboxNew>*/}
+                                {/*<CheckboxNew src={"/wbaCheck.svg"}>WhatsApp Business API*/}
+                                {/*</CheckboxNew>*/}
+                                {/*<CheckboxNew src={"/messageCheck.svg"}>Messager*/}
+                                {/*</CheckboxNew>*/}
+                                {/*<CheckboxNew src={"/wechatCheck.svg"}>WeChat*/}
+                                {/*</CheckboxNew>*/}
                             </div>
                         </div>
                         <div className="agentFilter">

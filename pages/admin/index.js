@@ -1,18 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import {CheckboxGroup2, Search3} from "../../components/Input";
+import { Search3} from "../../components/Input";
 import {
     CancelButton,
     SelectButton,
-    NormalButton,
     NormalButton2,
-    TextWithIconButton
 } from "../../components/Button";
 import Swal from 'sweetalert2';
 import {useRouter} from "next/router";
 import {PaginationControlled} from "../../components/Pagination";
 import {useState, useEffect} from "react";
-import {CheckboxNewSingle} from "../../components/Checkbox"
 import * as React from "react";
 import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -477,7 +474,7 @@ export default function Admin() {
                             <thead>
                             <tr className="headTr">
                                 {isSelectRow ? (
-                                    <th><CheckboxNewSingle onChange={handleSelect} id="all"/></th>
+                                    <th>x</th>
                                 ) : "" }
                                 {tableColumns.map((column , index) => {
                                     return (
@@ -494,7 +491,7 @@ export default function Admin() {
                                     return (
                                         <tr key={index} className="bodyTr">
                                             {isSelectRow ? (
-                                                <td><CheckboxNewSingle checked={selectedRow[agent.id] ?? false} onChange={handleSelect} id={agent.id}/></td>
+                                                <td>agent.id</td>
                                             ) : ""}
                                             <td style={{display: "flex"}}>
                                                 <div className={online_class}></div>{agent.name}

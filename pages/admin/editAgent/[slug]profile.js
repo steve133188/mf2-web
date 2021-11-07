@@ -7,7 +7,6 @@ import {
     NormalButton,
     NormalButton2,
     NormalButton3,
-    CustomColorButton,
     TextWithIconButton
 } from "../../../components/Button";
 
@@ -17,7 +16,7 @@ import {
 
 import { MSelectWithImages } from "../../../components/multiSelects/MSelectWithImages";
 import { SingleSelectCommon } from "../../../components/multiSelects/SingleSelectCommon";
-import {CheckboxNewChannels } from "../../../components/Checkbox";
+// import {CheckboxNewChannels } from "../../../components/Checkbox";
 
 export default function editAgent() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -83,7 +82,7 @@ export default function editAgent() {
                         </div>
                         <div className="avaterButtons">
                             <NormalButton2>Upload</NormalButton2>
-                            <CustomColorButton color="cancel" onClick={removeAvater}>Remove</CustomColorButton>
+                            {/*<CustomColorButton color="cancel" onClick={removeAvater}>Remove</CustomColorButton>*/}
                         </div>
                     </div>
                     <div className="commonMarginTop"></div>
@@ -129,22 +128,22 @@ export default function editAgent() {
                     <div className="checkboxGroup2">
                         <p>Channel</p>
                         <div className="checkboxGrp">
-                            <CheckboxNewChannels  src={"/allchannel.svg"}>All Channel
-                            </CheckboxNewChannels >
-                            <CheckboxNewChannels  src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp
-                            </CheckboxNewChannels >
-                            <CheckboxNewChannels  src={"/wbaCheck.svg"}>WhatsApp Business API
-                            </CheckboxNewChannels >
-                            <CheckboxNewChannels  src={"/messageCheck.svg"}>Messager
-                            </CheckboxNewChannels >
-                            <CheckboxNewChannels  src={"/wechatCheck.svg"}>WeChat
-                            </CheckboxNewChannels >
+                            {/*<CheckboxNewChannels  src={"/allchannel.svg"}>All Channel*/}
+                            {/*</CheckboxNewChannels >*/}
+                            {/*<CheckboxNewChannels  src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp*/}
+                            {/*</CheckboxNewChannels >*/}
+                            {/*<CheckboxNewChannels  src={"/wbaCheck.svg"}>WhatsApp Business API*/}
+                            {/*</CheckboxNewChannels >*/}
+                            {/*<CheckboxNewChannels  src={"/messageCheck.svg"}>Messager*/}
+                            {/*</CheckboxNewChannels >*/}
+                            {/*<CheckboxNewChannels  src={"/wechatCheck.svg"}>WeChat*/}
+                            {/*</CheckboxNewChannels >*/}
                         </div>
                     </div>
                     <div className="commonMarginTop"></div>
                     <div className="avaterButtons">
                         <NormalButton2>Create</NormalButton2>
-                        <CustomColorButton color="cancel" onClick={cancelEdit}>Cancel</CustomColorButton>
+                        {/*<CustomColorButton color="cancel" onClick={cancelEdit}>Cancel</CustomColorButton>*/}
                     </div>
                     <div className="commonMarginTop">&nbsp;</div>
                 </div>

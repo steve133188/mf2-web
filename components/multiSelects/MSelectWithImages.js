@@ -4,8 +4,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import * as React from "react";
 import {useTheme} from "@mui/material/styles";
-import {CheckboxNew} from "../Checkbox"
-import {ProfileImage} from "../Image"
 
 export function MSelectWithImages(props) {
     const theme = useTheme();
@@ -107,13 +105,13 @@ export function MSelectWithImages(props) {
                     return(
                         <>
                         <MenuItem value={team.name} key={index}>
-                            <CheckboxNew onChange={handleTeamSelect} id={team.id}>{team.name}</CheckboxNew>
+
                                            
                         </MenuItem>
                         {team.members.map((member) => {
                             return (
                                 <MenuItem value={member.name} key={index}>
-                                    <CheckboxNew id={team.id} src={member.image}>{member.name}</CheckboxNew>
+
                                 </MenuItem>
                             )
                         })}

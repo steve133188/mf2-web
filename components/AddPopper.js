@@ -2,9 +2,9 @@ import * as React from 'react';
 import {LabelSelect, MultipleSelectPlaceholder} from "./Select";
 import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import {CancelButton, NormalButton2} from "./Button";
-import {CheckboxGroup2, Search2, Search3} from "./Input";
-import {Checkbox2, CheckboxPill} from "./Checkbox";
+import {NormalButton2} from "./Button";
+import { Search3} from "./Input";
+
 
 
 export function AddPopper() {
@@ -49,10 +49,10 @@ export function AddPopper() {
                                 <NormalButton2>Confirm</NormalButton2>
                             </div>
                             <Search3 type="search">Search</Search3>
-                            <CheckboxGroup2>
-                                <CheckboxPill/>
-                                <CheckboxPill/>
-                            </CheckboxGroup2>
+                            {/*<CheckboxGroup2>*/}
+                            {/*    <CheckboxPill/>*/}
+                            {/*    <CheckboxPill/>*/}
+                            {/*</CheckboxGroup2>*/}
                         </Box>
                     ) : null}
                 </Box>

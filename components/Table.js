@@ -1,11 +1,9 @@
-import {Pill, StatusPill} from "./Pill";
-import {ContactType} from "./ContactType";
+import { StatusPill} from "./Pill";
 import {Badge} from "./Badge";
-import {SingleBox} from "./Checkbox";
 
 // Mui table
 import * as React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -17,50 +15,50 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import {visuallyHidden} from '@mui/utils';
 
-export function ContactTable() {
-    return (
-        <div className="contactTable">
-            <table className="table">
-                <thead>
-                <tr className="headTr">
-                    <th className="trCustomerID">Customer ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Channel</th>
-                    <th>Tags</th>
-                    <th>Assignee</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr className="bodyTr">
-                    <td>0000001</td>
-                    <td>Jacosdas dasdasdb</td>
-                    <td>Thorntsadaasdason@com</td>
-                    <td className="channel"><ContactType/>lori.foster@mail.com</td>
-                    <td><span className="tagsGroup"><Pill color="vip">VIP</Pill></span></td>
-                    <td>Mary Foster</td>
-                </tr>
-                <tr>
-                    <td>0000002</td>
-                    <td>Jacosdas dasdasdb</td>
-                    <td>Thorntsadaasdason@com</td>
-                    <td className="channel"><ContactType/>lori.foster@mail.com</td>
-                    <td><span className="tagsGroup"><Pill color="vip">VIP</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
-                        color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill></span></td>
-                    <td className="assignee">Mary Foster</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    )
-}
+// export function ContactTable() {
+//     return (
+//         <div className="contactTable">
+//             <table className="table">
+//                 <thead>
+//                 <tr className="headTr">
+//                     <th className="trCustomerID">Customer ID</th>
+//                     <th>Name</th>
+//                     <th>Email</th>
+//                     <th>Channel</th>
+//                     <th>Tags</th>
+//                     <th>Assignee</th>
+//                 </tr>
+//                 </thead>
+//                 <tbody>
+//                 <tr className="bodyTr">
+//                     <td>0000001</td>
+//                     <td>Jacosdas dasdasdb</td>
+//                     <td>Thorntsadaasdason@com</td>
+//                     <td className="channel"><ContactType/>lori.foster@mail.com</td>
+//                     <td><span className="tagsGroup"><Pill color="vip">VIP</Pill></span></td>
+//                     <td>Mary Foster</td>
+//                 </tr>
+//                 <tr>
+//                     <td>0000002</td>
+//                     <td>Jacosdas dasdasdb</td>
+//                     <td>Thorntsadaasdason@com</td>
+//                     <td className="channel"><ContactType/>lori.foster@mail.com</td>
+//                     <td><span className="tagsGroup"><Pill color="vip">VIP</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill><Pill
+//                         color="newCustomer">New Customer</Pill><Pill color="newCustomer">New Customer</Pill></span></td>
+//                     <td className="assignee">Mary Foster</td>
+//                 </tr>
+//                 </tbody>
+//             </table>
+//         </div>
+//     )
+// }
 
 export function BroadcastTable() {
     return (
@@ -102,22 +100,22 @@ export function BroadcastTable() {
     )
 }
 
-export function NormalTable(props) {
-    return (
-        <table className="normalTable">
-            <tr>
-                <th className={props.classname}><SingleBox></SingleBox></th>
-                <th>Customer ID</th>
-                <th>Name</th>
-                <th>Team</th>
-                <th>Channel</th>
-                <th>Tags</th>
-                <th>Assignee</th>
-            </tr>
-            {props.children}
-        </table>
-    )
-}
+// export function NormalTable(props) {
+//     return (
+//         <table className="normalTable">
+//             <tr>
+//                 <th className={props.classname}><SingleBox></SingleBox></th>
+//                 <th>Customer ID</th>
+//                 <th>Name</th>
+//                 <th>Team</th>
+//                 <th>Channel</th>
+//                 <th>Tags</th>
+//                 <th>Assignee</th>
+//             </tr>
+//             {props.children}
+//         </table>
+//     )
+// }
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
