@@ -1,9 +1,9 @@
 export function ChatBubble(props){
-    const chatMessageType = props.type + "ChatMessages"
+    const chatMessageDirection = props.direction + "ChatMessages"
     const MessageTime = props.messageTime
 
     return(
-        <div className={chatMessageType}>
+        <div className={chatMessageDirection}>
             <div className="chatBubble">
                 {props.children}
             </div>
