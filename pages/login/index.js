@@ -33,13 +33,15 @@ export default function Login(){
                 {/*<Alert />*/}
                 {/*<div className="Panel container-fluid ">*/}
                 <div className={styles.Panel}>
-                    <div className={styles.panel_top}>
+                    <div className={''}>
                             <img className={styles.login_logo} src="MS_logo-square.svg" alt=""/>
                         <div className={styles.welcomeMessage}>
                             {errors?<h4 className={"red-text"}>{errors}</h4>:null}
-                            <h4 className={"title_text"}>Log In</h4>
+                            {/*<h4 className={"title_text"}>Log In</h4>*/}
+                            <h4 className={""}>Log In</h4>
                             {/*<h4 className={styles.login_title}>Log In</h4>*/}
-                            <p className={"regular_text "}>Welcome back! Login with your data that <br/> you entered during registration</p>
+                            {/*<p className={"regular_text "}>Welcome back! Login with your data that <br/> you entered during registration</p>*/}
+                            <p className={" "}>Welcome back! Login with your data that <br/> you entered during registration</p>
                         </div>
                     </div>
                     <div className={"login-form"}>
