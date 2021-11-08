@@ -36,14 +36,19 @@ export default function Login(){
                     <div className={''}>
                             <img className={styles.login_logo} src="MS_logo-square.svg" alt=""/>
                         <div className={styles.welcomeMessage}>
-                            {errors?<h4 className={"red-text"}>{errors}</h4>:null}
+                            {/*{errors?<h4 className={"red-text"}>{errors}</h4>:null}*/}
                             {/*<h4 className={"title_text"}>Log In</h4>*/}
-                            <h4 className={""}>Log In</h4>
+                            <h1 className={styles.login_title}>Log In</h1>
+                            <p className={styles.login_message}>Welcome back! Login with your data that <br/> you entered during registration</p>
+
                             {/*<h4 className={styles.login_title}>Log In</h4>*/}
                             {/*<p className={"regular_text "}>Welcome back! Login with your data that <br/> you entered during registration</p>*/}
-                            <p className={" "}>Welcome back! Login with your data that <br/> you entered during registration</p>
                         </div>
                     </div>
+                    {/*<div className={errors?styles.message_row:styles.hide_block}>*/}
+                    {/*    <p  className={errors?styles.message_row:styles.hide_block}>{errors}</p>*/}
+                    {/*</div>*/}
+
                     <div className={"login-form"}>
                     <form action="" >
                         <div className="mf_icon_input_block mf_input_shadow">

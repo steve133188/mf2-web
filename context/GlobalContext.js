@@ -92,7 +92,7 @@ export const GlobalContextProvider = ({children}) =>{
                 return response;
             }).catch(err=>{
                 console.log(err)
-                setErrors("Email or password incorrect")
+                setErrors("Cannot found email or password")
                 return err
             })
         console.log(user)

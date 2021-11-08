@@ -8,7 +8,11 @@ import {GlobalContext} from "../context/GlobalContext";
 export default function Home() {
     const {user} = useContext(GlobalContext)
     const router = useRouter()
-    useEffect(()=>{ if(!user.token)router.push("/login") ;router.push("/dashboard/livechat")} , [])
+    useEffect(()=>{ if(user.token==''|| !user.token) {
+        router.push("/login")
+    }else{
+        router.push("/dashboard/livechat")
+    } } , [])
 
     return (
         <div className={styles.container}>
