@@ -71,8 +71,8 @@ export function BlueMenu2({children, ...props}) {
             <ul className="blueMenuGroup">
                 <li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>Agent & Terms<KeyboardArrowDownIcon/></span>
                     {isShow ? (<ul className="blueMenuGroup blueMenuDropdownGroup">
+                        <li className="blueMenuLink"><Link href="admin/role"><a className="blueLink">Role</a></Link></li>
                         <li className="blueMenuLink"><Link href=""><a className="blueLink">Agent</a></Link></li>
-                        <li className="blueMenuLink"><Link href=""><a className="blueLink">Role</a></Link></li>
                     </ul>):null}
                 </li>
                 <li className="blueMenuLink"><Link href=""><a className={"blueLink"}>Contact Groups</a></Link></li>

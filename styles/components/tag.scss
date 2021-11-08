@@ -1,40 +1,41 @@
-@use "./bg";
+@use "bg";
 
 .tag {
     padding: 0.5vh 1.3vw;
     border-radius: 20px;
 }
+
 .tag_1 {
-    @extend bg.mf_bg_primary; 
+    @extend .mf_bg_primary; 
 }
 .tag_2 {
-    @extend bg.mf_bg_light_purple;
+    @extend .mf_bg_light_purple;
 }
 .tag_3{
-    @extend bg.mf_bg_warning;
+    @extend .mf_bg_warning;
 }
 .tag_4 {
-    @extend bg.mf_bg_danger;
+    @extend .mf_bg_danger;
 }
 
 .tag_team_1 {
-    @extend bg.mf_bg_success;
+    @extend .mf_bg_success;
 }
 .tag_team_2 {
-    @extend bg.mf_purple;
+    @extend .mf_bg_purple;
 }
 .assignee_1 {
-    @extend bg.mf_bg_primary; 
+    @extend .mf_bg_primary; 
 }
 .assignee_2 {
-    @extend bg.mf_bg_warning;
+    @extend .mf_bg_warning;
 }
 .assignee_3 {
-    @extend bg.mf_bg_success;
+    @extend .mf_bg_success;
 }
 .assignee_4 {
-    @extend bg.mf_bg_light_purple;
+    @extend .mf_bg_light_purple;
 }
 .assignee_5 {
-    @extend bg.mf_bg_danger;
+    @extend .mf_bg_danger;
 }
