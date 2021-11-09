@@ -125,8 +125,8 @@ export const GlobalContextProvider = ({children}) =>{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
-            }
-        })
+            },
+        },{params: 1})
             .then(response => {
                 if(response.status != 200){
                     return "something went wrong"
