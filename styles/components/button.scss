@@ -92,7 +92,7 @@ button[disabled] {
 .selectButton {
   @extend .mf_bg_primary;
   width: 5vw;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
   color: variables.$mf_primary_color;
 }
@@ -100,15 +100,14 @@ button[disabled] {
 .cancelButton {
   @extend .mf_bg_light_grey;
   width: 5vw;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
   color: variables.$mf_text_color;
 }
 
 .addButton {
   @extend .mf_bg_blue;
-  width: 7vw;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
   color: white;
   margin-left: 22px;

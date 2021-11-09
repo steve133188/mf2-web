@@ -3,7 +3,9 @@ import {useState, useEffect} from "react";
 import { BlueMenu2 } from "../../../components/BlueMenu";
 import {
     CancelButton,
-    SelectButton,
+    FunctionButton,
+    FunctionCancelButton,
+    ConfirmButton,
     NormalButton,
     NormalButton2,
     NormalButton3,
@@ -24,6 +26,7 @@ export default function editAgent() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
     const {id} = router.query;
+    console.log(id);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [agent, setAgent] = useState(
         {
@@ -83,8 +86,8 @@ export default function editAgent() {
                             {initialName}
                         </div>
                         <div className={styles.avaterButtons}>
-                            <NormalButton2>Upload</NormalButton2>
-                            {/*<CustomColorButton color="cancel" onClick={removeAvater}>Remove</CustomColorButton>*/}
+                            <FunctionButton>Upload</FunctionButton>
+                            <FunctionCancelButton>Remove</FunctionCancelButton>
                         </div>
                     </div>
                     <div className={styles.commonMarginTop}></div>
@@ -143,9 +146,9 @@ export default function editAgent() {
                         </div>
                     </div>
                     <div className={styles.commonMarginTop}></div>
-                    <div className={styles.avaterButtons}>
-                        <NormalButton2>Create</NormalButton2>
-                        {/*<CustomColorButton color="cancel" onClick={cancelEdit}>Cancel</CustomColorButton>*/}
+                    <div className="saveFormButtonsContainer">
+                        <ConfirmButton>Save Changes</ConfirmButton>
+                        <CancelButton></CancelButton>
                     </div>
                     <div className={styles.commonMarginTop}>&nbsp;</div>
                 </div>
