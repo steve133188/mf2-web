@@ -1,0 +1,27 @@
+.layout{
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    height: 100%;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    vertical-align: center;
+    justify-content: space-between;
+    margin: 0.75rem 0;
+    border-radius: 15px;
+    padding: 0.5rem 0;
+}
+
+.btn_group{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.select_group{
+    width: 100%;
+    flex-direction: row;
+}

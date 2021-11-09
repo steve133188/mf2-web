@@ -1,10 +1,4 @@
 import {Search3} from "../../components/Input";
-// import {
-//     CancelButton,
-//     SelectButton,
-//     NormalButton,
-//     NormalButton2,
-// } from "../../components/Button";
 import {useContext, useEffect, useState} from "react";
 import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
@@ -18,113 +12,24 @@ import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import {GlobalContext} from "../../context/GlobalContext";
-import {MSelect2} from "../../components/multiSelects/MSelect2";
-import {MSelect3} from "../../components/multiSelects/MSelect3";
-import {MSelect4} from "../../components/multiSelects/MSelect4";
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'
 import axios from "axios";
+import styles from "../../styles/Contacts.module.css";
 
 
 
-// function EnhancedTable2Head({isSelectRow, ...props}) {
-//     const {order, orderBy, onRequestSort } = props;
-//
-//     const createSortHandler = (property) => (event) => {
-//         onRequestSort(event, property);
-//     };
-//
-//     const headCells2 = [
-//         {
-//             id: 'customerID',
-//             numeric: false,
-//             disablePadding: false,
-//             label: 'Customer ID',
-//         },
-//         {
-//             id: 'name',
-//             numeric: true,
-//             disablePadding: false,
-//             label: 'Name',
-//         },
-//         {
-//             id: 'team',
-//             numeric: true,
-//             disablePadding: false,
-//             label: 'Team',
-//         },
-//         {
-//             id: 'channel',
-//             numeric: true,
-//             disablePadding: false,
-//             label: 'Channel',
-//         },
-//         {
-//             id: 'tags',
-//             numeric: true,
-//             disablePadding: false,
-//             label: 'Tags'
-//         },
-//         {
-//             id: 'assignee',
-//             numeric: true,
-//             disablePadding: false,
-//             label: 'Assignee'
-//         }
-//     ];
-//
-//     return (
-//         <TableHead>
-//             <TableRow>
-//                 <th style={{width: "30px", textAlign: "center", borderBottom: "1px solid #e0e0e0"}}>
-//                     {isSelectRow?<Checkbox/>:null}
-//                 </th>
-//                 {headCells2.map((headCell2) => (
-//                     <TableCell
-//                         key={headCell2.id}
-//                         align="left"
-//                         padding={headCell2.disablePadding ? 'none' : 'normal'}
-//                         sortDirection={orderBy === headCell2.id ? order : false}
-//                         sx={{padding: "26px"}}
-//                     >
-//                         <TableSortLabel
-//                             sx={{fontWeight: "bold", color: "#495057"}}
-//                             active={orderBy === headCell2.id}
-//                             direction={orderBy === headCell2.id ? order : 'asc'}
-//                             onClick={createSortHandler(headCell2.id)}
-//                         >
-//                             {headCell2.label}
-//                             {orderBy === headCell2.id ? (
-//                                 <Box component="span" sx={visuallyHidden}>
-//                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-//                                 </Box>
-//                             ) : null}
-//                         </TableSortLabel>
-//                     </TableCell>
-//                 ))}
-//             </TableRow>
-//         </TableHead>
-//     );
-// }
-//
-// EnhancedTable2Head.propTypes = {
-//     onRequestSort: PropTypes.func.isRequired,
-//     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-//     orderBy: PropTypes.string.isRequired,
-//     rowCount: PropTypes.number.isRequired,
-// };
+
+
 
 export default function Contacts() {
-    const [page, setPage] = React.useState(1);
+
     // const [contacts, setContacts] = React.useState([]);
-    const handlePageChange = (event, value) => {
-        setPage(value);
-    };
-    let cons;
     const { contacts , get_contacts} = useContext(GlobalContext)
     useEffect( async () => {
-         await get_contacts()
-        console.log("data:",contacts)
+        //  await get_contacts()
+        // console.log("data:",contacts)
+
     },[]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('role');
@@ -134,7 +39,33 @@ export default function Contacts() {
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
-
+    const defualt_cols = ['customer_id' , 'name' , 'team' ,  'channels','tags' ,'assignee']
+    const data = [
+        {
+            customer_id:"000001",
+            name:"000001",
+            team:"000001",
+            assignee:["steve","ben","lapson"],
+            tags:["VVIP","New Customer","Promotion" ],
+            channels:["whatsapp"],
+        },
+        {
+            customer_id:"000002",
+            name:"000002",
+            team:"000002",
+            assignee:["ben","lapson"],
+            tags:["VVIP","New Customer","Promotion" ],
+            channels:["whatsapp"],
+        },
+        {
+            customer_id:"000003",
+            name:"000003",
+            team:"000003",
+            assignee:["steve","lapson"],
+            tags:["VIP","New Customer" ],
+            channels:["whatsapp"],
+        }
+    ]
 
     const [isSelectRow, setSelectRow] = useState( false);
 
@@ -161,49 +92,6 @@ export default function Contacts() {
     const handleClickAwayAddPopper = () => {
         setOpenAddPopper(false);
     };
-    // const addStyles = {
-    //     position: 'absolute',
-    //     top: 50,
-    //     right: -30,
-    //     borderRadius: 2,
-    //     zIndex: 1,
-    //     boxShadow: 3,
-    //     p: 1,
-    //     bgcolor: 'background.paper',
-    //     textAlign: "center",
-    //     padding: "41px 32px 28px 32px",
-    //     width: 457,
-    //     lineHeight: 2
-    // };
-    //
-    // const editColumnStyles = {
-    //     position: 'absolute',
-    //     top: 55,
-    //     right: -10,
-    //     borderRadius: 2,
-    //     zIndex: 2,
-    //     boxShadow: 3,
-    //     p: 1,
-    //     bgcolor: 'background.paper',
-    //     textAlign: "center",
-    //     padding: "32px 29px 48px 29px",
-    //     width: 376,
-    //     lineHeight: 2
-    // };
-    // const deleteStyles = {
-    //     position: 'absolute',
-    //     top: 55,
-    //     right: -10,
-    //     borderRadius: 2,
-    //     zIndex: 1,
-    //     boxShadow: 3,
-    //     p: 1,
-    //     bgcolor: 'background.paper',
-    //     textAlign: "center",
-    //     padding: "41px 32px 28px 32px",
-    //     width: 376,
-    //     lineHeight: 2
-    // };
     const [openDeletePopper, setOpenDeletePopper] = React.useState(false);
 
     const handleClickDeletePopper = () => {
@@ -218,39 +106,7 @@ export default function Contacts() {
         setIsShowDropzone(true);
     }
 
-    //
-    // const contactColumns = [
-    //     {
-    //         columnName: 'Customer ID'
-    //     },
-    //     {
-    //         columnName: 'Name'
-    //     },
-    //     {
-    //         columnName: 'Team'
-    //     },
-    //     {
-    //         columnName: 'Channel'
-    //     },
-    //     {
-    //         columnName: 'Tags'
-    //     },
-    //     {
-    //         columnName: 'Assignee'
-    //     }
-    // ];
 
-    // const [columns, updateColumns] = useState(contactColumns);
-
-    // function handleOnDragEnd(result) {
-    //     if (!result.destination) return;
-    //
-    //     const items = Array.from(columns);
-    //     const [reorderedItem] = items.splice(result.source.index, 1);
-    //     items.splice(result.destination.index, 0, reorderedItem);
-    //
-    //     updateColumns(items);
-    // }
 
     const [isShowDropzone, setIsShowDropzone] = useState(false);
 
@@ -260,33 +116,36 @@ export default function Contacts() {
 
 
     return (
-        <div className="contacts-layout">
+        <div className={styles.layout}>
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
                 <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
-            <div className="rightContent">
-                <div className="contactsContainer">
-                    <div className="topBar">
+                    <div className={styles.row}>
                         <div className="searchBar">
                             <div >
-                                {/*<label className="searchSVG">*/}
-                                    <input className="searchInput" placeholder="Search"/>
-                                {/*</label>*/}
+                                    {/*<input className="searchInput" placeholder="Search"/>*/}
+                                <div className="mf_icon_input_block  mf_search_input">
+                                    <div className={"mf_inside_icon mf_search_icon "} > </div>
+                                    <input
+                                        className={"mf_input mf_bg_light_grey"}
+                                        type={"text"}
+                                        // value={credential.email}
+                                        // onChange={(e)=>{setCredential({...credential, ['email']: e.target.value})}}
+                                        placeholder={"Search"}
+                                        // className={invalid}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className="buttonGrp">
+                        <div className={styles.btn_group}>
                             {isSelectRow ? (
-                                <span onClick={toggleSelectRow}><button/></span>
+                                <button onClick={toggleSelectRow}> Select</button>
                             ) : (
-                                <span onClick={toggleSelectRow}><button/></span>
+                                <button  onClick={toggleSelectRow}> Cancel</button>
                             )}
-                            <div className="editColumnPopperContainer">
-                                <ClickAwayListener onClickAway={handleClickAway}>
-                                    <div sx={{position: 'relative'}}>
-                                        <div className="textWithIconButton" onClick={handleClick}>
-                                                <button variant="contained" color="neutral">
+                                                <button  className="textWithIconButton" onClick={handleClick}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor"
                                                          className="bi bi-pencil" viewBox="0 0 16 16"
@@ -294,60 +153,55 @@ export default function Contacts() {
                                                         <path
                                                             d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                     </svg>
-                                                    <span>Edit Column</span>
+                                                    Edit Column
                                                 </button>
-                                        </div>
-                                        {open ? (
-                                            <>
-                                                <div className="topSide">
-                                                    <span>Column Setting</span>
-                                                    <button>Add</button>
-                                                </div>
+                                        {/*{open ? (*/}
+                                        {/*    <>*/}
+                                        {/*        <div className="topSide">*/}
+                                        {/*            <span>Column Setting</span>*/}
+                                        {/*            <button>Add</button>*/}
+                                        {/*        </div>*/}
 
-                                                <DragDropContext >
-                                                    <Droppable droppableId="columns">
-                                                        {(provided) => (
-                                                            <ul className="columnGroup" {...provided.droppableProps}
-                                                                ref={provided.innerRef}>
-                                                                {/*{columns.map(({columnName}, index) => {*/}
-                                                                {/*    return (*/}
-                                                                {/*        <Draggable key={columnName}*/}
-                                                                {/*                   draggableId={columnName}*/}
-                                                                {/*                   index={index}>*/}
-                                                                {/*            {(provided) => (*/}
-                                                                {/*                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}*/}
-                                                                {/*                    className="columnCheckboxContainer">*/}
-                                                                {/*                    <div>*/}
-                                                                {/*                        <img*/}
-                                                                {/*                            src="icon-columnControl.svg"*/}
-                                                                {/*                            alt=""/>{columnName}*/}
-                                                                {/*                        </div>*/}
-                                                                {/*                    <Checkbox />*/}
-                                                                {/*                </li>*/}
-                                                                {/*            )}*/}
-                                                                {/*        </Draggable>*/}
-                                                                {/*    );*/}
-                                                                {/*})}*/}
-                                                                {provided.placeholder}
-                                                            </ul>
-                                                        )}
-                                                    </Droppable>
-                                                </DragDropContext>
-                                            </>
-                                        ) : null}
+                                        {/*        <DragDropContext >*/}
+                                        {/*            <Droppable droppableId="columns">*/}
+                                        {/*                {(provided) => (*/}
+                                        {/*                    <ul className="columnGroup" {...provided.droppableProps}*/}
+                                        {/*                        ref={provided.innerRef}>*/}
+                                        {/*                        /!*{columns.map(({columnName}, index) => {*!/*/}
+                                        {/*                        /!*    return (*!/*/}
+                                        {/*                        /!*        <Draggable key={columnName}*!/*/}
+                                        {/*                        /!*                   draggableId={columnName}*!/*/}
+                                        {/*                        /!*                   index={index}>*!/*/}
+                                        {/*                        /!*            {(provided) => (*!/*/}
+                                        {/*                        /!*                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}*!/*/}
+                                        {/*                        /!*                    className="columnCheckboxContainer">*!/*/}
+                                        {/*                        /!*                    <div>*!/*/}
+                                        {/*                        /!*                        <img*!/*/}
+                                        {/*                        /!*                            src="icon-columnControl.svg"*!/*/}
+                                        {/*                        /!*                            alt=""/>{columnName}*!/*/}
+                                        {/*                        /!*                        </div>*!/*/}
+                                        {/*                        /!*                    <Checkbox />*!/*/}
+                                        {/*                        /!*                </li>*!/*/}
+                                        {/*                        /!*            )}*!/*/}
+                                        {/*                        /!*        </Draggable>*!/*/}
+                                        {/*                        /!*    );*!/*/}
+                                        {/*                        /!*})}*!/*/}
+                                        {/*                        {provided.placeholder}*/}
+                                        {/*                    </ul>*/}
+                                        {/*                )}*/}
+                                        {/*            </Droppable>*/}
+                                        {/*        </DragDropContext>*/}
+                                        {/*    </>*/}
+                                        {/*) : null}*/}
 
-                                    </div>
-                                </ClickAwayListener>
-                            </div>
                             <button onClick={showDropzone}>Import</button>
-                            <Link href="/contacts/addcontact"><a><button>+ New Contact</button></a></Link>
-
+                            <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
                         </div>
                     </div>
                     {/* drag and drop end*/}
 
-                    <div className="navbarPurple">
-                        <div className="selectButtonGroup">
+                    <div className={"mf_bg_light_grey "+styles.row }>
+                        <div className={styles.select_group}>
                             <div className="multipleSelectPlaceholder">
                                 {/*<FormControl sx={{m: 0, width: 171, mt: 1}}>*/}
 
@@ -479,92 +333,104 @@ export default function Contacts() {
                                 </ClickAwayListener>
                             </div>
                         </div>
+
                     </div>
                     {/**/}
-                    <div sx={{}}>
-                        <div >
-                            <TableContainer>
-                                <Table
-                                    sx={{minWidth: 750}}
-                                    aria-labelledby="tableTitle"
-                                >
-                                    <TableBody>
-                                        {/*{<li>{contacts}</li>}*/}
-                                        {contacts.map((c ) => {
-                                           return(  <TableRow
-                                                key={c.id}
-                                                hover
-                                                role="checkbox"
-                                                tabIndex={-1}
-                                            >
-                                                <td style={{
-                                                    width: "30px",
-                                                    textAlign: "center",
-                                                    borderBottom: "1px #e0e0e0 solid"
-                                                }}>
-                                                    <div className="newCheckboxContainer">
-                                                        {isSelectRow ? <label className="newCheckboxLabel">
-                                                            <input type="checkbox" name="checkbox"/>
-                                                        </label> : null}
 
-                                                    </div>
-                                                </td>
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <div style={{display: "flex", alignItems: "center"}}>
-                                                        <Avatar alt="Remy Sharp"
-                                                                src={c.img_url||""}/>
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <span style={{marginLeft: "11px"}}>{c.name}</span>
-                                                </TableCell>
-                                                {/*name*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <Pill color="teamA">{c.team}</Pill>
-                                                </TableCell>
-                                                {/*team*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <img width="24px" height="24px" src="./whatsappChannel.svg"
-                                                         alt=""/>
-                                                </TableCell>
-                                                {/*channel*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill
-                                                        color="lightPurple">New
-                                                        Customer</Pill></div>
-                                                </TableCell>
-                                                {/*tags*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <div className="assigneeGroup">
-                                                        <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
-                                                        <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
-                                                        <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
-                                                        <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
-                                                        <Pill color="lightRed" size="roundedPill size30">KA</Pill>
-                                                    </div>
-                                                </TableCell>
-                                            {/*    assignee*/}
+                            {/*<TableContainer>*/}
+                            {/*    <Table*/}
+                            {/*        sx={{minWidth: 750}}*/}
+                            {/*        aria-labelledby="tableTitle"*/}
+                            {/*    >*/}
+                            {/*        <TableBody>*/}
+                            {/*            /!*{<li>{contacts}</li>}*!/*/}
+                            {/*            {contacts.map((c ) => {*/}
+                            {/*               return(  <TableRow*/}
+                            {/*                    key={c.id}*/}
+                            {/*                    hover*/}
+                            {/*                    role="checkbox"*/}
+                            {/*                    tabIndex={-1}*/}
+                            {/*                >*/}
+                            {/*                    <td style={{*/}
+                            {/*                        width: "30px",*/}
+                            {/*                        textAlign: "center",*/}
+                            {/*                        borderBottom: "1px #e0e0e0 solid"*/}
+                            {/*                    }}>*/}
+                            {/*                        <div className="newCheckboxContainer">*/}
+                            {/*                            {isSelectRow ? <label className="newCheckboxLabel">*/}
+                            {/*                                <input type="checkbox" name="checkbox"/>*/}
+                            {/*                            </label> : null}*/}
 
-                                            </TableRow>)
-                                        })}
-                                        {/*        );*/}
-                                        {/*    })}*/}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </div>
-                    </div>
+                            {/*                        </div>*/}
+                            {/*                    </td>*/}
+                            {/*                    <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                            {/*                               align="left">*/}
+                            {/*                        <div style={{display: "flex", alignItems: "center"}}>*/}
+                            {/*                            <Avatar alt="Remy Sharp"*/}
+                            {/*                                    src={c.img_url||""}/>*/}
+                            {/*                        </div>*/}
+                            {/*                    </TableCell>*/}
+                            {/*                    <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                            {/*                               align="left">*/}
+                            {/*                        <span style={{marginLeft: "11px"}}>{c.name}</span>*/}
+                            {/*                    </TableCell>*/}
+                            {/*                    /!*name*!/*/}
+                            {/*                    <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                            {/*                               align="left">*/}
+                            {/*                        <Pill color="teamA">{c.team}</Pill>*/}
+                            {/*                    </TableCell>*/}
+                            {/*                    /!*team*!/*/}
+                            {/*                    <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                            {/*                               align="left">*/}
+                            {/*                        <img width="24px" height="24px" src="./whatsappChannel.svg"*/}
+                            {/*                             alt=""/>*/}
+                            {/*                    </TableCell>*/}
+                            {/*                    /!*channel*!/*/}
+                            {/*                    <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                            {/*                               align="left">*/}
+                            {/*                        <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill*/}
+                            {/*                            color="lightPurple">New*/}
+                            {/*                            Customer</Pill></div>*/}
+                            {/*                    </TableCell>*/}
+                            {/*                    /!*tags*!/*/}
+                            {/*                    <TableCell sx={{padding: "26px", fontSize: "16px"}}*/}
+                            {/*                               align="left">*/}
+                            {/*                        <div className="assigneeGroup">*/}
+                            {/*                            <Pill color="lightYellow" size="roundedPill size30">MF</Pill>*/}
+                            {/*                            <Pill color="lightBlue" size="roundedPill size30">AX</Pill>*/}
+                            {/*                            <Pill color="lightGreen" size="roundedPill size30">DS</Pill>*/}
+                            {/*                            <Pill color="lightPurple" size="roundedPill size30">EW</Pill>*/}
+                            {/*                            <Pill color="lightRed" size="roundedPill size30">KA</Pill>*/}
+                            {/*                        </div>*/}
+                            {/*                    </TableCell>*/}
+                            {/*                /!*    assignee*!/*/}
+
+                            {/*                </TableRow>)*/}
+                            {/*            })}*/}
+                            {/*            /!*        );*!/*/}
+                            {/*            /!*    })}*!/*/}
+                            {/*        </TableBody>*/}
+                            {/*    </Table>*/}
+                            {/*</TableContainer>*/}
+            <table>
+                <thead>
+                {defualt_cols.map((col)=>{
+                   return ( <th> {col} </th>)
+                })}
+                </thead>
+                <tbody>
+                {data.map(d=>{
+                    return(
+                        <tr></tr>
+                    )
+                })}
+                </tbody>
+            </table>
+
 
                 </div>
-            </div>
 
-        </div>
+
     )
 }
 

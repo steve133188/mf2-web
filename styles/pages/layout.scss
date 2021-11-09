@@ -274,8 +274,8 @@
   padding: 0;
   margin: 0;
   display: flex;
-  width: 95%;
-  max-width: 95vw;
+  width: 100%;
+  //max-width: 95vw;
   height: 100%;
   overflow: scroll;
 }
@@ -283,7 +283,7 @@
 .main-content {
   overflow: scroll;
   width: 100%;
-  max-width: 95vw;
+  //max-width: 95vw;
 }
 
 .notificationDropdownSet {
@@ -305,9 +305,6 @@
     div {
       padding: 0;
       margin-top: 1px;
-
-
-
         div {
           padding: 7px !important;
           background: url("../../public/bell.svg") center / contain no-repeat;
@@ -329,7 +326,6 @@
 
 .loggingStatusDropdown {
   div {
-
     div {
       div {
         display: flex;
