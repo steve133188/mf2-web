@@ -5,7 +5,6 @@
 @import "components/contacts.scss";
 @import "components/pills.scss";
 @import "components/chatArea.scss";
-@import "components/chatBubble.scss";
 @import "components/contactInfo.scss";
 @import "components/navbarPurple.scss";
 @import "components/table.scss";
@@ -44,6 +43,7 @@
 @import "components/mf_input";
 @import "components/font";
 @import "components/tag";
+@import "components/chatBubble.scss";
 
 @import "pages/login.scss";
 @import "pages/recovery.scss";
@@ -56,10 +56,8 @@
 @import "pages/customer_profile.scss";
 @import "pages/account_setting.scss";
 @import "pages/layout.scss";
-@import "pages/admin.scss";
 @import "pages/addContacts.scss";
-@import "pages/editAgent.scss";
-
+//@import "pages/admin.module.scss";
 
 @import "variables/variables";
 

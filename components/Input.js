@@ -67,6 +67,21 @@ export function Search3({children,...props}) {
     )
 }
 
+export function SearcBox({children,...props}) {
+    return (
+        <div className="mf_table_search_block">
+            <div className={"mf_inside_icon mf_search_icon"} > </div>
+            <input
+                className={"mf_input"}
+                type={"text"}
+                onChange={(e)=>{props.handleSearch(e.target.value)}}
+                placeholder={"Search"}
+                // className={invalid}
+            />
+        </div>
+    )
+}
+
 // export function Check() {
 //     return (
 //         <div>

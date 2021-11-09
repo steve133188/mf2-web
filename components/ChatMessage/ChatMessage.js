@@ -2,7 +2,6 @@ import { ChatBubble } from "./ChatBubble";
 import { DocMessage } from "./DocMessage";
 import { ImageMessage } from "./ImageMessage";
 import { TextOnlyMessage } from "./TextOnlyMessage";
-import '../../styles/components/chatBubble.scss';
 
 export function ChatMessage (props) {
     var children;

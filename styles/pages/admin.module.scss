@@ -1,0 +1,57 @@
+.topBar {
+  display: flex;
+  justify-content: space-between;
+
+  .searchBar {
+    .logoInputContainer2 {
+    }
+    .searchSVG {
+      input {
+        margin-bottom: 0px;
+        width: 421px;
+        box-shadow: none;
+        padding: 23.5px 0px;
+        padding-left: 50px;
+        padding-right: 25px;
+        border-radius: 15px;
+      }
+    }
+  }
+
+  .buttonGrp {
+    display: flex;
+    width: 500px;
+    justify-content: flex-end;
+    align-items: self-end;
+    margin-bottom: 30px;
+
+    button {
+      max-height: 36px;
+      border-radius: 10px;
+      text-transform: unset;
+      box-shadow: none;
+      height: 38px;
+
+      img {
+        margin-right: 6px;
+        margin-bottom: 3px;
+      }
+    }
+
+    button:hover {
+
+    }
+
+    .newContactButton {
+      margin-left: 22px;
+    }
+  }
+}
+   
+
+.lock_icon {
+  width: 26px;
+  margin-right: 24px;
+  cursor: pointer;
+}
+

@@ -1,4 +1,3 @@
-
 export function IconButton({children,...props}) {
     const {logo} = props;
     return (
@@ -27,15 +26,6 @@ export function NormalButton({children,...props}) {
     )
 }
 
-export function SelectButton() {
-    return (
-        <div className="normalButton">
-                <button variant="contained" color="neutral">
-                    Select
-                </button>
-        </div>
-    )
-}
 
 export function NormalButton2({ children ,...props}) {
     const {disabled , onClick} = props
@@ -48,13 +38,27 @@ export function NormalButton2({ children ,...props}) {
     )
 }
 
-export function CancelButton() {
+export function SelectButton(props) {
     return (
-        <div className="cancelButton">
-                <button variant="contained" color="cancel">
-                    Cancel
-                </button>
-        </div>
+        <button className="selectButton" onClick={props.onClick}>
+            Select
+        </button>
+    )
+}
+
+export function CancelButton(props) {
+return (
+        <button className="cancelButton" onClick={props.onClick}>
+            Cancel
+        </button>
+    )
+}
+
+export function AddButton(props) {
+    return (
+        <button className="addButton" onClick={props.onClick}>
+            {props.children}
+        </button>
     )
 }
 
