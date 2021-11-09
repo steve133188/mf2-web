@@ -1,0 +1,8 @@
+.saveFormButtonsContainer {
+    width: 17vw;
+    display: flex;
+    justify-content: space-between;
+    .addButton {
+        margin-left: 0 !important;
+    }
+}

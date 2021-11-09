@@ -38,6 +38,30 @@ export function NormalButton2({ children ,...props}) {
     )
 }
 
+export function FunctionButton(props) {
+    return (
+        <button className="selectButton" onClick={props.onClick}>
+            {props.children}
+        </button>
+    )
+}
+
+export function FunctionCancelButton(props) {
+    return (
+        <button className="cancelButton" onClick={props.onClick}>
+            {props.children}
+        </button>
+    )
+}
+
+export function ConfirmButton(props) {
+    return (
+        <button className="addButton" onClick={props.onClick}>
+            {props.children}
+        </button>
+    )
+}
+
 export function SelectButton(props) {
     return (
         <button className="selectButton" onClick={props.onClick}>
