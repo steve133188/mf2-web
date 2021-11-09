@@ -140,12 +140,12 @@ export default function Contacts() {
                             </div>
                         </div>
                         <div className={styles.btn_group}>
-                            {isSelectRow ? (
-                                <button onClick={toggleSelectRow}> Select</button>
+                            {!isSelectRow ? (
+                                <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select</button>
                             ) : (
-                                <button  onClick={toggleSelectRow}> Cancel</button>
+                                <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                             )}
-                                                <button  className="textWithIconButton" onClick={handleClick}>
+                                                <button  className="textWithIconButton mf_bg_light_blue mf_color_blue" onClick={handleClick}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor"
                                                          className="bi bi-pencil" viewBox="0 0 16 16"
@@ -194,7 +194,7 @@ export default function Contacts() {
                                         {/*    </>*/}
                                         {/*) : null}*/}
 
-                            <button onClick={showDropzone}>Import</button>
+                            <button onClick={showDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>
                             <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
                         </div>
                     </div>

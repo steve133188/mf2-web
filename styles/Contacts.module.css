@@ -16,11 +16,16 @@
 }
 
 .btn_group{
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
-
 }
 
+.btn_group>button{
+    margin: auto 0.5rem;
+}
+.btn_group>div{
+    margin: auto 0.5rem;
+}
 .select_group{
     width: 100%;
     flex-direction: row;

@@ -1,0 +1,12 @@
+@use "../variables/variables";
+
+.mf_color_text{
+  color: variables.$mf_text_color
+}
+
+.mf_color_white {
+  color: #FFFFFF;
+}
+.mf_color_blue{
+  color: variables.$mf_primary_color;
+}
