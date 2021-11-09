@@ -18,6 +18,8 @@ import { MSelectWithImages } from "../../../components/multiSelects/MSelectWithI
 import { SingleSelectCommon } from "../../../components/multiSelects/SingleSelectCommon";
 // import {CheckboxNewChannels } from "../../../components/Checkbox";
 
+import styles from "../../../styles/pages/editAgent.module.scss"
+
 export default function editAgent() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
@@ -67,67 +69,67 @@ export default function editAgent() {
     }
 
     return (
-        <div className="admin-layout">
+        <div className="admin_layout">
             {/*<Dropzone/>*/}
             <BlueMenu2 />
             <div className="rightContent">
                 <div className="contactsContainer">
                     <h2>Edit Agent</h2>
                     <hr/>
-                    <div className="commonMarginTop"></div>
-                    <h3>Avatar</h3>
-                    <div className="avaterContainer">
-                        <div className="nameAvater">
+                    <div className={styles.commonMarginTop}></div>
+                    <h3 className={styles.avatarTitle}>Avatar</h3>
+                    <div className={styles.avaterContainer}>
+                        <div className={styles.nameAvater}>
                             {initialName}
                         </div>
-                        <div className="avaterButtons">
+                        <div className={styles.avaterButtons}>
                             <NormalButton2>Upload</NormalButton2>
                             {/*<CustomColorButton color="cancel" onClick={removeAvater}>Remove</CustomColorButton>*/}
                         </div>
                     </div>
-                    <div className="commonMarginTop"></div>
+                    <div className={styles.commonMarginTop}></div>
                     <hr/>
-                    <div className="commonMarginTop"></div>
-                    <div className="common2ColumnsContainer">
-                        <div className="commonFormRow">
+                    <div className={styles.commonMarginTop}></div>
+                    <div className={styles.common2ColumnsContainer}>
+                        <div className={styles.commonFormRow}>
                             <Input2 title="Username" placeholder="Username" onChange={(e)=>handleInput("username", e.target.value)} value={agent.username}></Input2>
                             <Input2 title="Email" placeholder="Email" disabled={true} value={agent.email}></Input2>
                         </div>
-                        <div className="commonFormRow">
+                        <div className={styles.commonFormRow}>
                             <Input2 title="Phone" placeholder="+852" onChange={(e)=>handleInput("phone", e.target.value)} value={agent.phone}></Input2>
                         </div>
                     </div>
-                    <div className="commonMarginTop"></div>
+                    <div className={styles.commonMarginTop}></div>
                     <hr/>
-                    <div className="commonMarginTop"></div>
-                    <div className="common2ColumnsContainer">
-                        <div className="commonFormRow">
+                    <div className={styles.commonMarginTop}></div>
+                    <div className={styles.common2ColumnsContainer}>
+                        <div className={styles.commonFormRow}>
                             <Input2 type="password" title="Reset Password" placeholder="reset password" onChange={(e)=>handleInput("password", e.target.value)} value={agent.password}></Input2>
                             <Input2 type="password" title="Confirm Password" placeholder="confirm password" onChange={(e)=>handleInput("confirm_password", e.target.value)} value={agent.confirm_password}></Input2>
                         </div>
                     </div>
-                    <div className="commonMarginTop"></div>
+                    <div className={styles.commonMarginTop}></div>
                     <hr/>
-                    <div className="commonMarginTop"></div>
-                    <div className="common2ColumnsContainer">
-                        <div className="commonFormRow">
+                    <div className={styles.commonMarginTop}></div>
+                    <div className={styles.common2ColumnsContainer}>
+                        <div className={styles.commonFormRow}>
                             <MSelectWithImages title="Assign To"></MSelectWithImages>
-                            <div className="teamList">
-                                <span className="team1">Team A</span>
-                                <span className="team2">Team B</span>
+                            <div className={styles.teamList}>
+                                <span className={styles.team1}>Team A</span>
+                                <span className={styles.team2}>Team B</span>
                             </div>
                         </div>
                     </div>
-                    <div className="common2ColumnsContainer">
-                        <div className="commonFormRow">
+                    <div className={styles.common2ColumnsContainer}>
+                        <div className={styles.commonFormRow}>
                             <SingleSelectCommon title="Role" selectionList={roleList} selected="Manager"></SingleSelectCommon>
                         </div>
                     </div>
                     <hr/>
-                    <div className="commonMarginTop"></div>
-                    <div className="checkboxGroup2">
+                    <div className={styles.commonMarginTop}></div>
+                    <div className={styles.checkboxGroup2}>
                         <p>Channel</p>
-                        <div className="checkboxGrp">
+                        <div className={styles.checkboxGrp}>
                             {/*<CheckboxNewChannels  src={"/allchannel.svg"}>All Channel*/}
                             {/*</CheckboxNewChannels >*/}
                             {/*<CheckboxNewChannels  src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp*/}
@@ -140,12 +142,12 @@ export default function editAgent() {
                             {/*</CheckboxNewChannels >*/}
                         </div>
                     </div>
-                    <div className="commonMarginTop"></div>
-                    <div className="avaterButtons">
+                    <div className={styles.commonMarginTop}></div>
+                    <div className={styles.avaterButtons}>
                         <NormalButton2>Create</NormalButton2>
                         {/*<CustomColorButton color="cancel" onClick={cancelEdit}>Cancel</CustomColorButton>*/}
                     </div>
-                    <div className="commonMarginTop">&nbsp;</div>
+                    <div className={styles.commonMarginTop}>&nbsp;</div>
                 </div>
             </div>
         </div>

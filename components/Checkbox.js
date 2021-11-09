@@ -8,9 +8,7 @@ export function Checkbox({children, ...props}) {
                 {src ? <img src={src} alt=""/> : "" }{children}
             </div>
             <label className="newCheckboxLabel">
-
-                <input type="checkbox" name="checkbox"/>
-
+                <input type="checkbox" name="checkbox" onChange={props.onChange} id={props.id} checked={props.checked}/>
             </label>
         </div>
     )

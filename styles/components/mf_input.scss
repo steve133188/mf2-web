@@ -87,3 +87,38 @@
   mask-position: center;
   background-color: variables.$mf_text_color;
 }
+
+.mf_search_icon {
+  mask-image: url("../../public/icon-search.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: variables.$mf_text_color;
+}
+
+.mf_table_search_block {
+  border-radius: 15px;
+  position:relative;
+  max-width: 421px;
+  width: 28vw;
+  max-height: 47px;
+  .mf_input{
+    width: 100%;
+    height: 100%;
+    padding: 1rem 1.5rem 1rem 20%;
+    font-size: 15px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    opacity: 1;
+    border: none;
+    background-color: variables.$mf_light_grey_color;
+    &:active{
+      outline: none;
+      border: 1px solid #2385FC;
+    }
+    &:focus{
+      outline: none;
+      border: 1px solid #2385FC;
+    }
+  }
+
+}
