@@ -51,7 +51,7 @@ export default function Login(){
 
                     <div className={"login-form"}>
                     <form action="" >
-                        <div className="mf_icon_input_block mf_input_shadow">
+                        <div className={"mf_icon_input_block mf_input_shadow "+styles.input_margin}>
                                 {/*<span className={""}>Email or Password invalid</span>*/}
                                 {/*<label className={"searchSVG emailSVG"}>*/}
                                 <div className={"mf_inside_icon mf_email_icon"} > </div>
@@ -64,7 +64,7 @@ export default function Login(){
                                         // className={invalid}
                                     />
                             </div>
-                        <div className="mf_icon_input_block mf_input_shadow">
+                        <div className={"mf_icon_input_block mf_input_shadow "+styles.input_margin}>
                                 <div className={"mf_inside_icon mf_pwd_icon"} > </div>
                                     <input
                                         className={"mf_input"}

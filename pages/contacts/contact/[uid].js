@@ -1,7 +1,7 @@
-import {CustomerProfileInfo} from "../../components/CustomerProfileInfo";
-import {CustomerProfileCategory} from "../../components/CustomerProfileCategory"
-import {CustomerProfileChannel} from "../../components/CustomerProfileChannel";
-import {CustomerProfileActivityLog} from "../../components/CustomerProfileActivityLog";
+import {CustomerProfileInfo} from "../../../components/CustomerProfileInfo";
+import {CustomerProfileCategory} from "../../../components/CustomerProfileCategory"
+import {CustomerProfileChannel} from "../../../components/CustomerProfileChannel";
+import {CustomerProfileActivityLog} from "../../../components/CustomerProfileActivityLog";
 import axios from "axios";
 
 
