@@ -84,7 +84,7 @@ export function ImportDropzone({children,...props}) {
                 <div className="header">
                     <span>Import Contacts</span>
                     <div className="buttonGrp">
-                        <NormalButton2 disabled={acceptedFiles.length==0?true:false}  onClick={handleUpload}>Confirm</NormalButton2>
+                        <button disabled={acceptedFiles.length==0?true:false}  onClick={handleUpload}>Confirm</button>
                         <span style={{marginLeft: "30px"}} onClick={onClose}><CancelButton>Cancel</CancelButton></span>
                     </div>
                 </div>

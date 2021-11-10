@@ -23,34 +23,44 @@ import TableHead from "@mui/material/TableHead";
 
 export default function Contacts() {
     const router = useRouter()
-    // const [contacts, setContacts] = useState([]);
-    const { contacts , get_contacts} = useContext(GlobalContext)
-    useEffect( async () => {
-         await get_contacts()
-        console.log("data:",contacts)
-
+    const [contacts, setContacts] = useState([]);
+    const {  get_contacts} = useContext(GlobalContext)
+    const [filteredData , setFilteredData] = useState([])
+    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] , keyword:''})
+    const [selected , setSelected] = useState([])
+    const [isShowDropzone, setIsShowDropzone] = useState(false);
+    //filtered Data
+    useEffect(    () => {
+        const fetchContacts = async () =>{
+            const data = await get_contacts()
+            setContacts(data)
+            setFilteredData(data)
+        }
+        fetchContacts()
+        console.log(filteredData)
     },[]);
-    const [filter , setFilter] = useState(" ")
+
     const handleFilterChange = (e)=>{
-        setFilter(e.target.value)
-        console.log(filter)
+        if(e.target.value.includes(":")){
+            console.log("trigger regex search")
+        }
+        setFilter({ ...filter,keyword: e.target.value})
+        console.log("search filter :",filter)
+        const newData = contacts.filter(contact=> {
+            return contact.name.includes(filter.keyword)
+        })
+        console.log("newdata " , newData)
     }
-    const default_cols = ['customer_id' , 'name' , 'team' ,  'channels','tags' ,'assignee']
 
-
+    const filterFunc = ()=>{
+    //    loop the the filters conditions
+    }
+    const default_cols = ['customer_id' , 'name' ,'team', 'channels','tags' ,'assignee']
     const [isSelectRow, setSelectRow] = useState( false);
 
     function toggleSelectRow() {
         setSelectRow(!isSelectRow);
     }
-
-
-    function showDropzone() {
-        setIsShowDropzone(true);
-    }
-
-    const [isShowDropzone, setIsShowDropzone] = useState(false);
-
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
@@ -65,7 +75,7 @@ export default function Contacts() {
             <SearchSession
                 placeholder={"Search"}
                 handleChange={handleFilterChange}
-                value={filter}
+                value={filter.keyword}
             >
                 {!isSelectRow ? (
                     <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
@@ -82,61 +92,34 @@ export default function Contacts() {
                     </svg>
                     Edit Column
                 </button>
-                <button onClick={showDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>
+                <button onClick={toggleDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>
                 <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
             </SearchSession>
-
-                                        {/*{open ? (*/}
-                                        {/*    <>*/}
-                                        {/*        <div className="topSide">*/}
-                                        {/*            <span>Column Setting</span>*/}
-                                        {/*            <button>Add</button>*/}
-                                        {/*        </div>*/}
-
-                                        {/*        <DragDropContext >*/}
-                                        {/*            <Droppable droppableId="columns">*/}
-                                        {/*                {(provided) => (*/}
-                                        {/*                    <ul className="columnGroup" {...provided.droppableProps}*/}
-                                        {/*                        ref={provided.innerRef}>*/}
-                                        {/*                        /!*{columns.map(({columnName}, index) => {*!/*/}
-                                        {/*                        /!*    return (*!/*/}
-                                        {/*                        /!*        <Draggable key={columnName}*!/*/}
-                                        {/*                        /!*                   draggableId={columnName}*!/*/}
-                                        {/*                        /!*                   index={index}>*!/*/}
-                                        {/*                        /!*            {(provided) => (*!/*/}
-                                        {/*                        /!*                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}*!/*/}
-                                        {/*                        /!*                    className="columnCheckboxContainer">*!/*/}
-                                        {/*                        /!*                    <div>*!/*/}
-                                        {/*                        /!*                        <img*!/*/}
-                                        {/*                        /!*                            src="icon-columnControl.svg"*!/*/}
-                                        {/*                        /!*                            alt=""/>{columnName}*!/*/}
-                                        {/*                        /!*                        </div>*!/*/}
-                                        {/*                        /!*                    <Checkbox />*!/*/}
-                                        {/*                        /!*                </li>*!/*/}
-                                        {/*                        /!*            )}*!/*/}
-                                        {/*                        /!*        </Draggable>*!/*/}
-                                        {/*                        /!*    );*!/*/}
-                                        {/*                        /!*})}*!/*/}
-                                        {/*                        {provided.placeholder}*/}
-                                        {/*                    </ul>*/}
-                                        {/*                )}*/}
-                                        {/*            </Droppable>*/}
-                                        {/*        </DragDropContext>*/}
-                                        {/*    </>*/}
-                                        {/*) : null}*/}
-
-
                     {/* drag and drop end*/}
             <SelectSession>
                 <MF_Select
                     head={"Agent"}
                 >
-                    <h1>test</h1>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
                 </MF_Select>
                 <MF_Select
                     head={"Team"}
                 >
-
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
                 </MF_Select>
                 <MF_Select
                     head={"Tags"}
@@ -305,9 +288,9 @@ export default function Contacts() {
                                         </TableRow>
                                         </TableHead>
                                     <TableBody>
-                                        {contacts.map((d ) => {
+                                        {filteredData.length!=0 && filteredData.map((data ) => {
                                            return( <TableRow
-                                                key={d.id}
+                                                key={data.id}
                                                 hover
                                                 role="checkbox"
                                                 tabIndex={-1}
@@ -326,29 +309,29 @@ export default function Contacts() {
                                                     </div>
                                                 </TableCell>
                                                <TableCell align="left">
-                                                   <span >{d.id}</span>
+                                                   <span >{data.id}</span>
                                                </TableCell>
                                                 <TableCell align="left">
                                                     <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                                        <Avatar alt="Remy Sharp"  src={d.img_url||""}/>
-                                                        <span style={{marginLeft: "11px"}}>{d.name}</span>
+                                                        <Avatar alt="Remy Sharp"  src={data.img_url||""}/>
+                                                        <span style={{marginLeft: "11px"}}>{data.name}</span>
                                                     </div>
                                                 </TableCell>
 
 
                                                 <TableCell align="left">
-                                                    <Pill color="teamA">{d.team}</Pill>
+                                                    <Pill color="teamA">{data.team}</Pill>
                                                 </TableCell>
 
                                                 <TableCell align="left">
-                                                    {d.channel!=-1 && d.channel.map((chan , index)=>{
+                                                    {data.channel!=-1 && data.channel.map((chan , index)=>{
                                                         return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
                                                     })}
                                                 </TableCell>
 
                                                 <TableCell align="left">
                                                     <div className="tagsGroup">
-                                                        {d.tags.map((tag , index)=>{
+                                                        {data.tags.map((tag , index)=>{
                                                             return( <Pill key={index} color="lightBlue">{tag}</Pill>)
                                                         })}
 
@@ -376,4 +359,19 @@ export default function Contacts() {
 
     )
 }
-
+// Contacts.getInitialProps = async ()=>{
+//     const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/"
+//     let token ;
+//     if (process.browser) {
+//         token = localStorage.getItem("token");
+//         console.log(token)
+//     }
+//     const res =  await axios.get(url , {
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': `Bearer ${token}`
+//         },
+//     })
+//     return {contacts:res.data.data}
+// }
+//

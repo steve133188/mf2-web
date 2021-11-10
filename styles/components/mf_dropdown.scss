@@ -28,26 +28,15 @@
 
 .dropdown_items{
   z-index: 10;
+  cursor: auto;
   position: absolute;
   top: 120%;
   left: 0;
-  height: 20rem;
-  width: 15rem;
-  background: #FFFFFF;
+  height: 30rem;
+  width: 25rem;
+  padding: 2rem;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 7px 20px #00000029;
   border-radius: 20px;
   opacity: 1;
-  //padding: 0;
-  //margin: 0;
-  //padding-left: 1em;
-  //background: #ffffff;
-  //border: 2px solid #e5e5e5;
-  //box-sizing: border-box;
-  //color: #3faffa;
-  //font-size: 1.3rem;
-  //font-weight: 500;
-  //&:first-child {
-  //  padding-top: 0.8em;
-  //}
 }

@@ -121,34 +121,32 @@ export const GlobalContextProvider = ({children}) =>{
     }
     const get_contacts = async ()=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/"
-        const res = await axios.get(url , {
+       const res =await axios.get(url , {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
         })
-            .then(response => {
-                if(response.status != 200){
-                    return "something went wrong"
-                }
-                const  data   = response.data.data;
-                console.log(data)
-                localStorage.setItem('contacts',JSON.stringify(data))
-                const c =[ ...JSON.parse(localStorage.getItem("contacts"))]
-                console.log(c)
-                setContacts(c)
-                console.log(contacts)
-                setErrors(null)
-                return data;
-            }).catch(err=>{
-                console.log(err)
-                setErrors("")
-                return err
-            })
+            // .then(response => {
+            //     if(response.status != 200){
+            //         return "something went wrong"
+            //     }
+            //     const  data   = response.data.data;
+            //     localStorage.setItem('contacts',JSON.stringify(data))
+            //     const c =[ ...JSON.parse(localStorage.getItem("contacts"))]
+            //     setContacts(c)
+            //     console.log(contacts)
+            //     setErrors(null)
+            // }).catch(err=>{
+            //     console.log(err)
+            //     setErrors("")
+            // })
         // setContacts([...res])
-        console.log(contacts)
-        console.log(typeof contacts)
-
+        // let data =[ ...JSON.parse(localStorage.getItem("contacts"))]
+        // console.log(data)
+        // setContacts(data)
+        // console.log(contacts)
+        return res.data.data
     }
     const get_contact = async (names)=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/name"
