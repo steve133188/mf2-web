@@ -69,7 +69,8 @@ export default function Recovery() {
                 {/*</div>*/}
                 {/*<div className={"login-form"}>*/}
                     {/*<form action="" >*/}
-                        <div className="mf_icon_input_block mf_input_shadow">
+
+                        <div className={"mf_icon_input_block mf_input_shadow "+styles.mx_auto + " " + styles.input_margin}>
                             {/*<span className={""}>Email or Password invalid</span>*/}
                             {/*<label className={"searchSVG emailSVG"}>*/}
                             <div className={"mf_inside_icon mf_email_icon"} > </div>

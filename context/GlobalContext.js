@@ -120,13 +120,13 @@ export const GlobalContextProvider = ({children}) =>{
 
     }
     const get_contacts = async ()=>{
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/all"
+        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/"
         const res = await axios.get(url , {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
-        },{params: 1})
+        })
             .then(response => {
                 if(response.status != 200){
                     return "something went wrong"

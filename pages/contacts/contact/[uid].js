@@ -3,21 +3,18 @@ import {CustomerProfileCategory} from "../../../components/CustomerProfileCatego
 import {CustomerProfileChannel} from "../../../components/CustomerProfileChannel";
 import {CustomerProfileActivityLog} from "../../../components/CustomerProfileActivityLog";
 import axios from "axios";
+import {useRouter} from "next/router";
 
 
-async function getUser(id){
-    const user = await axios.get(process.env["USERS_API "]+"id="+id)
-        .then(res=>{console.log(res)})
-        .catch(err=>alert(err))
-    return user
-}
 
 
 export default function Customer_profile() {
+    const router =useRouter()
+    const {id} = router.query
     return (
         <div className="customer_profile-layout">
 
-            <div className="leftMenu">MENU</div>
+            <div className="leftMenu">MENU </div>
 
             <div className="rightContent">
                 <div className="navbar">NAVBAR</div>

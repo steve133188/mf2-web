@@ -1,5 +1,6 @@
 import {Search3} from "../../components/Input";
 import {useContext, useEffect, useState} from "react";
+import {useRouter} from "next/router";
 import {Checkbox} from "../../components/Checkbox"
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
@@ -14,14 +15,14 @@ import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-
-
-
-
-
+import {TableCell} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import {Pill} from "../../components/Pill";
+import MF_Select from "../../components/MF_Select";
+import TableHead from "@mui/material/TableHead";
 
 export default function Contacts() {
-
+    const router = useRouter()
     // const [contacts, setContacts] = useState([]);
     const { contacts , get_contacts} = useContext(GlobalContext)
     useEffect( async () => {
@@ -34,33 +35,8 @@ export default function Contacts() {
         setFilter(e.target.value)
         console.log(filter)
     }
-    const defualt_cols = ['customer_id' , 'name' , 'team' ,  'channels','tags' ,'assignee']
-    const data = [
-        {
-            customer_id:"000001",
-            name:"000001",
-            team:"000001",
-            assignee:["steve","ben","lapson"],
-            tags:["VVIP","New Customer","Promotion" ],
-            channels:["whatsapp"],
-        },
-        {
-            customer_id:"000002",
-            name:"000002",
-            team:"000002",
-            assignee:["ben","lapson"],
-            tags:["VVIP","New Customer","Promotion" ],
-            channels:["whatsapp"],
-        },
-        {
-            customer_id:"000003",
-            name:"000003",
-            team:"000003",
-            assignee:["steve","lapson"],
-            tags:["VIP","New Customer" ],
-            channels:["whatsapp"],
-        }
-    ]
+    const default_cols = ['customer_id' , 'name' , 'team' ,  'channels','tags' ,'assignee']
+
 
     const [isSelectRow, setSelectRow] = useState( false);
 
@@ -68,30 +44,6 @@ export default function Contacts() {
         setSelectRow(!isSelectRow);
     }
 
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        setOpen((prev) => !prev);
-    };
-
-    const [openAddPopper, setOpenAddPopper] = useState(false);
-
-    const handleClickAddPopper = () => {
-        setOpenAddPopper((prev) => !prev);
-    };
-
-    const handleClickAwayAddPopper = () => {
-        setOpenAddPopper(false);
-    };
-    const [openDeletePopper, setOpenDeletePopper] = useState(false);
-
-    const handleClickDeletePopper = () => {
-        setOpenDeletePopper((prev) => !prev);
-    };
-
-    const handleClickAwayDeletePopper = () => {
-        setOpenDeletePopper(false);
-    };
 
     function showDropzone() {
         setIsShowDropzone(true);
@@ -116,11 +68,11 @@ export default function Contacts() {
                 value={filter}
             >
                 {!isSelectRow ? (
-                    <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select</button>
+                    <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                 ) : (
                     <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                 )}
-                <button  className="textWithIconButton mf_bg_light_blue mf_color_blue" onClick={handleClick}>
+                <button  className="textWithIconButton mf_bg_light_blue mf_color_blue" disabled={true}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                          fill="currentColor"
                          className="bi bi-pencil" viewBox="0 0 16 16"
@@ -176,7 +128,26 @@ export default function Contacts() {
 
                     {/* drag and drop end*/}
             <SelectSession>
+                <MF_Select
+                    head={"Agent"}
+                >
+                    <h1>test</h1>
+                </MF_Select>
+                <MF_Select
+                    head={"Team"}
+                >
 
+                </MF_Select>
+                <MF_Select
+                    head={"Tags"}
+                >
+
+                </MF_Select>
+                <MF_Select
+                    head={"Channel"}
+                >
+
+                </MF_Select>
             </SelectSession>
                     {/*<div className={"mf_bg_light_grey "+styles.row }>*/}
                     {/*    <div className={styles.select_group}>*/}
@@ -311,7 +282,6 @@ export default function Contacts() {
                     {/*            </ClickAwayListener>*/}
                     {/*        </div>*/}
                     {/*    </div>*/}
-
                     {/*</div>*/}
                     {/**/}
 
@@ -320,16 +290,30 @@ export default function Contacts() {
                                     sx={{minWidth: 750}}
                                     aria-labelledby="tableTitle"
                                 >
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>
+                                                <div className="newCheckboxContainer">
+                                                {isSelectRow ? <label className="newCheckboxLabel">
+                                                    <input type="checkbox" name="checkbox"/>
+                                                </label> : null}
+                                                </div>
+                                            </TableCell>
+                                        {default_cols.map((col,index)=>{
+                                           return ( <TableCell key={index}>{col}</TableCell>)
+                                        })}
+                                        </TableRow>
+                                        </TableHead>
                                     <TableBody>
-                                        {/*{<li>{contacts}</li>}*/}
-                                        {contacts.map((c ) => {
-                                           return(  <TableRow
-                                                key={c.id}
+                                        {contacts.map((d ) => {
+                                           return( <TableRow
+                                                key={d.id}
                                                 hover
                                                 role="checkbox"
                                                 tabIndex={-1}
                                             >
-                                                <td style={{
+                                                   {/*<Link href={`/contacts/${d.id}`}>*/}
+                                                <TableCell style={{
                                                     width: "30px",
                                                     textAlign: "center",
                                                     borderBottom: "1px #e0e0e0 solid"
@@ -340,72 +324,53 @@ export default function Contacts() {
                                                         </label> : null}
 
                                                     </div>
-                                                </td>
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <div style={{display: "flex", alignItems: "center"}}>
-                                                        <Avatar alt="Remy Sharp"
-                                                                src={c.img_url||""}/>
+                                                </TableCell>
+                                               <TableCell align="left">
+                                                   <span >{d.id}</span>
+                                               </TableCell>
+                                                <TableCell align="left">
+                                                    <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
+                                                        <Avatar alt="Remy Sharp"  src={d.img_url||""}/>
+                                                        <span style={{marginLeft: "11px"}}>{d.name}</span>
                                                     </div>
                                                 </TableCell>
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <span style={{marginLeft: "11px"}}>{c.name}</span>
-                                                </TableCell>
-                                                {/*name*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <Pill color="teamA">{c.team}</Pill>
-                                                </TableCell>
-                                                {/*team*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <img width="24px" height="24px" src="./whatsappChannel.svg"
-                                                         alt=""/>
-                                                </TableCell>
-                                                {/*channel*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <div className="tagsGroup"><Pill color="lightBlue">VIP</Pill><Pill
-                                                        color="lightPurple">New
-                                                        Customer</Pill></div>
-                                                </TableCell>
-                                                {/*tags*/}
-                                                <TableCell sx={{padding: "26px", fontSize: "16px"}}
-                                                           align="left">
-                                                    <div className="assigneeGroup">
-                                                        <Pill color="lightYellow" size="roundedPill size30">MF</Pill>
-                                                        <Pill color="lightBlue" size="roundedPill size30">AX</Pill>
-                                                        <Pill color="lightGreen" size="roundedPill size30">DS</Pill>
-                                                        <Pill color="lightPurple" size="roundedPill size30">EW</Pill>
-                                                        <Pill color="lightRed" size="roundedPill size30">KA</Pill>
-                                                    </div>
-                                                </TableCell>
-                                            {/*    assignee*/}
 
-                                            </TableRow>)
+
+                                                <TableCell align="left">
+                                                    <Pill color="teamA">{d.team}</Pill>
+                                                </TableCell>
+
+                                                <TableCell align="left">
+                                                    {d.channel!=-1 && d.channel.map((chan , index)=>{
+                                                        return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
+                                                    })}
+                                                </TableCell>
+
+                                                <TableCell align="left">
+                                                    <div className="tagsGroup">
+                                                        {d.tags.map((tag , index)=>{
+                                                            return( <Pill key={index} color="lightBlue">{tag}</Pill>)
+                                                        })}
+
+                                                    </div>
+                                                </TableCell>
+
+                                                <TableCell align="left">
+                                                    <div className="assigneeGroup">
+                                                        {/*<Pill color="lightYellow" size="roundedPill size30">MF</Pill>*/}
+                                                        {/*<Pill color="lightBlue" size="roundedPill size30">AX</Pill>*/}
+                                                        {/*<Pill color="lightGreen" size="roundedPill size30">DS</Pill>*/}
+                                                        {/*<Pill color="lightPurple" size="roundedPill size30">EW</Pill>*/}
+                                                        {/*<Pill color="lightRed" size="roundedPill size30">KA</Pill>*/}
+                                                    </div>
+                                                </TableCell>
+                                                   {/*</Link>*/}
+                                            </TableRow>
+                                           )
                                         })}
-                                        {/*        );*/}
-                                        {/*    })}*/}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-            {/*<table>*/}
-            {/*    <thead>*/}
-            {/*    {defualt_cols.map((col,index)=>{*/}
-            {/*       return ( <th key={index}> {col} </th>)*/}
-            {/*    })}*/}
-            {/*    </thead>*/}
-            {/*    <tbody>*/}
-            {/*    {data.map((d,index)=>{*/}
-            {/*        return(*/}
-            {/*            <tr key={index}></tr>*/}
-            {/*        )*/}
-            {/*    })}*/}
-            {/*    </tbody>*/}
-            {/*</table>*/}
-
-
                 </div>
 
 

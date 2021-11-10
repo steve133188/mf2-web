@@ -47,55 +47,55 @@ export default function addcontact() {
                             <h6>Tags & Assignee</h6>
                             <p>Tags</p>
                             <div className={"tagsGroup"}>
-                                <Pill color="vip">VIP</Pill>
-                                <Pill color="newCustomer">New customer</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="vvip">VVIP</Pill>
-                                <Pill color="promotions">Promotions</Pill>
-                                <Pill color={"add"}>+</Pill>
+                                {/*<Pill color="vip">VIP</Pill>*/}
+                                {/*<Pill color="newCustomer">New customer</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="vvip">VVIP</Pill>*/}
+                                {/*<Pill color="promotions">Promotions</Pill>*/}
+                                {/*<Pill color={"add"}>+</Pill>*/}
                             </div>
                         </div>
                         <div className={"tagsGroup"}>
                             <p>Assignee</p>
                             <div className={"tagsGroup"}>
-                                <Pill color="lightYellow" size="size30">MF</Pill>
-                                <Pill color="lightBlue" size="size30">VS</Pill>
-                                <Pill color="lightPurple" size="size30">VS</Pill>
-                                <Pill color="lightRed" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color="lightGreen" size="size30">VS</Pill>
-                                <Pill color={"add"} size={"30"}>+</Pill>
+                                {/*<Pill color="lightYellow" size="size30">MF</Pill>*/}
+                                {/*<Pill color="lightBlue" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightPurple" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightRed" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color="lightGreen" size="size30">VS</Pill>*/}
+                                {/*<Pill color={"add"} size={"30"}>+</Pill>*/}
                             </div>
                         </div>
                     </div>
