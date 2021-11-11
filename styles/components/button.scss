@@ -2,7 +2,8 @@
 @use "./bg.scss";
 
 button {
-  padding: 0.5rem;
+  //padding: 0.5rem;
+  padding: 0.25rem 1rem;
   border-radius: 10px;
   background: variables.$mf_primary_color;
   color: #FFFFFF;
@@ -15,10 +16,10 @@ button {
 }
 
 button[disabled] {
-  padding: 0.5rem;
+  //padding: 0.5rem;
   border-radius: 10px;
   background: #F5F6F8 0% 0% no-repeat padding-box;
-  color: #444444;
+  //color: #444444;
   font-size: 15px;
   font-weight: 500;
   border: none;

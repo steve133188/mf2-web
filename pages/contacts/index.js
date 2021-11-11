@@ -91,26 +91,11 @@ export default function Contacts() {
                 <MF_Select
                     head={"Agent"}
                 >
-                    <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+
                 </MF_Select>
                 <MF_Select
                     head={"Team"}
                 >
-                    <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
                 </MF_Select>
                 <MF_Select
                     head={"Tags"}
