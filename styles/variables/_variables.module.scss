@@ -1,0 +1,37 @@
+$mf_primary_color : #2198FA;
+$mf_primary_light_color : #D0E9FF;
+$mf_light_blue_color : #D5ECFF;
+$mf_text_color : #8B8B8B;
+$mf_blue_color : #2172fa;
+$mf_disable_color : #F5F6F8;
+$mf_light_grey_color : #F8F9FB;
+$mf_grey_border_color : #E5E7EC;
+$mf_grey_bg_color : #F8F9FB;
+$mf_success : #68C093;
+$mf_light_success : #CCF0E3;
+$mf_light_warning : #FCECD2;
+$mf_warning : #F1B44C;
+$mf_light_danger :#FCD9D9;
+$mf_danger : #FC736A;
+$mf_purple : #5B73E8;
+$mf_light_purple :#D6DCF9;
+
+:export {
+    mf_primary_color: $mf_primary_color;
+    mf_primary_light_color: $mf_primary_light_color;
+    mf_light_blue_color: $mf_light_blue_color;
+    mf_text_color: $mf_text_color;
+    mf_blue_color: $mf_blue_color;
+    mf_disable_color: $mf_disable_color;
+    mf_light_grey_color: $mf_light_grey_color;
+    mf_grey_border_color: $mf_grey_border_color;
+    mf_grey_bg_color: $mf_grey_bg_color;
+    mf_success: $mf_success;
+    mf_light_success: $mf_light_success;
+    mf_light_warning: $mf_light_warning;
+    mf_warning: $mf_warning;
+    mf_light_danger: $mf_light_danger;
+    mf_danger: $mf_danger;
+    mf_purple: $mf_purple;
+    mf_light_purple: $mf_light_purple;
+}
