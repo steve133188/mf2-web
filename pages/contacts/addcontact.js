@@ -3,48 +3,54 @@ import {Pill} from "../../components/Pill";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import Link from "next/link"
+import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
 
-export default function addcontact() {
+export default function AddContact() {
+    const [newContact , setNewContact] = useState({
+        first_name:"",
+        last_name:"",
+
+    })
+    const router = useRouter()
+
+    useEffect(()=>{
+
+    },[])
+
+
     return (
-        <div className={"addContactFormContainer"}>
-            <div className="infoTagContainer">
-                <div>
-                    <div className={"inputSetContainer"}>
-                        <div className="contactDescription">
-                            <h6>New Contact</h6>
-                            <p>*At least one phone number or an email address is required to create the
-                                profile.</p>
+            <div className={"addContactSession"}>
+            <div className="addContactSession_info_ss addContactSession_ss">
+                        <div className="ss_row addContactSession_title">
+                            New Contact
                         </div>
-                        <div className={"inputSet"}>
+                        <div className={"ss_row"}>
                             <Input2 title="Phone*">+852 9765 0348</Input2>
                             <Input2 title="Email*">debra.patel@gmail.com</Input2>
                         </div>
+                    <div className={"ss_row"}>
+                        <Input2 title="First Name"></Input2>
+                        <Input2 title="Last Name"></Input2>
                     </div>
-                    <div className={"inputSetContainer"}>
-                        <div className="contactDescription">
-                            <h6>Basic Information (Optional)</h6>
-                        </div>
-                        <div className={"inputSet"}>
-                            <Input2 title="First Name">Debra</Input2>
-                            <Input2 title="Last Name">Patel</Input2>
-                        </div>
-                        <div className={"inputSet"}>
-                            <Input2 title="Birthday">Birthday</Input2>
-                            <Input2 title="Country">Hong Kong</Input2>
-                        </div>
-                        <span className="longInput"><Input2
-                            title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2>
+                    <div className={"ss_row"}>
+                        <Input2 title="Birthday">Birthday</Input2>
+                        <Input2 title="Gender">Birthday</Input2>
+                    </div>
+                    <span className="longInput"><Input2
+                        title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2>
                         </span>
-                        <div className={"addContactBtnGroup"}>
-                            <NormalButton2>+ New Contact</NormalButton2>
-                            <Link href="/contacts"><a><CancelButton></CancelButton></a></Link>
-                        </div>
+                <Input2 title="Country">Hong Kong</Input2>
+
+                <div className={"ss_row submit_row"}>
+                        <NormalButton2>+ New Contact</NormalButton2>
+                        <Link href="/contacts"><a><CancelButton></CancelButton></a></Link>
                     </div>
-                </div>
-                <div className={"inputSetContainer"} style={{marginTop: "170px"}}>
-                    <div className="contactDescription" style={{display: "flex", maxWidth: "430px"}}>
+            </div>
+
+                <div className={"addContactSession_ss  addContactSession_tags_ss"}>
                         <div className={"tagsGroup"}>
-                            <h6>Tags & Assignee</h6>
+                            <div className={"addContactSession_title"}>Tags & Assignee</div>
                             <p>Tags</p>
                             <div className={"tagsGroup"}>
                                 {/*<Pill color="vip">VIP</Pill>*/}
@@ -98,9 +104,8 @@ export default function addcontact() {
                                 {/*<Pill color={"add"} size={"30"}>+</Pill>*/}
                             </div>
                         </div>
-                    </div>
                 </div>
+
             </div>
-        </div>
     )
 }

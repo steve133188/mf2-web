@@ -33,6 +33,7 @@ export default function Contacts() {
     useEffect(    () => {
         const fetchContacts = async () =>{
             const data = await get_contacts()
+
             setContacts(data)
             setFilteredData(data)
         }
@@ -82,16 +83,16 @@ export default function Contacts() {
                 ) : (
                     <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                 )}
-                <button  className="textWithIconButton mf_bg_light_blue mf_color_blue" disabled={true}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                         fill="currentColor"
-                         className="bi bi-pencil" viewBox="0 0 16 16"
-                         style={{marginRight: "4px"}}>
-                        <path
-                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                    </svg>
-                    Edit Column
-                </button>
+                {/*<button  className="textWithIconButton mf_bg_light_blue mf_color_blue" disabled={true}>*/}
+                {/*    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"*/}
+                {/*         fill="currentColor"*/}
+                {/*         className="bi bi-pencil" viewBox="0 0 16 16"*/}
+                {/*         style={{marginRight: "4px"}}>*/}
+                {/*        <path*/}
+                {/*            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>*/}
+                {/*    </svg>*/}
+                {/*    Edit Column*/}
+                {/*</button>*/}
                 <button onClick={toggleDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>
                 <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
             </SearchSession>
@@ -324,7 +325,7 @@ export default function Contacts() {
                                                 </TableCell>
 
                                                 <TableCell align="left">
-                                                    {data.channel!=-1 && data.channel.map((chan , index)=>{
+                                                    {data.channels!=-1 && data.channels.map((chan , index)=>{
                                                         return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
                                                     })}
                                                 </TableCell>
@@ -340,11 +341,11 @@ export default function Contacts() {
 
                                                 <TableCell align="left">
                                                     <div className="assigneeGroup">
-                                                        {/*<Pill color="lightYellow" size="roundedPill size30">MF</Pill>*/}
-                                                        {/*<Pill color="lightBlue" size="roundedPill size30">AX</Pill>*/}
-                                                        {/*<Pill color="lightGreen" size="roundedPill size30">DS</Pill>*/}
-                                                        {/*<Pill color="lightPurple" size="roundedPill size30">EW</Pill>*/}
-                                                        {/*<Pill color="lightRed" size="roundedPill size30">KA</Pill>*/}
+                                                        {data.agents!=-1 &&data.agents.map((agent , index)=>{
+                                                            return(
+                                                                <Pill key={index} color="lightYellow" size="roundedPill size30">{agent}</Pill>
+                                                            )
+                                                        })}
                                                     </div>
                                                 </TableCell>
                                                    {/*</Link>*/}

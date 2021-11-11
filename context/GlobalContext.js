@@ -13,7 +13,7 @@ export const GlobalContextProvider = ({children}) =>{
     const [chats , setChats] = useState([])
     const [contacts , setContacts] = useState([] )
     const [message , setMessage] = useState([])
-
+    const base_url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api"
     // const client = W3CWebSocket("ws://localhost:8000");
     // JSON.parse(localStorage.getItem("user"))
     // localStorage.getItem("token")
@@ -127,26 +127,7 @@ export const GlobalContextProvider = ({children}) =>{
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
         })
-            // .then(response => {
-            //     if(response.status != 200){
-            //         return "something went wrong"
-            //     }
-            //     const  data   = response.data.data;
-            //     localStorage.setItem('contacts',JSON.stringify(data))
-            //     const c =[ ...JSON.parse(localStorage.getItem("contacts"))]
-            //     setContacts(c)
-            //     console.log(contacts)
-            //     setErrors(null)
-            // }).catch(err=>{
-            //     console.log(err)
-            //     setErrors("")
-            // })
-        // setContacts([...res])
-        // let data =[ ...JSON.parse(localStorage.getItem("contacts"))]
-        // console.log(data)
-        // setContacts(data)
-        // console.log(contacts)
-        return res.data.data
+        return res.data
     }
     const get_contact = async (names)=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/name"
