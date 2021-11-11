@@ -5,12 +5,21 @@ import {CancelButton, NormalButton2} from "../../components/Button";
 import Link from "next/link"
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 export default function AddContact() {
     const [newContact , setNewContact] = useState({
         first_name:"",
         last_name:"",
-
+        name:"",
+        phone:"",
+        email:"",
+        birthday:"",
+        gender:"",
+        address:"",
+        country:"",
+        tags:[],
+        Assignee:[]
     })
     const router = useRouter()
 
@@ -19,6 +28,46 @@ export default function AddContact() {
     },[])
 
 
+    function handleChange(evt) {
+        const value = evt.target.value;
+        setNewContact({
+            ...newContact,
+            [evt.target.name]: value,
+            ["name"]:newContact.first_name+newContact.last_name
+        });
+        console.log(newContact)
+    }
+    async function handleSubmit (e){
+        e.preventDefault()
+        // await setNewContact({
+        //     ...newContact,
+        //     ["name"]:newContact.first_name+newContact.last_name
+        // })
+        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
+        const name =` ${newContact.first_name} ${newContact.last_name}`
+        console.log(name)
+
+        const res = await axios.post(url , newContact ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                if(response.status != 200){
+                    return "something went wrong"
+                }
+                console.log(response)
+            }).catch(err=>{
+                console.log(err)
+            })
+        console.log(res)
+        router.back()
+    }
+    function cancel(e){
+        e.propertyIsEnumerable()
+        router.back()
+    }
     return (
             <div className={"addContactSession"}>
             <div className="addContactSession_info_ss addContactSession_ss">
@@ -26,25 +75,24 @@ export default function AddContact() {
                             New Contact
                         </div>
                         <div className={"ss_row"}>
-                            <Input2 title="Phone*">+852 9765 0348</Input2>
-                            <Input2 title="Email*">debra.patel@gmail.com</Input2>
+                            <Input2 title="First Name*" name={"first_name"} value={newContact.first_name} onChange={handleChange}/>
+                            <Input2 title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
+
                         </div>
                     <div className={"ss_row"}>
-                        <Input2 title="First Name"></Input2>
-                        <Input2 title="Last Name"></Input2>
+                        <Input2 title="Phone*" name={"phone"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
+                        <Input2 title="Email" name={"email"} value={newContact.email} onChange={handleChange}/>
                     </div>
                     <div className={"ss_row"}>
-                        <Input2 title="Birthday">Birthday</Input2>
-                        <Input2 title="Gender">Birthday</Input2>
+                        <Input2 title="Birthday" name={"birthday"} value={newContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
+                        <Input2 title="Gender" name={"gender"} value={newContact.gender} onChange={handleChange} placeholder={"M or F"}/>
                     </div>
-                    <span className="longInput"><Input2
-                        title="Address">233 Wan Chai Rd, Wan Chai, HK</Input2>
-                        </span>
-                <Input2 title="Country">Hong Kong</Input2>
+                    <span className="longInput"><Input2 title="Address" name={"address"} value={newContact.address} onChange={handleChange}/></span>
+                <Input2 title="Country" name={"country"} value={newContact.country} onChange={handleChange} />
 
                 <div className={"ss_row submit_row"}>
-                        <NormalButton2>+ New Contact</NormalButton2>
-                        <Link href="/contacts"><a><CancelButton></CancelButton></a></Link>
+                        <button onClick={handleSubmit}>+ New Contact</button>
+                        <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"} onClick={cancel}>Cancel</button></Link>
                     </div>
             </div>
 

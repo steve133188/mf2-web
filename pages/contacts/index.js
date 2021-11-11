@@ -314,7 +314,7 @@ export default function Contacts() {
                                                 </TableCell>
 
                                                 <TableCell align="left">
-                                                    {data.channels!=-1 && data.channels.map((chan , index)=>{
+                                                    { data.channels!=null && data.channels.map((chan , index)=>{
                                                         return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
                                                     })}
                                                 </TableCell>
@@ -330,7 +330,7 @@ export default function Contacts() {
 
                                                 <TableCell align="left">
                                                     <div className="assigneeGroup">
-                                                        {data.agents!=-1 &&data.agents.map((agent , index)=>{
+                                                        {data.agents!=null &&data.agents.map((agent , index)=>{
                                                             return(
                                                                 <Pill key={index} color="lightYellow" size="roundedPill size30">{agent}</Pill>
                                                             )

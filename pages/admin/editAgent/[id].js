@@ -22,7 +22,7 @@ import { SingleSelectCommon } from "../../../components/multiSelects/SingleSelec
 
 import styles from "../../../styles/pages/editAgent.module.scss"
 
-export default function editAgent() {
+export default function EditAgent() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
     const {id} = router.query;
@@ -71,8 +71,8 @@ export default function editAgent() {
         router.push("/admin")
     }
 
-    useEffect (() => {
-        let agent_get_request = await PostAPIAction(post_link.GET_USERS_BY_TEAM, "POST",  {"team": teamName,
+    useEffect (async () => {
+        const agent_get_request = await PostAPIAction(post_link.GET_USERS_BY_TEAM, "POST",  {"team": teamName,
         "division": "Division1"});
         if(agents_get_request.status ==200) {
             setAgents_get(agents_get_request.payload.data);

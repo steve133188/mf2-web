@@ -7,28 +7,42 @@ import {BroadcastTable} from "../../components/Table";
 import {PaginationControlled} from "../../components/Pagination";
 import {Badge} from "../../components/Badge";
 import {StatusPill} from "../../components/Pill";
-import * as React from "react";
+import {useState , useEffect} from "react";
+import SearchSession from "../../components/SearchSession";
+import Link from "next/link";
+import SelectSession from "../../components/SelectSession";
 
 export default function Organization() {
+    const [filter , setFilter ]=useState("")
+    const [isSelectRow , setIsSelectRow ]=useState(false)
+    function toggleSelectRow() {
+        setIsSelectRow(!isSelectRow);
+    }
+    const handleFilterChange = (e) =>{
+        e.preventDefault()
+        setFilter(e.target.value)
+    }
     return (
         <div className="organization-layout">
             <BlueMenu></BlueMenu>
             <div className="rightContent">
                 <div className="broadcastContainer">
-                    <div className="topBar">
-                        <div className="searchBar">
-                            <Search3 type="search">Search</Search3>
-                        </div>
-                        <div className="buttonGrp">
-                            <NormalButton>Select</NormalButton>
-                            <NormalButton2>+ New Team</NormalButton2>
-                            <NormalButton2>+ New Division</NormalButton2>
-                        </div>
-                    </div>
-                    <div className="navbarPurple">
-                        <div>Team2   ( 8 )</div>
-                        <NormalButton2>+ New Agent</NormalButton2>
-                    </div>
+                    <SearchSession
+                        placeholder={"Search"}
+                        handleChange={handleFilterChange}
+                        value={filter.keyword}
+                    >
+                        {!isSelectRow ? (
+                            <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
+                        ) : (
+                            <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                        )}
+                        <button>+ New Team</button>
+                        <Link href="/contacts/addcontact"><button>+ New Division</button></Link>
+                    </SearchSession>
+                    <SelectSession btn={(<button style={{marginLeft: "auto"}}>+ New Agent</button>)}>
+
+                    </SelectSession>
                     <div className="broadcastTable">
                         <table className="table">
                             <thead>

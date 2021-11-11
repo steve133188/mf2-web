@@ -18,7 +18,7 @@ export function Input2(props) {
     return (
         <div className="inputField">
             <span>{props.title}</span>
-            <input type={props.type ?? "text"} placeholder={props.placeholder} disabled={props.disabled ? "disabled" : ""} onChange={props.onChange} value={props.value} />
+            <input type={props.type ?? "text"} name={props.name||null} placeholder={props.placeholder||null} disabled={props.disabled ? "disabled" : ""} onChange={props.onChange} value={props.value} />
         </div>
     )
 }
