@@ -185,3 +185,11 @@
     }
   }
 }
+
+.buttonColumn {
+  display: flex;
+  justify-content: flex-end;
+  .pencilButton{
+    margin-right: 20px;
+  }
+}

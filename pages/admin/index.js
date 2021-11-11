@@ -5,6 +5,7 @@ import {
     CancelButton,
     SelectButton,
     AddButton,
+    ConfirmButton
 } from "../../components/Button";
 import Swal from 'sweetalert2';
 import {useRouter} from "next/router";
@@ -387,7 +388,7 @@ export default function Admin() {
                                                     Delete {noOfSelectedRow} agents? <br/>
                                                     All conversation history will also be erased.
                                                     <div className={styles.controlButtonGroup}>
-                                                        <NormalButton2>Delete</NormalButton2>
+                                                        <ConfirmButton>Delete</ConfirmButton>
                                                         <span
                                                             onClick={handleClickDeletePopper}><CancelButton></CancelButton></span>
                                                     </div>
