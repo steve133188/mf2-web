@@ -22,6 +22,9 @@ import {useTheme} from "@mui/material/styles";
 import {BlueMenu2} from "../../components/BlueMenu";
 import { Checkbox } from '../../components/Checkbox';
 
+import * as post_link from "../../api/PostAPILink";
+import { PostAPIAction } from '../../api/PostAPI';
+
 import styles from"../../styles/pages/admin.module.scss";
 
 export default function Admin() {
@@ -38,11 +41,11 @@ export default function Admin() {
     const [openFreezePopper, setOpenFreezePopper] = React.useState(false);
 
     const teamNames = [
-        'Team A',
-        'Team B',
-        'Team C',
-        'Team D',
-        'Team E',
+        'team1',
+        'team2',
+        'team3',
+        'team4',
+        'team5',
     ];
     const [teamName, setTeamName] = useState(teamNames[0]);
 
@@ -87,13 +90,27 @@ export default function Admin() {
             locked: true
         },
     ]);
+
+    useEffect (async () => {
+        let agents_get_request = await PostAPIAction(post_link.GET_USERS_BY_TEAM, "POST",  {"team": teamName,
+        "division": "Division1"});
+        if(agents_get_request.status ==200) {
+            console.log(agents_get_request);
+            let agents_get_result = agents_get_request.payload;
+            if(Array.isArray(agents_get_result)){
+                setAgents_get(agents_get_request.payload);
+                setAgents(agents_get_request.payload);
+            }
+        }        
+    });
+
     const [agents, setAgents] = useState(agents_get);
     
-    const agent_name = agents.map((agent) => {
+    let agent_name = Array.isArray(agents) ? agents.map((agent) => {
         return agent.name;
-    })
+    }) : [];
     const handleSearch = (search) => {
-        if(search.length) {
+        if(search.length && agents_get.length > 0) {
             var agent_name_filtered = agent_name.filter((str)=>{
                 return str.toLowerCase().indexOf(search.toLowerCase()) >= 0; 
             });
@@ -102,22 +119,22 @@ export default function Admin() {
             setAgents(filtered_agents);
             agents_get.map((agent)=> {
                 if(!agent_name_filtered.includes(agent.name)){
-                    if(selectedRow[agent.id]){
-                        selectedRow[agent.id] = false;
+                    if(selectedRow[agent.email]){
+                        selectedRow[agent.email] = false;
                         setNoOfSelectedRow(noOfSelectedRow-1);
                     }
                 }
             })
-            setSelectedRow({...selectedRow})          
+            setSelectedRow({...selectedRow})        
         } else {
             setAgents(agents_get);
         }
     }
 
     const handleSelect = (event) => {
-        let id = event.target.id;
-        if (id != "all"){
-            setSelectedRow({...selectedRow, [id]: event.target.checked})
+        let email = event.target.id;
+        if (email != "all"){
+            setSelectedRow({...selectedRow, [email]: event.target.checked})
             if(event.target.checked){
                 setNoOfSelectedRow(noOfSelectedRow+1);
             } else {
@@ -128,12 +145,12 @@ export default function Admin() {
             let selected = 0;
             if(selectedRow.all){
                 agents.map((agent) => {
-                    selectedRow[agent.id] = true;
+                    selectedRow[agent.email] = true;
                     selected++;
                 })
             } else {
                 agents.map((agent) => {
-                    selectedRow[agent.id] = false;  
+                    selectedRow[agent.email] = false;  
                 })
                 selected = 0;
             }
@@ -168,10 +185,10 @@ export default function Admin() {
 
     const editAgent = () =>{
         let keys = Object.keys(selectedRow);
-        let agent_id = keys.find((key)=> {
+        let agent_email = keys.find((key)=> {
             return key !="all" && selectedRow[key]
         })
-        router.push("/admin/editAgent/"+agent_id)
+        router.push("/admin/editAgent/"+agent_email)
     }
 
     const handleClickDeletePopper = () => {
@@ -187,10 +204,10 @@ export default function Admin() {
             for(var key in selectedRow){
                 if(key !== "all" && selectedRow[key]){
                     let lock_agent = agents.find(agent => {
-                        return agent.id === key;
+                        return agent.email === key;
                     })
                     var index = agents.findIndex(agent => {
-                        return agent.id === key;
+                        return agent.email === key;
                     })
                     if(index >=0){
                         lock_agent.locked = !lock_agent.locked;
@@ -419,12 +436,12 @@ export default function Admin() {
                                 </thead>
                                 <tbody>
                                     {/*add index to key prop*/}
-                                    {agents.map((agent,index) => {
+                                    {Array.isArray(agents) ? agents.map((agent,index) => {
                                         let online_class = (agent.online_status == "online" ? "selectStatusOnline" : "selectStatusOffline")
                                         return (
                                             <tr key={index} className="bodyTr">
                                                 {isSelectRow ? (
-                                                    <td><Checkbox onChange={handleSelect} id={agent.id} checked={selectedRow[agent.id]} /></td>
+                                                    <td><Checkbox onChange={handleSelect} id={agent.email} checked={selectedRow[agent.email]} /></td>
                                                 ) : ""}
                                                 <td style={{display: "flex"}}>
                                                     <div className={online_class}></div>{agent.name}
@@ -440,7 +457,7 @@ export default function Admin() {
                                                 </td>
                                             </tr>
                                         );
-                                    })}
+                                    }) : null}
                                 </tbody>
                             </table>
                         </div>

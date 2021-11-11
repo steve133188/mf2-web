@@ -71,6 +71,15 @@ export default function editAgent() {
         router.push("/admin")
     }
 
+    useEffect (() => {
+        let agent_get_request = await PostAPIAction(post_link.GET_USERS_BY_TEAM, "POST",  {"team": teamName,
+        "division": "Division1"});
+        if(agents_get_request.status ==200) {
+            setAgents_get(agents_get_request.payload.data);
+            setAgents(agents_get_request.payload.data);
+        }        
+    });
+
     return (
         <div className="admin_layout">
             {/*<Dropzone/>*/}
