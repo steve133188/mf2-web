@@ -186,9 +186,9 @@ export default function StandardReplyFolder() {
                                             <tr key={index} className="bodyTr">
                                                 <td>{folder.name}</td>
                                                 <td>
-                                                    {folder.channels.map((channel) =>{
+                                                    {folder.channels.map((channel,index) =>{
                                                         return (
-                                                            <img src={channelImg[channel]} />
+                                                            <img key={index} src={channelImg[channel]} />
                                                         )
                                                     })}
                                                 </td>
@@ -196,9 +196,9 @@ export default function StandardReplyFolder() {
                                                     <tag is_team={true} order={team_order}>{folder.team}</tag>
                                                 </td>
                                                 <td>
-                                                    {folder.assignees.map((assignee) =>{
+                                                    {folder.assignees.map((assignee,index) =>{
                                                         return (
-                                                            <tag is_team={false} order={assignee_order}>{assignee}</tag>
+                                                            <tag key={index} is_team={false} order={assignee_order}>{assignee}</tag>
                                                         )
                                                     })}
                                                 </td>
