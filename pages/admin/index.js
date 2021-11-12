@@ -77,7 +77,7 @@ export default function Admin() {
             email: "Harry.stewart@gmail.com",
             phone: "+852 9765 0348",
             no_of_leads: 7,
-            online_status: "online",
+            status: "online",
             locked: false
         },
         {
@@ -87,7 +87,7 @@ export default function Admin() {
             email: "jasmine.miller@gmail.com",
             phone: "+852 9765 0348",
             no_of_leads: 6,
-            online_status: "offline",
+            status: "offline",
             locked: true
         },
     ]);
@@ -437,7 +437,7 @@ export default function Admin() {
                                 <tbody>
                                     {/*add index to key prop*/}
                                     {Array.isArray(agents) ? agents.map((agent,index) => {
-                                        let online_class = (agent.online_status == "online" ? "selectStatusOnline" : "selectStatusOffline")
+                                        let online_class = (agent.status == "online" ? "selectStatusOnline" : "selectStatusOffline")
                                         return (
                                             <tr key={index} className="bodyTr">
                                                 {isSelectRow ? (

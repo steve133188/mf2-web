@@ -55,6 +55,44 @@ export default function Contacts() {
 
     const filterFunc = ()=>{
     //    loop the the filters conditions
+        let newData = contacts;
+        Object.keys(filter).map((key) => {
+            if(filter[key].length > 0){
+                if(Array.isArray(filter[key])){
+                    newData = contacts.filter(contact  => {
+                        let temp_contact = contact;
+                        filter[key].map(value => {
+                            switch (key) {
+                                case 'agent':
+                                    if(temp_contact.agent.includes(value)){
+                                        temp_contact = contact;
+                                    } else temp_contact = {};
+                                    break;
+                                case 'team':
+                                    if(temp_contact.team == value){
+                                        temp_contact = contact;
+                                    } else temp_contact = {};
+                                    break;
+                                case 'channel':
+                                    if(temp_contact.channel.includes(value)){
+                                        temp_contact = contact;
+                                    } else temp_contact = {};
+                                    break;
+                                case 'tag':
+                                    if(temp_contact.tag.includes(value)){
+                                        temp_contact = contact;
+                                    } else temp_contact = {};
+                                    break;
+                            }
+                        })
+                        if(Object.keys(temp_contact).length > 0){
+                            return temp_contact
+                        }
+                    })
+                }
+            }
+        })
+        return newData;
     }
     const default_cols = ['customer_id' , 'name' ,'team', 'channels','tags' ,'assignee']
     const [isSelectRow, setSelectRow] = useState( false);
