@@ -22,8 +22,7 @@ import {useTheme} from "@mui/material/styles";
 import {BlueMenu2} from "../../components/BlueMenu";
 import { Checkbox } from '../../components/Checkbox';
 
-import * as post_link from "../../api/GetAPILink";
-import { PostAPIAction, GetAPIAction } from '../../api/APIAction';
+import * as userApi from "../../api/UserAPI";
 
 import styles from"../../styles/pages/admin.module.scss";
 
@@ -93,14 +92,11 @@ export default function Admin() {
     ]);
 
     useEffect (() => {
-        GetAPIAction(post_link.GET_USERS_BY_TEAM, "?team=" + teamName + "&division=" + division).then(responseBody => {
-            if(responseBody.status ==200) {
-                let agents_get_result = responseBody.payload;
-                if(Array.isArray(agents_get_result)){
-                    setAgents_get(agents_get_result);
-                    setAgents(agents_get_result);
-                }
-            }
+        userApi.GetUsersByTeam(teamName, division).then(response => {
+            if(Array.isArray(response)){
+                setAgents_get(response);
+                setAgents(response);
+            } 
         });        
     },[teamName]);
 
