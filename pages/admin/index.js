@@ -22,8 +22,8 @@ import {useTheme} from "@mui/material/styles";
 import {BlueMenu2} from "../../components/BlueMenu";
 import { Checkbox } from '../../components/Checkbox';
 
-import * as post_link from "../../api/PostAPILink";
-import { PostAPIAction } from '../../api/PostAPI';
+import * as post_link from "../../api/GetAPILink";
+import { PostAPIAction, GetAPIAction } from '../../api/APIAction';
 
 import styles from"../../styles/pages/admin.module.scss";
 
@@ -47,7 +47,8 @@ export default function Admin() {
         'team4',
         'team5',
     ];
-    const [teamName, setTeamName] = useState(teamNames[0]);
+    const [teamName, setTeamName] = useState(teamNames[1]);
+    const [division, setDivision] = useState("div2");
 
     const tableColumns = [
         {
@@ -91,18 +92,17 @@ export default function Admin() {
         },
     ]);
 
-    useEffect (async () => {
-        let agents_get_request = await PostAPIAction(post_link.GET_USERS_BY_TEAM, "POST",  {"team": teamName,
-        "division": "Division1"});
-        if(agents_get_request.status ==200) {
-            console.log(agents_get_request);
-            let agents_get_result = agents_get_request.payload;
-            if(Array.isArray(agents_get_result)){
-                setAgents_get(agents_get_request.payload);
-                setAgents(agents_get_request.payload);
+    useEffect (() => {
+        GetAPIAction(post_link.GET_USERS_BY_TEAM, "?team=" + teamName + "&division=" + division).then(responseBody => {
+            if(responseBody.status ==200) {
+                let agents_get_result = responseBody.payload;
+                if(Array.isArray(agents_get_result)){
+                    setAgents_get(agents_get_result);
+                    setAgents(agents_get_result);
+                }
             }
-        }        
-    });
+        });        
+    },[teamName]);
 
     const [agents, setAgents] = useState(agents_get);
     

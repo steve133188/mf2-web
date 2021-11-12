@@ -34,7 +34,9 @@ export async function postDataToAPI(url, postType, requestBody) {
     
     let token = window.localStorage.getItem("token")
 
-    console.log('RequestBody ', requestBody, url);
+    console.log('Request URL ', url);
+    console.log('Request post type ', postType);
+    console.log('RequestBody ', requestBody);
     
     const config = {
         headers: {

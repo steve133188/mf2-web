@@ -1,4 +1,4 @@
-import {postDataToAPI, initialPostAPIState} from "./ApiHelper";
+import {postDataToAPI, getDataFromAPI, initialPostAPIState} from "./ApiHelper";
 import * as actions from "../actions/CommonActions";
 
 export async function PostAPIAction(apiLink, postType, requestBody) {
@@ -110,6 +110,39 @@ export async function PostAPIAction(apiLink, postType, requestBody) {
         return {
             postType: postType,
             type: actions["API_" + postType + "_CONNECTION_ERROR"],
+            errMsg: error.message,
+            status: 500
+        };
+    }
+}
+
+export async function GetAPIAction(apiLink, param) {
+
+    try {
+        const apiResult = await getDataFromAPI(apiLink + (param == undefined ? "" : param));
+        if (apiResult.status == 200) {
+            const apiData = await apiResult.json();
+            console.log('GetAPIAction apiData ', apiData);
+            const errMsg = apiData.length > 0 ? "" : "No data retrieved.";
+            return {
+                payload: apiData,
+                errMsg: errMsg,
+                status: apiResult.status
+            };
+        } else {
+            if (apiResult.status == 401) {
+                localStorage.setItem("token", "")
+                localStorage.setItem("user", "")
+                window.location.href = "/login";
+            }
+
+            return {
+                errMsg: apiResult.statusText,
+                status: apiResult.status
+            };
+        }
+    } catch (error) {
+        return {
             errMsg: error.message,
             status: 500
         };
