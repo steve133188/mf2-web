@@ -1,6 +1,8 @@
 import {
     apiCustomerHost, 
-    apiUserHost
+    apiUserHost,
+    apiChatHost,
+    apiOrgHost
 } from "../common/Config";
 
 /* append all the API links here and call it by GetAPIAction */
@@ -19,5 +21,13 @@ export const GET_CUSTOMERS = apiCustomerHost;
 export const GET_CUSTOMER_BY_ID = apiCustomerHost + "id/";
 export const GET_CUSTOMER_BY_NAME = apiCustomerHost + "name/";
 export const GET_CUSTOMERS_BY_TEAM_ID = apiCustomerHost + "team/"
+
+/* Chat services */
+export const GET_CHAT_RECORDS = apiChatHost;
+export const GET_CHAT_RECORDS_BY_CUSTOMER = apiChatHost + "customer/";
+
+/* Organization service */
+export const GET_ALL_ORGANIZATIONS_FROM_ROOT = apiOrgHost + "root";
+export const GET_CHILD_ORGANIZATIONS_FROM_PARENT = apiOrgHost + "parent/";
 
 

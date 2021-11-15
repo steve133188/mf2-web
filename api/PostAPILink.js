@@ -1,6 +1,8 @@
 import {
     apiUserHost,
-    apiCustomerHost
+    apiCustomerHost,
+    apiChatHost,
+    apiOrgHost
 } from "../common/Config";
 
 /* append all the API links here and call it by PostAPIAction */
@@ -31,3 +33,11 @@ export const ADD_TEAM_TO_CUSTOMER = apiCustomerHost + "add-team-to-customer";
 export const CHANGE_CUSTOMERS_TEAM_BY_ID = apiCustomerHost + "change-customers-team";
 export const REMOVE_TEAM_FROM_CUSTOMERS = apiCustomerHost + "delete-customers-team/";
 export const DELETE_CUSTOMERS = apiCustomerHost + "id";
+
+/* Chat services */
+export const ADD_MESSAGE = apiChatHost + "postOne";
+export const ADD_MANY_MESSAGES = apiChatHost + "postMany";
+
+/* Organization service */
+export const CREATE_ORGANIZATION = apiOrgHost;
+export const UPDATE_ORGANIZATION_NAME = apiOrgHost;
