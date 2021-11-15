@@ -2,8 +2,8 @@ import * as api from "./APIAction"
 import * as get_link from "./GetAPILink";
 import * as post_link from "./PostAPILink";
 
-export async function GetUsersByTeam(team, division) {
-    const responseBody = await api.GetAPIAction(get_link.GET_USERS_BY_TEAM, "?team=" + team + "&division=" + division);
+export async function GetUsersByTeam(team) {
+    const responseBody = await api.GetAPIAction(get_link.GET_USERS_BY_TEAM, team);
     if(responseBody.status ==200) {
         return responseBody.payload;
     } else {
@@ -12,7 +12,7 @@ export async function GetUsersByTeam(team, division) {
 }
 
 export async function GetUserByEmail(email) {
-    const responseBody = await api.GetAPIAction(get_link.GET_USER_BY_EMAIL, "?email=" + email);
+    const responseBody = await api.GetAPIAction(get_link.GET_USER_BY_EMAIL, email);
     if(responseBody.status ==200) {
         return responseBody.payload;
     } else {
@@ -103,6 +103,42 @@ export async function UpdateUser(user) {
 
 export async function DeleteUserByName(user) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_USER, "DELETE", JSON.stringify(user));
+    if(responseBody.status ==200 && responseBody.payload.success) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export async function GetRoleList() {
+    const responseBody = await api.GetAPIAction(get_link.GET_ROLE_LIST);
+    if(responseBody.status ==200) {
+        return responseBody.payload;
+    } else {
+        return responseBody.errMsg;
+    }
+}
+
+export async function GetRoleByName(name) {
+    const responseBody = await api.GetAPIAction(get_link.GET_ROLE_BY_NAME, name);
+    if(responseBody.status ==200) {
+        return responseBody.payload;
+    } else {
+        return responseBody.errMsg;
+    }
+}
+
+export async function AddRole(role) {
+    const responseBody = await api.PostAPIAction(post_link.ADD_ROLE, "POST", JSON.stringify(role));
+    if(responseBody.status ==200 && responseBody.payload.success) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export async function UpdateRole(role) {
+    const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE, "PUT", JSON.stringify(role));
     if(responseBody.status ==200 && responseBody.payload.success) {
         return true;
     } else {
