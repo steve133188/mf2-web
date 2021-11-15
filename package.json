@@ -19,6 +19,7 @@
     "axios": "^0.24.0",
     "bootstrap": "^5.0.0-beta3",
     "date-fns": "^2.25.0",
+    "emoji-mart-next": "^2.11.2",
     "next": "11.1.2",
     "nextjs-websocket": "^1.0.7",
     "react": "17.0.2",

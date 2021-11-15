@@ -16,7 +16,7 @@ export default function Layout({children}) {
     const {user , logout} = useContext(GlobalContext)
     const u = user.user
 
-    let layout = (
+    const layout = (
         <div className={"layout"}><SideBar navItems={navItems} />
             <div className={"layout-main"}><div className={'navbar container-fluid'}>
                 <div className={"page-title"}> {router.pathname.charAt(1).toUpperCase()+router.pathname.substring(2)}</div>
@@ -67,7 +67,7 @@ export default function Layout({children}) {
         </div>
     )
 
-    let unAuth = (<div className={"unauth"}>{children}</div>)
+    const unAuth = (<div className={"unauth"}>{children}</div>)
     useEffect(()=>{
         // if(user.token == null){
         //     console.log("please log in")

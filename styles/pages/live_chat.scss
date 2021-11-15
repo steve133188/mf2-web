@@ -1,26 +1,302 @@
-.live_chat-layout{
+.live_chat_layout{
   display: flex;
   flex-direction: row;
-  opacity: 1;
-  flex-wrap: nowrap;
+  overflow: auto;
+  height: 100vh;
   width: 100%;
-  height: 100%;
+  box-sizing: border-box;
 
-}
+  .chat_list{
+    display: flex;
+    padding: 1rem;
+    flex:25%;
+    flex-direction: column;
+    height: 100%;
 
-.chat-filter-input{
-  background: var(--unnamed-color-f8f9fb) 0% 0% no-repeat padding-box;
-  background: #F8F9FB 0% 0% no-repeat padding-box;
-  border-radius: 15px;
-  opacity: 1;
-}
+    .search_ss{
+      display: flex;
+      flex-direction: column;
+      height: 10vh;
+      max-height: 5rem;
+      justify-content: center;
+    }
+    .chatlist_ss{
+      display: flex;
+      flex-direction: column;
+      padding:0.5rem 0;
+      .chatlist_ss_filter{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.5rem 0.25rem;
+      }
+      .chatlist_ss_list{
+        //max-height: 70vh;
+        flex-grow: 1;
+        overflow: auto;
+        .chatroom_li{
+          padding:  1rem;
+          width: 100%;
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          border-bottom: 1px solid #F1F1F1;
+          border-top: 1px solid #F1F1F1;
+          .chatroom_icon{
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            vertical-align: center;
+            padding: 0.5rem 0;
+            img{
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+            }
+            .chatroom_badge{
+              position: absolute;
+              left:0.75rem;
+              top:1.25rem;
+              background-color: #2198FA;
+              color: #FFFFFF;
+              border-radius: 50%;
+              font-size: 12px;
+              padding: 0 5px;
+              text-align: center;
+              //width: 1rem;
+              //height: 1rem;
+            }
+          }
+          .chatroom_name_ss{
+            display: flex;
+            width: 30%;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-left: 5%;
+            font: normal normal 600 15px Manrope;
+            color: #4E4E4E;
+            .team{
+              background: #5B73E8 0% 0% no-repeat padding-box;
+              border-radius: 10px;
+              opacity: 1;
+              color: #FFFFFF;
+              text-align: center;
+              font: normal normal 600 12px Manrope;
+              letter-spacing: 0px;
+              padding: 0;
 
-.messageInputField{
-  fieldset {
-    border: none !important;
+            }
+          }
+          .chatroom_time{
+              position: absolute;
+              right: 10%;
+            font: normal normal normal 10px/14px Manrope;
+          }
+
+          }
+        .chatroom_li.active{
+          background: #F8F9FB 0% 0% no-repeat padding-box;
+          opacity: 1;
+          border-radius: 10px;
+        }
+        }
+      .pin{
+        position: absolute;
+        top:10px;
+        right: 10px;
+        width: 5px;
+        height: 5px;
+        background-color: #0D6EFD;
+      }
+
+    }
+  }
+
+  .chatroom{
+    display: flex;
+    flex-flow: column nowrap;
+    flex:52.5%;
+    background: transparent url('../../public/livechat/chatroom.svg') 0% 0% no-repeat border-box;
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+    opacity: 1;
+    height: 100%;
+    padding: 1rem 1.5rem;
+    .chatroom_top{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-bottom: 2px solid #E8E8E8;
+      opacity: 1;
+      //height: 10%;
+      .chatroom_top_info{
+        display: flex;
+        flex-direction: row;
+        padding: 1rem 0;
+
+        img{
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+        }
+        .chatroom_name ,.chatroom_channel{
+          margin: auto;
+          padding:0 1rem;
+          text-align: left;
+          font: normal normal bold 1rem Manrope;
+          letter-spacing: 0px;
+          color: #444444;
+          opacity: 1;
+        }
+        .chatroom_channel{
+
+        }
+      }
+     .chatroom_top_btn_gp{
+       display: flex;
+       flex-direction: row;
+       justify-content: space-around;
+       button{
+         margin: auto 5px;
+       }
+     }
+    }
+    .chatroom_records{
+       //height:75%;
+      overflow: scroll;
+      flex-grow: 1;
+    }
+    .chatroom_input_field{
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      box-shadow: 0px 12px 40px #0000000F;
+      border-radius: 26px;
+      opacity: 1;
+      height: 15rem;
+      //height: 20%;
+      width: 100%;
+      z-index: 10;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .chatroom_textField{
+        border: none;
+        width: 100%;
+        resize: none;
+        height:70%;
+      }
+      .chatroom_textField:focus{
+        border: none;
+        outline: none;
+      }
+      .chatroom_input_btn_gp{
+          //width: 90%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .right_btn_gp{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+          .left_btn_gp{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 40%;
+          }
+      }
+    }
+  }
+  .chatroom_info{
+    flex: 22.5%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    .contact{
+
+      height: 8rem;
+      padding: 0.25rem 0;
+      display: flex;
+      flex-direction: row;
+      .profile_pic{
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        vertical-align: center;
+        align-content: center;
+        img{
+          width: 75%;
+          //height: 50%;
+          border-radius: 50%;
+          margin:auto;
+        }
+      }
+      .contact_detail{
+        padding: 0.25rem 1rem;
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5%;
+        .contact_detail_name{
+          font: normal normal bold 1rem Manrope;
+          letter-spacing: 0px;
+          color: #444444;
+          opacity: 1;
+        }
+        .contact_detail_channel{
+          text-align: left;
+          font: normal normal normal 10px Manrope;
+          letter-spacing: 0px;
+          color: #444444;
+          opacity: 1;
+        }
+        .contact_detail_team{
+          text-align: center;
+          font: normal normal 400 10px Manrope;
+          width: fit-content;
+          padding: 0 0.5rem;
+          letter-spacing: 0px;
+          color: #FFFFFF;
+          opacity: 1;
+          background: #68C093 0% 0% no-repeat padding-box;
+          border-radius: 10px;
+          opacity: 1;
+        }
+      }
+      .config{
+          cursor: pointer;
+      }
+    }
+    .tabs_field{
+        //height: 80%;
+      flex-grow: 1;
+      .tabs_row{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        .tab{
+          padding: 0.5rem 2rem;
+          cursor: pointer;
+          border-bottom: 2px solid #F3F3F5;
+          font: normal normal normal 13px/18px Manrope;
+          letter-spacing: 0px;
+          color: #A1A2A3;
+          opacity: 1;
+        }
+        .tab.active{
+          color: #2198FA;
+          opacity: 1;
+          border-bottom: 2px solid #2198FA;
+        }
+      }
+    }
+  }
+  .content{
+    justify-content: center;
+    text-align: center;
   }
 }
 
-.MuiOutlinedInput-notchedOutline css-igs3ac {
-  border: none !important;
-}

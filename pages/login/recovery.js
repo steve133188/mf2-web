@@ -10,18 +10,23 @@ import {ForgetPasswordPanel} from "../../components/ForgetPasswordPanel";
 import React, {useState} from "react";
 import styles from '../../styles/Login.module.css'
 import {useRouter} from "next/router";
+import axios from "axios";
 
 export default function Recovery() {
     const r = useRouter()
 
-    const [email , setEmail] = useState("")
+    const [address , setAddress] = useState("")
     const [isSubmit , setIsSubmit] = useState(false)
     function validateForm() {
-        return email.length > 0;
+        return address.length > 0;
     }
-    const handleSubmit = ()=>{
-        setIsSubmit(true)
+    const handleSubmit = async ()=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/forgot-password"
+        const res = await axios.post(url , {address})
+
+        if (res.status ==200) setIsSubmit(true)
     }
+
     const backToLogin =()=>{
         r.push("/login")
     }
@@ -77,9 +82,9 @@ export default function Recovery() {
                             <input
                                 className={"mf_input"}
                                 type={"email"}
-                                value={email}
+                                value={address}
                                 onChange={(e)=> {
-                                    setEmail(e.target.value);
+                                    setAddress(e.target.value);
                                 }}
                                 placeholder={"Email"}
                                 // className={invalid}

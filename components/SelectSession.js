@@ -4,9 +4,8 @@ function SelectSession({children , btn=null}){
             <div className={"filter_session"}>
                 {children}
             </div>
-            <div>
                 {btn}
-            </div>
+
         </div>
     )
 }

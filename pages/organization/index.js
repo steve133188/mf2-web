@@ -1,4 +1,4 @@
-import {BlueMenu} from "../../components/BlueMenu";
+import {ORGMenu} from "../../components/BlueMenu";
 import {BlueMenuDropdown, BlueMenuLink} from "../../components/BlueMenuLink";
 import {Search3} from "../../components/Input";
 import {NormalButton, NormalButton2} from "../../components/Button";
@@ -24,7 +24,7 @@ export default function Organization() {
     }
     return (
         <div className="organization-layout">
-            <BlueMenu></BlueMenu>
+            <ORGMenu />
             <div className="rightContent">
                 <div className="broadcastContainer">
                     <SearchSession

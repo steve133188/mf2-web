@@ -1,5 +1,5 @@
 import {Search3} from "../../components/Input";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
 import {Checkbox} from "../../components/Checkbox"
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -23,10 +23,12 @@ import TableHead from "@mui/material/TableHead";
 
 export default function Contacts() {
     const router = useRouter()
+    const searchRef = useRef(null)
     const [contacts, setContacts] = useState([]);
     const {  get_contacts} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
-    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] , keyword:''})
+    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
+    const [filterWord , setFilterWord] = useState("")
     const [selected , setSelected] = useState([])
     const [isShowDropzone, setIsShowDropzone] = useState(false);
     //filtered Data
@@ -41,16 +43,29 @@ export default function Contacts() {
         console.log(filteredData)
     },[]);
 
-    const handleFilterChange = (e)=>{
-        if(e.target.value.includes(":")){
+
+
+    const handleFilterChange =async (e)=>{
+
+        if(searchRef.current.value.includes(":")){
             console.log("trigger regex search")
         }
-        setFilter({ ...filter,keyword: e.target.value})
-        console.log("search filter :",filter)
+        // setFilter({ ...filter,[e.target.name]: e.target.value})
+        await setFilterWord(searchRef.current.value)
+        console.log("search filter :",filterWord)
         const newData = contacts.filter(contact=> {
-            return contact.name.includes(filter.keyword)
+            // if(filter.keyword.trim() == ""){
+            //     return contacts
+            // }
+            // return contact.first_name.includes(filter.keyword) && contact.last_name.includes(filter.keyword)
+            if(filterWord.trim() == ""){
+                return contacts
+            }
+            return contact.first_name.includes(filterWord) || contact.last_name.includes(filterWord)
         })
         console.log("newdata " , newData)
+        // const newData = filterFunc()
+        setFilteredData([...newData])
     }
 
     const filterFunc = ()=>{
@@ -103,6 +118,37 @@ export default function Contacts() {
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
+    const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                         fill="currentColor"
+                         className="bi bi-tag" viewBox="0 0 16 16" onClick={null}>
+        <path
+            d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
+        <path
+            d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
+    </svg>)
+
+    const editSVG =(
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#2198fa"
+             cursor="pointer"
+             className="bi bi-upload" viewBox="0 0 16 16">
+            <path
+                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path
+                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+        </svg>
+    )
+
+    const deleteSVG = (
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#f46a6b"
+             cursor="pointer"
+             className="bi bi-trash" viewBox="0 0 16 16"
+             onClick={null}>
+            <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fillRule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+        </svg>
+    )
     return (
         <div className={styles.layout}>
             <span style={{display: isShowDropzone ? "block" : "none"}}>
@@ -110,177 +156,65 @@ export default function Contacts() {
                 <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
-
-            <SearchSession
-                placeholder={"Search"}
-                handleChange={handleFilterChange}
-                value={filter.keyword}
-            >
-                {!isSelectRow ? (
-                    <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
-                ) : (
-                    <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
-                )}
-                <button onClick={toggleDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>
-                <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
-            </SearchSession>
+            <div className={"search_session"}>
+                <div className="search">
+                    <div className="mf_icon_input_block  mf_search_input">
+                        <div className={"mf_inside_icon mf_search_icon "} > </div>
+                        <input
+                            className={"mf_input mf_bg_light_grey"}
+                            type={"text"}
+                            defaultValue={filterWord}
+                            name={"keyword"}
+                            ref={searchRef}
+                            onChange={handleFilterChange}
+                            placeholder={"Search"}
+                        />
+                    </div>
+                </div>
+                <div className={"btn_group"}>
+                    {!isSelectRow ? (
+                        <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
+                    ) : (
+                        <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                    )}
+                    <button onClick={toggleDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>
+                    <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
+                </div>
+            </div>
+            {/*<SearchSession*/}
+            {/*    placeholder={"Search"}*/}
+            {/*    handleChange={handleFilterChange}*/}
+            {/*    value={filter.keyword}*/}
+            {/*>*/}
+            {/*    {!isSelectRow ? (*/}
+            {/*        <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>*/}
+            {/*    ) : (*/}
+            {/*        <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>*/}
+            {/*    )}*/}
+            {/*    <button onClick={toggleDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>*/}
+            {/*    <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>*/}
+            {/*</SearchSession>*/}
                     {/* drag and drop end*/}
-            <SelectSession>
-                <MF_Select
-                    head={"Agent"}
-                >
+            <SelectSession
+                btn={isSelectRow?(<div className={"select_session_btn_group"}>
+                    <div className={"select_session_btn"}>{tagSVG}</div>
+                    <div className={"select_session_btn"}>{editSVG}</div>
+                    <div className={"select_session_btn"}>{deleteSVG}</div>
+                </div>):null}
+            >
+                <MF_Select head={"Agent"}>
 
                 </MF_Select>
-                <MF_Select
-                    head={"Team"}
-                >
+                <MF_Select head={"Team"} >
                 </MF_Select>
-                <MF_Select
-                    head={"Tags"}
-                >
+                <MF_Select head={"Tags"}  >
 
                 </MF_Select>
-                <MF_Select
-                    head={"Channel"}
-                >
+                <MF_Select head={"Channel"}  >
                 </MF_Select>
+
+
             </SelectSession>
-                    {/*<div className={"mf_bg_light_grey "+styles.row }>*/}
-                    {/*    <div className={styles.select_group}>*/}
-                    {/*        <div className="multipleSelectPlaceholder">*/}
-                                {/*<FormControl sx={{m: 0, width: 171, mt: 1}}>*/}
-
-                                {/*    <Select sx={{*/}
-                                {/*        height: 28,*/}
-                                {/*        marginBottom: 0.3,*/}
-                                {/*        marginRight: 3,*/}
-                                {/*        borderRadius: 2,*/}
-                                {/*        background: "white"*/}
-                                {/*    }}*/}
-                                {/*            multiple*/}
-                                {/*            displayEmpty*/}
-                                {/*            value={personName}*/}
-                                {/*            onChange={handleChange}*/}
-                                {/*            input={<OutlinedInput/>}*/}
-                                {/*            renderValue={(selected) => {*/}
-                                {/*                if (selected.length === 0) {*/}
-                                {/*                    return <span>Agnet</span>;*/}
-                                {/*                }*/}
-                                {/*                return selected.join('');*/}
-                                {/*            }}*/}
-                                {/*            MenuProps={MenuProps}*/}
-                                {/*            inputProps={{'aria-label': 'Without label'}}*/}
-                                {/*    >*/}
-                                {/*        <MenuItem disabled value="">*/}
-                                {/*            <span>Agent</span>*/}
-                                {/*        </MenuItem>*/}
-
-                                {/*        <MenuItem*/}
-                                {/*            value={"Mary Foster"}*/}
-                                {/*        >*/}
-                                {/*            {"Mary Foster"}*/}
-                                {/*        </MenuItem>*/}
-                                {/*    </Select>*/}
-
-                                {/*</FormControl>*/}
-                                {/*<MSelect2/>*/}
-                                {/*<MSelect3/>*/}
-                                {/*<MSelect4/>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-
-                        {/*<div className="tagsButtonGroup">*/}
-                        {/*    <div className="addPopperContainer">*/}
-                        {/*        <ClickAwayListener onClickAway={handleClickAwayAddPopper}>*/}
-                        {/*            <div >*/}
-                        {/*                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"*/}
-                        {/*                     fill="currentColor"*/}
-                        {/*                     className="bi bi-tag" viewBox="0 0 16 16" onClick={handleClickAddPopper}>*/}
-                        {/*                    <path*/}
-                        {/*                        d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>*/}
-                        {/*                    <path*/}
-                        {/*                        d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>*/}
-                        {/*                </svg>*/}
-                        {/*                {openAddPopper ? (*/}
-                        {/*                    <div>*/}
-                        {/*                        <div className="addTagHeader">*/}
-                        {/*                            <span>Add Tag</span>*/}
-                        {/*                            <button>Confirm</button>*/}
-                        {/*                        </div>*/}
-                        {/*                        <Search3 type="search">Search</Search3>*/}
-                        {/*                        <div className="checkboxGrp">*/}
-                        {/*                            <label className="checkboxContainer">*/}
-                        {/*                                    <span className="pillContainer">*/}
-                        {/*                                        <span className="pill vip">VIP</span>*/}
-                        {/*                                    </span>*/}
-                        {/*                                <Checkbox/>*/}
-                        {/*                            </label>*/}
-                        {/*                            <label className="checkboxContainer">*/}
-                        {/*                                    <span className="pillContainer">*/}
-                        {/*                                        <span className="pill newCustomer">New Customer</span>*/}
-                        {/*                                    </span>*/}
-                        {/*                                <Checkbox/>*/}
-                        {/*                            </label>*/}
-                        {/*                            <label className="checkboxContainer">*/}
-                        {/*                                    <span className="pillContainer">*/}
-                        {/*                                        <span className="pill promotions">Promotions</span>*/}
-                        {/*                                    </span>*/}
-                        {/*                                <Checkbox/>*/}
-                        {/*                            </label>*/}
-                        {/*                            <label className="checkboxContainer">*/}
-                        {/*                                    <span className="pillContainer">*/}
-                        {/*                                        <span className="pill vvip">VVIP</span>*/}
-                        {/*                                    </span>*/}
-                        {/*                                <Checkbox/>*/}
-                        {/*                            </label>*/}
-                        {/*                        </div>*/}
-
-                        {/*                    </div>*/}
-                        {/*                ) : null}*/}
-                        {/*            </div>*/}
-                        {/*        </ClickAwayListener>*/}
-                        {/*    </div>*/}
-                    {/*        <div>*/}
-                    {/*            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#2198fa"*/}
-                    {/*                 cursor="pointer"*/}
-                    {/*                 className="bi bi-upload" viewBox="0 0 16 16">*/}
-                    {/*                <path*/}
-                    {/*                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>*/}
-                    {/*                <path*/}
-                    {/*                    d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>*/}
-                    {/*            </svg>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="deletePopperContainer">*/}
-                    {/*            <ClickAwayListener onClickAway={handleClickAwayDeletePopper}>*/}
-                    {/*                <div>*/}
-
-                    {/*                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#f46a6b"*/}
-                    {/*                         cursor="pointer"*/}
-                    {/*                         className="bi bi-trash" viewBox="0 0 16 16"*/}
-                    {/*                         onClick={handleClickDeletePopper}>*/}
-                    {/*                        <path*/}
-                    {/*                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>*/}
-                    {/*                        <path fillRule="evenodd"*/}
-                    {/*                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>*/}
-                    {/*                    </svg>*/}
-                    {/*                    {openDeletePopper ? (*/}
-                    {/*                        <div>*/}
-                    {/*                            Delete 2 contacts? <br/>*/}
-                    {/*                            All conversation history will also be erased.*/}
-                    {/*                            <div className="controlButtonGroup">*/}
-                    {/*                                <button>Delete</button>*/}
-                    {/*                                <span*/}
-                    {/*                                    onClick={handleClickDeletePopper}><button></button></span>*/}
-                    {/*                            </div>*/}
-                    {/*                        </div>*/}
-                    {/*                    ) : null}*/}
-                    {/*                </div>*/}
-                    {/*            </ClickAwayListener>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    {/**/}
-
                             <TableContainer>
                                 <Table
                                     sx={{minWidth: 750}}
@@ -308,7 +242,8 @@ export default function Contacts() {
                                                 role="checkbox"
                                                 tabIndex={-1}
                                             >
-                                                   {/*<Link href={`/contacts/${d.id}`}>*/}
+                                                   {/*<Link href={`/contacts/${encodeURIComponent(data.id)}`} passHref>*/}
+                                                   {/*<Link href={{pathname:"/contact" , query:{id:data.id}}} passHref>*/}
                                                 <TableCell style={{
                                                     width: "30px",
                                                     textAlign: "center",
@@ -327,7 +262,7 @@ export default function Contacts() {
                                                 <TableCell align="left">
                                                     <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
                                                         <Avatar alt="Remy Sharp"  src={data.img_url||""}/>
-                                                        <span style={{marginLeft: "11px"}}>{data.name}</span>
+                                                        <span style={{marginLeft: "11px"}}>{data.first_name + "." +data.last_name}</span>
                                                     </div>
                                                 </TableCell>
 
@@ -360,6 +295,8 @@ export default function Contacts() {
                                                         })}
                                                     </div>
                                                 </TableCell>
+                                                   {/*</Link>*/}
+
                                                    {/*</Link>*/}
                                             </TableRow>
                                            )

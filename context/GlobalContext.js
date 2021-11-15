@@ -27,10 +27,6 @@ export const GlobalContextProvider = ({children}) =>{
         // client.onopenn = ()=>{
         //     console.log("WS connected")
         // }
-        // if(!user.token){
-        //     console.log("context get token failed")
-        //     // router.push("/login")
-        // }
     },[])
 
     // const axiosInstance = axios.create({

@@ -27,4 +27,18 @@
     width: 100%;
     flex-direction: row;
   }
+  .select_session_btn_group{
+    vertical-align: center;
+    //justify-content: space-between;
+    flex-direction: row;
+    display: inline-flex;
+    //width: 40%;
+    margin-left: auto;
+  }
+
+  .select_session_btn{
+    margin: auto 15px;
+  }
 }
+
+

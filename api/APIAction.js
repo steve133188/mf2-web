@@ -15,7 +15,7 @@ export async function PostAPIAction(apiLink, postType, requestBody) {
         console.log(res);
         let body;
         let errMsg;
-        const msg = "An unexpected error. Stay Calm and contact us for support.";
+        const msg = "An unexpected error. Stay Calm and [id] us for support.";
 
         if (!res.ok) {
             errMsg = msg;
