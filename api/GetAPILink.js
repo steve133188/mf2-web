@@ -19,6 +19,9 @@ export const GET_USER_LIST = apiUserHost + "userlist";
 export const GET_TEAM_LIST = apiUserHost + "teamlist";
 export const GET_ROLE_LIST = apiUserHost + "roles/list";
 export const GET_ROLE_BY_NAME = apiUserHost + "roles/name/";
+export const GET_USERS_BY_ROLE = apiUserHost + "role/";
+export const GET_USER_PERMISSION_BY_PHONE = apiUserHost + "role-auth/";
+export const GET_USER_NUM_BY_ROLE = apiUserHost + "role-number/";
 
 /* Cusrtomers service */
 export const GET_CUSTOMERS = apiCustomerHost;

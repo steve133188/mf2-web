@@ -23,6 +23,7 @@ export const DELETE_USER = apiUserHost + "name";
 export const ADD_ROLE_TO_USER = apiUserHost + "role";
 export const UPDATE_ROLE_FOR_USER = apiUserHost + "role";
 export const UPDATE_ROLE_PERMISSIONS = apiUserHost + "roles";
+export const REMOVE_USER_ROLE_BY_PHONE = apiUserHost + "role/"
 
 /* Customers services */
 export const GET_CUSTOMERS_BY_AGENT = apiCustomerHost + "filter/agent";

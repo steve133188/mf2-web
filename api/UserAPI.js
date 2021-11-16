@@ -154,3 +154,47 @@ export async function UpdateRolePermissions(role) {
         return false;
     }
 }
+
+export async function GetUsersByRole(role_name) {
+    const responseBody = await api.GetAPIAction(get_link.GET_USERS_BY_ROLE, role_name);
+    if(responseBody.status ==200) {
+        return responseBody.payload;
+    } else {
+        return responseBody.errMsg;
+    }
+}
+
+export async function GetUserPermissionByPhone(phone_num) {
+    const responseBody = await api.GetAPIAction(get_link.GET_USER_PERMISSION_BY_PHONE, phone_num);
+    if(responseBody.status ==200) {
+        return responseBody.payload;
+    } else {
+        return responseBody.errMsg;
+    }
+}
+
+export async function GetUserNumByRole(role_name) {
+    const responseBody = await api.GetAPIAction(get_link.GET_USER_NUM_BY_ROLE, role_name);
+    if(responseBody.status ==200) {
+        return responseBody.payload;
+    } else {
+        return responseBody.errMsg;
+    }
+}
+
+export async function RemoveUserRoleByPhone(phone, role) {
+    const responseBody = await api.PostAPIAction(post_link.REMOVE_USER_ROLE_BY_PHONE + phone, "PUT", JSON.stringify(role));
+    if(responseBody.status ==200 && responseBody.payload.success) {
+        return true;
+    } else {
+        return false;
+    }
+}
+export async function DeleteRole(role_name) {
+    const responseBody = await api.PostAPIAction(post_link.DELETE_ROLE + role_name, "PUT", "");
+    if(responseBody.status ==200 && responseBody.payload.success) {
+        return true;
+    } else {
+        return false;
+    }
+}
