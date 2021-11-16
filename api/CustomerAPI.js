@@ -130,7 +130,7 @@ export async function ChangeCustomersTeamByTeamId(team_ids) {
 
 export async function RemoveTeamFromCustomers(team_id) {
     const responseBody = await api.PostAPIAction(post_link.REMOVE_TEAM_FROM_CUSTOMERS + team_id, "PUT", "");
-    if(responseBody.status ==200 && responseBody.success) {
+    if(responseBody.status ==200) {
         return true;
     } else {
         return false;
@@ -139,7 +139,7 @@ export async function RemoveTeamFromCustomers(team_id) {
 
 export async function DeleteCustomers(customer_ids) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_CUSTOMERS, "DELETE", customer_ids);
-    if(responseBody.status ==200 && responseBody.success) {
+    if(responseBody.status ==200) {
         return true;
     } else {
         return false;

@@ -40,8 +40,8 @@ export async function GetTeamList() {
 
 export async function CreateUser(user) {
     const responseBody = await api.PostAPIAction(post_link.CREATE_USER, "POST", JSON.stringify(user));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return responseBody.payload.data;
+    if(responseBody.status ==200) {
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -49,7 +49,7 @@ export async function CreateUser(user) {
 
 export async function ForgotPassword(login) {
     const responseBody = await api.PostAPIAction(post_link.FORGOT_PASSWORD, "PUT", JSON.stringify(login));
-    if(responseBody.status ==200 && responseBody.payload.success) {
+    if(responseBody.status ==200) {
         return true;
     } else {
         return false;
@@ -58,8 +58,8 @@ export async function ForgotPassword(login) {
 
 export async function UpdateDivTeam(divInfo) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_DIV_TEAM, "PUT", JSON.stringify(divInfo));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return responseBody.payload.data;
+    if(responseBody.status ==200) {
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -67,8 +67,8 @@ export async function UpdateDivTeam(divInfo) {
 
 export async function RemoveUserFromTeam(user) {
     const responseBody = await api.PostAPIAction(post_link.REMOVE_USER_FROM_TEAM, "PUT", JSON.stringify(user));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return responseBody.payload.data;
+    if(responseBody.status ==200) {
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -76,8 +76,8 @@ export async function RemoveUserFromTeam(user) {
 
 export async function ChangeUserStatus(user) {
     const responseBody = await api.PostAPIAction(post_link.CHANGE_USER_STATUS, "PUT", JSON.stringify(user));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return responseBody.payload.data;
+    if(responseBody.status ==200) {
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -85,8 +85,8 @@ export async function ChangeUserStatus(user) {
 
 export async function ChangeUserRole(user) {
     const responseBody = await api.PostAPIAction(post_link.CHANGE_USER_ROLE, "PUT", JSON.stringify(user));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return responseBody.payload.data;
+    if(responseBody.status ==200) {
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -94,8 +94,8 @@ export async function ChangeUserRole(user) {
 
 export async function UpdateUser(user) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_USER, "PUT", JSON.stringify(user));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return responseBody.payload.data;
+    if(responseBody.status ==200) {
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -103,7 +103,7 @@ export async function UpdateUser(user) {
 
 export async function DeleteUserByName(user) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_USER, "DELETE", JSON.stringify(user));
-    if(responseBody.status ==200 && responseBody.payload.success) {
+    if(responseBody.status ==200) {
         return true;
     } else {
         return false;
@@ -130,7 +130,7 @@ export async function GetRoleByName(name) {
 
 export async function AddRoleToUser(user_role) {
     const responseBody = await api.PostAPIAction(post_link.ADD_ROLE_TO_USER, "POST", JSON.stringify(user_role));
-    if(responseBody.status ==200 && responseBody.payload) {
+    if(responseBody.status ==200) {
         return responseBody.payload;
     } else {
         return responseBody.errMsg;
@@ -139,7 +139,7 @@ export async function AddRoleToUser(user_role) {
 
 export async function UpdateRoleForUser(user_role) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE_FOR_USER, "PUT", JSON.stringify(user_role));
-    if(responseBody.status ==200 && responseBody.payload) {
+    if(responseBody.status ==200) {
         return responseBody.payload;
     } else {
         return responseBody.errMsg;
@@ -148,7 +148,7 @@ export async function UpdateRoleForUser(user_role) {
 
 export async function UpdateRolePermissions(role) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE_PERMISSIONS, "PUT", JSON.stringify(role));
-    if(responseBody.status ==200 && responseBody.payload) {
+    if(responseBody.status ==200) {
         return responseBody.payload;
     } else {
         return responseBody.errMsg;
@@ -184,7 +184,7 @@ export async function GetUserNumByRole(role_name) {
 
 export async function RemoveUserRoleByPhone(phone, role) {
     const responseBody = await api.PostAPIAction(post_link.REMOVE_USER_ROLE_BY_PHONE + phone, "PUT", JSON.stringify(role));
-    if(responseBody.status ==200 && responseBody.payload) {
+    if(responseBody.status ==200) {
         return responseBody.payload;
     } else {
         return responseBody.errMsg;;
@@ -192,7 +192,7 @@ export async function RemoveUserRoleByPhone(phone, role) {
 }
 export async function DeleteRole(role_name) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_ROLE + role_name, "PUT", "");
-    if(responseBody.status ==200 && responseBody.payload) {
+    if(responseBody.status ==200) {
         return responseBody.payload;
     } else {
         return responseBody.errMsg;

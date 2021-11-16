@@ -24,7 +24,7 @@ export async function GetFlowBuilderById(id) {
 export async function AddFlowBuilder(flow_builder) {
     const responseBody = await api.PostAPIAction(post_link.ADD_FLOW_BUILDER, "POST", JSON.stringify(flow_builder));
     if(responseBody.status ==200) {
-        return responseBody.payload.data;
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -33,7 +33,7 @@ export async function AddFlowBuilder(flow_builder) {
 export async function UpdateFlowBuilder(id, flow_builder) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_FLOW_BUILDER + id, "PUT", JSON.stringify(flow_builder));
     if(responseBody.status ==200) {
-        return responseBody.payload.data;
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -41,7 +41,7 @@ export async function UpdateFlowBuilder(id, flow_builder) {
 
 export async function DeleteFlowBuilder(id) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_FLOW_BUILDER + id, "DELETE", "");
-    if(responseBody.status ==200 && responseBody.success) {
+    if(responseBody.status ==200) {
         return true;
     } else {
         return false;

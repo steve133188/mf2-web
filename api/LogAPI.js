@@ -15,7 +15,7 @@ export async function GetCustomerLogsByCustomerName(name) {
 export async function AddUserLog(log) {
     const responseBody = await api.PostAPIAction(post_link.ADD_USER_LOG, "POST", JSON.stringify(log));
     if(responseBody.status ==200) {
-        return responseBody.payload.data;
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -24,7 +24,7 @@ export async function AddUserLog(log) {
 export async function AddCustomerLog(log) {
     const responseBody = await api.PostAPIAction(post_link.ADD_CUSTOMER_LOG, "POST", JSON.stringify(log));
     if(responseBody.status ==200) {
-        return responseBody.payload.data;
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
@@ -33,7 +33,7 @@ export async function AddCustomerLog(log) {
 export async function AddSystemLog(log) {
     const responseBody = await api.PostAPIAction(post_link.ADD_SYSTEM_LOG, "POST", JSON.stringify(log));
     if(responseBody.status ==200) {
-        return responseBody.payload.data;
+        return responseBody.payload;
     } else {
         return responseBody.errMsg;
     }
