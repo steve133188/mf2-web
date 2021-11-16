@@ -2,7 +2,11 @@ import {
     apiCustomerHost, 
     apiUserHost,
     apiChatHost,
-    apiOrgHost
+    apiOrgHost,
+    apiBotHost,
+    apiAnalysisHost,
+    apiBroadcastHost,
+    apiLogHost
 } from "../common/Config";
 
 /* append all the API links here and call it by GetAPIAction */
@@ -26,8 +30,25 @@ export const GET_CUSTOMERS_BY_TEAM_ID = apiCustomerHost + "team/"
 export const GET_CHAT_RECORDS = apiChatHost;
 export const GET_CHAT_RECORDS_BY_CUSTOMER = apiChatHost + "customer/";
 
-/* Organization service */
+/* Organization services */
 export const GET_ALL_ORGANIZATIONS_FROM_ROOT = apiOrgHost + "root";
 export const GET_CHILD_ORGANIZATIONS_FROM_PARENT = apiOrgHost + "parent/";
 
+/* Flow builder services */
+export const GET_ALL_FLOW_BUILDER = apiOrgHost;
+export const GET_FLOW_BUILDER_BY_ID = apiOrgHost + "id/";
 
+/* Bot services */
+export const GET_ALL_BOTS = apiBotHost;
+export const GET_BOT_BY_ID = apiBotHost + "id/";
+
+/* Broadcast services */
+export const GET_ALL_BROADCAST = apiBroadcastHost;
+export const GET_BROADCAST_BY_ID = apiBroadcastHost + "id/";
+
+/* Analysis services */
+export const GET_ALL_ANALYSIS = apiAnalysisHost;
+export const GET_ANALYSIS_BY_ID = apiAnalysisHost + "id/";
+
+/* Log services */
+export const GET_CUSTOMER_LOGS_BY_CUSTOMER_NAME = apiLogHost + "customer/name/";

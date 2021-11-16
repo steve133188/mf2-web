@@ -128,8 +128,8 @@ export async function GetRoleByName(name) {
     }
 }
 
-export async function AddRole(role) {
-    const responseBody = await api.PostAPIAction(post_link.ADD_ROLE, "POST", JSON.stringify(role));
+export async function AddRoleToUser(user_role) {
+    const responseBody = await api.PostAPIAction(post_link.ADD_ROLE_TO_USER, "POST", JSON.stringify(user_role));
     if(responseBody.status ==200 && responseBody.payload.success) {
         return true;
     } else {
@@ -137,8 +137,17 @@ export async function AddRole(role) {
     }
 }
 
-export async function UpdateRole(role) {
-    const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE, "PUT", JSON.stringify(role));
+export async function UpdateRoleForUser(user_role) {
+    const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE_FOR_USER, "PUT", JSON.stringify(user_role));
+    if(responseBody.status ==200 && responseBody.payload.success) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export async function UpdateRolePermissions(role) {
+    const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE_PERMISSIONS, "PUT", JSON.stringify(role));
     if(responseBody.status ==200 && responseBody.payload.success) {
         return true;
     } else {
