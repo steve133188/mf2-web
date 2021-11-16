@@ -24,7 +24,7 @@ export async function GetBroadcastById(id) {
 export async function AddBroadcasts(broadcasts) {
     const responseBody = await api.PostAPIAction(post_link.ADD_BROADCAST, "POST", JSON.stringify(broadcasts));
     if(responseBody.status ==200) {
-        return responseBody.payload;
+        return responseBody.payload.data;
     } else {
         return responseBody.errMsg;
     }
@@ -33,7 +33,7 @@ export async function AddBroadcasts(broadcasts) {
 export async function UpdateBroadcast(broadcast) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_BROADCAST, "PUT", JSON.stringify(broadcast));
     if(responseBody.status ==200) {
-        return responseBody.payload;
+        return responseBody.payload.data;
     } else {
         return responseBody.errMsg;
     }
@@ -41,9 +41,9 @@ export async function UpdateBroadcast(broadcast) {
 
 export async function DeleteBroadcast(name) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_BROADCAST + name, "DELETE", "");
-    if(responseBody.status ==200) {
-        return responseBody.payload;
+    if(responseBody.status ==200 && responseBody.success) {
+        return true;
     } else {
-        return responseBody.errMsg;
+        return false;
     }
 }

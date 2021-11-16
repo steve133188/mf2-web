@@ -24,7 +24,7 @@ export async function GetBotById(id) {
 export async function AddBot(bot) {
     const responseBody = await api.PostAPIAction(post_link.ADD_BOT, "POST", JSON.stringify(bot));
     if(responseBody.status ==200) {
-        return responseBody.payload;
+        return responseBody.payload.data;
     } else {
         return responseBody.errMsg;
     }
@@ -33,7 +33,7 @@ export async function AddBot(bot) {
 export async function UpdateBot(id, bot) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_BOT + id, "PUT", JSON.stringify(bot));
     if(responseBody.status ==200) {
-        return responseBody.payload;
+        return responseBody.payload.data;
     } else {
         return responseBody.errMsg;
     }
@@ -41,9 +41,9 @@ export async function UpdateBot(id, bot) {
 
 export async function DeleteBot(id) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_BOT + id, "DELETE", "");
-    if(responseBody.status ==200) {
-        return responseBody.payload;
+    if(responseBody.status ==200 && responseBody.success) {
+        return true;
     } else {
-        return responseBody.errMsg;
+        return false;
     }
 }

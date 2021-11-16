@@ -130,28 +130,28 @@ export async function GetRoleByName(name) {
 
 export async function AddRoleToUser(user_role) {
     const responseBody = await api.PostAPIAction(post_link.ADD_ROLE_TO_USER, "POST", JSON.stringify(user_role));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return true;
+    if(responseBody.status ==200 && responseBody.payload) {
+        return responseBody.payload;
     } else {
-        return false;
+        return responseBody.errMsg;
     }
 }
 
 export async function UpdateRoleForUser(user_role) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE_FOR_USER, "PUT", JSON.stringify(user_role));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return true;
+    if(responseBody.status ==200 && responseBody.payload) {
+        return responseBody.payload;
     } else {
-        return false;
+        return responseBody.errMsg;
     }
 }
 
 export async function UpdateRolePermissions(role) {
     const responseBody = await api.PostAPIAction(post_link.UPDATE_ROLE_PERMISSIONS, "PUT", JSON.stringify(role));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return true;
+    if(responseBody.status ==200 && responseBody.payload) {
+        return responseBody.payload;
     } else {
-        return false;
+        return responseBody.errMsg;
     }
 }
 
@@ -184,17 +184,17 @@ export async function GetUserNumByRole(role_name) {
 
 export async function RemoveUserRoleByPhone(phone, role) {
     const responseBody = await api.PostAPIAction(post_link.REMOVE_USER_ROLE_BY_PHONE + phone, "PUT", JSON.stringify(role));
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return true;
+    if(responseBody.status ==200 && responseBody.payload) {
+        return responseBody.payload;
     } else {
-        return false;
+        return responseBody.errMsg;;
     }
 }
 export async function DeleteRole(role_name) {
     const responseBody = await api.PostAPIAction(post_link.DELETE_ROLE + role_name, "PUT", "");
-    if(responseBody.status ==200 && responseBody.payload.success) {
-        return true;
+    if(responseBody.status ==200 && responseBody.payload) {
+        return responseBody.payload;
     } else {
-        return false;
+        return responseBody.errMsg;
     }
 }
