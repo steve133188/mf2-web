@@ -28,14 +28,12 @@ export default function Contacts() {
     const {  get_contacts} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
-    const [filterWord , setFilterWord] = useState("")
     const [selected , setSelected] = useState([])
     const [isShowDropzone, setIsShowDropzone] = useState(false);
     //filtered Data
     useEffect(    () => {
         const fetchContacts = async () =>{
             const data = await get_contacts()
-
             setContacts(data)
             setFilteredData(data)
         }
@@ -45,23 +43,17 @@ export default function Contacts() {
 
 
 
-    const handleFilterChange =async (e)=>{
+    const handleFilterChange = (search)=>{
 
-        if(searchRef.current.value.includes(":")){
+        if(search.includes(":")){
             console.log("trigger regex search")
         }
-        // setFilter({ ...filter,[e.target.name]: e.target.value})
-        await setFilterWord(searchRef.current.value)
-        console.log("search filter :",filterWord)
+        console.log("search filter :",search)
         const newData = contacts.filter(contact=> {
-            // if(filter.keyword.trim() == ""){
-            //     return contacts
-            // }
-            // return contact.first_name.includes(filter.keyword) && contact.last_name.includes(filter.keyword)
-            if(filterWord.trim() == ""){
+            if(search.trim() == ""){
                 return contacts
             }
-            return contact.first_name.includes(filterWord) || contact.last_name.includes(filterWord)
+            return contact.first_name.includes(search) || contact.last_name.includes(search)
         })
         console.log("newdata " , newData)
         // const newData = filterFunc()
@@ -162,11 +154,13 @@ export default function Contacts() {
                         <div className={"mf_inside_icon mf_search_icon "} > </div>
                         <input
                             className={"mf_input mf_bg_light_grey"}
-                            type={"text"}
-                            defaultValue={filterWord}
+                            type="search"
+                            // defaultValue={filterWord}
                             name={"keyword"}
                             ref={searchRef}
-                            onChange={handleFilterChange}
+                            onChange={(e)=> {
+                                handleFilterChange(e.target.value)
+                            }}
                             placeholder={"Search"}
                         />
                     </div>

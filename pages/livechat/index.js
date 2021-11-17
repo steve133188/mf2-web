@@ -3,6 +3,8 @@ import ChatroomList from "../../components/ChatroomList";
 import MsgRow from "../../components/MsgRow";
 import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
+import RobotSwitch from "../../components/livechat/RobotSwitch";
+import axios from "axios";
 
 export default function Live_chat() {
     const data = [
@@ -153,6 +155,12 @@ export default function Live_chat() {
         },
     ]
     const [chatrooms , setChatrooms] = useState([])
+    const [isRobotOn , setIsRobotOn] = useState(false)
+    const [isExpand , setIsExpand] = useState(false)
+    const [isFilterOpen , setIsFilterOpen] = useState(false)
+    const getChatRooms = async()=>{
+        axios.get("http://16b8-118-140-233-2.ngrok.io/")
+    }
     useEffect(()=>{
         setChatrooms([...data])
     } , [])
@@ -166,15 +174,15 @@ export default function Live_chat() {
                     // type={type}
                     // value={state}
                     // onChange={handleChange}
-                    // placeholder={placeholder}
+                    placeholder={"Search"}
                 />
             </div>
             </div>
                 <div className={"chatlist_ss"}>
-                    <div  className={"chatlist_ss_filter"}><button>All Team </button>     <button>filter</button></div>
+                    <div  className={"chatlist_ss_filter"}><button className={"select_group"} ><div className={"group_icon"}></div>All Team <div className={"arrow_icon"}></div></button><div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}><div className={"filter_icon"}></div></div></div>
                     <div  className={"chatlist_ss_list"}>
                         {chatrooms.map((d , index)=>{
-                            return (<ChatroomList chatroom={d} key={index}/>)
+                            return (<ChatroomList chatroom={d} key={index} className={+(index==0&& "active")}/>)
                         })}
                     </div>
                 </div>
@@ -187,30 +195,32 @@ export default function Live_chat() {
                         <div className={"chatroom_channel"}>Channel</div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
-                        <button>search</button>
-                        <button>refresh</button>
-                        <button>robot</button>
+                        <div className={"chatroom_top_btn chatroom_top_btn_research"}></div>
+                        <div className={"chatroom_top_btn chatroom_top_btn_refresh"}></div>
+                        <div className={"chatroom_top_btn chatbot_switch"}>
+                            <RobotSwitch isOn={isRobotOn} handleToggle={()=>setIsRobotOn(!isRobotOn)} onColor="#2198FA" />
+                        </div>
                     </div>
                 </div>
                 <div className={"chatroom_records"}>
                     {records.map((r , i)=>{
-                      return  <MsgRow msg={r} key={i}/>
+                      return  <MsgRow msg={r} key={i} />
                     })}
                 </div>
-                <div className={"chatroom_input_field"}>
+                <div className={"chatroom_input_field "+(isExpand?"expand":"")}>
                     {/*<Picker style={{ position: 'absolute', bottom: '20px', right: '20px' }} />*/}
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" autoComplete={true}></textarea>
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
-                            <div>.</div>
-                            <div>.</div>
-                            <div>.</div>
-                            <div>.</div>
-                            <div>.</div>
+                            <div className={"sticker_btn "}></div>
+                            <div className={"emoji_btn "}></div>
+                            <div className={"attach_btn "}></div>
+                            <div className={"template_btn"}></div>
+                            <div className={"payment_btn"}></div>
                         </div>
                         <div className={"right_btn_gp"}>
-                            <button>voice</button>
-                            <button>send</button>
+                            <div className={"voice_btn"}></div>
+                            <div className={"send_btn"}></div>
                         </div>
                     </div>
                 </div>
@@ -229,7 +239,6 @@ export default function Live_chat() {
                     <div className={"tabs_row"}>
                         <div className={"tab active"}>info</div>
                         <div className={"tab"}>note</div>
-                        <div className={"tab"}>file</div>
                     </div>
                     <div className={"content"}>
                         content

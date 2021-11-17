@@ -7,27 +7,25 @@
 }
 
 .layout-sidebar {
+  display: flex;
   flex-direction: column;
-  width: 232px;
+  max-width: 232px;
+  width: 20%;
   height: 100vh;
   border-right: 2px solid #F1F1F1;
   position: relative;
 
   .brand-logo {
     display: flex;
-    min-height: 180px;
+    //min-height: 180px;
     max-height: 360px;
-    //height: 20%;
-
     img {
+      //height:4.6vh ;
       max-width: 79px;
       max-height: 50px;
-      margin: auto;
+      margin:7vh auto;
     }
-
-    justify-content: center;
-    align-items: baseline;
-    padding: 16px;
+    padding: 1rem;
   }
 
   .active {
@@ -35,20 +33,11 @@
     opacity: 1;
     background-color: #D0E9FF;
     color: #2198FA;
-
-    .nav-item {
-
-    }
   }
 
   .active_text {
     color: #2198FA;
   }
-
-  .nav-items {
-    margin-top: 1rem;
-  }
-
 
   .nav-item {
     padding: 1rem;
@@ -59,7 +48,6 @@
 
     svg {
       margin-right: 12.2px;
-
     }
 
     #expand_more-24px {
@@ -72,8 +60,6 @@
   .sub-nav-item {
     padding-left: 3.9rem;
   }
-
-
 }
 
 .navbar {
@@ -83,26 +69,23 @@
 }
 
 .side-item {
-  padding: .5rem;
-  //padding: 0 .5rem ;
+  //height: 5vh;
   cursor: pointer;
-
   &:hover, &:focus {
     transform: translate(-2.5px, 0);
     transition: all 250ms ease-in-out;
     color: #2198FA;
-    text-decoration: underline 2px;
-    text-underline-offset: 0.4em;
-
   }
 }
-
+.nav-items{
+  max-height: 70%;
+  justify-content: space-between;
+  display:flex;
+  flex-direction: column;
+}
 .active-side-item {
   padding: 0 .5rem;
   border-right: 3px solid #2198FA;
-
-  #expand_more-24px {
-  }
 }
 
 .page-title {
@@ -223,9 +206,6 @@
 
 .collapseLayout {
   .brand-logo {
-    img {
-
-    }
   }
   .nav-items {
     .side-item-name {
@@ -247,10 +227,10 @@
   right: 0;
   display: flex;
   align-items: center;
-  padding: 1vh 0.15vw;
-  margin-top: 6vh;
+  padding: 1rem 0.15vw;
   color: #2198FA;
-
+  bottom:15%;
+  min-width: 0;
   .collapseIcon {
     transform: rotate(90deg);
   }
