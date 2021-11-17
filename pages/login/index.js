@@ -24,7 +24,7 @@ export default function Login(){
     const router = useRouter()
     useEffect(()=>{
         if(user.token){
-            router.back()
+            router.push("/dashboard/agents")
         }
     },[])
     return(
@@ -36,8 +36,8 @@ export default function Login(){
                     <div className={''}>
                             <img className={styles.login_logo} src="MS_logo-square.svg" alt=""/>
                         <div className={styles.welcomeMessage}>
-                            {errors?<h4 className={"red-text"}>{errors}</h4>:null}
                             <h4 className={"title_text"}>Log In</h4>
+                            {errors?<h4 className={"red-text"}>{errors}</h4>:null}
                             {/*<h1 className={styles.login_title}>Log In</h1>*/}
                             {/*<p className={styles.login_message}>Welcome back! Login with your data that <br/> you entered during registration</p>*/}
 

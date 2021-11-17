@@ -28,6 +28,7 @@ export default function Contacts() {
     const {  get_contacts} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
+    const [page , setPage] = useState(0)
     const [selected , setSelected] = useState([])
     const [isShowDropzone, setIsShowDropzone] = useState(false);
     //filtered Data
@@ -59,6 +60,7 @@ export default function Contacts() {
         // const newData = filterFunc()
         setFilteredData([...newData])
     }
+
 
     const filterFunc = ()=>{
     //    loop the the filters conditions
@@ -110,14 +112,19 @@ export default function Contacts() {
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
-    const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                         fill="currentColor"
-                         className="bi bi-tag" viewBox="0 0 16 16" onClick={null}>
-        <path
-            d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
-        <path
-            d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
-    </svg>)
+    const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg"  width="25" height="25" viewBox="0 0 25 25">
+            <defs>
+                <clipPath id="clip-path">
+                    <rect id="Background" width="25" height="25" fill="none"/>
+                </clipPath>
+            </defs>
+            <g id="trash-alt">
+                <g id="Group_5689" data-name="Group 5689" transform="translate(9.749 -2.748) rotate(45)">
+                    <path id="Path_34498" data-name="Path 34498" d="M18.87,0H10.783A2.7,2.7,0,0,0,8.876.788L.789,8.876a2.7,2.7,0,0,0,0,3.811l8.087,8.087a2.7,2.7,0,0,0,3.811,0l8.087-8.087a2.7,2.7,0,0,0,.792-1.9V2.7A2.7,2.7,0,0,0,18.87,0Zm0,10.783L10.783,18.87,2.7,10.783,10.783,2.7H18.87Z" transform="translate(0 0)" fill="#f1b44c"/>
+                </g>
+            </g>
+        </svg>
+    )
 
     const editSVG =(
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#2198fa"
@@ -175,19 +182,6 @@ export default function Contacts() {
                     <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
                 </div>
             </div>
-            {/*<SearchSession*/}
-            {/*    placeholder={"Search"}*/}
-            {/*    handleChange={handleFilterChange}*/}
-            {/*    value={filter.keyword}*/}
-            {/*>*/}
-            {/*    {!isSelectRow ? (*/}
-            {/*        <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>*/}
-            {/*    ) : (*/}
-            {/*        <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>*/}
-            {/*    )}*/}
-            {/*    <button onClick={toggleDropzone} className={"mf_bg_light_blue mf_color_blue"}>Import</button>*/}
-            {/*    <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>*/}
-            {/*</SearchSession>*/}
                     {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
@@ -298,6 +292,7 @@ export default function Contacts() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                <div>{page + 1}</div>
                 </div>
 
 
