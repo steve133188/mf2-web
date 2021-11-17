@@ -76,6 +76,6 @@ export default function Layout({children}) {
         // console.log(user)
     },[])
     return (
-        user.token || user.token!=""? layout : unAuth
+        user.token ? layout : unAuth
     )
 }

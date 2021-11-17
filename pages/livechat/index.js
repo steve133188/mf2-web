@@ -158,10 +158,12 @@ export default function Live_chat() {
     const [isRobotOn , setIsRobotOn] = useState(false)
     const [isExpand , setIsExpand] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const getChatRooms = async()=>{
-        axios.get("http://16b8-118-140-233-2.ngrok.io/")
-    }
+
     useEffect(()=>{
+        const getChatRooms = async(chat_id)=>{
+            const res = axios.get(`http://16b8-118-140-233-2.ngrok.io/${chat_id}`)
+            return res.data
+        }
         setChatrooms([...data])
     } , [])
 
