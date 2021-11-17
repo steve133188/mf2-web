@@ -1,12 +1,7 @@
-import  {AccountSettingPanel} from "../../components/AccountSettingPanel"
-import {BlueMenu} from "../../components/BlueMenu";
-import {BlueMenuLink} from "../../components/BlueMenuLink";
-
 import Layout from '/layouts/Layout_setting'
 import Avatar from "@mui/material/Avatar";
 import {CancelButton, NormalButton, NormalButton2} from "../../components/Button";
 import { Input2} from "../../components/Input";
-import {Checkbox} from "../../components/Checkbox";
 
 export default function Setting() {
     return (
