@@ -8,8 +8,8 @@ export default function Layout_live_chat (){
         <div className="layout_setting">
             <AccountSettingPanel/>
             <ORGMenu>
-                <BlueMenuLink link="">Account Setting</BlueMenuLink>
-                <BlueMenuLink link="">Reset Password</BlueMenuLink>
+                {/*<BlueMenuLink link="">Account Setting</BlueMenuLink>*/}
+                {/*<BlueMenuLink link="">Reset Password</BlueMenuLink>*/}
             </ORGMenu>
         </div>
     )
