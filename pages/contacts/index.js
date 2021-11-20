@@ -22,6 +22,7 @@ import MF_Select from "../../components/MF_Select";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import Profile from "../../components/profile";
+import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 
 export default function Contacts() {
 
@@ -88,11 +89,13 @@ export default function Contacts() {
         setFilteredData([...newData])
     }
 
-    const toggleProfile = () =>{
-        console.log("toggle profile:",isProfileShow)
+    const toggleProfile = (key) =>{
+        if(!isProfileShow) setUseContact(key)
+        console.log(useContact)
         setIsProfileShow(!isProfileShow)
     }
-    const toggleEditProfile = () =>{
+    const toggleEditProfile = (key) =>{
+        if(!isEditProfileShow) setUseContact(key)
         setIsEditProfileShow(!isEditProfileShow)
     }
 
@@ -143,8 +146,8 @@ export default function Contacts() {
     )
     return (
         <div className={styles.layout}>
-            {isProfileShow?           ( <Profile>tests profile</Profile>):null}
-            {isEditProfileShow?           ( <Profile>tests edit</Profile>):null}
+            {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
+            {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}>tests edit</Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
                 <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
@@ -220,13 +223,13 @@ export default function Contacts() {
                     <TableBody>
                         {filteredData.length!=0 && currentContacts.map((data ,index) => {
                             return( <TableRow
-                                    key={data.id}
+                                    key={index}
                                     hover
                                     role="checkbox"
-                                    tabIndex={-1}
+                                    // tabIndex={-1}
                                     name={index}
                                     checked={selectedContacts.includes(data.id)}
-                                    onClick={isSelectRow?toggleSelect:toggleProfile}
+                                    onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                 >
                                     <TableCell style={{
                                         width: "30px",
