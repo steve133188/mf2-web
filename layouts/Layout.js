@@ -18,61 +18,19 @@ export default function Layout({children}) {
 
     const layout = (
         <div className={"layout"}><SideBar navItems={navItems} />
-            <div className={"layout-main"}><div className={'navbar container-fluid'}>
-                <div className={"page-title"}> {router.pathname.charAt(1).toUpperCase()+router.pathname.substring(2)}</div>
-                <div className={'d-flex user-session'}>
-                    <div className={'notificationDropdownSet'}>
-                        {/*{u.notification!=0? <div className={'badge'}> 10</div>: null}*/}
-                        <div className="notificationDropdown">
-                            {/*<img src="bell.svg" alt="" width={"15px"} height={"15px"}/>*/}
-                            <SingleSelect2/>
-                        </div>
-                    </div>
-                    <div className="loggingStatusDropdown">
-                        <FormControl sx={{m: 1, minWidth: 120}}>
-                            <Select
-                                value={userSelect}
-                                // onChange={handleChange}
-                                displayEmpty
-                                label={`<div className={'selectStatusOnline'}></div>
-                                    <span>{u.username}</span></MenuItem>`}
-                                inputProps={{'aria-label': 'Without label'}}
-                                sx={{
-                                    width: 160,
-                                    height: 31,
-                                    borderRadius: 19,
-                                    background: "#F5F6F8",
-                                    border: "none",
-                                    textAlign: "center"
-                                }}
-                            >
-                                <MenuItem value={""}>
-                                    <div className={'selectStatusOnline'}></div>
-                                    <span>{u.username}</span></MenuItem>
-                                <MenuItem value={"offline"}>
-                                    <div className={'selectStatusOffline'}></div>
-                                    <span>{u.username}</span></MenuItem>
-                                <MenuItem value={"other"}>
-                                    <div className={''}></div>
-                                    <span>User preference</span></MenuItem>
-                                <MenuItem value={"other"} onClick={logout}>
-                                    <div className={''} ></div>
-                                    <span>Logout</span>
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                </div>
-            </div>{children}</div>
+            <div className={"layout-main"}>
+
+                {children}</div>
+
         </div>
     )
 
     const unAuth = (<div className={"unauth"}>{children}</div>)
     useEffect(()=>{
-        // if(user.token == null){
-        //     console.log("please log in")
-        //     router.push("/login" , '/')
-        // }
+        if(user.token == null){
+            console.log("please log in")
+            router.push("/login" )
+        }
         // console.log(user)
     },[])
     return (

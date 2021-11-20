@@ -20,17 +20,32 @@ import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
 import MF_Select from "../../components/MF_Select";
 import TableHead from "@mui/material/TableHead";
+import Pagination from '@mui/material/Pagination';
+import Profile from "../../components/profile";
 
 export default function Contacts() {
-    const router = useRouter()
+
     const searchRef = useRef(null)
     const [contacts, setContacts] = useState([]);
-    const {  get_contacts} = useContext(GlobalContext)
+    const {get_contacts} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
+
+    const [isLoading, setIsLoading] = useState(false);
+
+
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
-    const [page , setPage] = useState(0)
-    const [selected , setSelected] = useState([])
+
+    const [useContact , setUseContact] = useState()
+    const [isProfileShow , setIsProfileShow] = useState(false)
+    const [isEditProfileShow , setIsEditProfileShow] = useState(false)
+
+    const [currentPage , setCurrentPage] = useState(1)
+    const [selectedContacts , setSelectedContacts] = useState([])
     const [isShowDropzone, setIsShowDropzone] = useState(false);
+    const [selectAll, setSelectAll] = useState(false);
+    const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
+    const indexOfFirstTodo = indexOfLastTodo - 10;
+    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     //filtered Data
     useEffect(    () => {
         const fetchContacts = async () =>{
@@ -39,10 +54,22 @@ export default function Contacts() {
             setFilteredData(data)
         }
         fetchContacts()
-        console.log(filteredData)
     },[]);
 
-
+    const toggleSelect = e => {
+        const { id, checked } = e.target;
+        setSelectedContacts([...selectedContacts, id]);
+        if (!checked) {
+            setSelectedContacts(selectedContacts.filter(item => item !== id));
+        }
+    };
+    const toggleSelectAll = e => {
+        setSelectAll(!selectAll);
+        setSelectedContacts(currentContacts.map(c => c.id));
+        if (selectAll) {
+            setSelectedContacts([]);
+        }
+    };
 
     const handleFilterChange = (search)=>{
 
@@ -54,55 +81,21 @@ export default function Contacts() {
             if(search.trim() == ""){
                 return contacts
             }
-            return contact.first_name.includes(search) || contact.last_name.includes(search)
+            return contact.name.includes(search)
         })
         console.log("newdata " , newData)
         // const newData = filterFunc()
         setFilteredData([...newData])
     }
 
-
-    const filterFunc = ()=>{
-    //    loop the the filters conditions
-        let newData = contacts;
-        Object.keys(filter).map((key) => {
-            if(filter[key].length > 0){
-                if(Array.isArray(filter[key])){
-                    newData = contacts.filter(contact  => {
-                        let temp_contact = contact;
-                        filter[key].map(value => {
-                            switch (key) {
-                                case 'agent':
-                                    if(temp_contact.agent.includes(value)){
-                                        temp_contact = contact;
-                                    } else temp_contact = {};
-                                    break;
-                                case 'team':
-                                    if(temp_contact.team == value){
-                                        temp_contact = contact;
-                                    } else temp_contact = {};
-                                    break;
-                                case 'channel':
-                                    if(temp_contact.channel.includes(value)){
-                                        temp_contact = contact;
-                                    } else temp_contact = {};
-                                    break;
-                                case 'tag':
-                                    if(temp_contact.tag.includes(value)){
-                                        temp_contact = contact;
-                                    } else temp_contact = {};
-                                    break;
-                            }
-                        })
-                        if(Object.keys(temp_contact).length > 0){
-                            return temp_contact
-                        }
-                    })
-                }
-            }
-        })
-        return newData;
+    const toggleProfile = () =>{
+        console.log("toggle profile:",isProfileShow)
+        setIsProfileShow(!isProfileShow)
     }
+    const toggleEditProfile = () =>{
+        setIsEditProfileShow(!isEditProfileShow)
+    }
+
     const default_cols = ['customer_id' , 'name' ,'team', 'channels','tags' ,'assignee']
     const [isSelectRow, setSelectRow] = useState( false);
 
@@ -150,6 +143,8 @@ export default function Contacts() {
     )
     return (
         <div className={styles.layout}>
+            {isProfileShow?           ( <Profile>tests profile</Profile>):null}
+            {isEditProfileShow?           ( <Profile>tests edit</Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
                 <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
@@ -182,7 +177,7 @@ export default function Contacts() {
                     <Link href="/contacts/addcontact"><button>+ New Contact</button></Link>
                 </div>
             </div>
-                    {/* drag and drop end*/}
+            {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
                     <div className={"select_session_btn"}>{tagSVG}</div>
@@ -191,126 +186,110 @@ export default function Contacts() {
                 </div>):null}
             >
                 <MF_Select head={"Agent"}>
-
+                    {/*    waiting to fetch the user*/}
                 </MF_Select>
                 <MF_Select head={"Team"} >
+                    {/*    waiting to fetch the teams*/}
                 </MF_Select>
                 <MF_Select head={"Tags"}  >
-
+                    {/*    waiting to fetch the tags*/}
                 </MF_Select>
                 <MF_Select head={"Channel"}  >
+                    {/*    waiting to fetch the channels*/}
                 </MF_Select>
-
-
             </SelectSession>
-                            <TableContainer>
-                                <Table
-                                    sx={{minWidth: 750}}
-                                    aria-labelledby="tableTitle"
+            <TableContainer>
+                <Table
+                    sx={{minWidth: 750}}
+                    aria-labelledby="tableTitle"
+                >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>
+                                <div className="newCheckboxContainer">
+                                    {isSelectRow ? <label className="newCheckboxLabel">
+                                        <input type="checkbox" name="checkbox" checked={selectAll} onClick={toggleSelectAll} />
+                                    </label> : null}
+                                </div>
+                            </TableCell>
+                            {default_cols.map((col,index)=>{
+                                return ( <TableCell key={index}>{col}</TableCell>)
+                            })}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                            return( <TableRow
+                                    key={data.id}
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    name={index}
+                                    checked={selectedContacts.includes(data.id)}
+                                    onClick={isSelectRow?toggleSelect:toggleProfile}
                                 >
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>
-                                                <div className="newCheckboxContainer">
-                                                {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" name="checkbox"/>
-                                                </label> : null}
-                                                </div>
-                                            </TableCell>
-                                        {default_cols.map((col,index)=>{
-                                           return ( <TableCell key={index}>{col}</TableCell>)
+                                    <TableCell style={{
+                                        width: "30px",
+                                        textAlign: "center",
+                                        borderBottom: "1px #e0e0e0 solid"
+                                    }}>
+                                        <div className="newCheckboxContainer">
+                                            {isSelectRow ? <label className="newCheckboxLabel">
+                                                <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
+                                            </label> : null}
+
+                                        </div>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <span >{data.id}</span>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
+                                            <Avatar alt="Remy Sharp"  src={data.img_url||""}/>
+                                            <span style={{marginLeft: "11px"}}>{data.name}</span>
+                                        </div>
+                                    </TableCell>
+
+
+                                    <TableCell align="left">
+                                        <Pill color="teamA">{data.team}</Pill>
+                                    </TableCell>
+
+                                    <TableCell align="left">
+                                        { data.channels!=null && data.channels.map((chan , index)=>{
+                                            return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
                                         })}
-                                        </TableRow>
-                                        </TableHead>
-                                    <TableBody>
-                                        {filteredData.length!=0 && filteredData.map((data ) => {
-                                           return( <TableRow
-                                                key={data.id}
-                                                hover
-                                                role="checkbox"
-                                                tabIndex={-1}
-                                            >
-                                                   {/*<Link href={`/contacts/${encodeURIComponent(data.id)}`} passHref>*/}
-                                                   {/*<Link href={{pathname:"/contact" , query:{id:data.id}}} passHref>*/}
-                                                <TableCell style={{
-                                                    width: "30px",
-                                                    textAlign: "center",
-                                                    borderBottom: "1px #e0e0e0 solid"
-                                                }}>
-                                                    <div className="newCheckboxContainer">
-                                                        {isSelectRow ? <label className="newCheckboxLabel">
-                                                            <input type="checkbox" name="checkbox"/>
-                                                        </label> : null}
+                                    </TableCell>
 
-                                                    </div>
-                                                </TableCell>
-                                               <TableCell align="left">
-                                                   <span >{data.id}</span>
-                                               </TableCell>
-                                                <TableCell align="left">
-                                                    <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                                        <Avatar alt="Remy Sharp"  src={data.img_url||""}/>
-                                                        <span style={{marginLeft: "11px"}}>{data.first_name + "." +data.last_name}</span>
-                                                    </div>
-                                                </TableCell>
+                                    <TableCell align="left">
+                                        <div className="tagsGroup">
+                                            {data.tags.map((tag , index)=>{
+                                                return( <Pill key={index} color="lightBlue">{tag}</Pill>)
+                                            })}
 
+                                        </div>
+                                    </TableCell>
 
-                                                <TableCell align="left">
-                                                    <Pill color="teamA">{data.team}</Pill>
-                                                </TableCell>
+                                    <TableCell align="left">
+                                        <div className="assigneeGroup">
+                                            {data.agents!=null &&data.agents.map((agent , index)=>{
+                                                return(
+                                                    <Pill key={index} color="lightYellow" size="roundedPill size30">{agent}</Pill>
+                                                )
+                                            })}
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
-                                                <TableCell align="left">
-                                                    { data.channels!=null && data.channels.map((chan , index)=>{
-                                                        return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
-                                                    })}
-                                                </TableCell>
+            <Pagination count={Math.ceil(filteredData.length/10)} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
 
-                                                <TableCell align="left">
-                                                    <div className="tagsGroup">
-                                                        {data.tags.map((tag , index)=>{
-                                                            return( <Pill key={index} color="lightBlue">{tag}</Pill>)
-                                                        })}
-
-                                                    </div>
-                                                </TableCell>
-
-                                                <TableCell align="left">
-                                                    <div className="assigneeGroup">
-                                                        {data.agents!=null &&data.agents.map((agent , index)=>{
-                                                            return(
-                                                                <Pill key={index} color="lightYellow" size="roundedPill size30">{agent}</Pill>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                </TableCell>
-                                                   {/*</Link>*/}
-
-                                                   {/*</Link>*/}
-                                            </TableRow>
-                                           )
-                                        })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                <div>{page + 1}</div>
-                </div>
+        </div>
 
 
     )
 }
-// Contacts.getInitialProps = async ()=>{
-//     const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/"
-//     let token ;
-//     if (process.browser) {
-//         token = localStorage.getItem("token");
-//         console.log(token)
-//     }
-//     const res =  await axios.get(url , {
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${token}`
-//         },
-//     })
-//     return {contacts:res.data.data}
-// }
-//

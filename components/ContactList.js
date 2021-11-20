@@ -132,7 +132,7 @@ export function ContactList() {
                     {/*               }) => {*/}
                     {/*    return (*/}
                     {/*        <div className="contactContainer" key={contactName}>*/}
-                    {/*            <div className="[id]">*/}
+                    {/*            <div className="[cid]">*/}
                     {/*                {isFavourite ? (*/}
                     {/*                    <svg id={"fillStarColor"} onClick={addToFavourite}*/}
                     {/*                         xmlns="http://www.w3.org/2000/svg" width="16"*/}
