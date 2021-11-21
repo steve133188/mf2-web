@@ -11,6 +11,14 @@
     flex-direction:column;
     justify-content: space-around;
     padding: 1rem 3rem;
+    position: relative;
+
+    .dot{
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      cursor: pointer;
+    }
     .ava_block{
       display: flex;
       flex-direction: column;

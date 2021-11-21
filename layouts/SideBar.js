@@ -105,30 +105,30 @@ export default function SideBar(props) {
                         </div>
                     </Link>
                 </div>
-                <div className={router.pathname == "/broadcast" ? "active-side-item" : "side-item "}>
-                    <Link href={"/broadcast"}>
-                        <div className={router.pathname == "/broadcast" ? "active nav-item" : "nav-item "}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 className="bi bi-broadcast-pin" viewBox="0 0 16 16">
-                                <path
-                                    d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM6 8a2 2 0 1 1 2.5 1.937V15.5a.5.5 0 0 1-1 0V9.937A2 2 0 0 1 6 8z"/>
-                            </svg>
-                            <span className="side-item-name">Broadcast</span>
-                        </div>
-                    </Link>
-                </div>
-                <div className={router.pathname == "/flowbuilder" ? "active-side-item" : "side-item "}>
-                    <Link href={"/flowbuilder"}>
-                        <div className={router.pathname == "/flowbuilder" ? "active nav-item" : "nav-item "}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 className="bi bi-bar-chart-steps" viewBox="0 0 16 16">
-                                <path
-                                    d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
-                            </svg>
-                            <span className="side-item-name">Flow Builder</span>
-                        </div>
-                    </Link>
-                </div>
+                {/*<div className={router.pathname == "/broadcast" ? "active-side-item" : "side-item "}>*/}
+                {/*    <Link href={"/broadcast"}>*/}
+                {/*        <div className={router.pathname == "/broadcast" ? "active nav-item" : "nav-item "}>*/}
+                {/*            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
+                {/*                 className="bi bi-broadcast-pin" viewBox="0 0 16 16">*/}
+                {/*                <path*/}
+                {/*                    d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM6 8a2 2 0 1 1 2.5 1.937V15.5a.5.5 0 0 1-1 0V9.937A2 2 0 0 1 6 8z"/>*/}
+                {/*            </svg>*/}
+                {/*            <span className="side-item-name">Broadcast</span>*/}
+                {/*        </div>*/}
+                {/*    </Link>*/}
+                {/*</div>*/}
+                {/*<div className={router.pathname == "/flowbuilder" ? "active-side-item" : "side-item "}>*/}
+                {/*    <Link href={"/flowbuilder"}>*/}
+                {/*        <div className={router.pathname == "/flowbuilder" ? "active nav-item" : "nav-item "}>*/}
+                {/*            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
+                {/*                 className="bi bi-bar-chart-steps" viewBox="0 0 16 16">*/}
+                {/*                <path*/}
+                {/*                    d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>*/}
+                {/*            </svg>*/}
+                {/*            <span className="side-item-name">Flow Builder</span>*/}
+                {/*        </div>*/}
+                {/*    </Link>*/}
+                {/*</div>*/}
                 <div className={router.pathname == "/integrations" ? "active-side-item" : "side-item "}>
                     <Link href={"/integrations"}>
                         <div className={router.pathname == "/integrations" ? "active nav-item" : "nav-item "}>
@@ -141,18 +141,18 @@ export default function SideBar(props) {
                         </div>
                     </Link>
                 </div>
-                <div className={router.pathname == "/products" ? "active-side-item" : "side-item "}>
-                    <Link href={"/products"}>
-                        <div className={router.pathname == "/products" ? "active nav-item" : "nav-item "}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 className="bi bi-shop" viewBox="0 0 16 16">
-                                <path
-                                    d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
-                            </svg>
-                            <span className="side-item-name">Product Catalogue</span>
-                        </div>
-                    </Link>
-                </div>
+                {/*<div className={router.pathname == "/products" ? "active-side-item" : "side-item "}>*/}
+                {/*    <Link href={"/products"}>*/}
+                {/*        <div className={router.pathname == "/products" ? "active nav-item" : "nav-item "}>*/}
+                {/*            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
+                {/*                 className="bi bi-shop" viewBox="0 0 16 16">*/}
+                {/*                <path*/}
+                {/*                    d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>*/}
+                {/*            </svg>*/}
+                {/*            <span className="side-item-name">Product Catalogue</span>*/}
+                {/*        </div>*/}
+                {/*    </Link>*/}
+                {/*</div>*/}
                 <div className={router.pathname == "/organization" ? "active-side-item" : "side-item "}>
                     <Link href={"/organization"}>
                         <div className={router.pathname == "/organization" ? "active nav-item" : "nav-item "}>
@@ -183,16 +183,16 @@ export default function SideBar(props) {
                 {/*    </Link>*/}
                 {/*})}*/}
             </div>
-            <button className={"collapseButton"} onClick={toggleCollapse}>
-                <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="16.291" height="16.291"
-                     viewBox="0 0 16.291 16.291" className={"collapseIcon"}>
-                    <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z" fill="none"
-                          opacity="0.87"/>
-                    <path id="Path_3109" data-name="Path 3109"
-                          d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"
-                          transform="translate(-2.065 -3.087)" fill="currentColor"/>
-                </svg>
-            </button>
+            {/*<button className={"collapseButton"} onClick={toggleCollapse}>*/}
+            {/*    <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="16.291" height="16.291"*/}
+            {/*         viewBox="0 0 16.291 16.291" className={"collapseIcon"}>*/}
+            {/*        <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z" fill="none"*/}
+            {/*              opacity="0.87"/>*/}
+            {/*        <path id="Path_3109" data-name="Path 3109"*/}
+            {/*              d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"*/}
+            {/*              transform="translate(-2.065 -3.087)" fill="currentColor"/>*/}
+            {/*    </svg>*/}
+            {/*</button>*/}
         </div>
     )
 }

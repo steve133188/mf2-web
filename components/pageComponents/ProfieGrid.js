@@ -1,6 +1,16 @@
+import {useEffect, useState} from "react";
+
 export default function ProfileGrid({data}){
+
+    const [log , setLog]  = useState([])
+    useEffect(()=>{
+    //    fetch log by customer_id
+    //    fetch assignee by customer_id
+    //    fetch team by customer_id
+    },[])
     return(<div className={"profile_grid"}>
         <div className={"info_col grid_box"}>
+            <span className={"dot"} >...</span>
             <div className={"ava_block"}>
                 <img className={"ava"} src={data.img_url} alt="profile pic"/>
                 <span className={"title"}>{data.name}</span>
@@ -20,7 +30,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Birthday</span>
-                <span className={"info_content"}>{data.bod}</span>
+                <span className={"info_content"}>{data.birthday}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Gender</span>
@@ -47,24 +57,27 @@ export default function ProfileGrid({data}){
                         <div className={"session_content"}></div>
                     </div>
                     <div className={"half_session block_session"}>
-                        <div className={"top_row"}><span className={"title"}>Assignee</span></div>
+                        <div className={"top_row"}><span className={"title"}>Team</span></div>
                         <div className={"session_content"}></div>
                     </div>
                 </div>
                 <div className={"block_session grid_box block"}>
                     <div className={"half_session block_session"}>
-                        <div className={"top_row"}><span className={"title"}>Assignee</span></div>
+                        <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}></div>
                     </div>
                     <div className={"half_session block_session"}>
-                        <div className={"top_row"}><span className={"title"}>Assignee</span></div>
+                        <div className={"top_row"}><span className={"title"}>Tags</span></div>
                         <div className={"session_content"}></div>
                     </div>
                 </div>
             </div>
             <div className={"log_input half_session grid_box"}>
                 <div className={"block_session"}>
-                    <div className={"top_row"}><span className={"title"}>Activity</span></div>
+                    <div className={"top_row"}><span className={"title"}>Activity Log</span></div>
+                    <ul>{log!=-1&& log.map((l , i )=>{
+                        return <li key={i}> {l} </li>
+                    })}</ul>
                 </div>
             </div>
         </div>

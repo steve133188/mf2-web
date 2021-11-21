@@ -23,6 +23,7 @@ import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import Profile from "../../components/profile";
 import ProfileGrid from "../../components/pageComponents/ProfieGrid";
+import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 
 export default function Contacts() {
 
@@ -147,7 +148,7 @@ export default function Contacts() {
     return (
         <div className={styles.layout}>
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
-            {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}>tests edit</Profile>):null}
+            {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
                 <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
@@ -218,6 +219,11 @@ export default function Contacts() {
                             {default_cols.map((col,index)=>{
                                 return ( <TableCell key={index}>{col}</TableCell>)
                             })}
+                            <TableCell>
+                                <div className="newCheckboxContainer">
+
+                                </div>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -252,8 +258,6 @@ export default function Contacts() {
                                             <span style={{marginLeft: "11px"}}>{data.name}</span>
                                         </div>
                                     </TableCell>
-
-
                                     <TableCell align="left">
                                         <Pill color="teamA">{data.team}</Pill>
                                     </TableCell>
@@ -281,6 +285,11 @@ export default function Contacts() {
                                                 )
                                             })}
                                         </div>
+                                    </TableCell>
+                                    <TableCell  onClick={(e)=>{e.stopPropagation();toggleEditProfile(data)}}>
+                                        <span className={styles.edit_span}>
+                                            ...
+                                        </span>
                                     </TableCell>
                                 </TableRow>
                             )

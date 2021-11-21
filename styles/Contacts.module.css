@@ -16,6 +16,18 @@
     padding: 0.5rem 0;
 }
 
+.edit_span{
+    writing-mode: tb-rl;
+    text-orientation: mixed;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    text-align: center;
+}
+/*.edit_span:hover{*/
+/*    background-color: #8B8B8B;*/
+/*}*/
 /*.btn_group{*/
 /*    display: inline-flex;*/
 /*    flex-direction: row;*/
