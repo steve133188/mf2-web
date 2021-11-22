@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import Avatar from "@mui/material/Avatar";
 
 export default function ProfileGrid({data}){
 
@@ -12,7 +13,8 @@ export default function ProfileGrid({data}){
         <div className={"info_col grid_box"}>
             <span className={"dot"} >...</span>
             <div className={"ava_block"}>
-                <img className={"ava"} src={data.img_url} alt="profile pic"/>
+                {/*<img className={"ava"} src={data.img_url} alt="profile pic"/>*/}
+                <Avatar className={"ava"} src={data.img_url} alt="profile pic"/>
                 <span className={"title"}>{data.name}</span>
                 <button className={"chat_btn"}>chat</button>
             </div>

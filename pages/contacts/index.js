@@ -49,12 +49,14 @@ export default function Contacts() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     //filtered Data
+
+    const fetchContacts = async () =>{
+        const data = await get_contacts()
+        setContacts(data)
+        setFilteredData(data)
+    }
     useEffect(    () => {
-        const fetchContacts = async () =>{
-            const data = await get_contacts()
-            setContacts(data)
-            setFilteredData(data)
-        }
+
         fetchContacts()
     },[]);
 
@@ -96,7 +98,8 @@ export default function Contacts() {
         setIsProfileShow(!isProfileShow)
     }
     const toggleEditProfile = (key) =>{
-        if(!isEditProfileShow) setUseContact(key)
+        if(!isEditProfileShow) setUseContact(key);
+        if(isEditProfileShow) fetchContacts();
         setIsEditProfileShow(!isEditProfileShow)
     }
 

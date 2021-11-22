@@ -47,7 +47,8 @@ export default function EditProfileForm({data , toggle}){
         toggle()
     }
     function cancel(e){
-        e.propertyIsEnumerable()
+        e.preventDefault()
+        toggle()
         // router.back()
     }
     return (
