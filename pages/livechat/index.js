@@ -5,6 +5,7 @@ import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
 import axios from "axios";
+import Avatar from "@mui/material/Avatar";
 
 export default function Live_chat() {
     const data = [
@@ -213,7 +214,7 @@ export default function Live_chat() {
                 </div>
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")}>
                     {/*<Picker style={{ position: 'absolute', bottom: '20px', right: '20px' }} />*/}
-                    <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" autoComplete={true}></textarea>
+                    <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" ></textarea>
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
                             <div className={"sticker_btn "}></div>
@@ -231,7 +232,7 @@ export default function Live_chat() {
             </div>
             <div className={"chatroom_info"}>
                 <div className={"contact"}>
-                    <div className={"profile_pic"}><img src={data[0].profile_pic_url} alt=""/></div>
+                    <div className={"profile_pic"}><Avatar src={data[0].profile_pic_url} alt="" sx={{ width: 75, height: 75 }}/></div>
                     <div className={"contact_detail"}>
                         <div className={"contact_detail_name"}>Nobody</div>
                         <div className={"contact_detail_channel"}>+852 1833833</div>

@@ -148,7 +148,7 @@ export default function Contacts() {
     return (
         <div className={styles.layout}>
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
-            {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact}/></Profile>):null}
+            {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
                 <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
@@ -254,7 +254,7 @@ export default function Contacts() {
                                     </TableCell>
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                            <Avatar alt="Remy Sharp"  src={data.img_url||""}/>
+                                            <Avatar alt={data.name}  src={data.img_url||""}/>
                                             <span style={{marginLeft: "11px"}}>{data.name}</span>
                                         </div>
                                     </TableCell>

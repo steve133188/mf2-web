@@ -14,17 +14,16 @@ export function LineChart1({children,...props}) {
             chart: {
                 id: 'fb',
                 type: 'area',
-                height: "350"
+                height: "350",
+                zoom: {
+                    enabled: false
+                }
             },
             colors: ['#5B73E8'],
             stroke: {
                 curve: 'straight'
             },
-            zoom: {
-                type: 'x',
-                enabled: true,
-                autoScaleYaxis: true
-            },
+
             markers: {
                 size: 0
             },
@@ -94,9 +93,12 @@ export function MultipleLineChart({children,...props}) {
             colors: ['#5B73E8', '#68C093', '#F1B44C'],
             chart: {
                 id: 'fb',
-                group: 'social',
+                // group: 'social',
                 type: 'line',
-                height: "350"
+                height: "350",
+                zoom: {
+                    enabled: false
+                }
             },
             stroke: {
                 curve: 'straight'
@@ -119,6 +121,10 @@ export function MultipleLineChart({children,...props}) {
                     text: {yaxis}
                 },
             },
+            dataLabels: {
+                enabled: false
+            },
+
             legend: {
                 position: 'top',
                 horizontalAlign: 'right',

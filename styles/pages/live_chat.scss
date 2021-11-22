@@ -367,21 +367,17 @@
       padding: 0.25rem 0;
       display: flex;
       flex-direction: row;
+      justify-content: center;
       .profile_pic{
         display: flex;
         flex-direction: column;
-        width: 40%;
+        //width: 40%;
         vertical-align: center;
-        align-content: center;
-        img{
-          width: 75%;
-          border-radius: 50%;
-          margin:auto;
-        }
+        justify-content: center;
       }
       .contact_detail{
         padding: 0.25rem 1rem;
-        width: 60%;
+        //width: 60%;
         display: flex;
         flex-direction: column;
         justify-content: center;

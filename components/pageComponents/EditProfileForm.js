@@ -5,7 +5,7 @@ import {Input2} from "../Input";
 import Link from "next/link";
 import * as React from "react";
 
-export default function EditProfileForm({data}){
+export default function EditProfileForm({data , toggle}){
     const [editContact , setEditContact] = useState(data)
     const router = useRouter()
 
@@ -25,11 +25,11 @@ export default function EditProfileForm({data}){
     }
     async function handleSubmit (e){
         e.preventDefault()
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
+        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const name =` ${editContact.first_name} ${editContact.last_name}`
         console.log(name)
 
-        const res = await axios.put(url , editContact ,{
+        const res = await axios.put(url , {...editContact,name} ,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -44,11 +44,11 @@ export default function EditProfileForm({data}){
                 console.log(err)
             })
         console.log(res)
-        router.back()
+        toggle()
     }
     function cancel(e){
         e.propertyIsEnumerable()
-        router.back()
+        // router.back()
     }
     return (
         <div className={"addContactSession"}>
@@ -73,7 +73,7 @@ export default function EditProfileForm({data}){
                 <Input2 title="Country" name={"country"} value={editContact.country} onChange={handleChange} />
 
                 <div className={"ss_row submit_row"}>
-                    <button onClick={handleSubmit}>+ New Contact</button>
+                    <button onClick={handleSubmit}>Save</button>
                     <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"} onClick={cancel}>Cancel</button></Link>
                 </div>
             </div>
