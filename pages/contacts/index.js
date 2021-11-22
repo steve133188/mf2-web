@@ -24,6 +24,8 @@ import Pagination from '@mui/material/Pagination';
 import Profile from "../../components/profile";
 import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
+import { Tooltip } from '@mui/material';
+import {AvatarGroup} from "@mui/lab";
 
 export default function Contacts() {
 
@@ -33,8 +35,6 @@ export default function Contacts() {
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(false);
-
-
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
     const [useContact , setUseContact] = useState()
@@ -55,9 +55,8 @@ export default function Contacts() {
         setContacts(data)
         setFilteredData(data)
     }
-    useEffect(    () => {
-
-        fetchContacts()
+    useEffect(    async () => {
+        await fetchContacts()
     },[]);
 
     const toggleSelect = e => {
@@ -85,11 +84,12 @@ export default function Contacts() {
             if(search.trim() == ""){
                 return contacts
             }
-            return contact.name.includes(search)
+            return contact.name.toLowerCase().includes(search)
         })
         console.log("newdata " , newData)
         // const newData = filterFunc()
         setFilteredData([...newData])
+        setCurrentPage(1)
     }
 
     const toggleProfile = (key) =>{
@@ -97,9 +97,9 @@ export default function Contacts() {
         console.log(useContact)
         setIsProfileShow(!isProfileShow)
     }
-    const toggleEditProfile = (key) =>{
+    const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) setUseContact(key);
-        if(isEditProfileShow) fetchContacts();
+        if(isEditProfileShow) await fetchContacts();
         setIsEditProfileShow(!isEditProfileShow)
     }
 
@@ -209,6 +209,8 @@ export default function Contacts() {
                 <Table
                     sx={{minWidth: 750}}
                     aria-labelledby="tableTitle"
+                    size={'medium'}
+                    stickyHeader={true}
                 >
                     <TableHead>
                         <TableRow>
@@ -262,7 +264,7 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
                                     <TableCell align="left">
-                                        <Pill color="teamA">{data.team}</Pill>
+                                        <Pill color="teamA">{data.team_id!=""?data.team:"not Assign"}</Pill>
                                     </TableCell>
 
                                     <TableCell align="left">
@@ -280,14 +282,18 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
 
-                                    <TableCell align="left">
-                                        <div className="assigneeGroup">
+                                    <TableCell >
+                                        {/*<div className="assigneeGroup">assigneeGroup*/}
+                                        <AvatarGroup className={"AvatarGroup"} max={5} spacing={"1"} align="left">
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
-                                                    <Pill key={index} color="lightYellow" size="roundedPill size30">{agent}</Pill>
+                                                    <Tooltip key={index} className={""} title={agent} placement="top-start">
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning"}  size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                                    </Tooltip>
                                                 )
                                             })}
-                                        </div>
+                                        </AvatarGroup>
+                                        {/*</div>*/}
                                     </TableCell>
                                     <TableCell  onClick={(e)=>{e.stopPropagation();toggleEditProfile(data)}}>
                                         <span className={styles.edit_span}>

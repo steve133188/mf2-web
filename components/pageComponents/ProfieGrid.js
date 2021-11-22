@@ -1,5 +1,8 @@
 import {useEffect, useState} from "react";
 import Avatar from "@mui/material/Avatar";
+import {Pill} from "../Pill";
+import {Tooltip} from "@mui/material";
+import {AvatarGroup} from "@mui/lab";
 
 export default function ProfileGrid({data}){
 
@@ -56,21 +59,39 @@ export default function ProfileGrid({data}){
                 <div className={"block_session grid_box block"}>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
-                        <div className={"session_content"}></div>
+                        <div className={"session_content"}>
+                            <AvatarGroup className={"AvatarGroup"} max={5} spacing={"1"} align="left">
+                                {data.agents!=null &&data.agents.map((agent , index)=>{
+                                    return(
+                                        <Tooltip key={index} className={""} title={agent} placement="top-start">
+                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  size="roundedPill size30" alt={agent}>{agent.substring(0,1)}</Avatar>
+                                        </Tooltip>
+                                    )
+                                })}
+                            </AvatarGroup>
+                        </div>
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Team</span></div>
-                        <div className={"session_content"}></div>
+                        <div className={"session_content"}><Pill color="teamA">{data.team?data.team:"null"}</Pill></div>
                     </div>
                 </div>
                 <div className={"block_session grid_box block"}>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
-                        <div className={"session_content"}></div>
+                        <div className={"session_content"}>
+                            { data.channels!=null && data.channels.map((chan , index)=>{
+                                return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
+                            })}
+                        </div>
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Tags</span></div>
-                        <div className={"session_content"}></div>
+                        <div className={"session_content"}>
+                            {data.tags.map((tag , index)=>{
+                                return( <Pill key={index} color="lightBlue">{tag}</Pill>)
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

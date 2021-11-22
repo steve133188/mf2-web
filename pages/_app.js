@@ -3,17 +3,13 @@ import Layout from "../layouts/Layout";
 import { GlobalContextProvider} from "../context/GlobalContext";
 import {useEffect , useState} from "react";
 import AuthLayer from "../HOC/AuthLayer"
-// import SocketIOClient from "socket.io-client";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {client} from "../services/websocket";
 import Head from "next/head";
-// import { HTML5Backend } from 'react-dnd-html5-backend'
-// import { DndProvider } from 'react-dnd'
 
 function MyApp({ Component, pageProps }) {
     const [connected, setConnected] = useState(false);
     useEffect(()=>{
-        // const socket = SocketIOClient.connect("http://mf-api-chat-6m4o7.ondigitalocean.app:3003/websocket");
+        // const socket = SocketIOClient.connect("http://mf-api-chat-6m4o7.ondigitalocean.app/websocket");
         //
         // socket.on("ping", () => {
         //     console.log("SOCKET CONNECTED!", socket.id);

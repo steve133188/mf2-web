@@ -4,6 +4,7 @@ import axios from "axios";
 import {Input2} from "../Input";
 import Link from "next/link";
 import * as React from "react";
+import {Pill} from "../Pill";
 
 export default function EditProfileForm({data , toggle}){
     const [editContact , setEditContact] = useState(data)
@@ -84,6 +85,9 @@ export default function EditProfileForm({data , toggle}){
                     <div className={"addContactSession_title"}>Tags & Assignee</div>
                     <p>Tags</p>
                     <div className={"tagsGroup"}>
+                        {data.tags.map((tag , index)=>{
+                            return( <Pill key={index} color="lightBlue">{tag}</Pill>)
+                        })}
                         {/*<Pill color="vip">VIP</Pill>*/}
                         {/*<Pill color="newCustomer">New customer</Pill>*/}
                         {/*<Pill color="vvip">VVIP</Pill>*/}
@@ -101,6 +105,7 @@ export default function EditProfileForm({data , toggle}){
                 <div className={"tagsGroup"}>
                     <p>Assignee</p>
                     <div className={"tagsGroup"}>
+
                         {/*<Pill color="lightYellow" size="size30">MF</Pill>*/}
                         {/*<Pill color="lightBlue" size="size30">VS</Pill>*/}
                         {/*<Pill color="lightPurple" size="size30">VS</Pill>*/}

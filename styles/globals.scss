@@ -100,7 +100,10 @@ body {
   border-radius: 20px;
 }
 
-
+.AvatarGroup{
+  justify-content: flex-start;
+  flex-direction:row;
+}
 
 a {
   color: inherit;
@@ -111,7 +114,9 @@ a {
   box-sizing: border-box;
 }
 
-
+.z-100{
+  z-index: 100;
+}
 .primary_btn{
   background-color: #2198FA;
   color: #FFFFFF;
