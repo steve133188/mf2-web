@@ -8,6 +8,7 @@ import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 
 export default function Live_chat() {
+    const base_url ='https://e9bf-118-140-233-2.ngrok.io'
     const data = [
         {
             name:"1",
@@ -103,71 +104,90 @@ export default function Live_chat() {
         }
     ]
 
-    const records = [
-        {
-            message_id:"123456789",
-            body:"hi",
-            type:"text",
-            vCard:["","",""],
-            author:null,
-            fromMe:false,
-            from:"Wiva",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"MSLAB",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585258",
-            body:"hi",
-            type:"text",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-    ]
+    // const records = [
+    //     {
+    //         message_id:"123456789",
+    //         body:"hi",
+    //         type:"text",
+    //         vCard:["","",""],
+    //         author:null,
+    //         fromMe:false,
+    //         from:"Wiva",
+    //         hasMedia:false,
+    //         hasQuotedMsg:false,
+    //         isForwarded:false,
+    //         isStarred:true,
+    //         to:"MSLAB",
+    //         token:"",
+    //         timestamp:1010101,
+    //         orderId:"",
+    //         links:"",
+    //         mentionedIds:["","",""],
+    //         isStatus:false,
+    //         inviteV4:{},
+    //         location:{data:"location"},
+    //         forwardingScore:0,
+    //         deviceType:"mobile",
+    //         broadcast:false
+    //     },
+    //     {
+    //         message_id:"234585258",
+    //         body:"hi",
+    //         type:"text",
+    //         vCard:["","",""],
+    //         author:null,
+    //         fromMe:true,
+    //         from:"MSLAB",
+    //         hasMedia:false,
+    //         hasQuotedMsg:false,
+    //         isForwarded:false,
+    //         isStarred:true,
+    //         to:"Wiva",
+    //         token:"",
+    //         timestamp:1010101,
+    //         orderId:"",
+    //         links:"",
+    //         mentionedIds:["","",""],
+    //         isStatus:false,
+    //         inviteV4:{},
+    //         location:{data:"location"},
+    //         forwardingScore:0,
+    //         deviceType:"mobile",
+    //         broadcast:false
+    //     },
+    // ]
     const [chatrooms , setChatrooms] = useState([])
+    const [selectedChat , setSelectedChat] = useState()
+    const [chatrecord , setChatrecord] = useState([])
     const [isRobotOn , setIsRobotOn] = useState(false)
     const [isExpand , setIsExpand] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const getChatRooms = async(chat_id)=>{
-        const res = axios.get(`http://16b8-118-140-233-2.ngrok.io/${chat_id}`)
-        return res.data
+    const getChatRooms = async()=>{
+        const res = await axios.get(`${base_url}/chats` , {
+            headers:{'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',}
+        })
+        return res.data.response
     }
-    const chat_record =getChatRooms
-    console.log(getChatRooms)
-    useEffect(()=>{
+    const getChatRecord = async(phone)=>{
+        const res = await axios.get(`${base_url}/get-record?phone=${phone}` , {
+            headers:{'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',}
+        })
+        return res.data.response
+    }
 
-        setChatrooms([...data])
+    async function handleChatRoom  (target){
+        const data = await getChatRecord(target)
+        setChatrecord(data)
+    }
+    // const chat_record =getChatRooms
+    // console.log(getChatRooms)
+    useEffect(async ()=>{
+        const data = await getChatRooms()
+        setChatrooms(data)
+        const r = await getChatRecord(data[0].id.user)
+        setChatrecord(r)
     } , [])
 
     return (
@@ -187,7 +207,7 @@ export default function Live_chat() {
                     <div  className={"chatlist_ss_filter"}><button className={"select_group"} ><div className={"group_icon"}></div>All Team <div className={"arrow_icon"}></div></button><div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}><div className={"filter_icon"}></div></div></div>
                     <div  className={"chatlist_ss_list"}>
                         {chatrooms.map((d , index)=>{
-                            return (<ChatroomList chatroom={d} key={index} className={+(index==0&& "active")}/>)
+                            return (<ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/>)
                         })}
                     </div>
                 </div>
@@ -208,7 +228,7 @@ export default function Live_chat() {
                     </div>
                 </div>
                 <div className={"chatroom_records"}>
-                    {records.map((r , i)=>{
+                    {chatrecord.map((r , i)=>{
                       return  <MsgRow msg={r} key={i} />
                     })}
                 </div>

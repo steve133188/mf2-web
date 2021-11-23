@@ -284,11 +284,11 @@ export default function Contacts() {
 
                                     <TableCell >
                                         {/*<div className="assigneeGroup">assigneeGroup*/}
-                                        <AvatarGroup className={"AvatarGroup"} max={5} spacing={"1"} align="left">
+                                        <AvatarGroup className={"AvatarGroup"} max={5} spacing={"1"} >
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning"}  size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )
                                             })}

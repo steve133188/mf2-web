@@ -26,11 +26,13 @@ function MyApp({ Component, pageProps }) {
         client.onopen = () => {
             console.log('WebSocket Client Connected');
             client.send("ping")
+            client.send(JSON.stringify({topic:"send-message",url:"https://e9bf-118-140-233-2.ngrok.io",chat_id:"1234",user_id:"asd",channel_type:"whatsapp",message:"test",phone:"85269358633"}))
 
         };
         client.onmessage = (message) => {
             console.log(message);
         };
+
     },[])
   return(
       <>

@@ -77,9 +77,9 @@
         }
       }
       .chatlist_ss_list{
-        //flex-grow: 1;
         overflow: scroll;
         .chatroom_li{
+          cursor:pointer;
           padding:  1rem;
           width: 100%;
           position: relative;
@@ -112,7 +112,7 @@
           }
           .chatroom_name_ss{
             display: flex;
-            width: 30%;
+            //width: 30%;
             flex-direction: column;
             justify-content: space-between;
             padding-left: 5%;
