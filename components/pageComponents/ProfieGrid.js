@@ -27,7 +27,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{data.phone}</span>
+                <span className={"info_content"}>{data.phones}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
@@ -47,7 +47,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Created Date</span>
-                <span className={"info_content"}>{data.createDate}</span>
+                <span className={"info_content"}>{data.created_at}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Contact Owner</span>

@@ -65,17 +65,17 @@ export default function SideBar(props) {
                         <>
                             <Link href={"/dashboard/livechat"}>
                                 <div
-                                    className={router.pathname.includes("/dashboard/livechat") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Live
-                                    Chat</span>
+                                    className={router.pathname.includes("/dashboard/livechat") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Live Chat</span>
+                                </div>
+                            </Link>
+                            <Link href={"/dashboard/agents"}>
+                                <div
+                                    className={router.pathname.includes("/dashboard/agents") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Agents</span>
                                 </div>
                             </Link>
                              </>) : null}
 
-                    {/*<Link href={"/dashboard/agents"}>*/}
-                    {/*    <div*/}
-                    {/*        className={router.pathname.includes("/dashboard/agents") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Agents</span>*/}
-                    {/*    </div>*/}
-                    {/*</Link>*/}
+
                 </div>
                 <div className={router.pathname == "/livechat" ? "active-side-item" : "side-item "}>
                     <Link href={"/livechat"}>

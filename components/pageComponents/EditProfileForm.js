@@ -22,7 +22,6 @@ export default function EditProfileForm({data , toggle}){
             [evt.target.name]: value,
             ["name"]:editContact.first_name+editContact.last_name
         });
-        console.log(editContact)
     }
     async function handleSubmit (e){
         e.preventDefault()
@@ -105,7 +104,6 @@ export default function EditProfileForm({data , toggle}){
                 <div className={"tagsGroup"}>
                     <p>Assignee</p>
                     <div className={"tagsGroup"}>
-
                         {/*<Pill color="lightYellow" size="size30">MF</Pill>*/}
                         {/*<Pill color="lightBlue" size="size30">VS</Pill>*/}
                         {/*<Pill color="lightPurple" size="size30">VS</Pill>*/}

@@ -26,6 +26,12 @@ import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
+import IconButton from "@mui/material/IconButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
+import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 
 export default function Contacts() {
 
@@ -60,11 +66,12 @@ export default function Contacts() {
     },[]);
 
     const toggleSelect = e => {
-        const { id, checked } = e.target;
+        const { checked ,id} = e.target;
         setSelectedContacts([...selectedContacts, id]);
         if (!checked) {
             setSelectedContacts(selectedContacts.filter(item => item !== id));
         }
+        console.log(selectedContacts)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
@@ -72,10 +79,10 @@ export default function Contacts() {
         if (selectAll) {
             setSelectedContacts([]);
         }
+        console.log(selectedContacts)
     };
 
     const handleFilterChange = (search)=>{
-
         if(search.includes(":")){
             console.log("trigger regex search")
         }
@@ -102,6 +109,42 @@ export default function Contacts() {
         if(isEditProfileShow) await fetchContacts();
         setIsEditProfileShow(!isEditProfileShow)
     }
+    const removeContact = async (id)=>{
+        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
+        const deleteItems = {data:[id]}
+        console.log("remove contact id",deleteItems)
+        const res = axios.delete(url ,{ headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        data: deleteItems})
+        await fetchContacts()
+    }
+    const removeManyContact = async ()=>{
+        let items =[]
+        if(selectedContacts!=-1){
+            selectedContacts.forEach((c)=>{
+                console.log("c",c)
+                items.push(c)
+            })
+        }
+        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
+        const deleteItems = {data:[...items]}
+        console.log("remove contact id",deleteItems)
+        const res = axios.delete(url ,{ headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+            data: deleteItems})
+        await fetchContacts()
+    }
+    // const handleClick = (event) => {
+    //     event.stopPropagation()
+    //     setAnchorEl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
     const default_cols = ['customer_id' , 'name' ,'team', 'channels','tags' ,'assignee']
     const [isSelectRow, setSelectRow] = useState( false);
@@ -187,9 +230,9 @@ export default function Contacts() {
             {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                    <div className={"select_session_btn"}>{tagSVG}</div>
-                    <div className={"select_session_btn"}>{editSVG}</div>
-                    <div className={"select_session_btn"}>{deleteSVG}</div>
+                    <div className={"select_session_btn"}><Mf_icon_dropdownform svg={tagSVG}></Mf_icon_dropdownform></div>
+                    <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
+                    <div className={"select_session_btn"}><div svg={deleteSVG} onClick={removeManyContact}>{deleteSVG}</div> </div>
                 </div>):null}
             >
                 <MF_Select head={"Agent"}>
@@ -205,9 +248,11 @@ export default function Contacts() {
                     {/*    waiting to fetch the channels*/}
                 </MF_Select>
             </SelectSession>
-            <TableContainer>
+            <TableContainer
+                sx={{minWidth: 750 , minHeight:750}}
+            >
                 <Table
-                    sx={{minWidth: 750}}
+                    sx={{minWidth: 750 }}
                     aria-labelledby="tableTitle"
                     size={'medium'}
                     stickyHeader={true}
@@ -259,7 +304,7 @@ export default function Contacts() {
                                     </TableCell>
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                            <Avatar alt={data.name}  src={data.img_url||""}/>
+                                            <Avatar alt={data.name} sx={{width:30 , height:30}} src={data.img_url||""}/>
                                             <span style={{marginLeft: "11px"}}>{data.name}</span>
                                         </div>
                                     </TableCell>
@@ -288,17 +333,26 @@ export default function Contacts() {
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )
                                             })}
                                         </AvatarGroup>
                                         {/*</div>*/}
                                     </TableCell>
-                                    <TableCell  onClick={(e)=>{e.stopPropagation();toggleEditProfile(data)}}>
-                                        <span className={styles.edit_span}>
+                                    {/*<TableCell  onClick={(e)=>{e.stopPropagation();toggleEditProfile(data)}}>*/}
+                                    <TableCell >
+                                        <Mf_icon_dropdown_select_btn
+                                        btn={(<span className={styles.edit_span}
+                                        >
                                             ...
-                                        </span>
+                                        </span>)}
+                                        >
+                                            <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>
+                                            <li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>
+                                        </Mf_icon_dropdown_select_btn>
+
+
                                     </TableCell>
                                 </TableRow>
                             )

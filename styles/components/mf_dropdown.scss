@@ -1,12 +1,16 @@
-.mf_dropdown{
+.mf_dropdown,.mf_icon_dropdownform{
   position: relative;
-  background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 10px;
   opacity: 1;
+  cursor: pointer;
+}
+
+.mf_dropdown{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
   width: 20%;
   padding: 0.5rem 0.75rem;
   margin: 0 0.25rem;
-  cursor: pointer;
+
 }
 
 .mf_dropdown_header{
@@ -26,21 +30,29 @@
   background-position: center;
 }
 
-.dropdown_items{
+.dropdown_items,.mf_icon_dropdownform_items{
+  //width: 457px;
+  height: 423px;
   z-index: 10;
   cursor: auto;
   position: absolute;
-  top: 120%;
-  left: 0;
-  height: 30vh;
-  width: 25vw;
-  min-height: 30rem;
   padding: 1.5rem 2.5rem;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 7px 20px #00000029;
   border-radius: 20px;
   opacity: 1;
   box-sizing: border-box;
+}
+.dropdown_items{
+  width: 25vw;
+  min-height: 30rem;
+  top: 120%;
+  left: 0;
+}
+.mf_icon_dropdownform_items{
+  right: 0;
+  top: 100%;
+  transform: translateX(30px);
 }
 
 .model_head{
@@ -49,9 +61,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
-  //button{
-  //  padding: 0.25rem 1rem;
-  //}
 }
 
 .model_head_title{
@@ -68,11 +77,35 @@
 
 .mf_dropdown_search{
   .mf_icon_input_block{
-    width: 80%;
+    width: 80% !important;
   }
 }
 
 .mf_dropdown_content{
   width: 100%;
   overflow: auto;
+}
+.mf_dropdown_select_items{
+  width: 156px;
+  padding: 0.5rem;
+  position:absolute;
+  top:100%;
+  right: 50%;
+  z-index: 50;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 7px 13px #00000029;
+  border-radius: 10px;
+  opacity: 1;
+  li{
+    list-style: none;
+    padding: .5rem 2rem;
+    font: normal normal normal 14px/19px Manrope !important;
+    letter-spacing: 0px;
+    color: #444444 !important;
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+.mf_dropdown_select{
+  position:relative;
 }
