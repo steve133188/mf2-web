@@ -28,7 +28,7 @@ export function ORGMenu({orgData=null, ...props}) {
                 {orgData&&orgData.map((data,index)=>{
                     return(
 
-                        data.child != -1?  <li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>data.name<KeyboardArrowDownIcon/></span>
+                        data.child != -1?  <li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>{data.name}<KeyboardArrowDownIcon/></span>
                                 {isShow ? (data.child.map((child , index)=>{
                                     <li className="blueMenuLink" key={index}><Link href=""><a className="blueLink">{child.name}</a></Link></li>
                                 })):null}

@@ -185,6 +185,16 @@ export const GlobalContextProvider = ({children}) =>{
     const delete_contacts = async (contacts)=>{
 
     }
+    const get_root_org = async ()=>{
+        const url = "https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization/root"
+        const res =await axios.get(url , {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+        return res.data
+    }
 
     const logout = ()=>{
         localStorage.removeItem("token")
@@ -193,6 +203,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts, get_contacts}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts, get_root_org, get_contacts}}>{children}</GlobalContext.Provider>
     )
 }

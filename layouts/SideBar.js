@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from 'react';
 import {useRouter} from "next/router";
 import {useState} from "react";
 
@@ -10,13 +9,13 @@ export default function SideBar(props) {
     const dropdown = () => {
 
     }
-    const [isTurnUp, setIsTurnUp] = React.useState(false)
+    const [isTurnUp, setIsTurnUp] = useState(false)
 
     function dropDownArrowToggle() {
         setIsTurnUp(!isTurnUp);
     }
 
-    const [isCollapse, setIsCollapse] = React.useState(false)
+    const [isCollapse, setIsCollapse] = useState(false)
 
     function toggleCollapse() {
         setIsCollapse(!isCollapse);
