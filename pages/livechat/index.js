@@ -104,58 +104,58 @@ export default function Live_chat() {
         }
     ]
 
-    // const records = [
-    //     {
-    //         message_id:"123456789",
-    //         body:"hi",
-    //         type:"text",
-    //         vCard:["","",""],
-    //         author:null,
-    //         fromMe:false,
-    //         from:"Wiva",
-    //         hasMedia:false,
-    //         hasQuotedMsg:false,
-    //         isForwarded:false,
-    //         isStarred:true,
-    //         to:"MSLAB",
-    //         token:"",
-    //         timestamp:1010101,
-    //         orderId:"",
-    //         links:"",
-    //         mentionedIds:["","",""],
-    //         isStatus:false,
-    //         inviteV4:{},
-    //         location:{data:"location"},
-    //         forwardingScore:0,
-    //         deviceType:"mobile",
-    //         broadcast:false
-    //     },
-    //     {
-    //         message_id:"234585258",
-    //         body:"hi",
-    //         type:"text",
-    //         vCard:["","",""],
-    //         author:null,
-    //         fromMe:true,
-    //         from:"MSLAB",
-    //         hasMedia:false,
-    //         hasQuotedMsg:false,
-    //         isForwarded:false,
-    //         isStarred:true,
-    //         to:"Wiva",
-    //         token:"",
-    //         timestamp:1010101,
-    //         orderId:"",
-    //         links:"",
-    //         mentionedIds:["","",""],
-    //         isStatus:false,
-    //         inviteV4:{},
-    //         location:{data:"location"},
-    //         forwardingScore:0,
-    //         deviceType:"mobile",
-    //         broadcast:false
-    //     },
-    // ]
+    const records = [
+        {
+            message_id:"123456789",
+            body:"hi",
+            type:"text",
+            vCard:["","",""],
+            author:null,
+            fromMe:false,
+            from:"Wiva",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"MSLAB",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585258",
+            body:"hi",
+            type:"text",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+    ]
     const [chatrooms , setChatrooms] = useState([])
     const [selectedChat , setSelectedChat] = useState()
     const [chatrecord , setChatrecord] = useState([])
@@ -184,10 +184,10 @@ export default function Live_chat() {
     // const chat_record =getChatRooms
     // console.log(getChatRooms)
     useEffect(async ()=>{
-        const data = await getChatRooms()
+        // const data = await getChatRooms()
         setChatrooms(data)
-        const r = await getChatRecord(data[0].id.user)
-        setChatrecord(r)
+        // const r = await getChatRecord(data[0].id.user)
+        setChatrecord(records)
     } , [])
 
     return (

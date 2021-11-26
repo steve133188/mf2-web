@@ -328,7 +328,7 @@ export default function Contacts() {
 
                                     <TableCell >
                                         {/*<div className="assigneeGroup">assigneeGroup*/}
-                                        <AvatarGroup className={"AvatarGroup"} max={5} spacing={"1"} >
+                                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
