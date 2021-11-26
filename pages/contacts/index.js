@@ -1,4 +1,3 @@
-import {Search3} from "../../components/Input";
 import {useContext, useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
 import {Checkbox} from "../../components/Checkbox"
