@@ -9,15 +9,11 @@ export function ORGMenu({orgData=null, ...props}) {
     function toggleIsSelect() {
         setSelect(!isSelect);
     }
-
     const [isShow, setShow] = useState(false)
-
     function toggleIsShow() {
         setShow(!isShow);
     }
-
     const [isShow2, setShow2] = useState(false)
-
     function toggleIsShow2() {
         setShow2(!isShow2);
     }
@@ -33,8 +29,7 @@ export function ORGMenu({orgData=null, ...props}) {
                                     <li className="blueMenuLink" key={index}><Link href=""><a className="blueLink">{child.name}</a></Link></li>
                                 })):null}
                             </li>:
-                    <li className="blueMenuLink" key={index}><Link href=""><a
-                        className={"blueLink"}>{data.name}</a></Link></li>
+                    <li className="blueMenuLink" key={index}><Link href=""><a className={"blueLink"}>{data.name}</a></Link></li>
 
                     )
                 })}
@@ -62,23 +57,17 @@ export function ORGMenu({orgData=null, ...props}) {
 
 export function BlueMenu2({children, ...props}) {
     const [isSelect, setSelect] = useState(false)
-
     function toggleIsSelect() {
         setSelect(!isSelect);
     }
-
     const [isShow, setShow] = useState(false)
-
     function toggleIsShow() {
         setShow(!isShow);
     }
-
     const [isShow2, setShow2] = useState(false)
-
     function toggleIsShow2() {
         setShow2(!isShow2);
     }
-
     return (
         <nav className="blueMenu">
             <ul className="blueMenuGroup">

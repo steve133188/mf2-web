@@ -172,9 +172,7 @@ export default function Organization() {
                     <SelectSession btn={(<button style={{marginLeft: "auto"}}>+ New Agent</button>)}>
 
                     </SelectSession>
-                <TableContainer
-                    sx={{minWidth: 750 , minHeight:750}}
-                >
+                <TableContainer sx={{minWidth: 750 , minHeight: "60vh"}} >
                     <Table
                         sx={{minWidth: 750 }}
                         aria-labelledby="tableTitle"
@@ -193,11 +191,7 @@ export default function Organization() {
                                 {default_cols.map((col,index)=>{
                                     return ( <TableCell key={index}>{col}</TableCell>)
                                 })}
-                                <TableCell>
-                                    <div className="newCheckboxContainer">
 
-                                    </div>
-                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -220,31 +214,21 @@ export default function Organization() {
                                                 {isSelectRow ? <label className="newCheckboxLabel">
                                                     <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
-
                                             </div>
                                         </TableCell>
                                         <TableCell align="left">
                                             <span >{data.name}</span>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                                <span style={{marginLeft: "11px"}}>{data.name}</span>
-                                            </div>
+
                                         </TableCell>
                                         <TableCell align="left">
-                                            <Pill color="teamA"></Pill>
-                                        </TableCell>
 
+                                        </TableCell>
                                         <TableCell align="left">
-                                        </TableCell>
 
+                                        </TableCell>
                                         <TableCell align="left">
-                                            <div className="tagsGroup">
-
-                                            </div>
-                                        </TableCell>
-
-                                        <TableCell >
 
                                         </TableCell>
                                         {/*<TableCell  onClick={(e)=>{e.stopPropagation();toggleEditProfile(data)}}>*/}
@@ -258,8 +242,6 @@ export default function Organization() {
                                         {/*        <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>*/}
                                         {/*        <li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>*/}
                                         {/*    </Mf_icon_dropdown_select_btn>*/}
-
-
                                         {/*</TableCell>*/}
                                     </TableRow>
                                 )

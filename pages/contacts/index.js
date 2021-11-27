@@ -248,7 +248,7 @@ export default function Contacts() {
                 </MF_Select>
             </SelectSession>
             <TableContainer
-                sx={{minWidth: 750 , minHeight:750}}
+                sx={{minWidth: 750 , minHeight:500}}
             >
                 <Table
                     sx={{minWidth: 750 }}
