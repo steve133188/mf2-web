@@ -1,8 +1,6 @@
 import {useEffect, createContext, Context, useState} from "react";
 import {useRouter} from "next/router";
 import {redirect} from "next/dist/server/api-utils";
-import AuthService from "../services/auth";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 import axios from "axios";
 
 export const GlobalContext = createContext({})
@@ -65,44 +63,93 @@ export const GlobalContextProvider = ({children}) =>{
     }
 
     const get_users = async ()=>{
-
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
+        const res = await axios.get(url , {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+        return res.data
     }
     const create_user = async (newUser)=>{
-        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/login"
-        const res = await axios.post(url , newUser)
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
+        const res = await axios.post(url , newUser ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
             .then(response => {
-                if(response.status != 200){
-                    return "something went wrong"
-                }
-                const { token, data } = response.data;
-                console.log(token , data )
-                localStorage.setItem("token", token)
-                localStorage.setItem("user", JSON.stringify(data))
-                setUser({
-                    user: JSON.parse(localStorage.getItem("user")),
-                    token:localStorage.getItem("token")
-                });
-                // console.log(user)
-                setErrors(null)
-                if (user.token) console.log("user: " , user.user.username, "login success")
-                return response;
+                console.log("create user status:",response.statusText)
             }).catch(err=>{
                 console.log(err)
-                setErrors("Cannot found email or password")
-                return err
             })
-        console.log(user)
-        if(res.status == 200) router.push("/dashboard/livechat")
+        return res.statusText
+    }
+    const create_many_user = async (newUsers)=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/addMany"
+        const res = await axios.post(url , newUsers ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
     }
     const update_user = async(update)=>{
-
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/name"
+        const res = await axios.put(url , update ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
     }
     const get_organisations= async ()=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/organization"
+        //TODO add params
+        const res = await axios.get(url  ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
+    }
+    const create_division= async ()=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/organization"
+        const res = await axios.post(url , update ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
 
     }
-    const create_divisions= async ()=>{
 
-    }
     const update_divisions= async ()=>{
 
     }
@@ -133,24 +180,7 @@ export const GlobalContextProvider = ({children}) =>{
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         },names)
-            .then(response => {
-                if(response.status != 200){
-                    return "something went wrong"
-                }
-                const  data   = response.data.data;
-                console.log(data)
-                localStorage.setItem('contacts',JSON.stringify(data))
-                setContacts(localStorage.getItem('contacts'))
-                setErrors(null)
-                return data;
-            }).catch(err=>{
-                console.log(err)
-                setErrors("")
-                return err
-            })
-        setContacts(res)
-        console.log(contacts)
-        console.log(typeof contacts)
+        return res.data
     }
     const create_contact = async (body)=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/add"
@@ -160,23 +190,7 @@ export const GlobalContextProvider = ({children}) =>{
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         },body)
-            .then(response => {
-                if(response.status != 200){
-                    return "something went wrong"
-                }
-                const { data  } = response.data;
-                console.log(data)
-                // setContacts(...contacts , JSON.stringify(data))
-                setErrors(null)
-                return data;
-            }).catch(err=>{
-                console.log(err)
-                setErrors("")
-                return err
-            })
-        setContacts(res)
-        console.log(contacts)
-        console.log(typeof contacts)
+        return res.data
     }
 
     const update_contacts = async (contacts)=>{
@@ -203,6 +217,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts, get_root_org, get_contacts}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts, get_root_org, get_contacts,get_users}}>{children}</GlobalContext.Provider>
     )
 }

@@ -1,4 +1,4 @@
-import {ORGMenu} from "../../components/BlueMenu";
+import {ORGSidebar} from "../../components/InnerSidebar";
 import {BlueMenuDropdown, BlueMenuLink} from "../../components/BlueMenuLink";
 import {Search3} from "../../components/Input";
 import {NormalButton, NormalButton2} from "../../components/Button";
@@ -18,48 +18,48 @@ import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {TableCell, Tooltip} from "@mui/material";
+import {TableCell, Tooltip, Zoom} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import Avatar from "@mui/material/Avatar";
 import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import styles from "../../styles/Contacts.module.css";
+import MF_Modal from "../../components/MF_Modal";
 
 export default function Organization() {
-    const searchRef = useRef(null)
+    const {get_root_org , get_users} = useContext(GlobalContext)
+
     const [users, setUsers] = useState([]);
     const [root_org, set_root_org] = useState([]);
     const [org, set_org] = useState([]);
-    const {get_root_org} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
-    const [isLoading, setIsLoading] = useState(false);
-    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
-    const [useContact , setUseContact] = useState()
+    const [curr_org , set_curr_org] = useState("All")
+    const [useUser , setUseUser] = useState()
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
 
+    const [isModalShow , setIsModalShow] = useState(false)
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
-    const [isShowDropzone, setIsShowDropzone] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     //filtered Data
 
-    const fetchContacts = async () =>{
-        const data = await get_contacts()
+    const fetchUsers = async()=>{
+        const data = await get_users()
         setUsers(data)
         setFilteredData(data)
     }
     const fetchRootORG = async () =>{
         const data = await get_root_org()
         set_root_org(data)
-        setFilteredData(data)
     }
     useEffect(    async () => {
         await fetchRootORG()
+        await fetchUsers()
     },[]);
 
     const toggleSelect = e => {
@@ -68,7 +68,6 @@ export default function Organization() {
         if (!checked) {
             setSelectedContacts(selectedContacts.filter(item => item !== id));
         }
-        console.log(selectedContacts)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
@@ -76,72 +75,30 @@ export default function Organization() {
         if (selectAll) {
             setSelectedContacts([]);
         }
-        console.log(selectedContacts)
     };
 
     const handleFilterChange = (search)=>{
         if(search.includes(":")){
             console.log("trigger regex search")
         }
-        console.log("search filter :",search)
-        const newData = contacts.filter(contact=> {
+        const newData = users.filter(u=> {
             if(search.trim() == ""){
-                return contacts
+                console.log("no input")
+                return users
             }
-            return contact.name.toLowerCase().includes(search)
+            return u.username.toLowerCase().includes(search)
         })
-        console.log("newdata " , newData)
-        // const newData = filterFunc()
         setFilteredData([...newData])
         setCurrentPage(1)
     }
 
     const toggleProfile = (key) =>{
-        if(!isProfileShow) setUseContact(key)
-        console.log(useContact)
+        if(!isProfileShow) setUseUser(key)
         setIsProfileShow(!isProfileShow)
     }
-    const toggleEditProfile =async (key) =>{
-        if(!isEditProfileShow) setUseContact(key);
-        if(isEditProfileShow) await fetchContacts();
-        setIsEditProfileShow(!isEditProfileShow)
+    const toggleNewTeam = () =>{
+        setIsModalShow(!isModalShow)
     }
-    const removeContact = async (id)=>{
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        const deleteItems = {data:[id]}
-        console.log("remove contact id",deleteItems)
-        const res = axios.delete(url ,{ headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-            data: deleteItems})
-        await fetchContacts()
-    }
-    const removeManyContact = async ()=>{
-        let items =[]
-        if(selectedContacts!=-1){
-            selectedContacts.forEach((c)=>{
-                console.log("c",c)
-                items.push(c)
-            })
-        }
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        const deleteItems = {data:[...items]}
-        console.log("remove contact id",deleteItems)
-        const res = axios.delete(url ,{ headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-            data: deleteItems})
-        await fetchContacts()
-    }
-    // const handleClick = (event) => {
-    //     event.stopPropagation()
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
 
     const default_cols = [ 'Name' ,'Role', 'Email','Phone' ,'No. of Assigned Contacts']
     const [isSelectRow, setSelectRow] = useState( false);
@@ -149,30 +106,33 @@ export default function Organization() {
     function toggleSelectRow() {
         setSelectRow(!isSelectRow);
     }
-    function toggleDropzone() {
-        setIsShowDropzone(!isShowDropzone);
-    }
     return (
         <div className="organization-layout">
-            <ORGMenu orgData={root_org} />
+            <ORGSidebar orgData={root_org} />
             <div className="rightContent">
+                <MF_Modal show={isModalShow} toggle={toggleNewTeam}>
+                    test
+                </MF_Modal>
                     <SearchSession
                         placeholder={"Search"}
-                        handleChange={handleFilterChange}
-                        value={filter.keyword}
+                        handleChange={(e)=> {
+                            handleFilterChange(e.target.value)
+                        }}
                     >
                         {!isSelectRow ? (
                             <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                         ) : (
                             <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                         )}
-                        <button>+ New Team</button>
-                        <Link href="/contacts/addcontact"><button>+ New Division</button></Link>
+                        <button onClick={toggleNewTeam}>+ New Team</button>
+                        <button onClick={toggleNewTeam}>+ New Division</button>
                     </SearchSession>
-                    <SelectSession btn={(<button style={{marginLeft: "auto"}}>+ New Agent</button>)}>
-
+                    <SelectSession btn={(<button style={{marginLeft: "auto"}} onClick={toggleNewTeam}>+ New Agent</button>)}>
+                        <div className={"team_label"}>
+                            {curr_org}
+                        </div>
                     </SelectSession>
-                <TableContainer sx={{minWidth: 750 , minHeight: "60vh"}} >
+                <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
                     <Table
                         sx={{minWidth: 750 }}
                         aria-labelledby="tableTitle"
@@ -217,32 +177,20 @@ export default function Organization() {
                                             </div>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <span >{data.name}</span>
+                                            <span >{data.username}</span>
                                         </TableCell>
                                         <TableCell align="left">
-
+                                            {data.role}
                                         </TableCell>
                                         <TableCell align="left">
-
+                                            {data.email}
                                         </TableCell>
                                         <TableCell align="left">
-
+                                            {data.phone}
                                         </TableCell>
                                         <TableCell align="left">
-
+                                            {data.leads!=0?data.leads : 0}
                                         </TableCell>
-                                        {/*<TableCell  onClick={(e)=>{e.stopPropagation();toggleEditProfile(data)}}>*/}
-                                        {/*<TableCell >*/}
-                                        {/*    <Mf_icon_dropdown_select_btn*/}
-                                        {/*        btn={(<span className={styles.edit_span}*/}
-                                        {/*        >*/}
-                                        {/*    ...*/}
-                                        {/*</span>)}*/}
-                                        {/*    >*/}
-                                        {/*        <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>*/}
-                                        {/*        <li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>*/}
-                                        {/*    </Mf_icon_dropdown_select_btn>*/}
-                                        {/*</TableCell>*/}
                                     </TableRow>
                                 )
                             })}

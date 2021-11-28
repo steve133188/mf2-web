@@ -19,7 +19,7 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from "@mui/material/OutlinedInput";
 import {useTheme} from "@mui/material/styles";
-import {BlueMenu2} from "../../components/BlueMenu";
+import {InnerSidebar} from "../../components/InnerSidebar";
 import { Checkbox } from '../../components/Checkbox';
 
 import * as userApi from "../../api/UserAPI";
@@ -34,7 +34,6 @@ export default function Admin() {
 
     const [noOfSelectedRow, setNoOfSelectedRow] = useState(0);
 
-    const [isFillCheckbox, setIsFillCheckbox] = useState(false);
     const [openAddPopper, setOpenAddPopper] = React.useState(false);
     const [openDeletePopper, setOpenDeletePopper] = React.useState(false);
     const [openFreezePopper, setOpenFreezePopper] = React.useState(false);
@@ -47,7 +46,7 @@ export default function Admin() {
         'team5',
     ];
     const [teamName, setTeamName] = useState(teamNames[1]);
-    const [division, setDivision] = useState("div2");
+    const [division, setDivision] = useState();
 
     const tableColumns = [
         {
@@ -278,7 +277,7 @@ export default function Admin() {
         <div>
             <div className="admin_layout">
                 {/*<Dropzone/>*/}
-                <BlueMenu2 />
+                <InnerSidebar />
                 <div className="rightContent">
                     <div className="contactsContainer">
                         <div className={styles.topBar}>
@@ -420,7 +419,6 @@ export default function Admin() {
                                 <tr className="headTr">
                                     {isSelectRow ? (
                                         <th><Checkbox onChange={handleSelect} id="all"/></th>
-
                                     ) : "" }
                                     {tableColumns.map((column , index) => {
                                         return (
@@ -431,7 +429,6 @@ export default function Admin() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    {/*add index to key prop*/}
                                     {Array.isArray(agents) ? agents.map((agent,index) => {
                                         let online_class = (agent.status == "online" ? "selectStatusOnline" : "selectStatusOffline")
                                         return (

@@ -1,15 +1,10 @@
 import {useRouter} from "next/router";
 import {useState, useEffect} from "react";
-import { BlueMenu2 } from "../../../components/BlueMenu";
 import {
     CancelButton,
     FunctionButton,
     FunctionCancelButton,
     ConfirmButton,
-    NormalButton,
-    NormalButton2,
-    NormalButton3,
-    TextWithIconButton
 } from "../../../components/Button";
 
 import {
@@ -18,9 +13,9 @@ import {
 
 import { MSelectWithImages } from "../../../components/multiSelects/MSelectWithImages";
 import { SingleSelectCommon } from "../../../components/multiSelects/SingleSelectCommon";
-// import {CheckboxNewChannels } from "../../../components/Checkbox";
 
 import styles from "../../../styles/pages/editAgent.module.scss"
+import {InnerSidebar} from "../../../components/InnerSidebar";
 
 export default function EditAgent() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -83,7 +78,7 @@ export default function EditAgent() {
     return (
         <div className="admin_layout">
             {/*<Dropzone/>*/}
-            <BlueMenu2 />
+            <InnerSidebar />
             <div className="rightContent">
                 <div className="contactsContainer">
                     <h2>Edit Agent</h2>

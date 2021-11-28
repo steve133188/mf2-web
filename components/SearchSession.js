@@ -8,7 +8,6 @@ function SearchSession({type = "text",placeholder="",state ,handleChange ,childr
                         <input
                             className={"mf_input mf_bg_light_grey"}
                             type={type}
-                            value={state}
                             onChange={handleChange}
                             placeholder={placeholder}
                         />

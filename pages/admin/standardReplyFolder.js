@@ -19,7 +19,7 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from "@mui/material/OutlinedInput";
 import {useTheme} from "@mui/material/styles";
-import {BlueMenu2} from "../../components/BlueMenu";
+import {BlueMenu2} from "../../components/InnerSidebar";
 import { Checkbox } from '../../components/Checkbox';
 import { tag } from '../../components/tag';
 

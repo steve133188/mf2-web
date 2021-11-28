@@ -1,5 +1,5 @@
 import  {AccountSettingPanel} from "../components/AccountSettingPanel"
-import {ORGMenu} from "../components/BlueMenu";
+import {ORGMenu} from "../components/InnerSidebar";
 import {BlueMenuLink} from "../components/BlueMenuLink";
 
 export default function Layout_live_chat (){
