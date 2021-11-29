@@ -249,6 +249,7 @@ export default function Contacts() {
             </SelectSession>
             <TableContainer
                 sx={{minWidth: 750 , minHeight:500}}
+                className={"table_container"}
             >
                 <Table
                     sx={{minWidth: 750 }}
@@ -281,7 +282,6 @@ export default function Contacts() {
                                     key={index}
                                     hover
                                     role="checkbox"
-                                    // tabIndex={-1}
                                     name={index}
                                     checked={selectedContacts.includes(data.id)}
                                     onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
@@ -327,7 +327,6 @@ export default function Contacts() {
                                     </TableCell>
 
                                     <TableCell >
-                                        {/*<div className="assigneeGroup">assigneeGroup*/}
                                         <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
@@ -337,9 +336,7 @@ export default function Contacts() {
                                                 )
                                             })}
                                         </AvatarGroup>
-                                        {/*</div>*/}
                                     </TableCell>
-                                    {/*<TableCell  onClick={(e)=>{e.stopPropagation();toggleEditProfile(data)}}>*/}
                                     <TableCell >
                                         <Mf_icon_dropdown_select_btn
                                         btn={(<span className={styles.edit_span}
@@ -350,8 +347,6 @@ export default function Contacts() {
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>
                                             <li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>
                                         </Mf_icon_dropdown_select_btn>
-
-
                                     </TableCell>
                                 </TableRow>
                             )

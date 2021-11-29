@@ -3,20 +3,17 @@
   flex-direction: row;
   vertical-align: center;
   justify-content: space-between;
-  //margin: 0.75rem 0;
   border-radius: 15px;
-  //padding: 1rem 0;
-
-  .search{
-    max-width:40%;
-  }
+  //.search{
+  //  max-width:40%;
+  //}
   .btn_group{
     display: inline-flex;
     flex-direction: row;
   }
   .btn_group>button{
     margin: auto 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.5rem;
   }
   .btn_group>div{
     margin: auto 0.5rem;
