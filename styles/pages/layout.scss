@@ -68,10 +68,10 @@
   opacity: 1;
 }
 
-.side-item :not(.notify_box){
+.side-item :not(.notify_box *){
   //height: 5vh;
   cursor: pointer;
-  &:hover, &:focus {
+  &:hover, &:focus  {
     transform: translate(-2.5px, 0);
     transition: all 250ms ease-in-out;
     color: #2198FA;
@@ -152,26 +152,94 @@
   border: none;
   background-color: white;
   align-items: center;
-
+  
   .notify_box{
-    justify-content: center;
-    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
     z-index: 100;
     position: absolute;
+    justify-content: center;
     left: 100%;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 3px 6px #00000029;
-    border-radius: 10px;
-    opacity: 1;
+    width: 150%;
     max-height:50vh;
-    width: 350px;
+    bottom:-190%;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px #00000029;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
     overflow: scroll;
-    bottom:-195%;
+    color: #444444;
+    opacity: 1;
+
+    .notify_box_title{
+      padding: 1rem;
+      text-align: left;
+      font: normal normal bold 16px/22px Manrope;
+    }
+    .notify_box_list{
+      overflow: scroll;
+      .notify_box_li{
+
+        cursor: pointer;
+        width: 100%;
+        
+        position: relative;
+        display: flex;
+        flex-direction: row;
+
+        .notify_icon{
+          width: 50px;
+          height: 50px;
+          align-self: center;
+          justify-content: center;
+          vertical-align: center;
+          padding: 0.5rem 0;
+          img{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+          }
+        }
+
+
+        .notification_content{
+          width: 70%;
+          display: flex;
+          padding: 1rem;
+          flex-direction: column;
+          text-align: left;
+          color: #444444;
+          font: normal normal normal 14px/19px Manrope;
+          .notification_from{
+            font: normal normal bold 14px/19px Manrope;
+          }
+          .notification_detail{
+            font: normal normal normal 14px/19px Manrope;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .notification_time{
+            font: normal normal normal 8px/11px Manrope;
+          }
+        }
+
+
+        .notify_box_unread_dot{
+
+          width: 8px;
+          height: 8px;
+          align-self: center;
+          justify-content: center;
+          vertical-align: center;
+
+          border-radius: 50%;
+          background: #0D6EFD;
+        }
+      }
+    }
 
   }
-  p{
-    overflow: scroll;
-  }
+  
 
 
   //.badge {

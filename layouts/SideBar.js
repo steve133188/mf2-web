@@ -207,22 +207,34 @@ export default function SideBar(props) {
                     {isNotifyBoxOpen ? (
                         <>
                             <div className="notify_box">
-                                <p> Lorem ipsum, dolor sit amet consectetur. </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p><p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p><p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p><p>testing notify box a </p><p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p><p>testing notify box a </p><p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p><p>testing notify box a </p><p>testing notify box a </p>
-                                <p>testing notify box a </p>
-                                <p>testing notify box a </p>
+                                <div className="notify_box_title">Notification</div>
+                                <div className="notify_box_list">
+
+                                    <div className="notify_box_li">
+
+                                        <div className={"notify_icon"}>
+
+                                            <img width="24px" height="24px" src={`./whatsappChannel.svg`} alt=""/>
+                                        </div>
+
+                                        <div className="notification_content">
+                                            <div className="notification_title">
+                                                <b className="notification_from">Tim</b> replied you
+                                            </div>
+                                            <div className="notification_detail"> Lorem ipsum dolor sit amet. </div>
+                                            <div className="notification_time">30 mins</div>
+                                        </div>
+
+                                        <div className="notify_box_unread_dot"></div>
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
                             </div>
                         </>) : null}
 
