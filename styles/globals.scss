@@ -225,7 +225,9 @@ a {
   color: #0070f3;
   border-color: #0070f3;
 }
-
+.table_container{
+  flex-grow: 1;
+}
 .card h2 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;

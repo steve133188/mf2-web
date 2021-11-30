@@ -43,8 +43,6 @@
   border-bottom: 2px solid #F3F3F5;
   justify-content: space-between;
   font-size: 13px;
-  margin-bottom: 0px;
-
   li {
     display: inline-block;
 
@@ -83,7 +81,7 @@
 .inputField {
   display: flex;
   flex-flow: column;
-
+  gap:5px;
   span {
     margin-left: 20px;
     padding-bottom: 6px;
@@ -92,7 +90,7 @@
   }
 
   input {
-    max-width: 283px;
+    //max-width: 283px;
     height: 2rem;
     border-radius: 10px;
     border: 1px solid #E5E7EC;

@@ -31,6 +31,8 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
+import searchFilter from "../../helpers/searchFilter";
+import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
 
@@ -53,10 +55,10 @@ export default function Contacts() {
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
-    //filtered Data
 
     const fetchContacts = async () =>{
-        const data = await get_contacts()
+        const data = await getAllContacts()
+        console.log("getAllContacts",data)
         setContacts(data)
         setFilteredData(data)
     }
@@ -81,23 +83,6 @@ export default function Contacts() {
         console.log(selectedContacts)
     };
 
-    const handleFilterChange = (search)=>{
-        if(search.includes(":")){
-            console.log("trigger regex search")
-        }
-        console.log("search filter :",search)
-        const newData = contacts.filter(contact=> {
-            if(search.trim() == ""){
-                return contacts
-            }
-            return contact.name.toLowerCase().includes(search)
-        })
-        console.log("newdata " , newData)
-        // const newData = filterFunc()
-        setFilteredData([...newData])
-        setCurrentPage(1)
-    }
-
     const toggleProfile = (key) =>{
         if(!isProfileShow) setUseContact(key)
         console.log(useContact)
@@ -111,7 +96,6 @@ export default function Contacts() {
     const removeContact = async (id)=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const deleteItems = {data:[id]}
-        console.log("remove contact id",deleteItems)
         const res = axios.delete(url ,{ headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -137,15 +121,8 @@ export default function Contacts() {
             data: deleteItems})
         await fetchContacts()
     }
-    // const handleClick = (event) => {
-    //     event.stopPropagation()
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
 
-    const default_cols = ['customer_id' , 'name' ,'team', 'channels','tags' ,'assignee']
+    const default_cols = ['CustomerId' , 'Name' ,'Team', 'Channels','Tags' ,'Assignee']
     const [isSelectRow, setSelectRow] = useState( false);
 
     function toggleSelectRow() {
@@ -210,7 +187,10 @@ export default function Contacts() {
                             name={"keyword"}
                             ref={searchRef}
                             onChange={(e)=> {
-                                handleFilterChange(e.target.value)
+                                searchFilter(e.target.value , contacts,(new_data)=>{
+                                    setFilteredData(new_data)
+                                    setCurrentPage(1)
+                                })
                             }}
                             placeholder={"Search"}
                         />
@@ -248,7 +228,7 @@ export default function Contacts() {
                 </MF_Select>
             </SelectSession>
             <TableContainer
-                sx={{minWidth: 750 , minHeight:500}}
+                sx={{minWidth: 750 , minHeight:"60vh"}}
                 className={"table_container"}
             >
                 <Table

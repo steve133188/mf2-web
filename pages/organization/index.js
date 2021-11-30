@@ -1,30 +1,18 @@
 import {ORGSidebar} from "../../components/InnerSidebar";
-import {BlueMenuDropdown, BlueMenuLink} from "../../components/BlueMenuLink";
-import {Search3} from "../../components/Input";
-import {NormalButton, NormalButton2} from "../../components/Button";
-import {NavbarPurple} from "../../components/NavbarPurple";
-import {BroadcastTable} from "../../components/Table";
-import {PaginationControlled} from "../../components/Pagination";
-import {Badge} from "../../components/Badge";
-import {Pill, StatusPill} from "../../components/Pill";
 import {useState, useEffect, useRef, useContext} from "react";
 import SearchSession from "../../components/SearchSession";
-import Link from "next/link";
 import SelectSession from "../../components/SelectSession";
 import Pagination from "@mui/material/Pagination";
 import {GlobalContext} from "../../context/GlobalContext";
-import axios from "axios";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {TableCell, Tooltip, Zoom} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
-import Avatar from "@mui/material/Avatar";
-import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
-import styles from "../../styles/Contacts.module.css";
-import MF_Modal from "../../components/MF_Modal";
+import CreateDivisionForm from "../../components/organisation/CreateDivisionForm";
+import CreateTeamForm from "../../components/organisation/CreateTeamForm";
+import AddAgentForm from "../../components/organisation/AddAgentForm";
 
 export default function Organization() {
     const {get_root_org , get_users} = useContext(GlobalContext)
@@ -39,7 +27,9 @@ export default function Organization() {
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
 
-    const [isModalShow , setIsModalShow] = useState(false)
+    const [isCreateDivisionShow , setIsCreateDivisionShow] = useState(false)
+    const [isCreateTeamShow , setIsCreateTeamShow] = useState(false)
+    const [isAddAgentShow , setIsAddAgentShow] = useState(false)
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
     const [selectAll, setSelectAll] = useState(false);
@@ -97,7 +87,13 @@ export default function Organization() {
         setIsProfileShow(!isProfileShow)
     }
     const toggleNewTeam = () =>{
-        setIsModalShow(!isModalShow)
+        setIsCreateTeamShow(!isCreateTeamShow)
+    }
+    const toggleNewDivision = () =>{
+        setIsCreateDivisionShow(!isCreateDivisionShow)
+    }
+    const toggleAddAgent = () =>{
+        setIsAddAgentShow(!isAddAgentShow)
     }
 
     const default_cols = [ 'Name' ,'Role', 'Email','Phone' ,'No. of Assigned Contacts']
@@ -110,9 +106,11 @@ export default function Organization() {
         <div className="organization-layout">
             <ORGSidebar orgData={root_org} />
             <div className="rightContent">
-                <MF_Modal show={isModalShow} toggle={toggleNewTeam}>
-                    test
-                </MF_Modal>
+                    {/*toggle Modal Start */}
+                <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision}/>
+                <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam}/>
+                <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
+                    {/*toggle Modal End*/}
                     <SearchSession
                         placeholder={"Search"}
                         handleChange={(e)=> {
@@ -125,9 +123,9 @@ export default function Organization() {
                             <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                         )}
                         <button onClick={toggleNewTeam}>+ New Team</button>
-                        <button onClick={toggleNewTeam}>+ New Division</button>
+                        <button onClick={toggleNewDivision}>+ New Division</button>
                     </SearchSession>
-                    <SelectSession btn={(<button style={{marginLeft: "auto"}} onClick={toggleNewTeam}>+ New Agent</button>)}>
+                    <SelectSession btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)}>
                         <div className={"team_label"}>
                             {curr_org}
                         </div>

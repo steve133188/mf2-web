@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
-import {Input2} from "../Input";
+import {MF_Input} from "../Input";
 import Link from "next/link";
 import * as React from "react";
 import {Pill} from "../Pill";
@@ -27,8 +27,6 @@ export default function EditProfileForm({data , toggle}){
         e.preventDefault()
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const name =` ${editContact.first_name} ${editContact.last_name}`
-        console.log(name)
-
         const res = await axios.put(url , {...editContact,name} ,{
             headers: {
                 'Content-Type': 'application/json',
@@ -58,20 +56,20 @@ export default function EditProfileForm({data , toggle}){
                     New Contact
                 </div>
                 <div className={"ss_row"}>
-                    <Input2 title="First Name*" name={"first_name"} value={editContact.first_name} onChange={handleChange}/>
-                    <Input2 title="Last Name*" name={"last_name"} value={editContact.last_name} onChange={handleChange}/>
+                    <MF_Input title="First Name*" name={"first_name"} value={editContact.first_name} onChange={handleChange}/>
+                    <MF_Input title="Last Name*" name={"last_name"} value={editContact.last_name} onChange={handleChange}/>
 
                 </div>
                 <div className={"ss_row"}>
-                    <Input2 title="Phone*" name={"phone"} value={editContact.phones} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
-                    <Input2 title="Email" name={"email"} value={editContact.email} onChange={handleChange}/>
+                    <MF_Input title="Phone*" name={"phone"} value={editContact.phones} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
+                    <MF_Input title="Email" name={"email"} value={editContact.email} onChange={handleChange}/>
                 </div>
                 <div className={"ss_row"}>
-                    <Input2 title="Birthday" name={"birthday"} value={editContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
-                    <Input2 title="Gender" name={"gender"} value={editContact.gender} onChange={handleChange} placeholder={"M or F"}/>
+                    <MF_Input title="Birthday" name={"birthday"} value={editContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
+                    <MF_Input title="Gender" name={"gender"} value={editContact.gender} onChange={handleChange} placeholder={"M or F"}/>
                 </div>
-                <span className="longInput"><Input2 title="Address" name={"address"} value={editContact.address} onChange={handleChange}/></span>
-                <Input2 title="Country" name={"country"} value={editContact.country} onChange={handleChange} />
+                <span className="longInput"><MF_Input title="Address" name={"address"} value={editContact.address} onChange={handleChange}/></span>
+                <MF_Input title="Country" name={"country"} value={editContact.country} onChange={handleChange} />
 
                 <div className={"ss_row submit_row"}>
                     <button onClick={handleSubmit}>Save</button>
