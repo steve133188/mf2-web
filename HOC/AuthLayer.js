@@ -5,15 +5,13 @@ import {useRouter} from "next/router";
 
 export default function AuthLayer({children}){
     const router = useRouter()
-    const {user} = useContext(GlobalContext)
-    // const [isAuth , setIsAuth] = useState(false)
 
     useEffect(async()=>{
         const res = await checkAuthHelper()
 
         if (!res){
             console.log("please log in ")
-            router.push('/login' ,"/")
+            router.push('/login' )
         }
         // setIsAuth(true)
     },[])

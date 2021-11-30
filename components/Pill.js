@@ -23,7 +23,6 @@ export function StatusPill({children,...props}) {
 export function PillInIcon({children, ...props}) {
     return (
         <span className="pillInIcon">{children}</span>
-
     )
 }
 

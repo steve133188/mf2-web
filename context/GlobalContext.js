@@ -209,32 +209,7 @@ export const GlobalContextProvider = ({children}) =>{
         })
         return res.data
     }
-    const create_org = async(data)=>{
-        const url = "https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
-        const res =await axios.post(url ,data , {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-        })
-        return res.statusText
-    }
-    const update_org_name = async (new_name , id) =>{
-        const url = "https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
-        const res =await axios.put(url ,{new_name , id} , {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-        })
-        return res.statusText
-    }
-    const update_user_org = async () =>{
 
-    }
-    const delete_org = async()=>{
-
-    }
     const get_user_by_team = async (id)=>{
         const url =`https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/team/${id}`
         const res =await axios.get(url  , {

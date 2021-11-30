@@ -14,7 +14,7 @@ export default function AddAgentForm({show, toggle }){
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
                 <div className={"modal_title"}>
-                    <span>Create Division</span>
+                    <span>Add Agent</span>
                 </div>
                 <MF_Input title={"Add Agent"} value={data}> </MF_Input>
                 <div className={"btn_row"}>

@@ -1,8 +1,11 @@
 .blueMenuLink {
-  line-height: 60px;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font: normal normal bold 16px/22px Manrope;
+  color: #444444;
   .blueLink {
     border-radius: 10px;
     display: block;
@@ -10,7 +13,6 @@
     color: #444444;
     padding-left: 23px;
     text-decoration: none;
-
     svg {
       position: relative;
       top: 10px;
@@ -18,13 +20,7 @@
       transition: transform 0.4s;
     }
   }
-  .blueLinkActive {
-    background: #bedcf5;
-    color: #2198FA;
-    svg {
-      transform: translateY(-50%) rotate(-180deg);
-    }
-  }
+
   .menuSelected {
     background: #bedcf5;
     color: #2198FA;
@@ -35,5 +31,12 @@
     svg {
       transform: translateY(-50%) rotate(-180deg);
     }
+  }
+}
+.blueMenuLink.active {
+  background: #D5ECFF;
+  color: #2198FA;
+  svg {
+    transform: translateY(-50%) rotate(-180deg);
   }
 }

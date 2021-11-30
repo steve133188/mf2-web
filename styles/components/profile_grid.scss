@@ -106,7 +106,20 @@
     }
   }
   .session_content{
-
+    padding: 2rem 0;
+    font: normal normal normal 16px/22px Manrope;
+    letter-spacing: 0px;
+    color: #495057;
+    opacity: 1;
+    .content_row{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      div{
+        display: flex;
+        gap:5%;
+      }
+    }
   }
 }
 
@@ -123,5 +136,92 @@
   }
   log_btn{
 
+  }
+}
+.user_profile_grid{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  gap: 2.5%;
+  .info_col{
+    height: 100%;
+    width: 30%;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-around;
+    padding: 1rem 3rem;
+    position: relative;
+
+    .dot{
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      cursor: pointer;
+    }
+    .ava_block{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      gap: .5rem;
+      .ava{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0.5rem auto;
+      }
+      .title{
+        font: normal normal bold 24px/33px Manrope;
+        letter-spacing: 0px;
+        color: #444444;
+        opacity: 1;
+      }
+    }
+    .info_session{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 40%;
+      gap:10%;
+      .info_row{
+        display: flex;
+        flex-direction: column;
+        .info_label{
+          text-align: left;
+          font: normal normal normal 12px Manrope;
+          letter-spacing: 0px;
+          color: #444444;
+          opacity: 1;
+
+        }
+        .info_content{
+          text-align: left;
+          font: normal normal 600 16px/22px Manrope;
+          letter-spacing: 0px;
+          color: #444444;
+          opacity: 1;    }
+        }
+      }
+
+
+
+  }
+  .main_col{
+    height: 100%;
+    width: 70%;
+    justify-content: space-around;
+    display: flex;
+    flex-direction:column;
+    gap:5%;
+    .two_block{
+      display: flex;
+      flex-direction:row;
+      justify-content: space-between;
+      gap:5%;
+      .block{
+        flex-grow: 3;
+      }
+    }
   }
 }

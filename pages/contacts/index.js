@@ -1,14 +1,9 @@
 import {useContext, useEffect, useRef, useState} from "react";
-import {useRouter} from "next/router";
-import {Checkbox} from "../../components/Checkbox"
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {GlobalContext} from "../../context/GlobalContext";
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'
 import axios from "axios";
 import styles from "../../styles/Contacts.module.css";
-import SearchSession from "../../components/SearchSession";
 import SelectSession from "../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -25,10 +20,6 @@ import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
-import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
@@ -55,6 +46,7 @@ export default function Contacts() {
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
+    let result = currentContacts.map(d=>d.id)
 
     const fetchContacts = async () =>{
         const data = await getAllContacts()
@@ -242,7 +234,7 @@ export default function Contacts() {
                             <TableCell>
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="checkbox" checked={selectAll} onClick={toggleSelectAll} />
+                                        <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
                                     </label> : null}
                                 </div>
                             </TableCell>
@@ -302,7 +294,6 @@ export default function Contacts() {
                                             {data.tags.map((tag , index)=>{
                                                 return( <Pill key={index} color="lightBlue">{tag}</Pill>)
                                             })}
-
                                         </div>
                                     </TableCell>
 
