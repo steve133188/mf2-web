@@ -80,8 +80,7 @@
   border-bottom: 2px solid #F3F3F5;
   opacity: 1;
 }
-
-.side-item :not(.notify_box):not(.notify_box_title):not(.notify_box_List):not(.notify_box_li *){
+.side-item:not(.notification_activate), .notify_box_li{
   //height: 5vh;
   cursor: pointer;
   &:hover, &:focus  {
@@ -89,6 +88,9 @@
     transition: all 250ms ease-in-out;
     color: #2198FA;
   }
+}
+.notification_activate .nav-item{
+  cursor: pointer;
 }
 .nav-items{
   max-height: 70%;
@@ -160,14 +162,15 @@
 
 }
 
-.notification {
+ .notification_activate{
   display: flex;
   position: relative;
   text-align: center;
   border: none;
-  background-color: white;
   align-items: center;
-  
+  background-color:#D0E9FF ;
+   color: #2198FA;
+
   .notify_box{
     display: flex;
     flex-direction: column;
@@ -254,7 +257,9 @@
     }
 
   }
-  
+  .notification_activate{
+    background-color:#D0E9FF ;
+  }
 
 
   //.badge {

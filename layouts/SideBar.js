@@ -271,7 +271,8 @@ export default function SideBar(props) {
             </div>
 
             <div className={"side_bottom"}>
-                <div className={"side-item notification"} >
+
+                <div className={isNotifyBoxOpen? "side-item notification_activate":"side-item notification"} >
                     <span onClick={notifyBoxToggle}>
                         <div className={"nav-item "}>
 

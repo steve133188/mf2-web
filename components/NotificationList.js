@@ -14,7 +14,7 @@ export default function NotificationList({notification , ...props}){
 
             <div className="notification_content">
                 <div className="notification_title">
-                    <b className="notification_from">{notification.from}</b> {notification.notify_reason}
+                    <b className="notification_from">{notification.notify_from}</b> {notification.notify_reason}
                 </div>
                 <div className="notification_detail"> {notification.notify_content} </div>
                 <div className="notification_time"> {notification.receive_time} </div>
