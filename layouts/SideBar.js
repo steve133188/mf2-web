@@ -20,7 +20,7 @@ export default function SideBar(props) {
             id:2,
             notify_from:"TimTim",
             notify_reason:"replied you",
-            notify_content:"Lorem ipsum dolor sit amet.",
+            notify_content:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, similique.\n ",
             unreadCount:1,
             profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
             receive_time:"3:45PM"
@@ -117,7 +117,6 @@ export default function SideBar(props) {
     return (
 
         <div className={isCollapse ? ("layout-sidebar collapseLayout") : ("layout-sidebar")}>
-               
             <div className={"brand-logo "}>
                 <img src="/MS_logo-square (1).svg" alt="MatrixForce" />
             </div>

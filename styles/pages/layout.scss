@@ -178,9 +178,9 @@
     position: absolute;
     justify-content: center;
     left: 100%;
-    width: 150%;
+    width: 180%;
     max-height:50vh;
-    bottom:-190%;
+    bottom:-200%;
     border-radius: 10px;
     box-shadow: 0px 3px 6px #00000029;
     background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -220,7 +220,7 @@
 
 
         .notification_content{
-          width: 70%;
+          width: 80%;
           display: flex;
           padding: 1rem;
           flex-direction: column;
@@ -231,7 +231,7 @@
             font: normal normal bold 14px/19px Manrope;
           }
           .notification_detail{
-            font: normal normal normal 14px/19px Manrope;
+            font: normal normal normal 10px/14px Manrope;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
