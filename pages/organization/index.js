@@ -37,7 +37,7 @@ export default function Organization() {
     const [isAddAgentShow , setIsAddAgentShow] = useState(false)
     const [isMoveAgentShow , setIsMoveAgentShow] = useState(false)
     const [currentPage , setCurrentPage] = useState(1)
-    const [selectedContacts , setSelectedContacts] = useState([])
+    const [selectedUsers , setSelectedUsers] = useState([])
     const [selectAll, setSelectAll] = useState(false);
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
@@ -51,6 +51,7 @@ export default function Organization() {
     }
     const fetchTeamUsers = async (id)=>{
         const data = await getUsersByTeamId(id)
+        console.log("team users:",data)
         setUsers(data)
         setFilteredData(data)
     }
@@ -66,22 +67,24 @@ export default function Organization() {
         if(!curr_org.name){
             await fetchUsers()
         }else{
+            console.log("curr_org",curr_org)
             await fetchTeamUsers(curr_org.id)
         }
     },[curr_org]);
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        setSelectedContacts([...selectedContacts, id]);
+        setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
-            setSelectedContacts(selectedContacts.filter(item => item !== id));
+            setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
+        console.log(selectedUsers)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.phone));
+        setSelectedUsers(currentContacts.map(c => c.phone));
         if (selectAll) {
-            setSelectedContacts([]);
+            setSelectedUsers([]);
         }
     };
 
@@ -136,7 +139,7 @@ export default function Organization() {
                 <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision}/>
                 <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
-                <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUser={selectedContacts}/>
+                <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers}/>
                     {/*toggle Modal End*/}
                     <SearchSession
                         placeholder={"Search"}
@@ -171,7 +174,7 @@ export default function Organization() {
                                 <TableCell>
                                     <div className="newCheckboxContainer">
                                         {isSelectRow ? <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
+                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedUsers.includes(el))} onClick={toggleSelectAll} />
                                         </label> : null}
                                     </div>
                                 </TableCell>
@@ -189,7 +192,7 @@ export default function Organization() {
                                         role="checkbox"
                                         // tabIndex={-1}
                                         name={index}
-                                        checked={selectedContacts.includes(data.id)}
+                                        checked={selectedUsers.includes(data.id)}
                                         onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
@@ -199,7 +202,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.phone} name="checkbox" checked={selectedContacts.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>

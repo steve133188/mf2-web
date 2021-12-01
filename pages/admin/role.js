@@ -135,7 +135,7 @@ export default function Role() {
                     ) : (
                         <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                     )}
-                    <button>+ New Contact</button>
+                    <button>+ New Role</button>
                 </div>
             </div>
             <SelectSession

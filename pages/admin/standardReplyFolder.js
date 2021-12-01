@@ -23,7 +23,7 @@ import {BlueMenu2} from "../../components/InnerSidebar";
 import { Checkbox } from '../../components/Checkbox';
 import { tag } from '../../components/tag';
 
-import styles from"../../styles/pages/admin.module.scss";
+import styles from "../../styles/pages/admin.scss";
 import bg from "../../styles/variables/_variables.module.scss"
 
 export default function StandardReplyFolder() {
