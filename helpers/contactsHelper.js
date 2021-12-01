@@ -1,11 +1,12 @@
 import axios from "axios"
+import {getToken} from "./authHelper";
 let contactsFetcher ;
 if (typeof window !== 'undefined') {
     contactsFetcher = axios.create({
         timeout:5000,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem("token")}`
+            'Authorization': `Bearer ${getToken}`
         },
         baseURL:"https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
     })

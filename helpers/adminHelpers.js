@@ -1,24 +1,18 @@
 import axios from "axios"
+import {getToken} from "./authHelper";
 let adminFetcher;
 if (typeof window !== 'undefined') {
     adminFetcher = axios.create({
         timeout:5000,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem("token")}`
+            'Authorization': `Bearer ${getToken()}`
         },
         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/admin"
     })
 }
 
-adminFetcher = axios.create({
-    timeout:5000,
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("token")}`
-    },
-    baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/admin"
-})
+
 
 export const getAllRoles = async ()=>{
     return (await adminFetcher.get(`/roles`)).data

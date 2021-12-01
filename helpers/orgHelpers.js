@@ -1,11 +1,12 @@
 import axios from "axios"
+import {getToken} from "./authHelper";
 let orgFetcher;
 if (typeof window !== 'undefined') {
     orgFetcher = axios.create({
         timeout:5000,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem("token")}`
+            'Authorization': `Bearer ${getToken}`
         },
         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
     })
