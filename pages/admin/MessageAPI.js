@@ -1,32 +1,16 @@
-import {useContext, useEffect, useRef, useState} from "react";
-import {GlobalContext} from "../../context/GlobalContext";
-import Link from 'next/link';
-import {ImportDropzone} from '../../components/ImportContact.js'
-import axios from "axios";
-import styles from "../../styles/Contacts.module.css";
+import { useEffect, useState} from "react";
+
 import SelectSession from "../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import {Pill} from "../../components/Pill";
-import MF_Select from "../../components/MF_Select";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
-import Profile from "../../components/profile";
-import ProfileGrid from "../../components/pageComponents/ProfieGrid";
-import EditProfileForm from "../../components/pageComponents/EditProfileForm";
-import { Tooltip } from '@mui/material';
-import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
-import {getAllContacts} from "../../helpers/contactsHelper"
 import {getAllRoles} from "../../helpers/adminHelpers";
 import {InnerSidebar} from "../../components/InnerSidebar";
-import * as React from "react";
 
 export default function MessageAPI() {
 

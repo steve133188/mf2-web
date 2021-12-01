@@ -1,6 +1,6 @@
 import Avatar from '@mui/material/Avatar';
 import {NormalButton,NormalButton2, CancelButton} from "./Button";
-import {Input2} from "./Input"
+import {Input2, MF_Input} from "./Input"
 import {Checkbox} from "./Checkbox"
 
 export function AccountSettingPanel() {
@@ -20,12 +20,12 @@ export function AccountSettingPanel() {
             </div>
             <div className="infoInputSet">
                 <div className="row">
-                    <Input2 title="Username">Mary Foster</Input2>
-                    <Input2 title="Phone">+852 6093 4495</Input2>
+                    <MF_Input title="Username">Mary Foster</MF_Input>
+                    <MF_Input title="Phone">+852 6093 4495</MF_Input>
                 </div>
                 <div className="row">
-                    <Input2 disabled="disabled" title="Email">mary.foster@gmail.com</Input2>
-                    <Input2 title="Phone2"></Input2>
+                    <MF_Input disabled="disabled" title="Email">mary.foster@gmail.com</MF_Input>
+                    <MF_Input title="Phone2"></MF_Input>
                 </div>
             </div>
             {/*<CheckboxGroup1 title="Filter">*/}

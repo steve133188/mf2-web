@@ -80,8 +80,7 @@
   border-bottom: 2px solid #F3F3F5;
   opacity: 1;
 }
-
-.side-item :not(.notify_box *){
+.side-item:not(.notification_activate), .notify_box_li{
   //height: 5vh;
   cursor: pointer;
   &:hover, &:focus  {
@@ -89,6 +88,9 @@
     transition: all 250ms ease-in-out;
     color: #2198FA;
   }
+}
+.notification_activate .nav-item{
+  cursor: pointer;
 }
 .nav-items{
   max-height: 70%;
@@ -160,14 +162,15 @@
 
 }
 
-.notification {
+ .notification_activate{
   display: flex;
   position: relative;
   text-align: center;
   border: none;
-  background-color: white;
   align-items: center;
-  
+  background-color:#D0E9FF ;
+   color: #2198FA;
+
   .notify_box{
     display: flex;
     flex-direction: column;
@@ -175,9 +178,9 @@
     position: absolute;
     justify-content: center;
     left: 100%;
-    width: 150%;
+    width: 180%;
     max-height:50vh;
-    bottom:-190%;
+    bottom:-200%;
     border-radius: 10px;
     box-shadow: 0px 3px 6px #00000029;
     background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -196,7 +199,7 @@
 
         cursor: pointer;
         width: 100%;
-        
+        padding: 0.2rem;
         position: relative;
         display: flex;
         flex-direction: row;
@@ -217,7 +220,7 @@
 
 
         .notification_content{
-          width: 70%;
+          width: 80%;
           display: flex;
           padding: 1rem;
           flex-direction: column;
@@ -228,7 +231,7 @@
             font: normal normal bold 14px/19px Manrope;
           }
           .notification_detail{
-            font: normal normal normal 14px/19px Manrope;
+            font: normal normal normal 10px/14px Manrope;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -254,7 +257,9 @@
     }
 
   }
-  
+  .notification_activate{
+    background-color:#D0E9FF ;
+  }
 
 
   //.badge {
