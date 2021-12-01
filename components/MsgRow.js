@@ -24,7 +24,7 @@ export default function MsgRow({msg ,...props}){
                                 <div className={"msg_type_imageCaption"}>
                                     <img className={"imageBox"} src={JSON.parse(captionJson).url}/>
                                     <div className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
-                                </div> ;
+                                </div>
                         </>
             case "video":   return <div className={"msg_type_video"}> 
                     {/* <iframe allowFullScreen className={"videoBox"} src={msg.body}  /> */}
@@ -52,7 +52,7 @@ export default function MsgRow({msg ,...props}){
             case "url": return <div className={"url_body"}>
                     <div className={"url_box"}>
                         <div className={"url_detail"} >                        
-                             <Embed  className={"url_detail"} url={msg.body} />
+                             <Embed   url={msg.body} />
                              </div>
 
                         <div className={"msg_type_url"}><a href={msg.body}>{msg.body} </a></div>

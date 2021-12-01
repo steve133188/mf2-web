@@ -4,10 +4,9 @@ import MsgRow from "../../components/MsgRow";
 import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
-import BottonClick  from "../../components/livechat/BottonClick";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
-import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5, VoiceMsg} from "../../public/livechat/MF_LiveChat_Landing/svg"
+import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg"
 
 
 
@@ -528,8 +527,8 @@ export default function Live_chat() {
                         <div className={"chatroom_channel"}>Channel</div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
-                        <div className={"chatroom_top_btn chatroom_top_btn_research"}></div>
-                        <div className={"chatroom_top_btn chatroom_top_btn_refresh"}></div>
+                        <div className={"chatroom_top_btn chatroom_top_btn_research"}><ResearchBTN/></div>
+                        <div className={"chatroom_top_btn chatroom_top_btn_refresh"}><RefreshBTN/></div>
                         <div className={"chatroom_top_btn chatbot_switch"}>
                             <RobotSwitch isOn={isRobotOn} handleToggle={()=>setIsRobotOn(!isRobotOn)} onColor="#2198FA" />
                         </div>
@@ -545,27 +544,22 @@ export default function Live_chat() {
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" ></textarea>
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
-                            <div className={"sticker_btn "}onClick={()=>{setEmojiOn(!isEmojiOn)}} 
-                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                            <div className={"sticker_btn "}  
                                     ><MaskGroup1/></div>
                             <div className={"emoji_btn" } onClick={()=>{setEmojiOn(!isEmojiOn)}} 
-                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}>
-                            <MaskGroup2/></div>
-                            <div className={"attach_btn "}onClick={()=>{setEmojiOn(!isEmojiOn)}} 
-                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}  
+                                    ><MaskGroup2/></div>
+                            <div className={"attach_btn "}  
                                     ><Mask_Group_3/></div>
-                            <div className={"template_btn"} onClick={()=>{setEmojiOn(!isEmojiOn)}} 
-                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                            <div className={"template_btn"}   
                                     ><Mask_Group_4/></div>
-                            <div className={"payment_btn"} onClick={()=>{setEmojiOn(!isEmojiOn)}} 
-                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                            <div className={"payment_btn"}   
                                     ><Mask_Group_5/></div>
                         </div>
+
                         <div className={"right_btn_gp"}>
-                            <div className={"voice_btn"} onClick={()=>{setEmojiOn(!isEmojiOn)}} 
-                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
-                                    ><VoiceMsg/></div>
-                            <div className={"send_btn"}></div>
+                            <div className={"voice_btn"}><VoiceMsg/></div>
+                            <div className={"send_btn"}><SendButton/></div>
                         </div>
                     </div>
                 </div>

@@ -204,17 +204,17 @@
        }
 
        .chatroom_top_btn_research{
-          background-image: url("../../public/livechat/search_btn.svg");
+          // background-image: url("../../public/livechat/search_btn.svg");
        }
        .chatroom_top_btn_refresh{
-         background-image: url("../../public/livechat/refresh.svg");
+        //  background-image: url("../../public/livechat/refresh.svg");
        }
 
        .chatroom_top_btn_refresh,.chatroom_top_btn_research{
        background-repeat: no-repeat;
        background-position: center;
        background-size: cover;
-       padding: 1rem;
+      //  padding: 1rem;
      }
        .chatbot_switch{
          display: flex;
@@ -280,7 +280,7 @@
       height: 10rem;
       width: 100%;
       z-index: 10;
-      padding: 2rem 2rem 1.25rem 2rem ;
+      padding: 2rem 2rem 0.75rem 2rem ;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -347,11 +347,13 @@
             }
 
             .voice_btn{
-              background-image:url("../../public/livechat/recording.svg");
+              // background-image:url("../../public/livechat/recording.svg");
+              padding: .5rem 1rem;
             }
             .send_btn{
-              background-image:url("../../public/livechat/send.svg");
+              // background-image:url("../../public/livechat/send.svg");
               border-radius: 10px;
+              padding: .2rem .7rem .3rem 0rem;
             }
           }
       }
