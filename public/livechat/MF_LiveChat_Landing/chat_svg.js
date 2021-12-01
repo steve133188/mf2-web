@@ -77,8 +77,59 @@ export const VoiceMsg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="10.872" height="19.196" viewBox="0 0 10.872 19.196">
             <g id="Group_5008" data-name="Group 5008" transform="translate(-908.79 -500.432)">
-                <path id="Path_34261" data-name="Path 34261" d="M918.964,509.39a.714.714,0,0,0-.7.7v1.023a4.042,4.042,0,1,1-8.084,0v-1.023a.7.7,0,0,0-1.394,0v1.023a5.427,5.427,0,0,0,4.739,5.389v3.3a.7.7,0,1,0,1.394,0v-3.3a5.428,5.428,0,0,0,4.739-5.389v-1.023A.715.715,0,0,0,918.964,509.39Z" transform="translate(0 -0.866)"    />
-                <path id="Path_34262" data-name="Path 34262" d="M914.431,513.678a3.491,3.491,0,0,0,3.463-3.51v-6.225a3.487,3.487,0,1,0-6.974,0v6.225A3.515,3.515,0,0,0,914.431,513.678Zm-2.065-9.735a2.067,2.067,0,0,1,2.065-2.065,2.045,2.045,0,0,1,2.019,2.065v6.225a2.045,2.045,0,0,1-2.019,2.065,2.067,2.067,0,0,1-2.065-2.065Z" transform="translate(-0.206)"    />
+                <path id="Path_34261" data-name="Path 34261" d="M918.964,509.39a.714.714,0,0,0-.7.7v1.023a4.042,4.042,0,1,1-8.084,0v-1.023a.7.7,0,0,0-1.394,0v1.023a5.427,5.427,0,0,0,4.739,5.389v3.3a.7.7,0,1,0,1.394,0v-3.3a5.428,5.428,0,0,0,4.739-5.389v-1.023A.715.715,0,0,0,918.964,509.39Z" transform="translate(0 -0.866)" />
+                <path id="Path_34262" data-name="Path 34262" d="M914.431,513.678a3.491,3.491,0,0,0,3.463-3.51v-6.225a3.487,3.487,0,1,0-6.974,0v6.225A3.515,3.515,0,0,0,914.431,513.678Zm-2.065-9.735a2.067,2.067,0,0,1,2.065-2.065,2.045,2.045,0,0,1,2.019,2.065v6.225a2.045,2.045,0,0,1-2.019,2.065,2.067,2.067,0,0,1-2.065-2.065Z" transform="translate(-0.206)" />
+            </g>
+        </svg>
+
+    )
+}
+export const SendButton = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+            <g id="Group_4955" data-name="Group 4955" transform="translate(-3244 -1162)">
+                <rect id="Rectangle_4046" data-name="Rectangle 4046" width="34" height="34" rx="10" transform="translate(3244 1162)" fill="#2198fa" />
+                <g id="noun_send_3677734" transform="translate(3251.925 1171.854)">
+                    <path id="Path_34191" data-name="Path 34191" d="M1.947,7.853a.608.608,0,0,0,.416.577l7.661,2.554,2.553,7.66a.609.609,0,0,0,1.155,0l5.3-15.9a.607.607,0,0,0,.029-.182c0-.014,0-.027,0-.04a.609.609,0,0,0-.033-.167A.538.538,0,0,0,19,2.3a.543.543,0,0,0-.3-.3c-.018-.008-.036-.015-.054-.021a.608.608,0,0,0-.168-.033c-.013,0-.026,0-.039,0a.6.6,0,0,0-.183.03l-15.9,5.3a.608.608,0,0,0-.416.577Z" transform="translate(-1.947 -1.947)" fill="#fff" />
+                </g>
+            </g>
+        </svg>
+
+
+    )
+}
+
+export const RefreshBTN = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+            <g id="Group_4954" data-name="Group 4954" transform="translate(-0.304 -0.118)">
+                <rect id="Rectangle_4097" data-name="Rectangle 4097" width="34" height="34" rx="10" transform="translate(0.304 0.118)" fill="#d0e9ff" />
+                <g id="search" transform="translate(9.304 9.118)">
+                    <rect id="Background-2" data-name="Background" width="16" height="16" fill="none" />
+                    <g id="search-2" data-name="search" clip-path="url(#clip-path)">
+                        <g id="Refresh" transform="translate(1.188 1.275)">
+                            <path id="Path_34094" data-name="Path 34094" d="M5.4,1.459,2.723,1.2A.655.655,0,1,0,2.6,2.5l.778.077a6.87,6.87,0,0,0-.6.529,6.791,6.791,0,0,0,0,9.6,6.679,6.679,0,0,0,2.073,1.416.655.655,0,1,0,.521-1.2A5.38,5.38,0,0,1,3.7,11.781a5.486,5.486,0,0,1,.781-8.4L4.331,4.414a.655.655,0,0,0,.55.743.665.665,0,0,0,.1.007.655.655,0,0,0,.647-.559l.357-2.4A.655.655,0,0,0,5.4,1.459Z" transform="translate(-0.789 -1.192)" fill="#2198fa" />
+                            <path id="Path_34095" data-name="Path 34095" d="M42.791,15l-.778-.077a6.871,6.871,0,0,0,.6-.529,6.8,6.8,0,0,0,0-9.6,6.683,6.683,0,0,0-2.073-1.415.655.655,0,1,0-.521,1.2,5.383,5.383,0,0,1,1.668,1.141,5.485,5.485,0,0,1-.78,8.4l.153-1.033a.655.655,0,1,0-1.3-.193l-.357,2.4a.655.655,0,0,0,.583.748l2.676.265q.033,0,.065,0A.655.655,0,0,0,42.792,15Z" transform="translate(-30.971 -2.854)" fill="#2198fa" />
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+
+    )
+}
+export const ResearchBTN = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+
+            <g id="Group_4953" data-name="Group 4953" transform="translate(0.418 -0.118)">
+                <rect id="Rectangle_4096" data-name="Rectangle 4096" width="34" height="34" rx="10" transform="translate(-0.418 0.118)" fill="#d0e9ff" />
+                <g id="search" transform="translate(8.581 9.118)">
+                    <rect id="Background-2" data-name="Background" width="16" height="16" fill="none" />
+                    <g id="search-2" data-name="search" clip-path="url(#clip-path)">
+                        <path id="Shape" d="M12.681,13.331a.659.659,0,0,1-.473-.2L9.754,10.68a6,6,0,1,1,.926-.926l2.473,2.453a.66.66,0,0,1-.472,1.123ZM6.014,1.347A4.666,4.666,0,1,0,10.68,6.014,4.672,4.672,0,0,0,6.014,1.347Z" transform="translate(1.319 1.319)" fill="#2198fa" />
+                    </g>
+                </g>
             </g>
         </svg>
 
