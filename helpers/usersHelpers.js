@@ -1,13 +1,15 @@
 import axios from "axios"
-
-const usersFetcher = axios.create({
-    timeout:5000,
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("token")}`
-    },
-    baseURL:"https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
-})
+let usersFetcher;
+if (typeof window !== 'undefined') {
+    usersFetcher = axios.create({
+        timeout:5000,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        baseURL:"https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
+    })
+}
 
 export const getAllUser = async ()=>{
     return (await usersFetcher.get(`/`)).data

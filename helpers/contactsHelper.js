@@ -1,13 +1,15 @@
 import axios from "axios"
-
-const contactsFetcher = axios.create({
-    timeout:5000,
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("token")}`
-    },
-    baseURL:"https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
-})
+let contactsFetcher ;
+if (typeof window !== 'undefined') {
+    contactsFetcher = axios.create({
+        timeout:5000,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        baseURL:"https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
+    })
+}
 
 export const getAllContacts = async ()=>{
     return (await contactsFetcher.get("/")).data

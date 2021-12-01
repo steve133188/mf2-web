@@ -1,6 +1,17 @@
 import axios from "axios"
+let adminFetcher;
+if (typeof window !== 'undefined') {
+    adminFetcher = axios.create({
+        timeout:5000,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/admin"
+    })
+}
 
-const adminFetcher = axios.create({
+adminFetcher = axios.create({
     timeout:5000,
     headers: {
         'Content-Type': 'application/json',

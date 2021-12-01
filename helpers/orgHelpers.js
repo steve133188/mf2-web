@@ -1,13 +1,15 @@
 import axios from "axios"
-
-const orgFetcher = axios.create({
-    timeout:5000,
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("token")}`
-    },
-    baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
-})
+let orgFetcher;
+if (typeof window !== 'undefined') {
+    orgFetcher = axios.create({
+        timeout:5000,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
+    })
+}
 
 export const getAllRootORG = async ()=>{
     return (await orgFetcher.get("/root")).data
