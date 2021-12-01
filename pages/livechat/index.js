@@ -4,8 +4,12 @@ import MsgRow from "../../components/MsgRow";
 import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
+import BottonClick  from "../../components/livechat/BottonClick";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
+import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5, VoiceMsg} from "../../public/livechat/MF_LiveChat_Landing/svg"
+
+
 
 export default function Live_chat() {
     const base_url ='https://e9bf-118-140-233-2.ngrok.io'
@@ -132,8 +136,309 @@ export default function Live_chat() {
         },
         {
             message_id:"234585258",
-            body:"hi",
+            body:"text",
             type:"text",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585258",
+            body:"I say hi too. How are you today? I saw you and your mum at cinema .",
+            type:"text",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585359",
+            body:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp",
+            type:"sticker",
+            vCard:["","",""],
+            author:null,
+            fromMe:false,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585359",
+            body:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp",
+            type:"sticker",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585359",
+            body:"livechat/tempSourceStore/bensound-dubstep.ogg",
+            type:"voice",
+            vCard:["","",""],
+            author:null,
+            fromMe:false,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585359",
+            body:"livechat/tempSourceStore/bensound-dubstep.mp3",
+            type:"voice",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585359",
+            body:"https://www.youtube.com/watch?v=Il0S8BoucSA",
+            type:"url",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585359",
+            body:"https://twitter.com/Vimeo/status/1461731229422735363?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Etweet",
+            type:"url",
+            vCard:["","",""],
+            author:null,
+            fromMe:false,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585259",
+            body:["Attachement.pdf"],
+            type:"attachment",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585259",
+            body:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
+            type:"video",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585259",
+            body:"/livechat/tempSourceStore/testingVideo.m4v",
+            type:"video",
+            vCard:["","",""],
+            author:null,
+            fromMe:false,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585259",
+            // body:"https://thebossmagazine.com/wp-content/uploads/2020/05/charles-deluvio-1-nx1QR5dTE-unsplash-scaled.jpg",
+            body:"/livechat/tempSourceStore/png-clipart-computer-icon-digital-marketing-social-media-marketing-strategy-marketing-file-search-engine-optimization-content-marketing.png",
+            type:"image",
+            vCard:["","",""],
+            author:null,
+            fromMe:true,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
+        {
+            message_id:"234585269",
+            body:"https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg",
+            type:"imageCaption",
             vCard:["","",""],
             author:null,
             fromMe:true,
@@ -161,6 +466,8 @@ export default function Live_chat() {
     const [chatrecord , setChatrecord] = useState([])
     const [isRobotOn , setIsRobotOn] = useState(false)
     const [isExpand , setIsExpand] = useState(false)
+    const [isEmojiOn,setEmojiOn] = useState(false)
+    
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const getChatRooms = async()=>{
         const res = await axios.get(`${base_url}/chats` , {
@@ -189,6 +496,7 @@ export default function Live_chat() {
         // const r = await getChatRecord(data[0].id.user)
         setChatrecord(records)
     } , [])
+    useEffect(()=>{console.log(isEmojiOn)},[isEmojiOn])
 
     return (
         <div className="live_chat_layout">
@@ -237,14 +545,26 @@ export default function Live_chat() {
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" ></textarea>
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
-                            <div className={"sticker_btn "}></div>
-                            <div className={"emoji_btn "}></div>
-                            <div className={"attach_btn "}></div>
-                            <div className={"template_btn"}></div>
-                            <div className={"payment_btn"}></div>
+                            <div className={"sticker_btn "}onClick={()=>{setEmojiOn(!isEmojiOn)}} 
+                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    ><MaskGroup1/></div>
+                            <div className={"emoji_btn" } onClick={()=>{setEmojiOn(!isEmojiOn)}} 
+                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}>
+                            <MaskGroup2/></div>
+                            <div className={"attach_btn "}onClick={()=>{setEmojiOn(!isEmojiOn)}} 
+                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    ><Mask_Group_3/></div>
+                            <div className={"template_btn"} onClick={()=>{setEmojiOn(!isEmojiOn)}} 
+                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    ><Mask_Group_4/></div>
+                            <div className={"payment_btn"} onClick={()=>{setEmojiOn(!isEmojiOn)}} 
+                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    ><Mask_Group_5/></div>
                         </div>
                         <div className={"right_btn_gp"}>
-                            <div className={"voice_btn"}></div>
+                            <div className={"voice_btn"} onClick={()=>{setEmojiOn(!isEmojiOn)}} 
+                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    ><VoiceMsg/></div>
                             <div className={"send_btn"}></div>
                         </div>
                     </div>
