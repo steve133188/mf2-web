@@ -25,7 +25,7 @@ import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
 import {getAllContacts} from "../../helpers/contactsHelper"
 
-export default function Contacts() {
+export default function MessageAPI() {
 
     const searchRef = useRef(null)
     const [contacts, setContacts] = useState([]);
@@ -92,7 +92,7 @@ export default function Contacts() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
-        data: deleteItems})
+            data: deleteItems})
         await fetchContacts()
     }
     const removeManyContact = async ()=>{
@@ -302,7 +302,7 @@ export default function Contacts() {
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )
                                             })}
@@ -310,8 +310,8 @@ export default function Contacts() {
                                     </TableCell>
                                     <TableCell >
                                         <Mf_icon_dropdown_select_btn
-                                        btn={(<span className={styles.edit_span}
-                                        >
+                                            btn={(<span className={styles.edit_span}
+                                            >
                                             ...
                                         </span>)}
                                         >

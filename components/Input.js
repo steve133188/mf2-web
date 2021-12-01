@@ -14,7 +14,7 @@ export function Input(props) {
     )
 }
 
-export function Input2(props) {
+export function MF_Input(props) {
     return (
         <div className="inputField">
             <span>{props.title}</span>

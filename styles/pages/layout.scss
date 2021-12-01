@@ -480,6 +480,7 @@
 }
 
 .admin_layout {
+  padding: 2rem;
   display: flex;
   background: #ffffff 0% 0% no-repeat padding-box;
   background-position: center;
@@ -488,13 +489,7 @@
   opacity: 1;
   height: 100vh;
   .rightContent {
+    padding: 0 1rem;
     width: 100%;
-    .contactsContainer {
-      padding: 48px 33px 20px 34px;
-      max-height: 100vh;
-      width: 100%;
-      margin-right: auto;
-      margin-left: auto;
-    }
   }
 }

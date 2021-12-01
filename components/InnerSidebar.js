@@ -2,31 +2,34 @@ import Link from "next/link"
 import {BlueMenuDropdown, BlueMenuLink} from "./BlueMenuLink";
 import {useState, useContext, useEffect} from 'react';
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import {getOrgsByParentId, getRootFamilyById} from "../helpers/orgHelpers";
+import {useRouter} from "next/router";
 
-export function ORGSidebar({orgData=null, ...props}) {
-    const [isSelect, setSelect] = useState(false)
+export function ORGSidebar({orgData=null, selection ,setSelection}) {
 
     const [isShow, setShow] = useState(false)
     function toggleIsShow() {
         setShow(!isShow);
     }
-    useEffect(()=>{
+    const handleClick = async (team)=>{
+        setSelection(team)
+    }
+
+    useEffect(async ()=>{
 
     } , [])
     console.log("org_data : " ,orgData)
     return (
         <nav className="blueMenu">
             <ul className="blueMenuGroup">
-                <li className="blueMenuLink"><Link href=""><a className={"blueLink active"}>All</a></Link></li>
+                <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}><Link href=""><a className={"blueLink "}>All</a></Link></li>
                 {orgData&&orgData.map((data,index)=>{
                     return(
-
-                        data.child != -1?  <li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>{data.name}<KeyboardArrowDownIcon/></span>
-                                {isShow ? (data.child.map((child , index)=>{
-                                    <li className="blueMenuLink" key={index}><Link href=""><a className="blueLink">{child.name}</a></Link></li>
-                                })):null}
-                            </li>:
-                    <li className="blueMenuLink" key={index}><Link href=""><a className={"blueLink"}>{data.name}</a></Link></li>
+                        <li className={"blueMenuLink "+(selection.name==data.name?"active" :null)} key={index} onClick={()=>handleClick(data)}><a className={"blueLink"}>{data.name}</a></li>
+                        // data.children != -1?  <li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>{data.name}<KeyboardArrowDownIcon/></span>
+                        //         {isShow ? (data.children.map((child , index)=>{
+                        //             <li className="blueMenuLink" key={index}><a className="blueLink">{data.children[index].name}</a></li>
+                        //         })):null} </li>:<li className="blueMenuLink" key={index}><Link href=""><a className={"blueLink"}>{data.name}</a></Link></li>
 
                     )
                 })}
@@ -35,33 +38,27 @@ export function ORGSidebar({orgData=null, ...props}) {
     )
 }
 
-export function InnerSidebar({children, ...props}) {
+export function InnerSidebar() {
     const [isSelect, setSelect] = useState(false)
     function toggleIsSelect() {
         setSelect(!isSelect);
     }
-    const [isShow, setShow] = useState(false)
-    function toggleIsShow() {
-        setShow(!isShow);
-    }
-    const [isShow2, setShow2] = useState(false)
-    function toggleIsShow2() {
-        setShow2(!isShow2);
-    }
+    const router = useRouter()
     return (
         <nav className="blueMenu">
             <ul className="blueMenuGroup">
-                <li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>Agent & Terms<KeyboardArrowDownIcon/></span>
-                    {isShow ? (<ul className="blueMenuGroup blueMenuDropdownGroup">
-                        <Link href="admin/role"><li className="blueMenuLink"><a className="blueLink">Role</a></li></Link>
-                        <Link href=""><li className="blueMenuLink"><a className="blueLink">Agent</a></li></Link>
-                    </ul>):null}
-                </li>
-                <Link href=""><li className="blueMenuLink"><a className={"blueLink"}>Contact Groups</a></li></Link>
-                <Link href=""><li className="blueMenuLink"><a className={"blueLink"}>Standard Reply</a></li></Link>
-                <Link href=""><li className="blueMenuLink"><a className={"blueLink"}>Tags</a></li></Link>
-                <Link href=""><li className="blueMenuLink"><a className={"blueLink"}>Assignment Role</a></li></Link>
-                <Link href=""><li className="blueMenuLink"><a className={"blueLink"}>Message API</a></li></Link>
+                {/*<li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>Agent & Terms<KeyboardArrowDownIcon/></span>*/}
+                {/*    {isShow ? (<ul className="blueMenuGroup blueMenuDropdownGroup">*/}
+                {/*        <Link href="admin/role"><li className="blueMenuLink"><a className="blueLink">Role</a></li></Link>*/}
+                {/*        <Link href=""><li className="blueMenuLink"><a className="blueLink">Agent</a></li></Link>*/}
+                {/*    </ul>):null}*/}
+                {/*</li>*/}
+                <Link href={"/admin/Role"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Role")? "active":null)} >Role</li></Link>
+                <Link href={"/admin/Agent"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Agent")? "active":null)} >Agent</li></Link>
+                <Link href={"/admin/StandardReply"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/StandardReply")? "active":null)} >Standard Reply</li></Link>
+                <Link href={"/admin/Tags"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Tags")? "active":null)} >Tags</li></Link>
+                <Link href={"/admin/MessageAPI"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/MessageAPI")? "active":null)} >Message API</li></Link>
+                <Link href={"/admin/Connection"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Connection")? "active":null)}>Connection</li></Link>
             </ul>
         </nav>
     )

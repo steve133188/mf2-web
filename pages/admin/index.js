@@ -7,7 +7,6 @@ import {
     AddButton,
     ConfirmButton
 } from "../../components/Button";
-import Swal from 'sweetalert2';
 import {useRouter} from "next/router";
 import {PaginationControlled} from "../../components/Pagination";
 import {useState, useEffect} from "react";
@@ -28,7 +27,7 @@ import styles from"../../styles/pages/admin.module.scss";
 
 export default function Admin() {
     const router = useRouter()
-    
+    router.push("/admin/Role")
     const [isSelectRow, setIsSelectRow] = useState(false);
     const [selectedRow, setSelectedRow] = useState({all: false});
 
@@ -38,6 +37,7 @@ export default function Admin() {
     const [openDeletePopper, setOpenDeletePopper] = React.useState(false);
     const [openFreezePopper, setOpenFreezePopper] = React.useState(false);
 
+    const [selection ,setSelection] = useState("Role")
     const teamNames = [
         'team1',
         'team2',
@@ -277,7 +277,7 @@ export default function Admin() {
         <div>
             <div className="admin_layout">
                 {/*<Dropzone/>*/}
-                <InnerSidebar />
+                <InnerSidebar/>
                 <div className="rightContent">
                     <div className="contactsContainer">
                         <div className={styles.topBar}>

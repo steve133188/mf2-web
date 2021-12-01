@@ -1,4 +1,4 @@
-import {Input2} from "../../components/Input";
+import {MF_Input} from "../../components/Input";
 import {Pill} from "../../components/Pill";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
@@ -39,15 +39,9 @@ export default function AddContact() {
     }
     async function handleSubmit (e){
         e.preventDefault()
-        // await setNewContact({
-        //     ...newContact,
-        //     ["name"]:newContact.first_name+newContact.last_name
-        // })
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
         const name =` ${newContact.first_name} ${newContact.last_name}`
-        console.log(name)
-
-        const res = await axios.post(url , newContact ,{
+        const res = await axios.post(url , {...newContact,name} ,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -75,20 +69,20 @@ export default function AddContact() {
                             New Contact
                         </div>
                         <div className={"ss_row"}>
-                            <Input2 title="First Name*" name={"first_name"} value={newContact.first_name} onChange={handleChange}/>
-                            <Input2 title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
+                            <MF_Input title="First Name*" name={"first_name"} value={newContact.first_name} onChange={handleChange}/>
+                            <MF_Input title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
 
                         </div>
                     <div className={"ss_row"}>
-                        <Input2 title="Phone*" name={"phone"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
-                        <Input2 title="Email" name={"email"} value={newContact.email} onChange={handleChange}/>
+                        <MF_Input title="Phone*" name={"phone"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
+                        <MF_Input title="Email" name={"email"} value={newContact.email} onChange={handleChange}/>
                     </div>
                     <div className={"ss_row"}>
-                        <Input2 title="Birthday" name={"birthday"} value={newContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
-                        <Input2 title="Gender" name={"gender"} value={newContact.gender} onChange={handleChange} placeholder={"M or F"}/>
+                        <MF_Input title="Birthday" name={"birthday"} value={newContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
+                        <MF_Input title="Gender" name={"gender"} value={newContact.gender} onChange={handleChange} placeholder={"M or F"}/>
                     </div>
-                    <span className="longInput"><Input2 title="Address" name={"address"} value={newContact.address} onChange={handleChange}/></span>
-                <Input2 title="Country" name={"country"} value={newContact.country} onChange={handleChange} />
+                    <span className="longInput"><MF_Input title="Address" name={"address"} value={newContact.address} onChange={handleChange}/></span>
+                <MF_Input title="Country" name={"country"} value={newContact.country} onChange={handleChange} />
 
                 <div className={"ss_row submit_row"}>
                         <button onClick={handleSubmit}>+ New Contact</button>

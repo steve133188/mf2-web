@@ -11,7 +11,7 @@ const style = {
     background: "#FFFFFF 0% 0% no-repeat padding-box;",
     borderRadius:"20px",
     boxShadow: "0px 7px 20px #00000029;",
-    p: 4,
+    p: 5,
 };
 
 export default function MF_Modal({toggle , show ,children}) {

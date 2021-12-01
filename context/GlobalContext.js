@@ -210,6 +210,49 @@ export const GlobalContextProvider = ({children}) =>{
         return res.data
     }
 
+    const get_user_by_team = async (id)=>{
+        const url =`https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/team/${id}`
+        const res =await axios.get(url  , {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+        return res.statusText
+    }
+
+    const add_user_to_team = async (user_phone ,team_id)=>{
+        const url =`"https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/add-team-to-user`
+        const res =await axios.put(url  ,{user_phone,id},{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+        return res.statusText
+    }
+
+    const delete_user_team = async (id)=>{
+        const url =`https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/delete-user-team/${id}`
+        const res =await axios.get(url  , {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+        return res.statusText
+    }
+    const update_user_team = async(old_id ,new_id)=>{
+        const url =`https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/change-user-team`
+        const res =await axios.put(url  ,{old_id ,new_id},{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+        return res.statusText
+    }
+
     const logout = ()=>{
         localStorage.removeItem("token")
         localStorage.removeItem("user")

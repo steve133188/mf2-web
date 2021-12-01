@@ -1,45 +1,41 @@
 import {ORGSidebar} from "../../components/InnerSidebar";
-import {BlueMenuDropdown, BlueMenuLink} from "../../components/BlueMenuLink";
-import {Search3} from "../../components/Input";
-import {NormalButton, NormalButton2} from "../../components/Button";
-import {NavbarPurple} from "../../components/NavbarPurple";
-import {BroadcastTable} from "../../components/Table";
-import {PaginationControlled} from "../../components/Pagination";
-import {Badge} from "../../components/Badge";
-import {Pill, StatusPill} from "../../components/Pill";
 import {useState, useEffect, useRef, useContext} from "react";
 import SearchSession from "../../components/SearchSession";
-import Link from "next/link";
 import SelectSession from "../../components/SelectSession";
 import Pagination from "@mui/material/Pagination";
 import {GlobalContext} from "../../context/GlobalContext";
-import axios from "axios";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {TableCell, Tooltip, Zoom} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
-import Avatar from "@mui/material/Avatar";
-import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
-import styles from "../../styles/Contacts.module.css";
-import MF_Modal from "../../components/MF_Modal";
+import CreateDivisionForm from "../../components/organisation/CreateDivisionForm";
+import CreateTeamForm from "../../components/organisation/CreateTeamForm";
+import AddAgentForm from "../../components/organisation/AddAgentForm";
+import {getAllUser, getUsersByTeamId} from "../../helpers/usersHelpers";
+import {getAllRootORG, getOrgTeams} from "../../helpers/orgHelpers";
+import Profile from "../../components/profile";
+import ProfileGrid from "../../components/pageComponents/ProfieGrid";
+import UserProfileGrid from "../../components/pageComponents/UserProfile";
+import SwitchAgentForm from "../../components/organisation/SwitchAgentForm";
 
 export default function Organization() {
-    const {get_root_org , get_users} = useContext(GlobalContext)
 
     const [users, setUsers] = useState([]);
     const [root_org, set_root_org] = useState([]);
     const [org, set_org] = useState([]);
     const [filteredData , setFilteredData] = useState([])
 
-    const [curr_org , set_curr_org] = useState("All")
+    const [curr_org , set_curr_org] = useState({})
     const [useUser , setUseUser] = useState()
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
 
-    const [isModalShow , setIsModalShow] = useState(false)
+    const [isCreateDivisionShow , setIsCreateDivisionShow] = useState(false)
+    const [isCreateTeamShow , setIsCreateTeamShow] = useState(false)
+    const [isAddAgentShow , setIsAddAgentShow] = useState(false)
+    const [isMoveAgentShow , setIsMoveAgentShow] = useState(false)
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
     const [selectAll, setSelectAll] = useState(false);
@@ -47,20 +43,32 @@ export default function Organization() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     //filtered Data
-
+    let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
-        const data = await get_users()
+        const data = await getAllUser()
+        setUsers(data)
+        setFilteredData(data)
+    }
+    const fetchTeamUsers = async (id)=>{
+        const data = await getUsersByTeamId(id)
         setUsers(data)
         setFilteredData(data)
     }
     const fetchRootORG = async () =>{
-        const data = await get_root_org()
+        const data = await getOrgTeams()
         set_root_org(data)
     }
     useEffect(    async () => {
         await fetchRootORG()
         await fetchUsers()
     },[]);
+    useEffect(    async () => {
+        if(!curr_org.name){
+            await fetchUsers()
+        }else{
+            await fetchTeamUsers(curr_org.id)
+        }
+    },[curr_org]);
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
@@ -71,7 +79,7 @@ export default function Organization() {
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.id));
+        setSelectedContacts(currentContacts.map(c => c.phone));
         if (selectAll) {
             setSelectedContacts([]);
         }
@@ -96,8 +104,18 @@ export default function Organization() {
         if(!isProfileShow) setUseUser(key)
         setIsProfileShow(!isProfileShow)
     }
-    const toggleNewTeam = () =>{
-        setIsModalShow(!isModalShow)
+    const toggleNewTeam = async () =>{
+        if(isCreateTeamShow) await fetchRootORG()
+        setIsCreateTeamShow(!isCreateTeamShow)
+    }
+    const toggleNewDivision = () =>{
+        setIsCreateDivisionShow(!isCreateDivisionShow)
+    }
+    const toggleAddAgent = () =>{
+        setIsAddAgentShow(!isAddAgentShow)
+    }
+    const toggleMoveAgent = () =>{
+        setIsMoveAgentShow(!isMoveAgentShow)
     }
 
     const default_cols = [ 'Name' ,'Role', 'Email','Phone' ,'No. of Assigned Contacts']
@@ -106,13 +124,20 @@ export default function Organization() {
     function toggleSelectRow() {
         setSelectRow(!isSelectRow);
     }
+    console.log(filteredData)
+
     return (
         <div className="organization-layout">
-            <ORGSidebar orgData={root_org} />
+            <ORGSidebar orgData={root_org} selection={curr_org} setSelection={set_curr_org}/>
             <div className="rightContent">
-                <MF_Modal show={isModalShow} toggle={toggleNewTeam}>
-                    test
-                </MF_Modal>
+                {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
+
+                {/*toggle Modal Start */}
+                <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision}/>
+                <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam}/>
+                <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
+                <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUser={selectedContacts}/>
+                    {/*toggle Modal End*/}
                     <SearchSession
                         placeholder={"Search"}
                         handleChange={(e)=> {
@@ -122,14 +147,16 @@ export default function Organization() {
                         {!isSelectRow ? (
                             <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                         ) : (
-                            <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                            <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                                <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button></>
+
                         )}
                         <button onClick={toggleNewTeam}>+ New Team</button>
-                        <button onClick={toggleNewTeam}>+ New Division</button>
+                        <button onClick={toggleNewDivision}>+ New Division</button>
                     </SearchSession>
-                    <SelectSession btn={(<button style={{marginLeft: "auto"}} onClick={toggleNewTeam}>+ New Agent</button>)}>
+                    <SelectSession btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)}>
                         <div className={"team_label"}>
-                            {curr_org}
+                            {curr_org.name || "All"}
                         </div>
                     </SelectSession>
                 <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
@@ -144,7 +171,7 @@ export default function Organization() {
                                 <TableCell>
                                     <div className="newCheckboxContainer">
                                         {isSelectRow ? <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="checkbox" checked={selectAll} onClick={toggleSelectAll} />
+                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
                                         </label> : null}
                                     </div>
                                 </TableCell>
@@ -172,7 +199,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.phone} name="checkbox" checked={selectedContacts.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>
