@@ -81,7 +81,7 @@
   opacity: 1;
 }
 
-.side-item :not(.notify_box *){
+.side-item :not(.notify_box):not(.notify_box_title):not(.notify_box_List):not(.notify_box_li *){
   //height: 5vh;
   cursor: pointer;
   &:hover, &:focus  {
@@ -196,7 +196,7 @@
 
         cursor: pointer;
         width: 100%;
-        
+        padding: 0.2rem;
         position: relative;
         display: flex;
         flex-direction: row;
