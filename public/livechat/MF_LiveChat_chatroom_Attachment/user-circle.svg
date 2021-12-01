@@ -1,0 +1,14 @@
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="16.8" height="16.8" fill="none"/>
+    </clipPath>
+  </defs>
+
+
+<svg id="user-circle" xmlns="http://www.w3.org/2000/svg"  width="16.8" height="16.8" fill="currentColor"
+                                className="bi bi-person" viewBox="0 0 16 16">
+  <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+  <g id="user-circle-2" data-name="user-circle" clip-path="url(#clip-path)">
+    <path id="Shape" d="M6.987,13.985a6.981,6.981,0,1,1,5.145-2.253A7.021,7.021,0,0,1,6.987,13.985Zm0-5.565a4.188,4.188,0,0,0-3.885,2.6,5.58,5.58,0,0,0,7.771,0A4.186,4.186,0,0,0,6.987,8.42Zm0-5.638a2.8,2.8,0,0,1,2.1,4.652A5.631,5.631,0,0,1,11.824,9.8,5.6,5.6,0,1,0,1.387,7,5.543,5.543,0,0,0,2.15,9.8,5.63,5.63,0,0,1,4.887,7.434a2.8,2.8,0,0,1,2.1-4.652Zm0,1.418a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,6.987,4.2Z" transform="translate(1.413 1.4)" fill="currentColor"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="16.8" height="16.8" fill="none"/>
+    </clipPath>
+  </defs>
+
+
+<svg id="share-alt" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8" 
+     className="bi bi-collection" fill="currentColor" viewBox="0 0 16.8 16.8">
+  <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+    <g id="share-alt-2" data-name="share-alt" clip-path="url(#clip-path)">
+      <path id="Shape" d="M11.2,14.023a2.8,2.8,0,0,1-2.8-2.8,2.974,2.974,0,0,1,.049-.5l-3.7-1.7a2.8,2.8,0,1,1,0-4l3.7-1.7a2.98,2.98,0,0,1-.049-.5,2.8,2.8,0,1,1,.644,1.764L5.478,6.232a2.526,2.526,0,0,1,0,1.582l3.57,1.645A2.794,2.794,0,1,1,11.2,14.023Zm0-4.2a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,11.2,9.823Zm-8.4-4.2a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,2.8,5.623Zm8.4-4.2a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,11.2,1.423Z" transform="translate(1.395 1.377)" fill="#8b8b8b"/>
+    </g>
+</svg>

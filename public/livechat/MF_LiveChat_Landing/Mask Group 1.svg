@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.139" height="24.139" viewBox="0 0 24.139 24.139">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="24.139" height="24.139" transform="translate(2643 1126)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_1" data-name="Mask Group 1" transform="translate(-2643 -1126)" clip-path="url(#clip-path)">
+    <rect id="Background-2" data-name="Background" width="24.139" height="24.139" transform="translate(2643 1126)" fill="none"/>
+    <path id="Path_34254" data-name="Path 34254" d="M20.079,10,10,20.079A10.079,10.079,0,1,0,20.079,10Zm-.84,3.215V14.2a5.039,5.039,0,0,1-5.04,5.04h-.984Zm.84,15.263a8.409,8.409,0,0,1-8.352-7.559H14.2A6.719,6.719,0,0,0,20.919,14.2V11.727a8.4,8.4,0,0,1-.84,16.751Z" transform="translate(2635 1118)" fill="#8b8b8b"/>
+  </g>
+</svg>

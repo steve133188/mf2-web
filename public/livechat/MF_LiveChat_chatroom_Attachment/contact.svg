@@ -1,0 +1,20 @@
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="16.8" height="16.8" fill="none"/>
+    </clipPath>
+  </defs>
+
+
+  
+<svg id="user-circle" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8" fill="currentColor"
+     className="bi bi-journal-text" viewBox="0 0 16.8 16.8">
+
+
+  <rect id="Background-2" data-name="Background" width="16.8" height="16.8"  fill="currentColor"/>
+  <g id="book-alt">
+    <rect id="Background-3" data-name="Background" width="16.8" height="16.8"  fill="currentColor"/>
+    <g id="book-alt-2" data-name="book-alt" clip-path="url(#clip-path)">
+      <path id="Shape" d="M9.8,14h-7A2.8,2.8,0,0,1,0,11.2V2.8A2.8,2.8,0,0,1,2.8,0h7a1.4,1.4,0,0,1,1.4,1.4V12.6A1.4,1.4,0,0,1,9.8,14Zm-7-4.2a1.4,1.4,0,0,0,0,2.8h7V9.8Zm0-8.4A1.4,1.4,0,0,0,1.4,2.8V8.792A2.74,2.74,0,0,1,2.8,8.4h7v-7ZM7,4.2H4.2a.7.7,0,1,1,0-1.4H7A.7.7,0,0,1,7,4.2Z" transform="translate(2.8 1.4)" fill="#8b8b8b"/>
+    </g>
+  </g>
+</svg>

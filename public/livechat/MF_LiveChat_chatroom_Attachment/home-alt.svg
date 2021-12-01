@@ -1,0 +1,29 @@
+<!-- <svg id="home-alt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16.8" height="16.8" viewBox="0 0 16.8 16.8">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="16.8" height="16.8" fill="none"/>
+    </clipPath>
+  </defs>
+  <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+  <g id="home-alt-2" data-name="home-alt" clip-path="url(#clip-path)">
+    <path id="Shape" d="M10.5,14.017H2.1a2.1,2.1,0,0,1-2.1-2.1V5.8A2.1,2.1,0,0,1,.7,4.216L4.9.535a2.1,2.1,0,0,1,2.8,0l4.2,3.682a2.1,2.1,0,0,1,.7,1.575v6.125A2.1,2.1,0,0,1,10.5,14.017Zm-4.9-7H7a2.1,2.1,0,0,1,2.1,2.1v3.5h1.4a.7.7,0,0,0,.7-.7V5.791a.7.7,0,0,0-.238-.525l-4.2-3.675a.7.7,0,0,0-.923,0l-4.2,3.675a.7.7,0,0,0-.238.525v6.125a.7.7,0,0,0,.7.7H3.5v-3.5A2.1,2.1,0,0,1,5.6,7.016Zm0,1.4a.7.7,0,0,0-.7.7v3.5H7.7v-3.5a.7.7,0,0,0-.7-.7Z" transform="translate(2.1 1.383)" fill="#8b8b8b"/>
+  </g>
+</svg>
+
+ -->
+
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="16.8" height="16.8" fill="none"/>
+    </clipPath>
+  </defs>
+
+
+
+<svg id="home-alt" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8" fill="currentColor"
+  className="bi bi-house-door" viewBox="0 0 16.8 16.8">
+  <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+  <g id="home-alt-2" data-name="home-alt" clip-path="url(#clip-path)">
+    <path id="Shape" d="M10.5,14.017H2.1a2.1,2.1,0,0,1-2.1-2.1V5.8A2.1,2.1,0,0,1,.7,4.216L4.9.535a2.1,2.1,0,0,1,2.8,0l4.2,3.682a2.1,2.1,0,0,1,.7,1.575v6.125A2.1,2.1,0,0,1,10.5,14.017Zm-4.9-7H7a2.1,2.1,0,0,1,2.1,2.1v3.5h1.4a.7.7,0,0,0,.7-.7V5.791a.7.7,0,0,0-.238-.525l-4.2-3.675a.7.7,0,0,0-.923,0l-4.2,3.675a.7.7,0,0,0-.238.525v6.125a.7.7,0,0,0,.7.7H3.5v-3.5A2.1,2.1,0,0,1,5.6,7.016Zm0,1.4a.7.7,0,0,0-.7.7v3.5H7.7v-3.5a.7.7,0,0,0-.7-.7Z" transform="translate(2.1 1.383)" fill="#8b8b8b"/>
+  </g>
+</svg>

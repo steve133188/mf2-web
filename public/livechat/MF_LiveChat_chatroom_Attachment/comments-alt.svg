@@ -1,0 +1,27 @@
+<!-- <svg id="comments-alt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16.8" height="16.8" viewBox="0 0 16.8 16.8">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="16.8" height="16.8" fill="none"/>
+    </clipPath>
+  </defs>
+  <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+  <g id="comments-alt-2" data-name="comments-alt" clip-path="url(#clip-path)">
+    <path id="Shape" d="M13.312,14H13.3a.706.706,0,0,1-.5-.2l-1.66-1.666H6.3a2.1,2.1,0,0,1-2.1-2.1V9.023H3.164L1.2,11a.7.7,0,0,1-.49.2H.683a.578.578,0,0,1-.249-.056A.7.7,0,0,1,0,10.5V2.1A2.1,2.1,0,0,1,2.1,0h7a2.1,2.1,0,0,1,2.1,2.1V4.2h.7A2.1,2.1,0,0,1,14,6.3v7a.7.7,0,0,1-.435.644A.583.583,0,0,1,13.312,14ZM6.3,5.6a.7.7,0,0,0-.7.7V10a.7.7,0,0,0,.7.7h5.1a.7.7,0,0,1,.5.211l.7.7V6.3a.7.7,0,0,0-.7-.7ZM2.1,1.4a.7.7,0,0,0-.7.7V8.813l.979-.986a.7.7,0,0,1,.494-.2H4.2V6.3A2.1,2.1,0,0,1,6.3,4.2H9.8V2.1a.7.7,0,0,0-.7-.7Z" transform="translate(1.4 1.4)" fill="#2198fa"/>
+  </g>
+</svg>
+ -->
+
+
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="16.8" height="16.8" fill="none"/>
+    </clipPath>
+  </defs>
+
+  <svg id="comments-alt" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8"  fill="currentColor" 
+                                    className="bi bi-chat-right" viewBox="0 0 16.8 16.8">
+                                <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+                                <g id="comments-alt-2" data-name="comments-alt" clip-path="url(#clip-path)">
+                                    <path id="Shape" d="M13.312,14H13.3a.706.706,0,0,1-.5-.2l-1.66-1.666H6.3a2.1,2.1,0,0,1-2.1-2.1V9.023H3.164L1.2,11a.7.7,0,0,1-.49.2H.683a.578.578,0,0,1-.249-.056A.7.7,0,0,1,0,10.5V2.1A2.1,2.1,0,0,1,2.1,0h7a2.1,2.1,0,0,1,2.1,2.1V4.2h.7A2.1,2.1,0,0,1,14,6.3v7a.7.7,0,0,1-.435.644A.583.583,0,0,1,13.312,14ZM6.3,5.6a.7.7,0,0,0-.7.7V10a.7.7,0,0,0,.7.7h5.1a.7.7,0,0,1,.5.211l.7.7V6.3a.7.7,0,0,0-.7-.7ZM2.1,1.4a.7.7,0,0,0-.7.7V8.813l.979-.986a.7.7,0,0,1,.494-.2H4.2V6.3A2.1,2.1,0,0,1,6.3,4.2H9.8V2.1a.7.7,0,0,0-.7-.7Z" transform="translate(1.4 1.4)"  fill="currentColor" />
+                                </g>
+                            </svg>
