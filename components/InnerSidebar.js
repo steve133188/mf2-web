@@ -22,10 +22,10 @@ export function ORGSidebar({orgData=null, selection ,setSelection}) {
     return (
         <nav className="blueMenu">
             <ul className="blueMenuGroup">
-                <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}><Link href=""><a className={"blueLink "}>All</a></Link></li>
+                <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}><Link href="">All</Link></li>
                 {orgData&&orgData.map((data,index)=>{
                     return(
-                        <li className={"blueMenuLink "+(selection.name==data.name?"active" :null)} key={index} onClick={()=>handleClick(data)}><a className={"blueLink"}>{data.name}</a></li>
+                        <li className={"blueMenuLink "+(selection.name==data.name?"active" :null)} key={index} onClick={()=>handleClick(data)}>{data.name}</li>
                         // data.children != -1?  <li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>{data.name}<KeyboardArrowDownIcon/></span>
                         //         {isShow ? (data.children.map((child , index)=>{
                         //             <li className="blueMenuLink" key={index}><a className="blueLink">{data.children[index].name}</a></li>

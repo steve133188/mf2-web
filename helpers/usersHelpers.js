@@ -46,7 +46,7 @@ export const createManyUser = async (data)=>{
 }
 
 export const updateUserTeamIdByUserPhone = async (user_phone , team_id) =>{
-    return (await usersFetcher.put(`/add-team-to-user` ,{user_phone , team_id})).statusText
+    return (await usersFetcher.put(`/change-user-team` ,{user_phone , team_id})).statusText
 }
 
 export const updateUserTeam = async (old_id , new_id) =>{

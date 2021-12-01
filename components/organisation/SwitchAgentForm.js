@@ -35,7 +35,7 @@ const style ={
     height:"2rem"
 }
 
-export default function SwitchAgentForm({show, toggle ,selectedUser}){
+export default function SwitchAgentForm({show, toggle ,selectedUsers}){
     const [team , setTeam] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
 
@@ -47,10 +47,13 @@ export default function SwitchAgentForm({show, toggle ,selectedUser}){
         setTeam(data)
     },[])
     const submit = async ()=>{
-        for (let u of selectedUser){
-            const user_phone = u.phone
+        console.log(selectedUsers)
+        for (let i=0;i<selectedUsers.length;i++){
+            const user_phone = selectedUsers[i]
             const team_id = selectedTeam.id
+            console.log(user_phone,team_id)
             const res = await updateUserTeamIdByUserPhone(user_phone ,team_id)
+            console.log(res)
         }
         toggle()
     }

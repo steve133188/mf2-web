@@ -23,7 +23,7 @@ import { Checkbox } from '../../components/Checkbox';
 
 import * as userApi from "../../api/UserAPI";
 
-import styles from"../../styles/pages/admin.module.scss";
+import styles from "../../styles/pages/admin.scss";
 
 export default function Admin() {
     const router = useRouter()
