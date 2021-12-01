@@ -175,9 +175,7 @@ export default function Contacts() {
                         <input
                             className={"mf_input mf_bg_light_grey"}
                             type="search"
-                            // defaultValue={filterWord}
                             name={"keyword"}
-                            ref={searchRef}
                             onChange={(e)=> {
                                 searchFilter(e.target.value , contacts,(new_data)=>{
                                     setFilteredData(new_data)
