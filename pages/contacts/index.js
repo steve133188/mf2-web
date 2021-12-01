@@ -104,13 +104,13 @@ export default function Contacts() {
             })
         }
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        const deleteItems = {data:[...items]}
+        const deleteItems = {data:items}
         console.log("remove contact id",deleteItems)
         const res = axios.delete(url ,{ headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
-            data: deleteItems})
+            data:deleteItems})
         await fetchContacts()
     }
 
