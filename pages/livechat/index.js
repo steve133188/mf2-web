@@ -385,7 +385,7 @@ export default function Live_chat() {
         },
         {
             message_id:"234585259",
-            body:"/livechat/tempSourceStore/testingVideo.m4v",
+            body:"/livechat/tempSourceStore/00112345.mov",
             type:"video",
             vCard:["","",""],
             author:null,
