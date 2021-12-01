@@ -59,6 +59,7 @@
       background: #D0E9FF 0% 0% no-repeat padding-box;
       margin-left: auto;
       display: block;
+      position: relative;
       justify-content: center;
       text-align: left;
       font: normal normal normal 1rem Manrope;
@@ -75,13 +76,22 @@
       padding: 0.5rem 0.5rem; 
     } 
     .imageMessage{
-      margin-left: auto;
+    margin-left: auto;
     text-align: left;
     font: normal normal normal 1rem Manrope;
     letter-spacing: 0.08px;
     color: #4E4E4E;
     opacity: 1;
     padding: 0.5rem 1rem 1rem; 
+    }
+    .bigImageBox{
+      width: 30vw;
+      height: auto;
+      position: absolute; 
+      right: 0;
+      bottom: 3rem;
+
+
     }
   }
 
@@ -332,6 +342,7 @@
     background: #D0E9FF 0% 0% no-repeat padding-box;
     margin-left: 0;
     display: block;
+    position: relative;
     justify-content: center;
     text-align: left;
     font: normal normal normal 1rem Manrope;
@@ -347,16 +358,23 @@
     border-radius: 10px;
     padding: 0.5rem 0.5rem; 
   } 
-  .imageMessage{
-    margin-left: auto;
-  text-align: left;
-  font: normal normal normal 1rem Manrope;
-  letter-spacing: 0.08px;
-  color: #4E4E4E;
-  opacity: 1;
-  padding: 0.5rem 1rem 1rem; 
+    .imageMessage{
+      margin-left: auto;
+    text-align: left;
+    font: normal normal normal 1rem Manrope;
+    letter-spacing: 0.08px;
+    color: #4E4E4E;
+    opacity: 1;
+    padding: 0.5rem 1rem 1rem; 
+    }
+    .bigImageBox{
+      width: 30vw;
+      height: auto;
+      position: absolute; 
+      left: 0;
+      bottom: 3rem;
+    } 
   }
-}
   .msg_type_video{
     
       width: fit-content;

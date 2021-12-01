@@ -459,6 +459,31 @@ export default function Live_chat() {
             deviceType:"mobile",
             broadcast:false
         },
+        {
+            message_id:"234585269",
+            body:"https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg",
+            type:"imageCaption",
+            vCard:["","",""],
+            author:null,
+            fromMe:false,
+            from:"MSLAB",
+            hasMedia:false,
+            hasQuotedMsg:false,
+            isForwarded:false,
+            isStarred:true,
+            to:"Wiva",
+            token:"",
+            timestamp:1010101,
+            orderId:"",
+            links:"",
+            mentionedIds:["","",""],
+            isStatus:false,
+            inviteV4:{},
+            location:{data:"location"},
+            forwardingScore:0,
+            deviceType:"mobile",
+            broadcast:false
+        },
     ]
     const [chatrooms , setChatrooms] = useState([])
     const [selectedChat , setSelectedChat] = useState()

@@ -1,6 +1,7 @@
 
 import { Player,BigPlayButton } from 'video-react';
 import Embed from 'react-embed';
+import { useState } from 'react';
 
 
 const imageCaption = {
@@ -12,6 +13,8 @@ const captionJson = JSON.stringify(imageCaption)
 
 export default function MsgRow({msg ,...props}){
 
+    const [isImageOpen,setImageOpen] = useState(false)
+
     const messageType = ()=>{
         switch(msg.type){
             case "sticker": return <div className={"msg_type_sticker"}><img className={"imageBox"} src={msg.body}/></div>;
@@ -22,7 +25,8 @@ export default function MsgRow({msg ,...props}){
                         {console.log(JSON.parse(captionJson).url)}
                                 {/* JSON.parse({msg.body}) */}
                                 <div className={"msg_type_imageCaption"}>
-                                    <img className={"imageBox"} src={JSON.parse(captionJson).url}/>
+                                    <img className={"bigImageBox"} src={JSON.parse(captionJson).url}  onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/>
+                                    <img className={"imageBox"} src={JSON.parse(captionJson).url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
                                     <div className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
                                 </div>
                         </>

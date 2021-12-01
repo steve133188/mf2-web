@@ -308,10 +308,12 @@
 .collapseLayout {
 
   width:8vh;
+  min-width: 60px;
   
 
   .brand-logo {
-    
+    height: 20vh;
+    min-height: 140px;
     img{
       width: 65%;
       max-width: 48px;
