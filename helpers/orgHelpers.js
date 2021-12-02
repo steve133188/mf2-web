@@ -1,16 +1,11 @@
 import axios from "axios"
 import {getToken} from "./authHelper";
-let orgFetcher;
-if (typeof window !== 'undefined') {
-    orgFetcher = axios.create({
+let orgFetcher = axios.create({
         timeout:5000,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken}`
-        },
+        withCredentials:true,
         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
     })
-}
+
 
 export const getAllRootORG = async ()=>{
     return (await orgFetcher.get("/root")).data

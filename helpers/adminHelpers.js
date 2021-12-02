@@ -1,13 +1,10 @@
 import axios from "axios"
-import {getToken} from "./authHelper";
+
 let adminFetcher;
 if (typeof window !== 'undefined') {
     adminFetcher = axios.create({
         timeout:5000,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
-        },
+        withCredentials:true,
         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/admin"
     })
 }
