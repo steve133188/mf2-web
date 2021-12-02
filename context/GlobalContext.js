@@ -53,7 +53,7 @@ export const GlobalContextProvider = ({children}) =>{
                 return response;
             }).catch(err=>{
                 console.log(err)
-                setErrors("Email or password incorrect")
+                setErrors("Invaild email or password, please try again.")
                 return err
             })
         console.log(user)
