@@ -2,10 +2,11 @@ import {useRouter} from "next/router";
 import {useEffect} from "react";
 
 
-export default function admin() {
+export default function Admin() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
+    const router = useRouter()
+
     useEffect(()=>{
-        const router = useRouter()
         router.push("/admin/Role")
     },[])
 

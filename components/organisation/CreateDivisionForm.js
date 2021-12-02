@@ -1,7 +1,6 @@
 import {MF_Input, Select} from "../../components/Input";
 import React, {useState} from "react";
 import MF_Modal from "../MF_Modal";
-import {createOrg} from "../../helpers/orgHelpers";
 import MenuItem from "@mui/material/MenuItem";
 
 export default function CreateDivisionForm({show, toggle }){
@@ -11,8 +10,8 @@ export default function CreateDivisionForm({show, toggle }){
     }
 
     const submit = async ()=>{
-        const status = await createOrg({type:"division" ,name})
-        console.log(status)
+        // const status = await createOrg({type:"division" ,name})
+        // console.log(status)
         toggle()
     }
     return(

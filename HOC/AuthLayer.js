@@ -5,16 +5,43 @@ import {useRouter} from "next/router";
 
 export default function AuthLayer({children}){
     const router = useRouter()
+    const {user} = useContext(GlobalContext)
 
-    useEffect(async()=>{
-        const res = await checkAuthHelper()
-
-        if (!res){
+    useEffect(()=>{
+        // const res = await checkAuthHelper()
+        if (localStorage.getItem("token")==null){
             console.log("please log in ")
-            router.push('/login' )
+            router.replace('/login' )
         }
-        // setIsAuth(true)
-    },[])
+        if(user.token&&router.pathname.includes("login")) router.replace("/")
+    },[user])
 
     return (<div>{children}</div>)
 }
+
+// import { useRouter } from "next/router";
+//
+// const AuthLayer = (WrappedComponent) => {
+//     return (props) => {
+//         if (typeof window !== "undefined") {
+//             const Router = useRouter();
+//
+//             const accessToken = localStorage.getItem("token");
+//
+//             // If there is no access token we redirect to "/" page.
+//             if (!accessToken) {
+//                 Router.replace("/");
+//                 return null;
+//             }
+//
+//             // If this is an accessToken we just render the component that was passed with all its props
+//
+//             return <WrappedComponent {...props} />;
+//         }
+//
+//         // If we are on server, return null
+//         return null;
+//     };
+// };
+//
+// export default AuthLayer;

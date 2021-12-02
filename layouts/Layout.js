@@ -27,10 +27,10 @@ export default function Layout({children}) {
 
     const unAuth = (<div className={"unauth"}>{children}</div>)
     useEffect(()=>{
-        if(user.token == null){
-            console.log("please log in")
-            router.push("/login" )
-        }
+        // if(user.token == null){
+        //     console.log("please log in")
+        //     router.push("/login" )
+        // }
         // console.log(user)
     },[])
     return (

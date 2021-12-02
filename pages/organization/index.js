@@ -13,8 +13,8 @@ import TableBody from "@mui/material/TableBody";
 import CreateDivisionForm from "../../components/organisation/CreateDivisionForm";
 import CreateTeamForm from "../../components/organisation/CreateTeamForm";
 import AddAgentForm from "../../components/organisation/AddAgentForm";
-import {getAllUser, getUsersByTeamId} from "../../helpers/usersHelpers";
-import {getAllRootORG, getOrgTeams} from "../../helpers/orgHelpers";
+// import {getAllUser, getUsersByTeamId} from "../../helpers/usersHelpers";
+// import {getAllRootORG, getOrgTeams} from "../../helpers/orgHelpers";
 import Profile from "../../components/profile";
 import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import UserProfileGrid from "../../components/pageComponents/UserProfile";
@@ -45,19 +45,19 @@ export default function Organization() {
     //filtered Data
     let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
-        const data = await getAllUser()
-        setUsers(data)
-        setFilteredData(data)
+        // const data = await getAllUser()
+        // setUsers(data)
+        // setFilteredData(data)
     }
     const fetchTeamUsers = async (id)=>{
-        const data = await getUsersByTeamId(id)
-        console.log("team users:",data)
-        setUsers(data)
-        setFilteredData(data)
+        // const data = await getUsersByTeamId(id)
+        // console.log("team users:",data)
+        // setUsers(data)
+        // setFilteredData(data)
     }
     const fetchRootORG = async () =>{
-        const data = await getOrgTeams()
-        set_root_org(data)
+        // const data = await getOrgTeams()
+        // set_root_org(data)
     }
     useEffect(    async () => {
         await fetchRootORG()

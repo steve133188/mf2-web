@@ -1,12 +1,10 @@
 import {MF_Input} from "../../components/Input";
 import React, {useEffect, useState} from "react";
 import MF_Modal from "../MF_Modal";
-import {createOrg, getAllRootORG, getOrgTeams} from "../../helpers/orgHelpers";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import {updateUserTeamIdByUserPhone} from "../../helpers/usersHelpers";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -43,8 +41,8 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
         setSelectedTeam(e.target.value)
     }
     useEffect( async () => {
-        const data = await getOrgTeams()
-        setTeam(data)
+        // const data = await getOrgTeams()
+        // setTeam(data)
     },[team])
     const submit = async ()=>{
         console.log(selectedUsers)
@@ -52,8 +50,8 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
             const user_phone = selectedUsers[i]
             const team_id = selectedTeam.id
             console.log(user_phone,team_id)
-            const res = await updateUserTeamIdByUserPhone(user_phone ,team_id)
-            console.log(res)
+            // const res = await updateUserTeamIdByUserPhone(user_phone ,team_id)
+            // console.log(res)
         }
         toggle()
     }

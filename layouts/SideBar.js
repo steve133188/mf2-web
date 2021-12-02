@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {useEffect, useState} from "react";
+import {useEffect, useState ,useContext} from "react";
 import {Pill} from "../components/Pill";
 import {DashboardSVG,CommentsAltSVG,ContactSVG,IntegrationsSVG,OrganizationSVG,AdminSVG} from "../public/side_bar_icon_svg/side_bar_icon_svg"
 import NotificationList from "../components/NotificationList";
-import {logout} from "../helpers/authHelper";
+import {GlobalContext} from "../context/GlobalContext";
 export default function SideBar(props) {
     //data for notify box
+    const {  logout } = useContext(GlobalContext);
     const data = [
         {
             id:1,
@@ -317,7 +318,7 @@ export default function SideBar(props) {
                         </div>
                     </Link>
                 </div>
-                <div className={"side-item "} onClick={logout(()=>{router.push("/login")})}>
+                <div className={"side-item "} onClick={logout}>
                     <div className={"nav-item "}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         className="bi bi-person" viewBox="0 0 16 16">

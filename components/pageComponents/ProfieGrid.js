@@ -16,7 +16,6 @@ export default function ProfileGrid({data}){
         <div className={"info_col grid_box"}>
             <span className={"dot"} >...</span>
             <div className={"ava_block"}>
-                {/*<img className={"ava"} src={data.img_url} alt="profile pic"/>*/}
                 <Avatar className={"ava"} src={data.img_url} alt="profile pic"/>
                 <span className={"title"}>{data.name}</span>
                 <button className={"chat_btn"}>chat</button>
@@ -60,11 +59,11 @@ export default function ProfileGrid({data}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
                         <div className={"session_content"}>
-                            <AvatarGroup className={"AvatarGroup"} max={5} spacing={"1"} align="left">
+                            <AvatarGroup className={"AvatarGroup"} max={10} spacing={"1"} align="left">
                                 {data.agents!=null &&data.agents.map((agent , index)=>{
                                     return(
                                         <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  size="roundedPill size30" alt={agent}>{agent.substring(0,1)}</Avatar>
+                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
                                     )
                                 })}
