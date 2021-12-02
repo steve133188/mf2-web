@@ -14,7 +14,7 @@ export const getToken = ()=>{
     return localStorage.getItem("token")
 }
 
-export const logout = (...func)=>{
+export const logout = (func)=>{
     localStorage.removeItem("token")
     localStorage.removeItem("user")
     func()

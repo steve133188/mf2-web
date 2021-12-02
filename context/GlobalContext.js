@@ -193,12 +193,6 @@ export const GlobalContextProvider = ({children}) =>{
         return res.data
     }
 
-    const update_contacts = async (contacts)=>{
-
-    }
-    const delete_contacts = async (contacts)=>{
-
-    }
     const get_root_org = async ()=>{
         const url = "https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization/root"
         const res =await axios.get(url , {

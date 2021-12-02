@@ -1,16 +1,10 @@
 import axios from "axios"
-import {getToken} from "./authHelper";
-let usersFetcher;
-if (typeof window !== 'undefined') {
-    usersFetcher = axios.create({
+
+const usersFetcher= axios.create({
         timeout:5000,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken}`
-        },
+        withCredentials:true,
         baseURL:"https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
     })
-}
 
 export const getAllUser = async ()=>{
     return (await usersFetcher.get(`/`)).data
