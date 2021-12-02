@@ -1,4 +1,4 @@
-import {useState , useEffect} from "react";
+import {useState , useEffect, useRef} from "react";
 import ChatroomList from "../../components/ChatroomList";
 import MsgRow from "../../components/MsgRow";
 import { Picker } from 'emoji-mart-next'
@@ -520,7 +520,18 @@ export default function Live_chat() {
         // const r = await getChatRecord(data[0].id.user)
         setChatrecord(records)
     } , [])
+
+    const [inputvalue,setInputValue] = useState("")
+    const [emojied,setEmoji] = useState("")
     useEffect(()=>{console.log(isEmojiOn)},[isEmojiOn])
+    useEffect(()=>{console.log(inputvalue)},[inputvalue])
+    useEffect(()=>{console.log(emojied)},[emojied])
+
+
+    const attachFile = useRef()
+    const fileAttach = () =>{
+        attachFile.current.click();
+    }
 
     return (
         <div className="live_chat_layout">
@@ -565,17 +576,24 @@ export default function Live_chat() {
                     })}
                 </div>
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")}>
-                    {/*<Picker style={{ position: 'absolute', bottom: '20px', right: '20px' }} />*/}
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" ></textarea>
+                    <Picker onSelect={(emoji)=>setEmoji(emoji)} style={isEmojiOn?{display:'block',position: 'absolute', bottom: '90px', left: '40vw'}:{display:'none' }} />
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
                             <div className={"sticker_btn "}  
                                     ><MaskGroup1/></div>
                             <div className={"emoji_btn" } onClick={()=>{setEmojiOn(!isEmojiOn)}} 
                                     style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}  
-                                    ><MaskGroup2/></div>
-                            <div className={"attach_btn "}  
-                                    ><Mask_Group_3/></div>
+                                    ><MaskGroup2/>
+                                    {/* <Picker style={{ position: 'absolute', bottom: '35px', right: '20px' }} /> */}
+                                   
+                            </div>
+                   
+                            <div className={"attach_btn "}  onClick={fileAttach}  style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}} 
+                                    >
+                                    <input type="file" name="fileAttach" ref={attachFile } onClick={()=>setEmojiOn(!isEmojiOn)} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>
+                                    <Mask_Group_3/>
+                                   </div>
                             <div className={"template_btn"}   
                                     ><Mask_Group_4/></div>
                             <div className={"payment_btn"}   

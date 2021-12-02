@@ -22,7 +22,7 @@ export default function MsgRow({msg ,...props}){
             case "image":   return <div className={"msg_type_image"}><img className={"imageBox"} src={msg.body}/></div> ;
             case "imageCaption":   
                 return <>
-                        {console.log(JSON.parse(captionJson).url)}
+                        {/* {console.log(JSON.parse(captionJson).url)} */}
                                 {/* JSON.parse({msg.body}) */}
                                 <div className={"msg_type_imageCaption"}>
                                     <img className={"bigImageBox"} src={JSON.parse(captionJson).url}  onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/>
