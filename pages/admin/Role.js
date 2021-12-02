@@ -30,6 +30,7 @@ import {getAllRoles} from "../../helpers/adminHelpers";
 
 export default function Role() {
     const [roles, setRoles] = useState([]);
+    const {adminInstance , user} = useContext(GlobalContext)
 
     const [filteredData , setFilteredData] = useState([])
 
@@ -47,13 +48,12 @@ export default function Role() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchRoles = async () =>{
-        const data = await getAllRoles()
-        console.log("getAllRoles",data)
+        const data = await adminInstance.getAllRoles()
         setRoles(data)
         setFilteredData(data)
     }
     useEffect(    async () => {
-        await fetchRoles()
+        if(user.token)await fetchRoles()
     },[]);
 
     const toggleSelect = e => {

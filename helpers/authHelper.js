@@ -1,5 +1,5 @@
 export const checkAuthHelper = ()=>{
-    if(getUser == ""||getToken == "" || !getUser || !getToken){
+    if(getUser() == ""||getToken() == "" || !getUser() || !getToken()){
         return false
     }else{
         return  true

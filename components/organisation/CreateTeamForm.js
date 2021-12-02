@@ -1,7 +1,6 @@
 import {MF_Input} from "../../components/Input";
 import React, {useEffect, useState} from "react";
 import MF_Modal from "../MF_Modal";
-import {createOrg, getAllRootORG} from "../../helpers/orgHelpers";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
@@ -46,12 +45,12 @@ export default function CreateTeamForm({show, toggle}){
         setParent(e.target.value)
     }
     useEffect(async ()=>{
-        const data = await getAllRootORG()
-        setRootDivision(data)
+        // const data = await getAllRootORG()
+        setRootDivision([])
     },[])
     const submit = async ()=>{
-        const status = await createOrg({type:"team" ,name})
-        console.log(status)
+        // const status = await createOrg({type:"team" ,name})
+        // console.log(status)
         toggle()
     }
     return(

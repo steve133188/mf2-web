@@ -77,12 +77,13 @@
 
 .mf_dropdown_search{
   .mf_icon_input_block{
-    width: 80% !important;
+    width: 100% !important;
   }
 }
 
 .mf_dropdown_content{
   width: 100%;
+  height: 80%;
   overflow: auto;
 }
 .mf_dropdown_select_items{

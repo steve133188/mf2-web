@@ -23,9 +23,7 @@ export default function Login(){
 
     const router = useRouter()
     useEffect(()=>{
-        if(user.token){
-            router.push("/dashboard/agents")
-        }
+        // if(user.token!=null && router.pathname.includes("/login")) router.back()
     },[])
     return(
         <div className={styles.login_layout}>

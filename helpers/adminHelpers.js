@@ -1,61 +1,86 @@
 import axios from "axios"
 
-let adminFetcher;
-if (typeof window !== 'undefined') {
-    adminFetcher = axios.create({
+
+export default function adminFetcher(token){
+    const instance={}
+    instance.token= token
+    instance.fetcher=  axios.create({
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${instance.token}`
+        },
         timeout:5000,
-        withCredentials:true,
         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/admin"
     })
+    instance.getAllRoles = async ()=>{
+        return (await instance.fetcher.get(`/roles`)).data
+    }
+    instance.getRoleByName = async  (role_name)=>{
+        return (await instance.fetcher.get(`/role/name/${role_name}`)).data
+    }
+
+    instance.getRolesName = async ()=>{
+        return (await instance.fetcher.get(`/roles-name`)).data
+    }
+
+    instance.createRole = async (data)=>{
+        return (await instance.fetcher.post(`/roles` ,data)).statusText
+    }
+
+    instance.updateRole = async (data)=>{
+        return (await instance.fetcher.put(`/role`,data)).statusText
+    }
+    instance.deleteRole = async (role_name)=>{
+        return (await instance.fetcher.delete(`/role/name/${role_name}`)).statusText
+    }
+    instance.getAllTags = async ()=>{
+        return (await instance.fetcher.get(`/tags`)).data
+    }
+    instance.getTagByName = async (data)=>{
+        return (await instance.fetcher.get(`/tag/${data}`)).data
+    }
+    instance.getTagList = async ()=>{
+        return (await instance.fetcher.get(`/taglist`)).data
+    }
+    instance.addTag = async (data) =>{
+        return(await instance.fetcher.post(`/tag`,data)).statusText
+    }
+    instance.updateTag = async (data)=>{
+        return (await instance.fetcher.put(`/tag`,data)).statusText
+    }
+    instance.deleteTag = async (tag_name)=>{
+        return (await instance.fetcher.delete(`/role/name/${tag_name}`)).statusText
+    }
+    instance.createStandardReply = async (data) =>{
+        return(await instance.fetcher.post(`/reply`,data)).statusText
+    }
+
+    instance.getAllStandardReply = async () =>{
+        return (await instance.fetcher.get(`/replys`)).data
+    }
+
+    instance.getReplyById = async (id)=>{
+        return (await instance.fetcher.get(`/reply/id/${id}`)).data
+    }
+
+    instance.addContentToFolder = async (folder_name , content_body)=>{
+        return (await instance.fetcher.put(`/add-content` ,{folder_name , content_body})).statusText
+    }
+
+    instance.updateContent = async(id, body)=>{
+        return (await instance.fetcher.put(`/edit-content` ,{id , body})).statusText
+    }
+
+    instance.deleteContent = async (folder_name ,content_id , content_body)=>{
+        return (await instance.fetcher.put(`/del-content` ,{folder_name ,content_id , content_body})).statusText
+    }
+    instance.getContentByFolderName = async (folder_name)=>{
+        return (await instance.fetcher.get(`/content/${folder_name}`)).data
+    }
+    return instance
 }
 
 
 
-export const getAllRoles = async ()=>{
-    return (await adminFetcher.get(`/roles`)).data
-}
-export const getRoleByName = async  (role_name)=>{
-    return (await adminFetcher.get(`/role/name/${role_name}`)).data
-}
 
-export const getRolesName = async ()=>{
-    return (await adminFetcher.get(`/roles-name`)).data
-}
 
-export const createRole = async (data)=>{
-    return (await adminFetcher.post(`/roles` ,data)).statusText
-}
-
-export const updateRole = async (data)=>{
-    return (await adminFetcher.put(`/role`,data)).statusText
-}
-
-export const deleteRole = async (role_name)=>{
-    return (await adminFetcher.delete(`/role/name/${role_name}`)).statusText
-}
-export const createStandardReply = async (data) =>{
-    return(await adminFetcher.post(`/reply`,data)).statusText
-}
-
-export const getAllStandardReply = async () =>{
-    return (await adminFetcher.get(`/replys`)).data
-}
-
-export const getReplyById = async (id)=>{
-    return (await adminFetcher.get(`/reply/id/${id}`)).data
-}
-
-export const addContentToFolder = async (folder_name , content_body)=>{
-    return (await adminFetcher.put(`/add-content` ,{folder_name , content_body})).statusText
-}
-
-export const updateContent = async(id, body)=>{
-    return (await adminFetcher.put(`/edit-content` ,{id , body})).statusText
-}
-
-export const deleteContent = async (folder_name ,content_id , content_body)=>{
-    return (await adminFetcher.put(`/del-content` ,{folder_name ,content_id , content_body})).statusText
-}
-export const getContentByFolderName = async (folder_name)=>{
-    return (await adminFetcher.get(`/content/${folder_name}`)).data
-}

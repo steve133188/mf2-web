@@ -1,39 +1,57 @@
 import axios from "axios"
 import {getToken} from "./authHelper";
-let orgFetcher = axios.create({
+
+export default function orgFetcher(token){
+    const instance={}
+    instance.token =token
+    instance.fetcher= axios.create({
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${instance.token}`
+        },
         timeout:5000,
-        withCredentials:true,
         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
     })
+    instance.getAllRootORG = async ()=>{
+        return (await instance.fetcher.get("/root")).data
+    }
 
+    instance.getOrgById = async (id)=>{
+        return (await instance.fetcher.get(`/id/${id}`)).data
+    }
+    instance.getOrgTeams = async ()=>{
+        return (await instance.fetcher.get(`/team`)).data
+    }
 
-export const getAllRootORG = async ()=>{
-    return (await orgFetcher.get("/root")).data
-}
+    instance.getOrgsByParentId = async (parent_id)=>{
+        return (await instance.fetcher.get(`/parent/${parent_id}`)).data
+    }
 
-export const getOrgById = async (id)=>{
-    return (await orgFetcher.get(`/id/${id}`)).data
-}
-export const getOrgTeams = async ()=>{
-    return (await orgFetcher.get(`/team`)).data
-}
+    instance.getRootFamilyById = async (root_id)=>{
+        return (await instance.fetcher.get(`/family/${root_id}`)).data
+    }
 
-export const getOrgsByParentId = async (parent_id)=>{
-    return (await orgFetcher.get(`/parent/${parent_id}`)).data
-}
+    instance.createOrg = async  (data)=>{
+        return (await instance.fetcher.post(`/` ,data)).status
+    }
 
-export const getRootFamilyById = async (root_id)=>{
-    return (await orgFetcher.get(`/family/${root_id}`)).data
-}
+    instance.updateOrgName = async (id , new_name)=>{
+        return (await instance.fetcher.put(`/` ,{id , new_name})).status
+    }
 
-export const createOrg = async  (data)=>{
-    return (await orgFetcher.post(`/` ,data)).statusText
+    instance.deleteOrgById = async (id)=>{
+        return (await instance.fetcher.delete(`/id/${id}` )).status
+    }
+    return instance
 }
+// const orgFetcher = axios.create({
+//     headers:{
+//         'Content-Type': 'application/json',
+//         'Authorization':`Bearer ${localStorage.getItem("token")}`
+//     },
+//         timeout:5000,
+//         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
+//     })
+//
 
-export const updateOrgName = async (id , new_name)=>{
-    return (await orgFetcher.put(`/` ,{id , new_name})).statusText
-}
-
-export const deleteOrgById = async (id)=>{
-    return (await orgFetcher.delete(`/id/${id}` )).statusText
-}
+//

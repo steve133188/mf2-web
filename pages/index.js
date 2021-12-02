@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {useContext, useEffect} from "react";
 import {useRouter} from "next/router";

@@ -1,4 +1,4 @@
-export default function searchFilter(keyword , data ,callback){
+export default function searchFilter(keyword , data ,callback ){
     if(keyword.includes(":")){
         console.log("trigger regex search")
     }

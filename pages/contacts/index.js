@@ -23,13 +23,11 @@ import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
-import {getAllContacts} from "../../helpers/contactsHelper"
+// import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
-
-    const searchRef = useRef(null)
     const [contacts, setContacts] = useState([]);
-    const {get_contacts} = useContext(GlobalContext)
+    const {contactInstance , user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(false);
@@ -49,13 +47,13 @@ export default function Contacts() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchContacts = async () =>{
-        const data = await getAllContacts()
-        console.log("getAllContacts",data)
+        const data = await contactInstance.getAllContacts()
         setContacts(data)
         setFilteredData(data)
+        console.log(data[0])
     }
     useEffect(    async () => {
-        await fetchContacts()
+        if(user.token!=null)await fetchContacts()
     },[]);
 
     const toggleSelect = e => {
@@ -77,7 +75,6 @@ export default function Contacts() {
 
     const toggleProfile = (key) =>{
         if(!isProfileShow) setUseContact(key)
-        console.log(useContact)
         setIsProfileShow(!isProfileShow)
     }
     const toggleEditProfile =async (key) =>{
@@ -88,30 +85,44 @@ export default function Contacts() {
     const removeContact = async (id)=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const deleteItems = {data:[id]}
-        const res = axios.delete(url ,{ headers: {
+        const res =await axios.delete(url ,{ headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
         data: deleteItems})
-        await fetchContacts()
+        if (res.status == 200) {
+            await fetchContacts()
+            setSelectedContacts([])
+        }
+        // if (currentContacts.length==selectedContacts.length){
+        //     let newPageNum = currentPage-1
+        //     setCurrentPage(newPageNum)
+        // }
+        setSelectedContacts([])
     }
     const removeManyContact = async ()=>{
         let items =[]
         if(selectedContacts!=-1){
             selectedContacts.forEach((c)=>{
-                console.log("c",c)
                 items.push(c)
             })
         }
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const deleteItems = {data:items}
         console.log("remove contact id",deleteItems)
-        const res = axios.delete(url ,{ headers: {
+        const res =await axios.delete(url ,{ headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
             data:deleteItems})
-        await fetchContacts()
+        if (res.status == 200) {
+            await fetchContacts()
+            setSelectedContacts([])
+        }
+        // if (currentContacts.length==selectedContacts.length){
+        //     let newPageNum = currentPage-1
+        //     setCurrentPage(newPageNum)
+        // }
     }
 
     const default_cols = ['CustomerId' , 'Name' ,'Team', 'Channels','Tags' ,'Assignee']
