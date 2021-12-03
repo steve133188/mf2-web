@@ -11,6 +11,7 @@ import React, {useState} from "react";
 import styles from '../../styles/Login.module.css'
 import {useRouter} from "next/router";
 import axios from "axios";
+import BackToLogin from '../../components/login/backToLogin';
 
 export default function Recovery() {
     const r = useRouter()
@@ -20,13 +21,15 @@ export default function Recovery() {
     const [emailType, setEmailType] = useState("")
     const [errors, setError] = useState(false)
     function validateForm() {
-        return address.length > 0;
+        return (!errors)
     }
-    const handleSubmit = async ()=>{
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
         // const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/forgot-password"
         // const res = await axios.post(url , {address})
         
-        if(address.length<5){setEmailType("This is not a valid E-mail address." ) ;setError(true);
+        if(address.length<5 ||  !address.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i))
+        {setEmailType("This is not a valid E-mail address." ) ;setError(true);
             console.log(address);
         return  }
 
@@ -48,9 +51,10 @@ export default function Recovery() {
                     
                     </div>
                     <div className={"submit_row"}>
-                        <button className={"send_button align-self-center"}  onClick={backToLogin}>
+                        <BackToLogin name={"Confirm"} onclick={backToLogin}/>
+                        {/* <button className={"send_button align-self-center"}  onClick={backToLogin}>
                         <p className={"bottomName"}style={ {color: "#FFF"}}>Confirm</p> 
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>)
@@ -62,6 +66,7 @@ export default function Recovery() {
                     <div className={"logo_container"}>
                         <img className={"login_logo"} src="../MS_logo-square.svg" alt=""/>
                     </div>
+            <form className={"form_recovery"} onSubmit={handleSubmit} > 
                 <div className={'input_area'}>
                     <div className={"welcomeMessage"}>
                         {/*{errors?<h4 className={"red-text"}>{errors}</h4>:null}*/}
@@ -70,17 +75,18 @@ export default function Recovery() {
                         <p className={"login_message"} >Enter the email address associated with <br/>your account and we’ll send you a link <br/> to reset your password.</p>
 
                     </div>
-
+               
                     <div className={"text_box mf_icon_input_block "}>
                         <div className={"text_row mf_icon_input_block mf_input_shadow input_margin input_margin"}>
 
                             <div className={"mf_inside_icon mf_email_icon"} > </div>
                             <input
                                 className={"mf_input"}
-                                type={"email"}
+                                // type={"email"}
                                 value={address}
                                 onChange={(e)=> {
                                     setAddress(e.target.value);
+                                    setError(false)
                                 }}
                                 placeholder={"Email"}
                                 style={{ font:" normal normal normal 16px/22px Manrope"}}
@@ -94,15 +100,14 @@ export default function Recovery() {
                                 </div>
                     </div>
                             <div className={"submit_row"}>
-                                <button className={"send_button align-self-center"} disabled={!validateForm()} onClick={handleSubmit}>
+                                <button className={"send_button align-self-center"} disabled={!validateForm()} type={'submit'} >
                                     <p className={"bottomName"}style={ {color: "#FFF"}}>Request Reset</p>
 
                                 </button>
-                                    <button className={"send_button align-self-center"}  onClick={backToLogin}>
-                                    <p className={"bottomName"}style={ {color: "#FFF"}}>Back </p> 
-                                    </button>
+                                    <BackToLogin name={"Cancel"} onclick={backToLogin}/>
                             </div>
-            </div>
+                    </form> 
+                </div>
         </div>
     )
     return (
