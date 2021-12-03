@@ -5,9 +5,13 @@ import {useRouter} from "next/router";
 import {GlobalContext} from "../../context/GlobalContext";
 import Link from "next/link";
 import styles from "../../styles/Login.module.css";
+import LoginPanel from '../../components/login/loginPanel';
 
 
 export default function Login(){
+<<<<<<< HEAD
+   
+=======
     const { login, user , errors } = useContext(GlobalContext);
     const [credential, setCredential] = useState({email:"",password:""});
 
@@ -25,67 +29,14 @@ export default function Login(){
     useEffect(()=>{
         // if(user.token!=null && router.pathname.includes("/login")) router.back()
     },[])
+>>>>>>> 4a7fa4d960d3e5298d6e7690c7045bde36aa777f
     return(
-        <div className={styles.login_layout}>
-            <div className="container">
+        <div className={"login_layout"}>
+             <div className={"maincontainer"}>
                 {/*<Alert />*/}
                 {/*<div className="Panel container-fluid ">*/}
-                <div className={styles.Panel}>
-                    <div className={''}>
-                            <img className={styles.login_logo} src="MS_logo-square.svg" alt=""/>
-                        <div className={styles.welcomeMessage}>
-                            <h4 className={"title_text"}>Log In</h4>
-                            {errors?<h4 className={"red-text"}>{errors}</h4>:null}
-                            {/*<h1 className={styles.login_title}>Log In</h1>*/}
-                            {/*<p className={styles.login_message}>Welcome back! Login with your data that <br/> you entered during registration</p>*/}
-
-                            {/*<h4 className={styles.login_title}>Log In</h4>*/}
-                            {/*<p className={"regular_text "}>Welcome back! Login with your data that <br/> you entered during registration</p>*/}
-                        </div>
-                    </div>
-                    {/*<div className={errors?styles.message_row:styles.hide_block}>*/}
-                    {/*    <p  className={errors?styles.message_row:styles.hide_block}>{errors}</p>*/}
-                    {/*</div>*/}
-
-                    <div className={"login-form"}>
-                    <form action="" >
-                        <div className={"mf_icon_input_block mf_input_shadow "+styles.input_margin}>
-                                {/*<span className={""}>Email or Password invalid</span>*/}
-                                {/*<label className={"searchSVG emailSVG"}>*/}
-                                <div className={"mf_inside_icon mf_email_icon"} > </div>
-                                    <input
-                                        className={"mf_input"}
-                                        type={"email"}
-                                        value={credential.email}
-                                        onChange={(e)=>{setCredential({...credential, ['email']: e.target.value})}}
-                                        placeholder={"Email"}
-                                        // className={invalid}
-                                    />
-                            </div>
-                        <div className={"mf_icon_input_block mf_input_shadow "+styles.input_margin}>
-                                <div className={"mf_inside_icon mf_pwd_icon"} > </div>
-                                    <input
-                                        className={"mf_input"}
-                                        type={"password"}
-                                        value={credential.password}
-                                        onChange={(e)=>{setCredential({...credential, ['password']: e.target.value})}}
-                                        placeholder={"Password"}
-                                        // className={invalid}
-                                    />
-
-                            </div>
-                        <div className={styles.form_bottom}>
-                            <span className={styles.rememberMe}><label className="toggleSwitch"><input type="checkbox"/><span className="slider"></span></label>Remember me</span>
-                            <Link href="/login/recovery"><a><span className={styles.forgotPassword}>Forgot Password?</span></a></Link>
-                        </div>
-
-                        <div className={styles.submit_row}>
-                            <button className={"login-btn align-self-center"} disabled={!validateForm()} onClick={handleSubmit}>
-                                Login
-                            </button>
-                        </div>
-                    </form>
-                    </div>
+                <div className={"Panel"}>
+                    <LoginPanel/>
                 </div>
             </div>
         </div>

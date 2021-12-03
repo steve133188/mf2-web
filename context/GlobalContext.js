@@ -48,7 +48,102 @@ export const GlobalContextProvider = ({children}) =>{
                 router.push("/dashboard/livechat")
             }).catch(err=>{
                 console.log(err)
+<<<<<<< HEAD
+                setErrors("Invaild email or password, please try again.")
+                return err
+            })
+        console.log(user)
+        if(res.status == 200) router.push("/dashboard/livechat")
+
+        // return res
+    }
+
+    const get_users = async ()=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
+        const res = await axios.get(url , {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+        return res.data
+    }
+    const create_user = async (newUser)=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
+        const res = await axios.post(url , newUser ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
+    }
+    const create_many_user = async (newUsers)=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/addMany"
+        const res = await axios.post(url , newUsers ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
+    }
+    const update_user = async(update)=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/name"
+        const res = await axios.put(url , update ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
+    }
+    const get_organisations= async ()=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/organization"
+        //TODO add params
+        const res = await axios.get(url  ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+            })
+        return res.statusText
+    }
+    const create_division= async ()=>{
+        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/organization"
+        const res = await axios.post(url , update ,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+            .then(response => {
+                console.log("create user status:",response.statusText)
+            }).catch(err=>{
+                console.log(err)
+=======
                 setErrors("Email or password incorrect")
+>>>>>>> 4a7fa4d960d3e5298d6e7690c7045bde36aa777f
             })
         setUser({
             user: JSON.parse(localStorage.getItem("user")),

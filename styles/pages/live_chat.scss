@@ -297,6 +297,16 @@
         border: none;
         outline: none;
       }
+      .emoji-mart{
+        .emoji-mart-bar{
+          width: 100%;
+          overflow: scroll;
+        }
+        .emoji-mart-preview{
+          display: none;
+        }
+      } 
+
       .chatroom_input_btn_gp{
           //width: 90%;
           display: flex;
@@ -320,10 +330,31 @@
               // background-image:url("../../public/livechat/sticker_btn.svg");
             }
             .emoji_btn{
+              position: relative;
+
               // background-image:url("../../public/livechat/emoji.svg");
             }
             .attach_btn{
               // background-image:url("../../public/livechat/attach.svg");
+              position: relative;
+                input{
+                display: none;
+                position: absolute;
+                bottom:50px;
+                // width:250px;
+                height: 55px;
+                // opacity: 0;
+              }
+              input::-webkit-file-upload-button  {
+                position: absolute;
+                // opacity: 0;
+                cursor: pointer;
+                // top: 30px;
+                width: 24px;
+                height: 40px;
+                display: none;
+              }
+
             }
             .template_btn{
               // background-image:url("../../public/livechat/template.svg");
