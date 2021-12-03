@@ -23,13 +23,12 @@ import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
-import {getAllContacts} from "../../helpers/contactsHelper"
-import {getAllRoles} from "../../helpers/adminHelpers";
 import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
 
 export default function Connection() {
     const [roles, setRoles] = useState([]);
+    const {adminInstance , userInstance, user} = useContext(GlobalContext)
 
     const [filteredData , setFilteredData] = useState([])
 
@@ -47,7 +46,7 @@ export default function Connection() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchRoles = async () =>{
-        const data = await getAllRoles()
+        const data = await adminInstance.getAllRoles()
         console.log("getAllRoles",data)
         setRoles(data)
         setFilteredData(data)

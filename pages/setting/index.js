@@ -17,9 +17,9 @@ export default function Setting() {
     const submit = async ()=>{
         const {email} = profile
         const {old_password , new_password} = password
-        console.log({email ,old_password,new_password })
-        const res = await userInstance.changeUserPassword({email ,old_password,new_password })
-        console.log(res)
+        console.log("payload",{email ,old_password,new_password })
+        const res = await userInstance.changeUserPassword(email ,old_password,new_password )
+        console.log("res :",res)
     }
     const isConfirmPassword=()=>{
         return password.new_password ==password.confirm_password && password.new_password.trim()!==""
@@ -79,8 +79,8 @@ export default function Setting() {
                         <a> Forgot Password ?</a>
                     </div>
                 </div>
-                <button disabled={isConfirmPassword} onClick={()=> {
-                    submit()
+                <button  onClick={async ()=> {
+                    await submit()
                 }} className={"save_btn"}>Save Changes</button>
             </div>
     )

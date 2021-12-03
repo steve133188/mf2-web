@@ -13,8 +13,6 @@ import TableBody from "@mui/material/TableBody";
 import CreateDivisionForm from "../../components/organisation/CreateDivisionForm";
 import CreateTeamForm from "../../components/organisation/CreateTeamForm";
 import AddAgentForm from "../../components/organisation/AddAgentForm";
-// import {getAllUser, getUsersByTeamId} from "../../helpers/usersHelpers";
-// import {getAllRootORG, getOrgTeams} from "../../helpers/orgHelpers";
 import Profile from "../../components/profile";
 import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import UserProfileGrid from "../../components/pageComponents/UserProfile";
@@ -136,13 +134,15 @@ export default function Organization() {
         <div className="organization-layout">
             <ORGSidebar orgData={root_org} selection={curr_org} setSelection={set_curr_org}/>
             <div className="rightContent">
-                {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
+                {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
                 {/*toggle Modal Start */}
+
                 <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision}/>
                 <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
                 <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers}/>
-                    {/*toggle Modal End*/}
+
+                {/*toggle Modal End*/}
                     <SearchSession
                         placeholder={"Search"}
                         handleChange={(e)=> {
