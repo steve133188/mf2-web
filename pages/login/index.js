@@ -9,9 +9,6 @@ import LoginPanel from '../../components/login/loginPanel';
 
 
 export default function Login(){
-<<<<<<< HEAD
-   
-=======
     const { login, user , errors } = useContext(GlobalContext);
     const [credential, setCredential] = useState({email:"",password:""});
 
@@ -29,7 +26,6 @@ export default function Login(){
     useEffect(()=>{
         // if(user.token!=null && router.pathname.includes("/login")) router.back()
     },[])
->>>>>>> 4a7fa4d960d3e5298d6e7690c7045bde36aa777f
     return(
         <div className={"login_layout"}>
              <div className={"maincontainer"}>
