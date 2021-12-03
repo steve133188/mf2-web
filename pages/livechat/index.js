@@ -7,7 +7,7 @@ import RobotSwitch from "../../components/livechat/RobotSwitch";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg"
-
+import ContantDetail from "./contantDetail";
 
 
 export default function Live_chat() {
@@ -20,7 +20,7 @@ export default function Live_chat() {
             unreadCount:1,
             is_pin:false,
             channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
+            profile_pic_url:"https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg",
         },
         {
             name:"2",
@@ -29,7 +29,7 @@ export default function Live_chat() {
             unreadCount:1,
             is_pin:false,
             channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
+            profile_pic_url:"https://imgv3.fotor.com/images/side/Fotor-powerful-photo-enhancement-tools.jpg",
         },
         {
             name:"1",
@@ -38,7 +38,7 @@ export default function Live_chat() {
             unreadCount:1,
             is_pin:false,
             channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
+            profile_pic_url:"https://imgv3.fotor.com/images/side/Create-graphic-designs-easily-with-Fotor.png",
             message:["hi","bye"]
         },
         {
@@ -608,22 +608,25 @@ export default function Live_chat() {
                 </div>
             </div>
             <div className={"chatroom_info"}>
-                <div className={"contact"}>
-                    <div className={"profile_pic"}><Avatar src={data[0].profile_pic_url} alt="" sx={{ width: 75, height: 75 }}/></div>
+                <div className={"contact_card"}>
+                    <div className={"profile_pic"}><Avatar src={data[0].profile_pic_url} alt="" sx={{ width: 100, height: 100 }}/></div>
                     <div className={"contact_detail"}>
-                        <div className={"contact_detail_name"}>Nobody</div>
+                        <div className={"contact_detail_name"}>{data[0].name}</div>
                         <div className={"contact_detail_channel"}>+852 1833833</div>
-                        <div className={"contact_detail_team"}> TeamA</div>
+                        <div className={"contact_detail_team"}> Team{data[0].team}</div>
                     </div>
                     <div className={"config"}> ... </div>
                 </div>
+
                 <div className={"tabs_field"}>
                     <div className={"tabs_row"}>
+                   
                         <div className={"tab active"}>info</div>
                         <div className={"tab"}>note</div>
                     </div>
-                    <div className={"content"}>
+                    <div className={"content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
                         content
+                        <ContantDetail/>
                     </div>
                 </div>
             </div>

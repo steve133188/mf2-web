@@ -35,12 +35,12 @@ export default function Recovery() {
         console.log(errors)
         // const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/forgot-password"
         // const res = await axios.post(url , {address})
+        // if (res.status ==200) 
         fakeData.map((e)=>{if(e.email==address){
                 setIsSubmit(true)
             } 
             else setError(true)
             })
-        // if (res.status ==200) 
     }
 
     const backToLogin =()=>{

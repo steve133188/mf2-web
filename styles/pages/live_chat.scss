@@ -394,43 +394,52 @@
     flex: 22.5%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 1rem;
-    .contact{
+    .contact_card{
+      width: 80%;
+      max-width: 380px;
+      min-width: 200px;
       height: 8rem;
+      margin: 2rem 0;
       padding: 0.25rem 0;
       display: flex;
       flex-direction: row;
       justify-content: center;
       .profile_pic{
         display: flex;
-        flex-direction: column;
-        //width: 40%;
-        vertical-align: center;
+        align-items: center;
         justify-content: center;
+
+        width: 40%;
+        min-width: 100px;
+        max-width: 150px;
       }
       .contact_detail{
         padding: 0.25rem 1rem;
-        //width: 60%;
+        width: 60%;
+        min-width: 120px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 5%;
+        gap: 6%;
         .contact_detail_name{
-          font: normal normal bold 1rem Manrope;
+          font: normal normal bold 1.6rem/33px Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
         }
         .contact_detail_channel{
           text-align: left;
-          font: normal normal normal 10px Manrope;
+          font: normal normal normal .95rem Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
         }
         .contact_detail_team{
           text-align: center;
-          font: normal normal 400 10px Manrope;
+          font: normal normal 400 .85rem Manrope;
           width: fit-content;
           padding: 0 0.5rem;
           letter-spacing: 0px;
