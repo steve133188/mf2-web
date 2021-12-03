@@ -305,7 +305,7 @@ export default function SideBar(props) {
 
                 </div>
                 <div className={router.pathname == "/setting" ? "active-side-item" : "side-item "}>
-                    <Link href={"/admin"}>
+                    <Link href={"/setting"}>
                         <div className={router.pathname == "/setting" ? "active nav-item" : "nav-item "}>
                            
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

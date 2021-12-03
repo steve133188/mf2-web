@@ -26,7 +26,7 @@ import searchFilter from "../../helpers/searchFilter";
 import {getAllContacts} from "../../helpers/contactsHelper"
 import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
-import {getAllRoles} from "../../helpers/adminHelpers";
+import CreateRole from "../../components/Admin/CreateRole";
 
 export default function Role() {
     const [roles, setRoles] = useState([]);
@@ -36,7 +36,9 @@ export default function Role() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
-
+    const [isCreate , setIsCreate] = useState(false)
+    const [isEdit , setIsEdit] = useState(false)
+    const [isDelete , setIsDelete] = useState(false)
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
     const [selectAll, setSelectAll] = useState(false);
@@ -75,8 +77,20 @@ export default function Role() {
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
-
-
+    const deleteRole = async (id)=>{
+        const res = await adminInstance.deleteRole(id)
+        console.log(res)
+        await fetchRoles()
+    }
+    const toggleDelete = ()=>{
+        setIsDelete(!isDelete)
+    }
+    const toggleCreate = ()=>{
+        setIsCreate(!isCreate)
+    }
+    const toggleEdit = ()=>{
+        setIsEdit(!isEdit)
+    }
 
 
     const default_cols = ['Role' , 'No. of User' ,' ']
@@ -110,6 +124,7 @@ export default function Role() {
     return (
         <div className={"admin_layout"}>
             <InnerSidebar/>
+            <CreateRole show={isCreate} reload={fetchRoles} toggle={toggleCreate}/>
             <div className="rightContent">
             <div className={"search_session"}>
                 <div className="search">
@@ -130,17 +145,11 @@ export default function Role() {
                     </div>
                 </div>
                 <div className={"btn_group"}>
-                    {!isSelectRow ? (
-                        <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
-                    ) : (
-                        <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
-                    )}
-                    <button>+ New Role</button>
+                    <button onClick={toggleCreate}>+ New Role</button>
                 </div>
             </div>
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                    {/*<div className={"select_session_btn"}><div svg={deleteSVG} onClick={}>{deleteSVG}</div> </div>*/}
                 </div>):null}
             >
             </SelectSession>
@@ -202,7 +211,7 @@ export default function Role() {
 
                                     <TableCell align="right">
                                        <span className={"right_icon_btn"}>{editSVG}</span>
-                                       <span className={"right_icon_btn"}>{deleteSVG}</span>
+                                       <span className={"right_icon_btn"} onClick={()=>deleteRole(data.name)}>{deleteSVG}</span>
                                     </TableCell>
                                 </TableRow>
                             )

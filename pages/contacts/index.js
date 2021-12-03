@@ -88,7 +88,6 @@ export default function Contacts() {
             return data.team==selectedTeams
         })
         console.log("teamFiltered:",teamFiltered)
-
         setFilteredData([...teamFiltered])
     }
     const channels = ["whatsapp"]
@@ -461,7 +460,7 @@ export default function Contacts() {
                                     </TableCell>
 
                                     <TableCell >
-                                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
+                                        <AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row",width:30 , height:30}} max={5} spacing={"1"} >
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">

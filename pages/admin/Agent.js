@@ -30,6 +30,7 @@ import * as React from "react";
 
 export default function Agent() {
 
+    const {adminInstance , userInstance, user} = useContext(GlobalContext)
 
     const searchRef = useRef(null)
     const [roles, setRoles] = useState([]);
@@ -54,14 +55,14 @@ export default function Agent() {
 
     let result = currentContacts.map(d=>d.id)
 
-    const fetchRoles = async () =>{
-        const data = await getAllRoles()
+    const fetchUsers = async () =>{
+        const data = await userInstance.getAllUser()
         console.log("getAllRoles",data)
         setRoles(data)
         setFilteredData(data)
     }
     useEffect(    async () => {
-        await fetchRoles()
+        await fetchUsers()
     },[]);
 
     const toggleSelect = e => {

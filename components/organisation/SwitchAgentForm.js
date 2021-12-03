@@ -1,10 +1,11 @@
 import {MF_Input} from "../../components/Input";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import MF_Modal from "../MF_Modal";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
+import {GlobalContext} from "../../context/GlobalContext";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -36,22 +37,23 @@ const style ={
 export default function SwitchAgentForm({show, toggle ,selectedUsers}){
     const [team , setTeam] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const handleSelect =e=>{
         setSelectedTeam(e.target.value)
     }
     useEffect( async () => {
-        // const data = await getOrgTeams()
-        // setTeam(data)
-    },[team])
+        const data = await orgInstance.getOrgTeams()
+        setTeam(data)
+    },[])
     const submit = async ()=>{
         console.log(selectedUsers)
         for (let i=0;i<selectedUsers.length;i++){
             const user_phone = selectedUsers[i]
             const team_id = selectedTeam.id
             console.log(user_phone,team_id)
-            // const res = await updateUserTeamIdByUserPhone(user_phone ,team_id)
-            // console.log(res)
+            const res = await userInstance.updateUserTeamIdByUserPhone(user_phone ,team_id)
+            console.log(res)
         }
         toggle()
     }

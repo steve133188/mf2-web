@@ -24,7 +24,7 @@ export default function adminFetcher(token){
     }
 
     instance.createRole = async (data)=>{
-        return (await instance.fetcher.post(`/roles` ,data)).statusText
+        return (await instance.fetcher.post(`/role` ,data)).statusText
     }
 
     instance.updateRole = async (data)=>{

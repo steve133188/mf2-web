@@ -1,17 +1,19 @@
 import {MF_Input, Select} from "../../components/Input";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import MF_Modal from "../MF_Modal";
 import MenuItem from "@mui/material/MenuItem";
+import {GlobalContext} from "../../context/GlobalContext";
 
 export default function CreateDivisionForm({show, toggle }){
     const [name , setName] = useState("")
     const handleChange = (e)=>{
         setName(e.target.value)
     }
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const submit = async ()=>{
-        // const status = await createOrg({type:"division" ,name})
-        // console.log(status)
+        const status = await orgInstance.createOrg({type:"division" ,name})
+        console.log(status)
         toggle()
     }
     return(

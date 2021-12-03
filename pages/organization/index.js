@@ -21,7 +21,7 @@ import UserProfileGrid from "../../components/pageComponents/UserProfile";
 import SwitchAgentForm from "../../components/organisation/SwitchAgentForm";
 
 export default function Organization() {
-
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [users, setUsers] = useState([]);
     const [root_org, set_root_org] = useState([]);
     const [org, set_org] = useState([]);
@@ -45,23 +45,26 @@ export default function Organization() {
     //filtered Data
     let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
-        // const data = await getAllUser()
-        // setUsers(data)
-        // setFilteredData(data)
+        const data = await userInstance.getAllUser()
+        setUsers(data)
+        setFilteredData(data)
     }
     const fetchTeamUsers = async (id)=>{
-        // const data = await getUsersByTeamId(id)
-        // console.log("team users:",data)
-        // setUsers(data)
-        // setFilteredData(data)
+        const data = await userInstance.getUsersByTeamId(id)
+        console.log("team users:",data)
+        setUsers(data)
+        setFilteredData(data)
     }
     const fetchRootORG = async () =>{
-        // const data = await getOrgTeams()
-        // set_root_org(data)
+        const data = await orgInstance.getOrgTeams()
+        set_root_org(data)
     }
     useEffect(    async () => {
-        await fetchRootORG()
-        await fetchUsers()
+        if(user.token){
+            await fetchRootORG()
+            await fetchUsers()
+        }
+
     },[]);
     useEffect(    async () => {
         if(!curr_org.name){
@@ -134,7 +137,6 @@ export default function Organization() {
             <ORGSidebar orgData={root_org} selection={curr_org} setSelection={set_curr_org}/>
             <div className="rightContent">
                 {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
-
                 {/*toggle Modal Start */}
                 <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision}/>
                 <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam}/>

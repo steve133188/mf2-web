@@ -12,6 +12,7 @@ const style = {
     borderRadius:"20px",
     boxShadow: "0px 7px 20px #00000029;",
     p: 5,
+    justifyContent:"space-between",
 };
 
 export default function MF_Modal({toggle , show ,children}) {
