@@ -15,26 +15,32 @@ import BackToLogin from '../../components/login/backToLogin';
 
 export default function Recovery() {
     const r = useRouter()
-
+    const fakeData = [{username:"mstest",email:"mstest@gmail.com"}]
     const [address , setAddress] = useState("")
     const [isSubmit , setIsSubmit] = useState(false)
     const [emailType, setEmailType] = useState("")
     const [errors, setError] = useState(false)
     function validateForm() {
-        return (!errors)
+        return (!isSubmit)
     }
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        // const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/forgot-password"
-        // const res = await axios.post(url , {address})
         
         if(address.length<5 ||  !address.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i))
         {setEmailType("This is not a valid E-mail address." ) ;setError(true);
-            console.log(address);
-        return  }
+        console.log(address);
+       return }
 
+
+        console.log(errors)
+        // const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/forgot-password"
+        // const res = await axios.post(url , {address})
+        fakeData.map((e)=>{if(e.email==address){
+                setIsSubmit(true)
+            } 
+            else setError(true)
+            })
         // if (res.status ==200) 
-        setIsSubmit(true)
     }
 
     const backToLogin =()=>{
