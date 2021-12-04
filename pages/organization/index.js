@@ -14,7 +14,6 @@ import CreateDivisionForm from "../../components/organisation/CreateDivisionForm
 import CreateTeamForm from "../../components/organisation/CreateTeamForm";
 import AddAgentForm from "../../components/organisation/AddAgentForm";
 import Profile from "../../components/profile";
-import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import UserProfileGrid from "../../components/pageComponents/UserProfile";
 import SwitchAgentForm from "../../components/organisation/SwitchAgentForm";
 
