@@ -30,6 +30,7 @@ import * as React from "react";
 export default function Tags() {
 
     const [roles, setRoles] = useState([]);
+    const {adminInstance , user} = useContext(GlobalContext)
 
     const [filteredData , setFilteredData] = useState([])
 
@@ -47,13 +48,13 @@ export default function Tags() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchRoles = async () =>{
-        const data = await getAllRoles()
+        const data = await adminInstance.getAllRoles()
         console.log("getAllRoles",data)
         setRoles(data)
         setFilteredData(data)
     }
     useEffect(    async () => {
-        await fetchRoles()
+        if(user.token)await fetchRoles()
     },[]);
 
     const toggleSelect = e => {

@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 
 import SelectSession from "../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
@@ -9,10 +9,11 @@ import {TableCell} from "@mui/material";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import searchFilter from "../../helpers/searchFilter";
-import {getAllRoles} from "../../helpers/adminHelpers";
 import {InnerSidebar} from "../../components/InnerSidebar";
+import {GlobalContext} from "../../context/GlobalContext";
 
 export default function MessageAPI() {
+    const {adminInstance , userInstance, orgInstance,user} = useContext(GlobalContext)
 
     const [roles, setRoles] = useState([]);
 
@@ -32,7 +33,7 @@ export default function MessageAPI() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchRoles = async () =>{
-        const data = await getAllRoles()
+        const data = await adminInstance.getAllRoles()
         console.log("getAllRoles",data)
         setRoles(data)
         setFilteredData(data)

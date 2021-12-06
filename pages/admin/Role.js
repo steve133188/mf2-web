@@ -29,6 +29,7 @@ import * as React from "react";
 import CreateRole from "../../components/Admin/CreateRole";
 
 export default function Role() {
+
     const [roles, setRoles] = useState([]);
     const {adminInstance , user} = useContext(GlobalContext)
 
