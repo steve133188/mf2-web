@@ -23,15 +23,16 @@ import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
+import * as React from "react";
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
     const [contacts, setContacts] = useState([]);
-    const {contactInstance , user} = useContext(GlobalContext)
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(false);
-    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
+    const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
 
     const [useContact , setUseContact] = useState()
     const [isProfileShow , setIsProfileShow] = useState(false)
@@ -41,19 +42,104 @@ export default function Contacts() {
     const [selectedContacts , setSelectedContacts] = useState([])
     const [isShowDropzone, setIsShowDropzone] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
+    const [users ,setUsers] =useState([])
+    const [tags ,setTags] =useState([])
+    const [teams ,setTeams] =useState([])
+    const [selectedTags ,setSelectedTags] =useState([])
+    const [selectedUsers ,setSelectedUsers] =useState([])
+    const [selectedTeams ,setSelectedTeams] =useState("")
+    const [selectedChannel ,setSelectedChannel] =useState([])
+    const [filteredTags ,setFilteredTags] =useState([])
+    const [filteredUsers ,setFilteredUsers] =useState([])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     let result = currentContacts.map(d=>d.id)
+    const advanceFilter =()=>{
+        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
+        console.log("filter",filter)
+        const agentFiltered = contacts.filter(data=>{
+            if(selectedUsers.length==0){
+                return data
+            }
+            return data.agents.some(el=>selectedUsers.includes(el))
+        })
+        console.log("agent:",agentFiltered)
+        const tagFiltered = agentFiltered.filter(data=>{
+            if(selectedTags.length ==0){
+                return data
+            }
+            return data.tags.some(el=>selectedTags.includes(el))
+        })
+        console.log("tagFiltered:",tagFiltered)
 
+        // const channelFiltered = tagFiltered.filter(data=>{
+        //     if(selectedChannel.length ==0){
+        //         return data
+        //     }
+        //     return data.channels.some(el=>selectedChannel.includes(el))
+        // })
+        // console.log("channelFiltered:",channelFiltered)
+
+        const teamFiltered = tagFiltered.filter(data=>{
+            if(selectedTeams.trim() ==""){
+                return data
+            }
+            return data.team==selectedTeams
+        })
+        console.log("teamFiltered:",teamFiltered)
+        setFilteredData([...teamFiltered])
+    }
+    const channels = ["whatsapp"]
+    const renderUsers = ()=>{
+        return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
+            {selectedUsers.map((agent, index) => {
+                return (
+                    <Tooltip key={index} className={""} title={agent} placement="top-start">
+                        <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{
+                            width: 25,
+                            height: 25,
+                            fontSize: 14
+                        }}>{agent.substring(0, 2).toUpperCase()}</Avatar>
+                    </Tooltip>
+                )
+            })}
+        </AvatarGroup>
+    }
+    const renderTags=() => {
+        return selectedTags!=-1&&selectedTags.map((tag)=>{
+            return<Pill key={tag} color="vip">{tag}</Pill>
+        })
+    }
+    const getTags = async ()=>{
+        const data = await adminInstance.getAllTags()
+        setTags(data)
+        setFilteredTags(data)
+
+    }
+    const getUsers = async ()=>{
+        const data = await userInstance.getAllUser()
+        setUsers(data)
+        setFilteredUsers(data)
+    }
+    const getTeams = async ()=>{
+        const data = await orgInstance.getOrgTeams()
+        setTeams(data)
+    }
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
         setFilteredData(data)
-        console.log(data[0])
     }
     useEffect(    async () => {
-        if(user.token!=null)await fetchContacts()
+        if(user.token!=null) {
+            await fetchContacts()
+            await getTags()
+            await getUsers()
+            await getTeams()
+        }
+        setSelectedUsers([])
+        setSelectedContacts([])
     },[]);
 
     const toggleSelect = e => {
@@ -64,6 +150,14 @@ export default function Contacts() {
         }
         console.log(selectedContacts)
     };
+    const toggleSelectChannel = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannel([...selectedChannel, id]);
+        if (!checked) {
+            setSelectedChannel(selectedChannel.filter(item => item !== id));
+        }
+        console.log(selectedChannel)
+    };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
         setSelectedContacts(currentContacts.map(c => c.id));
@@ -72,7 +166,46 @@ export default function Contacts() {
         }
         console.log(selectedContacts)
     };
-
+    const toggleSelectTags = e => {
+        const { checked ,id} = e.target;
+        setSelectedTags([...selectedTags, id]);
+        if (!checked) {
+            setSelectedTags(selectedTags.filter(item => item !== id));
+        }
+        console.log(selectedTags)
+    };
+    const toggleSelectUsers = e => {
+        const { checked ,id} = e.target;
+        setSelectedUsers([...selectedUsers, id]);
+        if (!checked) {
+            setSelectedUsers(selectedUsers.filter(item => item !== id));
+        }
+        console.log(selectedUsers)
+    };
+    function userSearchFilter(keyword , data ,callback ){
+        if(keyword.includes(":")){
+            console.log("trigger regex search")
+        }
+        const newData = data.filter(d=> {
+            if(keyword.trim() == ""){
+                return data
+            }
+            return d.username.toLowerCase().includes(keyword)
+        })
+        callback(newData)
+    }
+    function tagSearchFilter(keyword , data ,callback ){
+        if(keyword.includes(":")){
+            console.log("trigger regex search")
+        }
+        const newData = data.filter(d=> {
+            if(keyword.trim() == ""){
+                return data
+            }
+            return d.tag.toLowerCase().includes(keyword)
+        })
+        callback(newData)
+    }
     const toggleProfile = (key) =>{
         if(!isProfileShow) setUseContact(key)
         setIsProfileShow(!isProfileShow)
@@ -94,11 +227,7 @@ export default function Contacts() {
             await fetchContacts()
             setSelectedContacts([])
         }
-        // if (currentContacts.length==selectedContacts.length){
-        //     let newPageNum = currentPage-1
-        //     setCurrentPage(newPageNum)
-        // }
-        setSelectedContacts([])
+        setSelectedTags([])
     }
     const removeManyContact = async ()=>{
         let items =[]
@@ -119,12 +248,7 @@ export default function Contacts() {
             await fetchContacts()
             setSelectedContacts([])
         }
-        // if (currentContacts.length==selectedContacts.length){
-        //     let newPageNum = currentPage-1
-        //     setCurrentPage(newPageNum)
-        // }
     }
-
     const default_cols = ['CustomerId' , 'Name' ,'Team', 'Channels','Tags' ,'Assignee']
     const [isSelectRow, setSelectRow] = useState( false);
 
@@ -134,10 +258,10 @@ export default function Contacts() {
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
-    const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg"  width="25" height="25" viewBox="0 0 25 25">
+    const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" viewBox="0 0 25 25">
             <defs>
                 <clipPath id="clip-path">
-                    <rect id="Background" width="25" height="25" fill="none"/>
+                    <rect id="Background" width="18" height="18" fill="none"/>
                 </clipPath>
             </defs>
             <g id="trash-alt">
@@ -149,7 +273,7 @@ export default function Contacts() {
     )
 
     const editSVG =(
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#2198fa"
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2198fa"
              cursor="pointer"
              className="bi bi-upload" viewBox="0 0 16 16">
             <path
@@ -160,7 +284,7 @@ export default function Contacts() {
     )
 
     const deleteSVG = (
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#f46a6b"
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#f46a6b"
              cursor="pointer"
              className="bi bi-trash" viewBox="0 0 16 16"
              onClick={null}>
@@ -215,18 +339,47 @@ export default function Contacts() {
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={removeManyContact}>{deleteSVG}</div> </div>
                 </div>):null}
             >
-                <MF_Select head={"Agent"}>
-                    {/*    waiting to fetch the user*/}
+                <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
+                    setFilteredUsers(new_data)
+                })}}>
+                    {filteredUsers.map((user)=>{
+                        return(<li key={user.username}>
+                            <div style={{display:"flex" ,gap:10}}>
+                                <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
+                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                                </Tooltip>
+                                <div className={"name"}>{user.username}</div>
+                            </div>
+                            <div className="newCheckboxContainer">
+                                <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                </label>
+                            </div>
+                        </li>)
+                    })}
                 </MF_Select>
-                <MF_Select head={"Team"} >
-                    {/*    waiting to fetch the teams*/}
+                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
+                    <li onClick={()=> {
+                        setSelectedTeams("");
+                        advanceFilter()
+                    }}>All</li>
+                    {teams.map((team)=>{
+                        return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter()}}> {team.name}</li>)
+                    })}
                 </MF_Select>
-                <MF_Select head={"Tags"}  >
-                    {/*    waiting to fetch the tags*/}
+                <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
+                    setFilteredTags(new_data)
+                })}} >
+                    {filteredTags.map((tag)=>{
+                        return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                            <div className="newCheckboxContainer">
+                                <label className="newCheckboxLabel">
+                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                </label> </div></li>)
+                    })}
                 </MF_Select>
-                <MF_Select head={"Channel"}  >
-                    {/*    waiting to fetch the channels*/}
-                </MF_Select>
+                {/*<MF_Select head={"Channel"}  >*/}
+                {/*    /!*    waiting to fetch the channels*!/*/}
+                {/*</MF_Select>*/}
             </SelectSession>
             <TableContainer
                 sx={{minWidth: 750 , minHeight:"60vh"}}
@@ -307,7 +460,7 @@ export default function Contacts() {
                                     </TableCell>
 
                                     <TableCell >
-                                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
+                                        <AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row",width:30 , height:30}} max={5} spacing={"1"} >
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">

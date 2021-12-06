@@ -88,11 +88,11 @@ export default function usersFetcher(token){
     }
 
     instance.deleteUserByName = async(name) =>{
-        return (await instance.fetcher.delete(`/name${name}`  )).statusText
+        return (await instance.fetcher.delete(`/name/${name}`  )).statusText
     }
 
     instance.changeUserPassword = async (email , old_password, new_password) =>{
-        return(await instance.fetcher.put(`change-password` ,{email})).status
+        return(await instance.fetcher.put(`/change-password` ,{email , old_password ,new_password})).status
     }
     return instance
 }

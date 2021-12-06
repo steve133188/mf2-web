@@ -23,7 +23,6 @@ export default function EditProfileForm({data , toggle}){
     const [filteredUsers ,setFilteredUsers] =useState([])
     const {userInstance ,adminInstance, user} = useContext(GlobalContext)
 
-    const router = useRouter()
 
     const getTags = async ()=>{
         const data = await adminInstance.getAllTags()
@@ -39,8 +38,8 @@ export default function EditProfileForm({data , toggle}){
 
     useEffect(async ()=>{
         if(user.token){
-            getTags()
-            getUsers()
+            await getTags()
+            await getUsers()
             setSelectedTags(editContact.tags)
             if(editContact.agents)setSelectedUsers(editContact.agents)
         }
@@ -96,7 +95,6 @@ export default function EditProfileForm({data , toggle}){
         });
     }
     async function handleSubmit (e){
-
         e.preventDefault()
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const name =` ${editContact.first_name} ${editContact.last_name}`
@@ -134,7 +132,7 @@ export default function EditProfileForm({data , toggle}){
 
                 </div>
                 <div className={"ss_row"}>
-                    <MF_Input title="Phone*" name={"phone"} value={editContact.phones} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
+                    <MF_Input title="Phone*" name={"phone"} value={editContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
                     <MF_Input title="Email" name={"email"} value={editContact.email} onChange={handleChange}/>
                 </div>
                 <div className={"ss_row"}>
@@ -175,7 +173,7 @@ export default function EditProfileForm({data , toggle}){
                 <div className={"tagsGroup"}>
                     <p>Assignee</p>
                     <div className={"tagsGroup"}>
-                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
+                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={"1"} >
                             {selectedUsers &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">

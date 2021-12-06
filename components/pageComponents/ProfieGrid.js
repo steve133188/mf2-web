@@ -26,7 +26,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{data.phones}</span>
+                <span className={"info_content"}>{data.phone}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
@@ -59,7 +59,7 @@ export default function ProfileGrid({data}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
                         <div className={"session_content"}>
-                            <AvatarGroup className={"AvatarGroup"} max={10} spacing={"1"} align="left">
+                            {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
                                 {data.agents!=null &&data.agents.map((agent , index)=>{
                                     return(
                                         <Tooltip key={index} className={""} title={agent} placement="top-start">
@@ -67,7 +67,7 @@ export default function ProfileGrid({data}){
                                         </Tooltip>
                                     )
                                 })}
-                            </AvatarGroup>
+                            {/*</AvatarGroup>*/}
                         </div>
                     </div>
                     <div className={"half_session block_session"}>

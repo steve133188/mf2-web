@@ -95,8 +95,7 @@ export default function Recovery() {
                                     setError(false)
                                 }}
                                 placeholder={"Email"}
-                                style={{ font:" normal normal normal 16px/22px Manrope"}}
-                                style={ {fontSize:"1vw"}}
+                                style={{ font:" normal normal normal 16px/22px Manrope",fontSize:"1vw"}}
                                 // className={invalid}
                             />
                         </div>

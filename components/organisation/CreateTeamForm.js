@@ -1,10 +1,11 @@
 import {MF_Input} from "../../components/Input";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import MF_Modal from "../MF_Modal";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
+import {GlobalContext} from "../../context/GlobalContext";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -37,6 +38,7 @@ export default function CreateTeamForm({show, toggle}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
     const [rootDivision , setRootDivision] = useState([])
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const handleChange = e=>{
         setName(e.target.value)
@@ -45,12 +47,12 @@ export default function CreateTeamForm({show, toggle}){
         setParent(e.target.value)
     }
     useEffect(async ()=>{
-        // const data = await getAllRootORG()
-        setRootDivision([])
+      const data = await orgInstance.getAllRootORG()
+        setRootDivision(data)
     },[])
     const submit = async ()=>{
-        // const status = await createOrg({type:"team" ,name})
-        // console.log(status)
+        const status = await orgInstance.createOrg({type:"team" ,name})
+        console.log(status)
         toggle()
     }
     return(
