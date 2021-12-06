@@ -32,12 +32,6 @@ export default function LoginPanel(){
                         <div className={"welcomeMessage"}>
                             <div className={"login_title"}>Log In</div>
                             {/* {errors?<h4 className={"red-text"}>{errors}</h4>:null} */}
-                            
-                            {/*<h1 className={styles.login_title}>Log In</h1>*/}
-                            {/*<p className={styles.login_message}>Welcome back! Login with your data that <br/> you entered during registration</p>*/}
-
-                            {/*<h4 className={styles.login_title}>Log In</h4>*/}
-                            {/*<p className={"regular_text "}>Welcome back! Login with your data that <br/> you entered during registration</p>*/}
                         </div>
                     {/*<div className={errors?styles.message_row:styles.hide_block}>*/}
                     {/*    <p  className={errors?styles.message_row:styles.hide_block}>{errors}</p>*/}
@@ -86,7 +80,8 @@ export default function LoginPanel(){
                             <span className={"rememberMe"}><label className="toggleSwitch"><input type="checkbox"/><span className="slider" 
                                     style={{width:"32px",margin:"0 5px"}}></span></label><p>Remember me</p></span>
                             <Link href="/login/recovery">
-                                <a style={{font: "normal normal normal 1rem/22px Manrope", color: "var(--unnamed-color-2198fa)",color:"#2198fa"}}className={"forgotPassword"}>
+                                {/*<a style={{font: "normal normal normal 1rem/22px Manrope", color: "var(--unnamed-color-2198fa)",color:"#2198fa"}}className={"forgotPassword"}> color was duplicated*/}
+                                <a style={{font: "normal normal normal 1rem/22px Manrope",color:"#2198fa"}}className={"forgotPassword"}>
                                     <span >Forgot Password?</span></a>
                                     </Link>
                         </div>

@@ -4,6 +4,8 @@ import { GlobalContextProvider} from "../context/GlobalContext";
 import {useEffect , useState} from "react";
 import AuthLayer from "../HOC/AuthLayer"
 import Head from "next/head";
+import {ApolloProvider} from "@apollo/client"
+import client from "../apollo-client"
 
 function MyApp({ Component, pageProps }) {
     const [connected, setConnected] = useState(false);
@@ -19,16 +21,15 @@ function MyApp({ Component, pageProps }) {
           <link rel="icon" href="/MS_logo-square.svg"/>
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>
-
-    <GlobalContextProvider>
-        <AuthLayer>
-      <Layout>
-
-      <Component {...pageProps} />
-
-      </Layout>
-        </AuthLayer>
-    </GlobalContextProvider>
+          <ApolloProvider client={client}>
+            <GlobalContextProvider>
+                <AuthLayer>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </AuthLayer>
+            </GlobalContextProvider>
+          </ApolloProvider>
       </>
 )
 }

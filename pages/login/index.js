@@ -13,7 +13,6 @@ export default function Login(){
     const [credential, setCredential] = useState({email:"",password:""});
 
     function validateForm() {
-
         return credential.email.length > 0 && credential.password.length > 0;
     }
 

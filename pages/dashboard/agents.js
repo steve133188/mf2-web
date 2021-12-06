@@ -1,5 +1,5 @@
 import {AverageDailyCard, ChangingPercentageCard, LineChartCard} from "../../components/Cards";
-import {MultipleLineChart} from "../../components/LineChart1";
+import {MultipleLineChart} from "../../components/LineChart";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {LabelSelect2} from "../../components/Select";

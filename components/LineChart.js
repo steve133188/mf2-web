@@ -2,7 +2,7 @@ import {useState} from "react";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export function LineChart1({children,...props}) {
+export function LineChart({children,...props}) {
     const {title, data, yaxis, total, percentage} = props;
     const [state, setState] = useState({
         series: [{

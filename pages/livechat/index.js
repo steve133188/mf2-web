@@ -1,6 +1,6 @@
 import {useState , useEffect, useRef} from "react";
 import ChatroomList from "../../components/ChatroomList";
-import MsgRow from "../../components/MsgRow";
+import MsgRow from "../../components/livechat/ChatMessage/MsgRow";
 import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
