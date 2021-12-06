@@ -27,8 +27,14 @@
       .chatlist_ss_filter{
         display: flex;
         flex-direction: row;
+        width: 100%;
         justify-content: space-between;
         padding: 0.3rem 0.25rem;
+        .filter_bar_left{
+          display: flex;
+        flex-direction: row;
+        width: 100%;
+        }
         .select_group{
           position: relative;
           background: #D0E9FF 0% 0% no-repeat padding-box;
@@ -40,6 +46,7 @@
           color: #2198FA;
           opacity: 1;
           padding: 0.5rem 3rem;
+          
           .group_icon{
             position: absolute;
             left: 1rem;
@@ -63,9 +70,11 @@
         }
         .filter_box{
           padding: 0.5rem;
+          margin:0 0.5rem;
           &.active{
             background-color: #D0E9FF;
             border-radius: 10px;
+           
           }
           .filter_icon{
             background-image: url("../../public/livechat/filter_icon.svg");
@@ -390,11 +399,13 @@
       }
     }
   }
+
+  
   .chatroom_info{
     flex: 22.5%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding: 1rem;
     .contact_card{
@@ -455,6 +466,7 @@
       }
     }
     .tabs_field{
+      max-height: 70%;
       width: 100%;
       flex-grow: 1;
       .tabs_row{
@@ -478,10 +490,43 @@
       }
     }
   }
-  .content{
+  .contact_content{
     padding: 1rem 0;
     justify-content: center;
     text-align: center;
+
+    .infoBox{
+      display:flex;
+        flex-direction:column;
+        position:relative;
+        width:84%;
+        height:60vh;
+        padding:0 10%;
+        overflow:scroll;
+
+        .keyList
+          {position:absolute; 
+            text-align:left;
+            height:20px;
+            margin:0px 0;
+            .keys{
+              height:30px;margin:35px 0;font:
+               normal normal normal 12px/17px Manrope;
+            }
+          }
+        .valueList{
+          position:absolute;
+           text-align:left;
+           height:20px;
+           margin:14px 0;
+           .values{height:30px;margin:35px 0;
+            font:normal normal 600 16px/22px Manrope;
+          }
+        }
+    }
+    .noteBox{
+
+    }
   }
 }
 

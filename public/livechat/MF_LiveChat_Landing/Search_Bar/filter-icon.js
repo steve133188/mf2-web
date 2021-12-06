@@ -1,0 +1,25 @@
+export const AddButtonSVG = () => {
+    return (
+        <>
+        <svg xmlns="http://www.w3.org/2000/svg"  width="30" height="30" viewBox="0 0 25 25">
+
+        <g id="Group_6262" data-name="Group 6262" transform="translate(-0.304 -0.118)">
+          <rect id="Rectangle_4097" data-name="Rectangle 4097" width="25" height="25" rx="12.5" transform="translate(0.304 0.118)" fill="#f5f6f8"/>
+          <g id="plus" transform="translate(5.597 5.409)">
+            <rect id="Background-2" data-name="Background" width="14.416" height="14.416" fill="none"/>
+            <g id="plus-2" data-name="plus" clip-path="url(#clip-path)">
+              <path id="Shape" d="M8.409,4.805h-3.6v3.6H3.6v-3.6H0V3.6H3.6V0h1.2V3.6h3.6v1.2Z" transform="translate(3.003 3.003)" fill="#444"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      
+        </>
+    )
+}
+export const temp = () => {
+    return (
+        <>
+        </>
+    )
+}

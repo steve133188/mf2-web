@@ -5,9 +5,9 @@ import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
 import axios from "axios";
-import Avatar from "@mui/material/Avatar";
-import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg"
-import ContantDetail from "./contantDetail";
+import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
+import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
+import ChatroomInfo from "./chatroom_info";
 
 
 export default function Live_chat() {
@@ -546,9 +546,24 @@ export default function Live_chat() {
                 />
             </div>
             </div>
-                <div className={"chatlist_ss"}>
-                    <div  className={"chatlist_ss_filter"}><button className={"select_group"} ><div className={"group_icon"}></div>All Team <div className={"arrow_icon"}></div></button><div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}><div className={"filter_icon"}></div></div></div>
+                <div className={"chatlist_ss"} style={{}}>
+                    <div  className={"chatlist_ss_filter"}>
+                        <div className={"filter_bar_left"}>
+                            <button className={"select_group"} >
+                                <div className={"group_icon"}></div>All Team <div className={"arrow_icon"}></div>
+                            </button>
+                            <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
+                                        <div className={"filter_icon"}></div>
+                            </div>
+                        </div>
+                            <div className={"add_button"} style={{}}>
+                            <AddButtonSVG />
+                            </div>
+                    </div>
                     <div  className={"chatlist_ss_list"}>
+                        <div className={"chatlist_filter_box"}>
+                            
+                        </div>
                         {chatrooms.map((d , index)=>{
                             return (<ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/>)
                         })}
@@ -607,7 +622,7 @@ export default function Live_chat() {
                     </div>
                 </div>
             </div>
-            <div className={"chatroom_info"}>
+            {/* <div className={"chatroom_info"}>
                 <div className={"contact_card"}>
                     <div className={"profile_pic"}><Avatar src={data[0].profile_pic_url} alt="" sx={{ width: 100, height: 100 }}/></div>
                     <div className={"contact_detail"}>
@@ -626,10 +641,11 @@ export default function Live_chat() {
                     </div>
                     <div className={"content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
                         content
-                        <ContantDetail/>
+                        <ContantDetail />
                     </div>
                 </div>
-            </div>
+            </div> */}
+            <ChatroomInfo data={data}/>
         </div>
     )
 }
