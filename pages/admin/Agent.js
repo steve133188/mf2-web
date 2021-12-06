@@ -28,30 +28,37 @@ import * as React from "react";
 
 export default function Agent() {
 
-    const {adminInstance , userInstance, user} = useContext(GlobalContext)
+    const {adminInstance , userInstance, orgInstance,user} = useContext(GlobalContext)
+    const [selectedUsers , setSelectedUsers] = useState([])
 
     const searchRef = useRef(null)
     const [roles, setRoles] = useState([]);
-    const {get_contacts} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(false);
-    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
+    const [filter , setFilter] = useState("")
 
-    const [useContact , setUseContact] = useState()
+    const [users, setUsers] = useState([]);
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
 
     const [currentPage , setCurrentPage] = useState(1)
-    const [selectedContacts , setSelectedContacts] = useState([])
-    const [isShowDropzone, setIsShowDropzone] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
+    const [selectedTeams ,setSelectedTeams] =useState("")
+    const [teams ,setTeams] =useState([])
+
+    const [curr_org , set_curr_org] = useState({})
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
+    const currentUsers = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isSelectRow, setIsSelectRow] = useState( false);
 
-    let result = currentContacts.map(d=>d.id)
+    let result = currentUsers.map(d=>d.phone)
+    const fetchTeamUsers = async (id)=>{
+        const data = await userInstance.getUsersByTeamId(id)
+        setUsers(data)
+        setFilteredData(data)
+    }
 
     const fetchUsers = async () =>{
         const data = await userInstance.getAllUser()
@@ -59,38 +66,43 @@ export default function Agent() {
         setRoles(data)
         setFilteredData(data)
     }
+    const getTeams = async ()=>{
+        const data = await orgInstance.getOrgTeams()
+        setTeams(data)
+    }
     useEffect(    async () => {
-        await fetchUsers()
+        if(user.token!=null){
+            await fetchUsers()
+            await getTeams()
+        }
     },[]);
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        setSelectedContacts([...selectedContacts, id]);
+        setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
-            setSelectedContacts(selectedContacts.filter(item => item !== id));
+            setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
-        console.log(selectedContacts)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.id));
+        setSelectedUsers(currentUsers.map(c => c.phone));
         if (selectAll) {
-            setSelectedContacts([]);
+            setSelectedUsers([]);
         }
-        console.log(selectedContacts)
     };
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
     const toggleEditProfile =async (key) =>{
-        if(!isEditProfileShow) setUseContact(key);
+        if(!isEditProfileShow) setUseUser(key);
         if(isEditProfileShow) await fetchRoles();
         setIsEditProfileShow(!isEditProfileShow)
     }
 
 
 
-    const default_cols = ['Role' , 'No. of User' ,' ']
+    const default_cols = ['Name' , 'Role' ,'Email' , "Phone" , "No. Of Leads"]
 
     const editSVG =(
         <svg id="pen" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
@@ -122,8 +134,8 @@ export default function Agent() {
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <div className="rightContent">
-                {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
-                {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
+                {/*{isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}*/}
+                {/*{isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}*/}
 
                 <div className={"search_session"}>
                     <div className="search">
@@ -132,11 +144,10 @@ export default function Agent() {
                             <input
                                 className={"mf_input mf_bg_light_grey"}
                                 type="search"
-                                // defaultValue={filterWord}
                                 name={"keyword"}
                                 ref={searchRef}
                                 onChange={(e)=> {
-                                    searchFilter(e.target.value , contacts,(new_data)=>{
+                                    searchFilter(e.target.value , users,(new_data)=>{
                                         setFilteredData(new_data)
                                         setCurrentPage(1)
                                     })
@@ -151,15 +162,27 @@ export default function Agent() {
                         ) : (
                             <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                         )}
-                        <button>+ New Contact</button>
+                        <button>+ New User</button>
                     </div>
                 </div>
                 {/* drag and drop end*/}
                 <SelectSession
                     btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                        <div className={"select_session_btn"}><div svg={deleteSVG} onClick={removeManyContact}>{deleteSVG}</div> </div>
+                        <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
+                        <div className={"select_session_btn"}><div svg={deleteSVG}>{deleteSVG}</div> </div>
                     </div>):null}
                 >
+                    <MF_Select head={"Team"} top_head={selectedTeams==""?"Team":selectedTeams}
+                               // submit={advanceFilter}
+                               customeDropdown={true}>
+                        <li onClick={async ()=> {
+                            setSelectedTeams("");
+                            await fetchUsers()
+                        }}>All</li>
+                        {teams.map((team)=>{
+                            return(<li id={team.name} key={team.id} onClick={async (e)=>{setSelectedTeams(e.target.id);await fetchTeamUsers(e.target.id)}}> {team.name}</li>)
+                        })}
+                    </MF_Select>
                 </SelectSession>
                 <TableContainer
                     sx={{minWidth: 750 , minHeight:"60vh"}}
@@ -176,7 +199,7 @@ export default function Agent() {
                                 <TableCell>
                                     <div className="newCheckboxContainer">
                                         {isSelectRow ? <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
+                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedUsers.includes(el))} onClick={toggleSelectAll} />
                                         </label> : null}
                                     </div>
                                 </TableCell>
@@ -187,14 +210,14 @@ export default function Agent() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                            {filteredData.length!=0 && currentUsers.map((data ,index) => {
                                 return( <TableRow
                                         key={index}
                                         hover
                                         role="checkbox"
                                         name={index}
-                                        checked={selectedContacts.includes(data.id)}
-                                        onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
+                                        checked={selectedUsers.includes(data.phone)}
+                                        // onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
                                             width: "30px",
@@ -203,24 +226,32 @@ export default function Agent() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
 
                                             </div>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <span >{data.name}</span>
+                                            <span >{data.username}</span>
                                         </TableCell>
-
                                         <TableCell align="left">
-
+                                            {data.role}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {data.email}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {data.phone}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {data.leads!=0?data.leads : 0}
                                         </TableCell>
 
 
-                                        <TableCell align="right">
-                                            <span className={"right_icon_btn"}>{editSVG}</span>
-                                            <span className={"right_icon_btn"}>{deleteSVG}</span>
-                                        </TableCell>
+                                        {/*<TableCell align="right">*/}
+                                        {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
+                                        {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
+                                        {/*</TableCell>*/}
                                     </TableRow>
                                 )
                             })}
