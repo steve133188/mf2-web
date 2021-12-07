@@ -45,7 +45,8 @@ lastContactFromYou:"September 30, 2021 11:40PM",
             </div>
 
             <div className={'noteBox'} style={props.tab=="note"?{display:"block"}:{display:"none"}}>
-                <div className={"write_pad"}>
+                <div className={"notesVolumn"}>Note : 1</div>
+                <div className={"write_pad"}>    
                             <input type="text" className={"write_note"}  placeholder={"Write a note..."}>
                             </input>
                                 <NoteButtonSVG/>
