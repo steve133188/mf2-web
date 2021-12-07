@@ -136,7 +136,66 @@ export const ResearchBTN = () => {
     )
 }
 
-export const temp = () => {
+
+
+export const TagButtonSVG = () => {
+    return (
+
+      <svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" viewBox="0 0 25 25">
+            <defs>
+                <clipPath id="clip-path">
+                    <rect id="Background" width="18" height="18" fill="none"/>
+                </clipPath>
+            </defs>
+            <g id="trash-alt">
+                <g id="Group_5689" data-name="Group 5689" transform="translate(9.749 -2.748) rotate(45)">
+                    <path id="Path_34498" data-name="Path 34498" d="M18.87,0H10.783A2.7,2.7,0,0,0,8.876.788L.789,8.876a2.7,2.7,0,0,0,0,3.811l8.087,8.087a2.7,2.7,0,0,0,3.811,0l8.087-8.087a2.7,2.7,0,0,0,.792-1.9V2.7A2.7,2.7,0,0,0,18.87,0Zm0,10.783L10.783,18.87,2.7,10.783,10.783,2.7H18.87Z" transform="translate(0 0)" fill="#f1b44c"/>
+                </g>
+            </g>
+        </svg>
+
+    )}
+    
+export const EditPenButtonSVG = (props) => {
+    return (
+
+        <svg id="pen" xmlns="http://www.w3.org/2000/svg" width={props.w} height={props.h} viewBox="0 0 18 18">
+        <defs>
+            <clipPath id="clip-path">
+                <rect id="Background" width="18" height="18" fill="none"/>
+            </clipPath>
+        </defs>
+        <rect id="Background-2" data-name="Background" width="18" height="18" fill="none"/>
+        <g id="pen-2" data-name="pen" clipPath="url(#clip-path)">
+            <path id="Shape" d="M3.971,15H.75A.751.751,0,0,1,0,14.25V11.07a.749.749,0,0,1,.218-.533l8.2-8.2L10.537.218A.749.749,0,0,1,11.067,0h.007A.749.749,0,0,1,11.6.218l3.18,3.18A.746.746,0,0,1,15,3.93l-.053.037a.52.52,0,0,1,0,.105.749.749,0,0,1,0,.18.89.89,0,0,1-.165.247l-2.13,2.085L4.5,14.783A.753.753,0,0,1,3.971,15ZM8.948,3.93h0L1.5,11.378V13.5H3.623L11.07,6.053,8.948,3.93ZM11.07,1.815,10.005,2.873,12.128,5,13.185,3.93,11.07,1.815Z" transform="translate(1.5 1.5)" fill={props.c}/>
+        </g>
+    </svg>
+
+
+    )}
+export const NoteButtonSVG = (props) => {
+    return (
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+
+  <g id="Group_4953" data-name="Group 4953" transform="translate(0 -0.001)">
+    <rect id="Rectangle_4096" data-name="Rectangle 4096" width="34" height="34" rx="10" transform="translate(0 0.001)" fill="#d0e9ff"/>
+    <g id="search" transform="translate(6 7.001)">
+      <rect id="Background-2" data-name="Background" width="16" height="16" transform="translate(3 2)" fill="none"/>
+      <g id="search-2" data-name="search" clip-path="url(#clip-path)">
+        <g id="Group_5664" data-name="Group 5664" transform="translate(2.57 2.337)">
+          <path id="Path_34489" data-name="Path 34489" d="M20.846,7.094l-.881-.881-.88-.881a.653.653,0,0,0-.923,0,.664.664,0,0,0-.1.134,3.357,3.357,0,0,1-2.8,1.713l-.117,0a.652.652,0,0,0-.48,1.113l1.153,1.153-.43.43a1.751,1.751,0,0,0-.678-.135H14.5a1.747,1.747,0,0,0-1.3-1.886L6.231,6.008A1.76,1.76,0,0,0,4.08,7.259v0L2.237,14.229a1.761,1.761,0,0,0,1.252,2.153h0l2.248.6v1.729A1.763,1.763,0,0,0,7.5,20.468h7.208a1.763,1.763,0,0,0,1.762-1.761V11.5a1.752,1.752,0,0,0-.154-.713l.421-.421,1.153,1.153A.652.652,0,0,0,19,11.038l0-.117a3.351,3.351,0,0,1,1.713-2.8.653.653,0,0,0,.237-.892A.66.66,0,0,0,20.846,7.094ZM3.823,15.121a.456.456,0,0,1-.325-.557v0L5.341,7.594a.454.454,0,0,1,.552-.326h0l6.971,1.843a.455.455,0,0,1,.325.555h0l-.018.069H7.5A1.763,1.763,0,0,0,5.738,11.5v4.13Zm11.341,3.586a.457.457,0,0,1-.457.457H7.5a.457.457,0,0,1-.457-.457V11.5a.457.457,0,0,1,.457-.457h6.716L13.047,12.21a.652.652,0,1,0,.92.925l0,0,1.195-1.195Zm2.721-9.039L17.2,8.981l-.686-.687a4.831,4.831,0,0,0,2.2-1.492l.334.334.334.334A4.826,4.826,0,0,0,17.884,9.668Z" transform="translate(-2.178 -5.142)" fill="#2198fa"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
+
+
+
+    )}
+    
+export const Temp = () => {
     return (
         <>
         </>

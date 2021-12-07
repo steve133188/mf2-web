@@ -7,8 +7,9 @@ import RobotSwitch from "../../components/livechat/RobotSwitch";
 import axios from "axios";
 import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
-import ChatroomInfo from "./chatroom_info";
-
+import ChatroomInfo from "./chatroom_info/chatroom_info";
+import ChatlistFilter from "./serach_filter/filter.js/chatlist_filter";
+import Livechat from "../../pages/dashboard/livechat"
 
 export default function Live_chat() {
     const base_url ='https://e9bf-118-140-233-2.ngrok.io'
@@ -535,17 +536,20 @@ export default function Live_chat() {
 
     return (
         <div className="live_chat_layout">
-            <div className={"chat_list"}><div className={"search_ss"}><div className="mf_icon_input_block  mf_search_input">
-                <div className={"mf_inside_icon mf_search_icon "} > </div>
-                <input
-                    className={"mf_input mf_bg_light_grey"}
-                    // type={type}
-                    // value={state}
-                    // onChange={handleChange}
-                    placeholder={"Search"}
-                />
-            </div>
-            </div>
+            <div className={"chat_list"}>
+                <div className={"search_ss mf_search_input"} >
+                    <div className="mf_icon_input_block  ">
+                        <div className={"mf_inside_icon mf_search_icon "} > </div>
+                        <input
+                            className={"mf_input mf_bg_light_grey"}
+                            // type={type}
+                            // value={state}
+                            // onChange={handleChange}
+                            placeholder={"Search"}
+                        />
+                        {/* <Livechat/> */}
+                        </div>
+                </div>
                 <div className={"chatlist_ss"} style={{}}>
                     <div  className={"chatlist_ss_filter"}>
                         <div className={"filter_bar_left"}>
@@ -560,10 +564,10 @@ export default function Live_chat() {
                             <AddButtonSVG />
                             </div>
                     </div>
-                    <div  className={"chatlist_ss_list"}>
-                        <div className={"chatlist_filter_box"}>
-                            
+                        <div className={"chatlist_filter_box "}  style={isFilterOpen?{display:"block"}:{display:"none"}}>
+                             <ChatlistFilter/>
                         </div>
+                    <div  className={"chatlist_ss_list"}>
                         {chatrooms.map((d , index)=>{
                             return (<ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/>)
                         })}

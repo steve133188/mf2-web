@@ -1,6 +1,8 @@
 import { useState } from "react"
 import ContantDetail from "./contantDetail";
 import Avatar from "@mui/material/Avatar";
+import {EditPenButtonSVG} from "../../../public/livechat/MF_LiveChat_Landing/chat_svg"
+
 
 export default function ChatroomInfo (props){
 
@@ -15,7 +17,8 @@ export default function ChatroomInfo (props){
                 <div className={"contact_detail_channel"}>+852 1833833</div>
                 <div className={"contact_detail_team"}> Team{props.data[0].team}</div>
             </div>
-            <div className={"config"}> ... </div>
+            <EditPenButtonSVG w="40" h={40} c="#E0E0E0"/>
+            {/* <div className={"config"}> ... </div> */}
         </div>
 
         <div className={"tabs_field"}>
@@ -25,7 +28,7 @@ export default function ChatroomInfo (props){
                 <div className={"tab "+ (tabActive == "note"?"active":"")} onClick={()=>{setTabAcive("note")}}>note</div>
             </div>
             <div className={"contact_content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
-                content
+
                 <ContantDetail tab={tabActive}/>
             </div>
         </div>

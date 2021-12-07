@@ -1,6 +1,6 @@
 import { ListItem } from "@mui/material";
 import { display, flexbox } from "@mui/system";
-
+import { NoteButtonSVG } from "../../../public/livechat/MF_LiveChat_Landing/chat_svg";
 
 export default function ContantDetail(props){
     
@@ -23,15 +23,12 @@ lastContactFromYou:"September 30, 2021 11:40PM",
     channel:"whatsapp",
     profile_pic_url:"https://imgv3.fotor.com/images/side/Fotor-powerful-photo-enhancement-tools.jpg",
 },]
-// const map2 = []
-// const listItem =   List.map((w) => {console.log(Object.keys(w)); map2.push[w]} );
-// console.log()
+
         return(<>
             <div className={"infoBox"} style={props.tab=="info"?{display:"block"}:{display:"none"}} >
                 <div className={"keyList"} >
                     {Object.keys(List[0]).map((item=>(
                         <>               
-                        {/* <div>{item}</div> */}
                         <div className={"keys"} style={{}}>{item}</div>
                         </>
                     )))}
@@ -39,7 +36,6 @@ lastContactFromYou:"September 30, 2021 11:40PM",
                 <div className={"valueList"}  style={{}}>
                     {Object.values(List[0]).map((item=>(
                         <>               
-
                         <div className={"values"}>{item}</div>
                         </>
                     )))}
@@ -48,7 +44,10 @@ lastContactFromYou:"September 30, 2021 11:40PM",
 
             <div className={'noteBox'} style={props.tab=="note"?{display:"block"}:{display:"none"}}>
                         <div>
-                            halo 
+                            <input type="text" className={"write_note"}  placeholder={"Write a note..."}>
+                            </input>
+                                <NoteButtonSVG/>
+
                         </div>
             </div>
 
