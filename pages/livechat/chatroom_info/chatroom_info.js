@@ -17,8 +17,8 @@ export default function ChatroomInfo (props){
                 <div className={"contact_detail_channel"}>+852 1833833</div>
                 <div className={"contact_detail_team"}> Team{props.data[0].team}</div>
             </div>
-            <EditPenButtonSVG w="40" h={40} c="#E0E0E0"/>
-            {/* <div className={"config"}> ... </div> */}
+            
+            <div className={"config"}> <EditPenButtonSVG w="26" h={26} c="#E0E0E0" /> </div>
         </div>
 
         <div className={"tabs_field"}>
@@ -29,7 +29,7 @@ export default function ChatroomInfo (props){
             </div>
             <div className={"contact_content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
 
-                <ContantDetail tab={tabActive}/>
+                <ContantDetail tab={tabActive} name={props.data[0].name}/>
             </div>
         </div>
     </div>

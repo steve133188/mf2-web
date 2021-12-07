@@ -115,13 +115,17 @@ export default function ChatlistFilter(){
     }
 
     return(
-         <div>Filter
+         <div><div className={"filter_title"}>Filter</div>
                 <div className={"filter_box_status"}  >
                     <label className={"status_box"}>
                         <input type="checkbox" name="unread_check" />
                         <span className={"checkboxStyle"}></span>
                         <span className={"checkboxStyleout"}> </span>
                         Unread
+                        {/* <div className="newCheckboxContainer">
+                                                    <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                                    </label>
+                                                </div> */}
                     </label>
                     <label className={"status_box"}>
                         <input type="checkbox" name="unassign_check" />
@@ -140,12 +144,12 @@ export default function ChatlistFilter(){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id+e.value} />})}
+                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id} />})}
                     </div>
                 </div>
                 <div className={"filter_box_agents"}  >
                     <div >
-                            Agent try<br/>
+                            <div className={"filter_title"}>Agent try</div><br/>
                             <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
                                         setFilteredUsers(new_data)
                                     })}}>
@@ -169,7 +173,7 @@ export default function ChatlistFilter(){
                 </div>
                 <div className={"filter_box_agents"}  >
                     <div className={"channelList"}>
-                            Agent<br/>
+                    <div className={"filter_title"}>Agent</div>
                         <div className={"channelList"}>
                             {filteredUsers.map((user)=>{
                                 return(<li className={"channelListitem"} key={user.username} style={{width:"100%"}}>
@@ -189,16 +193,17 @@ export default function ChatlistFilter(){
                     </div>
                 </div>
                 <div className={"filter_box_tag"}  >
-                <div className={"channelList"}>
-                        Tag<br/>
+                     <div className={"channelList"}>
+                        <div className={"filter_title"}>Tag</div>
+                    
 
-                        {filteredTags.map((tag)=>{
-                        return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
-                            <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
-                                </label> </div></li>)
-                    })}
+                            {filteredTags.map((tag)=>{
+                            return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>
+                                <div className="newCheckboxContainer">
+                                    <label className="newCheckboxLabel">
+                                        <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                    </label> </div></li>)
+                        })}
 
                     </div>
                 </div>

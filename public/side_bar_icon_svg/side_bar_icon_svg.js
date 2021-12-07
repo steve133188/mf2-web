@@ -1,7 +1,7 @@
 
-export const DashboardSVG = () => {
+export const DashboardSVG = (props) => {
     return (
-        <svg id="home-alt" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8" fill="currentColor"
+        <svg id="home-alt" xmlns="http://www.w3.org/2000/svg" width={props.size} height={props.size} fill="currentColor"
                                 className="bi bi-house-door" viewBox="0 0 16.8 16.8">
                                 <g id="home-alt-2" data-name="home-alt" clip-path="url(#clip-path)">
                                     <path id="Shape" d="M10.5,14.017H2.1a2.1,2.1,0,0,1-2.1-2.1V5.8A2.1,2.1,0,0,1,.7,4.216L4.9.535a2.1,2.1,0,0,1,2.8,0l4.2,3.682a2.1,2.1,0,0,1,.7,1.575v6.125A2.1,2.1,0,0,1,10.5,14.017Zm-4.9-7H7a2.1,2.1,0,0,1,2.1,2.1v3.5h1.4a.7.7,0,0,0,.7-.7V5.791a.7.7,0,0,0-.238-.525l-4.2-3.675a.7.7,0,0,0-.923,0l-4.2,3.675a.7.7,0,0,0-.238.525v6.125a.7.7,0,0,0,.7.7H3.5v-3.5A2.1,2.1,0,0,1,5.6,7.016Zm0,1.4a.7.7,0,0,0-.7.7v3.5H7.7v-3.5a.7.7,0,0,0-.7-.7Z" transform="translate(2.1 1.383)" fill="currentColor"/>
@@ -9,24 +9,24 @@ export const DashboardSVG = () => {
                             </svg>
     )
 }
-export const CommentsAltSVG = () => {
+export const CommentsAltSVG = (props) => {
     return (
-        <svg id="comments-alt" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8"  fill="currentColor" 
+        <svg id="comments-alt" xmlns="http://www.w3.org/2000/svg" width={props.size} height={props.size}  fill="currentColor" 
                                     className="bi bi-chat-right" viewBox="0 0 16.8 16.8">
-                                <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+                                <rect id="Background-2" data-name="Background" width={props.size} height={props.size} fill="none"/>
                                 <g id="comments-alt-2" data-name="comments-alt" clip-path="url(#clip-path)">
                                     <path id="Shape" d="M13.312,14H13.3a.706.706,0,0,1-.5-.2l-1.66-1.666H6.3a2.1,2.1,0,0,1-2.1-2.1V9.023H3.164L1.2,11a.7.7,0,0,1-.49.2H.683a.578.578,0,0,1-.249-.056A.7.7,0,0,1,0,10.5V2.1A2.1,2.1,0,0,1,2.1,0h7a2.1,2.1,0,0,1,2.1,2.1V4.2h.7A2.1,2.1,0,0,1,14,6.3v7a.7.7,0,0,1-.435.644A.583.583,0,0,1,13.312,14ZM6.3,5.6a.7.7,0,0,0-.7.7V10a.7.7,0,0,0,.7.7h5.1a.7.7,0,0,1,.5.211l.7.7V6.3a.7.7,0,0,0-.7-.7ZM2.1,1.4a.7.7,0,0,0-.7.7V8.813l.979-.986a.7.7,0,0,1,.494-.2H4.2V6.3A2.1,2.1,0,0,1,6.3,4.2H9.8V2.1a.7.7,0,0,0-.7-.7Z" transform="translate(1.4 1.4)"  fill="currentColor" />
                                 </g>
                             </svg>
     )
 }
-export const ContactSVG = () => {
+export const ContactSVG = (props) => {
     return (
-        <svg id="user-circle" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8" fill="currentColor"
+        <svg id="user-circle" xmlns="http://www.w3.org/2000/svg" width={props.size} height={props.size} fill="currentColor"
                                 className="bi bi-journal-text" viewBox="0 0 16.8 16.8">
-                                    <rect id="Background-2" data-name="Background" width="16.8" height="16.8"  fill="none"/>
+                                    <rect id="Background-2" data-name="Background" width={props.size} height={props.size}  fill="none"/>
                                          <g id="book-alt">
-                                    <rect id="Background-3" data-name="Background" width="16.8" height="16.8"  fill="none"/>
+                                    <rect id="Background-3" data-name="Background" width={props.size} height={props.size}  fill="none"/>
                                         <g id="book-alt-2" data-name="book-alt" clip-path="url(#clip-path)">
                                     <path id="Shape" d="M9.8,14h-7A2.8,2.8,0,0,1,0,11.2V2.8A2.8,2.8,0,0,1,2.8,0h7a1.4,1.4,0,0,1,1.4,1.4V12.6A1.4,1.4,0,0,1,9.8,14Zm-7-4.2a1.4,1.4,0,0,0,0,2.8h7V9.8Zm0-8.4A1.4,1.4,0,0,0,1.4,2.8V8.792A2.74,2.74,0,0,1,2.8,8.4h7v-7ZM7,4.2H4.2a.7.7,0,1,1,0-1.4H7A.7.7,0,0,1,7,4.2Z" transform="translate(2.8 1.4)"  fill="currentColor"/>
                                         </g>
@@ -34,11 +34,11 @@ export const ContactSVG = () => {
                             </svg>
     )
 }
-export const IntegrationsSVG = () => {
+export const IntegrationsSVG = (props) => {
     return (
-        <svg id="share-alt" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8" 
+        <svg id="share-alt" xmlns="http://www.w3.org/2000/svg" width={props.size} height={props.size} 
         className="bi bi-collection" fill="currentColor" viewBox="0 0 16.8 16.8">
-        {/* <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/> */}
+        {/* <rect id="Background-2" data-name="Background" width={props.size} height={props.size} fill="none"/> */}
         <g id="share-alt-2" data-name="share-alt" clip-path="url(#clip-path)">
             <g id="Group_5152" data-name="Group 5152" transform="translate(-231.453 -690.805)">
                 <path id="Path_34288" data-name="Path 34288" d="M259.015,692.749h-3.154a1.532,1.532,0,0,0-1.529,1.528v3.155a1.532,1.532,0,0,0,1.529,1.527h3.154a1.532,1.532,0,0,0,1.529-1.528v-3.155A1.532,1.532,0,0,0,259.015,692.749Zm0,4.946H255.86a.264.264,0,0,1-.264-.264v-3.154a.265.265,0,0,1,.264-.264h3.155a.264.264,0,0,1,.264.263v3.154A.265.265,0,0,1,259.015,697.7Z" transform="translate(-14.173 -0.001)" fill="currentColor"/>
@@ -51,22 +51,22 @@ export const IntegrationsSVG = () => {
     )
 }
 
-export const OrganizationSVG = () => {
+export const OrganizationSVG = (props) => {
     return (
-        <svg id="share-alt" xmlns="http://www.w3.org/2000/svg" width="16.8" height="16.8" 
+        <svg id="share-alt" xmlns="http://www.w3.org/2000/svg" width={props.size} height={props.size} 
         className="bi bi-share" fill="currentColor" viewBox="0 0 16.8 16.8">
-    <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+    <rect id="Background-2" data-name="Background" width={props.size} height={props.size} fill="none"/>
         <g id="share-alt-2" data-name="share-alt" clip-path="url(#clip-path)">
     <path id="Shape" d="M11.2,14.023a2.8,2.8,0,0,1-2.8-2.8,2.974,2.974,0,0,1,.049-.5l-3.7-1.7a2.8,2.8,0,1,1,0-4l3.7-1.7a2.98,2.98,0,0,1-.049-.5,2.8,2.8,0,1,1,.644,1.764L5.478,6.232a2.526,2.526,0,0,1,0,1.582l3.57,1.645A2.794,2.794,0,1,1,11.2,14.023Zm0-4.2a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,11.2,9.823Zm-8.4-4.2a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,2.8,5.623Zm8.4-4.2a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,11.2,1.423Z" transform="translate(1.395 1.377)" fill="currentColor"/>
         </g>
 </svg>
     )
 }
-export const AdminSVG = () => {
+export const AdminSVG = (props) => {
     return (
-        <svg id="user-circle" xmlns="http://www.w3.org/2000/svg"  width="16.8" height="16.8" fill="currentColor"
+        <svg id="user-circle" xmlns="http://www.w3.org/2000/svg"  width={props.size} height={props.size} fill="currentColor"
         className="bi bi-person" viewBox="0 0 16 16">
-    <rect id="Background-2" data-name="Background" width="16.8" height="16.8" fill="none"/>
+    <rect id="Background-2" data-name="Background" width={props.size} height={props.size} fill="none"/>
         <g id="user-circle-2" data-name="user-circle" clip-path="url(#clip-path)">
     <path id="Shape" d="M6.987,13.985a6.981,6.981,0,1,1,5.145-2.253A7.021,7.021,0,0,1,6.987,13.985Zm0-5.565a4.188,4.188,0,0,0-3.885,2.6,5.58,5.58,0,0,0,7.771,0A4.186,4.186,0,0,0,6.987,8.42Zm0-5.638a2.8,2.8,0,0,1,2.1,4.652A5.631,5.631,0,0,1,11.824,9.8,5.6,5.6,0,1,0,1.387,7,5.543,5.543,0,0,0,2.15,9.8,5.63,5.63,0,0,1,4.887,7.434a2.8,2.8,0,0,1,2.1-4.652Zm0,1.418a1.4,1.4,0,1,0,1.4,1.4A1.4,1.4,0,0,0,6.987,4.2Z" transform="translate(1.413 1.4)" fill="currentColor"/>
         </g>
@@ -74,7 +74,7 @@ export const AdminSVG = () => {
     )
 }
 
-export const temp = () => {
+export const temp = (props) => {
     return (
         <>
         </>

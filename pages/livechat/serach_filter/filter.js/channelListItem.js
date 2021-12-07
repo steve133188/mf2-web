@@ -22,7 +22,7 @@ export default function ChannelListItem(props){
                                                 id={props.key} 
                                                 name="checkbox" 
                                                 // checked={} 
-                                                // onClick={} 
+                                                onClick={()=>{props.id<=0?checked=!checked:""}} 
                                                 />
                                         </label>
                                     </div>

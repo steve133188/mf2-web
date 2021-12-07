@@ -130,7 +130,7 @@ export default function SideBar(props) {
                             setIsDashOpen(!isDashOpen)
                         }}>
 
-                                <DashboardSVG/>
+                                <DashboardSVG size="25"/>
                             <span className="side-item-name">Dashboard </span>
                             { isCollapse?null: ( 
                                 isTurnUp ? (
@@ -172,7 +172,7 @@ export default function SideBar(props) {
                 <div className={router.pathname == "/livechat" ? "active-side-item" : "side-item "}>
                     <Link href={"/livechat"}>
                         <div className={router.pathname == "/livechat" ? "active nav-item" : "nav-item "}>
-                           <CommentsAltSVG/>
+                           <CommentsAltSVG  size="25"/>
                             <span className="side-item-name">Live Chat</span>
                         </div>
                     </Link>
@@ -182,7 +182,7 @@ export default function SideBar(props) {
                         <div className={router.pathname == "/contacts" ? "active nav-item" : "nav-item "}>
                          
   
-                            <ContactSVG/>
+                            <ContactSVG  size="25"/>
                             <span className="side-item-name">Contacts</span>
                         </div>
                     </Link>
@@ -214,7 +214,7 @@ export default function SideBar(props) {
                 <div className={router.pathname == "/integrations" ? "active-side-item" : "side-item "}>
                     <Link href={"/integrations"}>
                         <div className={router.pathname == "/integrations" ? "active nav-item" : "nav-item "}>    
-                            <IntegrationsSVG/>      
+                            <IntegrationsSVG  size="25"/>      
                             <span className="side-item-name">Integrations</span>
                         </div>
                     </Link>
@@ -234,7 +234,7 @@ export default function SideBar(props) {
                 <div className={router.pathname == "/organization" ? "active-side-item" : "side-item "}>
                     <Link href={"/organization"}>
                         <div className={router.pathname == "/organization" ? "active nav-item" : "nav-item "}>
-                                <OrganizationSVG/>  
+                                <OrganizationSVG  size="25"/>  
                             <span className="side-item-name">Organization</span>
                         </div>
                     </Link>
@@ -242,7 +242,7 @@ export default function SideBar(props) {
                 <div className={router.pathname == "/admin" ? "active-side-item" : "side-item "}>
                     <Link href={"/admin"}>
                         <div className={router.pathname == "/admin" ? "active nav-item" : "nav-item "}>
-                         <AdminSVG/>
+                         <AdminSVG  size="25"/>
                             <span className="side-item-name">Admin</span>
                         </div>
                     </Link>

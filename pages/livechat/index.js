@@ -10,12 +10,14 @@ import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_B
 import ChatroomInfo from "./chatroom_info/chatroom_info";
 import ChatlistFilter from "./serach_filter/filter.js/chatlist_filter";
 import Livechat from "../../pages/dashboard/livechat"
+import { CheckBoxM,Whatsapp,WhatsappB,Messager,Wechat } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
+
 
 export default function Live_chat() {
     const base_url ='https://e9bf-118-140-233-2.ngrok.io'
     const data = [
         {
-            name:"1",
+            name:"John Hanson",
             last_msg_time:"03:45PM",
             team:"A",
             unreadCount:1,
@@ -567,6 +569,7 @@ export default function Live_chat() {
                         <div className={"chatlist_filter_box "}  style={isFilterOpen?{display:"block"}:{display:"none"}}>
                              <ChatlistFilter/>
                         </div>
+
                     <div  className={"chatlist_ss_list"}>
                         {chatrooms.map((d , index)=>{
                             return (<ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/>)
@@ -578,8 +581,8 @@ export default function Live_chat() {
                 <div className={"chatroom_top"}>
                     <div className={"chatroom_top_info"}>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU" alt="icon"/>
-                        <div className={"chatroom_name"}>Name</div>
-                        <div className={"chatroom_channel"}>Channel</div>
+                        <div className={"chatroom_name"}>Name Surname</div>
+                        <div className={"chatroom_channel"}><Whatsapp/></div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
                         <div className={"chatroom_top_btn chatroom_top_btn_research"}><ResearchBTN/></div>

@@ -4,6 +4,7 @@
   width: 100vw;
   margin: 0;
   padding: 0;
+  // transform: scale();
 }
 
 .layout-sidebar {
@@ -11,20 +12,23 @@
   flex-direction: column;
   //max-width: 232px;
   //width: 20%;
-  height: 100vh;
+  // height: 100vh;
   border-right: 2px solid #F1F1F1;
   position: relative;
 
   .brand-logo {
     display: flex;
     //min-height: 180px;
-    height: 280px;
-    max-height: 360px;
+    // height:200px;
+
+    min-height: 140px;
+    // max-height: 280px;
     img {
-      //height:4.6vh ;
-      max-width: 79px;
-      max-height: 50px;
-      margin:7vh auto;
+      width: 90px;
+      height:50 ;
+      // max-width: 79px;
+      // max-height: 50px;
+      margin:auto auto;
     }
     padding: 1rem;
   }
@@ -42,7 +46,7 @@
   }
 
   .nav-item {
-    padding: 1rem;
+    padding: 0.7rem;
     padding-left: 1.5rem;
     text-align: left;
     align-items: center;
@@ -50,6 +54,8 @@
 
     svg {
       margin-right: 12.2px;
+      width: 30;
+      height: 30;
     }
 
     #expand_more-24px {
@@ -312,24 +318,24 @@
 
 .collapseLayout {
 
-  width:8vh;
-  min-width: 60px;
+  width:80px;
+  // min-width: 80px;
   
 
   .brand-logo {
-    height: 20vh;
+    height: 6rem;
     min-height: 140px;
     img{
-      width: 65%;
       max-width: 48px;
       min-height: 20px;
       min-width: 20px;
+      margin-left: 5px;
     }
   }
   .nav-items {
     .nav-item{
 
-    padding: 1rem;
+    padding: 0.7rem;
     }
     .side-item{
       display: flex;

@@ -1,3 +1,8 @@
+.foo {
+  float: left;
+  overflow: hidden;}
+
+
 .live_chat_layout{
   display: flex;
   flex-direction: row;
@@ -9,8 +14,9 @@
   .chat_list{
     display: flex;
     padding: 1rem;
-    flex:25%;
+    margin-right: 5px;
     flex-direction: column;
+    max-width: 350px;
     //height: 100%;
     .search_ss{
       display: flex;
@@ -23,8 +29,8 @@
     .chatlist_ss{
       display: flex;
       flex-direction: column;
-      padding:0.5rem 0;
-      max-height: 90vh;
+      padding:0.5rem 0rem;
+      // max-height: 90vh;
       .chatlist_ss_filter{
         display: flex;
         flex-direction: row;
@@ -87,22 +93,26 @@
         }
       }
       .chatlist_filter_box{
+        
         // overflow:auto;
         display: flex;
         flex-direction: column;
         width: 100%;
         min-width: 330px;
-        height: 90%;
+        // height: 90%;
         font: normal normal normal 12px/17px Manrope;
         letter-spacing: 0px;
         color: #444444;
-        padding: 10px;
-        
+        padding: 10px 0px;
+        .filter_title{
+
+          padding-bottom: 4px;
+          }
         label{
           padding:  10px;
           // color: var(--unnamed-color-444444);
           text-align: left;
-          font: normal normal normal 16px/22px Manrope;
+          font: normal normal normal 14px/22px Manrope;
           letter-spacing: 0px;
           // color: #444444;
         }
@@ -113,7 +123,7 @@
           display: block;
           position: relative;
           padding-left: 40px;
-          padding-right: 1vw;
+          padding-right: 5px;
           // padding: 0 70px;
           // margin-bottom: 12px;
           cursor: pointer;
@@ -185,9 +195,9 @@
 
         .filter_box_status{
           display: flex;
-          justify-content: space-between;
+          // justify-content: space-between;
           align-items: center;
-          margin:30px 0;
+          margin:10px 0;
           
           
             
@@ -214,15 +224,15 @@
               justify-content: space-between;
               align-items: center;
               height: 30px;
-              margin: 12px 0;
-              font: normal normal normal 16px/22px Manrope;
+              margin: 4px 0;
+              font: normal normal normal 15px/22px Manrope;
               // margin: 5px 0;
               .left{
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 text-align: left;
-                width: 55%;
+                width: 70%;
                 height: 20px;
                 padding: 5px;
               }
@@ -230,7 +240,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                // margin-top: -20px;
+                margin-right: 10px;
 
               }
             }
@@ -246,14 +256,14 @@
             flex-direction: column;
             width: 100%;
             overflow-x: scroll ;
-            // align-items: center;
+
             height: 120px;
             .channelListitem{
               display: flex;
               justify-content: space-between;
               align-items: center;
               height: 30px;
-              margin: 12px 0;
+              margin: 3px 0;
               font: normal normal normal 16px/22px Manrope;
               // margin: 5px 0;
               .left{
@@ -269,7 +279,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                // margin-top: -20px;
+                margin-right: 10px;
 
               }
             }
@@ -291,10 +301,18 @@
               display: flex;
               justify-content: space-between;
               align-items: center;
-              height: 30px;
-              margin: 12px 0;
-              font: normal normal normal 16px/22px Manrope;
-              // margin: 5px 0;
+              font: normal normal normal 15px/22px Manrope;
+              margin-bottom: -10px;
+
+              .pillContainer .pill{
+                max-height: none;
+                width: fit-content;
+                padding: 3px 15px 5px 15px;
+                height: 25px;
+                font: normal normal normal 15px/22px Manrope;
+               
+
+              }
               .left{
                 display: flex;
                 justify-content: flex-start;
@@ -308,7 +326,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                // margin-top: -20px;
+                margin-right: 10px;
 
               }
             }
@@ -421,15 +439,16 @@
         flex-direction: row;
         padding: 1rem 0;
         img{
-          width: 30px;
-          height: 30px;
+          width: 50px;
+          height: 50px;
           border-radius: 50%;
+          margin: 10px;
         }
         .chatroom_name ,.chatroom_channel{
           margin: auto;
-          padding:0 1rem;
+          padding:0 0.5rem;
           text-align: left;
-          font: normal normal bold 1rem Manrope;
+          font: normal normal bold 15/22 Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
@@ -443,7 +462,7 @@
        flex-direction: row;
        justify-content: space-around;
        button , .chatroom_top_btn{
-         margin: auto 1rem;
+         margin: auto .5rem;
        }
 
        .chatroom_top_btn_research{
@@ -637,7 +656,8 @@
 
   
   .chatroom_info{
-    flex: 22.5%;
+    flex: 27%;
+    max-width: 450px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -645,7 +665,7 @@
     padding: 1rem;
     .contact_card{
       width: 100%;
-      max-width: 440px;
+      max-width: 400px;
       min-width: 200px;
       height: 8rem;
       margin: 2rem 0;
@@ -657,34 +677,34 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 40%;
+        width: 120px;
         min-width: 100px;
-        max-width: 150px;
+        max-width: 120px;
       }
       .contact_detail{
         padding: 0.25rem 1rem;
-        width: 80%;
-        min-width: 120px;
+        width: fit-content;
+        min-width: 130px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 6%;
         .contact_detail_name{
-          font: normal normal bold 1.6rem/33px Manrope;
+          font: normal normal bold 19px/25px Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
         }
         .contact_detail_channel{
           text-align: left;
-          font: normal normal normal .95rem Manrope;
+          font: normal normal normal 14px Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
         }
         .contact_detail_team{
           text-align: center;
-          font: normal normal 400 .85rem Manrope;
+          font: normal normal 400 16px Manrope;
           width: fit-content;
           padding: 0 0.5rem;
           letter-spacing: 0px;
@@ -697,6 +717,7 @@
       }
       .config{
           cursor: pointer;
+          padding: 15px 0;
       }
     }
     .tabs_field{
@@ -725,6 +746,7 @@
     }
   }
   .contact_content{
+    width:100%;
     padding: 1rem 0;
     justify-content: center;
     text-align: center;
@@ -733,7 +755,7 @@
       display:flex;
         flex-direction:column;
         position:relative;
-        width:90%;
+        width:100%;
         height:60vh;
         padding:0 10%;
         overflow:scroll;
@@ -744,7 +766,7 @@
             height:20px;
             margin:0px 0;
             .keys{
-              height:30px;margin:35px 0;font:
+              height:30px;margin:18px 0;font:
                normal normal normal 12px/17px Manrope;
             }
           }
@@ -753,33 +775,111 @@
            text-align:left;
            height:20px;
            margin:14px 0;
-           .values{height:30px;margin:35px 0;
+           .values{
+             height:30px;margin:18px 0;
             font:normal normal 600 16px/22px Manrope;
           }
         }
     }
     .noteBox{
-
-      display:flex;
-      // background: var(--unnamed-color-f8f9fb) 0% 0% no-repeat padding-box;
-      background: #F8F9FB 0% 0% no-repeat padding-box;
-      border-radius: 10px;
-      padding:10px;
+      display: flex;
       font: normal normal normal 16px/22px Manrope;
       letter-spacing: 0px;
-      color: #8B8B8B;
-
-      .write_note{
-        text-align: left;
-        vertical-align:middle;
-        background: transparent 0% 0% no-repeat padding-box;
+      width: 85%;
+      .write_pad{
+        display:flex;
+        background: #F8F9FB 0% 0% no-repeat padding-box;
+        border-radius: 10px;
+        padding:10px;
+        color: #8B8B8B;
         border-width: 0;
-        margin: 0 10px;
-        &:focus-visible{
+        
+        .write_note{
+          width: 100%;
+          text-align: left;
+          vertical-align:middle;
+          background: transparent 0% 0% no-repeat padding-box;
           border-width: 0;
-          outline:0
+          margin: 0 10px;
+          &:focus-visible{
+            border-width: 0;
+            outline:0
+          }
         }
       }
+      
+    }
+    .message_pad{
+      display: flex;
+      width: 100%;
+
+      white-space: nowrap;
+      .nameTag{
+        position: relative;
+        // min-width:30px;
+        // max-width:20%;
+        // padding: 10px;
+        .tag{
+          // width:30px;
+          // left:-5px;
+          top:20px;
+          position:absolute;
+        }
+      }
+      .left{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: left;
+        width: auto;
+        font: normal normal bold 16px/22px Manrope;
+        letter-spacing: 0px;
+        color: #444444;
+        // height: 20px;
+        // padding: 10px;
+      }
+      .right{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        // align-items: flex-start;
+        text-align: right;
+        // max-width: 250px;
+        width: 90%; 
+        margin-left: auto;
+        padding: 1px;
+      }
+      .listitem{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 30px;
+        // margin: 12px 0;
+        font: normal normal normal 16px/22px Manrope;
+        margin: 10px 0 0;
+
+      padding: 0rem 10px 0 30px;  
+      }
+    }
+    .message_box{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      text-align: left;
+      margin-left: auto;
+      width: 90%;
+    }
+    .message{
+      height: auto;
+      text-align: left;
+      font: normal normal normal 1rem Manrope;
+      letter-spacing: 0.08px;
+      color: #4E4E4E;
+      opacity: 1;
+      padding: 0rem 10px 0 30px;  
+      margin-bottom: 10px;
+      // white-space: nowrap;
+      // margin: 10px 0;
     }
   }
 }
