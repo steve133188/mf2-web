@@ -47,17 +47,17 @@ export function InnerSidebar() {
     return (
         <nav className="blueMenu">
             <ul className="blueMenuGroup">
-                {/*<li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>Agent & Terms<KeyboardArrowDownIcon/></span>*/}
+                {/*<li className="blueMenuLink"><span className="blueLink clickableSpan" onClick={toggleIsShow}>Index & Terms<KeyboardArrowDownIcon/></span>*/}
                 {/*    {isShow ? (<ul className="blueMenuGroup blueMenuDropdownGroup">*/}
                 {/*        <Link href="admin/role"><li className="blueMenuLink"><a className="blueLink">Role</a></li></Link>*/}
-                {/*        <Link href=""><li className="blueMenuLink"><a className="blueLink">Agent</a></li></Link>*/}
+                {/*        <Link href=""><li className="blueMenuLink"><a className="blueLink">Index</a></li></Link>*/}
                 {/*    </ul>):null}*/}
                 {/*</li>*/}
                 <Link href={"/admin/Role"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Role")? "active":null)} >Role</li></Link>
                 <Link href={"/admin/Agent"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Agent")? "active":null)} >Agent</li></Link>
                 <Link href={"/admin/StandardReply"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/StandardReply")? "active":null)} >Standard Reply</li></Link>
                 <Link href={"/admin/Tags"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Tags")? "active":null)} >Tags</li></Link>
-                <Link href={"/admin/MessageAPI"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/MessageAPI")? "active":null)} >Message API</li></Link>
+                <Link href={"/admin/Stickers"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Stickers")? "active":null)} >Stickers</li></Link>
                 <Link href={"/admin/Connection"}><li className={"blueMenuLink "+(router.pathname.includes("/admin/Connection")? "active":null)}>Connection</li></Link>
             </ul>
         </nav>

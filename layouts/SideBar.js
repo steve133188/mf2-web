@@ -153,7 +153,7 @@ export default function SideBar(props) {
 
     function isActiveURL(url){
         const n = router.pathname
-        return n==url
+        return n.includes(url)
     }
 
     return (
@@ -197,9 +197,9 @@ export default function SideBar(props) {
                     </span>
                      { isDashOpen&&!isCollapse ? (
                         <>
-                            <Link href={"/dashboard/livechat"}>
+                            <Link href={"/dashboard/chat"}>
                                 <div
-                                    className={isActiveURL("/dashboard/livechat") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Live Chat</span>
+                                    className={isActiveURL("/dashboard/chat") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Live Chat</span>
                                 </div>
                             </Link>
                             <Link href={"/dashboard/agents"}>

@@ -3,7 +3,7 @@ import Select from "@mui/material/Select";
 import * as React from "react";
 
 
-export default  function MF_Select({children ,head,top_head,value=null, handleChange = null , customButton = null , submit ,customeDropdown=false}){
+export default  function MF_Select({children ,head,top_head,value=null, handleChange = null , customButton = null , submit ,customeDropdown=false , ...props}){
     const [isShow , setIsShow] =useState(false)
     const wrapperRef = useRef();
     let dropdown;
@@ -67,7 +67,7 @@ export default  function MF_Select({children ,head,top_head,value=null, handleCh
 
     return(
         <>
-        <div className={"mf_dropdown"} value = {value}>
+        <div className={"mf_dropdown " +(props.className)} value = {value}>
             <div onClick={(e)=>{setIsShow(!isShow);}}>
             <div className={"mf_dropdown_header "}>{top_head}</div><div className={"mf_down_arrow"}></div>
             </div>

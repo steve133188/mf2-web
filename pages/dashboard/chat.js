@@ -7,7 +7,7 @@ import {CancelButton, NormalButton2} from "../../components/Button";
 import {Checkbox} from "../../components/Checkbox";
 import {Pill} from "../../components/Pill";
 
-export default function Livechat() {
+export default function Chat() {
     const [open, setOpen] = React.useState(false);
     const handleClickAway = () => {
         setOpen(false);
@@ -61,7 +61,7 @@ export default function Livechat() {
                         </div>
                         <div className="agentFilter">
                             <p>Agent</p>
-                            <LabelSelect2 placeholder={"Choose Agent"} select1={"Mary Foster"} select2={"Harry Swart"} select3={"Walter Jackson"} select4={"Denny Hackwin"}/>
+                            <LabelSelect2 placeholder={"Choose Index"} select1={"Mary Foster"} select2={"Harry Swart"} select3={"Walter Jackson"} select4={"Denny Hackwin"}/>
                             <div className="agentGroup">
                                 <Pill color="lightYellow" size="size30">MF</Pill>
                                 <Pill color="lightBlue" size="size30">MF</Pill>

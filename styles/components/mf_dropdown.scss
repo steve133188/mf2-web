@@ -10,7 +10,6 @@
   width: 20%;
   padding: 0.5rem 0.75rem;
   margin: 0 0.25rem;
-
 }
 
 .mf_dropdown_header{
@@ -134,8 +133,19 @@
   width: 100%;
   top: 120%;
   left: 0;
+  max-height: 300px;
   position: absolute;
   background: #FFFFFF 0% 0% no-repeat border-box;
   box-shadow: 0px 7px 13px #00000029;
   border-radius: 10px;
+  overflow: scroll;
+
+  li{
+    padding: 0.25rem 1rem;
+    text-align: left;
+    font: normal normal normal 14px/19px Manrope;
+    letter-spacing: 0px;
+    color: #444444;
+    opacity: 1;
+  }
 }
