@@ -16,7 +16,7 @@ export default function AddAgentForm({show, toggle }){
                 <div className={"modal_title"}>
                     <span>Add Agent</span>
                 </div>
-                <MF_Input title={"Add Agent"} value={data}> </MF_Input>
+                <MF_Input title={"Add Index"} value={data}> </MF_Input>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
                     <button className={"cancel_btn"} onClick={toggle}>Cancel</button>

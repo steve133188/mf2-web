@@ -4,8 +4,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import * as React from "react";
 import {useTheme} from "@mui/material/styles";
-import {CheckboxNew} from "../Checkbox"
-import {ProfileImage} from "../Image"
 
 export function SingleSelectCommon(props) {
     const theme = useTheme();

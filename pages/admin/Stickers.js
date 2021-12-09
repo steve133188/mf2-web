@@ -1,50 +1,29 @@
-import {useContext, useEffect, useRef, useState} from "react";
-import {GlobalContext} from "../../context/GlobalContext";
-import Link from 'next/link';
-import {ImportDropzone} from '../../components/ImportContact.js'
-import axios from "axios";
-import styles from "../../styles/Contacts.module.css";
+import {useContext, useEffect, useState} from "react";
+
 import SelectSession from "../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import {Pill} from "../../components/Pill";
-import MF_Select from "../../components/MF_Select";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
-import Profile from "../../components/profile";
-import ProfileGrid from "../../components/pageComponents/ProfieGrid";
-import EditProfileForm from "../../components/pageComponents/EditProfileForm";
-import { Tooltip } from '@mui/material';
-import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
 import {InnerSidebar} from "../../components/InnerSidebar";
-import * as React from "react";
+import {GlobalContext} from "../../context/GlobalContext";
 
-export default function Agent() {
+export default function Stickers() {
+    const {adminInstance , userInstance, orgInstance,user} = useContext(GlobalContext)
 
-    const {adminInstance , userInstance, user} = useContext(GlobalContext)
-
-    const searchRef = useRef(null)
     const [roles, setRoles] = useState([]);
-    const {get_contacts} = useContext(GlobalContext)
+
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(false);
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
-    const [useContact , setUseContact] = useState()
-    const [isProfileShow , setIsProfileShow] = useState(false)
-    const [isEditProfileShow , setIsEditProfileShow] = useState(false)
-
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
-    const [isShowDropzone, setIsShowDropzone] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
@@ -53,14 +32,14 @@ export default function Agent() {
 
     let result = currentContacts.map(d=>d.id)
 
-    const fetchUsers = async () =>{
-        const data = await userInstance.getAllUser()
+    const fetchRoles = async () =>{
+        const data = await adminInstance.getAllRoles()
         console.log("getAllRoles",data)
         setRoles(data)
         setFilteredData(data)
     }
     useEffect(    async () => {
-        await fetchUsers()
+        await fetchRoles()
     },[]);
 
     const toggleSelect = e => {
@@ -82,11 +61,7 @@ export default function Agent() {
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
-    const toggleEditProfile =async (key) =>{
-        if(!isEditProfileShow) setUseContact(key);
-        if(isEditProfileShow) await fetchRoles();
-        setIsEditProfileShow(!isEditProfileShow)
-    }
+
 
 
 
@@ -122,9 +97,6 @@ export default function Agent() {
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <div className="rightContent">
-                {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
-                {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
-
                 <div className={"search_session"}>
                     <div className="search">
                         <div className="mf_icon_input_block  mf_search_input">
@@ -132,11 +104,9 @@ export default function Agent() {
                             <input
                                 className={"mf_input mf_bg_light_grey"}
                                 type="search"
-                                // defaultValue={filterWord}
                                 name={"keyword"}
-                                ref={searchRef}
                                 onChange={(e)=> {
-                                    searchFilter(e.target.value , contacts,(new_data)=>{
+                                    searchFilter(e.target.value , roles,(new_data)=>{
                                         setFilteredData(new_data)
                                         setCurrentPage(1)
                                     })
@@ -151,13 +121,12 @@ export default function Agent() {
                         ) : (
                             <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                         )}
-                        <button>+ New Contact</button>
+                        <button>+ New Role</button>
                     </div>
                 </div>
-                {/* drag and drop end*/}
                 <SelectSession
                     btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                        <div className={"select_session_btn"}><div svg={deleteSVG} onClick={removeManyContact}>{deleteSVG}</div> </div>
+                        {/*<div className={"select_session_btn"}><div svg={deleteSVG} onClick={}>{deleteSVG}</div> </div>*/}
                     </div>):null}
                 >
                 </SelectSession>
@@ -194,7 +163,7 @@ export default function Agent() {
                                         role="checkbox"
                                         name={index}
                                         checked={selectedContacts.includes(data.id)}
-                                        onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
+                                        onClick={isSelectRow?toggleSelect:null}
                                     >
                                         <TableCell style={{
                                             width: "30px",
@@ -234,7 +203,4 @@ export default function Agent() {
 
         </div>
     )
-
-
-
 }

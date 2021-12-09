@@ -1,4 +1,4 @@
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'

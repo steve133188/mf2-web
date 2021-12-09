@@ -1,14 +1,65 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import {useQuery, gql, useSubscription} from "@apollo/client";
 import {useEffect, useState ,useContext} from "react";
 import {Pill} from "../components/Pill";
 import {DashboardSVG,CommentsAltSVG,ContactSVG,IntegrationsSVG,OrganizationSVG,AdminSVG} from "../public/side_bar_icon_svg/side_bar_icon_svg"
 import NotificationList from "../components/NotificationList";
 import {GlobalContext} from "../context/GlobalContext";
+import NavItem from "../components/SideItem";
+import {API , graphqlOperation} from "aws-amplify";
+import {listMF2TCOCHATMESSAGES} from "../src/graphql/queries";
+//
+// const GET_NOTIFICATIONS = gql`
+//     subscription{
+//         notifications{
+//             id
+//             read
+//             create_at
+//             message
+//             from
+//         }
+//      }
+// `;
+const GET_NOTIFICATIONS = gql`
+    subscription{
+        ChatMessages {
+            message_id
+            body
+            sender_id
+            receiver_id
+            is_media
+            sendFormMe
+            mediaURL
+            caption
+            timestamp
+            is_v_cards
+            v_cards
+            ack
+            channel
+            room_id
+            quote
+            is_broadcast
+            broadcast_id
+            chatroom_id
+            type
+            is_chatbot_handle
+            chatbot_id
+            customer_id
+        }
+     }   
+`;
+
 export default function SideBar(props) {
     //data for notify box
+    // const {data} = useSubscription(GET_NOTIFICATIONS)
+    const getMesssages = async ()=>{
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATMESSAGES))
+        console.log(result.data.listMF2TCOCHATMESSAGES.items)
+        return result.data.listMF2TCOCHATMESSAGES.items
+    }
     const {  logout } = useContext(GlobalContext);
-    const data = [
+    const sample_data = [
         {
             id:1,
             notify_from:"Tim",
@@ -66,11 +117,7 @@ export default function SideBar(props) {
     ]
 
     const router = useRouter()
-    const { navItems } = props
     const [isDashOpen, setIsDashOpen] = useState(false)
-    const dropdown = () => {
-
-    }
     const [isTurnUp, setIsTurnUp] = useState(false)
 
     function dropDownArrowToggle() {
@@ -89,48 +136,52 @@ export default function SideBar(props) {
     function notifyBoxToggle() {
         setIsNotifyBoxOpen(!isNotifyBoxOpen);
     }
-
     const [notifications, setNotifications] = useState([])
-    const unreadNotificationCount = notifications.filter(unread => unread.unreadCount >0 ).length
+    let unreadNotificationCount =()=> notifications.filter(unread => unread.unreadCount >0 ).length || 0;
     useEffect( async ()=>{
-        setNotifications(data)
+        const data = await getMesssages()
+        if(data!=-1&& data!= undefined){setNotifications(data)}else{setNotifications([])}
     } , [])
 
     //when click the notification, set unreadCount to 0
      function handleReadNotification (target) {
-        
              const newList = notifications.map((item) =>{
                 if (item.id === target) {
                    return {
                        ...item,
                        unreadCount: 0,
                    };
-
                }
                return item;
              });
-
         setNotifications(newList);
-
     }
 
-
+    function isActiveURL(url){
+        const n = router.pathname
+        return n.includes(url)
+    }
 
     return (
 
-        <div className={isCollapse ? ("layout-sidebar collapseLayout") : ("layout-sidebar")}>
+        <div className={"layout-sidebar "+ (isCollapse ? "collapseLayout" :null)}>
             <div className={"brand-logo "}>
                 <img src="/MS_logo-square (1).svg" alt="MatrixForce" />
             </div>
             <div className={"nav-items"}>
-                <div className={router.pathname.includes("/dashboard") ? "active-side-item" : "side-item "}>
+                <div className={isActiveURL("/dashboard") ? "active-side-item" : "side-item "}>
                     <span onClick={dropDownArrowToggle}>
-                        <div className={router.pathname.includes("/dashboard") ? "active nav-item" : "nav-item "
+                        {/* parent path cannot approach func isActiveURL()*/}
+                        <div className={router.pathname.includes("/dashboard")? "active nav-item" : "nav-item "
                         } onClick={e => {
                             setIsDashOpen(!isDashOpen)
                         }}>
 
                                 <DashboardSVG size="25"/>
+
+                        {/* parent path cannot approach func isActiveURL()*/}
+                            <DashboardSVG/>
+
                             <span className="side-item-name">Dashboard </span>
                             { isCollapse?null: ( 
                                 isTurnUp ? (
@@ -156,37 +207,26 @@ export default function SideBar(props) {
                     </span>
                      { isDashOpen&&!isCollapse ? (
                         <>
-                            <Link href={"/dashboard/livechat"}>
+                            <Link href={"/dashboard/chat"}>
                                 <div
-                                    className={router.pathname.includes("/dashboard/livechat") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Live Chat</span>
+                                    className={isActiveURL("/dashboard/chat") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Live Chat</span>
                                 </div>
                             </Link>
                             <Link href={"/dashboard/agents"}>
                                 <div
-                                    className={router.pathname.includes("/dashboard/agents") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Agents</span>
+                                    className={isActiveURL("/dashboard/agents") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Agents</span>
                                 </div>
                             </Link>
                         </>) : null}
 
+
                 </div>
-                <div className={router.pathname == "/livechat" ? "active-side-item" : "side-item "}>
-                    <Link href={"/livechat"}>
-                        <div className={router.pathname == "/livechat" ? "active nav-item" : "nav-item "}>
-                           <CommentsAltSVG  size="25"/>
-                            <span className="side-item-name">Live Chat</span>
-                        </div>
-                    </Link>
-                </div>
-                <div className={router.pathname == "/contacts" ? "active-side-item" : "side-item "}>
-                    <Link href={"/contacts"}>
-                        <div className={router.pathname == "/contacts" ? "active nav-item" : "nav-item "}>
-                         
-  
-                            <ContactSVG  size="25"/>
-                            <span className="side-item-name">Contacts</span>
-                        </div>
-                    </Link>
-                </div>
+
+                <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="25"/>)} active={isActiveURL("/livechat")}/>
+                <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="25"/>)} active={isActiveURL("/contacts")}/>
+                <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="25"/>)} active={isActiveURL("/integrations")}/>
+                <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="25"/>)} active={isActiveURL("/organization")}/>
+                <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="25"/>)} active={isActiveURL("/admin")}/>
                 {/*<div className={router.pathname == "/broadcast" ? "active-side-item" : "side-item "}>*/}
                 {/*    <Link href={"/broadcast"}>*/}
                 {/*        <div className={router.pathname == "/broadcast" ? "active nav-item" : "nav-item "}>*/}
@@ -211,14 +251,8 @@ export default function SideBar(props) {
                 {/*        </div>*/}
                 {/*    </Link>*/}
                 {/*</div>*/}
-                <div className={router.pathname == "/integrations" ? "active-side-item" : "side-item "}>
-                    <Link href={"/integrations"}>
-                        <div className={router.pathname == "/integrations" ? "active nav-item" : "nav-item "}>    
-                            <IntegrationsSVG  size="25"/>      
-                            <span className="side-item-name">Integrations</span>
-                        </div>
-                    </Link>
-                </div>
+
+
                 {/*<div className={router.pathname == "/products" ? "active-side-item" : "side-item "}>*/}
                 {/*    <Link href={"/products"}>*/}
                 {/*        <div className={router.pathname == "/products" ? "active nav-item" : "nav-item "}>*/}
@@ -231,29 +265,15 @@ export default function SideBar(props) {
                 {/*        </div>*/}
                 {/*    </Link>*/}
                 {/*</div>*/}
-                <div className={router.pathname == "/organization" ? "active-side-item" : "side-item "}>
-                    <Link href={"/organization"}>
-                        <div className={router.pathname == "/organization" ? "active nav-item" : "nav-item "}>
-                                <OrganizationSVG  size="25"/>  
-                            <span className="side-item-name">Organization</span>
-                        </div>
-                    </Link>
-                </div>
-                <div className={router.pathname == "/admin" ? "active-side-item" : "side-item "}>
-                    <Link href={"/admin"}>
-                        <div className={router.pathname == "/admin" ? "active nav-item" : "nav-item "}>
-                         <AdminSVG  size="25"/>
-                            <span className="side-item-name">Admin</span>
-                        </div>
-                    </Link>
-                </div>
+
+
                 {/*{navItems.map((i,index)=>{*/}
                 {/*    <Link key={index} href={i.url}>*/}
                 {/*        <div className={"nav-item"}><img src={i.icon} alt={i.name}/> {i.name} </div>*/}
                 {/*    </Link>*/}
                 {/*})}*/}
 
-                <div  className="sidebarToggle" onClick={e=>{toggleCollapse()}}>
+                <div  className="sidebarToggle" onClick={toggleCollapse}> {/*not need to use callback ()=>toggleCollapse() to spend memory if no params in func and  */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="47" viewBox="0 0 21 47"  >
                     <g id="Group_6687" data-name="Group 6687" transform="translate(-93 -129)">
                         <path id="Rectangle_4378" data-name="Rectangle 4378" d="M10,0H21a0,0,0,0,1,0,0V47a0,0,0,0,1,0,0H10A10,10,0,0,1,0,37V10A10,10,0,0,1,10,0Z" transform="translate(93 129)" 
@@ -266,13 +286,9 @@ export default function SideBar(props) {
                     </g>
                     </svg>
                 </div>
-
-
-
             </div>
 
             <div className={"side_bottom"}>
-
                 <div className={isNotifyBoxOpen? "side-item notification_activate":"side-item notification"} >
                     <span onClick={notifyBoxToggle}>
                         <div className={"nav-item "}>
@@ -286,20 +302,16 @@ export default function SideBar(props) {
                             <span className="side-item-name">Notifications</span>
                             {unreadNotificationCount>0? <Pill color="red">{unreadNotificationCount}</Pill>:null}
                         </div>
-
                     </span>
                     {isNotifyBoxOpen ? (
-                        <>
                             <div className="notify_box">
                                 <div className="notify_box_title" >Notification</div>
                                 <div className="notify_box_list">
-                                    {notifications.map((d , index )=>{
+                                    {notifications.length>-1&&notifications.map((d , index )=>{
                                             return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
                                     })}
                                 </div>
-                            </div>
-                        </>) : null}
-
+                            </div>) : null}
                 </div>
                 <div className={router.pathname == "/setting" ? "active-side-item" : "side-item "}>
                     <Link href={"/setting"}>
@@ -343,14 +355,3 @@ export default function SideBar(props) {
         </div>
     )
 }
-
-// export async function getStaticProps(context){
-//     const res = await fetch(`"../data/nav.json"`)
-//     const data = await res.json()
-//
-//     return{
-//         props:{
-//             data
-//         }
-//     }
-// }

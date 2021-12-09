@@ -130,7 +130,7 @@ export default function AddContact() {
         router.back()
     }
     function cancel(e){
-        e.propertyIsEnumerable()
+        e.preventDefault()
         router.back()
     }
     return (
