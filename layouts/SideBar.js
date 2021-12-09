@@ -7,7 +7,8 @@ import {DashboardSVG,CommentsAltSVG,ContactSVG,IntegrationsSVG,OrganizationSVG,A
 import NotificationList from "../components/NotificationList";
 import {GlobalContext} from "../context/GlobalContext";
 import NavItem from "../components/SideItem";
-
+import {API , graphqlOperation} from "aws-amplify";
+import {listMF2TCOCHATMESSAGES} from "../src/graphql/queries";
 //
 // const GET_NOTIFICATIONS = gql`
 //     subscription{
@@ -51,8 +52,12 @@ const GET_NOTIFICATIONS = gql`
 
 export default function SideBar(props) {
     //data for notify box
-    const {data} = useSubscription(GET_NOTIFICATIONS)
-
+    // const {data} = useSubscription(GET_NOTIFICATIONS)
+    const getMesssages = async ()=>{
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATMESSAGES))
+        console.log(result.data.listMF2TCOCHATMESSAGES.items)
+        return result.data.listMF2TCOCHATMESSAGES.items
+    }
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
         {
@@ -134,6 +139,7 @@ export default function SideBar(props) {
     const [notifications, setNotifications] = useState([])
     let unreadNotificationCount =()=> notifications.filter(unread => unread.unreadCount >0 ).length || 0;
     useEffect( async ()=>{
+        const data = await getMesssages()
         if(data!=-1&& data!= undefined){setNotifications(data)}else{setNotifications([])}
     } , [])
 
