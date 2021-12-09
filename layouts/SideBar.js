@@ -9,18 +9,7 @@ import {GlobalContext} from "../context/GlobalContext";
 import NavItem from "../components/SideItem";
 import {API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATMESSAGES} from "../src/graphql/queries";
-//
-// const GET_NOTIFICATIONS = gql`
-//     subscription{
-//         notifications{
-//             id
-//             read
-//             create_at
-//             message
-//             from
-//         }
-//      }
-// `;
+
 const GET_NOTIFICATIONS = gql`
     subscription{
         ChatMessages {
@@ -177,10 +166,10 @@ export default function SideBar(props) {
                             setIsDashOpen(!isDashOpen)
                         }}>
 
-                                <DashboardSVG size="25"/>
+                                <DashboardSVG size="16"/>
 
                         {/* parent path cannot approach func isActiveURL()*/}
-                            <DashboardSVG/>
+
 
                             <span className="side-item-name">Dashboard </span>
                             { isCollapse?null: ( 
@@ -222,11 +211,11 @@ export default function SideBar(props) {
 
                 </div>
 
-                <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="25"/>)} active={isActiveURL("/livechat")}/>
-                <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="25"/>)} active={isActiveURL("/contacts")}/>
-                <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="25"/>)} active={isActiveURL("/integrations")}/>
-                <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="25"/>)} active={isActiveURL("/organization")}/>
-                <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="25"/>)} active={isActiveURL("/admin")}/>
+                <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")}/>
+                <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>
+                <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="16"/>)} active={isActiveURL("/integrations")}/>
+                <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="16"/>)} active={isActiveURL("/organization")}/>
+                <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="16"/>)} active={isActiveURL("/admin")}/>
                 {/*<div className={router.pathname == "/broadcast" ? "active-side-item" : "side-item "}>*/}
                 {/*    <Link href={"/broadcast"}>*/}
                 {/*        <div className={router.pathname == "/broadcast" ? "active nav-item" : "nav-item "}>*/}
