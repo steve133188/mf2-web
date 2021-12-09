@@ -381,6 +381,7 @@ export default function Contacts() {
                 {/*    /!*    waiting to fetch the channels*!/*/}
                 {/*</MF_Select>*/}
             </SelectSession>
+            
             <TableContainer
                 sx={{minWidth: 750 , minHeight:"60vh"}}
                 className={"table_container"}
