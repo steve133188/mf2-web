@@ -285,9 +285,6 @@ export default function SideBar(props) {
                                 </svg>
                             <span className="side-item-name">Notifications</span>
                             {unreadNotificationCount>0? <Pill color="red">{unreadNotificationCount}</Pill>:null}
-
-
-
                         </div>
 
                     </span>

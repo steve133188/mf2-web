@@ -73,13 +73,13 @@ export default function Contacts() {
         })
         console.log("tagFiltered:",tagFiltered)
 
-        // const channelFiltered = tagFiltered.filter(data=>{
-        //     if(selectedChannel.length ==0){
-        //         return data
-        //     }
-        //     return data.channels.some(el=>selectedChannel.includes(el))
-        // })
-        // console.log("channelFiltered:",channelFiltered)
+        const channelFiltered = tagFiltered.filter(data=>{
+            if(selectedChannel.length ==0){
+                return data
+            }
+            return data.channels.some(el=>selectedChannel.includes(el))
+        })
+        console.log("channelFiltered:",channelFiltered)
 
         const teamFiltered = tagFiltered.filter(data=>{
             if(selectedTeams.trim() ==""){

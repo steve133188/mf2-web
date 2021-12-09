@@ -1,4 +1,5 @@
-import {useState , useEffect, useRef} from "react";
+import {useContext,useState , useEffect, useRef} from "react";
+import {GlobalContext} from "../../context/GlobalContext";
 import ChatroomList from "../../components/ChatroomList";
 import MsgRow from "../../components/MsgRow";
 import { Picker } from 'emoji-mart-next'
@@ -10,18 +11,17 @@ import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_B
 import ChatroomInfo from "./chatroom_info/chatroom_info";
 import ChatlistFilter from "./serach_filter/filter.js/chatlist_filter";
 import Livechat from "../../pages/dashboard/livechat"
-import { CheckBoxM,Whatsapp,WhatsappB,Messager,Wechat } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
-
+import Team_Select from "../../components/livechat/filter/Team_Select";
 
 export default function Live_chat() {
     const base_url ='https://e9bf-118-140-233-2.ngrok.io'
     const data = [
         {
-            name:"John Hanson",
+            name:"John Davidson",
             last_msg_time:"03:45PM",
             team:"A",
             unreadCount:1,
-            is_pin:false,
+            is_pin:true,
             channel:"whatsapp",
             profile_pic_url:"https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg",
         },
@@ -413,8 +413,8 @@ export default function Live_chat() {
         },
         {
             message_id:"234585259",
-            // body:"https://thebossmagazine.com/wp-content/uploads/2020/05/charles-deluvio-1-nx1QR5dTE-unsplash-scaled.jpg",
-            body:"/livechat/tempSourceStore/png-clipart-computer-icon-digital-marketing-social-media-marketing-strategy-marketing-file-search-engine-optimization-content-marketing.png",
+            body:"https://thebossmagazine.com/wp-content/uploads/2020/05/charles-deluvio-1-nx1QR5dTE-unsplash-scaled.jpg",
+            // body:"/livechat/tempSourceStore/png-clipart-computer-icon-digital-marketing-social-media-marketing-strategy-marketing-file-search-engine-optimization-content-marketing.png",
             type:"image",
             vCard:["","",""],
             author:null,
@@ -488,14 +488,26 @@ export default function Live_chat() {
             broadcast:false
         },
     ]
+
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [selectedChat , setSelectedChat] = useState()
     const [chatrecord , setChatrecord] = useState([])
+    const [chatSearch, setSearch] = useState(false)
     const [isRobotOn , setIsRobotOn] = useState(false)
+    const [chatboxSearch, setChatBoxSearch] = useState("")
     const [isExpand , setIsExpand] = useState(false)
     const [isEmojiOn,setEmojiOn] = useState(false)
-    
+    const [ChatButtonOn,setChatButtonOn] = useState(false)
+ 
+    const [contacts, setContacts] = useState([]);
+    const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
+    const [filteredData , setFilteredData] = useState([])
+    const [teams ,setTeams] =useState([])
+    const [isShow , setIsShow] =useState(false)
+    const [selectedTeams ,setSelectedTeams] =useState("")
     const [isFilterOpen , setIsFilterOpen] = useState(false)
+
     const getChatRooms = async()=>{
         const res = await axios.get(`${base_url}/chats` , {
             headers:{'Access-Control-Allow-Origin' : '*',
@@ -510,6 +522,31 @@ export default function Live_chat() {
         })
         return res.data.response
     }
+       const fetchContacts = async () =>{
+        const data = await contactInstance.getAllContacts()
+        setContacts(data)
+        setFilteredData(data)
+    }
+
+
+    const messagesSearchRef = useRef()
+
+    const scrollToMSG = () => {
+        messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})
+    }
+    useEffect(()=>{
+        // console.log(chatboxSearch)
+        scrollToMSG(),[chatboxSearch]
+    })
+
+    const messagesEndRef = useRef()//Chatroom End Point
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})
+    }
+    useEffect(()=>{
+        scrollToBottom(),[chatrecord]
+    })
 
     async function handleChatRoom  (target){
         const data = await getChatRecord(target)
@@ -526,9 +563,6 @@ export default function Live_chat() {
 
     const [inputvalue,setInputValue] = useState("")
     const [emojied,setEmoji] = useState("")
-    useEffect(()=>{console.log(isEmojiOn)},[isEmojiOn])
-    useEffect(()=>{console.log(inputvalue)},[inputvalue])
-    useEffect(()=>{console.log(emojied)},[emojied])
 
 
     const attachFile = useRef()
@@ -536,43 +570,110 @@ export default function Live_chat() {
         attachFile.current.click();
     }
 
+    useEffect(    async () => {
+        if(user.token!=null) {
+            // await fetchContacts()
+            // await getTags()
+            // await getUsers()
+            await getTeams()
+        }
+        // setSelectedUsers([])
+        // setSelectedContacts([])
+    },[]);
+
+    const getTeams = async ()=>{
+        const data = await orgInstance.getOrgTeams()
+        setTeams(data)
+    }
+    const advanceFilter =()=>{
+        setFilter({team:selectedTeams, 
+            // agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]
+        })
+        console.log("filter",filter)
+        const teamFiltered = contacts.filter(data=>{
+
+        // const agentFiltered = contacts.filter(data=>{
+        //     if(selectedUsers.length==0){
+        //         return data
+        //     }
+        //     return data.agents.some(el=>selectedUsers.includes(el))
+        // })
+        // console.log("agent:",agentFiltered)
+        // const tagFiltered = agentFiltered.filter(data=>{
+        //     if(selectedTags.length ==0){
+        //         return data
+        //     }
+        //     return data.tags.some(el=>selectedTags.includes(el))
+        // })
+        // console.log("tagFiltered:",tagFiltered)
+
+        // const channelFiltered = tagFiltered.filter(data=>{
+        //     if(selectedChannel.length ==0){
+        //         return data
+        //     }
+        //     return data.channels.some(el=>selectedChannel.includes(el))
+        // })
+        // console.log("channelFiltered:",channelFiltered)
+
+        // const teamFiltered = tagFiltered.filter(data=>{
+            if(selectedTeams.trim() ==""){
+                return data
+            }
+            return data.team==selectedTeams
+        })
+        console.log("teamFiltered:",teamFiltered)
+        setFilteredData([...teamFiltered])
+    }
+
+
+
     return (
         <div className="live_chat_layout">
-            <div className={"chat_list"}>
-                <div className={"search_ss mf_search_input"} >
-                    <div className="mf_icon_input_block  ">
-                        <div className={"mf_inside_icon mf_search_icon "} > </div>
-                        <input
-                            className={"mf_input mf_bg_light_grey"}
-                            // type={type}
-                            // value={state}
-                            // onChange={handleChange}
-                            placeholder={"Search"}
-                        />
-                        {/* <Livechat/> */}
-                        </div>
-                </div>
+            <div className={"chat_list"}><div className={"search_ss"}><div className="mf_icon_input_block  mf_search_input" style={{minWidth:"none",maxWidth:"320px"}} >
+                <div className={"mf_inside_icon mf_search_icon "} > </div>
+                <input
+                    className={"mf_input mf_bg_light_grey"}
+                    // type={type}
+                    // value={state}
+                    // onChange={handleChange}
+                    placeholder={"Search"}
+                />
+                {/* <Livechat/> */}
+            </div>
+            </div>
                 <div className={"chatlist_ss"} style={{}}>
                     <div  className={"chatlist_ss_filter"}>
                         <div className={"filter_bar_left"}>
-                            <button className={"select_group"} >
-                                <div className={"group_icon"}></div>All Team <div className={"arrow_icon"}></div>
+                            <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
+                                <div className={"group_icon"} ></div>
+                                {/* All Team <div className={"arrow_icon"} ></div> */}
+                              
+                                <Team_Select  show={isShow} head={"All Team"} top_head={selectedTeams==""?"All Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
+                                    <li onClick={()=> {
+                                        setSelectedTeams("");
+                                        advanceFilter()
+                                    }}>All</li>
+                                    {teams.map((team)=>{
+                                        return(<li  id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter()}}> {team.name}</li>)
+                                    })}
+                                </Team_Select>
+
+
                             </button>
                             <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
                                         <div className={"filter_icon"}></div>
                             </div>
                         </div>
-                            <div className={"add_button"} style={{}}>
-                            <AddButtonSVG />
+                            <div className={"add_button"+(ChatButtonOn=="m0"?" active":"")} onClick={()=>setChatButtonOn("m0")}  style={{}}>
+                            <AddButtonSVG c={ChatButtonOn=="m0"?"#D0E9FF":"#f5f6f8"}/>
                             </div>
                     </div>
-                        <div className={"chatlist_filter_box "}  style={isFilterOpen?{display:"block"}:{display:"none"}}>
-                             <ChatlistFilter/>
+                        <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none"}}>
+                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)}/>
                         </div>
-
-                    <div  className={"chatlist_ss_list"}>
+                    <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
                         {chatrooms.map((d , index)=>{
-                            return (<ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/>)
+                            return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/> </>)
                         })}
                     </div>
                 </div>
@@ -581,44 +682,53 @@ export default function Live_chat() {
                 <div className={"chatroom_top"}>
                     <div className={"chatroom_top_info"}>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU" alt="icon"/>
-                        <div className={"chatroom_name"}>Name Surname</div>
-                        <div className={"chatroom_channel"}><Whatsapp/></div>
+                        <div className={"chatroom_name"}>Name</div>
+                        <div className={"chatroom_channel"}>Channel</div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
-                        <div className={"chatroom_top_btn chatroom_top_btn_research"}><ResearchBTN/></div>
+                        <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} ><ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
+                            <div className={"search_bar"} style={{display:chatSearch?"flex":"none"}}>     
+                                <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input>
+                            </div>
+                        </div>
                         <div className={"chatroom_top_btn chatroom_top_btn_refresh"}><RefreshBTN/></div>
                         <div className={"chatroom_top_btn chatbot_switch"}>
                             <RobotSwitch isOn={isRobotOn} handleToggle={()=>setIsRobotOn(!isRobotOn)} onColor="#2198FA" />
                         </div>
                     </div>
                 </div>
-                <div className={"chatroom_records"}>
+                <div ref={messagesSearchRef} className={"chatroom_records"}>
                     {chatrecord.map((r , i)=>{
-                      return  <MsgRow msg={r} key={i} />
+                        return  <>
+                        <MsgRow msg={r} key={i} /> 
+                      </>
                     })}
+                    <div ref={messagesEndRef}> {console.log("done")}</div>
                 </div>
+                
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")}>
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" ></textarea>
-                    <Picker onSelect={(emoji)=>setEmoji(emoji)} style={isEmojiOn?{display:'block',position: 'absolute', bottom: '90px', left: '40vw'}:{display:'none' }} />
+                    <Picker onSelect={(emoji)=>setEmoji(emoji)} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
-                            <div className={"sticker_btn "}  
+                            <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={()=>setChatButtonOn("m1")}  
                                     ><MaskGroup1/></div>
-                            <div className={"emoji_btn" } onClick={()=>{setEmojiOn(!isEmojiOn)}} 
-                                    style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}  
+                            <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={()=>{setEmojiOn(!isEmojiOn);setChatButtonOn("m2")}} 
+                                    // style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}  
                                     ><MaskGroup2/>
                                     {/* <Picker style={{ position: 'absolute', bottom: '35px', right: '20px' }} /> */}
                                    
                             </div>
                    
-                            <div className={"attach_btn "}  onClick={fileAttach}  style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}} 
+                            <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={()=>{setChatButtonOn("m3");fileAttach()}}  
+                            // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}} 
                                     >
-                                    <input type="file" name="fileAttach" ref={attachFile } onClick={()=>setEmojiOn(!isEmojiOn)} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>
+                                    <input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>
                                     <Mask_Group_3/>
                                    </div>
-                            <div className={"template_btn"}   
+                            <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={()=>setChatButtonOn("m4")}   
                                     ><Mask_Group_4/></div>
-                            <div className={"payment_btn"}   
+                            <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={()=>setChatButtonOn("m5")}   
                                     ><Mask_Group_5/></div>
                         </div>
 

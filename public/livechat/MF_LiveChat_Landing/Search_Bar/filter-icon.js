@@ -1,10 +1,10 @@
-export const AddButtonSVG = () => {
+export const AddButtonSVG = (props) => {
     return (
         <>
         <svg xmlns="http://www.w3.org/2000/svg"  width="30" height="30" viewBox="0 0 25 25">
 
         <g id="Group_6262" data-name="Group 6262" transform="translate(-0.304 -0.118)">
-          <rect id="Rectangle_4097" data-name="Rectangle 4097" width="25" height="25" rx="12.5" transform="translate(0.304 0.118)" fill="#f5f6f8"/>
+          <rect id="Rectangle_4097" data-name="Rectangle 4097" width="25" height="25" rx="12.5" transform="translate(0.304 0.118)" fill={props.c}/>
           <g id="plus" transform="translate(5.597 5.409)">
             <rect id="Background-2" data-name="Background" width="14.416" height="14.416" fill="none"/>
             <g id="plus-2" data-name="plus" clip-path="url(#clip-path)">
