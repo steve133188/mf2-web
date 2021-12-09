@@ -5,6 +5,7 @@ import { display, flexbox } from "@mui/system";
 import { NoteButtonSVG } from "../../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import { Pill } from "../../../components/Pill";
 
 export default function ContantDetail(props){
     
@@ -19,6 +20,27 @@ lastOnline:"September 25, 2021 08:40AM",
 lastContactFromYou:"September 30, 2021 11:40PM",
 
 },
+{address: "hk",
+agents:  ['testing', 'steve', 'mstest', 'sbna', 'testin1'],
+birthday: "12-12-1999",
+channels: null,
+country: "Hong Kong",
+created_at: "2021-11-11T16:51:49.41Z",
+email: "JOhn_David@ms.com",
+first_name: "sa",
+gender: "",
+group: "",
+id: "c66kk9buhcig008da830",
+last_name: "brina",
+name: " sa brina",
+organization: "",
+phone: "85269358633",
+tags: ['New Customer',"VIP"],
+0: "New Customer",
+length: 1,
+team_id: "",
+updated_at: "2021-12-06T10:21:07.931Z",
+},
 {
     name:"2",
     last_msg_time:"03:45PM",
@@ -28,6 +50,10 @@ lastContactFromYou:"September 30, 2021 11:40PM",
     channel:"whatsapp",
     profile_pic_url:"https://imgv3.fotor.com/images/side/Fotor-powerful-photo-enhancement-tools.jpg",
 },]
+const [outputList,setList] = useState([List[1].phone,List[1].email,List[1].birthday,List[1].address,List[1].country,List[1].createdDate,List[1].updated_at,List[1].updated_at])
+
+
+
 
 
 const [selectedTags ,setSelectedTags] =useState([])
@@ -42,44 +68,56 @@ const toggleSelectTags = e => {
     console.log(selectedTags)
 };  
 
+useEffect(()=>{
+    setFilteredTags(List[1].tags)
+    // console.log(List[1].agents)
+},[])
+
 
         return(<>
             <div className={"infoBox"} style={props.tab=="info"?{display:"block"}:{display:"none"}} >
                 <div className="contactInfo">
-                <div className={"keyList"} >
-                    {Object.keys(List[0]).map((item=>(
-                        <>               
-                        <div className={"keys"} style={{}}>{item}</div>
-                        </>
-                    )))}
-                </div>
-                <div className={"valueList"}  style={{}}>
-                    {Object.values(List[0]).map((item=>(
-                        <>               
-                        <div className={"values"}>{item}</div>
-                        </>
-                    )))}
-                
-                </div>
+                    <div className={"keyList"} >
+                        {Object.keys(List[0]).map((item=>(
+                            <>               
+                            <div className={"keys"} style={{}}>{item}</div>
+                            </>
+                        )))}
+                    </div>
+                    <div className={"valueList"}  style={{}}>
+                        {outputList.map((item=>(
+                            <>               
+                            <div className={"values"}>{item}</div>
+                            </>
+                        )))}
+                    
+                    </div>
                 </div>
                 <div className={"assignedInfo"}>
 
-                Assignee
-                <div>
+                    Assignee
+                <div className={"assigneeBox"}>
+                     {List[1].agents.map((agent)=>{ 
+                                       return( <Tooltip key={agent} className={""} title={agent} placement="top-start" >
+                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >
+                                                {agent.substring(0,2).toUpperCase()}</Avatar>
+                                        </Tooltip>)})}
+                
                     
                 </div>
                 Tags
                     <div className={"filter_box_tag"}  >
                         <div className={"channelList"}>
-                            <div className={"filter_title"}>Tag</div>
+                            <div className={"filter_title"}></div>
                         
 
-                                {filteredTags.map((tag)=>{
-                                return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
-                                        </label> </div></li>)
+                                {List[1].tags.map((tag)=>{
+                                return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag}</Pill>
+                                      {/* <div className={"tag"} style={{display:"flex" ,gap:10}}>
+
+                                    </div> */}
+
+                                        </li>)
                             })}
 
                         </div>

@@ -501,9 +501,11 @@ export default function Live_chat() {
     const [ChatButtonOn,setChatButtonOn] = useState(false)
  
     const [contacts, setContacts] = useState([]);
+    const [users ,setUsers] =useState([])
+    const [teams ,setTeams] =useState([])
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
     const [filteredData , setFilteredData] = useState([])
-    const [teams ,setTeams] =useState([])
+    
     const [isShow , setIsShow] =useState(false)
     const [selectedTeams ,setSelectedTeams] =useState("")
     const [isFilterOpen , setIsFilterOpen] = useState(false)
@@ -522,12 +524,22 @@ export default function Live_chat() {
         })
         return res.data.response
     }
-       const fetchContacts = async () =>{
+    const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
         setFilteredData(data)
+        console.log(data)
     }
 
+    const getUsers = async ()=>{
+        const data = await userInstance.getAllUser()
+        setUsers(data)
+        // setFilteredUsers(data)
+    }
+    const getTeams = async ()=>{
+        const data = await orgInstance.getOrgTeams()
+        setTeams(data)
+    }
 
     const messagesSearchRef = useRef()
 
@@ -539,14 +551,14 @@ export default function Live_chat() {
         scrollToMSG(),[chatboxSearch]
     })
 
-    const messagesEndRef = useRef()//Chatroom End Point
-
+    //////Chatroom End Point
+    const messagesEndRef = useRef()
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})
     }
     useEffect(()=>{
         scrollToBottom(),[chatrecord]
-    })
+    })///////
 
     async function handleChatRoom  (target){
         const data = await getChatRecord(target)
@@ -569,22 +581,24 @@ export default function Live_chat() {
     const fileAttach = () =>{
         attachFile.current.click();
     }
+  
 
     useEffect(    async () => {
         if(user.token!=null) {
-            // await fetchContacts()
+            await fetchContacts()
             // await getTags()
-            // await getUsers()
+            await getUsers()
             await getTeams()
         }
         // setSelectedUsers([])
         // setSelectedContacts([])
     },[]);
 
-    const getTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
-        setTeams(data)
-    }
+    useEffect(()=>{
+        console.log("contacts")
+        console.log(contacts)
+    },[contacts])
+
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, 
             // agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]

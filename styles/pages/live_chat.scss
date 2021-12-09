@@ -866,33 +866,43 @@
         overflow:scroll;;
       .contactInfo{
        
-        height: 400px;
+        height: 350px;
       }
         .keyList
           {position:absolute; 
             text-align:left;
-            height:20px;
+            // height:20px;
             margin:0px 0;
             .keys{
-              height:30px;margin:18px 0;font:
-               normal normal normal 12px/17px Manrope;
+              height:30px;margin-bottom:14px ;
+              font: normal normal normal 12px/17px Manrope;
             }
           }
         .valueList{
           position:absolute;
            text-align:left;
-           height:20px;
-           margin:14px 0;
+          //  height:20px;
+           margin-top:14px ;
            .values{
-             height:30px;margin:18px 0;
+             height:30px;margin-bottom:14px ;
             font:normal normal 600 16px/22px Manrope;
           }
         }
         .assignedInfo{
-           
-        display: flex;
-        flex-direction: column;
-        text-align: left;
+          //  width: 300px;
+          //  height: 300px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            li{
+              list-style-type: none;
+            }
+          .assigneeBox{
+            display: flex;
+            width: 100%;
+            margin: 10px;
+
+          }
         }
 
     }
