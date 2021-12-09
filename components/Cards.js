@@ -23,7 +23,10 @@ export function Card_channel(props) {
                             paddingLeft: "1rem",
                             color: "white",
                             background: "#2198FA"
-                        }}>
+                        }}
+                                disabled={props.disabled}
+
+                        >
                             <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>Connected
                         </Button>
                     </label>
@@ -36,7 +39,8 @@ export function Card_channel(props) {
                             color: "#444444",
                             background: "#F5F6F8",
                             border: "none"
-                        }}>
+                        }}
+                        >
                             Connect
                         </Button>
                     </label>

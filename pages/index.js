@@ -10,7 +10,7 @@ export default function Home() {
     useEffect(()=>{ if( !user.token) {
         router.push("/login")
     }else{
-        router.push("/dashboard/livechat")
+        router.push("/dashboard/chat")
     } } , [])
 
     return (
