@@ -61,7 +61,7 @@ export default function usersFetcher(token){
     }
 
     instance.createUser = async (data)=>{
-        return (await instance.fetcher.post(`/` ,data)).statusText
+        return (await instance.fetcher.post(`/` ,data)).status
     }
 
 

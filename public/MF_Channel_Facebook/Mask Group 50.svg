@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_4189" data-name="Rectangle 4189" width="40" height="40" transform="translate(934 296)" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="0.996" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#42bde9"/>
+      <stop offset="1" stop-color="#23a8dd"/>
+    </linearGradient>
+  </defs>
+  <g id="Mask_Group_50" data-name="Mask Group 50" transform="translate(-934 -296)" clip-path="url(#clip-path)">
+    <g id="telegram-seeklogo.com" transform="translate(938 299.568)">
+      <circle id="Ellipse_1680" data-name="Ellipse 1680" cx="16.5" cy="16.5" r="16.5" transform="translate(0 0)" fill="url(#linear-gradient)"/>
+      <g id="Group_6810" data-name="Group 6810" transform="translate(5.894 8.92)">
+        <path id="Path_36727" data-name="Path 36727" d="M113.974,144.856l-2.949,14.856a1.092,1.092,0,0,1-1.546.538l-6.8-5.212-2.473-1.193-4.161-1.4s-.637-.229-.7-.723.723-.76.723-.76l16.549-6.491C112.614,144.467,113.974,143.867,113.974,144.856Z" transform="translate(-95.344 -144.287)" fill="#fff"/>
+        <path id="Path_36728" data-name="Path 36728" d="M176.047,205.878s-.2-.019-.445-.8-1.5-4.9-1.5-4.9l10-6.349s.575-.352.556,0c0,0,.105.062-.2.352s-7.851,7.066-7.851,7.066" transform="translate(-169.231 -190.614)" fill="#d3e6f2"/>
+        <path id="Path_36729" data-name="Path 36729" d="M208.828,319.54l-2.689,2.454a.47.47,0,0,1-.439.062l.513-4.556" transform="translate(-198.878 -306.792)" fill="#b6d0e5"/>
+      </g>
+    </g>
+  </g>
+</svg>

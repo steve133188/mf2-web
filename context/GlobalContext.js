@@ -52,7 +52,7 @@ export const GlobalContextProvider = ({children}) =>{
                 return err
             })
         console.log(user)
-        if(res.status == 200) router.push("/dashboard/livechat")
+        if(res.status == 200) router.push("/dashboard/chat")
     }
 
 

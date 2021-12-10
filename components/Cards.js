@@ -25,9 +25,11 @@ export function Card_channel(props) {
                             paddingLeft: "1rem",
                             color: "white",
                             background: "#2198FA"
-                        }}>
-                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>{showMe ? "Connected " : "Connect "}
-                            
+                        }}
+                                disabled={props.disabled}
+
+                        >
+                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>Connected
                         </Button>
                             <label className="tickBroad" onClick={toggle} style={{
                                 display:  showMe ? "block":"none"
@@ -60,7 +62,8 @@ export function Card_channel(props) {
                             color: "#444444",
                             background: "#F5F6F8",
                             border: "none"
-                        }}>
+                        }}
+                        >
                             Connect
                         </Button>
                     </label>

@@ -1,4 +1,4 @@
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'
@@ -339,7 +339,7 @@ export default function Contacts() {
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={removeManyContact}>{deleteSVG}</div> </div>
                 </div>):null}
             >
-                <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
+                <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredUsers(new_data)
                 })}}>
                     {filteredUsers.map((user)=>{

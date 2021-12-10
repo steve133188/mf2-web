@@ -1,7 +1,7 @@
 import {useContext,useState , useEffect, useRef} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import ChatroomList from "../../components/ChatroomList";
-import MsgRow from "../../components/MsgRow";
+import MsgRow from "../../components/livechat/ChatMessage/MsgRow";
 import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
@@ -10,7 +10,6 @@ import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,Se
 import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
 import ChatroomInfo from "./chatroom_info/chatroom_info";
 import ChatlistFilter from "./serach_filter/filter.js/chatlist_filter";
-import Livechat from "../../pages/dashboard/livechat"
 import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "./newchatroomPanel";
 
