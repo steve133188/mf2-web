@@ -1,8 +1,11 @@
 .integrations-layout {
   background: #F7FBFF;
   height: 100vh;
-  width: 100vw;
+  // width: 100vw;
   display: flex;
+  flex-flow: column;
+  overflow-x: hidden;
+  position: relative;
   .cardChannelGroupContainer {
     display: flex;
     flex-flow: column;
@@ -20,4 +23,56 @@
       //justify-content: center;
     }
   }
+}
+.container{
+  min-width: 90%;
+  position:absolute;
+}
+.connectionBroad{
+  width:50vw;
+  height: 40vw;
+  max-width: 900px;
+  min-width: 420px;
+  max-height: 720px;
+  min-height: 300px;
+  background-color: khaki;
+  position:relative;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 7px 20px #00000029;
+  border-radius: 20px;
+  padding: 3% 5%;
+
+  .broad_head{ 
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+
+
+  }
+  .broad_content{
+    min-height: 50%;
+  }
+
+
+
+  .confirm_btn_set{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6% 0px;
+
+    .confirmButton{
+      margin: 20px;
+      
+    }
+    .cancelBUtton{
+      margin: 20px;
+
+    }
+  }
+
 }

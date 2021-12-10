@@ -26,6 +26,7 @@ export default function ChatlistFilter(props){
     const [users ,setUsers] =useState([]);
     const [tags ,setTags] =useState([]);
     const [teams ,setTeams] =useState([]);
+    const [selectedChannels ,setSelectedChannels] =useState([]);
     const [filteredTags ,setFilteredTags] =useState([]);
     const [filteredUsers ,setFilteredUsers] =useState([]);
     const [agentBarOpen,setAgentBar] = useState(false)
@@ -68,11 +69,11 @@ export default function ChatlistFilter(props){
                     const data = await orgInstance.getOrgTeams()
                     setTeams(data)
                 }
-                const fetchContacts = async () =>{
-                    const data = await contactInstance.getAllContacts()
-                    setContacts(data)
-                    setFilteredData(data)
-                }
+                // const fetchContacts = async () =>{
+                //     const data = await contactInstance.getAllContacts()
+                //     setContacts(data)
+                //     setFilteredData(data)
+                // }
                 useEffect(    async () => {
                     if(user.token!=null) {
 
@@ -106,7 +107,16 @@ export default function ChatlistFilter(props){
         }
         console.log(selectedTags)
     };
+    const toggleSelectChannels = e => {
+        const { checked ,id} = e.target;
 
+        setSelectedChannels([...selectedChannels, id]);
+        if (!checked) {
+            setSelectedChannels(selectedChannels.filter(item => item !== id));
+        }
+        // console.log(selectedChannels)
+    };
+    
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
@@ -154,7 +164,7 @@ export default function ChatlistFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id} />})}
+                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>
 

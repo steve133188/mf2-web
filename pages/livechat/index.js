@@ -12,10 +12,11 @@ import ChatroomInfo from "./chatroom_info/chatroom_info";
 import ChatlistFilter from "./serach_filter/filter.js/chatlist_filter";
 import Livechat from "../../pages/dashboard/livechat"
 import Team_Select from "../../components/livechat/filter/Team_Select";
+import Newchatroom from "./newchatroomPanel";
 
 export default function Live_chat() {
     const base_url ='https://e9bf-118-140-233-2.ngrok.io'
-    const data = [
+    const tempdata = [
         {
             name:"John Davidson",
             last_msg_time:"03:45PM",
@@ -488,6 +489,7 @@ export default function Live_chat() {
             broadcast:false
         },
     ]
+    const teamdata = [{name:"TeamA",id:"A"},{name:"TeamB",id:"B"},{name:"TeamC",id:"C"}]
 
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
@@ -503,12 +505,20 @@ export default function Live_chat() {
     const [contacts, setContacts] = useState([]);
     const [users ,setUsers] =useState([])
     const [teams ,setTeams] =useState([])
+    const [tags ,setTags] =useState([])
+    const [selectedTags ,setSelectedTags] =useState([])
+    const [selectedUsers ,setSelectedUsers] =useState([])
+    const [selectedTeams ,setSelectedTeams] =useState("")
+    const [selectedChannel ,setSelectedChannel] =useState([])
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
+    const [filteredTags ,setFilteredTags] =useState([])
+    const [filteredUsers ,setFilteredUsers] =useState([])
     const [filteredData , setFilteredData] = useState([])
     
     const [isShow , setIsShow] =useState(false)
-    const [selectedTeams ,setSelectedTeams] =useState("")
     const [isFilterOpen , setIsFilterOpen] = useState(false)
+    const[start,setStart] = useState(false)
+
 
     const getChatRooms = async()=>{
         const res = await axios.get(`${base_url}/chats` , {
@@ -526,7 +536,7 @@ export default function Live_chat() {
     }
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
-        setContacts(data)
+        setContacts(tempdata)
         setFilteredData(data)
         console.log(data)
     }
@@ -534,11 +544,18 @@ export default function Live_chat() {
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
         setUsers(data)
-        // setFilteredUsers(data)
+        setFilteredUsers(data)
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
         setTeams(data)
+    }
+
+    const getTags = async ()=>{
+        const data = await adminInstance.getAllTags()
+        setTags(data)
+        setFilteredTags(data)
+
     }
 
     const messagesSearchRef = useRef()
@@ -566,12 +583,28 @@ export default function Live_chat() {
     }
     // const chat_record =getChatRooms
     // console.log(getChatRooms)
+    useEffect(()=>{
+
+        if(!start){return  setStart(true)}
+       
+        console.log(chatrooms)
+        console.log(selectedTeams)
+        // setChatrooms(...chatrooms,chatrooms.push["2"]
+        //     // chatrooms.filter()
+        // )
+
+
+    } , [selectedTeams])
+    
     useEffect(async ()=>{
         // const data = await getChatRooms()
-        setChatrooms(data)
+        setChatrooms(tempdata)
         // const r = await getChatRecord(data[0].id.user)
         setChatrecord(records)
     } , [])
+
+
+
 
     const [inputvalue,setInputValue] = useState("")
     const [emojied,setEmoji] = useState("")
@@ -581,12 +614,26 @@ export default function Live_chat() {
     const fileAttach = () =>{
         attachFile.current.click();
     }
-  
+    const wrapperRef = useRef();
 
+    const handleClickOutside = (event) => {
+        if (
+            wrapperRef.current &&
+            !wrapperRef.current.contains(event.target)
+    ) {
+        setChatButtonOn("");
+        }
+    };
+    useEffect(()=>{
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    },[])
     useEffect(    async () => {
         if(user.token!=null) {
             await fetchContacts()
-            // await getTags()
+            await getTags()
             await getUsers()
             await getTeams()
         }
@@ -597,39 +644,40 @@ export default function Live_chat() {
     useEffect(()=>{
         console.log("contacts")
         console.log(contacts)
-    },[contacts])
+        console.log(ChatButtonOn)
+    },[ChatButtonOn])
 
     const advanceFilter =()=>{
-        setFilter({team:selectedTeams, 
-            // agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]
+        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]
         })
         console.log("filter",filter)
-        const teamFiltered = contacts.filter(data=>{
+        // const teamFiltered = contacts.filter(data=>{
 
-        // const agentFiltered = contacts.filter(data=>{
-        //     if(selectedUsers.length==0){
-        //         return data
-        //     }
-        //     return data.agents.some(el=>selectedUsers.includes(el))
-        // })
-        // console.log("agent:",agentFiltered)
-        // const tagFiltered = agentFiltered.filter(data=>{
-        //     if(selectedTags.length ==0){
-        //         return data
-        //     }
-        //     return data.tags.some(el=>selectedTags.includes(el))
-        // })
-        // console.log("tagFiltered:",tagFiltered)
+        const agentFiltered = contacts.filter(data=>{
+            if(selectedUsers.length==0){
+                return data
+            }
+            return data.agents.some(el=>selectedUsers.includes(el))
+        })
+        console.log("agent:",agentFiltered)
 
-        // const channelFiltered = tagFiltered.filter(data=>{
-        //     if(selectedChannel.length ==0){
-        //         return data
-        //     }
-        //     return data.channels.some(el=>selectedChannel.includes(el))
-        // })
-        // console.log("channelFiltered:",channelFiltered)
+        const tagFiltered = agentFiltered.filter(data=>{
+            if(selectedTags.length ==0){
+                return data
+            }
+            return data.tags.some(el=>selectedTags.includes(el))
+        })
+        console.log("tagFiltered:",tagFiltered)
 
-        // const teamFiltered = tagFiltered.filter(data=>{
+        const channelFiltered = tagFiltered.filter(data=>{
+            if(selectedChannel.length ==0){
+                return data
+            }
+            return data.channels.some(el=>selectedChannel.includes(el))
+        })
+        console.log("channelFiltered:",channelFiltered)
+
+        const teamFiltered = tagFiltered.filter(data=>{
             if(selectedTeams.trim() ==""){
                 return data
             }
@@ -666,27 +714,35 @@ export default function Live_chat() {
                                     <li onClick={()=> {
                                         setSelectedTeams("");
                                         advanceFilter()
-                                    }}>All</li>
-                                    {teams.map((team)=>{
-                                        return(<li  id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter()}}> {team.name}</li>)
+                                    }}>All Team</li>
+                                    {/* {teams.map((team)=>{ */}
+                                    {teamdata.map((team)=>{
+                                        return(<li  id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter();}}> {team.name}</li>)
                                     })}
                                 </Team_Select>
-
-
                             </button>
+
                             <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
                                         <div className={"filter_icon"}></div>
                             </div>
                         </div>
-                            <div className={"add_button"+(ChatButtonOn=="m0"?" active":"")} onClick={()=>setChatButtonOn("m0")}  style={{}}>
-                            <AddButtonSVG c={ChatButtonOn=="m0"?"#D0E9FF":"#f5f6f8"}/>
+                            <div className={"add_button"} onClick={()=>{setChatButtonOn("")}}  style={{display:ChatButtonOn=="m0"?"block":"none"}}>
+                            <AddButtonSVG c={"#D0E9FF"}/>
+                            </div>
+                            <div className={"add_button"} onClick={()=>{setChatButtonOn("m0")}}  style={{display:ChatButtonOn!=="m0"?"block":"none"}}>
+                            <AddButtonSVG c={"#f5f6f8"} />
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none"}}>
-                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)}/>
+                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={setSelectedChannel}/>
+                        </div>
+                        <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
+                                    <Newchatroom contacts={contacts} />
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
+                        {/* {filteredData.map((d , index)=>{ */}
                         {chatrooms.map((d , index)=>{
+
                             return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/> </>)
                         })}
                     </div>
@@ -695,7 +751,7 @@ export default function Live_chat() {
             <div className={"chatroom"}>
                 <div className={"chatroom_top"}>
                     <div className={"chatroom_top_info"}>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU" alt="icon"/>
+                        <img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>
                         <div className={"chatroom_name"}>Name</div>
                         <div className={"chatroom_channel"}>Channel</div>
                     </div>
@@ -724,7 +780,7 @@ export default function Live_chat() {
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" ></textarea>
                     <Picker onSelect={(emoji)=>setEmoji(emoji)} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
                     <div className={"chatroom_input_btn_gp"}>
-                        <div className={"left_btn_gp"}>
+                        <div className={"left_btn_gp"} ref={wrapperRef}>
                             <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={()=>setChatButtonOn("m1")}  
                                     ><MaskGroup1/></div>
                             <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={()=>{setEmojiOn(!isEmojiOn);setChatButtonOn("m2")}} 
@@ -776,7 +832,7 @@ export default function Live_chat() {
                     </div>
                 </div>
             </div> */}
-            <ChatroomInfo data={data}/>
+            <ChatroomInfo data={tempdata}/>
         </div>
     )
 }

@@ -1,0 +1,24 @@
+.chatlist_newChat_box{
+    // width: 100%;
+    
+}
+.contactList{
+    width: 330px;
+    max-width: 350px;
+    // background-color: turquoise;
+
+    .contact_box {
+        width:90%;
+        padding: 5%;
+        display: flex;
+
+        .contact_icon{
+            margin: 5px;
+        }
+        .contact_name_ss{
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

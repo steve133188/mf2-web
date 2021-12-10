@@ -55,6 +55,7 @@
 @import "components/profile.scss";
 @import "components/profile_grid.scss";
 @import "components/mf_circle_btn.scss";
+@import "components/livechat/chatlist/newChatroom.scss";
 
 @import "pages/login.scss";
 @import "pages/recovery.scss";
@@ -139,6 +140,7 @@ a {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  // position: relative;
 }
 
 .main {

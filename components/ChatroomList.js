@@ -10,7 +10,7 @@ export default function ChatroomList({chatroom , ...props}){
 
     return(
         <div className={"chatroom_li "} onClick={props.onClick}>
-            <div className={"starred"} > {chatroom.is_pin?<StarSVG /> : <NoStarSVG/>}</div>
+            <div className={"starred"}  > {chatroom.is_pin?<StarSVG /> : <NoStarSVG/>}</div>
             <div className={"chatroom_icon"}>
                 {chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}
                 <Avatar src={chatroom.profile_pic_url} alt={chatroom.name} />

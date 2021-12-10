@@ -1,7 +1,9 @@
 import Button from '@mui/material/Button'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
+import { DisconnectSVG, RefreshSVG } from '../public/intergration/intergSVG';
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function Card_channel(props) {
@@ -11,11 +13,11 @@ export function Card_channel(props) {
     }
     return (
         <div className="card_channel_layout">
-            <div className="card_channel">
-                <div className="connect_group">
+            <div className="card_channel"  onClick={props.onclick}>
+                <div className="connect_group" id={props.channelID}>
                     <img
                         src={props.src} width="40px" height="40px" alt=""/>
-                    <label className="tickSVG" onClick={toggle} style={{
+                    <label className="tickSVG" onClick={toggle} id={props.channelID} style={{
                         display:  "block"
                     }}>
                         <Button id="connectedBtn" variant="outlined" style={{
@@ -24,9 +26,31 @@ export function Card_channel(props) {
                             color: "white",
                             background: "#2198FA"
                         }}>
-                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>Connected
+                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>{showMe ? "Connected " : "Connect "}
+                            
                         </Button>
+                            <label className="tickBroad" onClick={toggle} style={{
+                                display:  showMe ? "block":"none"
+                            }}>
+                                <Button id="refreshToken" variant="outlined" style={{
+                                    borderRadius: "10px",
+                                    paddingLeft: "1rem",
+                                    // color: "white",
+                                    background:"transparent",
+                                }}>
+                                <RefreshSVG sx={{fontSize: 15.4, marginRight: 1}} />refresh
+                                </Button>
+                                <Button id="disconnect" variant="outlined" style={{
+                                    borderRadius: "10px",
+                                    paddingLeft: "1rem",
+                                    // color: "white",
+                                    background:"transparent",
+                                }}>
+                                    <RemoveCircleIcon  sx={{fontSize: 15.4, marginRight: 1}} style={{fill:"#fc736a"}}/>disconnect
+                                </Button>
+                            </label>
                     </label>
+
                     <label className="tickSVG" onClick={toggle} style={{
                         display: "none"
                     }}>
