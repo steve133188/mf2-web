@@ -29,18 +29,18 @@ export function Card_channel(props) {
                                 disabled={props.disabled}
 
                         >
-                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>Connected
+                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>{props.state?"Connected":"Connect"}
                         </Button>
                             <label className="tickBroad" onClick={toggle} style={{
                                 display:  showMe ? "block":"none"
                             }}>
                                 <Button id="refreshToken" variant="outlined" style={{
                                     borderRadius: "10px",
-                                    paddingLeft: "1rem",
+                                    marginRight: "1rem",
                                     // color: "white",
                                     background:"transparent",
                                 }}>
-                                <RefreshSVG sx={{fontSize: 15.4, marginRight: 1}} />refresh
+                                <RefreshSVG sx={{fontSize: 15.4}} /><span style={{ marginLeft: "10px",marginRight:"23px"}}>Refresh</span>
                                 </Button>
                                 <Button id="disconnect" variant="outlined" style={{
                                     borderRadius: "10px",
@@ -48,7 +48,7 @@ export function Card_channel(props) {
                                     // color: "white",
                                     background:"transparent",
                                 }}>
-                                    <RemoveCircleIcon  sx={{fontSize: 15.4, marginRight: 1}} style={{fill:"#fc736a"}}/>disconnect
+                                    <RemoveCircleIcon  sx={{fontSize: 15.4, marginRight: 1}} style={{fill:"#fc736a"}}/><div onClick={props.state}>disconnect</div>
                                 </Button>
                             </label>
                     </label>

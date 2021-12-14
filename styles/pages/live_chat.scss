@@ -21,7 +21,7 @@
     .search_ss{
       display: flex;
       flex-direction: column;
-      height: 10vh;
+      min-height: 80px;
       max-height: 5rem;
       justify-content: center;
       min-width: 320px;
@@ -113,6 +113,7 @@
         flex-direction: column;
         width: 100%;
         min-width: 330px;
+        height: auto;
         // height: 90%;
         font: normal normal normal 12px/17px Manrope;
         letter-spacing: 0px;
