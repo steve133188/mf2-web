@@ -26,10 +26,8 @@ import searchFilter from "../../helpers/searchFilter";
 import * as React from "react";
 import { EditPenSVG } from "../../public/broadcast/broadcastSVG";
 import { flexbox } from "@mui/system";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import DayPicker from 'react-day-picker';
+import Helmet from 'react-helmet';
+import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
 import EditBroadcast from "../../components/pageComponents/EditBroadcast";
@@ -66,13 +64,7 @@ export default function Broadcast() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
 
-    const [value, setValue] = useState(new Date());
 
-    const minDate = new Date('2020-01-01T00:00:00.000');
-    const maxDate = new Date('2034-01-01T00:00:00.000');
-
-
-    const [date, setDate] = React.useState(new Date());
 
     let result = currentContacts.map(d=>d.id)
     const advanceFilter =()=>{
@@ -129,6 +121,7 @@ export default function Broadcast() {
     const handelStatus = (e)=>{
         setSelectedStatus(e.target.id);
     }
+    const [filterDay,setFilterDay] = useState("")
     useEffect(()=>{advanceFilter();},[selectedStatus])
     useEffect(()=>{advanceFilter();},[filterDay])
 
@@ -233,15 +226,38 @@ export default function Broadcast() {
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
-    const[selectedDay,setSelected] = useState("") 
-    const  handleDayClick = (day, { selected }) =>{
-        setSelected(selected ? undefined : day
-        );
-        setFilterDay(day)
-        console.log("day"+day)
-        console.log(selectedDay)
-      }
-      const [filterDay,setFilterDay] = useState("")
+
+    const [dayState,setDayState] = useState({from:"",to:""})
+
+          const handleDayClick=(day) => {
+            const range = DateUtils.addDayToRange(day, dayState);
+            setDayState(range);
+            // setSelectedPeriod(day);
+            console.log('day:'+ day.toLocaleDateString())
+
+          }
+
+          const [startDay,setStartDay] =useState("")
+          const [endDay,setEndDay] =useState("")
+
+          useEffect(()=>{
+              if(dayState.from==""){return}
+              else{
+                  setStartDay(dayState.from.toLocaleDateString())
+              }
+              if(dayState.to==""){return}
+              else{
+              setEndDay(dayState.to.toLocaleDateString())}
+
+              setSelectedPeriod(startDay+"-"+endDay)
+
+          },[dayState])
+
+
+
+
+
+
     const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" viewBox="0 0 25 25">
             <defs>
                 <clipPath id="clip-path">
@@ -340,17 +356,32 @@ export default function Broadcast() {
                     }}>All</li> */}
                     <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
                     <div style={{position:"absolute"}}>
-                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} md={12}>
-                                <CalendarPicker  date={date} onChange={(newDate) => {setDate(newDate);setSelectedPeriod(newDate);advanceFilter()}} />
-                                </Grid>
-                            </Grid>
-                            </LocalizationProvider> */}
-                            <DayPicker
-                                  selectedDays={selectedDay}
-                                  onDayClick={(day,{selected})=>   {handleDayClick(day,{selected})} }
-                                  />
+                        <DayPicker
+                            className="Selectable"
+                            //   numberOfMonths={this.props.numberOfMonths}
+                            selectedDays={[dayState.from,{ from:dayState.from, to:dayState.to }]}
+                            modifiers={{ start: dayState.from, end: dayState.to }}
+                            onDayClick={(day)=>handleDayClick(day)}
+                            />
+                                <Helmet>
+                                <style>{`
+                                        .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+                                            background-color: #f0f8ff !important;
+                                            color: #4a90e2;
+                                        }
+                                        .Selectable .DayPicker-Day {
+                                            border-radius: 0 !important;
+                                        }
+                                        .Selectable .DayPicker-Day--start {
+                                            border-top-left-radius: 50% !important;
+                                            border-bottom-left-radius: 50% !important;
+                                        }
+                                        .Selectable .DayPicker-Day--end {
+                                            border-top-right-radius: 50% !important;
+                                            border-bottom-right-radius: 50% !important;
+                                        }
+                                        `}</style>
+                                </Helmet>
                             </div>
                     </div>
 

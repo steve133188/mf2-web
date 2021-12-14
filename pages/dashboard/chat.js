@@ -6,6 +6,12 @@ import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {Checkbox} from "../../components/Checkbox";
 import {Pill} from "../../components/Pill";
+import {useContext, useEffect, useState} from "react";
+
+import MF_Select from "../../components/MF_Select";
+import Helmet from 'react-helmet';
+import DayPicker, { DateUtils } from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 export default function Chat() {
     const [open, setOpen] = React.useState(false);
@@ -13,11 +19,75 @@ export default function Chat() {
         setOpen(false);
     };
 
+    const [selectedPeriod ,setSelectedPeriod] =useState("")
+    const [dayState,setDayState] = useState({from:"",to:""})
+
+    const handleDayClick=(day) => {
+      const range = DateUtils.addDayToRange(day, dayState);
+      setDayState(range);
+    }
+
+    const [startDay,setStartDay] =useState("")
+    const [endDay,setEndDay] =useState("")
+
+    useEffect(()=>{
+        if(dayState.from==""){return}
+        else{
+            setStartDay(dayState.from.toLocaleDateString())
+        }
+        if(dayState.to==""){return}
+        else{
+        setEndDay(dayState.to.toLocaleDateString())}
+    },[dayState])
+    useEffect(()=>{
+        setSelectedPeriod(startDay+"-"+endDay)
+    },[startDay])
+    useEffect(()=>{
+        setSelectedPeriod(startDay+"-"+endDay)
+    },[endDay])
+
 
     return (
         <div className="dashboard-layout">
             <div className="navbarPurple">
 
+                <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod}    customeDropdown={"calender"}>
+
+                    <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
+                    <div style={{position:"absolute"}}>
+                        <DayPicker
+                            className="Selectable"
+                            //   numberOfMonths={this.props.numberOfMonths}
+                            selectedDays={[dayState.from,{ from:dayState.from, to:dayState.to }]}
+                            modifiers={{ start: dayState.from, end: dayState.to }}
+                            onDayClick={(day)=>handleDayClick(day)}
+                            />
+                                <Helmet>
+                                <style>{`
+                                        .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+                                            background-color: #f0f8ff !important;
+                                            color: #4a90e2;
+                                        }
+                                        .Selectable .DayPicker-Day {
+                                            border-radius: 0 !important;
+                                        }
+                                        .Selectable .DayPicker-Day--start {
+                                            border-top-left-radius: 50% !important;
+                                            border-bottom-left-radius: 50% !important;
+                                        }
+                                        .Selectable .DayPicker-Day--end {
+                                            border-top-right-radius: 50% !important;
+                                            border-bottom-right-radius: 50% !important;
+                                        }
+                                        `}</style>
+                                </Helmet>
+                            </div>
+                    </div>
+
+                    {/* {status.map((team)=>{
+                        return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedStatus(e.target.id);advanceFilter()}}> {team.name}</li>)
+                    })} */}
+                </MF_Select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2198fa"
                      className="bi bi-upload" viewBox="0 0 16 16" style={{cursor: "pointer"}}>
                     <path

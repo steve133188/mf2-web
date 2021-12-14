@@ -89,11 +89,11 @@ export default function ChatlistFilter(props){
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
-        console.log(selectedUsers)
-        console.log("id")
-        console.log(id)
-        console.log(filteredUsers)
-        console.log("filteredUsers")
+        // console.log(selectedUsers)
+        // console.log("id")
+        // console.log(id)
+        // console.log(filteredUsers)
+        // console.log("filteredUsers")
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
         }

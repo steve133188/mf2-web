@@ -9,13 +9,16 @@ import Box  from "@mui/material/Box";
 import ConnectWhatsapp from "../../components/integrations/connect_whatsapp";
 import ConnectWhatsappBiss from "../../components/integrations/connect_whatsappBusiness";
 import ConnectWeChat from "../../components/integrations/connect_wechat";
+import ConnectFacebookMessager from "../../components/integrations/connect_facebook";
 
 export default function Integrations() {
 
     const channelList = [
         {name:"WhatsApp",channelID:"whatsapp",connectState:true,token:""},
         {name:"WhatsApp Business API",channelID:"whatsappB",connectState:false,token:""},
-        {name:"WeChat", channelID:"wechat",connectState:true,token:""}]
+        {name:"WeChat", channelID:"wechat",connectState:true,token:""},
+        {name:"Facebook Messager", channelID:"messager",connectState:false,token:""},
+    ]
 
     const [allChannel,setAllChannel] = useState([ {name:"",channelID:"",connectState:false,token:""}])
     const [activeChannel,setActiveChannel] = useState([])
@@ -44,8 +47,10 @@ export default function Integrations() {
             }
         })  
     }
-     const [value, setValue] = useState("");
-
+    const [value, setValue] = useState("");
+    const handelSumbit = () =>{
+        
+    }
 
   
 
@@ -63,7 +68,7 @@ export default function Integrations() {
                         <div className="row cardContainer">
                             <Card_channel src="MF_Channel_Facebook/Group 5165.svg" disabled={true} name="WhatsApp Business API"  channelID={channelList[1].channelID}  onclick={toggleHandeler} />
                             <Card_channel src="Group 5167.svg" disabled={true} name="WeChat"  channelID={channelList[2].channelID}  onclick={toggleHandeler}  />
-                            <Card_channel src="Group 4965.svg" disabled={true} name="Facebook Messager"/>
+                            <Card_channel src="messageCheck.svg" disabled={true} name="Facebook Messager" channelID="messager" onclick={toggleHandeler} />
                             <Card_channel src="MF_Channel_Facebook/Mask Group 48.svg" disabled={true} name="Line"/>
                             <Card_channel src="MF_Channel_Facebook/Mask Group 51.svg" disabled={true} name="Signal"/>
                             <Card_channel src="MF_Channel_Facebook/Mask Group 50.svg" disabled={true} name="Telegram"/>
@@ -87,11 +92,12 @@ export default function Integrations() {
                                 </Box>
                                 <TabPanel value="whatsapp"><ConnectWhatsapp/></TabPanel>
                                 <TabPanel value="whatsappB"><ConnectWhatsappBiss/></TabPanel>
-                                <TabPanel value="wechat"><ConnectWeChat/></TabPanel>
+                                <TabPanel value="wechat"><ConnectWeChat onclick={handelSumbit}/></TabPanel>
+                                <TabPanel value="messager"><ConnectFacebookMessager/></TabPanel>
                 </TabContext>
                     </div>
                     <div className={"confirm_btn_set"}>
-                        <LeftButton title={"Save"}/>
+                        <LeftButton title={"Save"} onclick={handelSumbit}/>
                         <RightlButton title={"Cancel"} onclick={()=>{setShowMe(!showMe)}}/>
                     </div>
 
