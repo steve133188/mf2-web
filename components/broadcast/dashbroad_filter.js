@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import { Pill } from "../Pill";
 import { AvatarGroup } from "@mui/material";
 import { getThemeProps } from "@mui/system";
+import FilterDropDown from "./filterDropDown";
 
 
 export default function DashBroadFilter(props){
@@ -36,6 +37,7 @@ export default function DashBroadFilter(props){
 
     const [agentBarOpen,setAgentBar] = useState(false)
     const [dBarOpen,setDBar] = useState(false)
+    const [teamBarOpen,setTeamBar] = useState(false)
     const [agentSearchValue, setAgentValue]= useState("")
 
 
@@ -189,51 +191,11 @@ export default function DashBroadFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
+                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
                 </div>
-
-                <div className={"filter_box_agents"}  >Division
-                    <div className={"agentBroad"} >
-
-                    <div className={"filter_title"} onClick={()=>{setDBar(!dBarOpen)}}>Choose Division</div>
-                    <div className={"agentSearchArea"}  style={dBarOpen?{display:"block"}:{display:"none"}}>
-                         <div className={"search_bar"}>    
-                            <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
-                        </div>
-                    
-
-                        <div className={"channelList"} >
-                            {filteredDivision.map((user)=>{
-                                return(<li className={"channelListitem"} key={user.name} style={{width:"100%"}}>
-                                    <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip key={user.name} className={""} title={user.name} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.name.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-                                        <div className={"name"}>{user.name}</div>
-                                    </div>
-                                    <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.name} name="checkbox" checked={selectedDivision.includes(user.name)} onClick={toggleSelectDivision} />
-                                        </label>
-                                    </div>
-                                </li>) })
-                            }
-                        </div>
-                    </div>
-                    </div>
-                    <div className={"taglList"}>
-                        {selectedDivision.map((user)=>{
-                                return(
-                                    <div className={"tag"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip key={user} className={""} title={user} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-
-                                    </div>
-                                )
-                            })}
-                    </div>
-                </div>
+                <FilterDropDown title={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>
+                <FilterDropDown title={"Division"} filterdata={filteredDivision} selecteddata={selectedDivision} expand={dBarOpen} expandClick={()=>setDBar(!dBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectDivision} agentSearchValue={agentSearchValue} iname={"username"} />
                 <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 

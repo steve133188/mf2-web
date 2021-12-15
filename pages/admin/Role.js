@@ -27,6 +27,8 @@ import {getAllContacts} from "../../helpers/contactsHelper"
 import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
 import CreateRole from "../../components/Admin/CreateRole";
+import EditRole from "../../components/Admin/EditRole";
+import MF_Modal from "../../components/MF_Modal";
 
 export default function Role() {
 
@@ -83,17 +85,22 @@ export default function Role() {
         console.log(res)
         await fetchRoles()
     }
-    const toggleDelete = ()=>{
-        setIsDelete(!isDelete)
-    }
     const toggleCreate = ()=>{
         setIsCreate(!isCreate)
     }
     const toggleEdit = ()=>{
         setIsEdit(!isEdit)
     }
+    const toggleDelete = (name)=>{
+        setIsDelete(!isDelete)
+        setDeleteRole(name)
+    }
+    const [deleteRolename,setDeleteRole] = useState("")
+    const submitDelete = () =>{
+    deleteRole(deleteRolename);
 
-
+    setIsDelete(!isDelete)
+ }
     const default_cols = ['Role' , 'No. of User' ,' ']
 
     const editSVG =(
@@ -126,6 +133,21 @@ export default function Role() {
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <CreateRole show={isCreate} reload={fetchRoles} toggle={toggleCreate}/>
+            {/* <EditRole show={isCreate} reload={fetchRoles} toggle={toggleCreate}/> */}
+            <EditRole show={isEdit} reload={fetchRoles} toggle={toggleEdit}/>
+
+        <MF_Modal show={isDelete} toggle={toggleDelete}>
+            <div className={"modal_form"}>
+                <div className={"modal_title"} style={{textAlign:"center"}}>
+                    <span>Delete agent role?</span>
+                </div> 
+                <div className={"btn_row"}>
+                    <button onClick={submitDelete }>Confirm</button>
+                    <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>
+                </div>
+            </div>
+        </MF_Modal>
+
             <div className="rightContent">
             <div className={"search_session"}>
                 <div className="search">
@@ -211,8 +233,8 @@ export default function Role() {
 
 
                                     <TableCell align="right">
-                                       <span className={"right_icon_btn"}>{editSVG}</span>
-                                       <span className={"right_icon_btn"} onClick={()=>deleteRole(data.name)}>{deleteSVG}</span>
+                                       <span className={"right_icon_btn"} onClick={toggleEdit}>{editSVG}</span>
+                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.name)}>{deleteSVG}</span>
                                     </TableCell>
                                 </TableRow>
                             )

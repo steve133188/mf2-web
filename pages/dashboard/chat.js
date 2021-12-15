@@ -105,7 +105,7 @@ export default function Chat() {
                             
                 </div>    
                 <div className={"right"}>
-                    <div style={{position:"relative"}}>
+                    {/* <div style={{position:"relative"}}>
                         <div >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2198fa"
                                 className="bi bi-upload" viewBox="0 0 16 16" style={{cursor: "pointer"}}>
@@ -123,11 +123,7 @@ export default function Chat() {
                             <div style={{margin:"0 5px"}}> whatsapp</div>
                             </div>
                             <div className={"right"}>
-                            {/* <label className={"status_box"}>
-                                <input type="checkbox" name="bot_check" />
-                                <span className={"checkboxStyle"}></span>
-                                <span className={"checkboxStyleout"}> </span>
-                            </label> */}
+
                             <div className="newCheckboxContainer right">
                                             <label className="newCheckboxLabel"> 
                                             <input type="checkbox" 
@@ -141,54 +137,10 @@ export default function Chat() {
                             </div>
                         </div>
                         </MF_Select>
-                    </div>
+                    </div> */}
                 </div>
             </div>
-            {open ? (
-                <span className={"dashboardFilter"}>
-                    <div className="filterArea">
-                        <div className="checkboxGroup1">
-                            <h1>Filter</h1>
-                            <div className="buttonGrp">
-                                <NormalButton2>Confirm</NormalButton2>
-                                <span className="cancelBtn" onClick={handleClickAway}><CancelButton></CancelButton></span>
-                            </div>
-                        </div>
-                        <div className="checkboxGroup2">
-                            <p>Channel</p>
-                            <div className="checkboxGrp">
-                                <Checkbox src={"/allchannel.svg"}>All Channel
-                                </Checkbox>
-                                <Checkbox src={"/whatsappCheck.svg"} checked={"checked"}>WhatsApp
-                                </Checkbox>
-                                <Checkbox src={"/wbaCheck.svg"}>WhatsApp Business API
-                                </Checkbox>
-                                <Checkbox src={"/messageCheck.svg"}>Messager
-                                </Checkbox>
-                                <Checkbox src={"/wechatCheck.svg"}>WeChat
-                                </Checkbox>
-                            </div>
-                        </div>
-                        <div className="agentFilter">
-                            <p>Organization</p>
-                            <LabelSelect2 placeholder={"Choose Organization"} select1={"Division 1"} select2={"Division 2"} select3={"Division 3"} select4={"Division 4"}/>
-                        </div>
-                        <div className="agentFilter">
-                            <p>Team</p>
-                            <LabelSelect2 placeholder={"Choose Team"} select1={"Division 1"} select2={"Division 2"} select3={"Division 3"} select4={"Division 4"}/>
-                        </div>
-                        <div className="agentFilter">
-                            <p>Agent</p>
-                            <LabelSelect2 placeholder={"Choose Index"} select1={"Mary Foster"} select2={"Harry Swart"} select3={"Walter Jackson"} select4={"Denny Hackwin"}/>
-                            <div className="agentGroup">
-                                <Pill color="lightYellow" size="size30">MF</Pill>
-                                <Pill color="lightBlue" size="size30">MF</Pill>
-                            </div>
-                        </div>
 
-                    </div>
-                </span>
-            ) : null}
             <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
             <div className="chartGroup">
                 <div className="dashboardRow">

@@ -25,6 +25,7 @@ import Mf_icon_dropdown_select_btn from "../../../components/mf_dropdown_select"
 import searchFilter from "../../../helpers/searchFilter";
 import {InnerSidebar} from "../../../components/InnerSidebar";
 import * as React from "react";
+import EditAgent from "./editAgent";
 
 export default function Index() {
 
@@ -96,8 +97,18 @@ export default function Index() {
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
+    const toggleEdit = ()=>{
+        if (selectedUsers.length!=1){
+            return
+        }
+        console.log(selectedUsers)
+        toggleEditProfile(selectedUsers[0])
+
+
+    }
     const toggleEditProfile =async (key) =>{
-        if(!isEditProfileShow) setUseUser(key);
+        if(!isEditProfileShow) 
+        // setUseUser(key);
         if(isEditProfileShow) await fetchRoles();
         setIsEditProfileShow(!isEditProfileShow)
     }
@@ -135,9 +146,9 @@ export default function Index() {
     return (
         <div className={"admin_layout"}>
             <InnerSidebar/>
-            <div className="rightContent">
+            <div className="rightContent">  
                 {/*{isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}*/}
-                {/*{isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}*/}
+                {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile}/></Profile>):null}
 
                 <div className={"search_session"}>
                     <div className="search">
@@ -170,7 +181,7 @@ export default function Index() {
                 {/* drag and drop end*/}
                 <SelectSession
                     btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                        <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
+                        <div className={"select_session_btn"}><div svg={editSVG} onClick={toggleEdit}>{editSVG} </div></div>
                         <div className={"select_session_btn"}><div svg={deleteSVG}>{deleteSVG}</div> </div>
                     </div>):null}
                 >
