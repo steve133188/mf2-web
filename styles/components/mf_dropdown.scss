@@ -48,6 +48,12 @@
   min-height: 30rem;
   top: 120%;
   left: 0;
+  z-index: 115;
+}
+.right{
+  right: 0;
+  left: unset;
+  z-index: 110;
 }
 .mf_icon_dropdownform_items{
   right: 0;

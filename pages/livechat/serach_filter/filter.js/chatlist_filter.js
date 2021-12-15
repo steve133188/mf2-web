@@ -34,7 +34,7 @@ export default function ChatlistFilter(props){
 
 
                 const advanceFilter =()=>{
-                    setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
+                    setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
                     console.log("filter",filter)
                     const agentFiltered = contacts.filter(data=>{
                         if(selectedUsers.length==0){
@@ -191,8 +191,7 @@ export default function ChatlistFilter(props){
                                         <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
                                         </label>
                                     </div>
-                                </li>)
-                            })
+                                </li>) })
                             }
                         </div>
                     </div>

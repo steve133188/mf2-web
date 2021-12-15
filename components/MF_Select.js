@@ -42,7 +42,8 @@ export default  function MF_Select({children ,head,top_head,value=null, handleCh
                 {children}
             </div>
         </div>)
-    }else if(customeDropdown=="calender"){
+    }
+    else if(customeDropdown=="calender"){
         dropdown = (<div className={"dropdown_items"} style={{width:"fit-content"}} ref={wrapperRef} onClick={null}>
         <div className={"model_head"}>
             <h6 className={"model_head_title"}>{head}</h6>
@@ -52,8 +53,19 @@ export default  function MF_Select({children ,head,top_head,value=null, handleCh
             {children}
             {customButton}
         </div>
-    </div>)
-    }else{
+    </div>)}
+    else if(customeDropdown=="topRight"){
+        dropdown = (<div className={"right dropdown_items "} style={{width:"fit-content"}} ref={wrapperRef} onClick={null}>
+        <div className={"model_head"}>
+            <h6 className={"model_head_title"}>{head}</h6>
+        </div>
+
+        <div className={"mf_dropdown_content"} style={{height:"fit-content"}}>
+            {children}
+            {customButton}
+        </div>
+    </div>)}
+    else{
         function closeDropdown(){
             setTimeout(
                 setIsShow(!isShow)

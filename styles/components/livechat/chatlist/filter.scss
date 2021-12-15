@@ -1,0 +1,333 @@
+.filter_panel{
+
+    z-index: 115;
+    position: absolute;
+    box-shadow: black;
+    box-sizing: border-box;
+    background: white;
+    padding: 17px 22px 26px 22px;
+    border-radius: 10px;
+    box-shadow: 0px 7px 10px #0000001a;
+    top:105px;
+    width: 20vw;
+    min-width: 280px;
+    max-width: 500px;   
+//    left:0;
+}
+.chatlist_filter_box{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 330px;
+    height: 90%;
+    font: normal normal normal 12px/17px Manrope;
+    letter-spacing: 0px;
+    color: #444444;
+    padding: 10px 0px;
+    background-color: white;
+    top: 100;
+    // position:absolute;
+    // overflow:auto;
+    .filter_title{
+
+      padding-bottom: 4px;
+      }
+    label{
+      padding:  10px;
+      // color: var(--unnamed-color-444444);
+      text-align: left;
+      font: normal normal normal 14px/22px Manrope;
+      letter-spacing: 0px;
+      // color: #444444;
+    }
+    
+    .filter_box_status{
+      display: flex;
+      // justify-content: space-between;
+      // align-items: center;
+      padding-right: 35px;
+      margin:10px 0;
+      
+      label{
+        // margin: 0;ont-family: system-ui, sans-serif;
+        font-weight: bold;
+        line-height: 1.1;
+        margin-top: 1px;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        align-items: center;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: flex;
+      }
+      
+    .status_box{
+      display: flex;
+      align-items: center;
+      // display: block;
+      // position: relative;
+      height: 43px;
+      padding: 1px 3px;
+      // margin-bottom: 12px;
+      cursor: pointer;
+
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      // input{
+      //   margin: 0 10px;
+      //   position: absolute;
+      //   opacity: 0;
+      //   cursor: pointer;
+      //   height: 30;
+      //   width: 30;
+       
+      //   &:checked ~ .checkboxStyle{
+      //     padding: 2px;
+      //     background: #4F97F4 0% 0% no-repeat padding-box;
+      //     border-radius: 3px;
+      //     border-color: #4F97F4 ;
+      //   }
+      //   &:checked ~ .checkboxStyleout{
+      //     padding: 2px;
+      //     border-color: #4F97F4 ;
+      //     border-radius: 3px;
+      //     opacity: .8;
+      //   }
+      // }
+      // // &:hover{
+      // //     background-color: rgb(134, 93, 93);
+      // //   }
+
+      // .checkboxStyle{
+      //   position: absolute;
+      //   top: 3px;
+      //   left: 3px;
+      //   height: 20px;
+      //   width: 20px;
+      //   margin: 9px 6px;
+      //   background: transparent  0% 0% no-repeat padding-box;;
+      //   border-radius: 3px;
+      //   border-style:solid;
+      //   border-width: 1px;
+      //   border-color:lightgrey;
+      //   box-sizing: border-box;
+
+
+      // }
+
+      // .checkboxStyleout{
+      //   position: absolute;
+      //   top: 0;
+      //   left: 0;
+      //   height: 26px;
+      //   width: 26px;
+      //   margin: 9px 6px;
+      //   background: transparent  0% 0% no-repeat padding-box;;
+      //   border-radius: 3px;
+      //   border-style:solid;
+      //   border-width: 1px;
+      //   border-color:lightgrey;
+      //   box-sizing: border-box;
+
+
+      // }
+      }
+
+        
+          
+    }
+    .filter_box_channel{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin:20px 0;
+      
+      .serachSVG{
+        width: 20;
+        height: 20;
+        object-fit: contain;
+      }
+      .channelList{
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        // height: 30px;
+        width: 100%;
+        .channelListitem{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 30px;
+          margin: 4px 0;
+          font: normal normal normal 15px/22px Manrope;
+          // margin: 5px 0;
+          .left{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: left;
+            width: 70%;
+            height: 20px;
+            padding: 5px;
+          }
+          .right{
+            display: flex;
+            justify-content: flex-start;
+            text-align: right;
+            align-items: center;
+            margin-right: 10px;
+            width: 20%;
+
+          }
+        }
+      }
+    }
+    .filter_box_agents{
+      display: flex;
+      flex-direction: column;
+      margin:20px 0;
+      // justify-content: space-between;
+      // align-items: center;
+      .agentBroad{
+        background: #F8F9FB 0% 0% no-repeat padding-box;
+        width: 100%;
+        margin: 10px 0;
+        margin-left: -10px;
+        border-radius: 5px;
+        .filter_title{
+          cursor: pointer;
+          margin: 10px;
+        }
+        // display: none;
+      }
+      .agentSearchArea{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        .search_bar{  
+          width: 90%;
+          display:flex;
+          background: #FFF 0% no-repeat padding-box;
+          border-radius: 10px;
+          padding:10px;
+          color: #8B8B8B;
+          border-width: 0;
+          margin: 10px 5%;
+          
+          .search_area{
+            width: 100%;
+            text-align: left;
+            vertical-align:middle;
+            background: transparent 0% 0% no-repeat padding-box;
+            border-width: 0;
+            margin: 0 10px;
+            &:focus-visible{
+              border-width: 0;
+              outline:0
+            }
+
+
+
+
+          }
+        }
+      }
+      .taglList{
+        display: flex;
+        justify-content: flex-start;
+        overflow: scroll;
+        .tag{
+          width: 23px;
+          padding: 0;
+          margin: 3px 8px;
+        }
+      }
+      .channelList{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        overflow-x: scroll ;
+        height: 120px;
+        .channelListitem{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      padding: 3px 0px 3px 10px ;
+          height: 30px;
+          margin: 3px 0;
+          font: normal normal normal 16px/22px Manrope;
+          // margin: 5px 0;
+          .left{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: left;
+            width: 55%;
+            height: 20px;
+            padding: 5px;
+          }
+          .right{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: 10px;
+
+          }
+        }
+      }
+    }
+    .filter_box_tag{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin:20px 0;
+      .channelList{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        overflow-x: scroll ;
+        // align-items: center;
+        height: 120px;
+        .channelListitem{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 90%;
+          font: normal normal normal 15px/22px Manrope;
+          // margin-bottom: -10px;
+          // margin-right: 15px;
+
+          .pillContainer .pill{
+            max-height: none;
+            width: fit-content;
+            padding: 3px 15px 5px 15px;
+            height: 25px;
+            font: normal normal normal 15px/22px Manrope;
+           
+
+          }
+          .left{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: left;
+            width: 55%;
+            height: 20px;
+            padding: 5px;
+          }
+          .right{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: 10px;
+
+          }
+        }
+      }
+    }
+
+  }

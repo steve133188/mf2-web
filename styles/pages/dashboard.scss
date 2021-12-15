@@ -64,6 +64,15 @@
     display: flex;
     justify-content: space-between;
 
+    .left{
+      display: flex;
+      width: 50vw;
+    }
+    .right{
+      display: flex;
+      // width: 20vw;
+      
+    }
     .imageBtnGrp {
 
     }
@@ -106,5 +115,22 @@
         float: left;
       }
     }
+  }
+} .filter_box{
+  padding: 0.5rem;
+  margin:0 0.5rem;
+  &.active{
+    background-color: #D0E9FF;
+    border-radius: 10px;
+   
+  }
+  .filter_icon{
+    background-image: url("../../public/livechat/filter_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 0.5rem;
+    width:15px;
+    height: 15px;
+    cursor: pointer;
   }
 }
