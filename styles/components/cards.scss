@@ -1,10 +1,12 @@
 .card_channel_layout {
-  width: 27.5%;
+  width: 29%;
   height: 100%;
   //min-width: 300px;
   padding-left: 0px;
 
   .card_channel {
+
+      max-width: 500px;
     padding: 27px 31px;
     background: #FFFFFF;
     border-radius: 20px;
@@ -44,6 +46,19 @@
         width: 20px;
         background: url("../../public/check_circle_outline_black_24dp.svg") center / contain no-repeat;
       }
+      .tickBroad{
+        position: absolute;
+        font: normal normal medium 16px/22px Manrope;
+        letter-spacing: 0px;
+        color: #444444;
+        border-radius: 10px;
+        // padding-left: 1rem;
+        // border-width: 3px;
+        // border-color:#2198FA ;
+        // background:  white;
+        // box-shadow: 0px 3px 6px #00000029;
+
+      }
 
     }
     .information_group {
@@ -56,6 +71,8 @@
         color: #495057;
       }
       p {
+        color: #AAAAAA;
+        margin: 0;
         font: normal normal normal 14px/19px Manrope;
         letter-spacing: 0px;
         color: #8B8B8B;

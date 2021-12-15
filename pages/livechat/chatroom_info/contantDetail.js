@@ -18,9 +18,9 @@ Country:"Hong Kong",
 createdDate:"1 May,2021",
 lastOnline:"September 25, 2021 08:40AM",
 lastContactFromYou:"September 30, 2021 11:40PM",
-
 },
-{address: "hk",
+{
+address: "hk",
 agents:  ['testing', 'steve', 'mstest', 'sbna', 'testin1'],
 birthday: "12-12-1999",
 channels: null,
@@ -96,36 +96,33 @@ useEffect(()=>{
                 <div className={"assignedInfo"}>
 
                     Assignee
-                <div className={"assigneeBox"}>
-                     {List[1].agents.map((agent)=>{ 
-                                       return( <Tooltip key={agent} className={""} title={agent} placement="top-start" >
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >
-                                                {agent.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>)})}
-                
+                    <div className={"assigneeBox"}>
+                        {List[1].agents.map((agent)=>{ 
+                                        return( <Tooltip key={agent} className={"assigne_item"} title={agent} placement="top-start" >
+                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >
+                                                    {agent.substring(0,2).toUpperCase()}</Avatar>
+                                            </Tooltip>)})}
                     
-                </div>
-                Tags
-                    <div className={"filter_box_tag"}  >
-                        <div className={"channelList"}>
-                            <div className={"filter_title"}></div>
                         
-
-                                {List[1].tags.map((tag)=>{
-                                return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag}</Pill>
-                                      {/* <div className={"tag"} style={{display:"flex" ,gap:10}}>
-
-                                    </div> */}
-
-                                        </li>)
-                            })}
-
-                        </div>
                     </div>
+                    Tags
+                        <div className={"filter_box_tag"}  >
+                            <div className={"channelList"}>
+                                <div className={"filter_title"}></div>
+                            
 
-                <div>
+                                    {List[1].tags.map((tag)=>{
+                                    return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag}</Pill>
+                                        {/* <div className={"tag"} style={{display:"flex" ,gap:10}}>
 
-                </div>
+                                        </div> */}
+
+                                            </li>)
+                                })}
+
+                            </div>
+                        </div>
+
                 </div>
             </div>
 

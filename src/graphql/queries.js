@@ -36,3 +36,38 @@ export const listMF2TCOCHATROOMS = /* GraphQL */ `
     }
   }
 `;
+export const getMF2TCOMESSAGGE = /* GraphQL */ `
+  query GetMF2TCOMESSAGGE($room_id: Int!, $timestamp: String!) {
+    getMF2TCOMESSAGGE(room_id: $room_id, timestamp: $timestamp) {
+      room_id
+      timestamp
+      sender
+      receiver
+      body
+      is_media
+      media_url
+      from_me
+    }
+  }
+`;
+export const listMF2TCOMESSAGGES = /* GraphQL */ `
+  query ListMF2TCOMESSAGGES(
+    $filter: TableMF2TCOMESSAGGEFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMF2TCOMESSAGGES(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        room_id
+        timestamp
+        sender
+        receiver
+        body
+        is_media
+        media_url
+        from_me
+      }
+      nextToken
+    }
+  }
+`;

@@ -1,9 +1,10 @@
 .integrations-layout {
   background: #F8F9FB 0% 0% no-repeat padding-box;
   height: 100vh;
-  width: 100vw;
+  // width: 100vw;
   display: flex;
   padding: 5rem 3rem;
+  align-items: flex-start;
   .cardChannelGroupContainer {
     display: flex;
     flex-flow: column;
@@ -21,7 +22,111 @@
     }
     .cardContainer {
       position: relative;
-      gap:50px;
+      gap:25px 35px;
     }
+  }
+  .container{
+    min-width: 85%;
+    position:absolute;
+    min-height: 50vh;
+    top:0;
+    // height: 80vh;
+  }
+}
+.connectionBroad{
+  width:50vw;
+  // height: 40vw;
+  max-width: 900px;
+  min-width: 420px;
+  // max-height: 720px;
+  min-height: 300px;
+  background-color: khaki;
+  position:relative;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 7px 20px #00000029;
+  border-radius: 20px;
+  padding: 3% 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  .broad_head{ 
+    width: 100%;
+    // height: 20%;
+    display: flex;
+    justify-content: space-between;
+    
+    
+  }
+  .broad_content{
+    min-height: 50%;
+    
+    width:100%;
+    align-items: center;
+  }
+  
+  
+  
+  .confirm_btn_set{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6% 0px;
+    
+    .confirmButton{
+      margin: 20px;
+      
+    }
+    .cancelBUtton{
+      margin: 20px;
+      
+    }
+  }
+  
+}
+.intergra_container{
+  width: 100%;
+  // position:absolute;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  button{
+    margin:5px 10px;
+  }
+  .login_form{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: scroll;
+    label{
+      font: normal normal normal 12px/17px Manrope;
+      letter-spacing: 0px;
+      color: #444444;
+      margin:0 15px;
+    }
+    font: normal normal normal 16px/32px Manrope;
+      letter-spacing: 0px;
+      color: #444444;
+      .form_item{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width:100%;
+        margin:10px 0;
+        text-align: left;
+       input{
+         height: 30px;
+         margin:5px 0;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #E5E7EC;
+        border-radius: 10px;
+        width:100%;
+       }
+      }
   }
 }

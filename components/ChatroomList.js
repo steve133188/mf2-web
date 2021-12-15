@@ -10,7 +10,7 @@ export default function ChatroomList({chatroom , ...props}){
 
     return(
         <div className={"chatroom_li "} onClick={props.onClick}>
-            <div className={"starred"} > {chatroom.is_pin?<StarSVG /> : <NoStarSVG/>}</div>
+            <div className={"starred"}  > {chatroom.is_pin?<StarSVG /> : <NoStarSVG/>}</div>
             <div className={"chatroom_icon"}>
                 <Avatar src={chatroom.avatar||null} alt={chatroom.name} />
             </div>

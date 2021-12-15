@@ -43,3 +43,45 @@ export const deleteMF2TCOCHATROOM = /* GraphQL */ `
     }
   }
 `;
+export const createMF2TCOMESSAGGE = /* GraphQL */ `
+  mutation CreateMF2TCOMESSAGGE($input: CreateMF2TCOMESSAGGEInput!) {
+    createMF2TCOMESSAGGE(input: $input) {
+      room_id
+      timestamp
+      sender
+      receiver
+      body
+      is_media
+      media_url
+      from_me
+    }
+  }
+`;
+export const updateMF2TCOMESSAGGE = /* GraphQL */ `
+  mutation UpdateMF2TCOMESSAGGE($input: UpdateMF2TCOMESSAGGEInput!) {
+    updateMF2TCOMESSAGGE(input: $input) {
+      room_id
+      timestamp
+      sender
+      receiver
+      body
+      is_media
+      media_url
+      from_me
+    }
+  }
+`;
+export const deleteMF2TCOMESSAGGE = /* GraphQL */ `
+  mutation DeleteMF2TCOMESSAGGE($input: DeleteMF2TCOMESSAGGEInput!) {
+    deleteMF2TCOMESSAGGE(input: $input) {
+      room_id
+      timestamp
+      sender
+      receiver
+      body
+      is_media
+      media_url
+      from_me
+    }
+  }
+`;

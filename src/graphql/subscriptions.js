@@ -79,3 +79,45 @@ export const onDeleteMF2TCOCHATROOM = /* GraphQL */ `
     }
   }
 `;
+export const onCreateMF2TCOMESSAGGE = /* GraphQL */ `
+  subscription OnCreateMF2TCOMESSAGGE($room_id: Int, $timestamp: String) {
+    onCreateMF2TCOMESSAGGE(room_id: $room_id, timestamp: $timestamp) {
+      room_id
+      timestamp
+      sender
+      receiver
+      body
+      is_media
+      media_url
+      from_me
+    }
+  }
+`;
+export const onUpdateMF2TCOMESSAGGE = /* GraphQL */ `
+  subscription OnUpdateMF2TCOMESSAGGE($room_id: Int, $timestamp: String) {
+    onUpdateMF2TCOMESSAGGE(room_id: $room_id, timestamp: $timestamp) {
+      room_id
+      timestamp
+      sender
+      receiver
+      body
+      is_media
+      media_url
+      from_me
+    }
+  }
+`;
+export const onDeleteMF2TCOMESSAGGE = /* GraphQL */ `
+  subscription OnDeleteMF2TCOMESSAGGE($room_id: Int, $timestamp: String) {
+    onDeleteMF2TCOMESSAGGE(room_id: $room_id, timestamp: $timestamp) {
+      room_id
+      timestamp
+      sender
+      receiver
+      body
+      is_media
+      media_url
+      from_me
+    }
+  }
+`;

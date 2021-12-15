@@ -67,7 +67,7 @@ export default  function Team_Select({children ,head,top_head,value=null, handle
 
     return(
         <>
-        <div className={"dropDownBox"} value = {value}>
+        <div className={"dropDownBox"} value = {value}  >  
             <div onClick={(e)=>{setIsShow(!isShow);}}>
             <div className={"mf_dropdown_header  dropDownBox"}>{top_head}</div><div className={"arrow_icon"} ></div> 
             </div>

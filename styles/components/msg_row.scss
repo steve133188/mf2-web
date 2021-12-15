@@ -28,9 +28,9 @@
   }
 
   .msg_type_image{ 
-    width: 50%;
+    width: 30%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     background:var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
     margin-left: auto;
     text-align: left;
@@ -51,9 +51,9 @@
 
   .msg_type_imageCaption{
     
-      width: 50%;
-      max-width: 360px;
-      min-width: 280px;
+    width: 30%;
+    max-width: 360px;
+    min-width: 200px;
       height: auto;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       background: #D0E9FF 0% 0% no-repeat padding-box;
@@ -70,7 +70,7 @@
     .imageBox{
       width: 100%;
       max-width: 360px;
-      min-width: 280px;
+      min-width: 200px;
       height: auto;
       border-radius: 10px;
       padding: 0.5rem 0.5rem; 
@@ -97,9 +97,9 @@
 
   .msg_type_video{
     
-      width: 50%;
+      width: 40%;
       max-width: 360px;
-      min-width: 280px;
+      min-width: 200px;
       height: auto;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       background: #D0E9FF 0% 0% no-repeat padding-box;
@@ -115,7 +115,7 @@
     .videoBox{
       width: 100%;
       max-width: 360px;
-      min-width: 280px;
+      min-width: 200px;
       height: auto;
     } 
   }
@@ -123,7 +123,7 @@
     height: 87px;
     width: 50%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     background: #D0E9FF 0% 0% no-repeat padding-box;
     margin-left: auto;
     text-align: left;
@@ -209,7 +209,7 @@
     min-height: 60px;
     width: 50%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     background: #D0E9FF 0% 0% no-repeat padding-box;
     margin-left: auto;
     text-align: left;
@@ -312,9 +312,9 @@
   }
 
   .msg_type_image{ 
-    width: 50%;
+    width: 30%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     background:var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
     margin-left: 0;
     text-align: left;
@@ -334,9 +334,9 @@
   }
   .msg_type_imageCaption{
     
-    width: 50%;
+    width: 30%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     height: auto;
     background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
     background: #D0E9FF 0% 0% no-repeat padding-box;
@@ -353,7 +353,7 @@
   .imageBox{
     width: 100%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     height: auto;
     border-radius: 10px;
     padding: 0.5rem 0.5rem; 
@@ -377,9 +377,11 @@
   }
   .msg_type_video{
     
-      width: fit-content;
+      width: 40%;
       max-width: 360px;
-      min-width: 280px;
+      min-width: 200px;
+      height: 40%;
+    max-height: min-content;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       background: #D0E9FF 0% 0% no-repeat padding-box;
       margin-left: 0;
@@ -399,7 +401,7 @@
     min-height: 60px;
     width: 50%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     background: #D0E9FF 0% 0% no-repeat padding-box;
     margin-left: 0;
     text-align: left;
@@ -454,7 +456,7 @@
     height: 87px;
     width: 50%;
     max-width: 360px;
-    min-width: 280px;
+    min-width: 200px;
     background: #D0E9FF 0% 0% no-repeat padding-box;
     margin-left: 0;
     text-align: left;

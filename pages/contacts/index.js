@@ -89,6 +89,7 @@ export default function Contacts() {
         })
         console.log("teamFiltered:",teamFiltered)
         setFilteredData([...teamFiltered])
+
     }
     const channels = ["whatsapp"]
     const renderUsers = ()=>{

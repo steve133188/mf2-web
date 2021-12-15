@@ -1,7 +1,7 @@
 
 import { CheckBoxM,Whatsapp,WhatsappB,Messager,Wechat } from "../../../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
 
-export default function ChannelListItem(props){
+export default function ChannelListItem(  props){
 // console.log(props)
 
     return(<>
@@ -19,10 +19,10 @@ export default function ChannelListItem(props){
                         <div className="newCheckboxContainer right">
                                         <label className="newCheckboxLabel"> 
                                         <input type="checkbox" 
-                                                id={props.key} 
+                                                id={props.value} 
                                                 name="checkbox" 
-                                                // checked={} 
-                                                onClick={()=>{props.id<=0?checked=!checked:""}} 
+                                                checked={props.checked} 
+                                                onClick={props.onclick} 
                                                 />
                                         </label>
                                     </div>
