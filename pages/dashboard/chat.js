@@ -19,6 +19,11 @@ export default function Chat() {
         setOpen(false);
     };
 
+
+    const periodFilter = () =>{
+        console.log("filter period : "+selectedPeriod)
+        // dayState <<<timestamp for comparing range
+    }
     const [selectedPeriod ,setSelectedPeriod] =useState("")
     const [dayState,setDayState] = useState({from:"",to:""})
 
@@ -27,31 +32,24 @@ export default function Chat() {
       setDayState(range);
     }
 
-    const [startDay,setStartDay] =useState("")
-    const [endDay,setEndDay] =useState("")
 
     useEffect(()=>{
-        if(dayState.from==""){return}
+        if(dayState.from==null||dayState.from==""){return setSelectedPeriod("Period")}
         else{
-            setStartDay(dayState.from.toLocaleDateString())
+            setSelectedPeriod(dayState.from.toLocaleDateString()+"-")
         }
-        if(dayState.to==""){return}
+        if(dayState.to==null||dayState.to==""){return }
         else{
-        setEndDay(dayState.to.toLocaleDateString())}
+            setSelectedPeriod(dayState.from.toLocaleDateString()+"-"+dayState.to.toLocaleDateString())}
     },[dayState])
-    useEffect(()=>{
-        setSelectedPeriod(startDay+"-"+endDay)
-    },[startDay])
-    useEffect(()=>{
-        setSelectedPeriod(startDay+"-"+endDay)
-    },[endDay])
+
 
 
     return (
         <div className="dashboard-layout">
             <div className="navbarPurple">
 
-                <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod}    customeDropdown={"calender"}>
+                <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>
 
                     <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
                     <div style={{position:"absolute"}}>
