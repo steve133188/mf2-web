@@ -37,7 +37,7 @@ export default function EditAgent(props){
             email:userCredential.email,
             phone:userCredential.phone,
             password:userCredential.password,
-            team:selectedTeam.name,
+            team:selectedTeams,
             role:selectedRole.name
         }
         console.log("payload",data)
@@ -120,18 +120,17 @@ export default function EditAgent(props){
             </div>
             <div className={"add_user_session"}>
                 <div className={"add_user_select"}>
-                    {/* <span className={"select_input_label"}>Team</span> */}
+                    <span className={"select_input_label"}>Team</span>
 
-                    <div className={"chatlist_filter_box"} style={{width:"370px",display:"flex",backgroundColor:"transparent",justifyContent:"center",padding:"0px 10px 0 10px",borderRadius:"15px"}}>
-
-                    <FilterDropDown title={""} subtitle={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setSearchValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={searchValue} />
-                    </div>
-                    {/* <MF_Select className={"select_input"} head={"Team"} top_head={selectedTeam.name?selectedTeam.name:"Team"}
+                    {/* <div className={"chatlist_filter_box"} style={{width:"370px",display:"flex",backgroundColor:"transparent",justifyContent:"center",padding:"0px 10px 0 10px",borderRadius:"15px"}}>
+                        <FilterDropDown title={""} subtitle={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setSearchValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={searchValue} />
+                    </div> */}
+                    <MF_Select className={"select_input"} head={"Team"} top_head={selectedTeam.name?selectedTeam.name:"Team"}
                            customeDropdown={true}>
                     {teams.map((team)=>{
                         return(<li id={team.name} key={team.id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
                     })}
-                </MF_Select> */}
+                </MF_Select>
                 </div>
                 <div className={"add_user_select"}>
                     <span className={"select_input_label"}>Role</span>
