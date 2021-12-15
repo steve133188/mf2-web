@@ -11,486 +11,18 @@ import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_B
 import ChatroomInfo from "./chatroom_info/chatroom_info";
 import ChatlistFilter from "./serach_filter/filter.js/chatlist_filter";
 import Team_Select from "../../components/livechat/filter/Team_Select";
+import {Storage , API , graphqlOperation} from "aws-amplify";
+import {listMF2TCOCHATMESSAGES , listMF2TCOCHATROOMS , getMF2TCOCHATMESSAGE} from "../../src/graphql/queries";
+import {Avatar} from "@mui/material";
+
 
 export default function Live_chat() {
-    const base_url ='https://e9bf-118-140-233-2.ngrok.io'
-    const data = [
-        {
-            name:"John Davidson",
-            last_msg_time:"03:45PM",
-            team:"A",
-            unreadCount:1,
-            is_pin:true,
-            channel:"whatsapp",
-            profile_pic_url:"https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg",
-        },
-        {
-            name:"2",
-            last_msg_time:"03:45PM",
-            team:"B",
-            unreadCount:1,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://imgv3.fotor.com/images/side/Fotor-powerful-photo-enhancement-tools.jpg",
-        },
-        {
-            name:"1",
-            last_msg_time:"03:45PM",
-            team:"A",
-            unreadCount:1,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://imgv3.fotor.com/images/side/Create-graphic-designs-easily-with-Fotor.png",
-            message:["hi","bye"]
-        },
-        {
-            name:"3",
-            last_msg_time:"03:45PM",
-            team:"C",
-            unreadCount:5,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-        },
-        {
-            name:"1",
-            last_msg_time:"03:45PM",
-            team:"A",
-            unreadCount:0,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-        },
-        {
-            name:"1",
-            last_msg_time:"03:45PM",
-            team:"A",
-            unreadCount:1,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-        },
-        {
-            name:"2",
-            last_msg_time:"03:45PM",
-            team:"B",
-            unreadCount:1,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-        },
-        {
-            name:"1",
-            last_msg_time:"03:45PM",
-            team:"A",
-            unreadCount:1,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-            message:["hi","bye"]
-        },
-        {
-            name:"3",
-            last_msg_time:"03:45PM",
-            team:"C",
-            unreadCount:5,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-        },
-        {
-            name:"1",
-            last_msg_time:"03:45PM",
-            team:"A",
-            unreadCount:0,
-            is_pin:false,
-            channel:"whatsapp",
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-        }
-    ]
 
-    const records = [
-        {
-            message_id:"123456789",
-            body:"hi",
-            type:"text",
-            vCard:["","",""],
-            author:null,
-            fromMe:false,
-            from:"Wiva",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"MSLAB",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585258",
-            body:"text",
-            type:"text",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585258",
-            body:"I say hi too. How are you today? I saw you and your mum at cinema .",
-            type:"text",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585359",
-            body:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp",
-            type:"sticker",
-            vCard:["","",""],
-            author:null,
-            fromMe:false,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585359",
-            body:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp",
-            type:"sticker",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585359",
-            body:"livechat/tempSourceStore/bensound-dubstep.ogg",
-            type:"voice",
-            vCard:["","",""],
-            author:null,
-            fromMe:false,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585359",
-            body:"livechat/tempSourceStore/bensound-dubstep.mp3",
-            type:"voice",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585359",
-            body:"https://www.youtube.com/watch?v=Il0S8BoucSA",
-            type:"url",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585359",
-            body:"https://twitter.com/Vimeo/status/1461731229422735363?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Etweet",
-            type:"url",
-            vCard:["","",""],
-            author:null,
-            fromMe:false,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585259",
-            body:["Attachement.pdf"],
-            type:"attachment",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585259",
-            body:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-            type:"video",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585259",
-            body:"/livechat/tempSourceStore/00112345.mov",
-            type:"video",
-            vCard:["","",""],
-            author:null,
-            fromMe:false,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585259",
-            body:"https://thebossmagazine.com/wp-content/uploads/2020/05/charles-deluvio-1-nx1QR5dTE-unsplash-scaled.jpg",
-            // body:"/livechat/tempSourceStore/png-clipart-computer-icon-digital-marketing-social-media-marketing-strategy-marketing-file-search-engine-optimization-content-marketing.png",
-            type:"image",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585269",
-            body:"https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg",
-            type:"imageCaption",
-            vCard:["","",""],
-            author:null,
-            fromMe:true,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-        {
-            message_id:"234585269",
-            body:"https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg",
-            type:"imageCaption",
-            vCard:["","",""],
-            author:null,
-            fromMe:false,
-            from:"MSLAB",
-            hasMedia:false,
-            hasQuotedMsg:false,
-            isForwarded:false,
-            isStarred:true,
-            to:"Wiva",
-            token:"",
-            timestamp:1010101,
-            orderId:"",
-            links:"",
-            mentionedIds:["","",""],
-            isStatus:false,
-            inviteV4:{},
-            location:{data:"location"},
-            forwardingScore:0,
-            deviceType:"mobile",
-            broadcast:false
-        },
-    ]
-
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user , messageInstance} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
-    const [selectedChat , setSelectedChat] = useState()
+    const [chatroomMsg , setChatroomMsg]  = useState([])
+    const [attachment , setAttachment ] = useState([])
+    const [selectedChat , setSelectedChat] = useState({})
     const [chatrecord , setChatrecord] = useState([])
     const [chatSearch, setSearch] = useState(false)
     const [isRobotOn , setIsRobotOn] = useState(false)
@@ -498,7 +30,32 @@ export default function Live_chat() {
     const [isExpand , setIsExpand] = useState(false)
     const [isEmojiOn,setEmojiOn] = useState(false)
     const [ChatButtonOn,setChatButtonOn] = useState(false)
- 
+    const [typedMsg , setTypedMsg] = useState({
+        channel:"whatsapp",
+        phone:"85269358633",
+        message:"",
+        type:"text"
+    })
+    const getChatrooms = async ()=>{
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
+        console.log(result.data.listMF2TCOCHATROOMS.items)
+        return result.data.listMF2TCOCHATROOMS.items
+    }
+    const fetchAttachment = async ()=>{
+        let imageKeys = await Storage.list('')
+        imageKeys = await Promise.all(imageKeys.map(async k=>{
+            const signedUrl = await Storage.get(k.key)
+            return signedUrl
+        }))
+        console.log("imgKeys : " , imageKeys)
+        setAttachment(imageKeys)
+    }
+    const upload = async (e) =>{
+        const file = e.target.files[0]
+        const result = await Storage.put(file.name , file )
+        console.log("result : " , result)
+        await fetchAttachment()
+    }
     const [contacts, setContacts] = useState([]);
     const [users ,setUsers] =useState([])
     const [teams ,setTeams] =useState([])
@@ -509,19 +66,13 @@ export default function Live_chat() {
     const [selectedTeams ,setSelectedTeams] =useState("")
     const [isFilterOpen , setIsFilterOpen] = useState(false)
 
-    const getChatRooms = async()=>{
-        const res = await axios.get(`${base_url}/chats` , {
-            headers:{'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',}
+    const handleTypedMsg = e =>{
+        const {name , value} = e.target
+        console.log(name , " : " , value)
+        setTypedMsg({
+            ...typedMsg,
+            [name]:value
         })
-        return res.data.response
-    }
-    const getChatRecord = async(phone)=>{
-        const res = await axios.get(`${base_url}/get-record?phone=${phone}` , {
-            headers:{'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',}
-        })
-        return res.data.response
     }
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
@@ -546,7 +97,6 @@ export default function Live_chat() {
         messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})
     }
     useEffect(()=>{
-        // console.log(chatboxSearch)
         scrollToMSG(),[chatboxSearch]
     })
 
@@ -559,17 +109,23 @@ export default function Live_chat() {
         scrollToBottom(),[chatrecord]
     })///////
 
-    async function handleChatRoom  (target){
-        const data = await getChatRecord(target)
-        setChatrecord(data)
+    async function handleChatRoom  (chatroom){
+        setSelectedChat(chatroom)
+        setChatroomMsg(await getChatroomMessage)
+        // const data = await getChatRecord(target)
+        // setChatrecord(data)
     }
-    // const chat_record =getChatRooms
-    // console.log(getChatRooms)
+
+    const getChatroomMessage = async()=>{
+        const result = await API.graphql(graphqlOperation(getMF2TCOCHATMESSAGE))
+        console.log(result.data.getMF2TCOCHATMESSAGE.items)
+        return result.data.getMF2TCOCHATMESSAGE.items
+    }
+
     useEffect(async ()=>{
-        // const data = await getChatRooms()
+        const data = await getChatrooms()
         setChatrooms(data)
-        // const r = await getChatRecord(data[0].id.user)
-        setChatrecord(records)
+        // setChatrecord(records)
     } , [])
 
     const [inputvalue,setInputValue] = useState("")
@@ -580,7 +136,12 @@ export default function Live_chat() {
     const fileAttach = () =>{
         attachFile.current.click();
     }
-  
+    const sendMessageToClient = async (e)=>{
+        e.preventDefault()
+        const data = {message:typedMsg.message , phone : typedMsg.phone}
+        const res = await messageInstance.sendTextMessage(data)
+        setTypedMsg({...typedMsg , message: ""})
+    }
 
     useEffect(    async () => {
         if(user.token!=null) {
@@ -694,9 +255,17 @@ export default function Live_chat() {
             <div className={"chatroom"}>
                 <div className={"chatroom_top"}>
                     <div className={"chatroom_top_info"}>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU" alt="icon"/>
-                        <div className={"chatroom_name"}>Name</div>
-                        <div className={"chatroom_channel"}>Channel</div>
+
+
+                        {selectedChat.room_id && (
+                            <>
+                            <Avatar src={selectedChat.avatar|| null} alt="icon"/>
+                                <div className={"chatroom_name"}>{selectedChat.customer_name|| null}</div>
+                            <div className={"chatroom_channel"}>{selectedChat.channel|| null}</div>
+                            </>
+                            )}
+
+
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
                         <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} ><ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
@@ -711,7 +280,7 @@ export default function Live_chat() {
                     </div>
                 </div>
                 <div ref={messagesSearchRef} className={"chatroom_records"}>
-                    {chatrecord.map((r , i)=>{
+                    {chatroomMsg.map((r , i)=>{
                         return  <>
                         <MsgRow msg={r} key={i} /> 
                       </>
@@ -720,13 +289,17 @@ export default function Live_chat() {
                 </div>
                 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")}>
-                    <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" ></textarea>
-                    <Picker onSelect={(emoji)=>setEmoji(emoji)} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
+                    <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg}></textarea>
+                    <Picker  onSelect={(emoji)=> {
+                        setEmoji(emoji);
+                        console.log(emoji)
+                        setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
+                    }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
                             <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={()=>setChatButtonOn("m1")}  
                                     ><MaskGroup1/></div>
-                            <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={()=>{setEmojiOn(!isEmojiOn);setChatButtonOn("m2")}} 
+                            <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={()=>{setEmojiOn(!isEmojiOn); if(!isEmojiOn)setChatButtonOn("") ; if(isEmojiOn)setChatButtonOn("m2");}}
                                     // style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}  
                                     ><MaskGroup2/>
                                     {/* <Picker style={{ position: 'absolute', bottom: '35px', right: '20px' }} /> */}
@@ -736,7 +309,8 @@ export default function Live_chat() {
                             <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={()=>{setChatButtonOn("m3");fileAttach()}}  
                             // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}} 
                                     >
-                                    <input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>
+                                    {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
+                                    <input type="file" name="fileAttach" ref={attachFile} onChange={upload} ></input>
                                     <Mask_Group_3/>
                                    </div>
                             <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={()=>setChatButtonOn("m4")}   
@@ -747,35 +321,12 @@ export default function Live_chat() {
 
                         <div className={"right_btn_gp"}>
                             <div className={"voice_btn"}><VoiceMsg/></div>
-                            <div className={"send_btn"}><SendButton/></div>
+                            <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* <div className={"chatroom_info"}>
-                <div className={"contact_card"}>
-                    <div className={"profile_pic"}><Avatar src={data[0].profile_pic_url} alt="" sx={{ width: 100, height: 100 }}/></div>
-                    <div className={"contact_detail"}>
-                        <div className={"contact_detail_name"}>{data[0].name}</div>
-                        <div className={"contact_detail_channel"}>+852 1833833</div>
-                        <div className={"contact_detail_team"}> Team{data[0].team}</div>
-                    </div>
-                    <div className={"config"}> ... </div>
-                </div>
-
-                <div className={"tabs_field"}>
-                    <div className={"tabs_row"}>
-                   
-                        <div className={"tab active"}>info</div>
-                        <div className={"tab"}>note</div>
-                    </div>
-                    <div className={"content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
-                        content
-                        <ContantDetail />
-                    </div>
-                </div>
-            </div> */}
-            <ChatroomInfo data={data}/>
+            <ChatroomInfo />
         </div>
     )
 }

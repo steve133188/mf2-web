@@ -10,6 +10,12 @@
       "StackName": "amplify-mf2web-dev-00345",
       "StackId": "arn:aws:cloudformation:ap-southeast-1:244112418223:stack/amplify-mf2web-dev-00345/6f59a560-5840-11ec-ad93-024c822bb686",
       "AmplifyAppId": "dyynjbs5mm71v"
+    },
+    "categories": {
+      "auth": {
+        "mf2web40fac6b5": {},
+        "true": {}
+      }
     }
   }
 }

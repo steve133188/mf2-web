@@ -11,11 +11,11 @@ export default function ChatroomInfo (props){
     return (
         <div className={"chatroom_info"}>
         <div className={"contact_card"}>
-            <div className={"profile_pic"}><Avatar src={props.data[0].profile_pic_url} alt="" sx={{ width: 100, height: 100 }}/></div>
+            <div className={"profile_pic"}><Avatar  alt="" sx={{ width: 100, height: 100 }}/></div>
             <div className={"contact_detail"}>
-                <div className={"contact_detail_name"}>{props.data[0].name}</div>
+                <div className={"contact_detail_name"}></div>
                 <div className={"contact_detail_channel"}>+852 1833833</div>
-                <div className={"contact_detail_team"}> Team{props.data[0].team}</div>
+                <div className={"contact_detail_team"}> Team</div>
             </div>
             
             <div className={"config"}> <EditPenButtonSVG w="26" h={26} c="#E0E0E0" /> </div>
@@ -29,7 +29,7 @@ export default function ChatroomInfo (props){
             </div>
             <div className={"contact_content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
 
-                <ContantDetail tab={tabActive} name={props.data[0].name}/>
+                {/*<ContantDetail tab={tabActive} />*/}
             </div>
         </div>
     </div>

@@ -13,11 +13,11 @@
   padding: 1rem;
   .chat_list{
     display: flex;
-    padding: 1rem;
+    //padding: 0.5rem;
     margin-right: 5px;
     flex-direction: column;
     max-width: 350px;
-    //height: 100%;
+    height: 100%;
     .search_ss{
       display: flex;
       flex-direction: column;
@@ -30,7 +30,7 @@
       display: flex;
       flex-direction: column;
       padding:0.5rem 0rem;
-      // max-height: 90vh;
+      max-height: 90vh;
       .chatlist_ss_filter{
         display: flex;
         flex-direction: row;
@@ -63,6 +63,13 @@
             .select_item_content{
               opacity: 1;
               width: 90%;
+              li{
+                list-style: none;
+                padding:0.5rem;
+              }
+              li:hover{
+                background-color: #D0E9FF;
+              }
             }
           }
           .group_icon{
@@ -340,7 +347,7 @@
               display: flex;
               justify-content: space-between;
               align-items: center;
-          padding: 3px 0px 3px 10px ;
+              padding: 3px 0px 3px 10px ;
               height: 30px;
               margin: 3px 0;
               font: normal normal normal 16px/22px Manrope;
@@ -415,9 +422,21 @@
 
       }
       .chatlist_ss_list{
-        overflow: scroll;
+        overflow: auto;
         position: relative;
-        min-width: 350px;
+        flex-grow: 1;
+        //min-width: 350px;
+        .chatroom_badge{
+          position: absolute;
+          right:2.5%;
+          bottom:1.25rem;
+          background-color: #2198FA;
+          color: #FFFFFF;
+          border-radius: 50%;
+          font-size: 12px;
+          padding: 0 .4rem;
+          text-align: center;
+        }
         .chatroom_li{
           cursor:pointer;
           padding:  1rem;
@@ -426,15 +445,13 @@
           display: flex;
           flex-direction: row;
           border-bottom: 1px solid #F1F1F1;
-          border-top: 1px solid #F1F1F1;
+          //border-top: 1px solid #F1F1F1;
           .starred{
             position:absolute;
-            right: 10%;
-
+            right: 2.5%;
             // border: 1px solid #E5E7EC;
             // opacity: 1;
           }
-
           .chatroom_icon{
             width: 50px;
             height: 50px;
@@ -446,17 +463,7 @@
               height: 30px;
               border-radius: 50%;
             }
-            .chatroom_badge{
-              position: absolute;
-              left:0.75rem;
-              top:1.25rem;
-              background-color: #2198FA;
-              color: #FFFFFF;
-              border-radius: 50%;
-              font-size: 12px;
-              padding: 0 5px;
-              text-align: center;
-            }
+
           }
           .chatroom_name_ss{
             display: flex;
@@ -516,7 +523,7 @@
     border-radius: 20px;
     opacity: 1;
     height: 100%;
-    padding: 1rem 1.5rem;
+    padding: 0.25rem 0.5rem 0.5rem 0.5rem;
     .chatroom_top{
       display: flex;
       flex-direction: row;
@@ -527,10 +534,10 @@
       .chatroom_top_info{
         display: flex;
         flex-direction: row;
-        padding: 1rem 0;
+        padding:0.5rem  0;
         img{
-          width: 50px;
-          height: 50px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
           margin: 10px;
         }

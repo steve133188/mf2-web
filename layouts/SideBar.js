@@ -10,34 +10,6 @@ import NavItem from "../components/SideItem";
 import {API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATMESSAGES} from "../src/graphql/queries";
 
-const GET_NOTIFICATIONS = gql`
-    subscription{
-        ChatMessages {
-            message_id
-            body
-            sender_id
-            receiver_id
-            is_media
-            sendFormMe
-            mediaURL
-            caption
-            timestamp
-            is_v_cards
-            v_cards
-            ack
-            channel
-            room_id
-            quote
-            is_broadcast
-            broadcast_id
-            chatroom_id
-            type
-            is_chatbot_handle
-            chatbot_id
-            customer_id
-        }
-     }   
-`;
 
 export default function SideBar(props) {
     //data for notify box
@@ -57,52 +29,7 @@ export default function SideBar(props) {
             unreadCount:2,
             profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
             receive_time:"3:45PM"
-        },
-        {
-            id:2,
-            notify_from:"TimTim",
-            notify_reason:"replied you",
-            notify_content:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, similique.\n ",
-            unreadCount:1,
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-            receive_time:"3:45PM"
-        },
-        {
-            id:3,
-            notify_from:"Tom",
-            notify_reason:"replied you",
-            notify_content:"Lorem ipsum dolor sit amet.",
-            unreadCount:1,
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-            receive_time:"3:45PM"
-        },
-        {
-            id:4,
-            notify_from:"Someone",
-            notify_reason:"replied you",
-            notify_content:"Lorem ipsum dolor sit amet.",
-            unreadCount:2,
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-            receive_time:"3:45PM"
-        },
-        {
-            id:5,
-            notify_from:"Kelvin",
-            notify_reason:"replied you",
-            notify_content:"Lorem ipsum dolor sit amet.",
-            unreadCount:0,
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-            receive_time:"3:45PM"
-        },
-        {
-            id:6,
-            notify_from:"Tim",
-            notify_reason:"replied you",
-            notify_content:"Lorem ipsum dolor sit amet.",
-            unreadCount:0,
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-            receive_time:"3:45PM"
-        },
+        }
     ]
 
     const router = useRouter()

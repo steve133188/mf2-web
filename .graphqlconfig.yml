@@ -1,5 +1,5 @@
 projects:
-  MF2_appsync:
+  mf2_appsync:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
@@ -11,5 +11,5 @@ projects:
         generatedFileName: ''
         docsFilePath: src/graphql
         region: ap-southeast-1
-        apiId: zau35jjusbb4hdj2o2wahiktbm
+        apiId: wwoqygay5nhctkzntchslslhxy
         maxDepth: 5

@@ -1,1 +1,19 @@
-export type AmplifyDependentResourcesAttributes = {}
+export type AmplifyDependentResourcesAttributes = {
+    "auth": {
+        "mf2web40fac6b5": {
+            "IdentityPoolId": "string",
+            "IdentityPoolName": "string",
+            "UserPoolId": "string",
+            "UserPoolArn": "string",
+            "UserPoolName": "string",
+            "AppClientIDWeb": "string",
+            "AppClientID": "string"
+        }
+    },
+    "storage": {
+        "mf2MessageMedia": {
+            "BucketName": "string",
+            "Region": "string"
+        }
+    }
+}
