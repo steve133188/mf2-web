@@ -64,6 +64,9 @@
     display: flex;
     justify-content: space-between;
 
+    .mf_dropdown{
+      min-width: 220px;
+    }
     .left{
       display: flex;
       width: 50vw;
@@ -71,7 +74,10 @@
     .right{
       display: flex;
       // width: 20vw;
-      
+      .mf_dropdown{
+        min-width: 0;
+
+      }
     }
     .imageBtnGrp {
 

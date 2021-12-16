@@ -1,4 +1,4 @@
-import {MF_Input} from "../../components/Input";
+import {MF_Input} from "../Input";
 import React, {useContext, useEffect, useState} from "react";
 import MF_Modal from "../MF_Modal";
 import MenuItem from "@mui/material/MenuItem";
@@ -34,7 +34,7 @@ const style ={
     height:"2rem"
 }
 
-export default function CreateRole({show, toggle ,reload}){
+export default function EditRole({show, toggle ,reload}){
 
     const [roleName , setRoleName] = useState("")
 
@@ -82,7 +82,7 @@ export default function CreateRole({show, toggle ,reload}){
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
                 <div className={"modal_title"}>
-                    <span>Create Role</span>
+                    <span>Edit Role</span>
                 </div>
                 <div className="inputField">
                     <span>Role Name</span>

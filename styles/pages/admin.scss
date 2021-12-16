@@ -6,6 +6,7 @@
   padding: 2rem;
   .rightContent {
     width: 100%;
+    max-width: 1200px;
     padding:0 1rem;
     display: flex;
     flex-direction: column;
@@ -19,7 +20,7 @@
 .select_row{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  // justify-content: space-between;
   div{
     display: flex;
     height: 2rem;
@@ -35,6 +36,7 @@
   .select_item{
     display: inline-flex;
     margin: auto 0;
+    width:50%;
   }
 
 }

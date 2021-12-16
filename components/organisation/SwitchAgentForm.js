@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
+import { padding } from "@mui/system";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -15,7 +16,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #E5E7EC',
         fontSize: 15,
-        padding: '0 26px 0 0',
+        padding: '5px 26px 5px 10px',
         height:"2rem",
         transition: theme.transitions.create(['border-color', 'box-shadow']),
         '&:focus': {
@@ -27,7 +28,9 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 const style ={
     background:" #FFFFFF",
-    border: "1px solid #E5E7EC",
+    // border: "1px solid #E5E7EC",
+    padding:"2px",
+    margin:"2px",
     borderRadius: "10px",
     opacity: 1,
     width:"100%",
@@ -72,7 +75,7 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                        <MenuItem value={null}>Null</MenuItem>
+                        <MenuItem sx={{padding:"1px"}} value={null}>Null</MenuItem>
                         {team.map((d)=>{
                             return (<MenuItem key={d.id} value={d}>{d.name}</MenuItem>)
                         })}
