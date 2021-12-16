@@ -536,11 +536,12 @@
       border-bottom: 2px solid #E8E8E8;
       opacity: 1;
       //height: 10%;
-      padding-bottom: 1rem;
+      //padding-bottom: 1rem;
       .chatroom_top_info{
         display: flex;
         flex-direction: row;
         padding:0.5rem  0;
+        padding-left: 1rem;
         img{
           width: 30px;
           height: 30px;

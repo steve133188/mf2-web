@@ -14,15 +14,15 @@ import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "./newchatroomPanel";
 
 import {Storage , API , graphqlOperation} from "aws-amplify";
-import {  listMF2TCOCHATROOMS , listMF2TCOMESSAGGES} from "../../src/graphql/queries";
+import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
-import { onCreateMF2TCOMESSAGGE} from "../../src/graphql/subscriptions"
+import { subscribeToNewMessage} from "../../src/graphql/subscriptions"
 import {Avatar} from "@mui/material";
 
 export default function Live_chat() {
 
     const teamdata = [{name:"TeamA",id:"A"},{name:"TeamB",id:"B"},{name:"TeamC",id:"C"}]
-
+    let subscriptions ;
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user , messageInstance} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
@@ -43,7 +43,7 @@ export default function Live_chat() {
     })
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
-        console.log(result.data.listMF2TCOCHATROOMS.items)
+        console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
         setChatrooms(result.data.listMF2TCOCHATROOMS.items)
     }
     const fetchAttachment = async ()=>{
@@ -137,7 +137,7 @@ export default function Live_chat() {
     }
 
     const getChatroomMessage = async()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:50}))
+        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000}))
         console.log(result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
@@ -161,7 +161,6 @@ export default function Live_chat() {
     const fileAttach = () =>{
         attachFile.current.click();
     }
-
     const sendMessageToClient = async (e)=>{
         e.preventDefault()
         const data = {message:typedMsg.message , phone : typedMsg.phone ,chatroom:selectedChat.id||0}
@@ -194,6 +193,20 @@ export default function Live_chat() {
             await getTeams()
             await getChatrooms()
             await getChatroomMessage()
+            setSelectedChat(chatrooms)
+            console.log(chatrooms.id)
+            API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:0} ))
+                .subscribe({
+                    next: (chatmessage)=>{
+                        console.log("chatmsg:" , chatroomMsg)
+                        const newMessage = chatmessage.value.data.subscribeToNewMessage
+                        const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
+                        console.log(newMessage)
+                        const updatedPost = [newMessage , ...prevMessage]
+                        setChatroomMsg(updatedPost)
+                        scrollToBottom()
+                    }
+                })
         }
     },[]);
 
@@ -303,17 +316,18 @@ export default function Live_chat() {
                     <div className={"chatroom_top_info"}>
 
 
-                        {selectedChat.room_id && (
-                            <>
-                            <Avatar src={selectedChat.avatar|| null} alt="icon"/>
-                                <div className={"chatroom_name"}>{selectedChat.customer_name|| null}</div>
-                            <div className={"chatroom_channel"}>{selectedChat.channel|| null}</div>
-                            </>
-                            )}
+                        {/*{selectedChat!==-1 && (*/}
+                        {/*    <>*/}
+                        {/*    <Avatar src={selectedChat.avatar|| null} alt="icon"/>*/}
+                        {/*        <div className={"chatroom_name"}>{selectedChat.customer_name|| null}</div>*/}
+                        {/*    <div className={"chatroom_channel"}>{selectedChat.channel|| null}</div>*/}
+                        {/*    </>*/}
+                        {/*    )}*/}
 
-                        <img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>
-                        <div className={"chatroom_name"}>Name</div>
-                        <div className={"chatroom_channel"}>Channel</div>
+                        {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
+                        <Avatar src={ null} alt="icon" />
+                        <div className={"chatroom_name"}>{selectedChat.name}</div>
+                        <div className={"chatroom_channel"}>{selectedChat.channel}</div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
                         <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} ><ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
