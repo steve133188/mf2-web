@@ -21,7 +21,7 @@ export const GlobalContextProvider = ({children}) =>{
     const orgInstance= orgFetcher(user.token)
     const adminInstance = adminFetcher(user.token)
     const contactInstance = contactsFetcher(user.token)
-    const messageInstance =new WhatsappFetcher("https://1129-118-140-233-2.ngrok.io/")
+    const messageInstance =new WhatsappFetcher("https://773f-118-140-230-94.ngrok.io")
 
     useEffect(()=>{
         setUser({

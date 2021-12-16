@@ -44,7 +44,7 @@ export default function Live_chat() {
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
-        setChatrooms(result.data.listMF2TCOCHATROOMS.items)
+        setChatrooms([...result.data.listMF2TCOCHATROOMS.items])
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -61,12 +61,17 @@ export default function Live_chat() {
         console.log("result : " , result)
         await fetchAttachment()
     }
+    const getUserbyPhone = async (phone)=>{
+        const result = await userInstance.getUserByPhone(phone)
+        setChatUser(result.data)
+    }
     const [contacts, setContacts] = useState([]);
     const [users ,setUsers] =useState([])
     const [teams ,setTeams] =useState([])
     const [tags ,setTags] =useState([])
     const [selectedTags ,setSelectedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
+    const [chatUser , setChatUser] = useState({})
     const [selectedTeams ,setSelectedTeams] =useState("")
     const [selectedChannel ,setSelectedChannel] =useState([])
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
@@ -131,7 +136,8 @@ export default function Live_chat() {
 
     async function handleChatRoom  (chatroom){
         setSelectedChat(chatroom)
-        setChatroomMsg(await getChatroomMessage)
+        await getUserbyPhone(selectedChat.phone)
+        // setChatroomMsg(await getChatroomMessage)
         // const data = await getChatRecord(target)
         // setChatrecord(data)
     }
@@ -193,8 +199,7 @@ export default function Live_chat() {
             await getTeams()
             await getChatrooms()
             await getChatroomMessage()
-            setSelectedChat(chatrooms)
-            console.log(chatrooms.id)
+
             API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:0} ))
                 .subscribe({
                     next: (chatmessage)=>{
@@ -214,7 +219,6 @@ export default function Live_chat() {
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]
         })
         console.log("filter",filter)
-        // const teamFiltered = contacts.filter(data=>{
 
         const agentFiltered = contacts.filter(data=>{
             if(selectedUsers.length==0){
@@ -388,7 +392,7 @@ export default function Live_chat() {
                     </div>
                 </div>
             </div>
-            <ChatroomInfo />
+            <ChatroomInfo data={chatUser}/>
         </div>
     )
 }

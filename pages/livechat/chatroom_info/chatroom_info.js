@@ -4,7 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import {EditPenButtonSVG} from "../../../public/livechat/MF_LiveChat_Landing/chat_svg"
 
 
-export default function ChatroomInfo (props){
+export default function ChatroomInfo ({data}){
 
     const [tabActive,setTabAcive] = useState("info")
 
@@ -13,12 +13,12 @@ export default function ChatroomInfo (props){
         <div className={"contact_card"}>
             <div className={"profile_pic"}><Avatar  alt="" sx={{ width: 100, height: 100 }}/></div>
             <div className={"contact_detail"}>
-                <div className={"contact_detail_name"}></div>
-                <div className={"contact_detail_channel"}>+852 1833833</div>
+                <div className={"contact_detail_name"}>{data.name}</div>
+                <div className={"contact_detail_channel"}>{data.phone}</div>
                 <div className={"contact_detail_team"}> Team</div>
             </div>
             
-            <div className={"config"}> <EditPenButtonSVG w="26" h={26} c="#E0E0E0" /> </div>
+            <div className={"config"}> ... </div>
         </div>
 
         <div className={"tabs_field"}>
@@ -29,7 +29,7 @@ export default function ChatroomInfo (props){
             </div>
             <div className={"contact_content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
 
-                {/*<ContantDetail tab={tabActive} />*/}
+                <ContantDetail data={data} tab={tabActive} />
             </div>
         </div>
     </div>

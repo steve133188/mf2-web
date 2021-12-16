@@ -7,7 +7,7 @@ import { Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { Pill } from "../../../components/Pill";
 
-export default function ContantDetail(props){
+export default function ContantDetail({data , ...props}){
     
 const List=[{
 phoneNumber:"+852 97650348",
@@ -78,19 +78,28 @@ useEffect(()=>{
             <div className={"infoBox"} style={props.tab=="info"?{display:"block"}:{display:"none"}} >
                 <div className="contactInfo">
                     <div className={"keyList"} >
-                        {Object.keys(List[0]).map((item=>(
-                            <>               
-                            <div className={"keys"} style={{}}>{item}</div>
-                            </>
-                        )))}
+                        <div className={"keys"} style={{}}>Phone Number</div>
+                        <div className={"keys"} style={{}}>Email</div>
+                        <div className={"keys"} style={{}}>DOB</div>
+                        <div className={"keys"} style={{}}>Address</div>
+                        <div className={"keys"} style={{}}>Country</div>
+                        <div className={"keys"} style={{}}>Created Date</div>
+
+                        {/*{Object.keys(data).map((item=>(*/}
+                        {/*    <>               */}
+                        {/*    <div className={"keys"} style={{}}>{item}</div>*/}
+                        {/*    </>*/}
+                        {/*)))}*/}
                     </div>
                     <div className={"valueList"}  style={{}}>
-                        {outputList.map((item=>(
-                            <>               
-                            <div className={"values"}>{item}</div>
-                            </>
-                        )))}
-                    
+
+                            <div className={"values"}>{data.phone}</div>
+                            <div className={"values"}>{data.email}</div>
+                            <div className={"values"}>{data.birthday}</div>
+                            <div className={"values"}>{data.address}</div>
+                            <div className={"values"}>{data.country}</div>
+                            <div className={"values"}>{data.created_at}</div>
+
                     </div>
                 </div>
                 <div className={"assignedInfo"}>
@@ -136,14 +145,15 @@ useEffect(()=>{
                 </div>
                         <div className={"message_pad"}>
                             <div className={"left nameTag"}>
-                            <Tooltip key={props.name} className={""} title={props.name} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} >{props.name.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
+                            {/*<Tooltip key={data.name} className={""} title={data.name} placement="top-start">*/}
+                                            <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} />
+                                            {/*<Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} >{data.name.substring(0,2).toUpperCase()}</Avatar>*/}
+                                        {/*</Tooltip>*/}
                             </div>
                             <div className={"right"}>
                                 <div className={"listitem name "}>
                                     <div className={"left"}>{props.name}</div>
-                                    <div className={"right"}>time</div>
+                                    <div className={"right"}>10-12-2021</div>
                                 </div>
                             </div>
                         </div>
