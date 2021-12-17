@@ -13,7 +13,7 @@
 }
 
 .modal_form{
-  min-height: 200px;
+  min-height: 230px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -23,11 +23,18 @@
     font: normal normal bold 1rem Manrope;
     letter-spacing: 0px;
     color: #444444;
+    padding: 15px;
+  }
+  .inputField{
+    width: 90%;
+    align-self: center;
+    margin-bottom: 15px;
   }
   .btn_row{
     display: flex;
     justify-content: center;
     gap: 10%;
+    margin: 10px 0 15px;
     button{
       font: normal normal medium 16px/22px Manrope;
     }
@@ -39,4 +46,7 @@
       opacity: 1;
     }
   }
+}
+.org_row_item{
+  padding:.7rem,
 }

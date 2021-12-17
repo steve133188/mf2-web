@@ -3,9 +3,21 @@ import Avatar from "@mui/material/Avatar";
 import {Pill} from "../Pill";
 import {Tooltip} from "@mui/material";
 import {AvatarGroup} from "@mui/lab";
+import { NoteButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 
 export default function ProfileGrid({data}){
+    const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
+    const [notes,setNotes] = useState([])
+    const [writenote,setWritenote] = useState("")
+    useEffect(()=>{
 
+        setNotes(notesData)
+
+        console.log("data")
+        console.log(data)
+    },[])
+    
+    
     const [log , setLog]  = useState([])
     useEffect(()=>{
     //    fetch log by customer_id
@@ -63,7 +75,7 @@ export default function ProfileGrid({data}){
                                 {data.agents!=null &&data.agents.map((agent , index)=>{
                                     return(
                                         <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  style={{margin:"0 5px"}} size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
                                     )
                                 })}
@@ -97,6 +109,42 @@ export default function ProfileGrid({data}){
             <div className={"log_input half_session grid_box"}>
                 <div className={"block_session"}>
                     <div className={"top_row"}><span className={"title"}>Activity Log</span></div>
+                    <div className={'noteBox'} style={{display:"block"}}>
+                <div className={"notesVolumn"}>Note : {notes.length}</div>
+                <div className={"write_pad"}>    
+                            <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Write a note..."}>
+                            </input>
+
+                            <div onClick={()=>{setWritenote(notes.push({cid:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>
+                                <NoteButtonSVG />
+
+                            </div>
+
+                        </div>
+                    {notes.map((note)=>{
+                        return (<div>
+                                    <div className={"message_pad"}>
+                                        <div className={"left nameTag"}>
+                                                        {/* <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} /> */}
+                                                <Tooltip key={note.id} className={""} title={data.wroteBy} placement="top-start">
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
+                                                </Tooltip>
+                                        </div>
+                                        <div className={"right"}>
+                                            <div className={"listitem name "}>
+                                                <div className={"left"}>{note.wroteBy}</div>
+                                                {/* <div className={"left"}>{props.name}</div> */}
+                                                <div className={"right"}>{note.date}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div className={"message_box"}>
+
+                                        <div className={"message"} style={{display:"flex"}}>{note.content}</div>
+                                    </div>
+                                </div>)
+                                })} 
+            </div>
                     <ul>{log!=-1&& log.map((l , i )=>{
                         return <li key={i}> {l} </li>
                     })}</ul>

@@ -16,15 +16,41 @@
     //padding: 0.5rem;
     margin-right: 5px;
     flex-direction: column;
-    max-width: 350px;
+    width: 18vw;
+    max-width: 380px;
+    min-width: 250px;
     height: 100%;
     .search_ss{
       display: flex;
       flex-direction: column;
-      min-height: 80px;
+      // min-height: 80px;
       max-height: 5rem;
+      min-width: none;
+      max-width: 350px;
       justify-content: center;
-      min-width: 320px;
+      // min-width: 320px;
+      padding-right: 3%;
+      width: 100%;
+    }
+    .filter_box{
+      // padding: 0.5rem;
+      margin:0 0.5rem;
+      width:30px;
+      height:30px;
+      &.active{
+        background-color: #D0E9FF;
+        border-radius: 10px;
+       
+      }
+      .filter_icon{
+        background-image: url("../../public/livechat/filter_icon.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 0.5rem;
+        width:15px;
+        height: 15px;
+        cursor: pointer;
+      }
     }
     .chatlist_ss{
       display: flex;
@@ -37,6 +63,7 @@
         width: 100%;
         justify-content: space-between;
         padding: 0.3rem 0.25rem;
+        align-items: center;
         .filter_bar_left{
         display: flex;
         flex-direction: row;
@@ -94,24 +121,7 @@
             padding: 0.5rem;
           }
         }
-        .filter_box{
-          padding: 0.5rem;
-          margin:0 0.5rem;
-          &.active{
-            background-color: #D0E9FF;
-            border-radius: 10px;
-           
-          }
-          .filter_icon{
-            background-image: url("../../public/livechat/filter_icon.svg");
-            background-repeat: no-repeat;
-            background-position: center;
-            padding: 0.5rem;
-            width:15px;
-            height: 15px;
-            cursor: pointer;
-          }
-        }
+        
       }
       .chatlist_filter_box{
         // overflow:auto;
@@ -304,7 +314,7 @@
             justify-content: center;
             flex-direction: column;
             .search_bar{  
-              width: 90%;
+              width: 80%;
               display:flex;
               background: #FFF 0% no-repeat padding-box;
               border-radius: 10px;
@@ -440,7 +450,7 @@
           padding: 0 .4rem;
           text-align: center;
         }
-        min-width: 330px;
+        // min-width: 30px;
         height: 100vh;
         .chatroom_li{
           cursor:pointer;
@@ -652,7 +662,7 @@
       box-shadow: 0px 12px 40px #0000000F;
       border-radius: 26px;
       opacity: 1;
-      height: 10rem;
+      height: 8rem;
       width: 100%;
       z-index: 10;
       padding: 2rem 2rem 0.75rem 2rem ;
@@ -776,18 +786,19 @@
   
   .chatroom_info{
     flex: 27%;
-    max-width: 350px;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 1rem;
+    
+    padding: 1rem 0 1rem 1rem;
     .contact_card{
       width: 100%;
       max-width: 400px;
       min-width: 200px;
       height: 8rem;
-      margin: 2rem 0;
+      margin: 1rem 0;
       padding: 0.25rem 0;
       display: flex;
       flex-direction: row;
@@ -796,8 +807,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 120px;
-        min-width: 100px;
+        width: 80px;
+        min-width: 80px;
         max-width: 120px;
       }
       .contact_detail{
@@ -877,10 +888,11 @@
         width:100%;
         height:60vh;
         padding:0 10%;
+        .contactInfo{
         overflow:scroll;;
-      .contactInfo{
-       
-        height: 350px;
+        height: 40vh;
+        min-height: 270px;
+        max-height: 330px;
       }
         .keyList
           {position:absolute; 
@@ -971,19 +983,14 @@
     .message_pad{
       display: flex;
       width: 100%;
-
       white-space: nowrap;
       .nameTag{
         position: relative;
-        // min-width:30px;
-        // max-width:20%;
-        // padding: 10px;
         .tag{
-          // width:30px;
-          // left:-5px;
           border-radius: 35px;
           top:12px;
           position:absolute;
+          padding: 0;
         }
       }
       .left{

@@ -15,7 +15,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #E5E7EC',
         fontSize: 15,
-        padding: '0 26px 0 0',
+        padding: '5px 26px 0 10px',
         height:"2rem",
         transition: theme.transitions.create(['border-color', 'box-shadow']),
         '&:focus': {
@@ -27,7 +27,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 const style ={
     background:" #FFFFFF",
-    border: "1px solid #E5E7EC",
+    // border: "1px solid #E5E7EC",
     borderRadius: "10px",
     opacity: 1,
     width:"100%",

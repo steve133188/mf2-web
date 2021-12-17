@@ -33,6 +33,14 @@
             .session_content{
                 display: flex;
                 flex-direction: column;
+                .session_content_chart{
+
+                display: flex;
+                flex-direction: row;
+                    .chart-line{
+                    width: 30%;        
+                    }
+                }
             }
         }
     }

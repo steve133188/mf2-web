@@ -13,14 +13,9 @@
       margin-right: 5px;
     }
   }
-  .tagsGroup {
-    .pillContainer {
-      margin-right: 10px;
-      span {
-        padding: 5px 21px;
-      }
-    }
-  }
+  
+  
+
   .leftMenu {
 
   }
@@ -90,7 +85,23 @@
     }
   }
 }
+.tagsGroup {
+  // background-color: yellow;
+}
 
+.pillContainer {
+  margin-right: 10px;
+  span {
+    padding: 5px 21px
+  }
+  .pill{
+    max-height: none;
+    width: fit-content;
+    padding: 3px 15px 5px 15px;
+    height: 25px;
+    font: normal normal normal 15px/22px Manrope;
+  }
+}
 .searchInput{
   background: url("../../public/icon-search.svg") no-repeat scroll 7px 7px;
   width: 421px;

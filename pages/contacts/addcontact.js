@@ -136,6 +136,8 @@ export default function AddContact() {
     return (
             <div className={"addContactSession"}>
             <div className="addContactSession_info_ss addContactSession_ss">
+
+                <div className={"addContactSession_info_ss"}> 
                         <div className="ss_row addContactSession_title">
                             New Contact
                         </div>
@@ -149,12 +151,13 @@ export default function AddContact() {
                         <MF_Input title="Email" name={"email"} value={newContact.email} onChange={handleChange}/>
                     </div>
                     <div className={"ss_row"}>
-                        <MF_Input title="Birthday" name={"birthday"} value={newContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
+                        <MF_Input title="Birthday" type={"date"} name={"birthday"} value={newContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
                         <MF_Input title="Gender" name={"gender"} value={newContact.gender} onChange={handleChange} placeholder={"M or F"}/>
                     </div>
                     <span className="longInput"><MF_Input title="Address" name={"address"} value={newContact.address} onChange={handleChange}/></span>
                 <MF_Input title="Country" name={"country"} value={newContact.country} onChange={handleChange} />
 
+                    </div>
                 <div className={"ss_row submit_row"}>
                         <button onClick={handleSubmit}>+ New Contact</button>
                         <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"} onClick={cancel}>Cancel</button></Link>

@@ -9,7 +9,7 @@ export default function ChatroomInfo ({data}){
     const [tabActive,setTabAcive] = useState("info")
 
     return (
-        <div className={"chatroom_info"}>
+    <div className={"chatroom_info"}>
         <div className={"contact_card"}>
             <div className={"profile_pic"}><Avatar  alt="" sx={{ width: 100, height: 100 }}/></div>
             <div className={"contact_detail"}>

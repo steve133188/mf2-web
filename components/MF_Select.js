@@ -91,7 +91,7 @@ export default  function MF_Select({children ,head,top_head,value=null, handleCh
     return(
         <>
         <div className={"mf_dropdown " +(props.className)} value = {value}>
-            <div onClick={(e)=>{setIsShow(!isShow);}}>
+            <div onClick={(e)=>{setIsShow(!isShow);}} style={{width:'100%'}}>
             <div className={"mf_dropdown_header "}>{top_head}</div><div className={"mf_down_arrow"}></div>
             </div>
 
