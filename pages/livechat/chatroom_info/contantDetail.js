@@ -118,8 +118,6 @@ useEffect(()=>{
                         <div className={"filter_box_tag"}  >
                             <div className={"channelList"}>
                                 <div className={"filter_title"}></div>
-                            
-
                                     {List[1].tags.map((tag)=>{
                                     return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag}</Pill>
                                         {/* <div className={"tag"} style={{display:"flex" ,gap:10}}>
@@ -159,7 +157,8 @@ useEffect(()=>{
                         </div>
                 <div className={"message_box"}>
 
-                    <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us.</div>
+                    {/* eslint-disable-next-line react/no-unescaped-entities */}
+                    <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>Today is 20th December 2021. Christmas's eva is coming in town. lalala. Come to visit us.</div>
                 </div>
             </div>
 
