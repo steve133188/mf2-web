@@ -315,7 +315,7 @@ export default function Contacts() {
         </svg>
     )
     return (
-        <div className={styles.layout} style={{maxWidth:1600}}>
+        <div className={styles.layout} >
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>

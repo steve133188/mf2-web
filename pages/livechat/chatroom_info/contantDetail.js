@@ -157,7 +157,7 @@ useEffect(()=>{
                                         <div className={"left nameTag"}>
                                                         {/* <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} /> */}
                                                 <Tooltip key={note.id} className={""} title={data.wroteBy} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:40 , height:40 ,fontSize:17,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
                                                 </Tooltip>
                                         </div>
                                         <div className={"right"}>

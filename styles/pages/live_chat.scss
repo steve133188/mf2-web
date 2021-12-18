@@ -808,13 +808,16 @@
         align-items: center;
         justify-content: center;
         width: 80px;
-        min-width: 80px;
+        min-width:60px;
         max-width: 120px;
+        img{
+          width:35px;
+        }
       }
       .contact_detail{
         padding: 0.25rem 1rem;
         width: fit-content;
-        min-width: 130px;
+        min-width: 90px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -963,7 +966,9 @@
         color: #8B8B8B;
         border-width: 0;
         margin: 20px 0;
+        height: 50px;
         
+        font: normal normal normal 14px/22px Manrope;
 
         .write_note{
           width: 100%;
@@ -972,6 +977,7 @@
           background: transparent 0% 0% no-repeat padding-box;
           border-width: 0;
           margin: 0 10px;
+          height: 25px;
           &:focus-visible{
             border-width: 0;
             outline:0
@@ -988,7 +994,10 @@
         position: relative;
         .tag{
           border-radius: 35px;
-          top:12px;
+          top:10px;
+          width: 40px;
+          height: 40px;
+          font-size:18px;
           position:absolute;
           padding: 0;
         }
@@ -1022,10 +1031,10 @@
         align-items: center;
         height: 30px;
         // margin: 12px 0;
-        font: normal normal normal 16px/22px Manrope;
+        font: normal normal normal 14px/22px Manrope;
         margin: 10px 0 0;
 
-      padding: 0rem 10px 0 30px;  
+      padding: 0rem 10px 0 25px;  
       }
     }
     .message_box{
@@ -1043,7 +1052,7 @@
       letter-spacing: 0.08px;
       color: #4E4E4E;
       opacity: 1;
-      padding: 0rem 10px 0 30px;  
+      padding: 0rem 10px 0 25px;  
       margin-bottom: 10px;
       // white-space: nowrap;
       // margin: 10px 0;
