@@ -16,6 +16,7 @@ import AddAgentForm from "../../components/organisation/AddAgentForm";
 import Profile from "../../components/profile";
 import UserProfileGrid from "../../components/pageComponents/UserProfile";
 import SwitchAgentForm from "../../components/organisation/SwitchAgentForm";
+import MF_Modal from "../../components/MF_Modal";
 
 export default function Organization() {
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
@@ -39,6 +40,8 @@ export default function Organization() {
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
+
+
     //filtered Data
     let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
@@ -78,7 +81,7 @@ export default function Organization() {
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
-        console.log(selectedUsers)
+        // console.log(selectedUsers)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
@@ -120,6 +123,25 @@ export default function Organization() {
     const toggleMoveAgent = () =>{
         setIsMoveAgentShow(!isMoveAgentShow)
     }
+    const toggleDelete = ()=>{
+        setIsDelete(!isDelete)
+
+        console.log("selectedUsers")
+        console.log(selectedUsers)
+    }     
+    const deleteRole = async (id)=>{
+        const res = await adminInstance.deleteRole(id)
+        console.log(res)
+        await fetchRoles()
+    }
+    useEffect(()=>{
+
+    },[selectedUsers])
+    const [isDelete , setIsDelete] = useState(false)
+    const submitDelete = () =>{
+        deleteRole(selectedUsers);
+        setIsDelete(!isDelete)
+    }
 
     const default_cols = [ 'Name' ,'Role', 'Email','Phone' ,'No. of Assigned Contacts']
     const [isSelectRow, setSelectRow] = useState( false);
@@ -141,6 +163,18 @@ export default function Organization() {
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
                 <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers}/>
 
+                <MF_Modal show={isDelete} toggle={toggleDelete}>
+                    <div className={"modal_form"}>
+                        <div className={"modal_title"} style={{textAlign:"center",margin:"20px"}}>
+
+                            <span >Delete agents?</span>
+                        </div> 
+                        <div className={"btn_row"} style={{textAlign:"center",margin:"20px"}}>
+                            <button onClick={submitDelete }>Confirm</button>
+                            <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>
+                        </div>
+                    </div>
+                </MF_Modal>
                 {/*toggle Modal End*/}
                     <SearchSession
                         placeholder={"Search"}
@@ -152,13 +186,15 @@ export default function Organization() {
                             <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                         ) : (
                             <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
-                                <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button></>
+                                <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button>
+                                <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_delete"} onClick={()=>toggleDelete(selectedUsers)}> Delete</button></>
 
                         )}
                         <button onClick={toggleNewTeam}>+ New Team</button>
                         <button onClick={toggleNewDivision}>+ New Division</button>
                     </SearchSession>
-                    <SelectSession btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)}>
+                    <SelectSession >
+                    {/* btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)} */}
                         <div className={"team_label"}>
                             {curr_org.name || "All"}
                         </div>
@@ -187,7 +223,7 @@ export default function Organization() {
                         </TableHead>
                         <TableBody>
                             {filteredData.length!=0 && currentContacts.map((data ,index) => {
-                                return( <TableRow
+                                return( <TableRow 
                                         key={index}
                                         hover
                                         role="checkbox"
@@ -207,19 +243,19 @@ export default function Organization() {
                                                 </label> : null}
                                             </div>
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell align="left" style={{padding: ".7rem 1rem"}} >
                                             <span >{data.username}</span>
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
                                             {data.role}
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
                                             {data.email}
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
                                             {data.phone}
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
                                             {data.leads!=0?data.leads : 0}
                                         </TableCell>
                                     </TableRow>

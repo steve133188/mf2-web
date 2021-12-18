@@ -51,6 +51,7 @@ export default function Contacts() {
     const [selectedChannel ,setSelectedChannel] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
+    const [filteredChannel ,setFilteredChannel] =useState([])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
@@ -91,7 +92,10 @@ export default function Contacts() {
         setFilteredData([...teamFiltered])
 
     }
-    const channels = ["whatsapp"]
+    const channels = [{name:"WhastApp",value:"Whatsapp",id:1},
+    {name:"WhatsApp Business",value:"WhatsappB",id:2},
+    {name:"Messager",value:"Messager",id:3},
+    {name:"WeChat",value:"Wechat",id:4},]
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
@@ -112,6 +116,11 @@ export default function Contacts() {
             return<Pill key={tag} color="vip">{tag}</Pill>
         })
     }
+    const renderChannels=() => {
+        return selectedChannel!=-1&&selectedChannel.map((channel)=>{
+            return<div><img style={{width:'18px',margin:'3px'}}src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/${channel}.svg`} /></div>
+        })
+    }
     const getTags = async ()=>{
         const data = await adminInstance.getAllTags()
         setTags(data)
@@ -127,6 +136,10 @@ export default function Contacts() {
         const data = await orgInstance.getOrgTeams()
         setTeams(data)
     }
+    const getChannels = async ()=>{
+        // const data = await orgInstance.getOrgTeams()
+        setFilteredChannel(channels)
+    }
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
@@ -138,6 +151,7 @@ export default function Contacts() {
             await getTags()
             await getUsers()
             await getTeams()
+            getChannels ()
         }
         setSelectedUsers([])
         setSelectedContacts([])
@@ -250,7 +264,7 @@ export default function Contacts() {
             setSelectedContacts([])
         }
     }
-    const default_cols = ['CustomerId' , 'Name' ,'Team', 'Channels','Tags' ,'Assignee']
+    const default_cols = [ 'Name' ,'Team', 'Channels','Tags' ,'Assignee']
     const [isSelectRow, setSelectRow] = useState( false);
 
     function toggleSelectRow() {
@@ -259,6 +273,11 @@ export default function Contacts() {
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
+
+    useEffect(()=>{
+        console.log(currentContacts)
+    },[filteredData])
+
     const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" viewBox="0 0 25 25">
             <defs>
                 <clipPath id="clip-path">
@@ -296,7 +315,7 @@ export default function Contacts() {
         </svg>
     )
     return (
-        <div className={styles.layout}>
+        <div className={styles.layout} style={{maxWidth:1600}}>
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
@@ -371,10 +390,24 @@ export default function Contacts() {
                     setFilteredTags(new_data)
                 })}} >
                     {filteredTags.map((tag)=>{
-                        return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                        return(<li key={tag.id}><Pill size="30px" key={tag.id} color="vip">{tag.tag}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
                                     <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                </label> </div></li>)
+                    })}
+                </MF_Select>
+
+
+
+
+
+                <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
+                    {filteredChannel.map((tag)=>{
+                        return(<li key={tag.id}><div>{tag.name}</div>
+                            <div className="newCheckboxContainer">
+                                <label className="newCheckboxLabel">
+                                    <input type="checkbox" id={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -387,7 +420,7 @@ export default function Contacts() {
                 className={"table_container"}
             >
                 <Table
-                    sx={{minWidth: 750 }}
+                    sx={{minWidth: 750,maxWidth:1400 }}
                     aria-labelledby="tableTitle"
                     size={'medium'}
                     stickyHeader={true}
@@ -398,9 +431,12 @@ export default function Contacts() {
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
                                         <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
-                                    </label> : null}
+                                    </label> : null} 
                                 </div>
                             </TableCell>
+                            <TableCell align="left" style={{width:"200px"}}>
+                                        <span >Customer ID</span>
+                                    </TableCell>
                             {default_cols.map((col,index)=>{
                                 return ( <TableCell key={index}>{col}</TableCell>)
                             })}
@@ -443,19 +479,24 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
                                     <TableCell align="left">
-                                        <Pill color="teamA">{data.team_id!=""?data.team:"not Assign"}</Pill>
+                                        <div>{data.team_id!=""?data.team:"not Assign"}</div>
+                                        {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>
 
                                     <TableCell align="left">
                                         { data.channels!=null && data.channels.map((chan , index)=>{
-                                            return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
+                                            // return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
+                                            return(<img key={index} width="24px" height="24px" src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} alt=""/>)
                                         })}
+                                        {
+                                        data.channels == null?  (<div style={{paddingLeft:20}}><img key={index} width="24px" height="24px" src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} alt=""/></div>):""
+                                     }
                                     </TableCell>
 
                                     <TableCell align="left">
                                         <div className="tagsGroup">
                                             {data.tags.map((tag , index)=>{
-                                                return( <Pill key={index} color="lightBlue">{tag}</Pill>)
+                                                return( <Pill key={index}  color="lightBlue">{tag}</Pill>)
                                             })}
                                         </div>
                                     </TableCell>

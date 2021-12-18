@@ -350,10 +350,6 @@ export default function Broadcast() {
             >
 
                 <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod}  submit={advanceFilter}  customeDropdown={"calender"}>
-                    {/* <li onClick={()=> {
-                        setSelectedPeriod("");
-                        advanceFilter()
-                    }}>All</li> */}
                     <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
                     <div style={{position:"absolute"}}>
                         <DayPicker

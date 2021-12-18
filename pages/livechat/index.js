@@ -272,41 +272,43 @@ export default function Live_chat() {
 
     return (
         <div className="live_chat_layout">
-            <div className={"chat_list"}><div className={"search_ss"}><div className="mf_icon_input_block  mf_search_input" style={{minWidth:"none",maxWidth:"320px"}} >
-                <div className={"mf_inside_icon mf_search_icon "} > </div>
-                <input
-                    className={"mf_input mf_bg_light_grey"}
-                    // type={type}
-                    // value={state}
-                    // onChange={handleChange}
-                    placeholder={"Search"}
-                />
-                {/* <Livechat/> */}
-            </div>
-            </div>
+            <div className={"chat_list"}>
+             
                 <div className={"chatlist_ss"} style={{}}>
                     <div  className={"chatlist_ss_filter"}>
                         <div className={"filter_bar_left"}>
-                            <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
+                               <div className={"search_ss"}>
+                                   <div className="mf_icon_input_block  mf_search_input"  >
+                                        <div className={"mf_inside_icon mf_search_icon "} > </div>
+                                        <input
+                                            className={"mf_input mf_bg_light_grey"}
+                                            // type={type}
+                                            // value={state}
+                                            // onChange={handleChange}
+                                            placeholder={"Search"}
+                                        />
+                                    {/* <Livechat/> */}
+                                        </div>
+                                </div>
+                {/* <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
                                 <div className={"group_icon"} ></div>
-                                {/* All Team <div className={"arrow_icon"} ></div> */}
-
                                 <Team_Select  show={isShow} head={"All Team"} top_head={selectedTeams==""?"All Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
                                     <li onClick={()=> {
                                         setSelectedTeams("");
                                         advanceFilter()
                                     }}>All Team</li>
-                                    {/* {teams.map((team)=>{ */}
+
                                     {teamdata.map((team)=>{
                                         return(<li  id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter();}}> {team.name}</li>)
                                     })}
                                 </Team_Select>
-                            </button>
+                            </button> */}
 
-                            <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
+                            
+                        </div>
+                        <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
                                         <div className={"filter_icon"}></div>
                             </div>
-                        </div>
                             <div className={"add_button"} onClick={()=>{setChatButtonOn("")}}  style={{display:ChatButtonOn=="m0"?"block":"none"}}>
                             <AddButtonSVG c={"#D0E9FF"}/>
                             </div>
@@ -406,7 +408,7 @@ export default function Live_chat() {
                     </div>
                 </div>
             </div>
-            <ChatroomInfo data={chatUser}/>
+            <ChatroomInfo data={selectedChat}/>
         </div>
     )
 }

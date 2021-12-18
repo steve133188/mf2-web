@@ -14,3 +14,7 @@
 .mf_color_warning{
   color: variables.$mf_warning;
 }
+.mf_color_delete{
+  color: #FFF;
+  background-color: variables.$mf_danger;
+}

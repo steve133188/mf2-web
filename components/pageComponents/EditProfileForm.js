@@ -121,27 +121,30 @@ export default function EditProfileForm({data , toggle}){
         // router.back()
     }
     return (
-        <div className={"addContactSession"}>
+        <div className={"addContactSession"} style={{backgroundColor:'white'}}>
             <div className="addContactSession_info_ss addContactSession_ss">
-                <div className="ss_row addContactSession_title">
-                    New Contact
-                </div>
-                <div className={"ss_row"}>
-                    <MF_Input title="First Name*" name={"first_name"} value={editContact.first_name} onChange={handleChange}/>
-                    <MF_Input title="Last Name*" name={"last_name"} value={editContact.last_name} onChange={handleChange}/>
+                <div className={"addContactSession_info_ss "}> 
+                    <div className="ss_row addContactSession_title">
+                        Edit Contact
+                    </div>
+                    <div className={"ss_row"}>
+                        <MF_Input title="First Name*" name={"first_name"} value={editContact.first_name} onChange={handleChange}/>
+                        <MF_Input title="Last Name*" name={"last_name"} value={editContact.last_name} onChange={handleChange}/>
 
-                </div>
-                <div className={"ss_row"}>
-                    <MF_Input title="Phone*" name={"phone"} value={editContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
-                    <MF_Input title="Email" name={"email"} value={editContact.email} onChange={handleChange}/>
-                </div>
-                <div className={"ss_row"}>
-                    <MF_Input title="Birthday" name={"birthday"} value={editContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
-                    <MF_Input title="Gender" name={"gender"} value={editContact.gender} onChange={handleChange} placeholder={"M or F"}/>
-                </div>
-                <span className="longInput"><MF_Input title="Address" name={"address"} value={editContact.address} onChange={handleChange}/></span>
-                <MF_Input title="Country" name={"country"} value={editContact.country} onChange={handleChange} />
-
+                    </div>
+                    <div className={"ss_row"}>
+                        <MF_Input title="Phone*" name={"phone"} value={editContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
+                        <MF_Input title="Email" name={"email"} value={editContact.email} onChange={handleChange}/>
+                    </div>
+                    <div className={"ss_row"}>
+                        <MF_Input title="Birthday" type={"date"} name={"birthday"} value={editContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
+                        <MF_Input title="Gender" name={"gender"} value={editContact.gender} onChange={handleChange} placeholder={"M or F"}/>
+                
+                    </div>
+                    <span className="longInput"><MF_Input title="Address" name={"address"} value={editContact.address} onChange={handleChange}/></span>
+                    <MF_Input title="Country" name={"country"} value={editContact.country} onChange={handleChange} />
+                </div>  
+                
                 <div className={"ss_row submit_row"}>
                     <button onClick={handleSubmit}>Save</button>
                     <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"} onClick={cancel}>Cancel</button></Link>
@@ -149,7 +152,7 @@ export default function EditProfileForm({data , toggle}){
             </div>
 
             <div className={"addContactSession_ss  addContactSession_tags_ss"}>
-                <div className={"tagsGroup"}>
+                <div className={"addTagsGroup"}>
                     <div className={"addContactSession_title"}>Tags & Assignee</div>
                     <p>Tags</p>
                     <div className={"tagsGroup"}>
@@ -170,7 +173,7 @@ export default function EditProfileForm({data , toggle}){
 
                     </div>
                 </div>
-                <div className={"tagsGroup"}>
+                <div className={"addTagsGroup"}>
                     <p>Assignee</p>
                     <div className={"tagsGroup"}>
                         <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={"1"} >
