@@ -6,7 +6,7 @@
       "sub_page": [
         {
           "name": "Live Chat",
-          "url": "dashboard/livechat"
+          "url": "dashboard/chat"
         },
         {
           "name": "Agents",

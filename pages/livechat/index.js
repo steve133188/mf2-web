@@ -18,6 +18,7 @@ import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/querie
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import { subscribeToNewMessage} from "../../src/graphql/subscriptions"
 import {Avatar} from "@mui/material";
+import StickerBox from "../../components/livechat/sticker/sticker_box";
 
 export default function Live_chat() {
 
@@ -155,20 +156,44 @@ export default function Live_chat() {
     // } , [selectedTeams])
 
 
+    const toggleSticker = () =>{
+        setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
+        setIsExpand(isExpand&&ChatButtonOn=="m1"?false:true);
 
+    }
+    const toggleEmoji = () =>{
+        setChatButtonOn(ChatButtonOn=="m2"?"":"m2");
+        setEmojiOn(!isEmojiOn);
+        setIsExpand(false);
 
+    }
+    const toggleFile= () =>{
+        setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
+        setIsExpand(false);
 
-    const [inputvalue,setInputValue] = useState("")
+    }
+    const toggleQuickReply = () =>{
+        setChatButtonOn(ChatButtonOn=="m4"?"":"m4");
+        setIsExpand(isExpand&&ChatButtonOn=="m4"?false:true);
+        
+    }
+    const toggleM5 = () =>{
+        setChatButtonOn(ChatButtonOn=="m5"?"":"m5");
+        setIsExpand(false);
+
+    }
+    
     const [emojied,setEmoji] = useState("")
-
 
     const attachFile = useRef()
     const fileAttach = () =>{
         attachFile.current.click();
     }
     const sendMessageToClient = async (e)=>{
+        setIsExpand(false)
         e.preventDefault()
         const data = {message:typedMsg.message , phone : typedMsg.phone ,chatroom:selectedChat.id||0}
+        console.log(data)
         setTypedMsg({...typedMsg , message: ""})
         const res = await messageInstance.sendTextMessage(data)
         setTimeout(async ()=>{
@@ -185,6 +210,7 @@ export default function Live_chat() {
             !wrapperRef.current.contains(event.target)
     ) {
         setChatButtonOn("");
+        setIsExpand(false);
         }
     };
     useEffect(()=>{
@@ -371,33 +397,38 @@ export default function Live_chat() {
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")}>
+
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg}></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setEmoji(emoji);
                         console.log(emoji)
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
+                        <div style={{display:(ChatButtonOn=="m1"?"block":"none")}}>
+                            <StickerBox />
+                            </div>
+                    
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"} ref={wrapperRef}>
-                            <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={()=>setChatButtonOn("m1")}
+                            <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={toggleSticker }
                                     ><MaskGroup1/></div>
-                            <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={()=>{setEmojiOn(!isEmojiOn); if(!isEmojiOn)setChatButtonOn("") ; if(isEmojiOn)setChatButtonOn("m2");}}
+                            <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={ toggleEmoji }
                                     // style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
                                     ><MaskGroup2/>
                                     {/* <Picker style={{ position: 'absolute', bottom: '35px', right: '20px' }} /> */}
 
                             </div>
 
-                            <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={()=>{setChatButtonOn("m3");fileAttach()}}
+                            <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={toggleFile }
                             // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}}
                                     >
                                     {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
                                     <input type="file" name="fileAttach" ref={attachFile} onChange={upload} ></input>
                                     <Mask_Group_3/>
                                    </div>
-                            <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={()=>setChatButtonOn("m4")}
+                            <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply}
                                     ><Mask_Group_4/></div>
-                            <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={()=>setChatButtonOn("m5")}
+                            <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={toggleM5}
                                     ><Mask_Group_5/></div>
                         </div>
 

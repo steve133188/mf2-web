@@ -123,9 +123,8 @@ export default function Agents() {
             <div className="lineCardGroupSet">
                 <div className="lineCardGroup1">
                     <LineChartCard chart={true} img={false} title={"Agents"} />
-                    <LineChartCard chart={true} img={false} title={"Agents"} />
-                    <LineChartCard chart={true} img={false} title={"Agents"} />
-                    <LineChartCard chart={true} img={false} title={"Agents"} />
+                    <LineChartCard chart={true} img={false} title={"Online"} />
+                    <LineChartCard chart={true} img={false} title={"Offline"} />
                     <AverageDailyCard/>
                 </div>
                 <div className="lineCardGroup2">

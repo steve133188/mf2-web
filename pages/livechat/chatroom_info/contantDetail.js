@@ -1,11 +1,14 @@
 
 import { useContext, useEffect,useState } from "react";
-import { ListItem } from "@mui/material";
+import { AvatarGroup, ListItem } from "@mui/material";
 import { display, flexbox } from "@mui/system";
 import { NoteButtonSVG } from "../../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { Pill } from "../../../components/Pill";
+import Mf_circle_btn from "../../../components/mf_circle_btn";
+import { GlobalContext } from "../../../context/GlobalContext";
+
 
 export default function ContantDetail({data , ...props}){
     
@@ -55,11 +58,34 @@ const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:
 const [notes,setNotes] = useState([])
 const [writenote,setWritenote] = useState("")
 
-
+const [users ,setUsers] =useState([])
+const [tags ,setTags] =useState([])
 const [selectedTags ,setSelectedTags] =useState([])
 const [filteredTags ,setFilteredTags] =useState([])
+const [selectedUsers ,setSelectedUsers] =useState([])
+const [filteredUsers ,setFilteredUsers] =useState([])
 
-// const { userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext);
+const { userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext);
+
+const getTags = async ()=>{
+    const data = await adminInstance.getAllTags()
+    // setTags(data)
+    setFilteredTags(data)
+
+}
+const getUsers = async ()=>{
+    const data = await userInstance.getAllUser()
+    // setUsers(data)
+    setFilteredUsers(data)
+}
+useEffect(    async () => {
+    if(user.token!=null) {
+
+        await getTags()
+        await getUsers()
+    }
+},[]);
+
 const toggleSelectTags = e => {
     const { checked ,id} = e.target;
     setSelectedTags([...selectedTags, id]);
@@ -68,6 +94,14 @@ const toggleSelectTags = e => {
     }
     console.log(selectedTags)
 };  
+const toggleSelectUsers = e => {
+    const { checked ,id} = e.target;
+    setSelectedUsers([...selectedUsers, id]);
+    if (!checked) {
+        setSelectedUsers(selectedUsers.filter(item => item !== id));
+    }
+    console.log(selectedUsers)
+};
 
 useEffect(()=>{
     setFilteredTags(List[1].tags)
@@ -106,33 +140,83 @@ useEffect(()=>{
 
                     </div>
                 </div>
+                    <div style={{width: "110%",height:"1px",backgroundColor:"#d3d3d3",marginBottom:"1rem",marginLeft:"-10px"}}></div>
                 <div className={"assignedInfo"}>
 
-                    Assignee
-                    <div className={"assigneeBox"}>
-                        {List[1].agents.map((agent)=>{ 
-                                        return( <Tooltip key={agent} className={"assigne_item"} title={agent} placement="top-start" >
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >
-                                                        {agent.substring(0,2).toUpperCase()}</Avatar>
-                                                </Tooltip>)})}
-                    
-                        
-                    </div>
+                    {/* Assignee
+                        <div className={"assigneeBox"}>
+                            {List[1].agents.map((agent)=>{ 
+                                            return( <Tooltip key={agent} className={"assigne_item"} title={agent} placement="top-start" >
+                                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >
+                                                            {agent.substring(0,2).toUpperCase()}</Avatar>
+                                                    </Tooltip>)})}
+                        </div>+
                     Tags
                         <div className={"filter_box_tag"}  >
                             <div className={"channelList"}>
                                 <div className={"filter_title"}></div>
                                     {List[1].tags.map((tag)=>{
                                     return(<li className={"channelListitem"} key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag}</Pill>
-                                        {/* <div className={"tag"} style={{display:"flex" ,gap:10}}>
-
-                                        </div> */}
-
-                                            </li>)
+                                    </li>)
                                 })}
-
                             </div>
-                        </div>
+                        </div> */}
+                <div className={"tagsGroup"}>
+                    <p>Assignee</p>
+                    <div className={"tagsGroup"}>
+                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={"1"} >
+                            {selectedUsers &&selectedUsers.map((agent , index)=>{
+                                return(
+                                    <Tooltip key={index} className={""} title={agent} placement="top-start">
+                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.substring(0,2).toUpperCase()}</Avatar>
+
+                                    </Tooltip>
+                                )
+                            })}
+
+                        </AvatarGroup>
+
+                        <Mf_circle_btn handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
+                            setFilteredUsers(new_data)
+                        })}} >
+                            {filteredUsers&&filteredUsers.map((user)=>{
+                                return(<li key={user.username}>
+                                    <div style={{display:"flex" ,gap:10}}>
+                                        <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
+                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                                        </Tooltip>
+                                        <div className={"name"}>{user.username}</div>
+                                    </div>
+                                    <div className="newCheckboxContainer">
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                        </label>
+                                    </div>
+                                </li>)
+                            })}
+                        </Mf_circle_btn>
+                    </div>
+                </div>
+                <div className={"tagsGroup"}>
+                    <p>Tags</p>
+                    <div className={"tagsGroup"}>
+                        {selectedTags!=-1&&selectedTags.map((tag)=>{
+                            return<Pill key={tag} color="vip">{tag}</Pill>
+                        })}
+                        <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                            setFilteredTags(new_data)
+                        })}}>
+                            {filteredTags.map((tag)=>{
+                                return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                                    <div className="newCheckboxContainer">
+                                        <label className="newCheckboxLabel">
+                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                        </label> </div></li>)
+                            })}
+                        </Mf_circle_btn>
+
+                    </div>
+                </div>
+               
 
                 </div>
             </div>

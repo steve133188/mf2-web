@@ -105,12 +105,15 @@
   .lineCardGroupSet {
     margin: 44px ;
     display: flex;
+    flex-direction: column;
     
     .lineCardGroup1 {
       display: flex;
+      flex-wrap:wrap;
 
       .lineChartCard {
         margin-right: 50px;
+        margin:5px;
       }
     }
     .lineCardGroup2 {

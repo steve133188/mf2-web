@@ -5,7 +5,7 @@ export const navItems=[
         name:"Dashboard",
         url:"/dashboard",
         sub_page:[
-            {name:"Live Chat", url:"dashboard/livechat"},
+            {name:"Live Chat", url:"dashboard/chat"},
             {name:"Agents" , url: "dashboard/agent"}
         ],
         icon:""

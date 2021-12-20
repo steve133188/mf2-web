@@ -47,7 +47,7 @@ export const GlobalContextProvider = ({children}) =>{
                 orgInstance.token = user.token
                 adminInstance.token = user.token
                 contactInstance.token = user.token
-                router.push("/dashboard/livechat")
+                router.push("/dashboard/chat")
             }).catch(err=>{
                 console.log(err)
                 setErrors("Invaild email or password, please try again.")

@@ -119,7 +119,6 @@ export default function SideBar(props) {
                                 }}>
 
                                         <DashboardSVG size="16"/>
-
                                 {/* parent path cannot approach func isActiveURL()*/}
                                     <span className="side-item-name">Dashboard </span>
                                     { isCollapse?null: ( 
