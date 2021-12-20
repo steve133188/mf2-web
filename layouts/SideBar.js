@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {useQuery, gql, useSubscription} from "@apollo/client";
-import {useEffect, useState ,useContext} from "react";
+import {useEffect, useState ,useContext, useLayoutEffect} from "react";
 import {Pill} from "../components/Pill";
 import {DashboardSVG,CommentsAltSVG,ContactSVG,IntegrationsSVG,OrganizationSVG,AdminSVG,BroadcastSVG,ProductsSVG} from "../public/side_bar_icon_svg/side_bar_icon_svg"
 import NotificationList from "../components/NotificationList";
@@ -76,7 +76,31 @@ export default function SideBar(props) {
     function isActiveURL(url){
         const n = router.pathname
         return n.includes(url)
+        
     }
+
+    const [size, setSize] = useState([0, 0]);
+
+
+
+        useLayoutEffect(() => {
+          function updateSize() {
+            setSize({w:window.innerWidth, h:window.innerHeight});
+          }
+          window.addEventListener('resize', updateSize);
+          updateSize();
+          return () => window.removeEventListener('resize', updateSize);
+        }, []);
+        // return size;
+
+
+    useEffect(()=>{
+          console.log("size")
+          console.log(size)
+          size.w<1500?setIsCollapse(true):setIsCollapse(false)
+        //   useWindowSize()
+      },[size])
+
 
     return (
         <div className={(isCollapse ? "collapseLayout" :null)} >
@@ -97,8 +121,6 @@ export default function SideBar(props) {
                                         <DashboardSVG size="16"/>
 
                                 {/* parent path cannot approach func isActiveURL()*/}
-
-
                                     <span className="side-item-name">Dashboard </span>
                                     { isCollapse?null: ( 
                                         isTurnUp ? (

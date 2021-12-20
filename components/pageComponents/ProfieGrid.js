@@ -109,18 +109,9 @@ export default function ProfileGrid({data}){
             <div className={"log_input half_session grid_box"}>
                 <div className={"block_session"}>
                     <div className={"top_row"}><span className={"title"}>Activity Log</span></div>
-                    <div className={'noteBox'} style={{display:"block"}}>
+            
+            <div className={'noteBox'} style={{display:"block"}}>
                 <div className={"notesVolumn"}>Note : {notes.length}</div>
-                <div className={"write_pad"}>    
-                            <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Write a note..."}>
-                            </input>
-
-                            <div onClick={()=>{setWritenote(notes.push({cid:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>
-                                <NoteButtonSVG />
-
-                            </div>
-
-                        </div>
                     {notes.map((note)=>{
                         return (<div>
                                     <div className={"message_pad"}>
@@ -143,7 +134,17 @@ export default function ProfileGrid({data}){
                                         <div className={"message"} style={{display:"flex"}}>{note.content}</div>
                                     </div>
                                 </div>)
-                                })} 
+                    })} 
+                    <div className={"activity_pad"}>    
+                            <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Write a note..."}>
+                            </input>
+
+                            <div onClick={()=>{setWritenote(notes.push({cid:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>
+                                <NoteButtonSVG />
+
+                            </div>
+
+                    </div>
             </div>
                     <ul>{log!=-1&& log.map((l , i )=>{
                         return <li key={i}> {l} </li>
