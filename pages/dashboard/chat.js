@@ -12,9 +12,12 @@ import Helmet from 'react-helmet';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import DashBroadFilter from "../../components/broadcast/dashbroad_filter";
-
+import Loading from "../../components/Loading";
 
 export default function Chat() {
+    const [isLoading, setIsLoading] = useState(true);
+
+
     const [open, setOpen] = React.useState(false);
 
     const [isFilterOpen , setIsFilterOpen] = useState(false)
@@ -48,6 +51,8 @@ export default function Chat() {
     const [channels, setChannelData] = useState([] )
     useEffect(()=>{
         setChannelData(channelData)
+        setIsLoading(false);
+
     },[channelData ])
 
     useEffect(()=>{
@@ -64,6 +69,7 @@ export default function Chat() {
 
     return (
         <div className="dashboard-layout">
+            {isLoading?(<Loading/> ):null}
             <div className="navbarPurple">
                 <div className={"left"}>
                     <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>

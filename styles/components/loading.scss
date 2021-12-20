@@ -1,0 +1,18 @@
+.preloader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99999;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+}
+
+.loader{
+  margin: auto;
+  height: 50px;
+  width: 100%;
+  border-radius: 50%;
+  position: relative;
+}
