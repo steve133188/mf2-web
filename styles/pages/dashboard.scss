@@ -15,7 +15,6 @@
     background: white;
     border-radius: 10px;
     padding: 40px 30px 40px 25px;
-    padding: 40px 30px 40px 25px;
     position: absolute;
     z-index: 999;
     left: 630px;
@@ -103,14 +102,14 @@
   }
 
   .lineCardGroupSet {
-    margin: 44px ;
+    padding: 44px 0;
     display: flex;
-    
+
     .lineCardGroup1 {
       display: flex;
 
       .lineChartCard {
-        margin-right: 50px;
+        margin: 0 25px;
       }
     }
     .lineCardGroup2 {
