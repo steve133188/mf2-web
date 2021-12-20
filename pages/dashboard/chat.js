@@ -1,7 +1,7 @@
 import {LineChart, MultipleLineChart} from "../../components/LineChart";
 import {LabelSelect2, SingleSelect2} from "../../components/Select";
 // import {EnhancedTable3} from "../../components/EnhancedTable3";
-import {BigChangingPercentageCard} from "../../components/Cards";
+import {BigChangingPercentageCard, LineChartCard} from "../../components/Cards";
 import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {Checkbox} from "../../components/Checkbox";
@@ -39,6 +39,16 @@ export default function Chat() {
       setDayState(range);
     }
 
+    const channelData = [
+        // name:"WhastApp",value:"All",channelID:"All",id:0},
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+    const [channels, setChannelData] = useState([] )
+    useEffect(()=>{
+        setChannelData(channelData)
+    },[channelData ])
 
     useEffect(()=>{
         if(dayState.from==null||dayState.from==""){return setSelectedPeriod("Period")}
@@ -142,6 +152,18 @@ export default function Chat() {
             </div>
 
             <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
+            <div className="lineCardGroupSet">
+                <div className="lineCardGroup1">
+                    {
+                        channels.map((data)=>{
+                          return  <LineChartCard title={"Channel"} chart={false} img={true} d={data} channel={data.channelID} />
+
+                        })
+                    }
+
+                    {/* <AverageDailyCard/> */}
+                </div>
+            </div>
             <div className="chartGroup">
                 <div className="dashboardRow">
                     <div className="dashboardColumn"><LineChart title={"All Contacts"} data={[25, 24, 32, 36, 32, 30, 33, 33, 20, 17, 19, 34]} yaxis={"Contacts"} total={"34"} percentage={"+5%"} /></div>

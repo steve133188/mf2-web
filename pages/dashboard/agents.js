@@ -36,7 +36,7 @@ export default function Agents() {
                 </svg>
             </div>
             {open ? (
-                <DashboardFilter />
+                <DashboardFilter click={handleClickAway} />
                 // <span className={"dashboardFilter"}>
                 //     <div className="filterArea">
                 //         <div className="checkboxGroup1">
@@ -122,10 +122,10 @@ export default function Agents() {
             ) : null}
             <div className="lineCardGroupSet">
                 <div className="lineCardGroup1">
-                    <LineChartCard/>
-                    <LineChartCard/>
-                    <LineChartCard/>
-                    <LineChartCard/>
+                    <LineChartCard chart={true} img={false} title={"Agents"} />
+                    <LineChartCard chart={true} img={false} title={"Agents"} />
+                    <LineChartCard chart={true} img={false} title={"Agents"} />
+                    <LineChartCard chart={true} img={false} title={"Agents"} />
                     <AverageDailyCard/>
                 </div>
                 <div className="lineCardGroup2">
