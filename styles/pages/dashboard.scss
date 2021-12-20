@@ -103,12 +103,14 @@
 
   .lineCardGroupSet {
     padding: 44px 0;
-    display: flex;
+
 
     .lineCardGroup1 {
       display: flex;
 
       .lineChartCard {
+        flex-grow: 1;
+
         margin: 0 25px;
       }
     }
