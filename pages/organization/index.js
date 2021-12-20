@@ -56,7 +56,8 @@ export default function Organization() {
         setFilteredData(data)
     }
     const fetchRootORG = async () =>{
-        const data = await orgInstance.getOrgTeams()
+        const data = await orgInstance.getAllRootORG()
+        console.log("Root Org" ,data)
         set_root_org(data)
     }
     useEffect(    async () => {
@@ -125,21 +126,20 @@ export default function Organization() {
     }
     const toggleDelete = ()=>{
         setIsDelete(!isDelete)
-
-        console.log("selectedUsers")
-        console.log(selectedUsers)
-    }     
-    const deleteRole = async (id)=>{
-        const res = await adminInstance.deleteRole(id)
-        console.log(res)
-        await fetchRoles()
+        console.log("selectedUsers : "+selectedUsers)
+    }
+    const deleteUsers = async (selectedNames)=>{
+        for (let i = 0 ; i< selectedNames.length ; i++){
+            const res = userInstance.deleteUserByName(selectedNames[i])
+        }
+        await fetchUsers()
     }
     useEffect(()=>{
 
     },[selectedUsers])
     const [isDelete , setIsDelete] = useState(false)
     const submitDelete = () =>{
-        deleteRole(selectedUsers);
+        deleteUsers(selectedUsers);
         setIsDelete(!isDelete)
     }
 
@@ -196,7 +196,7 @@ export default function Organization() {
                     <SelectSession >
                     {/* btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)} */}
                         <div className={"team_label"}>
-                            {curr_org.name || "All"}
+                            {curr_org.name || "All"}{"(" +currentContacts.length+")"}
                         </div>
                     </SelectSession>
                 <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
@@ -229,7 +229,7 @@ export default function Organization() {
                                         role="checkbox"
                                         // tabIndex={-1}
                                         name={index}
-                                        checked={selectedUsers.includes(data.id)}
+                                        checked={selectedUsers.includes(data.username)}
                                         onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
@@ -239,7 +239,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.username} name="checkbox" checked={selectedUsers.includes(data.username)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>
