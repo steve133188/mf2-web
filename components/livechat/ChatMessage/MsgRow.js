@@ -70,10 +70,9 @@ export default function MsgRow({msg ,...props}){
     return(
         <div className={"msg_row"}>
             <div className={msg.from_me?"msg_from_me":"msg_from_other"}>
-                
                 <div>{messageType()}</div>
                 {/* <div className={"msg_body"}>{msg.body}</div> */}
-                <div className={"msg_timestamp"}>{msg.timestamp}</div>
+                <div className={"msg_timestamp"}>{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()}</div>
             </div>
         </div>
     )

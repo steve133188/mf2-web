@@ -122,8 +122,6 @@ useEffect(()=>{
                         <div className={"filter_box_tag"}  >
                             <div className={"channelList"}>
                                 <div className={"filter_title"}></div>
-                            
-
                                     {List[1].tags.map((tag)=>{
                                     return(<li className={"channelListitem"} key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag}</Pill>
                                         {/* <div className={"tag"} style={{display:"flex" ,gap:10}}>
@@ -150,33 +148,38 @@ useEffect(()=>{
 
                             </div>
 
-                        </div>
+                    {/* eslint-disable-next-line react/no-unescaped-entities */}
+                    <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>Today is 20th December 2021. Christmas's eva is coming in town. lalala. Come to visit us.</div>
+                </div>
+</div>
                     {notes.map((note)=>{
-                        return (<div>
-                                    <div className={"message_pad"}>
-                                        <div className={"left nameTag"}>
-                                                        {/* <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} /> */}
-                                                <Tooltip key={note.id} className={""} title={data.wroteBy} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:40 , height:40 ,fontSize:17,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
-                                                </Tooltip>
-                                        </div>
-                                        <div className={"right"}>
-                                            <div className={"listitem name "}>
-                                                <div className={"left"}>{note.wroteBy}</div>
-                                                {/* <div className={"left"}>{props.name}</div> */}
-                                                <div className={"right"}>{note.date}</div>
-                                            </div>
+                        return (
+                            <div key={note.id}>
+                                <div className={"message_pad"}>
+                                    <div className={"left nameTag"}>
+                                        <Tooltip key={note.id} className={""} title={data.wroteBy} placement="top-start">
+                                            <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
+                                        </Tooltip>
+                                    </div>
+
+
+                                    <div className={"right"}>
+                                        <div className={"listitem name "}>
+                                            <div className={"left"}>{note.wroteBy}</div>
+                                            {/* <div className={"left"}>{props.name}</div> */}
+                                            <div className={"right"}>{note.date}</div>
                                         </div>
                                     </div>
-                                        <div className={"message_box"}>
 
+
+                                    <div className={"message_box"}>
                                         <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>{note.content}</div>
                                     </div>
-                                </div>)
-                                })} 
-            </div>
 
 
+                                </div>
+                            </div>)
+                                })}
         </>
 
     )

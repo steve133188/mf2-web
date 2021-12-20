@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const subscribeToNewMessage = /* GraphQL */ `
-  subscription SubscribeToNewMessage($room_id: Int!) {
-    subscribeToNewMessage(room_id: $room_id) {
+  subscription SubscribeToNewMessage($receiver: String) {
+    subscribeToNewMessage(receiver: $receiver) {
       room_id
       timestamp
       sender

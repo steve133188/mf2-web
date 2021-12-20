@@ -61,8 +61,10 @@ export default function Live_chat() {
         console.log("result : " , result)
         await fetchAttachment()
     }
-    const getUserbyPhone = async (phone)=>{
-        const result = await userInstance.getUserByPhone(phone)
+    const getCustomerbyID = async (id)=>{
+
+        console.log(id)
+        const result = await contactInstance.getContactById(id)
         setChatUser(result.data)
     }
     const [contacts, setContacts] = useState([]);
@@ -136,10 +138,7 @@ export default function Live_chat() {
 
     async function handleChatRoom  (chatroom){
         setSelectedChat(chatroom)
-        await getUserbyPhone(selectedChat.phone)
-        // setChatroomMsg(await getChatroomMessage)
-        // const data = await getChatRecord(target)
-        // setChatrecord(data)
+        await getCustomerbyID(selectedChat.customer_id)
     }
 
     const getChatroomMessage = async()=>{
@@ -172,8 +171,11 @@ export default function Live_chat() {
         const data = {message:typedMsg.message , phone : typedMsg.phone ,chatroom:selectedChat.id||0}
         setTypedMsg({...typedMsg , message: ""})
         const res = await messageInstance.sendTextMessage(data)
-        await getChatroomMessage()
-        scrollToBottom()
+        setTimeout(async ()=>{
+            await getChatroomMessage()
+            scrollToBottom()
+        },1500)
+
     }
     const wrapperRef = useRef();
 
@@ -199,19 +201,31 @@ export default function Live_chat() {
             await getTeams()
             await getChatrooms()
             await getChatroomMessage()
-
-            API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:0} ))
+            // TODO need to implete receiver id to sub input
+            API.graphql(graphqlOperation(subscribeToNewMessage ,{receiver:"85260957729@c.us"} ))
                 .subscribe({
                     next: (chatmessage)=>{
                         console.log("chatmsg:" , chatroomMsg)
                         const newMessage = chatmessage.value.data.subscribeToNewMessage
                         const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
                         console.log(newMessage)
-                        const updatedPost = [newMessage , ...prevMessage]
+                        let updatedPost = [ ...chatroomMsg,newMessage ]
                         setChatroomMsg(updatedPost)
                         scrollToBottom()
                     }
                 })
+            // API.graphql(graphqlOperation(subscribeToNewMessage ,{sender:"85260957729"} ))
+            //     .subscribe({
+            //         next: (chatmessage)=>{
+            //             console.log("chatmsg:" , chatroomMsg)
+            //             const newMessage = chatmessage.value.data.subscribeToNewMessage
+            //             const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
+            //             console.log(newMessage)
+            //             let updatedPost = [ ...chatroomMsg,newMessage ]
+            //             setChatroomMsg(updatedPost)
+            //             scrollToBottom()
+            //         }
+            //     })
         }
     },[]);
 
@@ -353,7 +367,7 @@ export default function Live_chat() {
                         <MsgRow msg={r} key={i} />
                       </>
                     })}
-                    {/*<div ref={messagesEndRef}> {console.log("done")}</div>*/}
+                    <div ref={messagesEndRef}> {console.log("done")}</div>
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")}>
