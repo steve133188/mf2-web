@@ -165,10 +165,10 @@ export default function AddContact() {
             </div>
 
                 <div className={"addContactSession_ss  addContactSession_tags_ss"}>
-                        <div className={"tagsGroup"}>
                             <div className={"addContactSession_title"}>Tags & Assignee</div>
+                        <div className={"tagsGroup"} style={{marginBottom:"30px"}} >
                             <p>Tags</p>
-                            <div className={"tagsGroup"}>
+                            <div className={"tagsGroup"} >
                                 {selectedTags!=-1&&selectedTags.map((tag)=>{
                                     return<Pill key={tag} color="vip">{tag}</Pill>
                                 })}

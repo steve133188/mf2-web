@@ -10,7 +10,7 @@
   .assigneeGroup {
     display: flex;
     .pillContainer {
-      margin-right: 5px;
+      // margin-right: 5px;
     }
   }
   
@@ -81,12 +81,14 @@
 
       .newCheckboxContainer {
         justify-content: right;
+        margin-left: 15px;
       }
     }
   }
 }
 .tagsGroup {
   // background-color: yellow;
+  // margin: 20px;
 }
 
 .pillContainer {

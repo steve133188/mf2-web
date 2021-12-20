@@ -6,19 +6,16 @@
 .live_chat_layout{
   display: flex;
   flex-direction: row;
-  //overflow: auto;
   height: 100%;
-  // width: 30%;
   box-sizing: border-box;
   padding: 1rem;
   .chat_list{
     display: flex;
-    //padding: 0.5rem;
     margin-right: 5px;
     flex-direction: column;
     width: 18vw;
     max-width: 380px;
-    min-width: 250px;
+    min-width: 330px;
     height: 100%;
     .search_ss{
       display: flex;
@@ -57,6 +54,7 @@
       flex-direction: column;
       padding:0.5rem 0rem;
       max-height: 90vh;
+      // min-width: 320px;
       .chatlist_ss_filter{
         display: flex;
         flex-direction: row;
@@ -127,10 +125,10 @@
         // overflow:auto;
         display: flex;
         flex-direction: column;
-        width: 100%;
-        min-width: 330px;
+        width: 90%;
         height: auto;
-        // height: 90%;
+        margin: auto;
+
         font: normal normal normal 12px/17px Manrope;
         letter-spacing: 0px;
         color: #444444;
@@ -182,65 +180,9 @@
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
-
-          // input{
-          //   margin: 0 10px;
-          //   position: absolute;
-          //   opacity: 0;
-          //   cursor: pointer;
-          //   height: 30;
-          //   width: 30;
-           
-          //   &:checked ~ .checkboxStyle{
-          //     padding: 2px;
-          //     background: #4F97F4 0% 0% no-repeat padding-box;
-          //     border-radius: 3px;
-          //     border-color: #4F97F4 ;
-          //   }
-          //   &:checked ~ .checkboxStyleout{
-          //     padding: 2px;
-          //     border-color: #4F97F4 ;
-          //     border-radius: 3px;
-          //     opacity: .8;
-          //   }
-          // }
-          // // &:hover{
-          // //     background-color: rgb(134, 93, 93);
-          // //   }
-
-          // .checkboxStyle{
-          //   position: absolute;
-          //   top: 3px;
-          //   left: 3px;
-          //   height: 20px;
-          //   width: 20px;
-          //   margin: 9px 6px;
-          //   background: transparent  0% 0% no-repeat padding-box;;
-          //   border-radius: 3px;
-          //   border-style:solid;
-          //   border-width: 1px;
-          //   border-color:lightgrey;
-          //   box-sizing: border-box;
-
-
-          // }
-
-          // .checkboxStyleout{
-          //   position: absolute;
-          //   top: 0;
-          //   left: 0;
-          //   height: 26px;
-          //   width: 26px;
-          //   margin: 9px 6px;
-          //   background: transparent  0% 0% no-repeat padding-box;;
-          //   border-radius: 3px;
-          //   border-style:solid;
-          //   border-width: 1px;
-          //   border-color:lightgrey;
-          //   box-sizing: border-box;
-
-
-          // }
+          }
+          .newCheckboxContainer{
+            margin:0;
           }
 
             
@@ -438,7 +380,7 @@
         overflow: auto;
         position: relative;
         flex-grow: 1;
-        //min-width: 350px;
+
         .chatroom_badge{
           position: absolute;
           right:2.5%;
@@ -795,7 +737,7 @@
     padding: 1rem 0 1rem 1rem;
     .contact_card{
       width: 100%;
-      max-width: 400px;
+      max-width: 320px;
       min-width: 200px;
       height: 8rem;
       margin: 1rem 0;
@@ -808,13 +750,17 @@
         align-items: center;
         justify-content: center;
         width: 80px;
-        min-width: 80px;
-        max-width: 120px;
+        min-width:60px;
+        max-width: 800px;
+        margin-right: 25px;
+        img{
+          width:35px;
+        }
       }
       .contact_detail{
-        padding: 0.25rem 1rem;
+        padding: 0.25rem;
         width: fit-content;
-        min-width: 130px;
+        min-width: 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -834,7 +780,7 @@
         }
         .contact_detail_team{
           text-align: center;
-          font: normal normal 400 16px Manrope;
+          font: normal normal 400 13px Manrope;
           width: fit-content;
           padding: 0 0.5rem;
           letter-spacing: 0px;
@@ -880,6 +826,7 @@
     padding: 1rem 0;
     justify-content: center;
     text-align: center;
+    // font: normal normal normal .7REM Manrope;;
 
     .infoBox{
       display:flex;
@@ -901,7 +848,7 @@
             margin:0px 0;
             .keys{
               height:30px;margin-bottom:14px ;
-              font: normal normal normal 12px/17px Manrope;
+              font: normal normal normal 10px/17px Manrope;
             }
           }
         .valueList{
@@ -911,7 +858,7 @@
            margin-top:14px ;
            .values{
              height:30px;margin-bottom:14px ;
-            font:normal normal 600 16px/22px Manrope;
+            font:normal normal 600 13px/22px Manrope;
           }
         }
         .assignedInfo{
@@ -947,7 +894,7 @@
     }
     .noteBox{
       display: flex;
-      font: normal normal normal 16px/22px Manrope;
+      font: normal normal normal .7REM Manrope;;
       letter-spacing: 0px;
       width: 85%;
       .notesVolumn{
@@ -963,7 +910,9 @@
         color: #8B8B8B;
         border-width: 0;
         margin: 20px 0;
+        height: 50px;
         
+        // font: normal normal normal 14px/22px Manrope;
 
         .write_note{
           width: 100%;
@@ -972,6 +921,7 @@
           background: transparent 0% 0% no-repeat padding-box;
           border-width: 0;
           margin: 0 10px;
+          height: 25px;
           &:focus-visible{
             border-width: 0;
             outline:0
@@ -988,7 +938,10 @@
         position: relative;
         .tag{
           border-radius: 35px;
-          top:12px;
+          top:10px;
+          width: 40px;
+          height: 40px;
+          font-size:18px;
           position:absolute;
           padding: 0;
         }
@@ -999,7 +952,9 @@
         align-items: center;
         text-align: left;
         width: auto;
-        font: normal normal bold 16px/22px Manrope;
+
+      font: normal normal normal .7REM Manrope;;
+        // font: normal normal bold 16px/22px Manrope;
         letter-spacing: 0px;
         color: #444444;
         // height: 20px;
@@ -1009,9 +964,11 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        // align-items: flex-start;
+
+        font: normal normal normal .7REM Manrope;;
+
         text-align: right;
-        // max-width: 250px;
+
         width: 90%; 
         margin-left: auto;
         padding: 1px;
@@ -1022,10 +979,10 @@
         align-items: center;
         height: 30px;
         // margin: 12px 0;
-        font: normal normal normal 16px/22px Manrope;
+        font: normal normal normal 14px/22px Manrope;
         margin: 10px 0 0;
 
-      padding: 0rem 10px 0 30px;  
+      padding: 0rem 10px 0 25px;  
       }
     }
     .message_box{
@@ -1043,7 +1000,7 @@
       letter-spacing: 0.08px;
       color: #4E4E4E;
       opacity: 1;
-      padding: 0rem 10px 0 30px;  
+      padding: 0rem 10px 0 25px;  
       margin-bottom: 10px;
       // white-space: nowrap;
       // margin: 10px 0;

@@ -78,7 +78,10 @@ export function Card_channel(props) {
 }
 
 export function LineChartCard({children,...props}) {
-    const {lineColor} = props;
+    // const {lineColor} = props;
+    useEffect(()=>{
+        console.log(props)
+    },[])
     const [chartState, setChartState] = useState({
         series1: [{
             data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
@@ -120,13 +123,14 @@ export function LineChartCard({children,...props}) {
     })
     return (
         <div className="lineChartCard">
-            <div className={"lineChartCardTitle"}>Total no.of Agent</div>
+            <div className={"lineChartCardTitle"}>Number of {props.title}</div>
             <div className={"contentGroup"}>
                 <div className={"dataGroup"}>
                     <div className={"number"}>50</div>
                     <div className={"changingPercentagePos"}>+ 25%</div>
                 </div>
-                <Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} />
+                <Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} hidden={props.chart?!props.chart:true} />
+                <img key={"id"} width="24px" height="24px" src={`/channel_SVG/${props.channel}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
             </div>
         </div>
     )

@@ -17,6 +17,7 @@ import Profile from "../../components/profile";
 import UserProfileGrid from "../../components/pageComponents/UserProfile";
 import SwitchAgentForm from "../../components/organisation/SwitchAgentForm";
 import MF_Modal from "../../components/MF_Modal";
+import {EditPenSVG} from "../../public/broadcast/broadcastSVG";
 
 export default function Organization() {
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
@@ -71,6 +72,7 @@ export default function Organization() {
         if(!curr_org.name){
             await fetchUsers()
         }else{
+            console.log("currentContacts",currentContacts)
             console.log("curr_org",curr_org)
             await fetchTeamUsers(curr_org.id)
         }
@@ -198,6 +200,7 @@ export default function Organization() {
                         <div className={"team_label"}>
                             {curr_org.name || "All"}{"(" +currentContacts.length+")"}
                         </div>
+                        <EditPenSVG size={16}/>
                     </SelectSession>
                 <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
                     <Table
@@ -243,19 +246,19 @@ export default function Organization() {
                                                 </label> : null}
                                             </div>
                                         </TableCell>
-                                        <TableCell align="left" style={{padding: ".7rem 1rem"}} >
+                                        <TableCell align="left" style={{padding: ".9rem 1rem"}} >
                                             <span >{data.username}</span>
                                         </TableCell>
-                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
+                                        <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.role}
                                         </TableCell>
-                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
+                                        <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.email}
                                         </TableCell>
-                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
+                                        <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.phone}
                                         </TableCell>
-                                        <TableCell align="left" style={{padding: ".7rem 1rem"}}>
+                                        <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.leads!=0?data.leads : 0}
                                         </TableCell>
                                     </TableRow>
@@ -264,7 +267,7 @@ export default function Organization() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                    <Pagination count={Math.ceil(filteredData.length/10)} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
+                    <Pagination count={Math.ceil(filteredData.length/9)} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
             </div>
         </div>
     )

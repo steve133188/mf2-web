@@ -22,7 +22,7 @@ export default function DashboardFilter(props){
         <div className="buttonGrp">
             <NormalButton2>Confirm</NormalButton2>
         </div>
-            <span className="cancelBtn" onClick={handleClickAway}><CancelButton></CancelButton></span>
+            <span className="cancelBtn" onClick={props.click}><CancelButton></CancelButton></span>
     </div>
     <div className="checkboxGroup2">
         <p>Channel</p>

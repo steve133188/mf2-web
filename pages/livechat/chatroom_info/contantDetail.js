@@ -149,9 +149,8 @@ useEffect(()=>{
                             </div>
 
                     {/* eslint-disable-next-line react/no-unescaped-entities */}
-                    <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>Today is 20th December 2021. Christmas's eva is coming in town. lalala. Come to visit us.</div>
                 </div>
-</div>
+            
                     {notes.map((note)=>{
                         return (
                             <div key={note.id}>
@@ -171,15 +170,16 @@ useEffect(()=>{
                                         </div>
                                     </div>
 
+                                </div>
 
                                     <div className={"message_box"}>
                                         <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>{note.content}</div>
                                     </div>
 
 
-                                </div>
                             </div>)
                                 })}
+            </div>
         </>
 
     )

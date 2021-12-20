@@ -95,7 +95,7 @@
   border-bottom: 2px solid #F3F3F5;
   opacity: 1;
 }
-.side-item:not(.notification_activate), .notify_box_li{
+.side-item:not(.notification_activate), .notify_box_li, .active, .sub-nav-item{
   //height: 5vh;
   cursor: pointer;
   &:hover, &:focus  {

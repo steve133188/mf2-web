@@ -24,6 +24,8 @@ import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
 import * as React from "react";
+import { width } from "@mui/system";
+import Mf_circle_btn from "../../components/mf_circle_btn";
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
@@ -92,10 +94,12 @@ export default function Contacts() {
         setFilteredData([...teamFiltered])
 
     }
-    const channels = [{name:"WhastApp",value:"Whatsapp",id:1},
-    {name:"WhatsApp Business",value:"WhatsappB",id:2},
-    {name:"Messager",value:"Messager",id:3},
-    {name:"WeChat",value:"Wechat",id:4},]
+    const channels = [
+        // name:"WhastApp",value:"All",channelID:"All",id:0},
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
@@ -315,7 +319,7 @@ export default function Contacts() {
         </svg>
     )
     return (
-        <div className={styles.layout} style={{maxWidth:1600}}>
+        <div className={styles.layout} >
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
@@ -354,7 +358,34 @@ export default function Contacts() {
             {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                    <div className={"select_session_btn"}><Mf_icon_dropdownform svg={tagSVG}></Mf_icon_dropdownform></div>
+                    <div className={"select_session_btn"}><Mf_icon_dropdownform svg={tagSVG}>
+                        </Mf_icon_dropdownform>
+                    {/* <div className={"tagsGroup"} >
+                                {selectedTags!=-1&&selectedTags.map((tag)=>{
+                                    return<Pill key={tag} color="vip">{tag}</Pill>
+                                })}
+                                <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                                    setFilteredTags(new_data)
+                                })}}>
+                                    {filteredTags.map((tag)=>{
+                                        return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                                            <div className="newCheckboxContainer">
+                                                <label className="newCheckboxLabel">
+                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                        </label> </div></li>)
+                                    })}
+                                </Mf_circle_btn>
+
+                            </div> */}
+                        </div>
+
+
+
+
+
+
+
+
                     <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={removeManyContact}>{deleteSVG}</div> </div>
                 </div>):null}
@@ -386,6 +417,16 @@ export default function Contacts() {
                         return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter()}}> {team.name}</li>)
                     })}
                 </MF_Select>
+                <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
+                    {filteredChannel.map((tag)=>{
+                        return(<li key={tag.id}><div>  <img key={"id"} width="20px" height="20px" src={`/channel_SVG/${tag.channelID}.svg`}  alt=""/>
+                        {tag.name}</div>
+                            <div className="newCheckboxContainer">
+                                <label className="newCheckboxLabel">
+                                    <input type="checkbox" id={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
+                                </label> </div></li>)
+                    })}
+                </MF_Select>
                 <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredTags(new_data)
                 })}} >
@@ -394,20 +435,6 @@ export default function Contacts() {
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
                                     <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
-                                </label> </div></li>)
-                    })}
-                </MF_Select>
-
-
-
-
-
-                <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
-                    {filteredChannel.map((tag)=>{
-                        return(<li key={tag.id}><div>{tag.name}</div>
-                            <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -420,7 +447,7 @@ export default function Contacts() {
                 className={"table_container"}
             >
                 <Table
-                    sx={{minWidth: 750,maxWidth:1400 }}
+                    sx={{minWidth: 750,maxWidth:1900 }}
                     aria-labelledby="tableTitle"
                     size={'medium'}
                     stickyHeader={true}
@@ -486,7 +513,7 @@ export default function Contacts() {
                                     <TableCell align="left">
                                         { data.channels!=null && data.channels.map((chan , index)=>{
                                             // return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
-                                            return(<img key={index} width="24px" height="24px" src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} alt=""/>)
+                                            return(<img key={index} width="24px" height="24px" src={`/livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} alt=""/>)
                                         })}
                                         {
                                         data.channels == null?  (<div style={{paddingLeft:20}}><img key={index} width="24px" height="24px" src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} alt=""/></div>):""
@@ -501,7 +528,7 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
 
-                                    <TableCell >
+                                    <TableCell sx={{width:"165px",overflow:"hidden",textOverflow:"ellipsis"}} >
                                         <AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row",width:30 , height:30}} max={5} spacing={"1"} >
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
@@ -512,7 +539,7 @@ export default function Contacts() {
                                             })}
                                         </AvatarGroup>
                                     </TableCell>
-                                    <TableCell >
+                                    <TableCell  >
                                         <Mf_icon_dropdown_select_btn
                                         btn={(<span className={styles.edit_span}
                                         >

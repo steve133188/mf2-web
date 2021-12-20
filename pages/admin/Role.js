@@ -97,10 +97,10 @@ export default function Role() {
     }
     const [deleteRolename,setDeleteRole] = useState("")
     const submitDelete = () =>{
-    deleteRole(deleteRolename);
+        deleteRole(deleteRolename);
 
-    setIsDelete(!isDelete)
- }
+        setIsDelete(!isDelete)
+    }
     const default_cols = ['Role' , 'No. of User' ,' ']
 
     const editSVG =(

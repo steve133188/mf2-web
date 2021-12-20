@@ -1,6 +1,6 @@
 import {navItems} from "./nav-item";
 import {useRouter} from "next/router";
-import {useEffect, useContext, useState} from "react";
+import {useEffect, useContext, useState,useLayoutEffect} from "react";
 import {GlobalContext} from "../context/GlobalContext"
 import SideBar from "./SideBar";
 import {MultipleSelectPlaceholder, SingleSelect, SingleSelect2} from "../components/Select";
@@ -9,6 +9,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+
+
+
 
 export default function Layout({children}) {
     const [userSelect , setUserSelect] = useState("")
@@ -33,6 +36,7 @@ export default function Layout({children}) {
         // }
         // console.log(user)
     },[])
+
     return (
         user.token ? layout : unAuth
     )
