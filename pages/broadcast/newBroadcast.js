@@ -161,9 +161,9 @@ export default function AddBroadcast() {
                     </div>
             </div>
 
-                <div className={"addContactSession_ss  addContactSession_tags_ss"}>
-                        <div className={"tagsGroup"}>
                             <div className={"addContactSession_title"}>Tags & Assignee</div>
+                <div className={"addContactSession_ss  addContactSession_tags_ss"}>
+                        <div className={"tagsGroup"} style={{marginBottom:"30px"}}>
                             <p>Tags</p>
                             <div className={"tagsGroup"}>
                                 {selectedTags!=-1&&selectedTags.map((tag)=>{

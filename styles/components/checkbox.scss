@@ -16,6 +16,7 @@
     /* The container */
     .newCheckboxContainer {
       margin-bottom: 12px;
+      // margin-left: 5px;
     }
     .checkboxContainer {
       position: relative;
@@ -209,6 +210,8 @@
 .newCheckboxContainer {
   display: flex;
   font-size: 16px;
+  margin-left: 15px;
+
   .checkboxContentGrp {
     img {
       margin-right: 4px;

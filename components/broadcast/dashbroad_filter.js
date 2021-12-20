@@ -92,11 +92,11 @@ export default function DashBroadFilter(props){
                     setFilteredTeams(data)
                 }
                 const channelData = [
-                    // {apiName:"All Channel",value:"All",id:0},
-                            {apiName:"WhastApp",value:"Whatsapp",id:1},
-                            {apiName:"WhatsApp Business",value:"WhatsappB",id:2},
-                            {apiName:"Messager",value:"Messager",id:3},
-                            {apiName:"WeChat",value:"Wechat",id:4},];
+                    // name:"WhastApp",value:"All",channelID:"All",id:0},
+                            {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                            {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+                            {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                            {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
             
                 // const getChannels = async ()=>{
                 //     const data = await contactInstance.getContactsByChannels()
@@ -191,7 +191,7 @@ export default function DashBroadFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
+                        {channelData.map((e)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
                 </div>
                 <FilterDropDown title={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>

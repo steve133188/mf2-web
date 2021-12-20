@@ -27,7 +27,7 @@
   position: absolute;
   padding: 1rem 1rem;
   background: #FFFFFF 0% 0% no-repeat padding-box;
-  box-shadow: 0px 7px 20px #00000029;
+  box-shadow: 0px 7px 20px #00000029; 
   border-radius: 20px;
   opacity: 1;
   box-sizing: border-box;
@@ -36,13 +36,16 @@
   flex-direction: column;
   .mf_circle_dropdown_content{
     overflow: scroll;
-    padding-right: 10px ;
+    // padding-right: 10px ;
   }
   li{
     list-style: none;
     display: flex;
     justify-content: space-between;
     padding:0.5rem 1rem;
+    div{
+      // margin: 0;
+    }
     .name{
       margin: auto;
 

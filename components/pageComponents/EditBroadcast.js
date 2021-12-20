@@ -149,9 +149,9 @@ export default function EditBroadcast({data , toggle}){
                 </div>
             </div>
 
+                    <div className={"addContactSession_title"}>Tags & Assignee</div>
             <div className={"addContactSession_ss  addContactSession_tags_ss"}>
                 <div className={"tagsGroup"}>
-                    <div className={"addContactSession_title"}>Tags & Assignee</div>
                     <p>Tags</p>
                     <div className={"tagsGroup"}>
                         {selectedTags!=-1&&selectedTags.map((tag)=>{
