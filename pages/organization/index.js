@@ -38,8 +38,8 @@ export default function Organization() {
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedUsers , setSelectedUsers] = useState([])
     const [selectAll, setSelectAll] = useState(false);
-    const indexOfLastTodo = currentPage * 9; // 10 represent the numbers of page
-    const indexOfFirstTodo = indexOfLastTodo - 9;
+    const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
+    const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
 
 
@@ -57,7 +57,8 @@ export default function Organization() {
         setFilteredData(data)
     }
     const fetchRootORG = async () =>{
-        const data = await orgInstance.getOrgTeams()
+        const data = await orgInstance.getAllRootORG()
+        console.log("Root Org" ,data)
         set_root_org(data)
     }
     useEffect(    async () => {
@@ -127,21 +128,20 @@ export default function Organization() {
     }
     const toggleDelete = ()=>{
         setIsDelete(!isDelete)
-
-        console.log("selectedUsers")
-        console.log(selectedUsers)
-    }     
-    const deleteRole = async (id)=>{
-        const res = await adminInstance.deleteRole(id)
-        console.log(res)
-        await fetchRoles()
+        console.log("selectedUsers : "+selectedUsers)
+    }
+    const deleteUsers = async (selectedNames)=>{
+        for (let i = 0 ; i< selectedNames.length ; i++){
+            const res = userInstance.deleteUserByName(selectedNames[i])
+        }
+        await fetchUsers()
     }
     useEffect(()=>{
 
     },[selectedUsers])
     const [isDelete , setIsDelete] = useState(false)
     const submitDelete = () =>{
-        deleteRole(selectedUsers);
+        deleteUsers(selectedUsers);
         setIsDelete(!isDelete)
     }
 
@@ -198,7 +198,7 @@ export default function Organization() {
                     <SelectSession >
                     {/* btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)} */}
                         <div className={"team_label"}>
-                            {curr_org.name || "All Division"}
+                            {curr_org.name || "All"}{"(" +currentContacts.length+")"}
                         </div>
                         <EditPenSVG size={16}/>
                     </SelectSession>
@@ -232,7 +232,7 @@ export default function Organization() {
                                         role="checkbox"
                                         // tabIndex={-1}
                                         name={index}
-                                        checked={selectedUsers.includes(data.id)}
+                                        checked={selectedUsers.includes(data.username)}
                                         onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
@@ -242,7 +242,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.username} name="checkbox" checked={selectedUsers.includes(data.username)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>

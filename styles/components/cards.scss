@@ -163,11 +163,11 @@
 }
 
 .bigChangingPercentageCard {
-  width: 436px;
+  flex-grow: 4;
   height: 153px;
   box-shadow: 0px 7px 10px #0000001A;
   background: white;
-  margin-right: 50px;
+  margin: 0 25px;
   padding: 17px 22px 26px 22px;
   border-radius: 10px;
   box-shadow: 0px 7px 10px #0000001A;

@@ -151,9 +151,10 @@ export default function Chat() {
                 </div>
             </div>
             <div className="lineCardGroupSet">
-                <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
 
                 <div className="lineCardGroup1">
+                    <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
+
                     {
                         channels.map((data)=>{
                           return  <LineChartCard title={"Channel"} chart={false} img={true} d={data} channel={data.channelID} />

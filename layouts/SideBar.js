@@ -110,36 +110,60 @@ export default function SideBar(props) {
                         <img src="/MS_logo-square (1).svg" alt="MatrixForce" />
                     </div>
                     <div className={"nav-items"}>
-                        <div className={isActiveURL("/dashboard") ? "active-side-item" : "side-item "}>
+
+                        { isCollapse ? (
+                            <Link href={"/dashboard/chat"}>
+                                <div className={isActiveURL("/dashboard") ? "active-side-item" : "side-item "}>
+                                    <span onClick={dropDownArrowToggle}>
+                                        {/* parent path cannot approach func isActiveURL()*/}
+                                        <div className={router.pathname.includes("/dashboard")? "active nav-item" : "nav-item "}>
+                                            <DashboardSVG size="16"/>
+                                            <span className="side-item-name">Dashboard </span>
+                                        </div>
+                                    </span>
+                                </div>
+                            </Link>) : (<div className={isActiveURL("/dashboard") ? "active-side-item" : "side-item "}>
                             <span onClick={dropDownArrowToggle}>
                                 {/* parent path cannot approach func isActiveURL()*/}
                                 <div className={router.pathname.includes("/dashboard")? "active nav-item" : "nav-item "
                                 } onClick={e => {
                                     setIsDashOpen(!isDashOpen)
                                 }}>
+                                {/*{ isCollapse? (*/}
+                                    {/*    <>*/}
+                                    {/*        <Link href={"/dashboard/chat"}>*/}
+                                    {/*            <DashboardSVG size="16"/>*/}
+                                    {/*        </Link>*/}
+                                    {/*    </>*/}
+                                    {/*    ) : (*/}
+                                    {/*        <DashboardSVG size="16"/>)*/}
+                                    {/*}*/}
 
-                                        <DashboardSVG size="16"/>
-                                {/* parent path cannot approach func isActiveURL()*/}
+
+                                    <DashboardSVG size="16"/>
+
+                                    {/* parent path cannot approach func isActiveURL()*/}
+
                                     <span className="side-item-name">Dashboard </span>
-                                    { isCollapse?null: ( 
+                                    { isCollapse?null: (
                                         isTurnUp ? (
-                                        <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="16.291"
-                                            height="16.291" viewBox="0 0 16.291 16.291"
-                                            style={{ transform: "rotate(180deg)" }}>
-                                            <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z" fill="none"
-                                                opacity="0.87" />
-                                            <path id="Path_3109" data-name="Path 3109"
-                                                d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"
-                                                transform="translate(-2.065 -3.087) rotate" fill="currentColor" />
+                                            <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="16.291"
+                                                 height="16.291" viewBox="0 0 16.291 16.291"
+                                                 style={{ transform: "rotate(180deg)" }}>
+                                                <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z" fill="none"
+                                                      opacity="0.87" />
+                                                <path id="Path_3109" data-name="Path 3109"
+                                                      d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"
+                                                      transform="translate(-2.065 -3.087) rotate" fill="currentColor" />
                                             </svg>) : (
-                                        <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="16.291"
-                                            height="16.291" viewBox="0 0 16.291 16.291">
-                                            <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z"
-                                                fill="none" opacity="0.87" />
-                                            <path id="Path_3109" data-name="Path 3109"
-                                                d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"
-                                                transform="translate(-2.065 -3.087)" fill="currentColor" />
-                                        </svg>))}
+                                            <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="16.291"
+                                                 height="16.291" viewBox="0 0 16.291 16.291">
+                                                <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z"
+                                                      fill="none" opacity="0.87" />
+                                                <path id="Path_3109" data-name="Path 3109"
+                                                      d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"
+                                                      transform="translate(-2.065 -3.087)" fill="currentColor" />
+                                            </svg>))}
 
                                 </div>
                             </span>
@@ -158,8 +182,8 @@ export default function SideBar(props) {
                                 </>) : null}
 
 
-                        </div>
 
+                        </div>)}
                         <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")}/>
                         <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>
                         <NavItem url={"/broadcast"} name={"Broadcast"} icon={(<BroadcastSVG size="16"/>)} active={isActiveURL("/broadcast")}/>
