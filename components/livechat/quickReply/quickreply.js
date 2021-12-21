@@ -5,20 +5,21 @@ import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
 import { useState } from 'react';
 
+export default function QuickReply(props) {
 
-export default function StickerBox(props){
     const [value, setValue] = useState('1');
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
-    };
-    return(
+    }
 
-          <TabContext value={value} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} >
+    return(
+        < div className="reply_template_box">
+             <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} >
             <Box component="div" 
                     visibleScrollbar={true}
                     scrollButtons={"on"}
-                    sx={{ borderBottom: 1, borderColor: 'divider',overflow: 'auto' , my: 2,padding:"8px",}}>
+                    sx={{ borderBottom: 1, borderColor: 'divider',overflow: 'auto' , my: 2,}}>
 
                 <Tabs
                     value={value}
@@ -27,7 +28,6 @@ export default function StickerBox(props){
                     indicatorColor="primary"
                     aria-label="secondary tabs example"
                     variant="scrollable"
-                    // sx={{padding:"8px",}}
                     // scrollButtons="off"
                 >
                     {props.data.map(item=>(<Tab label={item.name} value={item.id} />))}
@@ -37,11 +37,23 @@ export default function StickerBox(props){
             </Box>
                     {props.data.map(item=>(
                     <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={item.name}>
-                        {item.sticker.map(item=>(<img src={item.src} key={item.name} style={{width:"80px",margin:"3px"}} onClick={props.stickerSend} />))}
+                        <div className={'reply_box'}>{item.set.map(item=>(
+                            <div>
+                                <div className={'nameTag'} id={item.name} content={item.content} onClick={props.onclick}>
+                                    {item.name}
+                                <div hidden={true}>{item.content}</div>
+                                </div>
+                            <div >
+                            {/* {item.content } */}
+                                </div>
+                            </div>
+
+                        ))}
+                        </div>
                     </TabPanel>))}
             {/* <TabPanel value="2">Item Two</TabPanel>
             <TabPanel value="3">Item Three</TabPanel> */}
           </TabContext>
-
-      )
+        </div>
+    )
 }

@@ -9,6 +9,7 @@
   height: 100%;
   box-sizing: border-box;
   padding: 1rem;
+  max-width: 2400px;
   .chat_list{
     display: flex;
     margin-right: 5px;
@@ -612,16 +613,19 @@
       flex-direction: column;
       justify-content: space-between;
       &.expand{
-        height: 18rem;
-        max-height: 18rem;
+        height: 25vh;
+        max-height: 35rem;
+        min-height: 23rem;
+        // max-width: ;
       }
       .chatroom_textField{
         border: none;
         resize: none;
         width: 100%;
-        min-height:30%;
+        min-height:15%;
         // height:70%;
-        padding: 0.5rem  ;
+        padding: 0.5rem;
+        overflow: scroll;
       }
       .chatroom_textField:focus{
         border: none;
@@ -717,6 +721,7 @@
             .voice_btn{
               // background-image:url("../../public/livechat/recording.svg");
               padding: .5rem 1rem;
+              margin: 4px;
             }
             .send_btn{
               // background-image:url("../../public/livechat/send.svg");
