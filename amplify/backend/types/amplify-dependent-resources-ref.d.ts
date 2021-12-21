@@ -9,11 +9,5 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientIDWeb": "string",
             "AppClientID": "string"
         }
-    },
-    "storage": {
-        "mf2MessageMedia": {
-            "BucketName": "string",
-            "Region": "string"
-        }
     }
 }
