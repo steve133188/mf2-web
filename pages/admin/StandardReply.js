@@ -24,13 +24,13 @@ import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
 import {getAllContacts} from "../../helpers/contactsHelper"
-import {getAllRoles} from "../../helpers/adminHelpers";
+import {getAllStandardReply} from "../../helpers/adminHelpers";
 import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
 
 export default function StandardReply() {
 
-    const [roles, setRoles] = useState([]);
+    const [standardReply, setStandardReply] = useState([]);
     const {adminInstance , user} = useContext(GlobalContext)
 
     const [filteredData , setFilteredData] = useState([])
@@ -48,14 +48,14 @@ export default function StandardReply() {
 
     let result = currentContacts.map(d=>d.id)
 
-    const fetchRoles = async () =>{
-        const data = await adminInstance.getAllRoles()
-        console.log("getAllRoles",data)
-        setRoles(data)
+    const fetchStandardReply = async () =>{
+        const data = await adminInstance.getAllStandardReply()
+        console.log("getAllStandardReply",data)
+        setStandardReply(data)
         setFilteredData(data)
     }
     useEffect(    async () => {
-        if(user.token)await fetchRoles()
+        if(user.token)await fetchStandardReply()
 
     },[]);
 
@@ -82,7 +82,7 @@ export default function StandardReply() {
 
 
 
-    const default_cols = ['Role' , 'No. of User' ,' ']
+    const default_cols = ['Folder' , 'Channel' ,'Team','Assignee']
 
     const editSVG =(
         <svg id="pen" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
@@ -123,7 +123,7 @@ export default function StandardReply() {
                                 type="search"
                                 name={"keyword"}
                                 onChange={(e)=> {
-                                    searchFilter(e.target.value , roles,(new_data)=>{
+                                    searchFilter(e.target.value , standardReply,(new_data)=>{
                                         setFilteredData(new_data)
                                         setCurrentPage(1)
                                     })
@@ -138,7 +138,7 @@ export default function StandardReply() {
                         ) : (
                             <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                         )}
-                        <button>+ New Role</button>
+                        <button>+ New Folder</button>
                     </div>
                 </div>
                 <SelectSession
@@ -194,14 +194,33 @@ export default function StandardReply() {
 
                                             </div>
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell align="left" sx={{width:"15%"}}>
                                             <span >{data.name}</span>
                                         </TableCell>
 
-                                        <TableCell align="left">
+                                        <TableCell align="left" sx={{width:"15%"}}>
+                                        {data.channel.map((item)=>{console.log(item);
+                                            return <span ><img src={`/channel_SVG/${item}.svg`} style={{width:"30px"}}/> </span>})}
+
+                                        </TableCell>
+                                        <TableCell align="left" sx={{width:"15%"}}>
+                                            <span >{data.team}</span>
 
                                         </TableCell>
 
+                                        <TableCell align="left" sx={{width:"30%",}}>
+                                            <span style={{display:"flex"}}>
+                                        {data.assignee? (
+                                            data.assignee.map((item)=>{console.log(item);
+                                            return <Tooltip key={item} className={""} title={item} placement="top-start">
+                                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14,margin:"0 5px"}} >{item.substring(0,2).toUpperCase()}</Avatar>
+                                                             </Tooltip> }))
+                                                             :
+                                                             <Tooltip key={"no"} className={""} title={"no Assignee"} placement="top-start">
+                                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14,margin:"0 5px"}} >x</Avatar>
+                                                             </Tooltip> 
+                                                             } </span>
+                                        </TableCell>
 
                                         <TableCell align="right">
                                             <span className={"right_icon_btn"}>{editSVG}</span>

@@ -231,7 +231,6 @@ export default function DashBroadFilter(props){
                                         <Tooltip key={user} className={""} title={user} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
-
                                     </div>
                                 )
                             })}
