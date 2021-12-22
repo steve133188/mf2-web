@@ -17,7 +17,7 @@ import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import { subscribeToNewMessage} from "../../src/graphql/subscriptions"
-import {Avatar} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
 

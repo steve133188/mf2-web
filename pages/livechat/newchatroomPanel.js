@@ -1,5 +1,5 @@
 import { width } from "@mui/system"
-import { Avatar } from "../../components/Icon"
+import Avatar from "@mui/material/Avatar";
 import {API, graphqlOperation} from "aws-amplify";
 import {createMF2TCOCHATROOM} from "../../src/graphql/mutations";
 import {useContext} from "react";
@@ -41,7 +41,7 @@ export default function Newchatroom(props){
                     return(
                         <div key={index} className={"contact_box "} onClick={async ()=>{await createChatroom(contact)}} >
                             <div className={"contact_icon"}>
-                                <Avatar src={contact.profile_pic_url} style={{width: '64px',height:"64px"}} alt={contact.name} />
+                                <Avatar src={contact.profile_pic_url} style={{width: '35px',height:"35px"}} alt={contact.name} />
                             </div>
                             <div className={"contact_name_ss"}>
                                 <div>{contact.name}</div>

@@ -84,6 +84,7 @@ export default function Tags() {
     };
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
+        setSelectedContacts([])
     }
 
     const toggleCreate = ()=>{
@@ -118,7 +119,7 @@ export default function Tags() {
             <InnerSidebar/>
             <CreateTag show={isCreate} reload={fetchTags} toggle={toggleCreate}/>
             <EditTag show={isEdit} reload={fetchTags} toggle={toggleEdit} tag={selectedTag}/>
-            <DeleteTag show={isDelete} reload={fetchTags} toggle={toggleDelete} tag={deleteTagname}/>
+            <DeleteTag show={isDelete} reload={fetchTags} toggle={toggleDelete} tags={deleteTagname}/>
             <MF_Modal show={false} toggle={"toggleDelete"}>
             {/* <div className={"modal_form"}>
                 <div className={"modal_title"} style={{textAlign:"center"}}>
@@ -150,11 +151,12 @@ export default function Tags() {
                         </div>
                     </div>
                     <div className={"btn_group"}>
-                        {/* {!isSelectRow ? (
+                        {!isSelectRow ? (
                             <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                         ) : (
-                            <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
-                        )} */}
+                            <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                            <button  onClick={()=>toggleDelete(selectedContacts)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button></>
+                        )}
                         <button onClick={toggleCreate}>+ New Tag</button>
                     </div>
                 </div>
@@ -227,7 +229,7 @@ export default function Tags() {
 
                                         <TableCell align="right">
                                             <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG/></span>
-                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete(data)}><DeleteSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete([data.id])}><DeleteSVG/></span>
                                         </TableCell>
                                     </TableRow>
                                 )

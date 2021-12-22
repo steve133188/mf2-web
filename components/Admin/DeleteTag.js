@@ -16,7 +16,7 @@ const style ={
     height:"2rem"
 }
 
-export default function DeleteTag({show, toggle,reload,tag}){
+export default function DeleteTag({show, toggle,reload,tags}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
@@ -27,8 +27,10 @@ export default function DeleteTag({show, toggle,reload,tag}){
     }
 
     const submit = async ()=>{
-        const status = await adminInstance.deleteTag(tag.id)
-        console.log("status",status)
+        tags.map(async(id)=>{
+            const status = await adminInstance.deleteTag(id)
+            console.log("status",status)
+        }  )
         reload()
         toggle()
     }
@@ -36,7 +38,7 @@ export default function DeleteTag({show, toggle,reload,tag}){
         <MF_Modal show={show} toggle={toggle}>
         <div className={"modal_form"}>
             <div className={"modal_title"} style={{textAlign:"center"}}>
-                <span>Delete Tag?</span>
+                <span>{`Delete ${!tags?"":tags.length} Tag?`}</span>
             </div> 
             <div className={"btn_row"}>
                 <button onClick={submit }>Confirm</button>

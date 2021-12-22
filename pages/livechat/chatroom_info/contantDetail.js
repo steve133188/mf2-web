@@ -64,8 +64,9 @@ const [selectedTags ,setSelectedTags] =useState([])
 const [filteredTags ,setFilteredTags] =useState([])
 const [selectedUsers ,setSelectedUsers] =useState([])
 const [filteredUsers ,setFilteredUsers] =useState([])
+const [contact, setContact] = useState([]);
 
-const { userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext);
+const { userInstance ,adminInstance,contactInstance ,orgInstance, user} = useContext(GlobalContext);
 
 const getTags = async ()=>{
     const data = await adminInstance.getAllTags()
@@ -76,15 +77,28 @@ const getTags = async ()=>{
 const getUsers = async ()=>{
     const data = await userInstance.getAllUser()
     // setUsers(data)
+    console.log(data,"useruser")
     setFilteredUsers(data)
+} 
+const fetchContacts = async (cid) =>{
+    const data = await contactInstance.getContactById(cid)
+    setContact(data)
+    console.log(data,"cid")
+    setSelectedTags(data.tags)
+    setSelectedUsers(data.agents)
+    console.log(data.tags)
+
 }
 useEffect(    async () => {
     if(user.token!=null) {
-
+        console.log(data,"agfdsasdf")
         await getTags()
         await getUsers()
     }
 },[]);
+useEffect(async()=>{
+    await fetchContacts(data.customer_id)
+},[data])
 
 const toggleSelectTags = e => {
     const { checked ,id} = e.target;
@@ -118,7 +132,7 @@ useEffect(()=>{
                     <div className={"keyList"} >
                         <div className={"keys"} style={{}}>Phone Number</div>
                         <div className={"keys"} style={{}}>Email</div>
-                        <div className={"keys"} style={{}}>DOB</div>
+                        <div className={"keys"} style={{}}>Birthday</div>
                         <div className={"keys"} style={{}}>Address</div>
                         <div className={"keys"} style={{}}>Country</div>
                         <div className={"keys"} style={{}}>Created Date</div>
@@ -131,12 +145,12 @@ useEffect(()=>{
                     </div>
                     <div className={"valueList"}  style={{}}>
 
-                            <div className={"values"}>{outputList[0].phone}</div>
-                            <div className={"values"}>{outputList[0].email}</div>
-                            <div className={"values"}>{outputList[0].birthday}</div>
-                            <div className={"values"}>{outputList[0].address}</div>
-                            <div className={"values"}>{outputList[0].country}</div>
-                            <div className={"values"}>{outputList[0].createdDate}</div>
+                            <div className={"values"}>{contact.phone}</div>
+                            <div className={"values"}>{contact.email}</div>
+                            <div className={"values"}>{contact.birthday}</div>
+                            <div className={"values"}>{contact.address}</div>
+                            <div className={"values"}>{contact.country}</div>
+                            <div className={"values"}>{contact.created_at}</div>
 
                     </div>
                 </div>
@@ -198,7 +212,7 @@ useEffect(()=>{
                 </div>
                     <div>Tags</div>
                 <div className={""}>
-                    <div className={"tagsGroup"}>
+                    <div className={"tagsGroup"} style={{maxWidth:"230px",height:"auto"}} >
                         <div style={{margin:"10px 5px 0 0 "}}>
                         <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)

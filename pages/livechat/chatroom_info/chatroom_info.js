@@ -15,7 +15,7 @@ export default function ChatroomInfo ({data}){
             <div className={"contact_detail"}>
                 <div className={"contact_detail_name"}>{data.name}</div>
                 <div className={"contact_detail_channel"}>{data.phone}</div>
-                <div className={"contact_detail_team"}> Team</div>
+                {/* <div className={"contact_detail_team"}> Team</div> */}
             </div>
             
             <div className={"config"}> ... </div>

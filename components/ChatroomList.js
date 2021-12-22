@@ -1,5 +1,7 @@
+import { Tooltip } from "@mui/material";
 import { NoStarSVG, StarSVG } from "../public/livechat/MF_LiveChat_Landing/chat_svg";
-import {Avatar} from "./Icon";
+
+import Avatar from "@mui/material/Avatar";
 
 
 
@@ -12,11 +14,13 @@ export default function ChatroomList({chatroom , ...props}){
         <div className={"chatroom_li "} onClick={props.onClick}>
             <div className={"starred"}  > {chatroom.is_pin?<StarSVG /> : <NoStarSVG/>}</div>
             <div className={"chatroom_icon"}>
-                <Avatar   />
+            <Tooltip key={chatroom.name} className={""} title={chatroom.name} placement="top-start">
+                    <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} >{chatroom.name.substring(1,3).toUpperCase()}</Avatar>
+                </Tooltip>
             </div>
             <div className={"chatroom_name_ss"}>
                 <div>{chatroom.name}</div>
-                <div className={"team"}>Team {chatroom.team}</div>
+                <div className={""}>Team {chatroom.team}</div>
                 {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
             </div>
             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}
