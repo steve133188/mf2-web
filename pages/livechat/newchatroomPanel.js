@@ -1,9 +1,31 @@
 import { width } from "@mui/system"
 import { Avatar } from "../../components/Icon"
+import {API, graphqlOperation} from "aws-amplify";
+import {createMF2TCOCHATROOM} from "../../src/graphql/mutations";
+import {useContext} from "react";
+import {GlobalContext} from "../../context/GlobalContext";
 
 
 export default function Newchatroom(props){
-    // console.log(props.contacts)
+    const {user} = useContext(GlobalContext)
+
+    const createChatroom = async (data)=>{
+        const user_id = parseInt(user.user.phone.replace("852",""))
+        const room_id = parseInt(data.phone.replace("852",""))
+        console.log(parseInt(user.user.phone))
+        const input = {
+            channel:"whatsapp",
+            customer_id:data.id,
+            is_pin: false,
+            name: data.name,
+            phone: data.phone,
+            room_id:room_id ,
+            unread:0 ,
+            user_id: user_id ,
+        }
+        const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input}))
+        console.log(result)
+    }
     return(
         <>
         <div className="top">
@@ -14,10 +36,10 @@ export default function Newchatroom(props){
         </div>
         <div className="">
             <div className="contactList" >
-                {props.contacts.map((contact)=>{
+                {props.contacts.map((contact, index)=>{
                     // console.log(contact)
                     return(
-                        <div className={"contact_box "} >
+                        <div key={index} className={"contact_box "} onClick={async ()=>{await createChatroom(contact)}} >
                             <div className={"contact_icon"}>
                                 <Avatar src={contact.profile_pic_url} style={{width: '64px',height:"64px"}} alt={contact.name} />
                             </div>

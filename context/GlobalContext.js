@@ -7,6 +7,7 @@ import contactsFetcher from "../helpers/contactsHelper";
 import orgFetcher from "../helpers/orgHelpers";
 import usersFetcher from "../helpers/usersHelpers";
 import WhatsappFetcher from "../helpers/messageHelper";
+import mediaHelper from "../helpers/mediaHelper";
 
 export const GlobalContext = createContext({})
 
@@ -18,10 +19,11 @@ export const GlobalContextProvider = ({children}) =>{
     const [message , setMessage] = useState([])
     const router = useRouter()
     const userInstance = usersFetcher(user.token)
+    const mediaInstance =new mediaHelper()
     const orgInstance= orgFetcher(user.token)
     const adminInstance = adminFetcher(user.token)
     const contactInstance = contactsFetcher(user.token)
-    const messageInstance =new WhatsappFetcher("https://773f-118-140-230-94.ngrok.io")
+    const messageInstance =new WhatsappFetcher("https://f125-118-140-233-2.ngrok.io")
 
     useEffect(()=>{
         setUser({
@@ -66,6 +68,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance}}>{children}</GlobalContext.Provider>
     )
 }
