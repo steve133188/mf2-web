@@ -1,6 +1,23 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const allMessage = /* GraphQL */ `
+  query AllMessage($room_id: Int!) {
+    allMessage(room_id: $room_id) {
+      items {
+        room_id
+        timestamp
+        sender
+        receiver
+        body
+        is_media
+        media_url
+        from_me
+      }
+      nextToken
+    }
+  }
+`;
 export const getMF2TCOMESSAGGE = /* GraphQL */ `
   query GetMF2TCOMESSAGGE($room_id: Int!, $timestamp: String!) {
     getMF2TCOMESSAGGE(room_id: $room_id, timestamp: $timestamp) {

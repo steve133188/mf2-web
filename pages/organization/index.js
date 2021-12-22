@@ -67,7 +67,6 @@ export default function Organization() {
     }
     const fetchRootORG = async () =>{
         const data = await orgInstance.getAllRootORG()
-        console.log("Root Org" ,data)
         set_root_org(data)
     }
     useEffect(    async () => {
@@ -145,9 +144,6 @@ export default function Organization() {
         }
         await fetchUsers()
     }
-    useEffect(()=>{
-
-    },[selectedUsers])
     const [isDelete , setIsDelete] = useState(false)
     const submitDelete = () =>{
         deleteUsers(selectedUsers);
@@ -198,7 +194,7 @@ export default function Organization() {
                         ) : (
                             <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                                 <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button>
-                                <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_delete"} onClick={()=>toggleDelete(selectedUsers)}> Delete</button></>
+                                <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button></>
 
                         )}
                         <button onClick={toggleNewTeam}>+ New Team</button>

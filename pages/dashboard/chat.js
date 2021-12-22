@@ -51,9 +51,9 @@ export default function Chat() {
     const [channels, setChannelData] = useState([] )
     useEffect(()=>{
         setChannelData(channelData)
-        setIsLoading(false);
-
     },[channelData ])
+
+
 
     useEffect(()=>{
         if(dayState.from==null||dayState.from==""){return setSelectedPeriod("Period")}
@@ -65,11 +65,17 @@ export default function Chat() {
             setSelectedPeriod(dayState.from.toLocaleDateString()+" - "+dayState.to.toLocaleDateString())}
     },[dayState])
 
+    useEffect(() => {
+        setTimeout(function() { //Start the timer
+            setIsLoading(false);
+        }.bind(this), 100)
 
+    },[]);
 
     return (
         <div className="dashboard-layout">
-            {/* {isLoading?(<Loading/> ):null} */}
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
+
             <div className="navbarPurple">
                 <div className={"left"}>
                     <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>

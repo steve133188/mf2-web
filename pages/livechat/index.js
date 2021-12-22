@@ -56,7 +56,7 @@ export default function Live_chat() {
         setReplyData(replyTemplateList)
     },[])
     let subscriptions ;
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user , messageInstance} = useContext(GlobalContext)
+    const {contactInstance ,mediaInstance, userInstance ,adminInstance ,orgInstance, user , messageInstance} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
     const [attachment , setAttachment ] = useState([])
@@ -70,7 +70,7 @@ export default function Live_chat() {
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
-        phone:"85269358633",
+        phone:"",
         message:"",
         type:"text"
     })
@@ -95,7 +95,6 @@ export default function Live_chat() {
         await fetchAttachment()
     }
     const getCustomerbyID = async (id)=>{
-
         console.log(id)
         const result = await contactInstance.getContactById(id)
         setChatUser(result.data)
@@ -171,11 +170,17 @@ export default function Live_chat() {
 
     async function handleChatRoom  (chatroom){
         setSelectedChat(chatroom)
+        console.log("selected Chat" , selectedChat)
+        const phone = selectedChat.phone
+        setTypedMsg({...typedMsg ,phone:phone})
+        console.log("typed message" , typedMsg)
+        setChatroomMsg([])
+        await getChatroomMessage(selectedChat.room_id)
         await getCustomerbyID(selectedChat.customer_id)
     }
 
     const getChatroomMessage = async()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000}))
+        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id}}}))
         console.log(result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
@@ -244,16 +249,18 @@ export default function Live_chat() {
         setIsExpand(false)
     }
     const sendMessageToClient = async (e)=>{
-        setIsExpand(false)
         e.preventDefault()
-        const data = {message:typedMsg.message , phone : typedMsg.phone ,chatroom:selectedChat.id||0}
-        console.log(data)
+        console.log("selected Chat",selectedChat)
+        const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id}
+        console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})
         const res = await messageInstance.sendTextMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
+        setIsExpand(false)
+
+        // setTimeout(async ()=>{
+        //     await getChatroomMessage()
+        //     scrollToBottom()
+        // },1500)
 
     }
     const wrapperRef = useRef();
@@ -280,20 +287,9 @@ export default function Live_chat() {
             await getUsers()
             await getTeams()
             await getChatrooms()
-            await getChatroomMessage()
+            // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
-            API.graphql(graphqlOperation(subscribeToNewMessage ,{receiver:"85260957729@c.us"} ))
-                .subscribe({
-                    next: (chatmessage)=>{
-                        console.log("chatmsg:" , chatroomMsg)
-                        const newMessage = chatmessage.value.data.subscribeToNewMessage
-                        const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
-                        console.log(newMessage)
-                        let updatedPost = [ ...chatroomMsg,newMessage ]
-                        setChatroomMsg(updatedPost)
-                        scrollToBottom()
-                    }
-                })
+
             // API.graphql(graphqlOperation(subscribeToNewMessage ,{sender:"85260957729"} ))
             //     .subscribe({
             //         next: (chatmessage)=>{
@@ -308,7 +304,20 @@ export default function Live_chat() {
             //     })
         }
     },[]);
-
+    useEffect(()=>{
+        API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:selectedChat.room_id} ))
+            .subscribe({
+                next: (chatmessage)=>{
+                    console.log("chatmsg:" , chatroomMsg)
+                    const newMessage = chatmessage.value.data.subscribeToNewMessage
+                    const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
+                    console.log(newMessage)
+                    let updatedPost = [ ...chatroomMsg,newMessage ]
+                    setChatroomMsg(updatedPost)
+                    scrollToBottom()
+                }
+            })
+    },[selectedChat])
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]
         })
@@ -403,10 +412,8 @@ export default function Live_chat() {
                                     <Newchatroom contacts={contacts} />
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
-                        {/* {filteredData.map((d , index)=>{ */}
                         {chatrooms.map((d , index)=>{
-                            
-                            return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/> </>)
+                            return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{ await handleChatRoom(d)}}/> </>)
                         })}
                     </div>
                 </div>

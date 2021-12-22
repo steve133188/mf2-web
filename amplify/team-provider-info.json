@@ -15,6 +15,12 @@
       "auth": {
         "mf2web40fac6b5": {},
         "true": {}
+      },
+      "storage": {
+        "mf2web33649254": {
+          "bucketName": "mf2-whatsapp-media",
+          "region": "ap-east-1"
+        }
       }
     }
   }
