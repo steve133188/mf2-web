@@ -41,8 +41,17 @@ export default function Organization() {
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
+    const [editName,setEditNameActive] = useState(false)
+    const [editedName,setEditedName] = useState("")
+    const nameEditConfirm=(e)=>{
 
-
+        if(editedName){
+            // fetch change name
+            console.log(editedName)
+            setEditedName("")
+        }
+        setEditNameActive(!editName)
+    }
     //filtered Data
     let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
@@ -198,9 +207,12 @@ export default function Organization() {
                     <SelectSession >
                     {/* btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)} */}
                         <div className={"team_label"}>
-                            {curr_org.name || "All"}{"(" +currentContacts.length+")"}
+                            {editName?<input type="text" className="nameEdit" onChange={e=>setEditedName(e.target.value)} placeholder={`edit... ${curr_org.name}`}></input>:(curr_org.name || "All")} {"(" +currentContacts.length+")"}
                         </div>
-                        <EditPenSVG size={16}/>
+                        <div onClick={nameEditConfirm} >
+
+                        <EditPenSVG size={18} />
+                        </div>
                     </SelectSession>
                 <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
                     <Table

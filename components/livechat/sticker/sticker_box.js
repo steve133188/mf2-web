@@ -28,7 +28,8 @@ export default function StickerBox(props){
                     aria-label="secondary tabs example"
                     variant="scrollable"
                     // sx={{padding:"8px",}}
-                    // scrollButtons="off"
+                    scrollButtons="off"
+                    // visibleScrollbar="true" 
                 >
                     {props.data.map(item=>(<Tab label={item.name} value={item.id} />))}
 

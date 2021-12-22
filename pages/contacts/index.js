@@ -122,7 +122,7 @@ export default function Contacts() {
     }
     const renderChannels=() => {
         return selectedChannel!=-1&&selectedChannel.map((channel)=>{
-            return<div><img style={{width:'18px',margin:'3px'}}src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/${channel}.svg`} /></div>
+            return<div><img style={{width:'18px',margin:'3px'}}src={`/channel_SVG/${channel}.svg`} /></div>
         })
     }
     const getTags = async ()=>{
@@ -513,10 +513,10 @@ export default function Contacts() {
                                     <TableCell align="left">
                                         { data.channels!=null && data.channels.map((chan , index)=>{
                                             // return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
-                                            return(<img key={index} width="24px" height="24px" src={`/livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} alt=""/>)
+                                            return(<img key={index} width="24px" height="24px" src={`/channel_SVG/Whatsapp.svg`} alt=""/>)
                                         })}
                                         {
-                                        data.channels == null?  (<div style={{paddingLeft:20}}><img key={index} width="24px" height="24px" src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} alt=""/></div>):""
+                                        data.channels == null?  (<div style={{paddingLeft:20}}><img key={index} width="24px" height="24px" src={`/channel_SVG/Whatsapp.svg`} alt=""/></div>):""
                                      }
                                     </TableCell>
 

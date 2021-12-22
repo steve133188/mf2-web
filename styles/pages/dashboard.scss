@@ -126,7 +126,9 @@
       }
     }
   }
-} .filter_box{
+} 
+.filter_box{
+  z-index: 135;
   padding: 0.5rem;
   margin:0 0.5rem;
   &.active{

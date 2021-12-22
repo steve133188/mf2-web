@@ -7,8 +7,8 @@ export default function ChannelListItem(  props){
     return(<>
         <div className={"channelListitem"}>
                         <div className={"left"}>
-                        <img className={"serachSVG"} src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/${props.value}.svg`} />
-                        <div style={{margin:"0 5px"}}> {props.name}</div>
+                        <img className={"serachSVG"} src={`/channel_SVG/${props.value}.svg`} />
+                        <div style={{margin:"0 5px", width:"100%"}}> {props.name}</div>
                         </div>
                         <div className={"right"}>
                         {/* <label className={"status_box"}>

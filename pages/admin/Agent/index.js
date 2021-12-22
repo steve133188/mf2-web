@@ -22,7 +22,7 @@ import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdownform from "../../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../../components/mf_dropdown_select";
-import searchFilter from "../../../helpers/searchFilter";
+import searchUsernameFilter from "../../../helpers/searchUsernameFilter";
 import {InnerSidebar} from "../../../components/InnerSidebar";
 import * as React from "react";
 import EditAgent from "./editAgent";
@@ -160,7 +160,7 @@ export default function Index() {
                                 name={"keyword"}
                                 ref={searchRef}
                                 onChange={(e)=> {
-                                    searchFilter(e.target.value , users,(new_data)=>{
+                                    searchUsernameFilter(e.target.value , roles,(new_data)=>{
                                         setFilteredData(new_data)
                                         setCurrentPage(1)
                                     })

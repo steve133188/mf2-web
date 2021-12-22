@@ -13,26 +13,25 @@ export function Card_channel(props) {
     }
     return (
         <div className="card_channel_layout">
-            <div className="card_channel"  onClick={props.onclick}>
-                <div className="connect_group" id={props.channelID}>
-                    <img
-                        src={props.src} width="40px" height="40px" alt=""/>
-                    <label className="tickSVG" onClick={toggle} id={props.channelID} style={{
+            <div className="card_channel"  >
+                <div className="connect_group" >
+                    <img src={props.src} width="40px" height="40px" alt=""/>
+                    <label className="tickSVG" id={props.channelID} onClick={props.onclick}  style={{
                         display:  "block"
                     }}>
-                        <Button id="connectedBtn" variant="outlined" style={{
+                        <Button  onClick={toggle} variant={props.state?"outlined":""} style={{
                             borderRadius: "10px",
                             paddingLeft: "1rem",
-                            color: "white",
-                            background: "#2198FA"
+                            color:"white",
+                            background: props.state? "#2198FA":"#E6E9EA"
                         }}
                                 disabled={props.disabled}
 
                         >
-                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1}}/>{props.state?"Connected":"Connect"}
+                            <CheckCircleIcon sx={{fontSize: 15.4, marginRight: 1,display:props.state?"block":"none"}}/>{props.state?"Connected":"Connect"}
                         </Button>
                             <label className="tickBroad" onClick={toggle} style={{
-                                display:  showMe ? "block":"none"
+                                display:  props.state&& showMe ? "block":"none"
                             }}>
                                 <Button id="refreshToken" variant="outlined" style={{
                                     borderRadius: "10px",
@@ -70,7 +69,7 @@ export function Card_channel(props) {
                 </div>
                 <div className="information_group">
                     <span>{props.name}</span>
-                    <p>{showMe ? "Connected " : "Connect "} to {props.name} </p>
+                    <p>{props.state ? "Connected " : "Connect "} to {props.name} </p>
                 </div>
             </div>
         </div>

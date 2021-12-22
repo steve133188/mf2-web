@@ -161,10 +161,10 @@ useEffect(()=>{
                                 })}
                             </div>
                         </div> */}
-                <div className={"tagsGroup"}>
-                    <p>Assignee</p>
-                    <div className={"tagsGroup"}>
-                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={"1"} >
+                    <div>Assignee</div>
+                <div className={""}>
+                    <div className={"tagsGroup"} style={{margin:"10px 0"}}>
+                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start",width:"fit-content",margin:"10px 0"}}  spacing={"-5"} >
                             {selectedUsers &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
@@ -174,10 +174,9 @@ useEffect(()=>{
                                 )
                             })}
 
-                        </AvatarGroup>
-
                         <Mf_circle_btn handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
                             setFilteredUsers(new_data)
+
                         })}} >
                             {filteredUsers&&filteredUsers.map((user)=>{
                                 return(<li key={user.username}>
@@ -194,14 +193,13 @@ useEffect(()=>{
                                 </li>)
                             })}
                         </Mf_circle_btn>
+                        </AvatarGroup>
                     </div>
                 </div>
-                <div className={"tagsGroup"}>
-                    <p>Tags</p>
+                    <div>Tags</div>
+                <div className={""}>
                     <div className={"tagsGroup"}>
-                        {selectedTags!=-1&&selectedTags.map((tag)=>{
-                            return<Pill key={tag} color="vip">{tag}</Pill>
-                        })}
+                        <div style={{margin:"10px 5px 0 0 "}}>
                         <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
@@ -213,6 +211,10 @@ useEffect(()=>{
                                         </label> </div></li>)
                             })}
                         </Mf_circle_btn>
+                        </div>
+                            {selectedTags!=-1&&selectedTags.map((tag)=>{
+                                return<Pill key={tag} color="vip">{tag}</Pill>
+                            })}
 
                     </div>
                 </div>
@@ -234,7 +236,7 @@ useEffect(()=>{
 
                     {/* eslint-disable-next-line react/no-unescaped-entities */}
                 </div>
-            
+                <div className={""} style={{maxHeight:"50vh",overflowY:"scroll"}}>
                     {notes.map((note)=>{
                         return (
                             <div key={note.id}>
@@ -256,13 +258,15 @@ useEffect(()=>{
 
                                 </div>
 
+                                
                                     <div className={"message_box"}>
                                         <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>{note.content}</div>
                                     </div>
-
+                                
 
                             </div>)
                                 })}
+                </div>
             </div>
         </>
 

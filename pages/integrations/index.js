@@ -25,20 +25,21 @@ export default function Integrations() {
 
     const [showMe, setShowMe] = useState(false);
     const toggleHandeler = (e) =>{
-        console.log(e.target)
-        console.log(e.target.id)
-        console.log("activeChannel")
-        setActiveChannel(channelList.filter((item)=>{console.log(item);return item.channelID==e.target.id}))
+        // console.log(e.target)
+        // console.log(e.target.id)
+        // console.log("activeChannel")
+        setActiveChannel(channelList.filter((item)=>{if(!item.connectState){return item.channelID==e.target.id}}))
         setValue(e.target.id)
         console.log(activeChannel)
         
+        
     }
     useEffect(()=>{
-       if( activeChannel.length>0 ){ setShowMe(!showMe) };
-    },[activeChannel])
-    useEffect(()=>{
         setAllChannel(channelList)
-    },[])
+        },[])
+    useEffect(()=>{
+        if( activeChannel.length>0 ){ setShowMe(!showMe) };
+        },[activeChannel])
     const connectStateChange = () =>{
             allChannel.map((channel)=>{ 
                 if(channel.channelID==e.target.id){
@@ -66,9 +67,9 @@ export default function Integrations() {
                     <div className="cardChannelGroup">
                         <h1  >Channels</h1>
                         <div className="row cardContainer">
-                            <Card_channel src="MF_Channel_Facebook/Group 5165.svg" disabled={true} name="WhatsApp Business API"  channelID={channelList[1].channelID}  onclick={toggleHandeler} />
-                            <Card_channel src="Group 5167.svg" disabled={true} name="WeChat"  channelID={channelList[2].channelID}  onclick={toggleHandeler}  />
-                            <Card_channel src="messageCheck.svg" disabled={true} name="Facebook Messager" channelID="messager" onclick={toggleHandeler} />
+                            <Card_channel src="/channel_SVG/WhatsappB.svg" disabled={true} name="WhatsApp Business API"  channelID={channelList[1].channelID}  onclick={toggleHandeler} />
+                            <Card_channel src="/channel_SVG/Wechat.svg" disabled={!channelList[2].connectState} name="WeChat"  channelID={channelList[2].channelID}  onclick={toggleHandeler} state={channelList[2].connectState} disconnect={connectStateChange} />
+                            <Card_channel src="/channel_SVG/Messager.svg" disabled={true} name="Facebook Messager" channelID="messager" onclick={toggleHandeler} />
                             <Card_channel src="MF_Channel_Facebook/Mask Group 48.svg" disabled={true} name="Line"/>
                             <Card_channel src="MF_Channel_Facebook/Mask Group 51.svg" disabled={true} name="Signal"/>
                             <Card_channel src="MF_Channel_Facebook/Mask Group 50.svg" disabled={true} name="Telegram"/>

@@ -39,7 +39,7 @@ export default function Live_chat() {
         {id:"dsfa",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
     
         ]
-        const replyTemplateList = [
+    const replyTemplateList = [
             {id:4,name:"Questioning",set:[{name:"First meet",content:"What can i help you?"},{name:"Follow up",content:"That's great. Let me introduce you our service."}]},
             {id:1,name:"Greating",set:[{name:"Morning",content:"Good morning, have a nice day!"}]},
             {id:2,name:"Merry Chrismax",set:[{name:"Set1",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"},{name:"Set2",content:"Merry Christmas, and may all your Christmases be white!!!"}]},
@@ -396,7 +396,7 @@ export default function Live_chat() {
                             <AddButtonSVG c={"#f5f6f8"} />
                             </div>
                     </div>
-                        <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none"}}>
+                        <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
                              <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={setSelectedChannel}/>
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
@@ -405,7 +405,7 @@ export default function Live_chat() {
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
                         {/* {filteredData.map((d , index)=>{ */}
                         {chatrooms.map((d , index)=>{
-
+                            
                             return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={()=>{handleChatRoom(d)}}/> </>)
                         })}
                     </div>

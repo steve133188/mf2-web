@@ -17,6 +17,7 @@
     .newCheckboxContainer {
       margin-bottom: 12px;
       // margin-left: 5px;
+      cursor: pointer;
     }
     .checkboxContainer {
       position: relative;
@@ -231,6 +232,7 @@
   }
 
   .newCheckboxLabel {
+    cursor: pointer;
     font-family: system-ui, sans-serif;
     font-weight: bold;
     line-height: 1.1;
@@ -255,6 +257,7 @@
     margin-top: 1em;
   }
   input[type="checkbox"] {
+    cursor: pointer;
     /* ...existing styles */
     display: grid;
     place-content: center;
@@ -265,6 +268,8 @@
   }
 
   input[type="checkbox"]::before {
+
+    // cursor: pointer;
     content: "";
     width: 17px;
     height: 17px;

@@ -268,3 +268,18 @@ a {
 .loading{
 
 }
+svg{
+  cursor: pointer;
+}
+.nameEdit{
+  background-color: transparent;
+  border:0;
+  color:#000;
+  border-bottom: 2px dotted #2198FA ;
+  &::placeholder{
+    color: #2198FA;
+  }
+  &:focus-visible{
+    outline:0;
+  }
+}

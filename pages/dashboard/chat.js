@@ -69,7 +69,7 @@ export default function Chat() {
 
     return (
         <div className="dashboard-layout">
-            {isLoading?(<Loading/> ):null}
+            {/* {isLoading?(<Loading/> ):null} */}
             <div className="navbarPurple">
                 <div className={"left"}>
                     <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>

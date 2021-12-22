@@ -9,16 +9,20 @@ import Avatar from "@mui/material/Avatar";
 import { Pill } from "../../../../components/Pill";
 import { AvatarGroup } from "@mui/material";
 import { getThemeProps } from "@mui/system";
-
+import DropDown from "../../../../components/filter/teamDropDown";
+import DivisionDropDown from "../../../../components/filter/divisionDropDown";
 
 export default function ChatlistFilter(props){
     const channelData = [
-        // {apiName:"All Channel",value:"All",id:0},
-                {apiName:"WhastApp",value:"Whatsapp",id:1},
-                {apiName:"WhatsApp Business",value:"WhatsappB",id:2},
-                {apiName:"Messager",value:"Messager",id:3},
-                {apiName:"WeChat",value:"Wechat",id:4},];
-
+        // {name:"All Channel",value:"All",id:0},
+                {name:"WhastApp",value:"Whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WhatsappB",id:2},
+                {name:"Messager",value:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",id:4},];
+    const Division=[
+                    {id:1,name:"Hong Kong",teams:[{id:1,name:"A"},{id:2,name:"B"}]},
+                    {id:2,name:"Macau",teams:[{id:1,name:"A"},{id:2,name:"C"}]},
+                ]
 
     const [selectedUsers ,setSelectedUsers] =useState([]);
     const [selectedTags ,setSelectedTags] =useState([])
@@ -134,7 +138,7 @@ export default function ChatlistFilter(props){
     }
 
     return(
-         <div><div className={"filter_title"}>Filter</div>
+         <div className={""} style={{width:"92%",height: "90%",maxHeight: "97vh"}}><div className={"filter_title"}>Filter</div>
                 <div className={"filter_box_status"}  >
                     <div className={"status_box"}>
                         <div className="newCheckboxContainer">
@@ -164,9 +168,12 @@ export default function ChatlistFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.apiName} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
+                        {channelData.map((e)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>
+
+
+                        {/* <DropDown data={"teamsList"}/> */}
 
                 <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
@@ -176,6 +183,7 @@ export default function ChatlistFilter(props){
                          <div className={"search_bar"}>    
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>
+                        <DivisionDropDown data={Division}  />
                     
 
                         <div className={"channelList"} >
