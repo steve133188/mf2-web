@@ -33,6 +33,21 @@ const style ={
     width:"100%",
     height:"2rem"
 }
+const AuthList = [  {title:"Dashboard",name:"dashboard"},
+                    {title:"Contact",name:"contact"},
+                    {title:"Boardcast",name:"boardcast"},
+                    {title:"Integrations",name:"integrations"},
+                    {title:"Admin",name:"admin"},
+                    {title:"Livechat",name:"livechat"},
+                    {title:"Product",name:"product"},
+                    {title:"Flowbuilder",name:"flowbuilder"},
+                    {title:"Organization",name:"organization"},]
+const channelData = [
+    // name:"WhastApp",value:"All",channelID:"All",id:0},
+            {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+            {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+            {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+            {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
 export default function CreateRole({show, toggle ,reload}){
 
@@ -47,7 +62,13 @@ export default function CreateRole({show, toggle ,reload}){
         integrations: false,
         product_catalogue: false,
         organization: false,
-        admin: false
+        admin: false,
+        Whatsapp: false,
+        WhatsappB: false,
+        Wechat: false,
+        Messager: false,
+
+        
     })
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
 
@@ -90,76 +111,42 @@ export default function CreateRole({show, toggle ,reload}){
                 </div>
 
 
-                <div className={"access_right"}>
                     <div className="inputField">
                         <span>Access Right</span>
                     </div>
-                       <div className={"select_row"}>
-                           <div className={"select_item"}> <div className="newCheckboxContainer">
-                               <label className="newCheckboxLabel">
-                                   <input type="checkbox"  name={"dashboard"} value={authority.dashboard} checked={authority.dashboard} onChange={handleSelect} />
-                               </label>
-                               <span>Dashboard</span>
-                           </div></div>
-                           <div > <div className="newCheckboxContainer">
-                               <label className="newCheckboxLabel">
-                                   <input type="checkbox"  name={"livechat"} value={authority.livechat} checked={authority.livechat} onChange={handleSelect} />
-                               </label>
-                               <span>livechat</span>
-                           </div></div>
-                       </div>
-                    <div className={"select_row"}>
-                        <div className={"select_item"}> <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel">
-                                <input type="checkbox"  name={"contact"} value={authority.contact} checked={authority.contact} onChange={handleSelect} />
-                            </label>
-                            <span>contact</span>
-                        </div></div>
-                        <div > <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel">
-                                <input type="checkbox"  name={"product_catalogue"} value={authority.product_catalogue} checked={authority.product_catalogue} onChange={handleSelect} />
-                            </label>
-                            <span>product</span>
-                        </div></div>
-                    </div>
-                    <div className={"select_row"}>
-                    <div className={"select_item"}> <div className="newCheckboxContainer">
-                        <label className="newCheckboxLabel">
-                            <input type="checkbox"  name={"boardcast"} value={authority.boardcast} checked={authority.boardcast} onChange={handleSelect} />
-                        </label>
-                        <span>boardcast</span>
-                    </div></div>
-                    <div > <div className="newCheckboxContainer">
-                        <label className="newCheckboxLabel">
-                            <input type="checkbox"  name={"flowbuilder"} value={authority.flowbuilder} checked={authority.flowbuilder} onChange={handleSelect} />
-                        </label>
-                        <span>flowbuilder</span>
-                    </div></div>
-                </div>
-                    <div className={"select_row"}>
-                        <div className={"select_item"}> <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel">
-                                <input type="checkbox"  name={"integrations"} value={authority.integrations} checked={authority.integrations} onChange={handleSelect} />
-                            </label>
-                            <span>integrations</span>
-                        </div></div>
-                        <div > <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel">
-                                <input type="checkbox"  name={"organization"} value={authority.organization} checked={authority.organization} onChange={handleSelect} />
-                            </label>
-                            <span>organization</span>
-                        </div></div>
-                    </div>
-                    <div className={"select_row"}>
-                        <div className={"select_item"}> <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel">
-                                <input type="checkbox"  name={"admin"} value={authority.admin} checked={authority.admin} onChange={handleSelect} />
-                            </label>
-                            <span>admin</span>
-                        </div></div>
+                <div className={"access_right"}>
 
+                    {AuthList.map(item=>{return<>
+                    <div className={"select_item"}> 
+                        <div className="newCheckboxContainer">
+                                <label className="newCheckboxLabel">
+                                    <input type="checkbox"  name={item.name} value={authority[item.name]} checked={authority[item.name]} onChange={handleSelect} />
+                                </label>
+                                <span>{item.title}</span>
+                        </div>
                     </div>
-                   </div>
+                    </>})}
+                            
+                </div>
+                    {/*  */}
+
+                    <div className="inputField">
+                            <span>Channels</span>
+                        </div>
+                    <div className={"access_right"}>
+
+                        {channelData.map(item=>{return<>
+                        <div className={"select_item"} style={{width:"fit-content"}}> 
+                            <div className="newCheckboxContainer">
+                                    <label className="newCheckboxLabel">
+                                        <input type="checkbox"  name={item.value} value={authority[item.value]} checked={authority[item.value]} onChange={handleSelect} />
+                                    </label>
+                                    <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>
+                                    <span>{item.name}</span>
+                            </div>
+                        </div>
+                        </>})}
+                    </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
                     <button className={"cancel_btn"} onClick={toggle}>Cancel</button>

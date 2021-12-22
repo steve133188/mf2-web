@@ -115,7 +115,7 @@ export default function Index() {
 
 
 
-    const default_cols = ['Name' , 'Role' ,'Email' , "Phone" , "No. Of Leads"]
+    const default_cols = ['Name','Role','Email' , "Phone" , "No. Of Leads",""]
 
     const editSVG =(
         <svg id="pen" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
