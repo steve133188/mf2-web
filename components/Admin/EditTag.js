@@ -45,11 +45,13 @@ export default function EditTag({show, toggle,reload,tag}){
     }
 
     const submit = async ()=>{
-        console.log("status",tag.id)
-        const status = await adminInstance.updateTag(tag.id,name)
+        const data={...tag,tag:name}
+        console.log(data,"data")
+        const status = await adminInstance.updateTag(data)
         console.log("status",status)
         reload()
         toggle()
+        setName("")
     }
     return(
         <MF_Modal show={show} toggle={toggle}>

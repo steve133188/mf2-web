@@ -30,6 +30,7 @@ import MF_Modal from "../../components/MF_Modal";
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 import CreateTag from "../../components/Admin/CreateTag";
 import EditTag from "../../components/Admin/EditTag";
+import DeleteTag from "../../components/Admin/DeleteTag";
 
 export default function Tags() {
 
@@ -85,26 +86,25 @@ export default function Tags() {
         setIsSelectRow(!isSelectRow)
     }
 
-   const deleteTag= async (id)=>{
-        const res = await adminInstance.deleteTag(id)
-        console.log(res)
-        await fetchTags()
-    }
     const toggleCreate = ()=>{
         setIsCreate(!isCreate)
     }
-    const toggleEdit = (id,tag)=>{
+    const toggleEdit = (data)=>{
         setIsEdit(!isEdit)
-        setSelectedTag({id,tag})
+        setSelectedTag(data)
         console.log(selectedTag,"tagtagtag")
-        
     }
-    const toggleDelete = (name)=>{
+    const toggleDelete = (data)=>{
         setIsDelete(!isDelete)
-        setDeleteTag(name)
-
+        setDeleteTag(data)
     }
-    const [deleteTagname,setDeleteTag] = useState("")
+    const [deleteTagname,setDeleteTag] = useState([])
+    // const deleteTag= async (id)=>{
+    //     const deleteItem = {data:[id]}
+    //     const res = await adminInstance.deleteTag(deleteItem )
+    //     console.log(res)
+    //     await fetchTags()
+    // }
     const submitDelete = () =>{
         deleteTag(deleteTagname);
 
@@ -118,8 +118,9 @@ export default function Tags() {
             <InnerSidebar/>
             <CreateTag show={isCreate} reload={fetchTags} toggle={toggleCreate}/>
             <EditTag show={isEdit} reload={fetchTags} toggle={toggleEdit} tag={selectedTag}/>
-            <MF_Modal show={isDelete} toggle={toggleDelete}>
-            <div className={"modal_form"}>
+            <DeleteTag show={isDelete} reload={fetchTags} toggle={toggleDelete} tag={deleteTagname}/>
+            <MF_Modal show={false} toggle={"toggleDelete"}>
+            {/* <div className={"modal_form"}>
                 <div className={"modal_title"} style={{textAlign:"center"}}>
                     <span>Delete Tag?</span>
                 </div> 
@@ -127,7 +128,7 @@ export default function Tags() {
                     <button onClick={submitDelete }>Confirm</button>
                     <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>
                 </div>
-            </div>
+            </div> */}
         </MF_Modal>
             <div className="rightContent">
                 <div className={"search_session"}>
@@ -225,8 +226,8 @@ export default function Tags() {
 
 
                                         <TableCell align="right">
-                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.id,data.tag)}><EditSVG/></span>
-                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.tag)}><DeleteSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete(data)}><DeleteSVG/></span>
                                         </TableCell>
                                     </TableRow>
                                 )

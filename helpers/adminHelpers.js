@@ -45,11 +45,11 @@ export default function adminFetcher(token){
     instance.addTag = async (data) =>{
         return(await instance.fetcher.post(`/tag`,data)).statusText
     }
-    instance.updateTag = async (id,tag)=>{
-        return (await instance.fetcher.put(`/tag`,{id,tag})).statusText
+    instance.updateTag = async (data)=>{
+        return (await instance.fetcher.put(`/tag`,data)).statusText
     }
-    instance.deleteTag = async (tag_name)=>{
-        return (await instance.fetcher.delete(`/tag/${tag_name}`)).statusText
+    instance.deleteTag = async (id)=>{
+        return (await instance.fetcher.delete(`/tag/id/${id}`)).statusText
     }
     instance.createStandardReply = async (data) =>{
         return(await instance.fetcher.post(`/reply`,data)).statusText

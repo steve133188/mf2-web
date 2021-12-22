@@ -27,6 +27,7 @@ import {getAllContacts} from "../../helpers/contactsHelper"
 import {getAllStandardReply} from "../../helpers/adminHelpers";
 import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
+import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 
 export default function StandardReply() {
 
@@ -78,11 +79,33 @@ export default function StandardReply() {
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
+    const toggleCreate = ()=>{
+        setIsCreate(!isCreate)
+    }
+    const toggleEdit = (id,tag)=>{
+        setIsEdit(!isEdit)
+        setSelectedTag({id,tag})
+        console.log(selectedTag,"tagtagtag")
+    }
+    const toggleDelete = (name)=>{
+        setIsDelete(!isDelete)
+        setDeleteTag(name)
+    }
+    const [deleteTagname,setDeleteTag] = useState("")
+    const deleteTag= async (id)=>{
+        const res = await adminInstance.deleteTag(id)
+        console.log(res)
+        await fetchTags()
+    }
+    const submitDelete = () =>{
+        deleteTag(deleteTagname);
+
+        setIsDelete(!isDelete)
+    }
 
 
 
-
-    const default_cols = ['Folder' , 'Channel' ,'Team','Assignee']
+    const default_cols = ['Folder' , 'Channel' ,'Team','Assignee',""]
 
     const editSVG =(
         <svg id="pen" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
@@ -200,7 +223,7 @@ export default function StandardReply() {
 
                                         <TableCell align="left" sx={{width:"15%"}}>
                                         {data.channel.map((item)=>{console.log(item);
-                                            return <span ><img src={`/channel_SVG/${item}.svg`} style={{width:"30px"}}/> </span>})}
+                                            return <span ><img src={`/channel_SVG/${item}.svg`} style={{width:"20px"}}/> </span>})}
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
@@ -223,9 +246,9 @@ export default function StandardReply() {
                                         </TableCell>
 
                                         <TableCell align="right">
-                                            <span className={"right_icon_btn"}>{editSVG}</span>
-                                            <span className={"right_icon_btn"}>{deleteSVG}</span>
-                                        </TableCell>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.id,data.name)}><EditSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.id)}><DeleteSVG/></span>
+                                       </TableCell>
                                     </TableRow>
                                 )
                             })}
