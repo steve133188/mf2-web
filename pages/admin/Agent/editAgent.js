@@ -9,7 +9,7 @@ import FilterDropDown from "../../../components/broadcast/filterDropDown";
 
 export default function EditAgent(props){
     const router = useRouter()
-    const {user ,userInstance,orgInstance ,adminInstance} =useContext(GlobalContext)
+    const {user ,userInstance,orgInstance ,adminInstance,contactInstance} =useContext(GlobalContext)
     const [userCredential , setUserCredential] = useState({
         username:"",
         email:"",
@@ -31,7 +31,7 @@ export default function EditAgent(props){
     const [roles , setRoles] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
-    const submit = async (name)=>{
+    const submit = async (phone)=>{
         const data = {
             username:userCredential.username,
             email:userCredential.email,
@@ -41,7 +41,7 @@ export default function EditAgent(props){
             role:selectedRole.name
         }
         console.log("payload",data)
-        const res = await userInstance.updateUser(name,data )
+        const res = await userInstance.updateUser(phone,data )
         console.log("res :",res)
         if(res == 201) router.back()
     }
@@ -49,8 +49,13 @@ export default function EditAgent(props){
         const data = await userInstance.getAllUser()
         console.log(data)
         setAgent((data.filter((data)=>{return (data.phone==id)}))[0])
+        console.log(agent,"i am Agent")
         // setRoles(data)
     }
+    useEffect(async()=>{
+        setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,phone:agent.phone,role:agent.role})
+      
+    },[agent])
     const fetchRoles = async () =>{
         const data = await adminInstance.getAllRoles()
         setRoles(data)
@@ -114,25 +119,29 @@ export default function EditAgent(props){
             </div>
             <div className={"add_user_session"}>
                 <div className="form_row">
-                    <MF_Input name={"restPassword"}  value={userCredential.password} onChange={handleChange} title="Reset Password"/>
-                    <MF_Input name={"confirmPassword"}  value={userCredential.confirm_password} onChange={handleChange} title="Confirm Password"/>
+                    <MF_Input name={"restPassword"} type={"password"} value={userCredential.password} onChange={handleChange} title="Reset Password"/>
+                    <MF_Input name={"confirmPassword"} type={"password"} value={userCredential.confirm_password} onChange={handleChange} title="Confirm Password"/>
                 </div>
             </div>
             <div className={"add_user_session"}>
                 <div className={"add_user_select"}>
-                    <span className={"select_input_label"}>Team</span>
+                    <div className="">
+                        <span className={"select_input_label"}>Team</span>
 
-                    {/* <div className={"chatlist_filter_box"} style={{width:"370px",display:"flex",backgroundColor:"transparent",justifyContent:"center",padding:"0px 10px 0 10px",borderRadius:"15px"}}>
-                        <FilterDropDown title={""} subtitle={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setSearchValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={searchValue} />
-                    </div> */}
-                    <MF_Select className={"select_input"} head={"Team"} top_head={selectedTeam.name?selectedTeam.name:"Team"}
-                           customeDropdown={true}>
-                    {teams.map((team)=>{
-                        return(<li id={team.name} key={team.id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
-                    })}
-                </MF_Select>
+                        {/* <div className={"chatlist_filter_box"} style={{width:"370px",display:"flex",backgroundColor:"transparent",justifyContent:"center",padding:"0px 10px 0 10px",borderRadius:"15px"}}>
+                            <FilterDropDown title={""} subtitle={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setSearchValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={searchValue} />
+                        </div> */}
+                        <MF_Select className={"select_input"} head={"Team"} top_head={selectedTeam.name?selectedTeam.name:"Team"}
+                            customeDropdown={true}>
+                        {teams.map((team)=>{
+                            return(<li id={team.name} key={team.id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
+                        })}
+                    </MF_Select>
+                    </div>
                 </div>
                 <div className={"add_user_select"}>
+
+                <div className="">
                     <span className={"select_input_label"}>Role</span>
                     <MF_Select className={"select_input"} head={"Role"} top_head={selectedRole.name?selectedRole.name:"Role"}
                            customeDropdown={true}>
@@ -140,6 +149,7 @@ export default function EditAgent(props){
                         return(<li id={role.name} key={role.id} onClick={ (e)=>{setSelectedRole(role);}}> {role.name}</li>)
                     })}
                 </MF_Select>
+                </div>
                 </div>
             </div>
             <div className={"add_user_session"}>

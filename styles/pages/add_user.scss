@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 2rem 3rem;
+  overflow-y: scroll;
   .title {
     padding: 1rem;
     text-align: left;
@@ -98,16 +99,18 @@
   justify-content: space-around;
   gap: 50px;
   border-bottom: 2px solid #F3F3F5;
+  // width: 70%;
   .form_row {
     display: flex;
     flex-direction: row;
     gap: 50px;
-    width: 100%;
+    width: 60vw;
   }
-}
+  
 .add_user_select{
   display: flex;
   flex-direction: column;
+  width: 50%;
   .select_input_label{
     text-align: left;
     font: normal normal normal 12px/17px Manrope;
@@ -120,6 +123,8 @@
     border-radius: 10px;
     opacity: 1;
   }
+
+}
 }
 .submit_row{
   display: flex;
@@ -150,12 +155,15 @@
 }
 
 .chat_access_right{
+  width: 40vw;
+  min-width: 700px;
   .session_label{
     padding: 0 1rem;
     text-align: left;
     font: normal normal normal 12px/17px Manrope;
     letter-spacing: 0px;
     color: #444444;
+   
   }
   .chat_access_right_form{
     display: flex;
@@ -163,7 +171,7 @@
     .chat_access_right_form_row{
       display: flex;
       flex-direction: row;
-      padding:0.5rem 25% 0.5rem 0.5rem;
+      padding:0.5rem 3rem 0.5rem 0.5rem;
       gap:50px;
       .channel_name{
         display: flex;
@@ -188,6 +196,7 @@
             font: normal normal normal 16px/22px Manrope;
             letter-spacing: 0px;
             color: #495057;
+            min-width: 130px;
           }
         }
       }

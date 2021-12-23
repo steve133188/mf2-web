@@ -126,14 +126,14 @@ export function LineChartCard({children,...props}) {
     })
     return (
         <div className="lineChartCard">
-            <div className={"lineChartCardTitle"}>Number of {props.title}</div>
+            <div className={"lineChartCardTitle"}>{props.title}</div>
             <div className={"contentGroup"}>
                 <div className={"dataGroup"}>
                     <div className={"number"}>50</div>
                     <div className={"changingPercentagePos"}>+ 25%</div>
                 </div>
                 <Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} hidden={props.chart?!props.chart:true} />
-                <img key={"id"} width="24px" height="24px" src={`/channel_SVG/${props.channel}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
+                <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${props.channel}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
             </div>
         </div>
     )

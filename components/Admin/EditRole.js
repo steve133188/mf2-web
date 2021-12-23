@@ -35,11 +35,11 @@ const style ={
 }
 const AuthList = [  {title:"Dashboard",name:"dashboard"},
                     {title:"Contact",name:"contact"},
-                    {title:"Boardcast",name:"boardcast"},
+                    {title:"Broadcast",name:"broadcast"},
                     {title:"Integrations",name:"integrations"},
                     {title:"Admin",name:"admin"},
                     {title:"Livechat",name:"livechat"},
-                    {title:"Product",name:"product"},
+                    {title:"Product",name:"product_catalogue"},
                     {title:"Flowbuilder",name:"flowbuilder"},
                     {title:"Organization",name:"organization"},]
 const channelData = [
@@ -58,7 +58,7 @@ export default function EditRole({show, toggle ,reload,role}){
         dashboard: false,
         livechat: false,
         contact: false,
-        boardcast: false,
+        broadcast: false,
         flowbuilder: false,
         integrations: false,
         product_catalogue: false,
@@ -71,13 +71,22 @@ export default function EditRole({show, toggle ,reload,role}){
     })
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
    
+    // useEffect(()=>{
+    //     setAuthority(role.auth)
+    //     console.log(authority,"edit role page")
+    // },[authority])
     useEffect(()=>{
-        console.log(role,"edit role page")
-        // setAuthority(role.auth)
-    },[role])
+        if(!show)return
+        show?console.log(role.auth,"dfasdfsd"):"";
+        setAuthority(role.auth)
+
+        setRoleName(role.name)
+    },[show])
+
     const handleSelect =e=>{
 
         const {name ,value ,checked} = e.target
+        console.log(name,"name Key")
         console.log(value)
 
         setAuthority({
@@ -97,11 +106,29 @@ export default function EditRole({show, toggle ,reload,role}){
     }
     const submit = async ()=>{
         console.log({name:roleName,auth: {...authority}})
-        const res = await adminInstance.updateRole(role.name,{name:roleName,auth: {authority}})
+        const res = await adminInstance.updateRole(role.name,{name:roleName,auth: authority})
         console.log(res)
         reload()
         toggle()
     }
+    const clearData = ()=>{
+        setAuthority({  dashboard: false,
+            livechat: false,
+            contact: false,
+            broadcast: false,
+            flowbuilder: false,
+            integrations: false,
+            product_catalogue: false,
+            organization: false,
+            admin: false,
+            Whatsapp: false,
+            WhatsappB: false,
+            Wechat: false,
+            Messager: false,});
+            toggle();
+    }
+
+    
     return(
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
@@ -110,7 +137,7 @@ export default function EditRole({show, toggle ,reload,role}){
                 </div>
                 <div className="inputField">
                     <span>Role Name</span>
-                    <MF_Input onChange={handleChange}/>
+                    <MF_Input value={roleName} onChange={handleChange}/>
                 </div>
 
 
@@ -150,7 +177,7 @@ export default function EditRole({show, toggle ,reload,role}){
                     </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
-                    <button className={"cancel_btn"} onClick={toggle}>Cancel</button>
+                    <button className={"cancel_btn"} onClick={clearData}>Cancel</button>
                 </div>
             </div>
         </MF_Modal>

@@ -16,6 +16,7 @@ export default function ProfileGrid({data}){
     const [writenote,setWritenote] = useState("")
     const [useContact , setUseContact] = useState()
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
+    const [assingedContacts, setAssingedContacts] = useState([])
     useEffect(()=>{
 
         setNotes(notesData)
@@ -29,8 +30,13 @@ export default function ProfileGrid({data}){
         setIsEditProfileShow(!isEditProfileShow)
     }
     const fetchContacts = async () =>{
-        const data = await contactInstance.getAllContacts()
-        // setContacts(data)
+        const contactsdata = await contactInstance.getAllContacts()
+
+        console.log(contactsdata,"contactssss")
+        const assigned = contactsdata.filter(c=>c.agents.includes(data.username))
+        console.log(assigned,"contactssss")
+
+        setAssingedContacts(assigned)
         // setFilteredData(data)
     }
     const [log , setLog]  = useState([])

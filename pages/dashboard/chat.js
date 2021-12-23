@@ -2,11 +2,11 @@ import {LineChart, MultipleLineChart} from "../../components/LineChart";
 import {LabelSelect2, SingleSelect2} from "../../components/Select";
 // import {EnhancedTable3} from "../../components/EnhancedTable3";
 import {BigChangingPercentageCard, LineChartCard} from "../../components/Cards";
-import * as React from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {Checkbox} from "../../components/Checkbox";
 import {Pill} from "../../components/Pill";
 import {useContext, useEffect, useState} from "react";
+import {GlobalContext} from "../../context/GlobalContext";
 import MF_Select from "../../components/MF_Select";
 import Helmet from 'react-helmet';
 import DayPicker, { DateUtils } from 'react-day-picker';
@@ -16,11 +16,13 @@ import Loading from "../../components/Loading";
 
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
-
-
-    const [open, setOpen] = React.useState(false);
-
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+   
+    const [contacts, setContacts] = useState([]);
+    const [tags, setTags] =useState([])
+    const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
+
     const handleClickAway = () => {
         setOpen(false);
     };
@@ -40,8 +42,23 @@ export default function Chat() {
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
       setDayState(range);
-    }
+    } 
+    const getTags = async ()=>{
+        const data = await adminInstance.getAllTags()
+        setTags(data)
+        console.log(data,"tagsss")
+        // setFilteredTags(data)
 
+    }
+    const fetchContacts = async () =>{
+        const data = await contactInstance.getAllContacts()
+        setContacts(data)
+        // setFilteredData(data)
+    }
+    useEffect(async ()=>{
+        await fetchContacts();
+        await getTags();
+    },[])
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
                 {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
@@ -167,12 +184,12 @@ export default function Chat() {
                 <div className="lineCardGroup1">
                     <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
 
-                    {
-                        channelData.map((data)=>{
-                          return  <LineChartCard title={"Channel"} chart={false} img={true} d={data} channel={data.channelID} />
-
+                    <div className={"card_holder"}>
+                    {channelData.map((data)=>{
+                            return  <LineChartCard  title={data.name} chart={false} img={true} d={data} channel={data.channelID} />       
                         })
                     }
+                        </div>
 
                     {/* <AverageDailyCard/> */}
                 </div>
@@ -196,6 +213,16 @@ export default function Chat() {
                 </div>
                 <div className="dashboardRow">
                     <div className="tableSet">
+                    <div className={"half_session block_session"}>
+                        <div className={"top_row"}><span className={"title"}>Tags</span></div>
+                            <div className={"session_content"}>
+                            {tags.map((tag , indexc)=>{return <div >
+                                <div>{tag.tag}</div>
+                                <Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>
+                            </div>})}
+                        </div>
+                    </div>
+
                         {/*<div className="dashboardColumn" style={{width: "55%"}}><EnhancedTable3/></div>*/}
                     </div>
                 </div>

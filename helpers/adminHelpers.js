@@ -22,14 +22,12 @@ export default function adminFetcher(token){
     instance.getRolesName = async ()=>{
         return (await instance.fetcher.get(`/roles-name`)).data
     }
-
     instance.createRole = async (data)=>{
         console.log(data,"testing createRole")
         return (await instance.fetcher.post(`/role` ,data)).statusText
     }
-    
-    instance.updateRole = async (name,data)=>{
-        console.log(name,data,"edit roleee")
+    instance.updateRole = async (data)=>{
+        console.log(data,"edit role console")
         return (await instance.fetcher.put(`/role`,data)).statusText
     }
     instance.deleteRole = async (role_name)=>{

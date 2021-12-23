@@ -11,7 +11,7 @@ export default function ChatroomInfo ({data}){
     return (
     <div className={"chatroom_info"}>
         <div className={"contact_card"}>
-            <div className={"profile_pic"}><Avatar  alt="" sx={{ width: 100, height: 100 }}/></div>
+            <div className={"profile_pic"}><Avatar  alt={data.name} src={data.img_url} sx={{ width: 100, height: 100 }}/></div>
             <div className={"contact_detail"}>
                 <div className={"contact_detail_name"}>{data.name}</div>
                 <div className={"contact_detail_channel"}>{data.phone}</div>

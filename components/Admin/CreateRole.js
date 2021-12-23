@@ -35,11 +35,11 @@ const style ={
 }
 const AuthList = [  {title:"Dashboard",name:"dashboard"},
                     {title:"Contact",name:"contact"},
-                    {title:"Boardcast",name:"boardcast"},
+                    {title:"Boardcast",name:"broadcast"},
                     {title:"Integrations",name:"integrations"},
                     {title:"Admin",name:"admin"},
                     {title:"Livechat",name:"livechat"},
-                    {title:"Product",name:"product"},
+                    {title:"Product",name:"product_catalogue"},
                     {title:"Flowbuilder",name:"flowbuilder"},
                     {title:"Organization",name:"organization"},]
 const channelData = [
@@ -57,7 +57,7 @@ export default function CreateRole({show, toggle ,reload}){
         dashboard: false,
         livechat: false,
         contact: false,
-        boardcast: false,
+        broadcast: false,
         flowbuilder: false,
         integrations: false,
         product_catalogue: false,
@@ -94,7 +94,7 @@ export default function CreateRole({show, toggle ,reload}){
     }
     const submit = async ()=>{
         console.log({name:roleName,auth: {...authority}})
-        const res = await adminInstance.createRole({name:roleName,auth: {authority}})
+        const res = await adminInstance.createRole({name:roleName,auth: authority})
         console.log(res)
         reload()
         toggle()
