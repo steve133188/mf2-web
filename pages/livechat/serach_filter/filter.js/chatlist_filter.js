@@ -37,25 +37,25 @@ export default function ChatlistFilter(props){
     const [agentSearchValue, setAgentValue]= useState("")
 
 
-                const advanceFilter =()=>{
-                    setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
-                    console.log("filter",filter)
-                    const agentFiltered = contacts.filter(data=>{
-                        if(selectedUsers.length==0){
-                            return data
-                        }
-                        return data.agents.some(el=>selectedUsers.includes(el))
-                    })
-                    console.log("agent:",agentFiltered)
-                    const tagFiltered = agentFiltered.filter(data=>{
-                        if(selectedTags.length ==0){
-                            return data
-                        }
-                        return data.tags.some(el=>selectedTags.includes(el))
-                    })
-                    console.log("tagFiltered:",tagFiltered)
+                // const advanceFilter =()=>{
+                //     setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
+                //     console.log("filter",filter)
+                //     const agentFiltered = contacts.filter(data=>{
+                //         if(selectedUsers.length==0){
+                //             return data
+                //         }
+                //         return data.agents.some(el=>selectedUsers.includes(el))
+                //     })
+                //     console.log("agent:",agentFiltered)
+                //     const tagFiltered = agentFiltered.filter(data=>{
+                //         if(selectedTags.length ==0){
+                //             return data
+                //         }
+                //         return data.tags.some(el=>selectedTags.includes(el))
+                //     })
+                //     console.log("tagFiltered:",tagFiltered)
 
-                }
+                // }
 
 
                 const getTags = async ()=>{
@@ -93,14 +93,10 @@ export default function ChatlistFilter(props){
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
-        // console.log(selectedUsers)
-        // console.log("id")
-        // console.log(id)
-        // console.log(filteredUsers)
-        // console.log("filteredUsers")
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
+        props.agents(e)
         console.log(selectedUsers)
     };
     const toggleSelectTags = e => {
@@ -109,17 +105,29 @@ export default function ChatlistFilter(props){
         if (!checked) {
             setSelectedTags(selectedTags.filter(item => item !== id));
         }
+        props.tag(e)
         console.log(selectedTags)
     };
     const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
-
         setSelectedChannels([...selectedChannels, id]);
         if (!checked) {
             setSelectedChannels(selectedChannels.filter(item => item !== id));
         }
-        // console.log(selectedChannels)
+        props.channel(e)
+        console.log(selectedChannels)
     };
+    const handelConfirm = ()=>{
+        props.click();
+        props.confirm();
+    }
+    const handelCancel = ()=>{
+        props.click();
+        props.cancel();
+        setSelectedUsers([])
+        setSelectedChannels([])
+        setSelectedTags([])
+    }
     
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
@@ -168,7 +176,7 @@ export default function ChatlistFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
+                        {channelData.map((e)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>
 
@@ -183,7 +191,7 @@ export default function ChatlistFilter(props){
                          <div className={"search_bar"}>    
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>
-                        <DivisionDropDown data={Division}  />
+                        {/* <DivisionDropDown data={Division}  /> */}
                     
 
                         <div className={"channelList"} >
@@ -207,8 +215,6 @@ export default function ChatlistFilter(props){
                     <div className={"taglList"}>
                         {selectedUsers.map((user)=>{
                                 return(
-
-
                                     <div className={"tag"} style={{display:"flex" ,gap:10}}>
                                         <Tooltip key={user} className={""} title={user} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
@@ -239,8 +245,8 @@ export default function ChatlistFilter(props){
 
                 <div className="confirm_btn_set">
 
-                    <button className={"confirmButton"}  onClick={props.click}  color="neutral">Confirm</button>
-                    <button className={"cancelButton"} onClick={props.click} >Cancel</button>
+                    <button className={"confirmButton"}  onClick={handelConfirm}  color="neutral">Confirm</button>
+                    <button className={"cancelButton"} onClick={handelCancel} >Cancel</button>
                 </div>
          </div>
     )

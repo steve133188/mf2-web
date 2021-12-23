@@ -1,5 +1,15 @@
-export default function ConnectFacebookMessager(){
+import { useEffect, useState } from "react"
 
+export default function ConnectFacebookMessager(){
+    useEffect(()=>{
+        // if(!props.fetchData){return}
+        console.log(props.fetchdata,"fetching~");
+        fetchData()
+    },[props.fetchdata])
+    const fetchData = ()=>{
+    
+        console.log("connect FB")
+    }
 
     return(<>
     <div className="intergra_container">

@@ -1,5 +1,17 @@
-export default function ConnectWhatsapp(){
+import { useEffect, useState } from "react"
 
+
+export default function ConnectWhatsapp(){
+    useEffect(()=>{
+        // if(!props.fetchData){return}
+        console.log(props.fetchdata,"fetching~");
+        fetchData()
+    },[props.fetchdata])
+
+    const fetchData = ()=>{
+    
+        console.log("connect whatsapp ")
+    }
 
     return(<>
     <div className="intergra_container">

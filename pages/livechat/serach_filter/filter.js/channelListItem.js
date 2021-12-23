@@ -20,6 +20,7 @@ export default function ChannelListItem(  props){
                                         <label className="newCheckboxLabel"> 
                                         <input type="checkbox" 
                                                 id={props.value} 
+                                                value={props.value} 
                                                 name="checkbox" 
                                                 checked={props.checked} 
                                                 onClick={props.onclick} 

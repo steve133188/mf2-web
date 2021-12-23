@@ -11,6 +11,10 @@ export function Card_channel(props) {
     function toggle(){
         setShowMe(!showMe);
     }
+    const handelDisconnect = (e)=>{
+        // props.state
+        props.disconnect(e)
+    }
     return (
         <div className="card_channel_layout">
             <div className="card_channel"  >
@@ -47,7 +51,7 @@ export function Card_channel(props) {
                                     // color: "white",
                                     background:"transparent",
                                 }}>
-                                    <RemoveCircleIcon  sx={{fontSize: 15.4, marginRight: 1}} style={{fill:"#fc736a"}}/><div onClick={props.state}>disconnect</div>
+                                    <RemoveCircleIcon sx={{fontSize: 15.4, marginRight: 1}} style={{fill:"#fc736a"}}/><div id={props.channelID}  onClick={handelDisconnect}>disconnect</div>
                                 </Button>
                             </label>
                     </label>

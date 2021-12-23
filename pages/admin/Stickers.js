@@ -228,7 +228,7 @@ export default function Stickers() {
                                                 })
                                                 }
                                                 <div className={"add_sticker"} id={data.id} onClick={toggleDropzone}>
-                                                    <AddStickerSVG size={128}/>
+                                                    <AddStickerSVG size={80}/>
                                                     <span style={{display: isShowDropzone ? "block" : "none"}}>
                                                         {/*DND Import Data start */}
                                                         <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>

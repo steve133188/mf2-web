@@ -74,6 +74,7 @@ export default function Contacts() {
             }
             return data.tags.some(el=>selectedTags.includes(el))
         })
+        console.log(selectedTags)
         console.log("tagFiltered:",tagFiltered)
 
         const channelFiltered = tagFiltered.filter(data=>{

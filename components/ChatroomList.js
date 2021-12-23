@@ -20,7 +20,7 @@ export default function ChatroomList({chatroom , ...props}){
             </div>
             <div className={"chatroom_name_ss"}>
                 <div>{chatroom.name}</div>
-                <div className={""}>Team {chatroom.team}</div>
+                {/* <div className={""}>Team {chatroom.team}</div> */}
                 {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
             </div>
             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}

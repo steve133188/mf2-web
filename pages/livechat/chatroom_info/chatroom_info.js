@@ -24,8 +24,8 @@ export default function ChatroomInfo ({data}){
         <div className={"tabs_field"}>
             <div className={"tabs_row"}>
            
-                <div className={"tab " + (tabActive == "info"?"active":"") } onClick={()=>{setTabAcive("info")}}>info</div>
-                <div className={"tab "+ (tabActive == "note"?"active":"")} onClick={()=>{setTabAcive("note")}}>note</div>
+                <div className={"tab " + (tabActive == "info"?"active":"") } onClick={()=>{setTabAcive("info")}}>Info</div>
+                <div className={"tab "+ (tabActive == "note"?"active":"")} onClick={()=>{setTabAcive("note")}}>Note</div>
             </div>
             <div className={"contact_content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
 

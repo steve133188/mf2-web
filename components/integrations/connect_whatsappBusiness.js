@@ -1,17 +1,26 @@
-import { useState } from "react"
 
-export default function ConnectWhatsappBiss(){
+
+export default function ConnectWhatsappBiss(props){
 const [stellaData,setStellaData] = useState({url:"",namespace:"",accid:"",authCode:"",channelid:"",wsnumber:"",server:"",token:"",serverUsername:"",serverPassword:"",})
 const [twilloData,setTwilloData] = useState({url:"",sid:"",token:"",wsnumber:"",})
 const [tab,setTab] = useState("stella")
 
 // const stellaQuestion = [url:"URL",namespace:"Namespace",accid:"Account ID",authCode:"Stella Authorization Code",channelid:"Stella Whatsapp Channel ID",wsnumber:"WhatsApp Number",server:"Stella Whatsapp Server",token:"Stella Server Auth Token",serverUsername:"Stella Server Username",serverPassword:"Stella Server Password",]
+useEffect(()=>{
+    // if(!props.fetchData){return}
+    console.log(props.fetchdata,"fetching~");
+    fetchData()
+},[props.fetchdata])
+const fetchData = ()=>{
+
+    console.log("connect whatsapp Business",tab=="stella"?stellaData:twilloData)
+}
 
     return(<>
     <div className="intergra_container">
         <div>
             {/* <img src="intergration/testmedia/qrcode-ws.png"/> */}
-            <button onClick={()=>setTab("stella")}>
+            <button onClick={()=>setTab("stella")} >
             Stella API
             </button>
             <button onClick={()=>setTab("twillo")}>
@@ -20,7 +29,7 @@ const [tab,setTab] = useState("stella")
 
         </div>
         <form className="login_form" id="wechat_form" >
-            <div className={"stella_login"} style={{display:tab=="stella"?"block":"none"}}>
+            <div clas sName={"stella_login"} style={{display:tab=="stella"?"block":"none"}}>
                     <div className={"form_item"}>
                     <p>Get pageAccessToken and verification code with following steps:</p>
                     </div>

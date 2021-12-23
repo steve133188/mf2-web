@@ -100,17 +100,8 @@ export default function Tags() {
         setDeleteTag(data)
     }
     const [deleteTagname,setDeleteTag] = useState([])
-    // const deleteTag= async (id)=>{
-    //     const deleteItem = {data:[id]}
-    //     const res = await adminInstance.deleteTag(deleteItem )
-    //     console.log(res)
-    //     await fetchTags()
-    // }
-    const submitDelete = () =>{
-        deleteTag(deleteTagname);
 
-        setIsDelete(!isDelete)
-    }
+
     const default_cols = ['Tag' , 'Created' ,'Last Updated ']
 
 
@@ -121,15 +112,7 @@ export default function Tags() {
             <EditTag show={isEdit} reload={fetchTags} toggle={toggleEdit} tag={selectedTag}/>
             <DeleteTag show={isDelete} reload={fetchTags} toggle={toggleDelete} tags={deleteTagname}/>
             <MF_Modal show={false} toggle={"toggleDelete"}>
-            {/* <div className={"modal_form"}>
-                <div className={"modal_title"} style={{textAlign:"center"}}>
-                    <span>Delete Tag?</span>
-                </div> 
-                <div className={"btn_row"}>
-                    <button onClick={submitDelete }>Confirm</button>
-                    <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>
-                </div>
-            </div> */}
+
         </MF_Modal>
             <div className="rightContent">
                 <div className={"search_session"}>

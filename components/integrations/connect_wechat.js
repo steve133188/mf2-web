@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react"
 
-export default function ConnectWeChat(){
+export default function ConnectWeChat(props){
     const [wechatData,setWechatData] = useState({developerAcc:"",id:"",secret:"",token:""})
 useEffect(()=>{
     console.log(wechatData)
 },[wechatData])
+useEffect(()=>{
+    console.log(props.fetchdata,"fetching~");
+    fetchData()
+},[props.fetchdata])
+const fetchData = ()=>{
+
+    console.log("connect wechat",wechatData)
+}
+
     return(<>
     <div className="intergra_container">
         <div>

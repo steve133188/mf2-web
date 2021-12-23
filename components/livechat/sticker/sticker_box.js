@@ -36,9 +36,9 @@ export default function StickerBox(props){
 
                 </Tabs>
             </Box>
-                    {props.data.map(item=>(
+                    {props.data.map((item,index)=>(
                     <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={item.name}>
-                        {item.sticker.map(item=>(<img src={item.src} key={item.name} style={{width:"80px",margin:"3px"}} onClick={props.stickerSend} />))}
+                        {item.sticker.map(item=>(<img src={item.src} key={item.name+index} style={{width:"80px",margin:"3px"}} onClick={props.stickerSend} />))}
                     </TabPanel>))}
             {/* <TabPanel value="2">Item Two</TabPanel>
             <TabPanel value="3">Item Three</TabPanel> */}

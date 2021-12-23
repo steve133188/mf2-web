@@ -20,23 +20,15 @@ import { subscribeToNewMessage} from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
+import searchFilter from "../../helpers/searchFilter";
 
 export default function Live_chat() {
 
-    const teamdata = [{name:"TeamA",id:"A"},{name:"TeamB",id:"B"},{name:"TeamC",id:"C"}]
     const stickersList = [
         {id:"1",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
-        {id:"123",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
         {id:"232",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
         {id:"weq",name:"sticker_set_3",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
         {id:"va",name:"bobby",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"fsavav",name:"siumi2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"fs",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
-        {id:"adsv",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"as",name:"bobby",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"sdf",name:"siumi2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"sdf2",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
-        {id:"dsfa",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
     
         ]
     const replyTemplateList = [
@@ -78,6 +70,7 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
         setChatrooms([...result.data.listMF2TCOCHATROOMS.items])
+       
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -106,8 +99,8 @@ export default function Live_chat() {
     const [selectedTags ,setSelectedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [chatUser , setChatUser] = useState({})
-    const [selectedTeams ,setSelectedTeams] =useState("")
-    const [selectedChannel ,setSelectedChannel] =useState([])
+    const [selectedTeams ,setSelectedTeams] =useState([])
+    const [selectedChannels ,setSelectedChannels] =useState([]);
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
@@ -129,7 +122,6 @@ export default function Live_chat() {
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
-        setFilteredData(data)
         console.log(data)
     }
 
@@ -151,24 +143,15 @@ export default function Live_chat() {
     }
 
     const messagesSearchRef = useRef()
-
-    const scrollToMSG = () => {
-        messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})
-    }
-    useEffect(()=>{
-        scrollToMSG(),[chatboxSearch]
-    })
-
+    const scrollToMSG = () => {messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})}
+    useEffect(()=>{scrollToMSG(),[chatboxSearch]})
     //////Chatroom End Point
     const messagesEndRef = useRef()
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})
-    }
-    useEffect(()=>{
-        scrollToBottom(),[chatrecord]
-    })///////
+    const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
+    useEffect(()=>{scrollToBottom(),[chatrecord]})
+    ///////
 
-    async function handleChatRoom  (chatroom){
+    async function handleChatRoom(chatroom){
         setSelectedChat(chatroom)
         console.log("selected Chat" , selectedChat)
         const phone = selectedChat.phone
@@ -191,7 +174,6 @@ export default function Live_chat() {
     //     console.log(chatrooms)
     //     console.log(selectedTeams)
     // } , [selectedTeams])
-
 
     const toggleSticker = () =>{
         setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
@@ -221,8 +203,6 @@ export default function Live_chat() {
 
     }
     
-    const [emojied,setEmoji] = useState("")
-    
     const attachFile = useRef()
     const fileAttach = () =>{
         attachFile.current.click();
@@ -237,7 +217,7 @@ export default function Live_chat() {
     const stickerSend =  async (e)=>{
         console.log(e.target)
         e.preventDefault();
-        const data = {message:e.target.src , phone : typedMsg.phone ,chatroom:selectedChat.id,type:"sticker"||0}
+        const data = {message:e.target.src , phone : typedMsg.phone ,chatroom_id:selectedChat.id,type:"sticker"||0}
         console.log(data);
         setTypedMsg({...typedMsg , message: ""})
         const res = await messageInstance.sendTextMessage(data)
@@ -318,37 +298,48 @@ export default function Live_chat() {
                 }
             })
     },[selectedChat])
+
+    
+    useEffect(()=>{
+        setFilteredData(chatrooms)
+        console.log(chatrooms,"chatroms strart")
+    },[chatrooms])
+
     const advanceFilter =()=>{
-        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]
+        setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]
         })
         console.log("filter",filter)
 
-        const agentFiltered = contacts.filter(data=>{
-            if(selectedUsers.length==0){
+        const channelFiltered = chatrooms.filter(data=>{
+            if(selectedChannels.length ==0){
                 return data
             }
-            return data.agents.some(el=>selectedUsers.includes(el))
+            return selectedChannels.includes(data.channel)
         })
-        console.log("agent:",agentFiltered)
-
-        const tagFiltered = agentFiltered.filter(data=>{
-            if(selectedTags.length ==0){
-                return data
-            }
-            return data.tags.some(el=>selectedTags.includes(el))
-        })
-        console.log("tagFiltered:",tagFiltered)
-
-        const channelFiltered = tagFiltered.filter(data=>{
-            if(selectedChannel.length ==0){
-                return data
-            }
-            return data.channels.some(el=>selectedChannel.includes(el))
-        })
+        console.log(selectedChannels)
         console.log("channelFiltered:",channelFiltered)
+        console.log(selectedUsers)
 
-        const teamFiltered = tagFiltered.filter(data=>{
-            if(selectedTeams.trim() ==""){
+        // const agentFiltered = channelFiltered.filter(data=>{
+        //     if(selectedUsers.length==0){
+        //         return data
+        //     }
+        //     return data.agents.some(el=>selectedUsers.includes(el))
+        // })
+        // console.log("agent:",agentFiltered)
+
+        // const tagFiltered = agentFiltered.filter(data=>{
+        //     if(selectedTags.length ==0){
+        //         return data
+        //     }
+        //     return data.tags.some(el=>selectedTags.includes(el))
+        // })
+        // console.log("tagFiltered:",tagFiltered)
+
+
+        // const teamFiltered = tagFiltered.filter(data=>{
+        const teamFiltered = channelFiltered.filter(data=>{
+            if(selectedTeams.length ==0){
                 return data
             }
             return data.team==selectedTeams
@@ -357,8 +348,39 @@ export default function Live_chat() {
         setFilteredData([...teamFiltered])
     }
 
-
-
+    const toggleSelectChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels([...selectedChannels, id.toLowerCase()]);
+        if (!checked) {
+            setSelectedChannels(selectedChannels.filter(item => item !== id.toLowerCase()));
+        }
+    };
+    const toggleSelectUsers = e => {
+        const { checked ,id} = e.target;
+        setSelectedUsers([...selectedUsers, id]);
+        if (!checked) {
+            setSelectedUsers(selectedUsers.filter(item => item !== id));
+        }
+        console.log(selectedUsers)
+    };
+    const toggleSelectTags = e => {
+        const { checked ,id} = e.target;
+        setSelectedTags([...selectedTags, id]);
+        if (!checked) {
+            setSelectedTags(selectedTags.filter(item => item !== id));
+        }
+        console.log(selectedTags)
+    };
+    const clear=()=>{
+        setSelectedUsers([])
+        setSelectedChannels([])
+        setSelectedTags([])
+        setSelectedTeams([])
+    }
+    useEffect(()=>{
+        advanceFilter
+        console.log(filteredData,"filteredData")
+    },[filteredData])
     return (
         <div className="live_chat_layout">
             <div className={"chat_list"}>
@@ -373,7 +395,11 @@ export default function Live_chat() {
                                             className={"mf_input mf_bg_light_grey"}
                                             // type={type}
                                             // value={state}
-                                            // onChange={handleChange}
+                                            onChange={(e)=> {
+                                                searchFilter(e.target.value , chatrooms,(new_data)=>{
+                                                    setFilteredData(new_data)
+                                                })
+                                            }}
                                             placeholder={"Search"}
                                         />
                                     {/* <Livechat/> */}
@@ -406,13 +432,13 @@ export default function Live_chat() {
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={setSelectedChannel}/>
+                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear} agents={toggleSelectUsers} />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} />
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
-                        {chatrooms.map((d , index)=>{
+                        {filteredData.map((d , index)=>{
                             return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{ await handleChatRoom(d)}}/> </>)
                         })}
                     </div>
@@ -434,7 +460,7 @@ export default function Live_chat() {
                         {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
                         <Avatar src={ null} alt="icon" />
                         <div className={"chatroom_name"}>{selectedChat.name}</div>
-                        <div className={"chatroom_channel"}>{selectedChat.channel}</div>
+                        <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
                         <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} ><ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
@@ -461,8 +487,6 @@ export default function Live_chat() {
 
                     <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block")}} ></textarea>
                     <Picker  onSelect={(emoji)=> {
-                        setEmoji(emoji);
-                        console.log(emoji)
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
                         <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleSticker }>
