@@ -336,20 +336,13 @@ export default function Contacts() {
         setDeleteID(id);
         setIsOpenConfirmation(true)
     };
-    const confirm = () => {
-        removeContact(deleteID);
-        setDeleteID();
+    const closeConfitmation = () => {
         setIsOpenConfirmation(false)
-
-    };
-    const cancel = () => {
-        setIsOpenConfirmation(false)
-
     };
 
     return (
         <div className={styles.layout} >
-            {isOpenConfirmation?(<CancelConfirmation  onConfirm={confirm} onCancel={cancel} />):null}
+            {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>

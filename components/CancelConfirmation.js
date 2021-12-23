@@ -1,12 +1,16 @@
 import * as React from "react";
 
 export default function NotificationList({notification , ...props}){
-    const {onConfirm, onCancel} = props;
+    const {onConfirm, data,onClose} = props;
+    //onConfirm is the function to call when confirm
+    //data is the varible that onConfirm needed(item.id)
+    //onClose will set isOpenConfirmation to false
     const handleConfirm= () => {
-        onConfirm();
+        onConfirm(data);
+        onClose();
     };
     const handleCancel = () => {
-        onCancel();
+        onClose();
     };
     return(
         <div className="popup">
