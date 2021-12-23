@@ -3,7 +3,7 @@ import {useDropzone} from 'react-dropzone';
 import {NormalButton, NormalButton2, CancelButton} from './Button';
 
 export function ImportDropzone({children,...props}) {
-    const {  onClose } = props;
+    // const {  onClose } = props;
     const {
         getRootProps,
         getInputProps,
@@ -85,7 +85,7 @@ export function ImportDropzone({children,...props}) {
                     <span>Import Contacts</span>
                     <div className="buttonGrp">
                         <button disabled={acceptedFiles.length==0?true:false}  onClick={handleUpload}>Confirm</button>
-                        <span style={{marginLeft: "30px"}} onClick={onClose}><CancelButton>Cancel</CancelButton></span>
+                        <span style={{marginLeft: "30px"}} onClick={props.onClose}><CancelButton>Cancel</CancelButton></span>
                     </div>
                 </div>
                 <div {...getRootProps({style})}>

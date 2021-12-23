@@ -3,11 +3,9 @@ export const MaskGroup1 = () => {
 
         <svg  width="24.139" height="24.139" viewBox="0 0 24.139 24.139">
         <defs>
-            {/* <clipPath id="clip-path-m1">
-            <rect id="Background" width="24.139" height="24.139" transform="translate(2643 1126)" fill="none"/>
-            </clipPath> */}
+
         </defs>
-        <g id="Mask_Group_1" data-name="Mask Group 1" transform="translate(-2643 -1126)" clip-path="url(#clip-path-m1)">
+        <g id="Mask_Group_1" data-name="Mask Group 1" transform="translate(-2643 -1126)" >
             <rect id="Background-2" data-name="Background" width="24.139" height="24.139" transform="translate(2643 1126)" fill="none"/>
             <path id="Path_34254" data-name="Path 34254" d="M20.079,10,10,20.079A10.079,10.079,0,1,0,20.079,10Zm-.84,3.215V14.2a5.039,5.039,0,0,1-5.04,5.04h-.984Zm.84,15.263a8.409,8.409,0,0,1-8.352-7.559H14.2A6.719,6.719,0,0,0,20.919,14.2V11.727a8.4,8.4,0,0,1-.84,16.751Z" transform="translate(2635 1118)" />
         </g>
@@ -152,9 +150,7 @@ export const TagButtonSVG = () => {
 
       <svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" viewBox="0 0 25 25">
             <defs>
-                {/* <clipPath id="clip-path">
-                    <rect id="Background" width="18" height="18" fill="none"/>
-                </clipPath> */}
+
             </defs>
             <g id="trash-alt">
                 <g id="Group_5689" data-name="Group 5689" transform="translate(9.749 -2.748) rotate(45)">
@@ -173,7 +169,7 @@ export const EditPenButtonSVG = (props) => {
 
         </defs>
         <rect id="Background-2" data-name="Background" width="18" height="18" fill="none"/>
-        <g id="pen-2" data-name="pen" clipPath="url(#clip-path)">
+        <g id="pen-2" data-name="pen" >
             <path id="Shape" d="M3.971,15H.75A.751.751,0,0,1,0,14.25V11.07a.749.749,0,0,1,.218-.533l8.2-8.2L10.537.218A.749.749,0,0,1,11.067,0h.007A.749.749,0,0,1,11.6.218l3.18,3.18A.746.746,0,0,1,15,3.93l-.053.037a.52.52,0,0,1,0,.105.749.749,0,0,1,0,.18.89.89,0,0,1-.165.247l-2.13,2.085L4.5,14.783A.753.753,0,0,1,3.971,15ZM8.948,3.93h0L1.5,11.378V13.5H3.623L11.07,6.053,8.948,3.93ZM11.07,1.815,10.005,2.873,12.128,5,13.185,3.93,11.07,1.815Z" transform="translate(1.5 1.5)" fill={props.c}/>
         </g>
     </svg>
@@ -227,7 +223,7 @@ export const NoStarSVG= () => {
   <g id="noun_Star_1594176" transform="translate(-29.43 -30.6)">
     <g id="Group_5317" data-name="Group 5317" transform="translate(29.936 31.1)">
       <g id="Group_5316" data-name="Group 5316" transform="translate(0 0)">
-        <path id="Path_34344" data-name="Path 34344" d="M36.816,42.966a.765.765,0,0,1,.64,0l3.29,1.73c.7.369,1.16.033,1.027-.746l-.628-3.663a.765.765,0,0,1,.2-.609L44,37.083c.567-.553.39-1.093-.392-1.207l-3.678-.534a.765.765,0,0,1-.518-.376L37.77,31.633c-.35-.71-.919-.709-1.269,0l-1.645,3.333a.765.765,0,0,1-.518.376l-3.678.534c-.784.114-.958.655-.392,1.207l2.662,2.594a.765.765,0,0,1,.2.609L32.5,43.95c-.134.781.327,1.114,1.027.746Z" transform="translate(-29.936 -31.1)" fill="none" stroke="#e5e7ec" stroke-width="1"/>
+        <path id="Path_34344" data-name="Path 34344" d="M36.816,42.966a.765.765,0,0,1,.64,0l3.29,1.73c.7.369,1.16.033,1.027-.746l-.628-3.663a.765.765,0,0,1,.2-.609L44,37.083c.567-.553.39-1.093-.392-1.207l-3.678-.534a.765.765,0,0,1-.518-.376L37.77,31.633c-.35-.71-.919-.709-1.269,0l-1.645,3.333a.765.765,0,0,1-.518.376l-3.678.534c-.784.114-.958.655-.392,1.207l2.662,2.594a.765.765,0,0,1,.2.609L32.5,43.95c-.134.781.327,1.114,1.027.746Z" transform="translate(-29.936 -31.1)" fill="none" stroke="#e5e7ec"  strokeWidth="1"/>
       </g>
     </g>
   </g>

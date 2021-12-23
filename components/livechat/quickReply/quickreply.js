@@ -30,7 +30,7 @@ export default function QuickReply(props) {
                     variant="scrollable"
                     // scrollButtons="off"
                 >
-                    {props.data.map(item=>(<Tab label={item.name} value={item.id} />))}
+                    {props.data.map(item=>(<Tab label={item.name} key={item.name} value={item.id} />))}
 
 
                 </Tabs>
