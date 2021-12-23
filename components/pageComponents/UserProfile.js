@@ -3,18 +3,34 @@ import Avatar from "@mui/material/Avatar";
 import {AvatarGroup} from "@mui/lab";
 import {Tooltip} from "@mui/material";
 import {Pill} from "../Pill";
+import Profile from "../profile";
+import EditAgent from "../../pages/admin/Agent/editAgent";
 
 export default function UserProfileGrid({data}){
 
     const [log , setLog]  = useState([])
+    const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     useEffect(()=>{
         //    fetch log by customer_id
         //    fetch assignee by customer_id
         //    fetch team by customer_id
     },[])
+
+    const toggleEdit = ()=>{
+      console.log(data)
+        toggleEditProfile(data)
+    }   
+    const toggleEditProfile =async (key) =>{
+        if(!isEditProfileShow) 
+        // setUseUser(key);
+        if(isEditProfileShow) ;
+        setIsEditProfileShow(!isEditProfileShow)
+    }
     return(<div className={"user_profile_grid"}>
+         {isEditProfileShow?  ( <Profile handleClose={toggleEditProfile}><EditAgent data={data.phone} toggle={toggleEditProfile}/></Profile>):null}
+
         <div className={"info_col grid_box"}>
-            <span className={"dot"} >...</span>
+            <span className={"dot"} onClick={toggleEdit } >...</span>
             <div className={"ava_block"}>
                 <Avatar className={"ava"} src={data.img_url} alt="profile pic"/>
                 <span className={"title"}>{data.username}</span>

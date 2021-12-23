@@ -80,8 +80,9 @@ export default function usersFetcher(token){
     instance.deleteUserTeam = async (team_id)=>{
         return (await instance.fetcher.put(`/delete-user-team/${team_id}` )).statusText
     }
-    instance.updateUser = async (data)=>{
-        return (await instance.fetcher.put(`/name` , data )).statusText
+    instance.updateUser = async (name,data)=>{
+        console.log(name,'hhhh',data,"dataaaa")
+        return (await instance.fetcher.put(`/phone/${name}` , {...data,data} )).statusText
     }
     instance.updateUserChannelInfo = async (data)=>{
         return (await instance.fetcher.put(`/chanInfo` , data )).statusText

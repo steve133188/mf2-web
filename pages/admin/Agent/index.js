@@ -101,7 +101,7 @@ export default function Index() {
         if (selectedUsers.length!=1){
             return
         }
-        console.log(selectedUsers)
+        console.log(selectedUsers,"0000")
         toggleEditProfile(selectedUsers[0])
 
 

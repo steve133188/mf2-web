@@ -192,9 +192,11 @@ export default function Organization() {
                         {!isSelectRow ? (
                             <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                         ) : (
-                            <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                            <>
+                                <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button>
                                 <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button>
-                                <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button></>
+                            <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                                </>
 
                         )}
                         <button onClick={toggleNewTeam}>+ New Team</button>

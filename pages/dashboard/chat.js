@@ -49,9 +49,9 @@ export default function Chat() {
                 {name:"Messager",value:"Messager",channelID:"Messager",id:3},
                 {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const [channels, setChannelData] = useState([] )
-    useEffect(()=>{
-        setChannelData(channelData)
-    },[channelData ])
+    // useEffect(()=>{
+    //     setChannelData(channelData)
+    // },[channelData ])
 
 
 
@@ -168,7 +168,7 @@ export default function Chat() {
                     <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
 
                     {
-                        channels.map((data)=>{
+                        channelData.map((data)=>{
                           return  <LineChartCard title={"Channel"} chart={false} img={true} d={data} channel={data.channelID} />
 
                         })

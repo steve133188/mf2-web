@@ -31,7 +31,7 @@ export default function EditAgent(props){
     const [roles , setRoles] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
-    const submit = async ()=>{
+    const submit = async (name)=>{
         const data = {
             username:userCredential.username,
             email:userCredential.email,
@@ -41,7 +41,7 @@ export default function EditAgent(props){
             role:selectedRole.name
         }
         console.log("payload",data)
-        const res = await userInstance.createUser(data )
+        const res = await userInstance.updateUser(name,data )
         console.log("res :",res)
         if(res == 201) router.back()
     }
@@ -235,8 +235,8 @@ export default function EditAgent(props){
             </div>
             <div className={"submit_row"}>
                 <button  onClick={async ()=> {
-                    await submit()
-                }} className={"save_btn"}>Create</button>
+                    await submit(agent.phone)
+                }} className={"save_btn"}>Confirm Edit</button>
                 <button className={"cancel_btn"} onClick={()=>{router.back()}}>Cancel</button>
             </div>
         </div>
