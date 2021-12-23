@@ -115,7 +115,7 @@ useEffect(()=>{
                     <div>Assignee</div>
                 <div className={""}>
                     <div className={"tagsGroup"} style={{margin:"10px 0"}}>
-                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start",width:"fit-content",margin:"10px 0"}}  spacing={"-5"} >
+                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start",width:"fit-content",margin:"10px 0"}}  spacing={-5} >
                             {selectedUsers &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">

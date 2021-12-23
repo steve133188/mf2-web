@@ -258,30 +258,6 @@ export default function Broadcast() {
 
 
 
-    const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" viewBox="0 0 25 25">
-            <defs>
-                <clipPath id="clip-path">
-                    <rect id="Background" width="18" height="18" fill="none"/>
-                </clipPath>
-            </defs>
-            <g id="trash-alt">
-                <g id="Group_5689" data-name="Group 5689" transform="translate(9.749 -2.748) rotate(45)">
-                    <path id="Path_34498" data-name="Path 34498" d="M18.87,0H10.783A2.7,2.7,0,0,0,8.876.788L.789,8.876a2.7,2.7,0,0,0,0,3.811l8.087,8.087a2.7,2.7,0,0,0,3.811,0l8.087-8.087a2.7,2.7,0,0,0,.792-1.9V2.7A2.7,2.7,0,0,0,18.87,0Zm0,10.783L10.783,18.87,2.7,10.783,10.783,2.7H18.87Z" transform="translate(0 0)" fill="#f1b44c"/>
-                </g>
-            </g>
-        </svg>
-    )
-
-    const editSVG =(
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2198fa"
-             cursor="pointer"
-             className="bi bi-upload" viewBox="0 0 16 16">
-            <path
-                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-            <path
-                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-        </svg>
-    )
 
     const deleteSVG = (
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#f46a6b"

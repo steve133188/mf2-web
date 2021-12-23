@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="81" height="81" viewBox="0 0 81 81">
   <g id="Group_6837" data-name="Group 6837" transform="translate(-974 -785)">
-    <rect id="Rectangle_4340" data-name="Rectangle 4340" width="80" height="80" rx="10" transform="translate(974.5 785.5)" fill="#ecf2f8" stroke="#2385fc" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="6 10"/>
+    <rect id="Rectangle_4340" data-name="Rectangle 4340" width="80" height="80" rx="10" transform="translate(974.5 785.5)" fill="#ecf2f8" stroke="#2385fc" stroke-linecap="round" stroke-linejoin="round"  strokeWidth="1" stroke-dasharray="6 10"/>
     <g id="noun_file_add_4307743" data-name="noun_file add_4307743" transform="translate(989.033 788.063)">
       <path id="Path_34502" data-name="Path 34502" d="M31.7,23.2H24.8V16.3a2.3,2.3,0,1,0-4.6,0v6.9H13.3a2.3,2.3,0,1,0,0,4.6h6.9v6.9a2.3,2.3,0,1,0,4.6,0V27.8h6.9a2.3,2.3,0,1,0,0-4.6Z" transform="translate(2.966 11.937)" fill="#2198fa"/>
     </g>

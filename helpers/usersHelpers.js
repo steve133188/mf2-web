@@ -82,7 +82,7 @@ export default function usersFetcher(token){
     }
     instance.updateUser = async (name,data)=>{
         console.log(name,'hhhh',data,"dataaaa")
-        return (await instance.fetcher.put(`/phone/${name}` , {...data,data} )).statusText
+        return (await instance.fetcher.put(`/phone4/${name}` , {...data,data} )).statusText
     }
     instance.updateUserChannelInfo = async (data)=>{
         return (await instance.fetcher.put(`/chanInfo` , data )).statusText

@@ -7,7 +7,7 @@ export const AddButtonSVG = (props) => {
           <rect id="Rectangle_4097" data-name="Rectangle 4097" width="25" height="25" rx="12.5" transform="translate(0.304 0.118)" fill={props.c}/>
           <g id="plus" transform="translate(5.597 5.409)">
             <rect id="Background-2" data-name="Background" width="14.416" height="14.416" fill="none"/>
-            <g id="plus-2" data-name="plus" clip-path="url(#clip-path)">
+            <g id="plus-2" data-name="plus" >
               <path id="Shape" d="M8.409,4.805h-3.6v3.6H3.6v-3.6H0V3.6H3.6V0h1.2V3.6h3.6v1.2Z" transform="translate(3.003 3.003)" fill="#444"/>
             </g>
           </g>
@@ -23,7 +23,7 @@ export const CheckBoxM = () => {
     return (
         <>
         <svg id="Group_5392" data-name="Group 5392" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">
-  <g id="Rectangle_4096" data-name="Rectangle 4096" fill="none" stroke="#e5e7ec" stroke-width="1">
+  <g id="Rectangle_4096" data-name="Rectangle 4096" fill="none" stroke="#e5e7ec"  strokeWidth="1">
     <rect width="21" height="21" rx="5" stroke="none"/>
     <rect x="0.5" y="0.5" width="20" height="20" rx="4.5" fill="none"/>
   </g>
@@ -93,7 +93,7 @@ export const Wechat = () => {
         <>
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
 
-  <g id="Mask_Group_83" data-name="Mask Group 83" transform="translate(-934 -296)" clip-path="url(#clip-path)">
+  <g id="Mask_Group_83" data-name="Mask Group 83" transform="translate(-934 -296)">
     <g id="Group_6241" data-name="Group 6241" transform="translate(936.759 298.759)">
       <g id="Group_6240" data-name="Group 6240" transform="translate(0 0)">
         <g id="Group_6239" data-name="Group 6239">

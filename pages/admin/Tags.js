@@ -126,7 +126,7 @@ export default function Tags() {
                                 onChange={(e)=> {
                                     searchTagFilter(e.target.value.toLowerCase() , tags,(new_data)=>{
                                         setFilteredData(new_data)
-                                        setCurrentPage(1)
+                                        setCurrentPage("1")
                                     })
                                 }}
                                 placeholder={"Search"}

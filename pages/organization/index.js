@@ -67,6 +67,7 @@ export default function Organization() {
     }
     const fetchRootORG = async () =>{
         const data = await orgInstance.getAllRootORG()
+        console.log(data,"org dataaaa")
         set_root_org(data)
     }
     useEffect(    async () => {
