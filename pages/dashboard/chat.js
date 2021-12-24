@@ -14,6 +14,13 @@ import 'react-day-picker/lib/style.css';
 import DashBroadFilter from "../../components/broadcast/dashbroad_filter";
 import Loading from "../../components/Loading";
 
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import {TableCell, TableHead} from "@mui/material";
+
+
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
@@ -22,6 +29,7 @@ export default function Chat() {
     const [tags, setTags] =useState([])
     const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
+    const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
 
     const handleClickAway = () => {
         setOpen(false);
@@ -62,7 +70,7 @@ export default function Chat() {
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
                 {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+                {name:"WhatsApp Business api",value:"WhatsappB",channelID:"WhatsappB",id:2},
                 {name:"Messager",value:"Messager",channelID:"Messager",id:3},
                 {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const [channels, setChannelData] = useState([] )
@@ -184,12 +192,16 @@ export default function Chat() {
                 <div className="lineCardGroup1">
                     <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
 
-                    <div className={"card_holder"}>
-                    {channelData.map((data)=>{
+                        
+                    <div className={"card_holder1"}>
+                    <div style={{margin:"6px 10px auto"}}>Channel</div>
+                        <div className={"card_holder"}>
+                        {channelData.map((data)=>{
                             return  <LineChartCard  title={data.name} chart={false} img={true} d={data} channel={data.channelID} />       
                         })
-                    }
+                        }
                         </div>
+                    </div>
 
                     {/* <AverageDailyCard/> */}
                 </div>
@@ -214,12 +226,64 @@ export default function Chat() {
                 <div className="dashboardRow">
                     <div className="tableSet">
                     <div className={"half_session block_session"}>
-                        <div className={"top_row"}><span className={"title"}>Tags</span></div>
-                            <div className={"session_content"}>
-                            {tags.map((tag , indexc)=>{return <div >
-                                <div>{tag.tag}</div>
-                                <Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>
-                            </div>})}
+                        <div className={"top_row"}>
+                            <span className={"title"}>Tags</span></div>
+                          
+                        
+                        <div className={"session_content"}>
+                            <div className={"session_content_tag"}>
+                            <TableContainer
+                                sx={{minWidth: 600 ,}}
+                                className={"table_container"}
+                            >
+                             <Table
+                            sx={{minWidth: 650 }}
+                            aria-labelledby="tableTitle"
+                            size={'medium'}
+                            stickyHeader={true}
+                               >
+                            <TableHead>
+                                <TableRow>
+
+                                    {tagColumn.map((col,index)=>{
+                                        return ( <TableCell key={index}>{col}</TableCell>)
+                                    })}
+    
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {tags.map((item,index)=>{
+                                    return( <TableRow
+                                            key={index}
+                                            hover
+                                            // role="checkbox"
+                                            name={index}
+                                            // checked={selectedUsers.includes(data.phone)}
+
+                                        >
+                                            <TableCell style={{width: "20%",}}>
+
+                                             <Pill key={item.id} size="30px" color="vip">{item.tag}</Pill>
+                                            </TableCell>
+                                           <TableCell align="left" style={{width: "20%",}}>
+                                                <span >{item.total}</span>
+                                            </TableCell>
+                                            <TableCell align="left" style={{width: "60%",}}> 
+
+                                            </TableCell>
+    
+    
+                                            {/*<TableCell align="right">*/}
+                                            {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
+                                            {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
+                                            {/*</TableCell>*/}
+                                        </TableRow>
+                                    ) })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                            </div>
                         </div>
                     </div>
 

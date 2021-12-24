@@ -84,7 +84,7 @@
 .lineChartCard {
   width: 25%;
   //min-width: 100px;
-  min-height: 136px;
+  min-height: 120px;
   background: white;
   border-radius: 10px;
   box-shadow: 0px 7px 10px #0000001A;
@@ -96,6 +96,7 @@
     font-size: 12px;
     color: #707070;
     font-weight: 500;
+    padding: 5px 0;
   }
   .contentGroup {
     display: flex;

@@ -1,5 +1,7 @@
 import {useState} from "react";
 import dynamic from "next/dynamic";
+import ReactApexChart from "react-apexcharts";
+
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function LineChart({children,...props}) {
@@ -150,3 +152,75 @@ export function MultipleLineChart({children,...props}) {
         </div>
     )
 }
+
+export function MultipleBarChart({children,...props}) {
+    const {title, data1, data2, data3, min1, min2, min3, yaxis,h} = props;
+    const [state, setState] = useState({
+       
+        series: [{
+            name: 'PRODUCT A',
+            data: [44, 55, 41, 67, 22, 43,44, 55, 41, 67, 22, 43,]
+          }, {
+            name: 'PRODUCT B',
+            data: [13, 23, 20, 8, 13, 27,44, 55, 41, 67, 22, 43,]
+          }, {
+            name: 'PRODUCT C',
+            data: [11, 17, 15, 15, 21, 14,44, 55, 41, 67, 22, 43,]
+          }, {
+            name: 'PRODUCT D',
+            data: [21, 7, 25, 13, 22, 8,44, 55, 41, 67, 22, 43,]
+          }],
+          options: {
+            chart: {
+              type: 'bar',
+              height: {h},
+              stacked: true,
+              toolbar: {
+                show: true
+              },
+              zoom: {
+                enabled: true
+              }
+            },
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                legend: {
+                  position: 'bottom',
+                  offsetX: -10,
+                  offsetY: 0
+                }
+              }
+            }],
+            plotOptions: {
+              bar: {
+                horizontal: false,
+                borderRadius: 10
+              },
+            },
+            xaxis: {
+              type: 'string',
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            },
+            legend: {
+              position: 'right',
+              offsetY: 40
+            },
+            fill: {
+              opacity: 1,
+           
+              colors: ["#2198FA","#6279EC", '#34C38F',"#2198FA"]
+            },
+          },
+        })
+      
+
+    
+
+            return (
+            <div id="chart">
+                <ReactApexChart options={state.options} series={state.series} type="bar" height={h} />
+                </div>
+                )
+}
+    
