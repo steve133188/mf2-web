@@ -7,6 +7,7 @@
   align-items: flex-start;
   .cardChannelGroupContainer {
     display: flex;
+    width:98%;
     flex-flow: column;
     h1{
       font: normal normal 800 24px/33px Manrope;
@@ -14,6 +15,9 @@
       padding-left: 2rem;
     }
     .cardChannelGroup {
+      overflow-y: scroll;
+      height: 45%;
+      width: 100%;
       h1 {
         font-size: 24px;
         font-weight: 800;
@@ -22,6 +26,7 @@
     }
     .cardContainer {
       position: relative;
+      width: 95%;
       gap:25px 35px;
     }
   }

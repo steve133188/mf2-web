@@ -25,6 +25,7 @@ export default function AddAgent(){
     const [roles , setRoles] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
+    const [submitCheck,setSubmitCheck]=useState(false)
     const submit = async ()=>{
         const data = {
             username:userCredential.username,
@@ -38,6 +39,7 @@ export default function AddAgent(){
         const res = await userInstance.createUser(data )
         console.log("res :",res)
         if(res == 201) router.back()
+        setSubmitCheck(!submitCheck )
     }
     const fetchRoles = async () =>{
         const data = await adminInstance.getAllRoles()
@@ -61,6 +63,10 @@ export default function AddAgent(){
             await fetchRoles()
         }
     },[])
+    useEffect(()=>{
+        if(userCredential.username.length<=0){Alert("Please fill in username.")}
+
+    },[submitCheck])
     return(
         <div className="add_user_panel">
             <div className={"title"}>New User</div>

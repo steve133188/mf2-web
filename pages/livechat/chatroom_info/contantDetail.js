@@ -49,7 +49,7 @@ const fetchContacts = async (cid) =>{
 }
 useEffect(    async () => {
     if(user.token!=null) {
-        console.log(data,"agfdsasdf")
+
         await getTags()
         await getUsers()
     }

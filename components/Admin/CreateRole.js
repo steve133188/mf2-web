@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
+import { Alert } from "../Alert";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -53,6 +54,7 @@ export default function CreateRole({show, toggle ,reload}){
 
     const [roleName , setRoleName] = useState("")
 
+    const [submitCheck,setSubmitCheck]=useState(false)
     const [authority , setAuthority] = useState({
         dashboard: false,
         livechat: false,
@@ -98,7 +100,14 @@ export default function CreateRole({show, toggle ,reload}){
         console.log(res)
         reload()
         toggle()
+
+        setSubmitCheck(!submitCheck )
     }
+
+    useEffect(()=>{
+        if(roleName.length<=0){Alert("Please fill in name.")}
+
+    },[submitCheck])
     return(
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>

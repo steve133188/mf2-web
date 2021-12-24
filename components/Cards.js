@@ -26,8 +26,8 @@ export function Card_channel(props) {
                         <Button  onClick={toggle} variant={props.state?"outlined":""} style={{
                             borderRadius: "10px",
                             paddingLeft: "1rem",
-                            color:"white",
-                            background: props.state? "#2198FA":"#E6E9EA"
+                            color:props.state? "white":"black",
+                            background: props.state? "#2198FA":"#E6E9EA",
                         }}
                                 disabled={props.disabled}
 
