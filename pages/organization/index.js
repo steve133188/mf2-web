@@ -158,10 +158,14 @@ export default function Organization() {
         setSelectRow(!isSelectRow);
     }
     console.log(filteredData)
+    const displayTeam=(name)=>{
+        set_curr_org(name)
 
+        console.log(name,"show   team name")
+    }
     return (
         <div className="organization-layout">
-            <ORGSidebar orgData={root_org} selection={curr_org} setSelection={set_curr_org}/>
+            <ORGSidebar orgData={root_org} selection={curr_org} setSelection={displayTeam}/>
             <div className="rightContent">
                 {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
                 {/*toggle Modal Start */}
@@ -169,7 +173,7 @@ export default function Organization() {
                 <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision}/>
                 <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
-                <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers}/>
+                <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers} />
 
                 <MF_Modal show={isDelete} toggle={toggleDelete}>
                     <div className={"modal_form"}>

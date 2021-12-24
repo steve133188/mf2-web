@@ -1,7 +1,8 @@
 .mf_circle_dropdown_div
 {
-  width: fit-content;
+
   margin: none;
+  position: relative;
   
 }.mf_circle_btn{
   width: 25px;
@@ -37,9 +38,13 @@
   opacity: 1;
   box-sizing: border-box;
   max-height: 40%;
+  min-height: 300px;
+  // width: 200px;
+  // height: 100px;
   display: flex;
   flex-direction: column;
-  bottom:0;
+  top:8%;
+  left:25px;
   .mf_circle_dropdown_content{
     overflow: scroll;
     // padding-right: 10px ;

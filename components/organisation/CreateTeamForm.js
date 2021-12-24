@@ -48,11 +48,12 @@ export default function CreateTeamForm({show, toggle}){
     }
     useEffect(async ()=>{
       const data = await orgInstance.getAllRootORG()
-        setRootDivision(data)
+        setRootDivision(data.filter(data=>{return data.type=="division"}))
     },[])
     const submit = async ()=>{
-        const status = await orgInstance.createOrg({type:"team" ,name})
-        console.log(status)
+        const status = await orgInstance.createOrg({type:"team" ,name,parent_id:parent})
+        console.log(status,"create team")
+        console.log(parent,",parent_id:parent")
         toggle()
     }
     return(

@@ -13,7 +13,7 @@ export default function CreateDivisionForm({show, toggle }){
 
     const submit = async ()=>{
         const status = await orgInstance.createOrg({type:"division" ,name})
-        console.log(status)
+        console.log(status,"create Division")
         toggle()
     }
     return(

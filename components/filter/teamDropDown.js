@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useContext} from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -9,8 +9,9 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Checkbox from '@mui/material/Checkbox';
 import { Tooltip } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
+import { GlobalContext } from "../../context/GlobalContext";
 
-export default function DropDown (props) {
+export default function DropDown ({teamData,setSelection}) {
 
 
     const Division=[
@@ -25,27 +26,34 @@ export default function DropDown (props) {
         ]
 
 
+        const fetchTeamAgents = async (id) =>{
+          // console.log(id)
+          const res = await userInstance.getUsersByTeamId(id)
+          // console.log(res)
+        }
+
+    const { userInstance } = useContext(GlobalContext);
     const [open, setOpen] = useState(true);
     const [levelOneData, setLevelOneData] = useState([]);
     const [levelTwoData, setLevelTwoData] = useState([]);
 
     useEffect(()=>{
-        // console.log(props.data)
-        // console.log("props.data level one")
-        // console.log(levelOneData)
+      setLevelOneData(teamData)
+      setLevelTwoData(AgentsList)
+        // console.log(teamData)
+    },[teamData])
 
-        setLevelOneData(props.data)
-        setLevelTwoData(AgentsList)
-    },[])
-
-    const handleClick = (name) => {
+    const handleClick = (name,id) => {
+      fetchTeamAgents(id)
         if(name==open){setOpen("")}
         else{
             setOpen(name);
+            setSelection({name,id})
+            console.log(name,"team name")
         }
     };
+    
     const [checked, setChecked] = useState([0]);
-
     const handleToggle = (value) => () => {
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
@@ -67,8 +75,8 @@ export default function DropDown (props) {
         >
 
           {levelOneData.map(team=>{return<>
-          <ListItemButton onClick={()=>handleClick(team.name)} id={team.id} >
-            <ListItemText primary={"Team "+team.name} />
+          <ListItemButton onClick={()=>handleClick(team.name,team.id)} id={team.id} >
+            <ListItemText primary={team.name} />
             {open==team.name ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
             <Collapse in={open==team.name} timeout="auto" unmountOnExit>

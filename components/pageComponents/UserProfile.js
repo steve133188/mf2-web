@@ -62,6 +62,7 @@ export default function UserProfileGrid({data}){
             <div className={"info_row"}>
                 <span className={"info_label"}>Organization</span>
                 <span className={"info_content"}>{data.organization}</span>
+                {/* team.id > */}
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>

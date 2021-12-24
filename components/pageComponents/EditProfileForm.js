@@ -23,7 +23,7 @@ export default function EditProfileForm({data , toggle}){
     const [filteredUsers ,setFilteredUsers] =useState([])
     const {userInstance ,adminInstance, user} = useContext(GlobalContext)
 
-
+    
     const getTags = async ()=>{
         const data = await adminInstance.getAllTags()
         setTags(data)
@@ -40,11 +40,10 @@ export default function EditProfileForm({data , toggle}){
         if(user.token){
             await getTags()
             await getUsers()
-            setSelectedTags(editContact.tags)
             if(editContact.agents)setSelectedUsers(editContact.agents)
+            setSelectedTags(editContact.tags)
         }
 
-        console.log(selectedUsers)
     },[])
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;

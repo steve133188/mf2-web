@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import * as React from "react";
 
-export default  function Mf_circle_btn({ children ,value=null, handleChange = null , customButton = null}){
+export default  function Mf_circle_btn({ children ,value=null, handleChange = null , customButton = null,svg}){
     const [isShow , setIsShow] =useState(false)
     const wrapperRef = useRef();
     const handleClickOutside = (event) => {
@@ -31,9 +31,9 @@ export default  function Mf_circle_btn({ children ,value=null, handleChange = nu
         <>
             <div className={"mf_circle_dropdown_div"} value = {value}>
                 <button className={"mf_circle_btn "} onClick={()=>setIsShow(!isShow)}>
-                    <AddIcon />
+                    {svg!=null? <img src={`side_bar_icon_svg/${svg}.svg`} />:<AddIcon />}
                 </button>
-
+                 
                 {isShow&& <div className={"mf_circle_dropdown"} ref={wrapperRef} onClick={null}>
                     <div className="search mf_dropdown_search">
                         <div className="mf_icon_input_block  mf_search_input">

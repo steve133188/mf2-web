@@ -41,11 +41,12 @@ export default function EditBroadcast({data , toggle}){
         if(user.token){
             await getTags()
             await getUsers()
-            setSelectedTags(editContact.tags)
             if(editContact.agents)setSelectedUsers(editContact.agents)
+            setSelectedTags(editContact.tags)
+            console.log(editContact,"sdfsadf")
         }
 
-        console.log(selectedUsers)
+        console.log(selectedUsers,"sekhdaksuyser")
     },[])
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;

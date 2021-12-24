@@ -51,6 +51,7 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
     },[])
     const submit = async ()=>{
         console.log(selectedUsers)
+        toggle();
         for (let i=0;i<selectedUsers.length;i++){
             const user_phone = selectedUsers[i]
             const team_id = selectedTeam.id
@@ -58,7 +59,6 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
             const res = await userInstance.updateUserTeamIdByUserPhone(user_phone ,team_id)
             console.log(res)
         }
-        toggle()
     }
     return(
         <MF_Modal show={show} toggle={toggle}>

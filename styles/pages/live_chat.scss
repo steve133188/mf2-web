@@ -745,8 +745,14 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    
+    position: relative;
     padding: 1rem 0 1rem 1rem;
+    .editContact_chatroom{
+      position: absolute;
+      right: 650px;
+      top:-50px;
+    
+    }
     .contact_card{
       width: 100%;
       max-width: 320px;
@@ -898,7 +904,7 @@
             padding: 3px 15px 5px 15px;
             height: 25px;
             font: normal normal normal 15px/22px Manrope;
-            margin: 10px 5px;
+            margin: 1px 5px;
 
           }
         }

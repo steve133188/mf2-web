@@ -28,6 +28,7 @@ import { width } from "@mui/system";
 import Mf_circle_btn from "../../components/mf_circle_btn";
 import Loading from "../../components/Loading";
 import CancelConfirmation from "../../components/CancelConfirmation"
+import DeletePad from "../../components/DeletePannel";
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
@@ -50,6 +51,7 @@ export default function Contacts() {
     const [tags ,setTags] =useState([])
     const [teams ,setTeams] =useState([])
     const [selectedTags ,setSelectedTags] =useState([])
+    const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [selectedTeams ,setSelectedTeams] =useState("")
     const [selectedChannel ,setSelectedChannel] =useState([])
@@ -60,6 +62,11 @@ export default function Contacts() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     let result = currentContacts.map(d=>d.id)
+    
+    const [isDelete , setIsDelete] = useState(false)
+    const [deleteRolename,setDeleteRole] = useState("")
+    
+    
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         console.log("filter",filter)
@@ -196,6 +203,14 @@ export default function Contacts() {
         }
         console.log(selectedTags)
     };
+    const toggleAddTags = e => {
+        const { checked ,id} = e.target;
+        setAddedTags([...addedTags, id]);
+        if (!checked) {
+            setAddedTags(addedTags.filter(item => item !== id));
+        }
+        console.log(addedTags)
+    };
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
@@ -237,6 +252,10 @@ export default function Contacts() {
         if(isEditProfileShow) await fetchContacts();
         setIsEditProfileShow(!isEditProfileShow)
     }
+    const toggleDelete = (name)=>{
+        setIsDelete(!isDelete)
+        setDeleteRole(name)
+    }
     const removeContact = async (id)=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const deleteItems = {data:[id]}
@@ -250,6 +269,26 @@ export default function Contacts() {
             setSelectedContacts([])
         }
         setSelectedTags([])
+    }
+    const addManyTags = async ()=>{
+        // let items =[]
+        // if(addedTags!=-1){
+        //     addedTags.forEach((c)=>{
+        //         items.push(c)
+        //     })
+        // }
+        // const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
+        // const addItems = {data:items}
+        // console.log("remove contact id",addedTagsItems)
+        // const res =await axios.update(url ,{ headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${localStorage.getItem("token")}`
+        //     },
+        //     data:addItems})
+        // if (res.status == 200) {
+        //     await fetchContacts()
+        //     setSelectedContacts([])
+        // }
     }
     const removeManyContact = async ()=>{
         let items =[]
@@ -284,20 +323,6 @@ export default function Contacts() {
     useEffect(()=>{
         console.log(currentContacts)
     },[filteredData])
-
-    const tagSVG = (<svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" viewBox="0 0 25 25">
-            <defs>
-                <clipPath id="clip-path">
-                    <rect id="Background" width="18" height="18" fill="none"/>
-                </clipPath>
-            </defs>
-            <g id="trash-alt">
-                <g id="Group_5689" data-name="Group 5689" transform="translate(9.749 -2.748) rotate(45)">
-                    <path id="Path_34498" data-name="Path 34498" d="M18.87,0H10.783A2.7,2.7,0,0,0,8.876.788L.789,8.876a2.7,2.7,0,0,0,0,3.811l8.087,8.087a2.7,2.7,0,0,0,3.811,0l8.087-8.087a2.7,2.7,0,0,0,.792-1.9V2.7A2.7,2.7,0,0,0,18.87,0Zm0,10.783L10.783,18.87,2.7,10.783,10.783,2.7H18.87Z" transform="translate(0 0)" fill="#f1b44c"/>
-                </g>
-            </g>
-        </svg>
-    )
 
     const editSVG =(
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2198fa"
@@ -341,7 +366,7 @@ export default function Contacts() {
     };
 
     return (
-        <div className={styles.layout} >
+        <div className={styles.layout}  style={{maxWidth:"2200px"}}>
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
@@ -351,7 +376,7 @@ export default function Contacts() {
                 {/*DND Import Data end */}
             </span>
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
-
+             <DeletePad show={isDelete} reload={fetchContacts} toggle={toggleDelete } submit={removeManyContact} data={selectedContacts} title={"Contacts"}/>
             <div className={"search_session"}>
                 <div className="search">
                     <div className="mf_icon_input_block  mf_search_input">
@@ -383,8 +408,23 @@ export default function Contacts() {
             {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                    <div className={"select_session_btn"}><Mf_icon_dropdownform svg={tagSVG}>
-                        </Mf_icon_dropdownform>
+                    <div className={"select_session_btn"}>
+                        {/* <Mf_icon_dropdownform svg={tagSVG}>
+                       
+                        </Mf_icon_dropdownform> */} 
+                        <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                            setFilteredTags(new_data)
+                        })}}>
+                                        {filteredTags.map((tag)=>{
+                                            return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                                                <div className="newCheckboxContainer">
+                                                    <label className="newCheckboxLabel">
+                                                        <input type="checkbox" id={tag.tag} name="checkbox" checked={addedTags.includes(tag.tag)} onClick={toggleAddTags} />
+                                                    </label> </div></li>)
+                                        })}
+                                    </Mf_circle_btn>
+
+                        
                     {/* <div className={"tagsGroup"} >
                                 {selectedTags!=-1&&selectedTags.map((tag)=>{
                                     return<Pill key={tag} color="vip">{tag}</Pill>
@@ -412,7 +452,7 @@ export default function Contacts() {
 
 
                     <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
-                    <div className={"select_session_btn"}><div svg={deleteSVG} onClick={removeManyContact}>{deleteSVG}</div> </div>
+                    <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
             >
                 <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{

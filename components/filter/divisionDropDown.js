@@ -9,7 +9,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import DropDown from './teamDropDown';
 
 
-export default function DivisionDropDown (props) {
+export default function DivisionDropDown ({data,setSelection}) {
 
 
 
@@ -18,12 +18,13 @@ export default function DivisionDropDown (props) {
     const [levelTwoData, setLevelTwoData] = useState([]);
 
     useEffect(()=>{
-        setLevelOneData(props.data)
+        
+        setLevelOneData(data.filter(data=>{return data.type=="division"}))
+        setLevelTwoData(data.filter(data=>{return data.type=="team"}))
 
-        // console.log("props.data level one")
 
         // setLevelTwoData(props.data.teams)
-    },[])
+    },[data])
 
     const handleClick = (name) => {
         if(name==open){setOpen("")}
@@ -31,7 +32,11 @@ export default function DivisionDropDown (props) {
             setOpen(name);
         }
     };
+    useEffect(()=>{
 
+        console.log(levelOneData)
+        console.log(levelTwoData)
+    },[levelOneData])
 
     return (
         <List
@@ -47,7 +52,7 @@ export default function DivisionDropDown (props) {
             <Collapse in={open==division.name} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding sx={{display:"flex",justifyContent:"flex-end"}}>
                     {/* loop */}
-                    <DropDown data={division.teams} />
+                    <DropDown teamData={levelTwoData} setSelection={setSelection} />
                  </List>
             </Collapse>
 

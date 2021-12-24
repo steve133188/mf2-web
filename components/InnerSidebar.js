@@ -5,6 +5,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {useRouter} from "next/router";
 import {GlobalContext} from "../context/GlobalContext";
 import {Skeleton} from "@mui/material";
+import DivisionDropDown from "./filter/divisionDropDown";
 
 export function ORGSidebar({orgData=null, selection ,setSelection}) {
 
@@ -39,13 +40,17 @@ export function ORGSidebar({orgData=null, selection ,setSelection}) {
     }
 
     useEffect(async ()=>{
+        console.log(orgData,"orgggggdaaa")
         if(orgData.length>0 ){
             // await fetch_org_family()
             if (data.length!==0)setIsLoading(false)
-
+            setData(orgData)
         }
-    },[])
+    },[orgData])
 
+    useEffect(()=>{
+        console.log(data,"123457789")
+    },[data])
 
     const ske = (
         <h1>
@@ -55,10 +60,17 @@ export function ORGSidebar({orgData=null, selection ,setSelection}) {
         <Skeleton />
         <Skeleton />
         </h1>
-    )
+    ) 
+    const Division=[
+        {id:1,name:"Hong Kong",teams:[{id:1,name:"A"},{id:2,name:"B"}]},
+        {id:2,name:"Macau",teams:[{id:1,name:"A"},{id:2,name:"C"}]},
+    ]
+
     return (
         <nav className="blueMenu">
-            {isLoading && ske}
+        <DivisionDropDown data={data} setSelection={setSelection} />
+            {/* {isLoading && ske} */}
+
             {!isLoading && <ul className="blueMenuGroup">
                 <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}>All</li>
                 {/*{*/}

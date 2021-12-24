@@ -124,6 +124,7 @@ export default function Index() {
             <InnerSidebar/>
             <div className="rightContent">  
                 {/*{isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}*/}
+                <div></div>
                 {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile}/></Profile>):null}
 
                 <div className={"search_session"}>
