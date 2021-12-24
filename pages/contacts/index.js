@@ -26,6 +26,8 @@ import searchFilter from "../../helpers/searchFilter";
 import * as React from "react";
 import { width } from "@mui/system";
 import Mf_circle_btn from "../../components/mf_circle_btn";
+import Loading from "../../components/Loading";
+import CancelConfirmation from "../../components/CancelConfirmation"
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
@@ -33,7 +35,7 @@ export default function Contacts() {
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
 
     const [useContact , setUseContact] = useState()
@@ -319,8 +321,28 @@ export default function Contacts() {
                   d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
         </svg>
     )
+
+
+    useEffect(() => {
+        setTimeout(function() { //Start the timer
+            setIsLoading(false)
+        }.bind(this), 100)
+
+    },[]);
+    // confirmation
+    const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
+    const [deleteID, setDeleteID] = useState()
+    const openConfirmation = (id) => {
+        setDeleteID(id);
+        setIsOpenConfirmation(true)
+    };
+    const closeConfitmation = () => {
+        setIsOpenConfirmation(false)
+    };
+
     return (
         <div className={styles.layout} >
+            {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
@@ -328,6 +350,8 @@ export default function Contacts() {
                 <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
+
             <div className={"search_session"}>
                 <div className="search">
                     <div className="mf_icon_input_block  mf_search_input">
@@ -548,7 +572,8 @@ export default function Contacts() {
                                         </span>)}
                                         >
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>
-                                            <li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>
+                                            {/*<li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>*/}
+                                            <li onClick={(e)=>{e.stopPropagation();openConfirmation(data.id);}}> Delete </li>
                                         </Mf_icon_dropdown_select_btn>
                                     </TableCell>
                                 </TableRow>
