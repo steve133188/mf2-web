@@ -19,7 +19,7 @@ export default function ChatroomList({chatroom , ...props}){
                 </Tooltip>
             </div>
             <div className={"chatroom_name_ss"}>
-                <div>{chatroom.name}</div>
+                <div >{chatroom.name}  <img src={`/channel_SVG/${chatroom.channel}.svg`} /> </div>
                 {/* <div className={""}>Team {chatroom.team}</div> */}
                 {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
             </div>

@@ -27,6 +27,7 @@ import {InnerSidebar} from "../../../components/InnerSidebar";
 import * as React from "react";
 import EditAgent from "./editAgent";
 import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
+import MF_Modal from "../../../components/MF_Modal";
 
 export default function Index() {
 
@@ -43,6 +44,7 @@ export default function Index() {
     const [users, setUsers] = useState([]);
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
+    const [isDelete , setIsDelete] = useState(false)
 
     const [currentPage , setCurrentPage] = useState(1)
     const [selectAll, setSelectAll] = useState(false);
@@ -105,12 +107,25 @@ export default function Index() {
         console.log(selectedUsers,"0000")
         toggleEditProfile(selectedUsers[0])
 
-
+    }
+    const [deleteRolename,setDeleteRole] = useState("")
+    const toggleDelete = (name)=>{
+        setIsDelete(!isDelete)
+        setDeleteRole(name)
+    }
+    const submitDelete = () =>{
+        deleteRole(deleteRolename);
+        setIsDelete(!isDelete)
+    }
+    const deleteRole = async (id)=>{
+        const res = await userInstance.deleteUserByName(id)
+        console.log(res)
+        await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) 
         // setUseUser(key);
-        if(isEditProfileShow) await fetchRoles();
+        if(isEditProfileShow) await fetchUsers();
         setIsEditProfileShow(!isEditProfileShow)
     }
 
@@ -126,7 +141,17 @@ export default function Index() {
                 {/*{isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}*/}
                 <div></div>
                 {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile}/></Profile>):null}
-
+                <MF_Modal show={isDelete} toggle={toggleDelete}>
+                    <div className={"modal_form"}>
+                        <div className={"modal_title"} style={{textAlign:"center"}}>
+                            <span>Delete agent role?</span>
+                        </div> 
+                        <div className={"btn_row"}>
+                            <button onClick={submitDelete }>Confirm</button>
+                            <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>
+                        </div>
+                    </div>
+                </MF_Modal>
                 <div className={"search_session"}>
                     <div className="search">
                         <div className="mf_icon_input_block  mf_search_input">
@@ -239,10 +264,10 @@ export default function Index() {
                                         </TableCell>
 
 
-                                        {/*<TableCell align="right">*/}
-                                        {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
-                                        {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
-                                        {/*</TableCell>*/}
+                                        <TableCell align="right">
+                                       <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG /></span>
+                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.username)}><DeleteSVG /></span>
+                                    </TableCell>
                                     </TableRow>
                                 )
                             })}

@@ -459,7 +459,7 @@ export default function Live_chat() {
 
                         {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
                         <Avatar src={ null} alt="icon" />
-                        <div className={"chatroom_name"}>{selectedChat.name}</div>
+                        <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}</div>
                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function ConnectFacebookMessager(){
+export default function ConnectFacebookMessager(props){
     useEffect(()=>{
         // if(!props.fetchData){return}
         console.log(props.fetchdata,"fetching~");

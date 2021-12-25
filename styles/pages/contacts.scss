@@ -9,9 +9,7 @@
 
   .assigneeGroup {
     display: flex;
-    .pillContainer {
-      // margin-right: 5px;
-    }
+
   }
   
   
@@ -93,6 +91,8 @@
 
 .pillContainer {
   margin-right: 10px;
+  display: flex;
+  align-items: center;
   span {
     padding: 5px 21px
   }
