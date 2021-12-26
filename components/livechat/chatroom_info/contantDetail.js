@@ -5,8 +5,8 @@ import { display, flexbox } from "@mui/system";
 import { NoteButtonSVG } from "../../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { Pill } from "../../../components/Pill";
-import Mf_circle_btn from "../../../components/mf_circle_btn";
+import { Pill } from "../../Pill";
+import Mf_circle_btn from "../../mf_circle_btn";
 import { GlobalContext } from "../../../context/GlobalContext";
 
 

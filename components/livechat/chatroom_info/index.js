@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react"
 import ContantDetail from "./contantDetail";
 import Avatar from "@mui/material/Avatar";
 import {EditPenButtonSVG} from "../../../public/livechat/MF_LiveChat_Landing/chat_svg"
-import Profile from "../../../components/profile";
-import EditProfileForm from "../../../components/pageComponents/EditProfileForm";
+import Profile from "../../profile";
+import EditProfileForm from "../../pageComponents/EditProfileForm";
 import { GlobalContext } from "../../../context/GlobalContext";
 
 

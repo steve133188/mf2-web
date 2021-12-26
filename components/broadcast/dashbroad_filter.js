@@ -1,7 +1,7 @@
 import { Checkbox } from "@mui/material";
 import { CheckBoxM,Whatsapp,WhatsappB,Messager,Wechat } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
 import MF_Select from "../MF_Select";
-import ChannelListItem from "../../pages/livechat/serach_filter/filter.js/channelListItem";
+import ChannelListItem from "../livechat/serach_filter/filter.js/channelListItem";
 import { useContext, useEffect,useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { Tooltip } from "@mui/material";

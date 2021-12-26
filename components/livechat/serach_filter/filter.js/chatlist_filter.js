@@ -1,16 +1,16 @@
 import { Checkbox } from "@mui/material";
 import { CheckBoxM,Whatsapp,WhatsappB,Messager,Wechat } from "../../../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
-import MF_Select from "../../../../components/MF_Select";
+import MF_Select from "../../../MF_Select";
 import ChannelListItem from "./channelListItem";
 import { useContext, useEffect,useState } from "react";
 import { GlobalContext } from "../../../../context/GlobalContext";
 import { Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { Pill } from "../../../../components/Pill";
+import { Pill } from "../../../Pill";
 import { AvatarGroup } from "@mui/material";
 import { getThemeProps } from "@mui/system";
-import DropDown from "../../../../components/filter/teamDropDown";
-import DivisionDropDown from "../../../../components/filter/divisionDropDown";
+import DropDown from "../../../filter/teamDropDown";
+import DivisionDropDown from "../../../filter/divisionDropDown";
 
 export default function ChatlistFilter( {...props}){
     const channelData = [
