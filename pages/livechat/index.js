@@ -8,7 +8,7 @@ import RobotSwitch from "../../components/livechat/RobotSwitch";
 import axios from "axios";
 import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
-import ChatroomInfo from "./chatroom_info/chatroom_info";
+import ChatroomInfo from "./chatroom_info";
 import ChatlistFilter from "./serach_filter/filter.js/chatlist_filter";
 import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "./newchatroomPanel";

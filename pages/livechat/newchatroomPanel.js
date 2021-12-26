@@ -1,4 +1,3 @@
-import { width } from "@mui/system"
 import Avatar from "@mui/material/Avatar";
 import {API, graphqlOperation} from "aws-amplify";
 import {createMF2TCOCHATROOM} from "../../src/graphql/mutations";
