@@ -13,6 +13,7 @@ export const allMessage = /* GraphQL */ `
         is_media
         media_url
         from_me
+        message_type
       }
       nextToken
     }
@@ -29,6 +30,7 @@ export const getMF2TCOMESSAGGE = /* GraphQL */ `
       is_media
       media_url
       from_me
+      message_type
     }
   }
 `;
@@ -48,6 +50,7 @@ export const listMF2TCOMESSAGGES = /* GraphQL */ `
         is_media
         media_url
         from_me
+        message_type
       }
       nextToken
     }

@@ -34,7 +34,7 @@ export default function Live_chat() {
 
 
 
-    const [stickerData ,setStickerData] = useState([])
+    const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
     const [replyData ,setReplyData] = useState([])
     useEffect(()=>{
         setReplyData(replyTemplateList)
@@ -64,6 +64,7 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
         setChatrooms([...result.data.listMF2TCOCHATROOMS.items])
+        setFilteredData(chatrooms)
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -252,8 +253,10 @@ export default function Live_chat() {
         }
     };
     const getStickers = async ()=>{
-        const stickers = await mediaInstance.getStickers()
-        setStickerData(stickers)
+        const {folders , files} = await mediaInstance.getStickers()
+        const arrfolders = Array.from(folders)
+
+        setStickerData({folders: arrfolders , files: files})
         console.log("stickers data" , stickerData)
 
     }
@@ -271,7 +274,6 @@ export default function Live_chat() {
             await getTeams()
             await getChatrooms()
             await getStickers()
-            console.log("stick" , stickerData)
             // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
 
@@ -321,10 +323,11 @@ export default function Live_chat() {
         })
         console.log("filter",filter)
 
-        const channelFiltered = chatroomsInfo.filter(data=>{
+        const channelFiltered = chatrooms.filter(data=>{
             if(selectedChannels.length ==0){
                 return data
             }
+            // return selectedChannels.includes(data.channel)
             return selectedChannels.includes(data.channel)
         })
         console.log(selectedChannels)
@@ -335,7 +338,7 @@ export default function Live_chat() {
             if(selectedUsers.length==0){
                 return data
             }
-            return data.agents.some(el=>selectedUsers.includes(el))
+            return selectedUsers.includes(data.user_id)
         })
         console.log("agent:",agentFiltered)
 
@@ -449,7 +452,7 @@ export default function Live_chat() {
                                     <Newchatroom contacts={contacts} />
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
-                        {filteredData&&filteredData.map((d , index)=>{
+                        {filteredData.map((d , index)=>{
                             return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{ setSelectedChat(d) ; await handleChatRoom(d)}}/> </>)
                         })}
                     </div>

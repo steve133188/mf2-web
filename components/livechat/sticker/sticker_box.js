@@ -7,13 +7,14 @@ import {useEffect, useState} from 'react';
 
 
 export default function StickerBox({data , stickerSend }){
-    const [value, setValue] = useState(1);
-    useEffect(()=>{
-        console.log(data)
-    })
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
+
+    const [value, setValue] = useState(0);
+    const filtered = data.files.filter((d)=>{
+        return d.key.includes(data.folders[value])
+    })
     return(
 
           <TabContext value={"sticker"} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} >
@@ -33,13 +34,13 @@ export default function StickerBox({data , stickerSend }){
                     scrollButtons={false}
                     // visibleScrollbar="true" 
                 >
-                    {data.map((item , index)=>(<Tab key={index} label={item} value={index} />))}
+                    {data.folders&&data.folders.map((item , index)=>(<Tab key={index} label={item} value={index} />))}
 
 
                 </Tabs>
             </Box>
-                    {data.map((item,index)=>(
-                            <img src={item} key={index} style={{width:"80px",margin:"3px"}} onClick={stickerSend} />
+                    {data.files&&filtered.map((item,index)=>(
+                            <img src={item.url} key={index} style={{width:"80px",margin:"3px"}} onClick={stickerSend} />
                    ))}
               {/*<TabPanel  sx={{ overflow: "auto" }} value={item.id} key={index}>*/}
               {/*    {item.sticker.map((item,index)=>(<img src={item.src} key={item.name+index} style={{width:"80px",margin:"3px"}} onClick={stickerSend} />))}*/}
