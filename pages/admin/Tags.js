@@ -111,9 +111,9 @@ export default function Tags() {
             <CreateTag show={isCreate} reload={fetchTags} toggle={toggleCreate}/>
             <EditTag show={isEdit} reload={fetchTags} toggle={toggleEdit} tag={selectedTag}/>
             <DeleteTag show={isDelete} reload={fetchTags} toggle={toggleDelete} tags={deleteTagname}/>
-            <MF_Modal show={false} toggle={"toggleDelete"}>
+            {/* <MF_Modal show={false} toggle={"toggleDelete"}>
 
-        </MF_Modal>
+            </MF_Modal> */}
             <div className="rightContent">
                 <div className={"search_session"}>
                     <div className="search">

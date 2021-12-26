@@ -18,11 +18,7 @@ export default function ProfileGrid({data}){
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [assingedContacts, setAssingedContacts] = useState([])
     useEffect(()=>{
-
         setNotes(notesData)
-
-        console.log("data")
-        console.log(data)
     },[])
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) setUseContact(key);
@@ -142,7 +138,7 @@ export default function ProfileGrid({data}){
                                             <div className={"message_pad"}>
                                                 <div className={"left nameTag"}>
                                                                 {/* <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} /> */}
-                                                        <Tooltip key={note.id} className={""} title={data.wroteBy} placement="top-start">
+                                                        <Tooltip key={note.id} className={""} title={note.wroteBy} placement="top-start">
                                                             <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:35 , height:35 ,fontSize:14,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
                                                         </Tooltip>
                                                 </div>

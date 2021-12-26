@@ -63,10 +63,10 @@ export default function AddAgent(){
             await fetchRoles()
         }
     },[])
-    useEffect(()=>{
-        if(userCredential.username.length<=0){Alert("Please fill in username.")}
+    // useEffect(()=>{
+    //     if(userCredential.username.length<=0){alert("Please fill in username.")}
 
-    },[submitCheck])
+    // },[submitCheck])
     return(
         <div className="add_user_panel">
             <div className={"title"}>New User</div>

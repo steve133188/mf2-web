@@ -25,7 +25,7 @@ export default function FilterDropDown (props){
                                         <div className={"name"}>{item.name}</div>
                                     </div>
                                     <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={item.name} name="checkbox" checked={selecteddata.includes(item.name)} onClick={toggle} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={item.name} name="checkbox" checked={selecteddata.includes(item.name)} onChange={()=>{}} onClick={toggle} />
                                         </label>
                                     </div>
                                 </li>) })

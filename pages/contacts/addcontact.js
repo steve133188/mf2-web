@@ -189,7 +189,7 @@ export default function AddContact() {
                         <div className={"tagsGroup"}>
                             <p>Assignee</p>
                             <div className={"tagsGroup"}>
-                                <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={"1"} >
+                                <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} >
                                     {selectedUsers!=-1 &&selectedUsers.map((agent , index)=>{
                                         return(
                                             <Tooltip key={index} className={""} title={agent} placement="top-start">

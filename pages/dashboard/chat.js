@@ -63,9 +63,15 @@ export default function Chat() {
         setContacts(data)
         // setFilteredData(data)
     }
-    useEffect(async ()=>{
-        await fetchContacts();
-        await getTags();
+    useEffect(
+        ()=>{
+            
+            let isMounted = true;  
+            async ()=>{
+                await fetchContacts();
+                await getTags();
+            }
+            return () => { isMounted = false };
     },[])
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
@@ -77,10 +83,9 @@ export default function Chat() {
     // useEffect(()=>{
     //     setChannelData(channelData)
     // },[channelData ])
-
-
-
     useEffect(()=>{
+
+        let isMounted = true;
         if(dayState.from==null||dayState.from==""){return setSelectedPeriod("Period")}
         else{
             setSelectedPeriod(dayState.from.toLocaleDateString()+" - ")
@@ -88,13 +93,16 @@ export default function Chat() {
         if(dayState.to==null||dayState.to==""){return }
         else{
             setSelectedPeriod(dayState.from.toLocaleDateString()+" - "+dayState.to.toLocaleDateString())}
+
+            return () => { isMounted = false };
     },[dayState])
 
-    useEffect(() => {
+    useEffect(() => { 
+        let isMounted = true;
         setTimeout(function() { //Start the timer
             setIsLoading(false);
         }.bind(this), 100)
-
+        return () => { isMounted = false };
     },[]);
 
     return (

@@ -52,6 +52,7 @@ export default function adminFetcher(token){
         return (await instance.fetcher.delete(`/tag/id/${id}`)).statusText
     }
     instance.createStandardReply = async (data) =>{
+        console.log(data,"creater reply")
         return(await instance.fetcher.post(`/reply`,data)).statusText
     }
 

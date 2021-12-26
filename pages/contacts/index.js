@@ -160,7 +160,9 @@ export default function Contacts() {
         setContacts(data)
         setFilteredData(data)
     }
-    useEffect(    async () => {
+    useEffect(    
+        
+        async () => {
         if(user.token!=null) {
             await fetchContacts()
             await getTags()
@@ -596,7 +598,7 @@ export default function Contacts() {
                                     </TableCell>
 
                                     <TableCell sx={{width:"165px",overflow:"hidden",textOverflow:"ellipsis"}} >
-                                        <AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row",width:30 , height:30}} max={5} spacing={"1"} >
+                                        <AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row",width:30 , height:30}} max={5} spacing={1} >
                                             {data.agents!=null &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">

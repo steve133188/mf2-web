@@ -168,17 +168,17 @@ export default function Stickers() {
                             <TableBody>
                                 { filteredData.length!=0 && currentContacts.map((data ,index) =>{ return(
 
-                                    //  <TableRow
-                                    //  className={"stickers_box"}
-                                    //         key={index}
-                                    //         hover
-                                    //         role="checkbox"
-                                    //         name={index}
+                                     <TableRow
+                                     className={"stickers_box"}
+                                            key={index}
+                                            hover
+                                            role="checkbox"
+                                            name={index}
                                             
-                                    //         // checked={selectedContacts.includes(data.id)}
-                                    //         // onClick={isSelectRow?toggleSelect:null}
-                                    //     >
-                                <div key={index}>
+                                            // checked={selectedContacts.includes(data.id)}
+                                            // onClick={isSelectRow?toggleSelect:null}
+                                        >
+                                <td><div key={index}>
                                             <span >{data.name}
                                             </span>
                                              <div className="newCheckboxContainer">
@@ -210,6 +210,7 @@ export default function Stickers() {
                                                     </div> 
                                         </div>
                                 </div>
+                                </td></TableRow>
                                     )})
                                 }
                             </TableBody>

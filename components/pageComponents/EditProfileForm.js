@@ -175,7 +175,7 @@ export default function EditProfileForm({data , toggle}){
                 <div className={"addTagsGroup"}>
                     <p>Assignee</p>
                     <div className={"tagsGroup"}>
-                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={"1"} >
+                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} >
                             {selectedUsers &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">

@@ -30,7 +30,7 @@ const fetchData = ()=>{
 
         </div>
         <form className="login_form" id="wechat_form" >
-            <div clas sName={"stella_login"} style={{display:tab=="stella"?"block":"none"}}>
+            <div className={"stella_login"} style={{display:tab=="stella"?"block":"none"}}>
                     <div className={"form_item"}>
                     <p>Get pageAccessToken and verification code with following steps:</p>
                     </div>

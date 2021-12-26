@@ -46,14 +46,15 @@ export default function Connection() {
 
     let result = currentContacts.map(d=>d.id)
 
-    const fetchRoles = async () =>{
-        const data = await adminInstance.getAllRoles()
-        console.log("getAllRoles",data)
-        setRoles(data)
-        setFilteredData(data)
-    }
-    useEffect(    async () => {
-        await fetchRoles()
+    
+    useEffect(   ()=>{ async () => {
+        const fetchRoles = async () =>{
+            const data = await adminInstance.getAllRoles()
+            console.log("getAllRoles",data)
+            setRoles(data)
+            setFilteredData(data)
+        }
+        await fetchRoles()}
     },[]);
 
     const toggleSelect = e => {

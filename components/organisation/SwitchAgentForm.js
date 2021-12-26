@@ -45,9 +45,11 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
     const handleSelect =e=>{
         setSelectedTeam(e.target.value)
     }
-    useEffect( async () => {
+    useEffect(  () => {
+        async () =>{
         const data = await orgInstance.getOrgTeams()
         setTeam(data)
+    }
     },[])
     const submit = async ()=>{
         console.log(selectedUsers)

@@ -1,9 +1,9 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
+import Image from 'next/image';
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'
 import axios from "axios";
-import styles from "../../styles/Contacts.module.css";
 import SelectSession from "../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -15,9 +15,6 @@ import {Pill} from "../../components/Pill";
 import MF_Select from "../../components/MF_Select";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
-import Profile from "../../components/profile";
-import ProfileGrid from "../../components/pageComponents/ProfieGrid";
-import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
@@ -33,9 +30,12 @@ import CreateReplyFolder from "../../components/Admin/CreateReplyFolder";
 
 export default function StandardReply() {
 
-    const {adminInstance , user} = useContext(GlobalContext)
+    const {adminInstance, userInstance , user} = useContext(GlobalContext)
     const [standardReply, setStandardReply] = useState([]);
     const [filteredData , setFilteredData] = useState([])
+    const [agents ,setAgents] =useState([]);
+    const [selectedAgents ,setSelectedAgents] =useState([])
+    const [filteredAgents ,setFilteredAgents] =useState([]);;
 
     const [isLoading, setIsLoading] = useState(false);
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
@@ -53,8 +53,11 @@ export default function StandardReply() {
     let result = currentContacts.map(d=>d.id)
     
     useEffect(    async () => {
-        if(user.token) await fetchStandardReply()
-
+        if(user.token) {
+            await fetchStandardReply();
+             await getAgents ();
+            }
+           
     },[]);
     const fetchStandardReply = async () =>{
         const data = await adminInstance.getAllStandardReply()
@@ -62,7 +65,13 @@ export default function StandardReply() {
         setStandardReply(data)
         setFilteredData(data)
     }
-
+    const getAgents = async ()=>{
+        const data = await userInstance.getAllUser()
+        console.log("AAAA")
+        console.log(data)
+        setAgents(data)
+        setFilteredAgents(data)
+    }
     const toggleSelect = e => {
         const { checked ,id} = e.target;
         setSelectedContacts([...selectedContacts, id]);
@@ -77,7 +86,7 @@ export default function StandardReply() {
         if (selectAll) {
             setSelectedContacts([]);
         }
-        console.log(selectedContacts)
+        console.log(selectedContacts,"select ed con")
     };
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
@@ -101,6 +110,15 @@ export default function StandardReply() {
     //     console.log(res)
     //     await fetchStandardReply()
     // }
+    const toggleSelectAgents = (e) =>{
+         const { checked ,id} = e.target;
+    setSelectedAgents([...selectedAgents, id]);
+    if (!checked) {
+        setSelectedAgents(selectedAgents.filter(item => item !== id));
+    }
+    console.log(selectedAgents,"selectedAgents")
+    }
+
     const submitDelete = () =>{
         deleteReplys(deleteTagname);
 
@@ -116,7 +134,7 @@ export default function StandardReply() {
         <div className={"admin_layout"}>
             <InnerSidebar />
             <div className="rightContent">
-                <CreateReplyFolder  show={isCreate}  toggle={toggleCreate }/>
+                <CreateReplyFolder  show={isCreate}  toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
                 {/* <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReplys} title={"Folders"}/> */}
                 <div className={"search_session"}>
                     <div className="search">
@@ -204,8 +222,9 @@ export default function StandardReply() {
                                         </TableCell>
 
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                        {data.channel.map((item, index)=>{console.log(item);
-                                            return <span key={index} ><img src={`/channel_SVG/${item}.svg`} style={{width:"20px"}}/> </span>})}
+                                        {data.channel?data.channel.map((item, index)=>{;
+                                            return <span key={index} ><Image src={`/channel_SVG/${item}.svg`} alt="Channel icon" width={22} height={22}  /> 
+                                            </span>}):""}
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>

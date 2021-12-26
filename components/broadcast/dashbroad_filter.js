@@ -17,6 +17,12 @@ export default function DashBroadFilter(props){
     const { userInstance ,adminInstance ,orgInstance, user,contactInstance} = useContext(GlobalContext);
     // const [users ,setUsers] =useState([]);
     // const [selectedUsers ,setSelectedUsers] =useState([]);
+    const channelData = [
+        // name:"WhastApp",value:"All",channelID:"All",id:0},
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const [tags ,setTags] =useState([]);
     const [teams ,setTeams] =useState([]);
     const [agents ,setAgents] =useState([]);
@@ -39,6 +45,7 @@ export default function DashBroadFilter(props){
     const [dBarOpen,setDBar] = useState(false)
     const [teamBarOpen,setTeamBar] = useState(false)
     const [agentSearchValue, setAgentValue]= useState("")
+   
 
 
                 const advanceFilter =()=>{
@@ -91,12 +98,7 @@ export default function DashBroadFilter(props){
                     setTeams(data)
                     setFilteredTeams(data)
                 }
-                const channelData = [
-                    // name:"WhastApp",value:"All",channelID:"All",id:0},
-                            {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                            {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
-                            {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                            {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+       
             
                 // const getChannels = async ()=>{
                 //     const data = await contactInstance.getContactsByChannels()
@@ -105,28 +107,6 @@ export default function DashBroadFilter(props){
                 //     setChannels(data)
                 // }
 
-                useEffect(    async () => {
-                    if(user.token!=null) {
-
-                        // await getUsers()
-                        await getTags()
-                        await getTeams()
-                        await getAgents()
-                        await getDivision()
-                        // await getChannels()
-                        // await fetchContacts()
-
-                    setChannels(channelData)
-                    setFilteredChannels(channelData)
-                    }
-                    // setSelectedUsers([])
-
-                },[]);
-
-
-                useEffect(()=>{
-                    advanceFilter()
-                },[tags,channels])
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
         setSelectedTags([...selectedTags, id]);
@@ -168,6 +148,39 @@ export default function DashBroadFilter(props){
         }
         // console.log(selectedChannels)
     };
+
+    useEffect(   ()=>{ 
+
+        let abortController = new AbortController();
+        async () => {
+        if(user.token!=null) {
+
+            // await getUsers()
+            await getTags()
+            await getTeams()
+            await getAgents()
+            await getDivision()
+            // await getChannels()
+            // await fetchContacts()
+
+        }
+    }
+    channelOri()
+        // setSelectedUsers([])
+        return () => {
+            abortController.abort();
+          }
+    },[]);
+    const channelOri =()=>{
+    setChannels(channelData)
+    setFilteredChannels(channelData)
+
+    }
+
+    useEffect(()=>{
+        advanceFilter()
+    },[tags,channels])
+    
     
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
@@ -191,7 +204,7 @@ export default function DashBroadFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
+                        {channels.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
                 </div>
                 <FilterDropDown title={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>
@@ -216,7 +229,7 @@ export default function DashBroadFilter(props){
                                         <div className={"name"}>{user.username}</div>
                                     </div>
                                     <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedAgents.includes(user.username)} onClick={toggleSelectAgents} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedAgents.includes(user.username)} onClick={toggleSelectAgents} onChange={()=>{}} />
                                         </label>
                                     </div>
                                 </li>) })

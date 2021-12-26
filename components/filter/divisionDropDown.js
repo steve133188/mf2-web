@@ -44,7 +44,7 @@ export default function DivisionDropDown ({data,setSelection}) {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-        {levelOneData.map(division=>{ return <>
+        {levelOneData.map((division,index)=>{ return <div key={index}>
             <ListItemButton onClick={()=>handleClick(division.name)} id={division.id} >
                  <ListItemText primary={division.name} />
                       {open==division.name ? <ExpandLess /> : <ExpandMore />}
@@ -56,7 +56,7 @@ export default function DivisionDropDown ({data,setSelection}) {
                  </List>
             </Collapse>
 
-                 </>
+                 </div>
         })}
         </List>
 
