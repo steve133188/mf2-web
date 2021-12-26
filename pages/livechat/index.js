@@ -76,7 +76,7 @@ export default function Live_chat() {
     }
     const upload = async (e) =>{
         const file = e.target.files[0]
-        const result = await mediaInstance.upload(file)
+        const result = await mediaInstance.putMedia(file)
         console.log("result : " , result)
         await fetchAttachment()
     }
@@ -252,8 +252,10 @@ export default function Live_chat() {
         }
     };
     const getStickers = async ()=>{
-        const stickers = mediaInstance.getStickers()
+        const stickers = await mediaInstance.getStickers()
         setStickerData(stickers)
+        console.log("stickers data" , stickerData)
+
     }
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
@@ -269,7 +271,7 @@ export default function Live_chat() {
             await getTeams()
             await getChatrooms()
             await getStickers()
-            console.log(stickerData)
+            console.log("stick" , stickerData)
             // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
 
@@ -305,17 +307,14 @@ export default function Live_chat() {
     },[selectedChat])
 
     
-    useEffect(()=>{
-<<<<<<< HEAD
-=======
-        const new1=[]
-        chatrooms.map(chat=>{ const cc = contacts.filter(c=>c.id==chat.customer_id)
-            return new1.push({...chat, agents:cc[0].agents,agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
-        })
-        setFilteredData(new1)
-        setChatroomsInfo(new1)
->>>>>>> 7808ed06a06b32b6245305d043003a481bf612d2
-    },[chatrooms])
+    // useEffect(()=>{
+    //     const new1=[]
+    //     chatrooms.map(chat=>{ const cc = contacts.filter(c=>c.id==chat.customer_id)
+    //         return new1.push({...chat, agents:cc[0].agents,agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
+    //     })
+    //     setFilteredData(new1)
+    //     setChatroomsInfo(new1)
+    // },[chatrooms])
 
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]
