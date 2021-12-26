@@ -64,6 +64,7 @@ export default function Contacts() {
     let result = currentContacts.map(d=>d.id)
     
     const [isDelete , setIsDelete] = useState(false)
+    const [isCreate , setIsCreate] = useState(false)
     const [deleteRolename,setDeleteRole] = useState("")
     
     
@@ -256,6 +257,7 @@ export default function Contacts() {
         setIsDelete(!isDelete)
         setDeleteRole(name)
     }
+
     const removeContact = async (id)=>{
         const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
         const deleteItems = {data:[id]}

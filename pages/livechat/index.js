@@ -191,7 +191,7 @@ export default function Live_chat() {
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
         fileAttach()
-        // console.log(e.terget.files[0])
+        console.log(e.terget.files[0])
         setAttachment("e.terget.name")
 
     }

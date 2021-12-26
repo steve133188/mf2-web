@@ -115,6 +115,7 @@ export default function Index() {
         setIsDelete(!isDelete)
         setDeleteRole(name)
     }
+
     const submitDelete = () =>{
         deleteRole(deleteRolename);
         setIsDelete(!isDelete)

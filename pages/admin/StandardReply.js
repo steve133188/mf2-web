@@ -29,6 +29,7 @@ import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 import DeletePad from "../../components/DeletePannel";
+import CreateReplyFolder from "../../components/Admin/CreateReplyFolder";
 
 export default function StandardReply() {
 
@@ -49,6 +50,7 @@ export default function StandardReply() {
     const [isSelectRow, setIsSelectRow] = useState( false);
 
     const [isDelete , setIsDelete] = useState(false)
+    const [isCreate , setIsCreate] = useState(false)
     let result = currentContacts.map(d=>d.id)
 
     const fetchStandardReply = async () =>{
@@ -113,9 +115,10 @@ export default function StandardReply() {
 
     return (
         <div className={"admin_layout"}>
-            <InnerSidebar/>
+            <InnerSidebar />
             <div className="rightContent">
-                <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={removeManyContact} data={selectedReplys} title={"Folders"}/>
+                <CreateReplyFolder  show={isCreate}  toggle={toggleCreate }/>
+                {/* <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReplys} title={"Folders"}/> */}
                 <div className={"search_session"}>
                     <div className="search">
                         <div className="mf_icon_input_block  mf_search_input">
@@ -141,7 +144,7 @@ export default function StandardReply() {
                             <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                             <button  onClick={()=>toggleDelete(selectedContacts)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button></>
                         )}
-                        <button>+ New Folder</button>
+                        <button onClick={toggleCreate }>+ New Folder</button>
                     </div>
                 </div>
                 <SelectSession
