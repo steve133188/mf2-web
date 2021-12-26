@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 import ReactApexChart from "react-apexcharts";
 
@@ -154,21 +154,18 @@ export function MultipleLineChart({children,...props}) {
 }
 
 export function MultipleBarChart({children,...props}) {
-    const {title, data1, data2, data3, min1, min2, min3, yaxis,h} = props;
+    const {title, active, delivered, unhandled,agents, min1, min2, min3, yaxis,h} = props;
     const [state, setState] = useState({
        
         series: [{
-            name: 'PRODUCT A',
-            data: [44, 55, 41, 67, 22, 43,44, 55, 41, 67, 22, 43,]
+            name: 'Unhandled Contacts',
+            data: unhandled
           }, {
-            name: 'PRODUCT B',
-            data: [13, 23, 20, 8, 13, 27,44, 55, 41, 67, 22, 43,]
+            name: 'Delivered Contacts',
+            data: delivered
           }, {
-            name: 'PRODUCT C',
-            data: [11, 17, 15, 15, 21, 14,44, 55, 41, 67, 22, 43,]
-          }, {
-            name: 'PRODUCT D',
-            data: [21, 7, 25, 13, 22, 8,44, 55, 41, 67, 22, 43,]
+            name: 'Active Contacts',
+            data: active
           }],
           options: {
             chart: {
@@ -200,7 +197,7 @@ export function MultipleBarChart({children,...props}) {
             },
             xaxis: {
               type: 'string',
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                categories: agents,
             },
             legend: {
               position: 'right',
@@ -213,6 +210,11 @@ export function MultipleBarChart({children,...props}) {
             },
           },
         })
+
+        useEffect(()=>{
+            console.log("props",active)
+            console.log("props",props)
+        },[props])
       
 
     
