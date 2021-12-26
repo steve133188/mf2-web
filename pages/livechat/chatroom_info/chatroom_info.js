@@ -17,7 +17,6 @@ export default function ChatroomInfo ({data}){
     const handelEditContact = ()=>{
 
         if(data.name.length>0){
-            console.log("haloha")
             setIsEditProfileShow(!isEditProfileShow)
             toggleEditProfile(data)
         }
@@ -42,7 +41,7 @@ export default function ChatroomInfo ({data}){
         <div className={"editContact_chatroom"}>
         <div className={"editContact_chatroom"}>
 
-        {isEditProfileShow?  ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
+        {isEditProfileShow?  (<Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
         </div>
             
         </div>

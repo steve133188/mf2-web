@@ -53,7 +53,7 @@ export default function Contacts() {
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
-    const [selectedTeams ,setSelectedTeams] =useState("")
+    const [selectedTeams ,setSelectedTeams] =useState([])
     const [selectedChannel ,setSelectedChannel] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])

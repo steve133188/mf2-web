@@ -95,6 +95,7 @@ export default function Live_chat() {
     const [selectedTeams ,setSelectedTeams] =useState([])
     const [selectedChannels ,setSelectedChannels] =useState([]);
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
+    const [chatroomsInfo, setChatroomsInfo] = useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
     const [filteredData , setFilteredData] = useState([])
@@ -115,7 +116,7 @@ export default function Live_chat() {
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
-        console.log(data)
+        console.log(data,"all contacts")
     }
 
     const getUsers = async ()=>{
@@ -179,9 +180,12 @@ export default function Live_chat() {
         setIsExpand(false);
 
     }
-    const toggleFile= () =>{
+    const toggleFile= (e) =>{
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
+        fileAttach()
+        // console.log(e.terget.files[0])
+        setAttachment("e.terget.name")
 
     }
     const toggleQuickReply = () =>{
@@ -302,6 +306,15 @@ export default function Live_chat() {
 
     
     useEffect(()=>{
+<<<<<<< HEAD
+=======
+        const new1=[]
+        chatrooms.map(chat=>{ const cc = contacts.filter(c=>c.id==chat.customer_id)
+            return new1.push({...chat, agents:cc[0].agents,agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
+        })
+        setFilteredData(new1)
+        setChatroomsInfo(new1)
+>>>>>>> 7808ed06a06b32b6245305d043003a481bf612d2
     },[chatrooms])
 
     const advanceFilter =()=>{
@@ -309,7 +322,7 @@ export default function Live_chat() {
         })
         console.log("filter",filter)
 
-        const channelFiltered = chatrooms.filter(data=>{
+        const channelFiltered = chatroomsInfo.filter(data=>{
             if(selectedChannels.length ==0){
                 return data
             }
@@ -319,25 +332,25 @@ export default function Live_chat() {
         console.log("channelFiltered:",channelFiltered)
         console.log(selectedUsers)
 
-        // const agentFiltered = channelFiltered.filter(data=>{
-        //     if(selectedUsers.length==0){
-        //         return data
-        //     }
-        //     return data.agents.some(el=>selectedUsers.includes(el))
-        // })
-        // console.log("agent:",agentFiltered)
+        const agentFiltered = channelFiltered.filter(data=>{
+            if(selectedUsers.length==0){
+                return data
+            }
+            return data.agents.some(el=>selectedUsers.includes(el))
+        })
+        console.log("agent:",agentFiltered)
 
-        // const tagFiltered = agentFiltered.filter(data=>{
-        //     if(selectedTags.length ==0){
-        //         return data
-        //     }
-        //     return data.tags.some(el=>selectedTags.includes(el))
-        // })
-        // console.log("tagFiltered:",tagFiltered)
+        const tagFiltered = agentFiltered.filter(data=>{
+            if(selectedTags.length ==0){
+                return data
+            }
+            return data.tags.some(el=>selectedTags.includes(el))
+        })
+        console.log("tagFiltered:",tagFiltered)
 
 
-        // const teamFiltered = tagFiltered.filter(data=>{
-        const teamFiltered = channelFiltered.filter(data=>{
+        const teamFiltered = tagFiltered.filter(data=>{
+        // const teamFiltered = channelFiltered.filter(data=>{
             if(selectedTeams.length ==0){
                 return data
             }
@@ -395,7 +408,7 @@ export default function Live_chat() {
                                             // type={type}
                                             // value={state}
                                             onChange={(e)=> {
-                                                searchFilter(e.target.value , chatrooms,(new_data)=>{
+                                                searchFilter(e.target.value , chatroomsInfo,(new_data)=>{
                                                     setFilteredData(new_data)
                                                 })
                                             }}
@@ -510,7 +523,7 @@ export default function Live_chat() {
                             // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}}
                                     >
                                     {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
-                                    <input type="file" name="fileAttach" ref={attachFile} onChange={upload} ></input>
+                                    <input type="file" name="fileAttach" ref={attachFile} onChange={upload} onClick={toggleFile}></input>
                                     <Mask_Group_3/>
                                    </div>
                             <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply}
