@@ -35,11 +35,11 @@ export default function QuickReply(props) {
 
                 </Tabs>
             </Box>
-                    {props.data.map((item,index)=>(
-                    <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={index}>
+                    {props.data.map((item , index)=>(
+                    <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={item.name}>
                         <div className={'reply_box'}>{item.set.map((item,index)=>(
                             <div key={index}>
-                                <div className={'nameTag'} id={item.id} content={item.content} onClick={props.onclick}>
+                                <div className={'nameTag'} id={item.name} content={item.content} onClick={props.onclick}>
                                     {item.name}
                                 <div hidden={true}>{item.content}</div>
                                 </div>

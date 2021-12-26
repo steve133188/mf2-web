@@ -137,8 +137,8 @@ export default function ProfileGrid({data}){
             
                     <div className={'activity_log_box'}>
                         {/* <div className={"notesVolumn"}>Note : {notes.length}</div> */}
-                            {notes.map((note)=>{
-                                return (<div className={"log_items"}>
+                            {notes.map((note , index)=>{
+                                return (<div key={index} className={"log_items"}>
                                             <div className={"message_pad"}>
                                                 <div className={"left nameTag"}>
                                                                 {/* <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} /> */}

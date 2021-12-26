@@ -5,6 +5,10 @@ module.exports = {
 const path = require('path')
 const withSass = require('@zeit/next-sass');
 module.exports = withSass({
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   cssModules: true
 })
 module.exports = {
