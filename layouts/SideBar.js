@@ -78,19 +78,22 @@ export default function SideBar(props) {
         return n.includes(url)
         
     }
-
+    const [width, setWidth] = useState(window.innerWidth);
+    const [height, setHeight] = useState(window.innerHeight);
+  
     const [size, setSize] = useState([0, 0]);
 
 
 
         useLayoutEffect(() => {
             function updateSize() {
-              setSize({w:window.innerWidth, h:window.innerHeight});
+              setSize({width, height});
             }
             if(window) {  
+                updateSize();
                 window.addEventListener('resize', updateSize);
-             updateSize();
-           () => window.removeEventListener('resize', updateSize);return}
+                return () => window.removeEventListener('resize', updateSize);
+            }
         }, []);
         // return size;
 
