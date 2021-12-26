@@ -125,8 +125,7 @@ export default function CreateRole({show, toggle ,reload}){
                     </div>
                 <div className={"access_right"}>
 
-                    {AuthList.map(item=>{return<>
-                    <div className={"select_item"}> 
+                    {AuthList.map((item,index)=>{return  <div key={"auth"+index} className={"select_item"}> 
                         <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
                                     <input type="checkbox"  name={item.name} value={authority[item.name]} checked={authority[item.name]} onChange={handleSelect} />
@@ -134,7 +133,7 @@ export default function CreateRole({show, toggle ,reload}){
                                 <span>{item.title}</span>
                         </div>
                     </div>
-                    </>})}
+                    })}
                             
                 </div>
                     {/*  */}
@@ -144,8 +143,7 @@ export default function CreateRole({show, toggle ,reload}){
                         </div>
                     <div className={"access_right"}>
 
-                        {channelData.map(item=>{return<>
-                        <div className={"select_item"} style={{width:"fit-content"}}> 
+                        {channelData.map((item,index)=>{return  <div key={"channel"+index} className={"select_item"} style={{width:"fit-content"}}> 
                             <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
                                         <input type="checkbox"  name={item.value} value={authority[item.value]} checked={authority[item.value]} onChange={handleSelect} />
@@ -154,7 +152,7 @@ export default function CreateRole({show, toggle ,reload}){
                                     <span>{item.name}</span>
                             </div>
                         </div>
-                        </>})}
+                        })}
                     </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>

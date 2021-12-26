@@ -126,7 +126,7 @@ export default function Tags() {
                                 onChange={(e)=> {
                                     searchTagFilter(e.target.value.toLowerCase() , tags,(new_data)=>{
                                         setFilteredData(new_data)
-                                        setCurrentPage("1")
+                                        setCurrentPage(1)
                                     })
                                 }}
                                 placeholder={"Search"}
@@ -221,7 +221,7 @@ export default function Tags() {
                     </Table>
                 </TableContainer>
 
-                <Pagination count={Math.ceil(filteredData.length/10)} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
+                <Pagination count={Math.ceil(filteredData.length/10)} value={currentPage} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
 
             </div>
 

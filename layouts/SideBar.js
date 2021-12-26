@@ -84,12 +84,13 @@ export default function SideBar(props) {
 
 
         useLayoutEffect(() => {
-          function updateSize() {
-            setSize({w:window.innerWidth, h:window.innerHeight});
-          }
-          window.addEventListener('resize', updateSize);
-          updateSize();
-          return () => window.removeEventListener('resize', updateSize);
+            function updateSize() {
+              setSize({w:window.innerWidth, h:window.innerHeight});
+            }
+            if(window) {  
+                window.addEventListener('resize', updateSize);
+             updateSize();
+           () => window.removeEventListener('resize', updateSize);return}
         }, []);
         // return size;
 

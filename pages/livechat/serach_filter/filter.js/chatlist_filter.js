@@ -145,7 +145,7 @@ export default function ChatlistFilter( {...props}){
                 <div className={"filter_box_status"}  >
                     <div className={"status_box"}>
                         <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox"  />
+                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" onChange={()=>{}} />
                             </label>
                         </div>
                         {/* <input type="checkbox" name="unread_check" />
@@ -155,14 +155,14 @@ export default function ChatlistFilter( {...props}){
                     </div>
                     <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox"  />
+                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" onChange={()=>{}} />
                             </label>
                         </div>
                         Unassign
                     </div>
                     <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox"  />
+                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" onChange={()=>{}} />
                             </label>
                         </div>
                         ChatBot
@@ -199,7 +199,7 @@ export default function ChatlistFilter( {...props}){
                                         <div className={"name"}>{user.username}</div>
                                     </div>
                                     <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
                                         </label>
                                     </div>
                                 </li>) })
@@ -231,7 +231,7 @@ export default function ChatlistFilter( {...props}){
                             return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                        <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} onChange={()=>{}}/>
                                     </label> </div></li>)
                         })}
 

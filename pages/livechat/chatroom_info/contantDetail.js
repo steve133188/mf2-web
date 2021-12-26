@@ -193,7 +193,7 @@ useEffect(()=>{
                             <div key={note.id}>
                                 <div className={"message_pad"}>
                                     <div className={"left nameTag"}>
-                                        <Tooltip key={note.id} className={""} title={data.wroteBy} placement="top-start">
+                                        <Tooltip key={note.id} className={""} title={note.wroteBy} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
                                     </div>
