@@ -191,7 +191,7 @@ export default function DashBroadFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
+                        {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
                 </div>
                 <FilterDropDown title={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>
@@ -225,9 +225,9 @@ export default function DashBroadFilter(props){
                     </div>
                     </div>
                     <div className={"taglList"}>
-                        {selectedAgents.map((user)=>{
+                        {selectedAgents.map((user,i)=>{
                                 return(
-                                    <div className={"tag"} style={{display:"flex" ,gap:10}}>
+                                    <div key={i} className={"tag"} style={{display:"flex" ,gap:10}}>
                                         <Tooltip key={user} className={""} title={user} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
