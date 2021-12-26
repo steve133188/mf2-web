@@ -202,8 +202,8 @@ export default function StandardReply() {
                                         </TableCell>
 
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                        {data.channel.map((item)=>{console.log(item);
-                                            return <span ><img src={`/channel_SVG/${item}.svg`} style={{width:"20px"}}/> </span>})}
+                                        {data.channel.map((item, index)=>{console.log(item);
+                                            return <span key={index} ><img src={`/channel_SVG/${item}.svg`} style={{width:"20px"}}/> </span>})}
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
