@@ -6,7 +6,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { useState } from 'react';
 
 
-export default function StickerBox(props){
+export default function StickerBox({data , stickerSend }){
     const [value, setValue] = useState('1');
 
     const handleChange = (event, newValue) => {
@@ -31,15 +31,15 @@ export default function StickerBox(props){
                     scrollButtons="off"
                     // visibleScrollbar="true" 
                 >
-                    {props.data.map(item=>(<Tab label={item.name} value={item.id} />))}
+                    {data.length>0?data.map((item , index)=>(<Tab key={index} label={item.name} value={item.id} />)):null}
 
 
                 </Tabs>
             </Box>
-                    {props.data.map((item,index)=>(
-                    <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={item.name}>
-                        {item.sticker.map(item=>(<img src={item.src} key={item.name+index} style={{width:"80px",margin:"3px"}} onClick={props.stickerSend} />))}
-                    </TabPanel>))}
+                    {data.length>0?data.map((item,index)=>(
+                    <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={index}>
+                        {item.sticker.map((item,index)=>(<img src={item.src} key={item.name+index} style={{width:"80px",margin:"3px"}} onClick={stickerSend} />))}
+                    </TabPanel>)):null}
             {/* <TabPanel value="2">Item Two</TabPanel>
             <TabPanel value="3">Item Three</TabPanel> */}
           </TabContext>

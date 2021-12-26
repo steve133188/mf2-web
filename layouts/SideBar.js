@@ -54,10 +54,10 @@ export default function SideBar(props) {
     }
     const [notifications, setNotifications] = useState([])
     let unreadNotificationCount =()=> notifications.filter(unread => unread.unreadCount >0 ).length || 0;
-    useEffect( async ()=>{
-        const data = await getMesssages()
-        if(data!=-1&& data!= undefined){setNotifications(data)}else{setNotifications([])}
-    } , [])
+    // useEffect( async ()=>{
+    //     const data = await getMesssages()
+    //     if(data!=-1&& data!= undefined){setNotifications(data)}else{setNotifications([])}
+    // } , [])
 
     //when click the notification, set unreadCount to 0
      function handleReadNotification (target) {
@@ -95,8 +95,7 @@ export default function SideBar(props) {
 
 
     useEffect(()=>{
-          console.log("size")
-          console.log(size)
+
           size.w<1500?setIsCollapse(true):setIsCollapse(false)
         //   useWindowSize()
       },[size])

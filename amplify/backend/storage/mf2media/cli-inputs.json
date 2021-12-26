@@ -1,0 +1,18 @@
+{
+  "resourceName": "mf2media",
+  "policyUUID": "f8be4f13",
+  "bucketName": "mf2media",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

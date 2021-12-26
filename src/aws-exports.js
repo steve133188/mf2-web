@@ -28,8 +28,8 @@ const awsmobile = {
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
     ],
-    "aws_user_files_s3_bucket": "mf2-whatsapp-media",
-    "aws_user_files_s3_bucket_region": "ap-east-1"
+    "aws_user_files_s3_bucket": "mf2media00345-dev",
+    "aws_user_files_s3_bucket_region": "ap-southeast-1"
 };
 
 

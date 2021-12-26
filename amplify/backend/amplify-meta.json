@@ -59,7 +59,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-mf2web-dev-00345-deployment/amplify-cfn-templates/auth/mf2web40fac6b5-cloudformation-template.json",
         "logicalId": "authmf2web40fac6b5"
       },
-      "lastPushTimeStamp": "2021-12-20T12:13:48.340Z",
+      "lastPushTimeStamp": "2021-12-26T10:49:56.887Z",
       "output": {
         "UserPoolId": "ap-southeast-1_syG51cBsz",
         "AppClientIDWeb": "62fp88k7n0n93aaauc25tm0r0d",
@@ -73,16 +73,20 @@
     }
   },
   "storage": {
-    "mf2web33649254": {
+    "mf2media": {
       "service": "S3",
-      "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
-      "output": {
-        "BucketName": "mf2-whatsapp-media",
-        "Region": "ap-east-1"
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-mf2web-dev-00345-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storagemf2media"
       },
-      "lastPushTimeStamp": "2021-12-20T12:13:48.352Z"
+      "lastPushTimeStamp": "2021-12-26T10:49:56.901Z",
+      "output": {
+        "BucketName": "mf2media00345-dev",
+        "Region": "ap-southeast-1"
+      },
+      "lastPushDirHash": "v/0eaAYCTA+Zm6tYy+4NolWDbes="
     }
   }
 }
