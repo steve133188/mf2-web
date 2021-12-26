@@ -1,6 +1,5 @@
-import Layout from '/layouts/Layout_setting'
+
 import Avatar from "@mui/material/Avatar";
-import {CancelButton, NormalButton, NormalButton2} from "../../components/Button";
 import { MF_Input} from "../../components/Input";
 import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";

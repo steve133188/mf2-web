@@ -38,7 +38,7 @@ const getUsers = async ()=>{
     console.log(data,"useruser")
     setFilteredUsers(data)
 } 
-const fetchContacts = async (cid) =>{
+const fetchContact = async (cid) =>{
     const data = await contactInstance.getContactById(cid)
     setContact(data)
     console.log(data,"cid")
@@ -55,7 +55,7 @@ useEffect(    async () => {
     }
 },[]);
 useEffect(async()=>{
-    await fetchContacts(data.customer_id)
+   if(data&&user.token) await fetchContact(data.customer_id);
 },[data])
 
 const toggleSelectTags = e => {

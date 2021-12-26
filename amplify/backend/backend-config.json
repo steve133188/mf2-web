@@ -26,9 +26,8 @@
     }
   },
   "storage": {
-    "mf2web33649254": {
+    "mf2media": {
       "service": "S3",
-      "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": []
     }

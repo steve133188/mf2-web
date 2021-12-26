@@ -34,7 +34,7 @@ export default function ChatroomInfo ({data}){
     }
     useEffect(async()=>{
         console.log("chatroomINfo",data)
-        await fetchContacts(data.customer_id)
+        // await fetchContacts(data.customer_id)
     },[data])
     return (
     <div className={"chatroom_info"}>

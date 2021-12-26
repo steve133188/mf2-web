@@ -24,13 +24,6 @@ import searchFilter from "../../helpers/searchFilter";
 
 export default function Live_chat() {
 
-    const stickersList = [
-        // {id:"1",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
-        // {id:"232",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        // {id:"weq",name:"sticker_set_3",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        // {id:"va",name:"bobby",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-    
-        ]
     const replyTemplateList = [
             {id:1,name:"Greating",set:[{name:"Morning",content:"Good morning, have a nice day!"}]},
             {id:4,name:"Questioning",set:[{name:"First meet",content:"What can i help you?"},{name:"Follow up",content:"That's great. Let me introduce you our service."}]},
@@ -44,7 +37,6 @@ export default function Live_chat() {
     const [stickerData ,setStickerData] = useState([])
     const [replyData ,setReplyData] = useState([])
     useEffect(()=>{
-        setStickerData(stickersList)
         setReplyData(replyTemplateList)
     },[])
     let subscriptions ;
@@ -66,11 +58,12 @@ export default function Live_chat() {
         message:"",
         type:"text"
     })
+
+
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
         setChatrooms([...result.data.listMF2TCOCHATROOMS.items])
-       
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -83,7 +76,7 @@ export default function Live_chat() {
     }
     const upload = async (e) =>{
         const file = e.target.files[0]
-        const result = await Storage.put(file.name , file )
+        const result = await mediaInstance.putMedia(file)
         console.log("result : " , result)
         await fetchAttachment()
     }
@@ -153,13 +146,13 @@ export default function Live_chat() {
     ///////
 
     async function handleChatRoom(chatroom){
-        setSelectedChat(chatroom)
+        if(chatroom == selectedChat) return ;
+        setChatroomMsg([])
+        // setSelectedChat(chatroom)
         console.log("selected Chat" , selectedChat)
         const phone = selectedChat.phone
         setTypedMsg({...typedMsg ,phone:phone})
         console.log("typed message" , typedMsg)
-        setChatroomMsg([])
-        await getChatroomMessage(selectedChat.room_id)
         await getCustomerbyID(selectedChat.customer_id)
     }
 
@@ -168,13 +161,13 @@ export default function Live_chat() {
         console.log(result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
-    // useEffect(async ()=>{
-    //     if(!start){  setStart(true)}
-    //     const data = await getChatrooms()
-    //     setChatrooms(data)
-    //     console.log(chatrooms)
-    //     console.log(selectedTeams)
-    // } , [selectedTeams])
+    useEffect(async ()=>{
+        if(!start){  setStart(true)}
+        const data = await getChatrooms()
+        setChatrooms(data)
+        console.log(chatrooms)
+        console.log(selectedTeams)
+    } , [selectedTeams])
 
     const toggleSticker = () =>{
         setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
@@ -218,7 +211,7 @@ export default function Live_chat() {
         setChatButtonOn("");
         setIsExpand(false)
     }
-    const stickerSend =  async (e)=>{
+    const stickerSend =  async e=>{
         console.log(e.target)
         e.preventDefault();
         const data = {message:e.target.src , phone : typedMsg.phone ,chatroom_id:selectedChat.id,type:"sticker"||0}
@@ -232,7 +225,7 @@ export default function Live_chat() {
         setChatButtonOn("");
         setIsExpand(false)
     }
-    const sendMessageToClient = async (e)=>{
+    const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id}
@@ -258,6 +251,12 @@ export default function Live_chat() {
         setIsExpand(false);
         }
     };
+    const getStickers = async ()=>{
+        const stickers = await mediaInstance.getStickers()
+        setStickerData(stickers)
+        console.log("stickers data" , stickerData)
+
+    }
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
         return () => {
@@ -271,6 +270,8 @@ export default function Live_chat() {
             await getUsers()
             await getTeams()
             await getChatrooms()
+            await getStickers()
+            console.log("stick" , stickerData)
             // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
 
@@ -288,7 +289,9 @@ export default function Live_chat() {
             //     })
         }
     },[]);
-    useEffect(()=>{
+    useEffect(async ()=>{
+        if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
+
         API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:selectedChat.room_id} ))
             .subscribe({
                 next: (chatmessage)=>{
@@ -304,14 +307,14 @@ export default function Live_chat() {
     },[selectedChat])
 
     
-    useEffect(()=>{
-        const new1=[]
-        chatrooms.map(chat=>{ const cc = contacts.filter(c=>c.id==chat.customer_id)
-            return new1.push({...chat, agents:cc[0].agents,agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
-        })
-        setFilteredData(new1)
-        setChatroomsInfo(new1)
-    },[chatrooms])
+    // useEffect(()=>{
+    //     const new1=[]
+    //     chatrooms.map(chat=>{ const cc = contacts.filter(c=>c.id==chat.customer_id)
+    //         return new1.push({...chat, agents:cc[0].agents,agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
+    //     })
+    //     setFilteredData(new1)
+    //     setChatroomsInfo(new1)
+    // },[chatrooms])
 
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]
@@ -385,10 +388,10 @@ export default function Live_chat() {
         setSelectedTags([])
         setSelectedTeams([])
     }
-    useEffect(()=>{
-        advanceFilter
-        console.log(filteredData,"filteredData")
-    },[filteredData])
+    // useEffect(()=>{
+    //     advanceFilter
+    //     console.log(filteredData,"filteredData")
+    // },[filteredData])
     return (
         <div className="live_chat_layout">
             <div className={"chat_list"}>
@@ -446,8 +449,8 @@ export default function Live_chat() {
                                     <Newchatroom contacts={contacts} />
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
-                        {filteredData.map((d , index)=>{
-                            return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{ await handleChatRoom(d)}}/> </>)
+                        {filteredData&&filteredData.map((d , index)=>{
+                            return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{ setSelectedChat(d) ; await handleChatRoom(d)}}/> </>)
                         })}
                     </div>
                 </div>
@@ -488,7 +491,7 @@ export default function Live_chat() {
                         <MsgRow msg={r} key={i} />
                       </>
                     })}
-                    <div ref={messagesEndRef}> {console.log("done")}</div>
+                    <div ref={messagesEndRef}></div>
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")}>

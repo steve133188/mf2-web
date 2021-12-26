@@ -12,17 +12,13 @@ import { getThemeProps } from "@mui/system";
 import DropDown from "../../../../components/filter/teamDropDown";
 import DivisionDropDown from "../../../../components/filter/divisionDropDown";
 
-export default function ChatlistFilter(props){
+export default function ChatlistFilter( {...props}){
     const channelData = [
         // {name:"All Channel",value:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",id:4},];
-    const Division=[
-                    {id:1,name:"Hong Kong",teams:[{id:1,name:"A"},{id:2,name:"B"}]},
-                    {id:2,name:"Macau",teams:[{id:1,name:"A"},{id:2,name:"C"}]},
-                ]
+                {name:"WhastApp",value:"Whatsapp"},
+                {name:"WhatsApp Business",value:"WhatsappB"},
+                {name:"Messager",value:"Messager"},
+                {name:"WeChat",value:"Wechat"},];
 
     const [selectedUsers ,setSelectedUsers] =useState([]);
     const [selectedTags ,setSelectedTags] =useState([])
@@ -80,7 +76,6 @@ export default function ChatlistFilter(props){
                 // }
                 useEffect(    async () => {
                     if(user.token!=null) {
-
                         await getTags()
                         await getUsers()
                         await getTeams()
@@ -176,7 +171,7 @@ export default function ChatlistFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
-                        {channelData.map((e)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
+                        {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>
 
@@ -213,10 +208,10 @@ export default function ChatlistFilter(props){
                     </div>
                     </div>
                     <div className={"taglList"}>
-                        {selectedUsers.map((user)=>{
+                        {selectedUsers.map((user,index)=>{
                                 return(
-                                    <div className={"tag"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip key={user} className={""} title={user} placement="top-start">
+                                    <div key={index} className={"tag"} style={{display:"flex" ,gap:10}}>
+                                        <Tooltip  className={""} title={user} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
 
