@@ -81,10 +81,10 @@ export default function DropDown ({teamData,setSelection}) {
           </ListItemButton>
             <Collapse in={open==team.name} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {levelTwoData.filter(agent=>agent.team==team.name).map(agent=>{
+                    {levelTwoData.filter(agent=>agent.team==team.name).map((agent,i)=>{
                        const labelId = `checkbox-list-label-${agent.id}`;
                         // console.log("agent"+agent)
-                        return ( <ListItemButton sx={{ pl: 4 }} onClick={handleToggle(agent.id)} dense>
+                        return ( <ListItemButton key={i} sx={{ pl: 4 }} onClick={handleToggle(agent.id)} dense>
                                      <Tooltip key={agent.name} className={""} title={agent.name} placement="top-start">
                                             <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginRight:"10px"}} >{agent.name.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>

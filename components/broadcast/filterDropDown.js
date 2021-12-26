@@ -16,8 +16,8 @@ export default function FilterDropDown (props){
                     
 
                         <div className={"channelList"} >
-                            {filterdata.filter(items=>items.name.includes(agentSearchValue)).map((item)=>{
-                                return(<li className={"channelListitem"} key={item.name} style={{width:"100%"}}>
+                            {filterdata.filter(items=>items.name.includes(agentSearchValue)).map((item,index)=>{
+                                return(<li className={"channelListitem"} key={index} style={{width:"100%"}}>
                                     <div className={"left"} style={{display:"flex" ,gap:10}}>
                                         <Tooltip key={item.name} className={""} title={item.name} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{item.name.substring(0,2).toUpperCase()}</Avatar>
@@ -34,9 +34,9 @@ export default function FilterDropDown (props){
                     </div>
                     </div>
                     <div className={"taglList"}>
-                        {selecteddata.map((item)=>{
+                        {selecteddata.map((item , index)=>{
                                 return(
-                                    <div className={"tag"} style={{display:"flex" ,gap:10}}>
+                                    <div className={"tag"} key={index} style={{display:"flex" ,gap:10}}>
                                         <Tooltip key={item} className={""} title={item} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{item.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>

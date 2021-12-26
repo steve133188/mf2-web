@@ -56,7 +56,7 @@ export default function BroadcastDatails({data}){
                                     <div>
                                         {/* <p style={{color: "#495057", fontSize: "16px", fontWeight: "600"}}>"fa"</p> */}
                                         <div style={{marginLeft: "25px", fontSize: "12px", color: "#74788D"}}>
-                                            <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>"total"
+                                            <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>&quot;total&quot;
                                             {/* <span style={{marginLeft: "6px", fontSize: "8px", fontWeight: "600", color: "#34C38F"}}>"percentage"</span> */}
                                         </div></div>
                                     </div>
@@ -66,7 +66,7 @@ export default function BroadcastDatails({data}){
                                     <div>
                                         {/* <p style={{color: "#495057", fontSize: "16px", fontWeight: "600"}}>"fa"</p> */}
                                         <div style={{marginLeft: "25px", fontSize: "12px", color: "#74788D"}}>
-                                            <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>"total"
+                                            <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>&quot;total&quot;
                                             {/* <span style={{marginLeft: "6px", fontSize: "8px", fontWeight: "600", color: "#34C38F"}}>"percentage"</span> */}
                                         </div></div>
                                     </div>
@@ -76,7 +76,7 @@ export default function BroadcastDatails({data}){
                                     <div>
                                         {/* <p style={{color: "#495057", fontSize: "16px", fontWeight: "600"}}>"fa"</p> */}
                                         <div style={{marginLeft: "25px", fontSize: "12px", color: "#74788D"}}>
-                                            <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>"total"
+                                            <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>&quot;total&quot;
                                             {/* <span style={{marginLeft: "6px", fontSize: "8px", fontWeight: "600", color: "#34C38F"}}>"percentage"</span> */}
                                         </div></div>
                                     </div>

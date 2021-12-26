@@ -132,8 +132,8 @@ export default function Contacts() {
         })
     }
     const renderChannels=() => {
-        return selectedChannel!=-1&&selectedChannel.map((channel)=>{
-            return<div><img style={{width:'18px',margin:'3px'}}src={`/channel_SVG/${channel}.svg`} /></div>
+        return selectedChannel!=-1&&selectedChannel.map((channel , index)=>{
+            return<div key={index}><img style={{width:'18px',margin:'3px'}}src={`/channel_SVG/${channel}.svg`} /></div>
         })
     }
     const getTags = async ()=>{

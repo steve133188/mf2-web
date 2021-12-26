@@ -10,7 +10,7 @@ function mediaHelper(){
     }
 
     this.putMedia = async (file)=>{
-        const result = await Storage.put(file.name , file )
+        const result = await Storage.put(`stickers/${file.name}` , file )
         console.log("result : " , result)
         return result.key
     }

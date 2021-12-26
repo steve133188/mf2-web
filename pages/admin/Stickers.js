@@ -178,7 +178,7 @@ export default function Stickers() {
                                     //         // checked={selectedContacts.includes(data.id)}
                                     //         // onClick={isSelectRow?toggleSelect:null}
                                     //     >
-                                <div>
+                                <div key={index}>
                                             <span >{data.name}
                                             </span>
                                              <div className="newCheckboxContainer">
@@ -191,9 +191,9 @@ export default function Stickers() {
                                     name={index}
                                     id={index+data.id}> 
 
-                                                {data.sticker.map((data)=>{
+                                                {data.sticker.map((data , index)=>{
                                                     return(
-                                                            <div>
+                                                            <div key={index}>
                                                             <img src={data.src}/>
                                                             </div>
 

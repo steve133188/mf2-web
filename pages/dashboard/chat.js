@@ -196,8 +196,8 @@ export default function Chat() {
                     <div className={"card_holder1"}>
                     <div style={{margin:"6px 10px auto"}}>Channel</div>
                         <div className={"card_holder"}>
-                        {channelData.map((data)=>{
-                            return  <LineChartCard  title={data.name} chart={false} img={true} d={data} channel={data.channelID} />       
+                        {channelData.map((data,index)=>{
+                            return  <LineChartCard key={index} title={data.name} chart={false} img={true} d={data} channel={data.channelID} />
                         })
                         }
                         </div>
