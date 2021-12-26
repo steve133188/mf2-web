@@ -28,6 +28,7 @@ import {getAllStandardReply} from "../../helpers/adminHelpers";
 import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
+import DeletePad from "../../components/DeletePannel";
 
 export default function StandardReply() {
 
@@ -47,6 +48,7 @@ export default function StandardReply() {
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isSelectRow, setIsSelectRow] = useState( false);
 
+    const [isDelete , setIsDelete] = useState(false)
     let result = currentContacts.map(d=>d.id)
 
     const fetchStandardReply = async () =>{
@@ -93,13 +95,13 @@ export default function StandardReply() {
         setDeleteTag(name)
     }
     const [deleteTagname,setDeleteTag] = useState("")
-    const deleteTag= async (id)=>{
-        const res = await adminInstance.deleteTag(id)
+    const deleteReplys= async (id)=>{
+        // const res = await adminInstance.deleteTag(id)
         console.log(res)
-        await fetchTags()
+        await fetchStandardReply()
     }
     const submitDelete = () =>{
-        deleteTag(deleteTagname);
+        deleteReplys(deleteTagname);
 
         setIsDelete(!isDelete)
     }
@@ -113,6 +115,7 @@ export default function StandardReply() {
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <div className="rightContent">
+                <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={removeManyContact} data={selectedReplys} title={"Folders"}/>
                 <div className={"search_session"}>
                     <div className="search">
                         <div className="mf_icon_input_block  mf_search_input">

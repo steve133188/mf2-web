@@ -100,7 +100,9 @@ export default function Index() {
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
-    const toggleEdit = ()=>{
+    const toggleEdit = (agent)=>{
+        console.log(agent,"toggle")
+        agent?setSelectedUsers([agent]):null
         if (selectedUsers.length!=1){
             return
         }
@@ -265,7 +267,7 @@ export default function Index() {
 
 
                                         <TableCell align="right">
-                                       <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG /></span>
+                                       <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.phone)}><EditSVG /></span>
                                        <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.username)}><DeleteSVG /></span>
                                     </TableCell>
                                     </TableRow>

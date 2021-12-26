@@ -187,9 +187,12 @@ export default function Live_chat() {
         setIsExpand(false);
 
     }
-    const toggleFile= () =>{
+    const toggleFile= (e) =>{
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
+        fileAttach()
+        console.log(e.terget.name)
+        setAttachment("e.terget.name")
 
     }
     const toggleQuickReply = () =>{
@@ -516,7 +519,7 @@ export default function Live_chat() {
                             // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}}
                                     >
                                     {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
-                                    <input type="file" name="fileAttach" ref={attachFile} onChange={upload} ></input>
+                                    <input type="file" name="fileAttach" ref={attachFile} onChange={upload} onClick={toggleFile}></input>
                                     <Mask_Group_3/>
                                    </div>
                             <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply}

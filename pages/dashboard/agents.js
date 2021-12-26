@@ -144,7 +144,7 @@ export default function Agents() {
                                                                         active={[12, 17, 19, 22, 24, 20, 18, 26, 20, 17, 15, 19]}
                                                                         unhandled={[5, 12, 14, 4, 12, 6, 7, 12, 16, 3, 5, 7]}
                                                                         delivered={[7, 5, 5, 18, 12, 14, 11, 14, 4, 14, 10, 12]}
-                                                                        agents={['harry','john','harry','john','harry','john','harry','john','harry','john','harry','john',00]}
+                                                                        agents={['harry','john','harry','john','harry','john','harry','john','harry','john','harry','john']}
                                                                         min1={"12"} min2={12} min3={12}/></div>
                 </div>
                 
