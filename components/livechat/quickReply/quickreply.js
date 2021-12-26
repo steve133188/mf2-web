@@ -38,7 +38,7 @@ export default function QuickReply(props) {
                     {props.data.map((item,index)=>(
                     <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={item.name}>
                         <div className={'reply_box'}>{item.set.map(item=>(
-                            <div>
+                            <div key={item.id}>
                                 <div className={'nameTag'} id={item.id} content={item.content} onClick={props.onclick}>
                                     {item.name}
                                 <div hidden={true}>{item.content}</div>

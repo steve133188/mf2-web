@@ -19,7 +19,7 @@ export default function StickerBox({data , stickerSend }){
           <TabContext value={value} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} >
             <Box component="div" 
                     visibleScrollbar={true}
-                    scrollButtons={"on"}
+
                     sx={{ borderBottom: 1, borderColor: 'divider',overflow: 'auto' , my: 2,padding:"8px",}}>
 
                 <Tabs
@@ -30,7 +30,7 @@ export default function StickerBox({data , stickerSend }){
                     aria-label="secondary tabs example"
                     variant="scrollable"
                     // sx={{padding:"8px",}}
-                    scrollButtons="off"
+                    scrollButtons={false}
                     // visibleScrollbar="true" 
                 >
                     {data.map((item , index)=>(<Tab key={index} label={item} value={index} />))}
