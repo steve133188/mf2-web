@@ -72,7 +72,7 @@ export default function CreateReplyFolder({show, toggle}){
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                       <div className={"filter_box_agents"}  >Agent
+                       {/* <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
                     <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
@@ -80,7 +80,6 @@ export default function CreateReplyFolder({show, toggle}){
                          <div className={"search_bar"}>    
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>
-                        {/* <DivisionDropDown data={Division}  /> */}
                     
 
                         <div className={"channelList"} >
@@ -115,7 +114,7 @@ export default function CreateReplyFolder({show, toggle}){
                                 )
                             })}
                     </div>
-                </div>
+                </div> */}
                     </Select>
                 </div>
                 <div className={"btn_row"}>

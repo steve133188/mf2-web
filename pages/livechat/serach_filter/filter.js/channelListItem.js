@@ -23,6 +23,7 @@ export default function ChannelListItem(  props){
                                                 value={props.value} 
                                                 name="checkbox" 
                                                 checked={props.checked} 
+                                                onChange={()=>{}}
                                                 onClick={props.onclick} 
                                                 />
                                         </label>

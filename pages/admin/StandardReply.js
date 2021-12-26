@@ -33,9 +33,8 @@ import CreateReplyFolder from "../../components/Admin/CreateReplyFolder";
 
 export default function StandardReply() {
 
-    const [standardReply, setStandardReply] = useState([]);
     const {adminInstance , user} = useContext(GlobalContext)
-
+    const [standardReply, setStandardReply] = useState([]);
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(false);
@@ -52,17 +51,17 @@ export default function StandardReply() {
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
     let result = currentContacts.map(d=>d.id)
+    
+    useEffect(    async () => {
+        if(user.token) await fetchStandardReply()
 
+    },[]);
     const fetchStandardReply = async () =>{
         const data = await adminInstance.getAllStandardReply()
         console.log("getAllStandardReply",data)
         setStandardReply(data)
         setFilteredData(data)
     }
-    useEffect(    async () => {
-        if(user.token)await fetchStandardReply()
-
-    },[]);
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
@@ -89,7 +88,7 @@ export default function StandardReply() {
     }
     const toggleEdit = (id,tag)=>{
         setIsEdit(!isEdit)
-        setSelectedTag({id,tag})
+        // setSelectedTag({id,tag})
         console.log(selectedTag,"tagtagtag")
     }
     const toggleDelete = (name)=>{
@@ -97,11 +96,11 @@ export default function StandardReply() {
         setDeleteTag(name)
     }
     const [deleteTagname,setDeleteTag] = useState("")
-    const deleteReplys= async (id)=>{
-        // const res = await adminInstance.deleteTag(id)
-        console.log(res)
-        await fetchStandardReply()
-    }
+    // const deleteReplys= async (id)=>{
+    //     // const res = await adminInstance.deleteTag(id)
+    //     console.log(res)
+    //     await fetchStandardReply()
+    // }
     const submitDelete = () =>{
         deleteReplys(deleteTagname);
 
@@ -201,20 +200,20 @@ export default function StandardReply() {
                                             </div>
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{data.name}</span>
+                                            <span key={"name"+index}>{data.name}</span>
                                         </TableCell>
 
                                         <TableCell align="left" sx={{width:"15%"}}>
                                         {data.channel.map((item)=>{console.log(item);
-                                            return <span ><img src={`/channel_SVG/${item}.svg`} style={{width:"20px"}}/> </span>})}
+                                            return <span key={"channel"+index} ><img src={`/channel_SVG/${item}.svg`} style={{width:"20px"}}/> </span>})}
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{data.team}</span>
+                                            <span key={"team"+index} >{data.team}</span>
 
                                         </TableCell>
 
-                                        <TableCell align="left" sx={{width:"30%",}}>
+                                        <TableCell key={"agents"+index} align="left" sx={{width:"30%",}}>
                                             <span style={{display:"flex"}}>
                                         {data.assignee? (
                                             data.assignee.map((item)=>{console.log(item);
@@ -228,7 +227,7 @@ export default function StandardReply() {
                                                              } </span>
                                         </TableCell>
 
-                                        <TableCell align="right">
+                                        <TableCell key={"button"+index} align="right">
                                             <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.id,data.name)}><EditSVG/></span>
                                             <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.id)}><DeleteSVG/></span>
                                        </TableCell>

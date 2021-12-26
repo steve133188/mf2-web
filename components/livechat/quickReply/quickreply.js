@@ -30,16 +30,16 @@ export default function QuickReply(props) {
                     variant="scrollable"
                     // scrollButtons="off"
                 >
-                    {props.data.map(item=>(<Tab label={item.name} key={item.name} value={item.id} />))}
+                    {props.data.map((item,index)=>(<Tab label={item.name} key={item.name} value={item.id} />))}
 
 
                 </Tabs>
             </Box>
-                    {props.data.map(item=>(
+                    {props.data.map((item,index)=>(
                     <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={item.name}>
                         <div className={'reply_box'}>{item.set.map(item=>(
                             <div>
-                                <div className={'nameTag'} id={item.name} content={item.content} onClick={props.onclick}>
+                                <div className={'nameTag'} id={item.id} content={item.content} onClick={props.onclick}>
                                     {item.name}
                                 <div hidden={true}>{item.content}</div>
                                 </div>
