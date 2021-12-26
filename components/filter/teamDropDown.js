@@ -74,7 +74,7 @@ export default function DropDown ({teamData,setSelection}) {
           aria-labelledby="nested-list-subheader"
         >
 
-          {levelOneData.map(team=>{return<>
+          {levelOneData.map((team,index)=>{return<div key={index}>
           <ListItemButton onClick={()=>handleClick(team.name,team.id)} id={team.id} >
             <ListItemText primary={team.name} />
             {open==team.name ? <ExpandLess /> : <ExpandMore />}
@@ -110,7 +110,7 @@ export default function DropDown ({teamData,setSelection}) {
                 </List>
             </Collapse>
             
-          </>
+          </div>
 
              }
              )
