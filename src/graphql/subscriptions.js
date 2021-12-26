@@ -12,6 +12,7 @@ export const subscribeToNewMessage = /* GraphQL */ `
       is_media
       media_url
       from_me
+      message_type
     }
   }
 `;

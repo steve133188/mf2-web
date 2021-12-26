@@ -12,6 +12,7 @@ export const createMF2TCOMESSAGGE = /* GraphQL */ `
       is_media
       media_url
       from_me
+      message_type
     }
   }
 `;
@@ -26,6 +27,7 @@ export const updateMF2TCOMESSAGGE = /* GraphQL */ `
       is_media
       media_url
       from_me
+      message_type
     }
   }
 `;
@@ -40,6 +42,7 @@ export const deleteMF2TCOMESSAGGE = /* GraphQL */ `
       is_media
       media_url
       from_me
+      message_type
     }
   }
 `;
