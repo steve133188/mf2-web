@@ -18,17 +18,13 @@ export default function WhatsappFetcher(url){
         return this.error
     }
 
-    this.sendTextMessage = async (data)=>{
+    this.sendMessage = async (data)=>{
         const result = await this.instance.post("/send-message" , data)
             .then(res=>console.log("Send Message Status : " , res.status))
             .catch(err=> {
                 this.errorHandler(err);
                 console.log(this.error)
             })
-    }
-
-    this.sendImage = async (data) =>{
-
     }
 }
 

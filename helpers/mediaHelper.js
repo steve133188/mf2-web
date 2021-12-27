@@ -2,7 +2,11 @@ import {Storage , API , graphqlOperation} from "aws-amplify";
 
 
 function mediaHelper(){
+    this.bucketUrl = "https://mf2media00345-dev.s3.ap-southeast-1.amazonaws.com/public/"
 
+    this.objUrl = (objKey) =>{
+        return this.bucketUrl+objKey
+    }
     this.getMedia= async (key)=>{
         let mediaKey = await Storage.get(key)
         console.log("imgKeys : " , mediaKey)
@@ -20,12 +24,6 @@ function mediaHelper(){
         console.log("media key : " , mediaKey)
         const {files, folders} = await this.processStorageListSet(mediaKey)
         console.log("nested res : ", {files, folders})
-        // mediaKey =await Promise.all(mediaKey.map(async k =>{
-        //     const key = await Storage.get(k.key)
-        //     return key
-        // }))
-        // console.log("imgKeys : " , mediaKey)
-
         return {files, folders}
     }
     this.processStorageList=async (results)=>{
@@ -52,8 +50,8 @@ function mediaHelper(){
         let folders = new Set()
         for (const res of result) {
             if (res.size) {
-                const url = await Storage.get(res.key)
-                res.url =url
+                // const url = await Storage.get(res.key)
+                res.url =this.objUrl(res.key)
                 files.push(res)
                 // sometimes files declare a folder with a / within then
                 let possibleFolder = res.key.split('/').slice(0,-1).join('/')
