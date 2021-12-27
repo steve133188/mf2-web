@@ -1,5 +1,5 @@
 import {ORGSidebar} from "../../components/InnerSidebar";
-import {useState, useEffect, useRef, useContext} from "react";
+import React, {useState, useEffect, useRef, useContext} from "react";
 import SearchSession from "../../components/SearchSession";
 import SelectSession from "../../components/SelectSession";
 import Pagination from "@mui/material/Pagination";
@@ -18,6 +18,41 @@ import UserProfileGrid from "../../components/pageComponents/UserProfile";
 import SwitchAgentForm from "../../components/organisation/SwitchAgentForm";
 import MF_Modal from "../../components/MF_Modal";
 import {EditPenSVG} from "../../public/broadcast/broadcastSVG";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import {styled} from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
+
+const BootstrapInput = styled(InputBase)(({ theme }) => ({
+
+    '& .MuiInputBase-input': {
+        borderRadius: "10px",
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #E5E7EC',
+        fontSize: 15,
+        padding: '5px 26px 5px 10px',
+        height:"2rem",
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: 'none',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}));
+const style ={
+    background:" #FFFFFF",
+    // border: "1px solid #E5E7EC",
+    padding:"2px",
+    margin:"2px",
+    borderRadius: "10px",
+    opacity: 1,
+    width:"100%",
+    height:"2rem"
+}
+
+
 
 export default function Organization() {
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
@@ -38,6 +73,7 @@ export default function Organization() {
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedUsers , setSelectedUsers] = useState([])
     const [selectAll, setSelectAll] = useState(false);
+    const [deleteOrg, setDeleteOrg] = useState({});
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
@@ -66,8 +102,8 @@ export default function Organization() {
         setFilteredData(data)
     }
     const fetchRootORG = async () =>{
-        const data = await orgInstance.getAllRootORG()
-        console.log(data,"org dataaaa")
+        const data = await orgInstance.getAllORG()
+        console.log(data,"org data")
         set_root_org(data)
     }
     useEffect(    async () => {
@@ -78,7 +114,7 @@ export default function Organization() {
 
     },[]);
     useEffect(    async () => {
-        if(!curr_org.name){
+        if(user.token&&!curr_org.name){
             await fetchUsers()
         }else{
             console.log("currentContacts",currentContacts)
@@ -102,7 +138,9 @@ export default function Organization() {
             setSelectedUsers([]);
         }
     };
-
+    const handleSelectDelete =e=>{
+        setDeleteOrg(e.target.value)
+    }
     const handleFilterChange = (search)=>{
         if(search.includes(":")){
             console.log("trigger regex search")
@@ -137,17 +175,17 @@ export default function Organization() {
     }
     const toggleDelete = ()=>{
         setIsDelete(!isDelete)
-        console.log("selectedUsers : "+selectedUsers)
     }
-    const deleteUsers = async (selectedNames)=>{
-        for (let i = 0 ; i< selectedNames.length ; i++){
-            const res = userInstance.deleteUserByName(selectedNames[i])
-        }
-        await fetchUsers()
+    const delete_org = async (id)=>{
+        console.log(id)
+        const res = await orgInstance.deleteOrgById(id)
+        console.log(`deleted ${id} ${res}`)
+        await fetchRootORG()
+
     }
     const [isDelete , setIsDelete] = useState(false)
-    const submitDelete = () =>{
-        deleteUsers(selectedUsers);
+    const submitDelete = async() =>{
+        await delete_org(deleteOrg.id);
         setIsDelete(!isDelete)
     }
 
@@ -157,11 +195,8 @@ export default function Organization() {
     function toggleSelectRow() {
         setSelectRow(!isSelectRow);
     }
-    console.log(filteredData)
     const displayTeam=(name)=>{
         set_curr_org(name)
-
-        console.log(name,"show   team name")
     }
     return (
         <div className="organization-layout">
@@ -179,8 +214,23 @@ export default function Organization() {
                     <div className={"modal_form"}>
                         <div className={"modal_title"} style={{textAlign:"center",margin:"20px"}}>
 
-                            <span >Delete agents?</span>
-                        </div> 
+                            <span >Delete ORG</span>
+                        </div>
+                        <div className="inputField">
+                            <span>Team</span>
+                            <Select
+                                sx={style}
+                                value={root_org}
+                                onChange={handleSelectDelete}
+                                label={"Select Division"}
+                                input={<BootstrapInput />}
+                            >
+                                <MenuItem sx={{padding:"1px"}} value={null}>Null</MenuItem>
+                                {root_org.map((d)=>{
+                                    return (<MenuItem key={d.id} value={d}>{d.name}</MenuItem>)
+                                })}
+                            </Select>
+                        </div>
                         <div className={"btn_row"} style={{textAlign:"center",margin:"20px"}}>
                             <button onClick={submitDelete }>Confirm</button>
                             <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>
