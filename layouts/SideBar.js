@@ -19,6 +19,9 @@ export default function SideBar(props) {
         console.log(result.data.listMF2TCOMESSAGGES.items)
         return result.data.listMF2TCOMESSAGGES.items
     }
+   useEffect(()=>{
+    getMesssages()
+   },[]) 
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
         {

@@ -63,8 +63,8 @@ export default function Live_chat() {
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
-        setChatrooms([...result.data.listMF2TCOCHATROOMS.items])
-        setFilteredData(chatrooms)
+        setChatrooms(result.data.listMF2TCOCHATROOMS.items)
+        setFilteredData(result.data.listMF2TCOCHATROOMS.items)
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -82,7 +82,7 @@ export default function Live_chat() {
         await fetchAttachment()
     }
     const getCustomerbyID = async (id)=>{
-        console.log(id)
+        // console.log(id)
         const result = await contactInstance.getContactById(id)
         setChatUser(result.data)
     }
@@ -154,20 +154,20 @@ export default function Live_chat() {
         const phone = selectedChat.phone
         setTypedMsg({...typedMsg ,phone:phone})
         console.log("typed message" , typedMsg)
-        await getCustomerbyID(selectedChat.customer_id)
+        await getCustomerbyID(chatroom.customer_id)
     }
 
     const getChatroomMessage = async()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id}}}))
-        console.log(result.data.listMF2TCOMESSAGGES.items)
+        console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
     useEffect(async ()=>{
         if(!start){  setStart(true)}
         const data = await getChatrooms()
         setChatrooms(data)
-        console.log(chatrooms)
-        console.log(selectedTeams)
+        // console.log(chatrooms)
+        // console.log(selectedTeams)
     } , [selectedTeams])
 
     const toggleSticker = () =>{
@@ -453,7 +453,7 @@ export default function Live_chat() {
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?"":"none"}}>
                         {filteredData.map((d , index)=>{
-                            return (<> <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{ setSelectedChat(d) ; await handleChatRoom(d)}}/> </>)
+                            return ( <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{console.log(d,"iflerewfdsdat"); setSelectedChat(d) ; await handleChatRoom(d)}}/> )
                         })}
                     </div>
                 </div>
@@ -490,9 +490,8 @@ export default function Live_chat() {
                 </div>
                 <div ref={messagesSearchRef} className={"chatroom_records"}>
                     {chatroomMsg.map((r , i)=>{
-                        return  <>
-                        <MsgRow msg={r} key={i} />
-                      </>
+                        return  <MsgRow msg={r} key={i} />
+                      
                     })}
                     <div ref={messagesEndRef}></div>
                 </div>

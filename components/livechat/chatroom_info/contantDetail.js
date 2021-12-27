@@ -16,6 +16,7 @@ const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:
 const [notes,setNotes] = useState([])
 const [writenote,setWritenote] = useState("")
 
+const [start,setStart]= useState(false)
 const [users ,setUsers] =useState([])
 const [tags ,setTags] =useState([])
 const [selectedTags ,setSelectedTags] =useState([])
@@ -55,7 +56,10 @@ useEffect(    async () => {
     }
 },[]);
 useEffect(async()=>{
-   if(data&&user.token) await fetchContact(data.customer_id);
+
+    if(!start){return setStart(true)}
+   if(data&&user.token){ await fetchContact(data.customer_id);}
+//    console.log(data,"details~~~")
 },[data])
 
 const toggleSelectTags = e => {
@@ -138,7 +142,7 @@ useEffect(()=>{
                                         <div className={"name"}>{user.username}</div>
                                     </div>
                                     <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)}  onChange={()=>{}} onClick={toggleSelectUsers} />
                                         </label>
                                     </div>
                                 </li>)
@@ -158,7 +162,7 @@ useEffect(()=>{
                                 return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} onChange={()=>{}} />
                                         </label> </div></li>)
                             })}
                         </Mf_circle_btn>

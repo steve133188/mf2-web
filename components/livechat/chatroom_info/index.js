@@ -9,7 +9,7 @@ import { GlobalContext } from "../../../context/GlobalContext";
 
 export default function ChatroomInfo ({data}){
 
-
+    const [start,setStart]= useState(false)
     const {contactInstance } = useContext(GlobalContext)   
      const [tabActive,setTabAcive] = useState("info")
     const [useContact , setUseContact] = useState(data)
@@ -28,14 +28,23 @@ export default function ChatroomInfo ({data}){
     }
     const fetchContacts = async (cid) =>{
         const data = await contactInstance.getContactById(cid)
-        console.log("etchContacts chatroomINfo",data)
+        // console.log("etchContacts chatroomINfo",data)
         setUseContact(data)
+        return data
         // setFilteredData(data)
     }
+    // useEffect(()=>{
+    //     console.log("chat info info info ",data)
+    // },[data])
     useEffect(async()=>{
-        console.log("chatroomINfo",data)
-        // await fetchContacts(data.customer_id)
+        if(!start){return setStart(true)}
+        // console.log("ChatroomInf",data)
+
+        const res = await fetchContacts(data.customer_id)
+        // console.log("chatroomINfo",res)
+        return
     },[data])
+    
     return (
     <div className={"chatroom_info"}>
         <div className={"editContact_chatroom"}>
