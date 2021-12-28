@@ -79,14 +79,14 @@ return (
 }
 export function LeftButton(props) {
     return (
-        <button className={"leftButton" } onClick={props.onclick} onSubmit={props.submit}>
+        <button className={"leftButton" } style={{fontSize:props.size}} onClick={props.onclick} onSubmit={props.submit}>
             {props.title}
         </button>
     )
 }
 export function RightlButton(props) {
     return (
-            <button className={"rightButton"} onClick={props.onclick}>
+            <button className={"rightButton"} style={{fontSize:props.size}} onClick={props.onclick}>
                 {props.title}
             </button>
         )

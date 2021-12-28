@@ -33,9 +33,9 @@ export default function ChatroomInfo ({data}){
         return data
         // setFilteredData(data)
     }
-    // useEffect(()=>{
-    //     console.log("chat info info info ",data)
-    // },[data])
+    useEffect(()=>{
+        console.log("chat info info info ",typeof(data.phone))
+    },[data])
     useEffect(async()=>{
         if(!start){return setStart(true)}
         // console.log("ChatroomInf",data)
@@ -55,14 +55,17 @@ export default function ChatroomInfo ({data}){
             
         </div>
         <div className={"contact_card"}>
-            <div className={"profile_pic"}><Avatar  alt={data.name} src={data.img_url} sx={{ width: 100, height: 100 }}/></div>
+            <div className={"profile_pic"}><Avatar  alt={data.name} src={data.img_url} sx={{ width: 80, height: 80 }}/></div>
             <div className={"contact_detail"}>
                 <div className={"contact_detail_name"}>{data.name}</div>
-                <div className={"contact_detail_channel"}>{data.phone}</div>
+                <div className={"contact_detail_channel"}>
+                {data.channel?(<img src={`/channel_SVG/${data.channel}.svg`} style={{width:"20px",margin:"0 "}}></img>):""}
+                {data.phone?<div>+{data.phone.substring(0,3)} {data.phone.substring(3)}</div>:""}
+                </div>
                 {/* <div className={"contact_detail_team"}> Team</div> */}
             </div>
             
-            <div className={"config"} onClick={handelEditContact}> ... </div>
+            {/* <div className={"config"} onClick={handelEditContact}> ... </div> */}
         </div>
 
         <div className={"tabs_field"}>

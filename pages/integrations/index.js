@@ -14,9 +14,9 @@ import ConnectFacebookMessager from "../../components/integrations/connect_faceb
 export default function Integrations() {
 
     const channelList = [
-        {name:"WhatsApp",channelID:"whatsapp",connectState:true,token:""},
+        {name:"WhatsApp",channelID:"whatsapp",connectState:false,token:""},
         {name:"WhatsApp Business API",channelID:"whatsappB",connectState:false,token:""},
-        {name:"WeChat", channelID:"wechat",connectState:true,token:""},
+        {name:"WeChat", channelID:"wechat",connectState:false,token:""},
         {name:"Facebook Messager", channelID:"messager",connectState:false,token:""},
     ]
 
@@ -77,7 +77,7 @@ export default function Integrations() {
                     <div className="cardChannelGroup">
                         <h1 >My Channels</h1>
                         <div className="row cardContainer" >
-                            <Card_channel src="Group 4965.svg" name="WhatsApp" fetchdata={whatsappFetch} channelID={allChannel[0].channelID} onclick={toggleHandeler} state={channelList[0].connectState} disconnect={toggleDelete}  />
+                            <Card_channel src={`/channel_SVG/${allChannel[0].channelID}.svg`} name="WhatsApp"disabled={!allChannel[0].connectState} fetchdata={whatsappFetch} channelID={allChannel[0].channelID} onclick={toggleHandeler} state={channelList[0].connectState} disconnect={toggleDelete}  />
                         </div>
                     </div>
                     <div className="cardChannelGroup">
@@ -95,18 +95,17 @@ export default function Integrations() {
             <div className={"container"} style={{display:( showMe?"flex":"none")}}>
                 <div className={"connectionBroad"}>
                     <div className={"board_head"}>
-                        <div>
+                        <div  style={{font: "normal normal bold 15px/24px Manrope",color:"#000"}} >
                             {activeChannel.length>0?activeChannel[0].name:""}
                         </div>
                         <div>
-                            Disconnect
+                           {activeChannel[0].channelID=="whatsapp" ?<button  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
                         </div>
 
                     </div>
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}>
                          <TabContext value={value} >
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                </Box>
+
                                 <TabPanel value="whatsapp"><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
                                 <TabPanel value="whatsappB"><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
                                 <TabPanel value="wechat"><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
@@ -114,8 +113,8 @@ export default function Integrations() {
                 </TabContext>
                     </div>
                     <div className={"confirm_btn_set"}>
-                        <LeftButton title={"Save"} onclick={handelSumbit}/>
-                        <RightlButton title={"Cancel"} onclick={()=>{setShowMe(!showMe)}}/>
+                        <LeftButton size={12} title={"Save"} onclick={handelSumbit}/>
+                        <RightlButton size={12}  title={"Cancel"} onclick={()=>{setShowMe(!showMe)}}/>
                     </div>
 
                 </div>

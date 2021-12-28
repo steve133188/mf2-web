@@ -33,7 +33,7 @@ const style ={
     width:"100%",
     height:"2rem"
 }
-export default function CreateDivisionForm({show, toggle,reload }){
+export default function DeleteDivisionForm({show, toggle,reload }){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
     const [rootDivision , setRootDivision] = useState([])
@@ -50,10 +50,9 @@ export default function CreateDivisionForm({show, toggle,reload }){
           console.log(data,"newDivision fetch ")
       },[])
     const submit = async ()=>{
-        console.log("Parent ",parent)
-        const newDivision = {name:name,type:"division",parent_id:parent}
+        const newDivision = {name:name,type:"division"}
         console.log(newDivision)
-        const status = await orgInstance.createOrg(newDivision)
+        const status = await orgInstance.deleteOrgById(parent)
         console.log(status,"create Division")
         toggle()
         reload()

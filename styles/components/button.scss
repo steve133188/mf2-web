@@ -20,7 +20,7 @@ button[disabled] {
   border-radius: 10px;
   background: #F5F6F8 0% 0% no-repeat padding-box;
   //color: #444444;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   border: none;
   text-transform: none;
@@ -34,7 +34,7 @@ button[disabled] {
     border-radius: 10px;
     background: variables.$mf_primary_color;
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     border: none;
     text-transform: none;
@@ -115,17 +115,17 @@ button[disabled] {
 }
 .leftButton {
   background-color: rgb(33, 152, 250);
-  width: 5vw;
-  min-width: 90px;
-  min-height: 7px;
-  height: 3vw;
-  padding: 0.5rem 1rem;
+  width: 4vw;
+  min-width: 85px;
+  min-height: 5px;
+  height: 2rem;
+  padding: 0.3rem .5rem;
   align-self: center;
   border-radius: 10px;
   margin:5px 15px;
   max-width: 100px;
   max-height: 40px;
-  font: normal normal medium 16px/22px Manrope;
+  font: normal normal medium 11px/22px Manrope;
   letter-spacing: 0px;
   // color: variables.$mf_primary_color;
 }
@@ -133,10 +133,10 @@ button[disabled] {
 .rightButton {
   @extend .mf_bg_light_grey;
   width: 5vw;
-  min-width: 90px;
-  min-height: 30px;
-  height: 3vw;
-  padding: 0.5rem 1rem;
+  min-width: 85px;
+  min-height: 5px;
+  height: 2vw;
+  padding: 0.3rem .5rem;
   align-self: center;
   border-radius: 10px;
   color: variables.$mf_text_color;

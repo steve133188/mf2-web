@@ -6,7 +6,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import {useEffect, useState} from 'react';
 
 
-export default function StickerBox({data , stickerSend }){
+export default function StickerBox({data , stickerSend ,ref }){
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -17,11 +17,11 @@ export default function StickerBox({data , stickerSend }){
     })
     return(
 
-          <TabContext value={"sticker"} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} >
+          <TabContext value={"sticker"} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} ref={ref} >
             <Box component="div" 
                     visibleScrollbar={true}
 
-                    sx={{ borderBottom: 1, borderColor: 'divider',overflow: 'auto' , my: 2,padding:"8px",}}>
+                    sx={{ borderBottom: 1, borderColor: 'divider',overflow: 'auto' , my: 2,padding:"8px",marginTop:0}}>
 
                 <Tabs
                     value={value}
@@ -39,14 +39,20 @@ export default function StickerBox({data , stickerSend }){
 
                 </Tabs>
             </Box>
+            {/* <TabPanel> */}
+            <div className={"stickers_box"} style={{display:"flex",flexWrap:"wrap",width:"100%",overflow:"scroll",maxHeight:"184px",minHeight:"87px",objectFit:"contain"}}                                    > 
+
                     {data.files&&filtered.map((item,index)=>(
-                            <img src={item.url} key={index} style={{width:"80px",margin:"3px"}} onClick={stickerSend} />
-                   ))}
-              {/*<TabPanel  sx={{ overflow: "auto" }} value={item.id} key={index}>*/}
-              {/*    {item.sticker.map((item,index)=>(<img src={item.src} key={item.name+index} style={{width:"80px",margin:"3px"}} onClick={stickerSend} />))}*/}
-              {/*</TabPanel>*/}
-            {/* <TabPanel value="2">Item Two</TabPanel>
-            <TabPanel value="3">Item Three</TabPanel> */}
+                      <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"3px"}} onClick={stickerSend} />
+                      ))}
+                      </div>
+                 {/* {item.sticker.map((item,index)=>(
+                      <TabPanel  sx={{ overflow: "auto" }} value={item.id} key={index}>
+            </TabPanel>
+                 <img src={item.src} key={item.name+index} style={{width:"80px",margin:"3px"}} onClick={stickerSend} />
+              </TabPanel>
+                 ))} */}
+
           </TabContext>
 
       )

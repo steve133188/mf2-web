@@ -412,11 +412,16 @@ export default function Contacts() {
             {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
+
+
+
+
+                    
                     <div className={"select_session_btn"}>
                         {/* <Mf_icon_dropdownform svg={tagSVG}>
                        
                         </Mf_icon_dropdownform> */} 
-                        <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                        <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
                                         {filteredTags.map((tag)=>{

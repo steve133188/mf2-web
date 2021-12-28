@@ -8,6 +8,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import Box  from "@mui/material/Box";
 import Stickers from "./Stickers";
 import Link from "next/link";
+import { InnerSidebar } from "../../components/InnerSidebar";
 
 
 export default function Admin() {
@@ -27,7 +28,10 @@ export default function Admin() {
 
     return (
         <div>
-            <div className="admin_layout">
+           
+        <div className={"admin_layout"}>
+            <InnerSidebar />
+
                 {/* <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs 

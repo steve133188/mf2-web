@@ -11,6 +11,14 @@ import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import DashBroadFilter from "../../components/broadcast/dashbroad_filter";
 
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import {TableCell} from "@mui/material";
+import TableHead from "@mui/material/TableHead";
+import Pagination from '@mui/material/Pagination';
+import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 
 export default function Agents() {
     const [open, setOpen] = useState(false);
@@ -19,10 +27,27 @@ export default function Agents() {
     const [isFilterOpen , setIsFilterOpen] = useState(false);
     const [selectedPeriod ,setSelectedPeriod] =useState("");
     const [dayState,setDayState] = useState({from:"",to:""});
+    const [currentPage , setCurrentPage] = useState(1)
+    const [filteredData , setFilteredData] = useState([])
+    const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
+    const indexOfFirstTodo = indexOfLastTodo - 10;
+    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
+    const [displayNameTag, setDisplayNameTag] = useState([])
+
+    let result = currentContacts.map(d=>d.id)
+
+
+    const default_cols = ["Name","Role","Status","Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts","Unhabdeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
+    useEffect(()=>{
+        setFilteredData([{name:"",role:"2"},{}])
+    },[])
+
+    
     const periodFilter = () =>{
         console.log("filter period : "+selectedPeriod)
         // dayState <<<timestamp for comparing range
     }
+
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
       setDayState(range);
@@ -33,6 +58,25 @@ export default function Agents() {
     const handleClickOut = () => {
         setOpen(true);
     };
+
+    const namePush = (nameList)=>{
+        setDisplayNameTag(nameList)
+        console.log(nameList,"from filter")
+    }
+    useEffect(()=>{
+
+        let isMounted = true;
+        if(dayState.from==null||dayState.from==""){return setSelectedPeriod("Period")}
+        else{
+            setSelectedPeriod(dayState.from.toLocaleDateString()+" - ")
+        }
+        if(dayState.to==null||dayState.to==""){return }
+        else{
+            setSelectedPeriod(dayState.from.toLocaleDateString()+" - "+dayState.to.toLocaleDateString())}
+
+            return () => { isMounted = false };
+    },[dayState])
+
     return (
         <div className="dashboard-layout">
             <div className="navbarPurple">
@@ -80,7 +124,7 @@ export default function Agents() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} />
+                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} />
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +192,77 @@ export default function Agents() {
                                                                         min1={"12"} min2={12} min3={12}/></div>
                 </div>
                 
-                <div className="dashboardRow">
+                <div className="dashboardRow" style={{display:"flex",flexDirection:"column"}}>
+                        <TableContainer
+                        sx={{minWidth: "800px" , minHeight:"250px"}}
+                        className={"table_container"}
+                        >
+                        <Table
+                            sx={{minWidth: "800px" }}
+                            aria-labelledby="tableTitle"
+                            size={'medium'}
+                            stickyHeader={true}
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+
+                                    </TableCell>
+                                    {default_cols.map((col,index)=>{
+                                        return ( <TableCell key={index}>{col}</TableCell>)
+                                    })}
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                                    return( <TableRow
+                                            key={index}
+                                            hover
+                                            role="checkbox"
+                                            name={index}
+                                            // checked={selectedContacts.includes(data.id)}
+                                            // onClick={isSelectRow?toggleSelect:null}
+                                        >
+                                            <TableCell style={{
+                                                width: "30px",
+                                                textAlign: "center",
+                                                borderBottom: "1px #e0e0e0 solid"
+                                            }}>
+                                               
+                                            </TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.name} Name</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Role</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.Status}Role</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.time}Online Time</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Contacts numeber</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Active COntact</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Delete Contact</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}totle mess</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Response Timee</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Role</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Role</span></TableCell>
+                                            <TableCell align="left"></TableCell>
+
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <Pagination count={Math.ceil(filteredData.length/10)} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
 
                 </div>
             </div>

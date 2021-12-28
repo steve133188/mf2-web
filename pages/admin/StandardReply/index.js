@@ -1,32 +1,32 @@
 import {useContext, useEffect, useRef, useState} from "react";
-import {GlobalContext} from "../../context/GlobalContext";
+import {GlobalContext} from "../../../context/GlobalContext";
 import Image from 'next/image';
 import Link from 'next/link';
-import {ImportDropzone} from '../../components/ImportContact.js'
+import {ImportDropzone} from '../../../components/ImportContact.js'
 import axios from "axios";
-import SelectSession from "../../components/SelectSession";
+import SelectSession from "../../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {Pill} from "../../components/Pill";
-import MF_Select from "../../components/MF_Select";
+import {Pill} from "../../../components/Pill";
+import MF_Select from "../../../components/MF_Select";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
-import searchFilter from "../../helpers/searchFilter";
-import {getAllContacts} from "../../helpers/contactsHelper"
-import {getAllStandardReply} from "../../helpers/adminHelpers";
-import {InnerSidebar} from "../../components/InnerSidebar";
+import Mf_icon_dropdownform from "../../../components/mf_icon_dropdownform";
+import Mf_icon_dropdown_select_btn from "../../../components/mf_dropdown_select";
+import searchFilter from "../../../helpers/searchFilter";
+import {getAllReply} from "../../../helpers/contactsHelper"
+import {getAllStandardReply} from "../../../helpers/adminHelpers";
+import {InnerSidebar} from "../../../components/InnerSidebar";
 import * as React from "react";
-import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
-import DeletePad from "../../components/DeletePannel";
-import CreateReplyFolder from "../../components/Admin/CreateReplyFolder";
+import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
+import DeletePad from "../../../components/DeletePannel";
+import CreateReplyFolder from "../../../components/Admin/CreateReplyFolder";
 
 export default function StandardReply() {
 
@@ -41,16 +41,16 @@ export default function StandardReply() {
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
     const [currentPage , setCurrentPage] = useState(1)
-    const [selectedContacts , setSelectedContacts] = useState([])
+    const [selectedReply , setSelectedReply] = useState([])
     const [selectAll, setSelectAll] = useState(false);
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
+    const currentReply = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isSelectRow, setIsSelectRow] = useState( false);
 
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
-    let result = currentContacts.map(d=>d.id)
+    let result = currentReply.map(d=>d.id)
     
     useEffect(    async () => {
         if(user.token) {
@@ -74,23 +74,23 @@ export default function StandardReply() {
     }
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        setSelectedContacts([...selectedContacts, id]);
+        setSelectedReply([...selectedReply, id]);
         if (!checked) {
-            setSelectedContacts(selectedContacts.filter(item => item !== id));
+            setSelectedReply(selectedReply.filter(item => item !== id));
         }
-        console.log(selectedContacts)
+        console.log(selectedReply)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.id));
+        setSelectedReply(currentReply.map(c => c.id));
         if (selectAll) {
-            setSelectedContacts([]);
+            setSelectedReply([]);
         }
-        console.log(selectedContacts,"select ed con")
+        console.log(selectedReply,"select ed con")
     };
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
-        setSelectedContacts([]);
+        setSelectedReply([]);
     }
     const toggleCreate = ()=>{
         setIsCreate(!isCreate)
@@ -134,8 +134,8 @@ export default function StandardReply() {
         <div className={"admin_layout"}>
             <InnerSidebar />
             <div className="rightContent">
-                <CreateReplyFolder  show={isCreate}  toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
-                {/* <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReplys} title={"Folders"}/> */}
+                <CreateReplyFolder  show={isCreate} reload={fetchStandardReply} toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
+                <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReply} title={"Folders"}/>
                 <div className={"search_session"}>
                     <div className="search">
                         <div className="mf_icon_input_block  mf_search_input">
@@ -159,7 +159,7 @@ export default function StandardReply() {
                             <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                         ) : (
                             <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
-                            <button  onClick={()=>toggleDelete(selectedContacts)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button></>
+                            <button  onClick={()=>toggleDelete(selectedReply)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button></>
                         )}
                         <button onClick={toggleCreate }>+ New Folder</button>
                     </div>
@@ -185,7 +185,7 @@ export default function StandardReply() {
                                 <TableCell>
                                     <div className="newCheckboxContainer">
                                         {isSelectRow ? <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
+                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedReply.includes(el))} onClick={toggleSelectAll} />
                                         </label> : null}
                                     </div>
                                 </TableCell>
@@ -196,13 +196,13 @@ export default function StandardReply() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                            {filteredData.length!=0 && currentReply.map((data ,index) => {
                                 return( <TableRow
                                         key={index}
-                                        hover
+                                        hover 
                                         role="checkbox"
                                         name={index}
-                                        checked={selectedContacts.includes(data.id)}
+                                        checked={selectedReply.includes(data.id)}
                                         onClick={isSelectRow?toggleSelect:null}
                                     >
                                         <TableCell style={{
@@ -212,7 +212,7 @@ export default function StandardReply() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.id} name="checkbox" checked={selectedReply.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
 
                                             </div>

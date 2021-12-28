@@ -7,7 +7,7 @@ import {GlobalContext} from "../context/GlobalContext";
 import {Skeleton} from "@mui/material";
 import DivisionDropDown from "./filter/divisionDropDown";
 
-export function ORGSidebar({orgData=null, selection ,setSelection}) {
+export function ORGSidebar({orgData, selection ,setSelection}) {
 
     const {orgInstance } = useContext(GlobalContext)
     const [isLoading, setIsLoading] = useState(true)
@@ -68,7 +68,7 @@ export function ORGSidebar({orgData=null, selection ,setSelection}) {
 
     return (
         <nav className="blueMenu">
-        <DivisionDropDown data={data} setSelection={setSelection} />
+        {/* <DivisionDropDown data={data} setSelection={setSelection} /> */}
             {/* {isLoading && ske} */}
 
             {!isLoading && <ul className="blueMenuGroup">

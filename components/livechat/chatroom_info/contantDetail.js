@@ -119,20 +119,11 @@ useEffect(()=>{
                     <div>Assignee</div>
                 <div className={""}>
                     <div className={"tagsGroup"} style={{margin:"10px 0"}}>
-                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start",width:"fit-content",margin:"10px 0"}}  spacing={-5} >
-                            {selectedUsers &&selectedUsers.map((agent , index)=>{
-                                return(
-                                    <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.substring(0,2).toUpperCase()}</Avatar>
-
-                                    </Tooltip>
-                                )
-                            })}
-
                         <Mf_circle_btn handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
                             setFilteredUsers(new_data)
 
                         })}} >
+
                             {filteredUsers&&filteredUsers.map((user)=>{
                                 return(<li key={user.username}>
                                     <div style={{display:"flex" ,gap:10}}>
@@ -148,6 +139,15 @@ useEffect(()=>{
                                 </li>)
                             })}
                         </Mf_circle_btn>
+                        <AvatarGroup className={"AvatarGroup"} xs={{ display: 'flex',flexDirection: 'row-reverse' ,width:"fit-content",margin:"10px 0"}}  spacing={-5} >
+                            {selectedUsers &&selectedUsers.map((agent , index)=>{
+                                return(
+                                    <Tooltip key={index} className={""} title={agent} placement="top-start">
+                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.substring(0,2).toUpperCase()}</Avatar>
+
+                                    </Tooltip>
+                                )
+                            })}
                         </AvatarGroup>
                     </div>
                 </div>
