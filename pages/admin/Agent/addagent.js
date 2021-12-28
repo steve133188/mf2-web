@@ -32,7 +32,7 @@ export default function AddAgent(){
             email:userCredential.email,
             phone:userCredential.phone,
             password:userCredential.password,
-            team:selectedTeam.name,
+            team_id:selectedTeam.id,
             role:selectedRole.name
         }
         console.log("payload",data)
