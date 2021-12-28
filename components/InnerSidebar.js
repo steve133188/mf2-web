@@ -59,12 +59,14 @@ function TreeNode ({node ,handleClick}){
     const hasChild = node.children ? true : false ;
 
     return(
-        <li className="blueMenuLink" onClick={()=> {
+        <li className="blueMenuLink" onClick={(e)=> {
+            e.preventDefault()
+            e.stopPropagation()
             setChildVisible(v => !v);
-            handleClick()
+            if(node.type=="team")handleClick(node);
+
         }}>
             {node.name}
-
             {hasChild &&(
                 <KeyboardArrowDownIcon/>
             )}
