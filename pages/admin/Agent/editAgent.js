@@ -37,7 +37,7 @@ export default function EditAgent(props){
             email:userCredential.email,
             phone:userCredential.phone,
             password:userCredential.password,
-            team:selectedTeams,
+            team_id:selectedTeam.id,
             role:selectedRole.name
         }
         console.log("payload",data)

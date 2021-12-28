@@ -12,6 +12,9 @@ export default function orgFetcher(token){
         timeout:5000,
         baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/organization"
     })
+    instance.getAllORG = async () =>{
+        return (await instance.fetcher.get("/")).data
+    }
     instance.getAllRootORG = async ()=>{
         return (await instance.fetcher.get("/root")).data
     }

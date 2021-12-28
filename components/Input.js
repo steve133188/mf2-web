@@ -18,11 +18,19 @@ export function MF_Input(props) {
     return (
         <div className="inputField">
             <span>{props.title}</span>
-            <input type={props.type ?? "text"} name={props.name||null} placeholder={props.placeholder||null} disabled={props.disabled ? "disabled" : ""} onChange={props.onChange} value={props.value} />
+            <input type={props.type ?? "text"} name={props.name||null} placeholder={props.placeholder||null} disabled={props.disabled ? "disabled" : ""} onChange={props.onChange} value={props.value} pattern={props.pattern||null }/>
         </div>
     )
 }
 
+export function MF_Required_Input(props) {
+    return (
+        <div className="inputField">
+            <span>{props.title}</span>
+            <input type={props.type ?? "text"} name={props.name||null} placeholder={props.placeholder||null} disabled={props.disabled ? "disabled" : ""} onChange={props.onChange} value={props.value} ppattern={props.pattern||null} required/>
+        </div>
+    )
+}
 
 export function Search(props) {
     return (

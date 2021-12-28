@@ -56,7 +56,8 @@ export default function Live_chat() {
         channel:"whatsapp",
         phone:"",
         message:"",
-        type:"text"
+        type:"text",
+        src:""
     })
 
 
@@ -210,10 +211,57 @@ export default function Live_chat() {
     const stickerSend =  async e=>{
         console.log(e.target)
         e.preventDefault();
-        const data = {message:e.target.src , phone : typedMsg.phone ,chatroom_id:selectedChat.id,type:"sticker"||0}
+        const data = {media_url:e.target.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"sticker"}
         console.log(data);
         setTypedMsg({...typedMsg , message: ""})
-        const res = await messageInstance.sendTextMessage(data)
+        const res = await messageInstance.sendMessage(data)
+        setTimeout(async ()=>{
+            await getChatroomMessage()
+            scrollToBottom()
+        },1500)
+        setChatButtonOn("");
+        setIsExpand(false)
+    }
+    const sendImg =async e=>{
+        e.preventDefault();
+        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"image" , is_media:true}
+        const res = await messageInstance.sendMessage(data)
+        setTimeout(async ()=>{
+            await getChatroomMessage()
+            scrollToBottom()
+        },1500)
+        setChatButtonOn("");
+        setIsExpand(false)
+    }
+
+    const sendDocument = async e =>{
+        e.preventDefault();
+        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"document" , is_media:true}
+        const res = await messageInstance.sendMessage(data)
+        setTimeout(async ()=>{
+            await getChatroomMessage()
+            scrollToBottom()
+        },1500)
+        setChatButtonOn("");
+        setIsExpand(false)
+    }
+
+    const sendVoice = async e =>{
+        e.preventDefault();
+        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"ptt" , is_media:true}
+        const res = await messageInstance.sendMessage(data)
+        setTimeout(async ()=>{
+            await getChatroomMessage()
+            scrollToBottom()
+        },1500)
+        setChatButtonOn("");
+        setIsExpand(false)
+    }
+
+    const sendVideo = async e =>{
+        e.preventDefault();
+        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"video" , is_media:true}
+        const res = await messageInstance.sendMessage(data)
         setTimeout(async ()=>{
             await getChatroomMessage()
             scrollToBottom()

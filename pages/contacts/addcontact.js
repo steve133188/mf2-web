@@ -1,4 +1,4 @@
-import {MF_Input} from "../../components/Input";
+import {MF_Input,MF_Required_Input} from "../../components/Input";
 import {Pill} from "../../components/Pill";
 import * as React from "react";
 import {CancelButton, IconButton, NormalButton2} from "../../components/Button";
@@ -136,32 +136,39 @@ export default function AddContact() {
     return (
             <div className={"addContactSession"}>
             <div className="addContactSession_info_ss addContactSession_ss">
+                {/* new form */}
+                <form onSubmit={handleSubmit}  >
+
+                
 
                 <div className={"addContactSession_info_ss"}> 
                         <div className="ss_row addContactSession_title">
+
                             New Contact
                         </div>
                         <div className={"ss_row"}>
-                            <MF_Input title="First Name*" name={"first_name"} value={newContact.first_name} onChange={handleChange}/>
-                            <MF_Input title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
+                            
+                            <MF_Required_Input title="First Name*" name={"first_name"} value={newContact.first_name} onChange={handleChange} />
+                            <MF_Required_Input title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
 
                         </div>
                     <div className={"ss_row"}>
-                        <MF_Input title="Phone*" name={"phone"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
-                        <MF_Input title="Email" name={"email"} value={newContact.email} onChange={handleChange}/>
+                        <MF_Required_Input title="Phone*" name={"phone"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} pattern={"^852[0-9]{8}$"} onChange={handleChange}/>
+                        <MF_Input title="Email" name={"email"} value={newContact.email} pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"} onChange={handleChange}/>
                     </div>
                     <div className={"ss_row"}>
                         <MF_Input title="Birthday" type={"date"} name={"birthday"} value={newContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
                         <MF_Input title="Gender" name={"gender"} value={newContact.gender} onChange={handleChange} placeholder={"M or F"}/>
                     </div>
-                    <span className="longInput"><MF_Input title="Address" name={"address"} value={newContact.address} onChange={handleChange}/></span>
-                <MF_Input title="Country" name={"country"} value={newContact.country} onChange={handleChange} />
+                        <span className="longInput"><MF_Input title="Address" name={"address"} value={newContact.address} onChange={handleChange}/></span>
+                        <MF_Input title="Country" name={"country"} value={newContact.country} onChange={handleChange} />
 
                     </div>
-                <div className={"ss_row submit_row"}>
-                        <button onClick={handleSubmit}>+ New Contact</button>
+                    <div className={"ss_row submit_row"}>
+                        <button type="submit" value="Submit">+ New Contact</button>
                         <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"} onClick={cancel}>Cancel</button></Link>
                     </div>
+                </form>
             </div>
 
                 <div className={"addContactSession_ss  addContactSession_tags_ss"}>
