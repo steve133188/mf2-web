@@ -51,7 +51,7 @@ export function Card_channel(props) {
                                     // color: "white",
                                     background:"transparent",
                                 }}>
-                                    <RemoveCircleIcon sx={{fontSize: 15.4, marginRight: 1}} style={{fill:"#fc736a"}}/><div id={props.channelID}  onClick={handelDisconnect}>disconnect</div>
+                                    <RemoveCircleIcon sx={{fontSize: 15.4, marginRight: 1}} style={{fill:"#fc736a"}}/><div id={props.channelID}  onClick={toggle}>disconnect</div>
                                 </Button>
                             </label>
                     </label>
