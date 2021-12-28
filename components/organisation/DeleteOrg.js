@@ -64,7 +64,7 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                 <div className={"modal_title"}>
                     <span>Create Division</span>
                 </div>
-                <MF_Input title={"Division Name"} value={name} onChange={handleChange}></MF_Input>
+                {/* <MF_Input title={"Division Name"} value={name} onChange={handleChange}></MF_Input> */}
                 <div className="inputField">
                     <span>Division</span>
                     <Select
@@ -73,12 +73,13 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                         onChange={handleSelect}
                         label={"Select Division"}
                         input={<BootstrapInput />}
-                    >
+                        >
                         <MenuItem value={null}>Null</MenuItem>
                         {rootDivision.map((d)=>{
                             return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
                         })}
                     </Select>
+                        <span style={{height:"35px"}}></span>
                 </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>

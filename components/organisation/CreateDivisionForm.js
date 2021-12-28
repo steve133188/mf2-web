@@ -51,7 +51,7 @@ export default function CreateDivisionForm({show, toggle,reload }){
       },[])
     const submit = async ()=>{
         console.log("Parent ",parent)
-        const newDivision = {name:name,type:"division",parent_id:parent}
+        const newDivision = {name:name,type:"division"}
         console.log(newDivision)
         const status = await orgInstance.createOrg(newDivision)
         console.log(status,"create Division")
@@ -66,7 +66,8 @@ export default function CreateDivisionForm({show, toggle,reload }){
                     <span>Create Division</span>
                 </div>
                 <MF_Input title={"Division Name"} value={name} onChange={handleChange}></MF_Input>
-                <div className="inputField">
+                <span style={{height:"35px"}}></span>
+                {/* <div className="inputField">
                     <span>Division</span>
                     <Select
                         sx={style}
@@ -74,13 +75,14 @@ export default function CreateDivisionForm({show, toggle,reload }){
                         onChange={handleSelect}
                         label={"Select Division"}
                         input={<BootstrapInput />}
-                    >
+                        >
                         <MenuItem value={null}>Null</MenuItem>
                         {rootDivision.map((d)=>{
                             return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
                         })}
+                        
                     </Select>
-                </div>
+                </div> */}
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
                     <button className={"cancel_btn"} onClick={toggle}>Cancel</button>

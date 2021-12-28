@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import {TableCell, Tooltip, Zoom} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import CreateDivisionForm from "../../components/organisation/CreateDivisionForm";
+import DeleteDivisionForm from "../../components/organisation/DeleteOrg";
 import CreateTeamForm from "../../components/organisation/CreateTeamForm";
 import AddAgentForm from "../../components/organisation/AddAgentForm";
 import Profile from "../../components/profile";
@@ -253,7 +254,7 @@ export default function Organization() {
                             <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button></>
                         ) : (
                             <>
-                                <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button>
+                                {/* <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button> */}
                                 <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button>
                             <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                                 </>
@@ -289,7 +290,7 @@ export default function Organization() {
                                     </div>
                                 </TableCell>
                                 {default_cols.map((col,index)=>{
-                                    return ( <TableCell key={index}>{col}</TableCell>)
+                                    return ( <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                 })}
 
                             </TableRow>
@@ -302,6 +303,7 @@ export default function Organization() {
                                         role="checkbox"
                                         // tabIndex={-1}
                                         name={index}
+                                        sx={{height:"56px"}}
                                         checked={selectedUsers.includes(data.username)}
                                         onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >

@@ -165,10 +165,11 @@ export default function AddBroadcast() {
                 <div className={"addContactSession_ss  addContactSession_tags_ss"}>
                         <div className={"tagsGroup"} style={{marginBottom:"30px"}}>
                             <p>Tags</p>
-                            <div className={"tagsGroup"}>
+                            <div className={"tagsGroup"}  style={{width:"100%",height:"30px"}}>
                                 {selectedTags!=-1&&selectedTags.map((tag)=>{
                                     return<Pill key={tag} color="vip">{tag}</Pill>
                                 })}
+                                </div>
                                 <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                                     setFilteredTags(new_data)
                                 })}}>
@@ -181,7 +182,6 @@ export default function AddBroadcast() {
                                     })}
                                 </Mf_circle_btn>
 
-                            </div>
                         </div>
                         <div className={"tagsGroup"}>
                             <p>Assignee</p>

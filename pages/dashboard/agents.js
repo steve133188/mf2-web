@@ -209,7 +209,7 @@ export default function Agents() {
 
                                     </TableCell>
                                     {default_cols.map((col,index)=>{
-                                        return ( <TableCell key={index}>{col}</TableCell>)
+                                        return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                     })}
 
                                 </TableRow>

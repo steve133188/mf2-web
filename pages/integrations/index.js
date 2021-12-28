@@ -99,7 +99,7 @@ export default function Integrations() {
                             {activeChannel.length>0?activeChannel[0].name:""}
                         </div>
                         <div>
-                           {activeChannel[0].channelID=="whatsapp" ?<button  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
+                           {activeChannel.length>0 && activeChannel[0].channelID=="whatsapp" ?<button  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
                         </div>
 
                     </div>
