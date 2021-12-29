@@ -12,7 +12,7 @@ import { GlobalContext } from "../../../context/GlobalContext";
 
 export default function ContantDetail({data , ...props}){
     
-const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
+const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"2012-12-10",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"2021-10-09",content:"Nice to meet you."},])
 const [notes,setNotes] = useState([])
 const [writenote,setWritenote] = useState("")
 
@@ -24,7 +24,8 @@ const [filteredTags ,setFilteredTags] =useState([])
 const [selectedUsers ,setSelectedUsers] =useState([])
 const [filteredUsers ,setFilteredUsers] =useState([])
 const [contact, setContact] = useState([]);
-
+const [unread,setUnread] = useState(false)
+const [unassigned,setUnAssigned] = useState(false)
 const { userInstance ,adminInstance,contactInstance ,orgInstance, user} = useContext(GlobalContext);
 
 const getTags = async ()=>{
@@ -50,9 +51,9 @@ const fetchContact = async (cid) =>{
 }
 useEffect(    async () => {
     if(user.token!=null) {
-
         await getTags()
         await getUsers()
+        console.log(user,'useruser123123')
     }
 },[]);
 useEffect(async()=>{
@@ -78,6 +79,29 @@ const toggleSelectUsers = e => {
     }
     console.log(selectedUsers)
 };
+useEffect(async()=>{
+    
+if(unassigned){
+
+    const data =  {...contact,agents:selectedUsers}
+    const res = await contactInstance.updateContact (data)
+    console.log(res)  
+    setUnAssigned(!unassigned)  
+}   
+
+},[unassigned])
+
+useEffect(async()=>{
+    if(unread){
+
+        const data = {...contact,tags:selectedTags}
+        console.log(data)
+        const res= await contactInstance.updateContact (data)
+        setUnread(!unread)
+    }
+
+    },[unread])
+
 
 useEffect(()=>{
     setNotes(notesData)
@@ -119,7 +143,7 @@ useEffect(()=>{
                     <div>Assignee</div>
                 <div className={""}>
                     <div className={"tagsGroup"} style={{margin:"10px 0"}}>
-                        <Mf_circle_btn handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
+                        <Mf_circle_btn switchs={()=>{setUnAssigned(!unassigned)}} handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
                             setFilteredUsers(new_data)
 
                         })}} >
@@ -133,13 +157,13 @@ useEffect(()=>{
                                         <div className={"name"}>{user.username}</div>
                                     </div>
                                     <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)}  onChange={()=>{}} onClick={toggleSelectUsers} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" onClick={toggleSelectUsers} checked={selectedUsers.includes(user.username)} onChange={()=>{}} />
                                         </label>
                                     </div>
                                 </li>)
                             })}
                         </Mf_circle_btn>
-                        <AvatarGroup className={"AvatarGroup"} xs={{ display: 'flex',flexDirection: 'row-reverse' ,width:"fit-content",margin:"10px 0"}}  spacing={-5} >
+                        <AvatarGroup className={"AvatarGroup"} sx={{ display: 'flex',flexDirection: 'row-reverse' ,width:"fit-content",margin:"10px 0"}}  spacing={-5} >
                             {selectedUsers &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
@@ -153,11 +177,12 @@ useEffect(()=>{
                 </div>
                     <div>Tags</div>
                 <div className={""}>
-                    <div className={"tagsGroup"} style={{maxWidth:"230px",height:"auto"}} >
+                    <div className={"tagsGroup"} style={{display:"flex",maxWidth:"230px",height:"auto",}} >
                         <div style={{margin:"10px 5px 0 0 "}}>
-                        <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                            setFilteredTags(new_data)
+                        <Mf_circle_btn  switchs={()=>{setUnread(!unread)}} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                            setFilteredTags(new_data) 
                         })}}>
+
                             {filteredTags.map((tag)=>{
                                 return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
                                     <div className="newCheckboxContainer">
@@ -167,10 +192,12 @@ useEffect(()=>{
                             })}
                         </Mf_circle_btn>
                         </div>
-                            {selectedTags!=-1&&selectedTags.map((tag)=>{
-                                return<Pill key={tag} color="vip">{tag}</Pill>
-                            })}
+                            <div style={{display:"flex",flexWrap:"wrap",width:"250px"}}>
+                                    {selectedTags!=-1&&selectedTags.map((tag)=>{
+                                        return<Pill key={tag} color="vip">{tag}</Pill>
+                                    })}
 
+                            </div>
                     </div>
                 </div>
                
@@ -181,10 +208,10 @@ useEffect(()=>{
             <div className={'noteBox'} style={props.tab=="note"?{display:"block"}:{display:"none"}}>
                 <div className={"notesVolumn"}>Note : {notes.length}</div>
                 <div className={"write_pad"}>    
-                            <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Write a note..."}>
+                            <input type="text" className={"write_note"} value={writenote} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Write a note..."}>
                             </input>
 
-                            <div onClick={()=>{setWritenote(notes.push({cid:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>
+                            <div onClick={()=>{setWritenote(notes.push({cid:user.user.phone,wroteBy:user.user.username,"date":new Date().toISOString().slice(0, 10),content:writenote})),setWritenote("")}}>
                                 <NoteButtonSVG />
 
                             </div>
@@ -220,7 +247,7 @@ useEffect(()=>{
                                 
 
                             </div>)
-                                })}
+                        })}
                 </div>
             </div>
         </>

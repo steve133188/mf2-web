@@ -59,7 +59,7 @@ export default function Live_chat() {
         type:"text",
         src:""
     })
-
+    const [replybox,setReplybox] = useState("")
 
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
@@ -81,7 +81,6 @@ export default function Live_chat() {
         const result = await mediaInstance.putMedia(file)
         console.log("upload file : " , file)
         console.log("result : " , result)
-
         await fetchAttachment()
     }
     const getCustomerbyID = async (id)=>{
@@ -105,9 +104,11 @@ export default function Live_chat() {
     const [filteredData , setFilteredData] = useState([])
 
     const [isShow , setIsShow] =useState(false)
+    const [unread,setUnread] = useState(false)
+    const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const[start,setStart] = useState(false)
-    const[chatroomstart,setChatroomStart] = useState(false)
+    const [start,setStart] = useState(false)
+    const [chatroomstart,setChatroomStart] = useState(false)
 
 
     const handleTypedMsg = e =>{
@@ -295,11 +296,21 @@ export default function Live_chat() {
         setIsExpand(false);
         }
     };
+    const rightClickHandler =(e)=>{
+        e.preventDefault()
+        // console.log(e.target.className)
+        // if(e.target.className=="msg_body"||"video-react-video"||"attachmentBody"||"imageBox"||"voice_detail"){
+        //     console.log("right click",e.target.value)
+        //     setReplybox(e.target.value)
+        // }
+
+    }
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
-        // document.addEventListener('click',,true);
+        document.addEventListener("contextmenu",rightClickHandler,true);
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
+            document.removeEventListener("contextmenu",rightClickHandler,true);
         };
     },[])
     const getStickers = async ()=>{
@@ -385,7 +396,6 @@ export default function Live_chat() {
             if(selectedChannels.length ==0){
                 return data
             }
-            // return selectedChannels.includes(data.channel)
             return selectedChannels.includes(data.channel)
         })
         console.log(selectedChannels)
@@ -419,9 +429,33 @@ export default function Live_chat() {
             return data.team==selectedTeams
         })
         console.log("teamFiltered:",teamFiltered)
-        setFilteredData([...teamFiltered])
-    }
 
+        const unreadfilter = teamFiltered.filter(data=>{
+            if(!unread ){
+                return data
+            }
+            return data.unread>0
+        })
+
+        const unassignedfilter = unreadfilter.filter(data=>{
+            if(!unassigned ){
+                return data
+            }
+            return data.agents.length<1
+        })
+
+        console.log("unread :",unreadfilter,unassignedfilter,"unread",unread)
+        setFilteredData([...unassignedfilter])
+    }
+    const unreadHandle = () =>{
+        setUnread(!unread);
+        advanceFilter();
+    }
+    const unassigneHandle = () =>{
+        setUnassigned(!unassigned)
+        console.log(unassigned)
+        advanceFilter();
+    }
     const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
         setSelectedChannels([...selectedChannels, id.toLowerCase()]);
@@ -507,7 +541,8 @@ export default function Live_chat() {
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear} agents={toggleSelectUsers} />
+                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear} 
+                             agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} />
