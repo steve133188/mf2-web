@@ -23,11 +23,10 @@ function mediaHelper(){
         const result = await Storage.put(`voice/${file.name}` , file )
         console.log("result : " , result)
         return this.objUrl(result.key)
-
     }
 
     this.putImg = async (file)=>{
-        const result = await Storage.put(`img/${file.name}` , file )
+        const result = await Storage.put(`image/${file.name}` , file )
         console.log("result : " , result)
         return this.objUrl(result.key)
 

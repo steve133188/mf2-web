@@ -77,14 +77,25 @@ export default function Live_chat() {
         setAttachment(imageKeys)
     }
     const upload = async (e) =>{
+        e.preventDefault()
         const file = e.target.files[0]
-
-        const result = await mediaInstance.putSticker(file)
         console.log("upload file : " , file)
+        const filetype =  messageInstance.mediaTypeHandler(file)
+        console.log("FileType",filetype)
+        // console.log("result : " , result)
+        if(filetype.includes("image")){
+            const result = await mediaInstance.putImg(file)
+            await sendImg(result)
+        }
+        if(filetype.includes("video")){
+            const result = await mediaInstance.putVideo(file)
+            await sendVideo(result)
+        }
+        if(filetype.includes("document")){
+            const result = await mediaInstance.putDoc(file)
+            await sendDocument(result)
+        }
 
-        console.log("result : " , result)
-
-        await fetchAttachment()
     }
     const getCustomerbyID = async (id)=>{
         // console.log(id)
@@ -188,7 +199,7 @@ export default function Live_chat() {
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
         fileAttach()
-        setAttachment(e.target.name)
+        // setAttachment(e.target.files[0])
         // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
     }
@@ -216,63 +227,39 @@ export default function Live_chat() {
     }
     const stickerSend =  async e=>{
         e.preventDefault();
-        console.log(e.target.src)
         const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"sticker"}
         console.log("sticker payload" , data);
         const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
         console.log(res)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
         setChatButtonOn("");
         setIsExpand(false)
     }
-    const sendImg =async e=>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.room_id,message_type:"image" , is_media:true}
+    const sendImg =async (media_url)=>{
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"image" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
+        console.log("result : " ,res)
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendDocument = async e =>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
+    const sendDocument = async (media_url) =>{
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendVoice = async e =>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true}
+    const sendVoice = async () =>{
+        const data = {media_url:typedMsg.src , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendVideo = async e =>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.room_id,message_type:"video" , is_media:true}
+    const sendVideo = async(media_url )=>{
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"video" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
         setChatButtonOn("");
         setIsExpand(false)
     }
