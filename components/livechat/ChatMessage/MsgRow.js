@@ -62,11 +62,7 @@ export default function MsgRow({msg ,...props}){
                     </div>
                 </div>;
 
-<<<<<<< HEAD
-            default:   return  <div value={msg.timestamp} className={"msg_body"}>{msg.body}</div>
-=======
             default:  return <div className={"msg_body"}>{msg.body}</div>
->>>>>>> 13cd9ad180bccfba7ff0d5296b8f83f41ea90283
         }
     }
    
