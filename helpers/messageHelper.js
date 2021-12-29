@@ -26,5 +26,22 @@ export default function WhatsappFetcher(url){
                 console.log(this.error)
             })
     }
+
+    this.mediaTypeHandler  = (file)=>{
+        const mine = file.type
+
+        if(mine.includes("image")){
+            return "image"
+        }
+        if(mine.includes("audio")){
+            return "audio"
+        }
+        if(mine.includes("text")|| mine.includes("application")){
+            return "document"
+        }
+        if(mine.includes("video")){
+            return "video"
+        }
+    }
 }
 

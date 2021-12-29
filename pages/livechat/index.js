@@ -52,12 +52,12 @@ export default function Live_chat() {
     const [isExpand , setIsExpand] = useState(false)
     const [isEmojiOn,setEmojiOn] = useState(false)
     const [ChatButtonOn,setChatButtonOn] = useState(false)
+    const [subscribe,setSubscribe] = useState()
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
         phone:"",
         message:"",
-        type:"text",
-        src:""
+        message_type:"text"
     })
     const [replybox,setReplybox] = useState("")
 
@@ -77,11 +77,25 @@ export default function Live_chat() {
         setAttachment(imageKeys)
     }
     const upload = async (e) =>{
+        e.preventDefault()
         const file = e.target.files[0]
-        const result = await mediaInstance.putMedia(file)
         console.log("upload file : " , file)
-        console.log("result : " , result)
-        await fetchAttachment()
+        const filetype =  messageInstance.mediaTypeHandler(file)
+        console.log("FileType",filetype)
+        // console.log("result : " , result)
+        if(filetype.includes("image")){
+            const result = await mediaInstance.putImg(file)
+            await sendImg(result)
+        }
+        if(filetype.includes("video")){
+            const result = await mediaInstance.putVideo(file)
+            await sendVideo(result)
+        }
+        if(filetype.includes("document")){
+            const result = await mediaInstance.putDoc(file)
+            await sendDocument(result)
+        }
+
     }
     const getCustomerbyID = async (id)=>{
         // console.log(id)
@@ -113,7 +127,6 @@ export default function Live_chat() {
 
     const handleTypedMsg = e =>{
         const {name , value} = e.target
-        console.log(name , " : " , value)
         setTypedMsg({
             ...typedMsg,
             [name]:value
@@ -154,12 +167,11 @@ export default function Live_chat() {
     async function handleChatRoom(chatroom){
         if(chatroom == selectedChat) return ;
         setChatroomMsg([])
-        // setSelectedChat(chatroom)
-        console.log("selected Chat" , selectedChat)
-        const phone = selectedChat.phone
-        setTypedMsg({...typedMsg ,phone:phone})
-        console.log("typed message" , typedMsg)
         await getCustomerbyID(chatroom.customer_id)
+        setSelectedChat(chatroom)
+        setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
+        console.log("selected Chat" , selectedChat)
+        console.log("typed message" , typedMsg)
     }
 
     const getChatroomMessage = async()=>{
@@ -167,6 +179,13 @@ export default function Live_chat() {
         console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
+
+    useEffect(async ()=>{
+        if(!start){  setStart(true)}
+        const data = await getChatrooms()
+        setChatrooms(data)
+    } , [selectedTeams])
+
     const toggleSticker = () =>{
         setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
         setIsExpand(isExpand&&ChatButtonOn=="m1"?false:true);
@@ -178,13 +197,13 @@ export default function Live_chat() {
         setIsExpand(false);
 
     }
-    const toggleFile= (e) =>{
+    const toggleFile= e =>{
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
         fileAttach()
-        console.log(e.target.files[0],"togglefile")
+        // setAttachment(e.target.files[0])
+        // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
-
     }
     const toggleQuickReply = () =>{
         setChatButtonOn(ChatButtonOn=="m4"?"":"m4");
@@ -203,87 +222,62 @@ export default function Live_chat() {
         attachFile.current.click();
     }
     const replySelect = async(e) =>{
-        console.log("replySelect")
         e.preventDefault();
         setTypedMsg({...typedMsg , message: e.target.childNodes[1].innerHTML})
         setChatButtonOn("");
         setIsExpand(false)
     }
     const stickerSend =  async e=>{
-        console.log(e.target)
         e.preventDefault();
-        const data = {media_url:e.target.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"sticker"}
-        console.log(data);
+        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"sticker"}
+        console.log("sticker payload" , data);
+        const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
-        const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
+        console.log(res)
         setChatButtonOn("");
         setIsExpand(false)
     }
-    const sendImg =async e=>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"image" , is_media:true}
+    const sendImg =async (media_url)=>{
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"image" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
+        console.log("result : " ,res)
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendDocument = async e =>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"document" , is_media:true}
+    const sendDocument = async (media_url) =>{
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendVoice = async e =>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"ptt" , is_media:true}
+    const sendVoice = async () =>{
+        const data = {media_url:typedMsg.src , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendVideo = async e =>{
-        e.preventDefault();
-        const data = {media_url:typedMsg.src , body:"", phone : typedMsg.phone ,chatroom_id:selectedChat.id,message_type:"video" , is_media:true}
+    const sendVideo = async(media_url )=>{
+
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"video" , is_media:true}
         const res = await messageInstance.sendMessage(data)
-        setTimeout(async ()=>{
-            await getChatroomMessage()
-            scrollToBottom()
-        },1500)
         setChatButtonOn("");
         setIsExpand(false)
     }
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
-        const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id}
+        const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"text"}
+        const res = await messageInstance.sendMessage(data)
         console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})
-        const res = await messageInstance.sendTextMessage(data)
         setIsExpand(false)
-
         // setTimeout(async ()=>{
         //     await getChatroomMessage()
         //     scrollToBottom()
         // },1500)
-
     }
     const wrapperRef = useRef();
 
@@ -331,61 +325,45 @@ export default function Live_chat() {
             await getStickers()
             // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
-
-            // API.graphql(graphqlOperation(subscribeToNewMessage ,{sender:"85260957729"} ))
-            //     .subscribe({
-            //         next: (chatmessage)=>{
-            //             console.log("chatmsg:" , chatroomMsg)
-            //             const newMessage = chatmessage.value.data.subscribeToNewMessage
-            //             const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
-            //             console.log(newMessage)
-            //             let updatedPost = [ ...chatroomMsg,newMessage ]
-            //             setChatroomMsg(updatedPost)
-            //             scrollToBottom()
-            //         }
-            //     })
         }
     },[]);
 
-    // useEffect(async ()=>{
-    //     if(!start){  setStart(true)}
-    //     const data = await getChatrooms()
-    //     setChatrooms(data)
-    //     // console.log(chatrooms)
-    //     // console.log(selectedTeams)
-    // } , [selectedTeams])
+    const handleSub = async (chatroom)=>{
 
-    useEffect(async ()=>{
-        if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
-
-        API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:selectedChat.room_id} ))
+        if(subscribe)subscribe.unsubscribe()
+        const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:chatroom.room_id} ))
             .subscribe({
-                next: (chatmessage)=>{
-                    console.log("chatmsg:" , chatroomMsg)
+                next: async (chatmessage)=>{
                     const newMessage = chatmessage.value.data.subscribeToNewMessage
-                    const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
-                    console.log(newMessage)
-                    let updatedPost = [ ...chatroomMsg,newMessage ]
-                    setChatroomMsg(updatedPost)
+                    // let updatedPost = [ ...chatroomMsg,newMessage ]
+                    setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
                 }
             })
+        setSubscribe(prev=> sub)
+
+    }
+
+
+    useEffect(async ()=>{
+        if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
+        await handleSub(selectedChat)
     },[selectedChat])
 
     
-    useEffect(()=>{
+    // useEffect(()=>{
+    //     if(!chatroomstart){  setChatroomStart(true)}
+    //     const new1=[]
+    //     chatrooms.length>0&&chatrooms.map(chat=>{
+    //         console.log(contacts,"contact in info")
+    //         const cc = contacts.filter(c=>{return c.id==chat.customer_id});
+    //         console.log(cc,"contacts show")
+    //         return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
+    //     })
+    //     setFilteredData(new1)
+    //     setChatroomsInfo(new1)
+    // },[chatrooms])
 
-        if(!chatroomstart){  setChatroomStart(true)}
-        const new1=[]
-        chatrooms.length>0&&chatrooms.map(chat=>{
-            console.log(contacts,"contact in info")
-            const cc = contacts.filter(c=>{return c.id==chat.customer_id});
-            console.log(cc,"contacts show")
-            return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
-        })
-        setFilteredData(new1)
-        setChatroomsInfo(new1)
-    },[chatrooms])
 
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]
@@ -549,7 +527,7 @@ export default function Live_chat() {
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{console.log(d,"iflerewfdsdat"); setSelectedChat(d) ; await handleChatRoom(d)}}/> )
+                            return ( <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
                         })}
                     </div>
                 </div>
