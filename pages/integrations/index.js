@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { LeftButton, RightlButton } from "../../components/Button";
 import {Card_channel} from "../../components/Cards";
 import Tabs from '@mui/material/Tabs';
@@ -92,20 +92,38 @@ export default function Integrations() {
         // !connectState
     }   
   
+    const wrapperRef = useRef();
+
+    const handleClickOutside = (event) => {
+        if (
+            wrapperRef.current &&
+            !wrapperRef.current.contains(event.target.node)
+    ) {
+        setActiveChannel([])
+        setValue("")
+        setShowMe(false)
+        }
+    };
+    useEffect(()=>{
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    },[])
 
     return (
         <div className="integrations-layout">
                 <div className="container-fluid cardChannelGroupContainer">
                     <div className="cardChannelGroup">
                         <h1 >My Channels</h1>
-                        <div className="row cardContainer" >
+                        <div className="row cardContainer" ref={wrapperRef}>
                             {connectedChannels.map(item=>{return (
                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} onclick={toggleHandeler} state={item.connectState} disconnect={toggleDelete}  />
 
                                 )})}
                         </div>
                     </div>
-                    <div className="cardChannelGroup">
+                    <div className="cardChannelGroup" ref={wrapperRef}>
                         <h1  >Channels</h1>
                         <div className="row cardContainer">
                             {allChannel.map(item=>{return (

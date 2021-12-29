@@ -155,6 +155,8 @@
             width: 70% ;
             padding: 1rem;
             font-size: inherit;
+            overflow:hidden;
+            text-overflow: ellipsis;
           }
           .attachmentSize{
             // text-align: right;
@@ -488,6 +490,8 @@
             width: 70% ;
             padding: 1rem;
             font-size: inherit;
+            overflow:hidden;
+            text-overflow: ellipsis;
           }
           .attachmentSize{
 

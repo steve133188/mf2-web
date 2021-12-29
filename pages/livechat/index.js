@@ -295,6 +295,13 @@ export default function Live_chat() {
         setIsExpand(false);
         }
     };
+    useEffect(()=>{
+        document.addEventListener('click', handleClickOutside, true);
+        // document.addEventListener('click',,true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    },[])
     const getStickers = async ()=>{
         const {folders , files} = await mediaInstance.getStickers()
         const arrfolders = Array.from(folders)
@@ -303,12 +310,6 @@ export default function Live_chat() {
         console.log("stickers data" , stickerData)
 
     }
-    useEffect(()=>{
-        document.addEventListener('click', handleClickOutside, true);
-        return () => {
-            document.removeEventListener('click', handleClickOutside, true);
-        };
-    },[])
     useEffect(    async () => {
         if(user.token!=null) {
             await fetchContacts()
