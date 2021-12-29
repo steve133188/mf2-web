@@ -422,7 +422,7 @@ export default function Contacts() {
                         {/* <Mf_icon_dropdownform svg={tagSVG}>
                        
                         </Mf_icon_dropdownform> */} 
-                        <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                        {/* <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
                                         {filteredTags.map((tag)=>{
@@ -432,7 +432,7 @@ export default function Contacts() {
                                                         <input type="checkbox" id={tag.tag} name="checkbox" checked={addedTags.includes(tag.tag)} onClick={toggleAddTags} />
                                                     </label> </div></li>)
                                         })}
-                                    </Mf_circle_btn>
+                                    </Mf_circle_btn> */}
 
                         
                     {/* <div className={"tagsGroup"} >
@@ -588,7 +588,7 @@ export default function Contacts() {
                                     <TableCell align="left">
                                         { data.channels!=null && data.channels.map((chan , index)=>{
                                             // return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
-                                            return(<img key={index} width="24px" height="24px" src={`/channel_SVG/Whatsapp.svg`} alt=""/>)
+                                            return(<img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/>)
                                         })}
                                         {
                                         data.channels == null?  (<div style={{paddingLeft:20}}><img key={index} width="24px" height="24px" src={`/channel_SVG/Whatsapp.svg`} alt=""/></div>):""
@@ -618,7 +618,7 @@ export default function Contacts() {
                                         <Mf_icon_dropdown_select_btn
                                         btn={(<span className={styles.edit_span}
                                         >
-                                            ...
+                                            . . .
                                         </span>)}
                                         >
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>

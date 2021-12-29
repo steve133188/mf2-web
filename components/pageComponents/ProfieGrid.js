@@ -3,6 +3,8 @@ import Avatar from "@mui/material/Avatar";
 import {Pill} from "../Pill";
 import {Tooltip} from "@mui/material";
 import {AvatarGroup} from "@mui/lab";
+import Link from 'next/link';
+import { useRouter } from "next/router";
 import { NoteButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import Profile from "../profile";
 import EditProfileForm from "./EditProfileForm";
@@ -17,6 +19,7 @@ export default function ProfileGrid({data}){
     const [useContact , setUseContact] = useState()
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [assingedContacts, setAssingedContacts] = useState([])
+    const router = useRouter()
     useEffect(()=>{
         setNotes(notesData)
     },[])
@@ -35,6 +38,11 @@ export default function ProfileGrid({data}){
         setAssingedContacts(assigned)
         // setFilteredData(data)
     }
+    const toggleChat = ()=>{
+        const n = router.pathname
+        return n.includes("/livechat")
+        
+    }
     const [log , setLog]  = useState([])
     useEffect(()=>{
     //    fetch log by customer_id
@@ -44,11 +52,11 @@ export default function ProfileGrid({data}){
     return(<div className={"profile_grid"}>
         {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
         <div className={"info_col grid_box"}>
-            <span className={"dot"} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} >...</span>
+            <span className={"dot"} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} >. . .</span>
             <div className={"ava_block"} style={{margin:"30px 0"}}>
                 <Avatar className={"ava"} src={data.img_url} alt="profile pic"/>
                 <span className={"title"}>{data.name}</span>
-                <button className={"chat_btn"}>chat</button>
+                <Link href="/livechat" id={data.id}><button className={"chat_btn"} onClick={toggleChat}>chat</button></Link>
             </div>
             <div className="info_box">
                 
@@ -112,8 +120,8 @@ export default function ProfileGrid({data}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
-                            { data.channels!=null && data.channels.map((chan , index)=>{
-                                return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
+                            { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
+                                return(<div><img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
                             })}
                         </div>
                     </div>

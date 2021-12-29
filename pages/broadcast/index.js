@@ -479,10 +479,10 @@ export default function Broadcast() {
 
                                         {/* <Mf_icon_dropdown_select_btn
                                         btn={(<span className={styles.edit_span}
-                                        >
+                                            >
                                             ...
-                                        </span>)}
-                                        >
+                                            </span>)}
+                                            >
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditBroadcasts(data);}}> Edit </li>
                                             <li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>
                                         </Mf_icon_dropdown_select_btn> */}
@@ -491,6 +491,8 @@ export default function Broadcast() {
                                         <div className={"select_session_btn"}><div svg={deleteSVG} onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}>{deleteSVG}</div> </div>
                                         </div>
 
+                                        </TableCell>
+                                    <TableCell >
                                     </TableCell>
                                 </TableRow>
                             )

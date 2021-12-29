@@ -478,6 +478,7 @@ export default function Live_chat() {
                                     {/* <Livechat/> */}
                                         </div>
                                 </div>
+                                
                 {/* <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
                                 <div className={"group_icon"} ></div>
                                 <Team_Select  show={isShow} head={"All Team"} top_head={selectedTeams==""?"All Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
@@ -500,7 +501,7 @@ export default function Live_chat() {
                             <div className={"add_button"} onClick={()=>{setChatButtonOn("")}}  style={{display:ChatButtonOn=="m0"?"block":"none"}}>
                             <AddButtonSVG c={"#D0E9FF"}/>
                             </div>
-                            <div className={"add_button"} onClick={()=>{setChatButtonOn("m0")}}  style={{display:ChatButtonOn!=="m0"?"block":"none"}}>
+                            <div className={"add_button"} onClick={()=>{setChatButtonOn("m0"),setIsFilterOpen(false)}}  style={{display:ChatButtonOn!=="m0"?"block":"none"}}>
                             <AddButtonSVG c={"#f5f6f8"} />
                             </div>
                     </div>
