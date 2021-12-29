@@ -15,7 +15,7 @@ export default function QuickReply(props) {
 
     return(
         < div className="reply_template_box">
-             <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} >
+             <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} ref={props.ref} >
             <Box component="div" 
                     visibleScrollbar={true}
                     scrollButtons={"on"}
@@ -26,9 +26,11 @@ export default function QuickReply(props) {
                     onChange={handleChange}
                     textColor="primary"
                     indicatorColor="primary"
-                    aria-label="secondary tabs example"
                     variant="scrollable"
-                    // scrollButtons="off"
+                    scrollButtons="off"
+                    ref={props.ref}
+                    // scrollButtons="auto"
+                    visibleScrollbar
                 >
                     {props.data.map((item,index)=>(<Tab label={item.name} key={index} value={`${item.id}`} />))}
 

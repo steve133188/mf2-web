@@ -36,13 +36,13 @@ export default function Chat() {
     };
 
 
-    const periodFilter = () =>{
-        console.log("filter period : "+selectedPeriod)
-        // dayState <<<timestamp for comparing range
-    }
     const exportSubmit = () =>{
         console.log("export : ")
 
+    }
+    const periodFilter = () =>{
+        console.log("filter period : "+selectedPeriod)
+        // dayState <<<timestamp for comparing range
     }
     const [selectedPeriod ,setSelectedPeriod] =useState("")
     const [dayState,setDayState] = useState({from:"",to:""})
@@ -254,7 +254,7 @@ export default function Chat() {
                                 <TableRow>
 
                                     {tagColumn.map((col,index)=>{
-                                        return ( <TableCell key={index}>{col}</TableCell>)
+                                        return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                     })}
     
                                 </TableRow>

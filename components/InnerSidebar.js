@@ -2,12 +2,13 @@ import Link from "next/link"
 import {BlueMenuDropdown, BlueMenuLink} from "./BlueMenuLink";
 import {useState, useContext, useEffect} from 'react';
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {useRouter} from "next/router";
 import {GlobalContext} from "../context/GlobalContext";
 import {Skeleton} from "@mui/material";
 import DivisionDropDown from "./filter/divisionDropDown";
 
-export function ORGSidebar({orgData=null, selection ,setSelection}) {
+export function ORGSidebar({orgData, selection ,setSelection}) {
 
     const {orgInstance } = useContext(GlobalContext)
     const [isLoading, setIsLoading] = useState(true)
@@ -46,32 +47,38 @@ export function ORGSidebar({orgData=null, selection ,setSelection}) {
 
             {isLoading ?ske: <ul className="blueMenuGroup">
                 <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}>All</li>
-                <Tree data={orgData} handleClick={handleClick}/>
+                <Tree data={orgData} handleClick={handleClick} selection={selection}/>
 
             </ul>}
 
         </nav>
     )
 }
-function TreeNode ({node ,handleClick}){
+function TreeNode ({node ,handleClick, selection}) {
     const [childVisible , setChildVisible] = useState(false)
 
     const hasChild = node.children ? true : false ;
-
+    
     return(
-        <li className="blueMenuLink" onClick={()=> {
+        
+        <li className={"blueMenuLink "+(selection && selection.name == node.name ?("active"):null)} onClick={(e)=> {
+            e.preventDefault()
+            e.stopPropagation()
             setChildVisible(v => !v);
-            handleClick()
+            if(node.type=="team")handleClick(node);
+
         }}>
             {node.name}
-
-            {hasChild &&(
+            {hasChild && !childVisible &&(
                 <KeyboardArrowDownIcon/>
             )}
 
             {
                 hasChild && childVisible && (
-                    <Tree data={node.children} handleClick={handleClick}/>
+                    <>
+                        <KeyboardArrowUpIcon/>
+                        <Tree data={node.children} selection={selection} handleClick={handleClick}/>
+                    </>
                 )
             }
         </li>
@@ -80,12 +87,12 @@ function TreeNode ({node ,handleClick}){
 
 }
 
-export const Tree = ({data = [], handleClick})=>{
+export const Tree = ({data = [], handleClick, selection})=>{
     return(
         <ul className="blueMenuGroup">
             {data.map( (d, index) => {
                     // <li className={"blueMenuLink "+(selection.name==data.name?"active" :null)} key={index} onClick={()=>handleClick(data)}>{data.name}</li>
-                       return (<TreeNode key={index} node={d} handleClick={handleClick}/>)
+                       return (<TreeNode key={index} node={d} selection={selection} handleClick={handleClick}/>)
             })}
         </ul>
     )

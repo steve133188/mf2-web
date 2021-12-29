@@ -38,7 +38,8 @@ export default function DashBroadFilter(props){
     const [filteredAgents ,setFilteredAgents] =useState([]);
     const [filteredDivision ,setFilteredDivision] =useState([]);
     const [filteredChannels ,setFilteredChannels] =useState([]);
-    // const [filteredUsers ,setFilteredUsers] =useState([]);
+    // const [filteredUsers ,setFilteredUsers] =useState([]); 
+    const [filteredData , setFilteredData] = useState([])
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[], division:[], })
 
     const [agentBarOpen,setAgentBar] = useState(false)
@@ -47,8 +48,13 @@ export default function DashBroadFilter(props){
     const [agentSearchValue, setAgentValue]= useState("")
    
 
+    useEffect(()=>{() =>{
 
-                const advanceFilter =()=>{
+        props.change(selectedAgents)
+    }
+        },[selectedAgents])
+
+        const advanceFilter =()=>{
                     setFilter({division:[...selectedDivision],team:[...selectedTeams], agent:[...selectedAgents] ,channels: [...selectedChannels] , tag:[...selectedTags]})
                     console.log("filter",filter)
                     const agentFiltered = channels.filter(data=>{
@@ -66,6 +72,7 @@ export default function DashBroadFilter(props){
                     })
                     console.log("tagFiltered:",tagFiltered)
 
+                    setFilteredData([...tagFiltered])
                 }
 
 

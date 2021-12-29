@@ -57,7 +57,7 @@ export default function Tags() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchTags = async () =>{
-        // const data = await adminInstance.getAllTags()
+        const data = await adminInstance.getAllTags()
         console.log("getAllTags()",data)
         setTags(data)
         setFilteredData(data)
@@ -169,7 +169,7 @@ export default function Tags() {
                                     </div>
                                 </TableCell>
                                 {default_cols.map((col,index)=>{
-                                    return ( <TableCell key={index}>{col}</TableCell>)
+                                    return ( <TableCell  style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                 })}
 
                             </TableRow>

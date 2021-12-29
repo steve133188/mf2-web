@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
 import { Avatar, Tooltip } from "@mui/material";
+import { createRouteLoader } from "next/dist/client/route-loader";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -57,6 +58,7 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
         console.log(data,"create reply")
         console.log(status,"create reply")
         toggle()
+        createRouteLoader()
 
     }
     return(
@@ -85,7 +87,7 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>  */}
                     
-
+A
                         <div className={"channelList"} >
                             {filteredAgents.filter(users=>users.username.includes("")).map((user)=>{
                                 return(<li className={"channelListitem"} key={user.username} style={{width:"90%"}}>

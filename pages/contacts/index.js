@@ -91,15 +91,16 @@ export default function Contacts() {
             if(selectedChannel.length ==0){
                 return data
             }
-            return data.channels.some(el=>selectedChannel.includes(el))
+            return selectedChannel.includes(data.channels)
         })
         console.log("channelFiltered:",channelFiltered)
 
-        const teamFiltered = tagFiltered.filter(data=>{
-            if(selectedTeams.trim() ==""){
+        const teamFiltered = channelFiltered.filter(data=>{
+            console.log(selectedTeams,"teamteamteam ")
+            if(!selectedTeams.id){
                 return data
             }
-            return data.team==selectedTeams
+            return data.team==selectedTeams.id
         })
         console.log("teamFiltered:",teamFiltered)
         setFilteredData([...teamFiltered])
@@ -325,8 +326,8 @@ export default function Contacts() {
     }
 
     useEffect(()=>{
-        console.log(currentContacts)
-    },[filteredData])
+        advanceFilter()
+    },[selectedTeams])
 
     const editSVG =(
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2198fa"
@@ -412,11 +413,16 @@ export default function Contacts() {
             {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
+
+
+
+
+                    
                     <div className={"select_session_btn"}>
                         {/* <Mf_icon_dropdownform svg={tagSVG}>
                        
                         </Mf_icon_dropdownform> */} 
-                        <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                        <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
                                         {filteredTags.map((tag)=>{
@@ -477,13 +483,13 @@ export default function Contacts() {
                         </li>)
                     })}
                 </MF_Select>
-                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
+                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team":selectedTeams.name}  submit={advanceFilter}  customeDropdown={true}>
                     <li onClick={()=> {
                         setSelectedTeams("");
                         advanceFilter()
                     }}>All</li>
                     {teams.map((team)=>{
-                        return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter()}}> {team.name}</li>)
+                        return(<li id={team.id}  key={team.id} onClick={(e)=>{setSelectedTeams({name:team.name,id:e.target.id}) }}> {team.name}</li>)
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >

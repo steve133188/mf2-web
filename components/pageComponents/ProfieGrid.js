@@ -155,7 +155,7 @@ export default function ProfileGrid({data}){
                                         </div>)
                             })} 
                     </div>
-                    <div className={"message_pad"}>    
+                    <div className={"message_pad_write"}>    
                         <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Start typing to log activities..."}></input>
                         <div className={"log_button"} onClick={()=>{setWritenote(notes.push({id:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>
                             Log

@@ -13,7 +13,7 @@ export default  function Mf_circle_btn({ children ,value=null, handleChange = nu
             setIsShow(false);
         }
     };
-    if (customButton == null){
+    if (customButton){
         customButton = (
             <button onClick={()=>setIsShow(!isShow)}>
                 Confirm

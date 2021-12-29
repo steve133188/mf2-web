@@ -45,12 +45,12 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
     const handleSelect =e=>{
         setSelectedTeam(e.target.value)
     }
-    useEffect(  () => {
-        async () =>{
+    
+    useEffect(    async () => {
         const data = await orgInstance.getOrgTeams()
+        console.log(data,"team data")
         setTeam(data)
-    }
-    },[])
+    },[]);
     const submit = async ()=>{
         console.log(selectedUsers)
         toggle();
@@ -77,7 +77,7 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                        <MenuItem sx={{padding:"1px"}} value={null}>Null</MenuItem>
+                        <MenuItem value={null}>Null</MenuItem>
                         {team.map((d)=>{
                             return (<MenuItem key={d.id} value={d}>{d.name}</MenuItem>)
                         })}

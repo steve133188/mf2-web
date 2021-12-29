@@ -21,10 +21,10 @@ const fetchData = ()=>{
     <div className="intergra_container">
         <div>
             {/* <img src="intergration/testmedia/qrcode-ws.png"/> */}
-            <button onClick={()=>setTab("stella")} >
+            <button className={"tabButton"+(tab=="stella"?"active":"")} onClick={()=>setTab("stella")} >
             Stella API
             </button>
-            <button onClick={()=>setTab("twillo")}>
+            <button className={"tabButton"+(tab=="twillo"?"active":"")}  onClick={()=>setTab("twillo")}>
             Twillo API
             </button>
 
@@ -32,7 +32,7 @@ const fetchData = ()=>{
         <form className="login_form" id="wechat_form" >
             <div className={"stella_login"} style={{display:tab=="stella"?"block":"none"}}>
                     <div className={"form_item"}>
-                    <p>Get pageAccessToken and verification code with following steps:</p>
+                    <p>Generate Authorization Code from Stella and provide below:</p>
                     </div>
                     <div className={"form_item"}>
                         <label>URL</label>
@@ -79,10 +79,10 @@ const fetchData = ()=>{
             <div className="twillo" style={{display:tab=="twillo"?"block":"none"}}>
                 <div className={"form_item"}>
                     <p>1. Create twilio account and Buy A Number. <br/>
-                    2. From “Programmable Sms to WhatsApp” get your whatsapp number. <br/>
+                2. From “Programmable Sms => WhatsApp” get your whatsapp number. <br/>
                     3. From Dashboard get Account Sid and Auth Token.<br/>
-                     4. Copy Callback Url that we have provided and paste it in Sandbox Configuration. <br/>
-                     5. Submit your details and can start testing it by initially sending code provided in “Programmable Sms to WhatsApp” screen.</p>
+                    4. Copy Callback Url that we have provided and paste it in Sandbox Configuration. <br/>
+                    5. Submit your details and can start testing it by initially sending code provided in “Programmable Sms => WhatsApp” screen.</p>
                 </div>
                 <div className={"form_item"}>
                         <label>URL</label>

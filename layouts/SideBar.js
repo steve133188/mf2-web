@@ -20,7 +20,7 @@ export default function SideBar(props) {
         return result.data.listMF2TCOMESSAGGES.items
     }
    useEffect(()=>{
-    getMesssages()
+    // getMesssages()
    },[]) 
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
@@ -103,7 +103,7 @@ export default function SideBar(props) {
 
     useEffect(()=>{
 
-          size.w<1500?setIsCollapse(true):setIsCollapse(false)
+          size.width<1500?setIsCollapse(true):setIsCollapse(false)
         //   useWindowSize()
       },[size])
 

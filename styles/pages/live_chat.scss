@@ -431,7 +431,9 @@
             //width: 30%;
             flex-direction: column;
             justify-content: space-between;
+            align-items: center;
             padding-left: 5%;
+            padding-top: 1.5%;
             font: normal normal 600 15px Manrope;
             color: #4E4E4E;
             .team{
@@ -505,14 +507,20 @@
           margin: 10px;
         }
         .chatroom_name ,.chatroom_channel{
-          margin: auto;
+          margin: auto 6px;
           padding:0 0.5rem;
           text-align: left;
+          display: flex;
+          vertical-align: middle;
+          
           font: normal normal bold 15/22 Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
-          img{
+          img{    
+            width: 22px;
+            height: 22px;
+            margin: 0;
             margin-left: -5px;
           }
         }
@@ -603,6 +611,7 @@
      }
     }
     .chatroom_records{
+      // max-height: 87%;
       overflow: scroll;
       flex-grow: 1;
     }
@@ -611,7 +620,7 @@
       box-shadow: 0px 12px 40px #0000000F;
       border-radius: 26px;
       opacity: 1;
-      min-height: 7rem;
+      min-height: 10rem;
       width: 100%;
       z-index: 10;
       padding: 1rem  ;
@@ -620,7 +629,7 @@
       justify-content: space-between;
       &.expand{
         height: 25vh;
-        max-height: 35rem;
+        max-height: 25rem;
         min-height: 23rem;
         // max-width: ;
       }
@@ -628,8 +637,7 @@
         border: none;
         resize: none;
         width: 100%;
-        min-height:15%;
-        // height:70%;
+        min-height:10%;
         padding: 0.5rem;
         overflow: scroll;
       }
@@ -761,7 +769,7 @@
       max-width: 320px;
       min-width: 200px;
       height: 8rem;
-      margin: 1rem 0;
+      margin: 0 0 .5rem 0;
       padding: 0.25rem 0;
       display: flex;
       flex-direction: row;
@@ -770,12 +778,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 80px;
+        width: 60px;
         min-width:60px;
         max-width: 800px;
         margin-right: 25px;
         img{
-          width:35px;
+          width:25px;
         }
       }
       .contact_detail{
@@ -787,7 +795,7 @@
         justify-content: center;
         gap: 6%;
         .contact_detail_name{
-          font: normal normal bold 19px/25px Manrope;
+          font: normal normal bold 22px/25px Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
@@ -796,7 +804,8 @@
           text-align: left;
           font: normal normal normal 14px Manrope;
           letter-spacing: 0px;
-          color: #444444;
+          color: #444444;   
+           display: flex;
           opacity: 1;
         }
         .contact_detail_team{

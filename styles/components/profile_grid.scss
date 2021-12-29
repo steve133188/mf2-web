@@ -109,12 +109,52 @@
   }
 }
 
+.message_pad_write{
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px;
+  margin: 0 .8rem;
+  position: relative;
+  box-shadow: 0px 7px 20px #00000014;
+  border-radius: 10px;
+  .write_note{
+    border:0;
+    width: 100%;
+    height: 3rem;
+    border-radius: 10px;
+    padding: 0 1rem;
+
+    // background: #FFFFFF 0% 0% no-repeat padding-box;
+    // box-shadow: 0px 7px 20px #00000014;
+    &:focus-visible{
+      outline: #2198FA ;
+    }
+  }
+  .log_button{
+    width:50px;
+    height: 25px;
+    position: absolute;
+    background: #2198FA 0% 0% no-repeat padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font: normal normal normal 12px/17px Manrope;
+    border-radius: 5px;
+    color:white;
+    right:1.5rem;
+
+    align-self: center;
+
+  }
+}
+
 .message_pad{
   display: flex;
   justify-content: flex-start;
   padding: 5px;
   margin: 0 .8rem;
   position: relative;
+
   .left{
     width: 50px;
   }
@@ -143,29 +183,14 @@
     border:0;
     width: 100%;
     height: 3rem;
-
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 7px 20px #00000014;
     border-radius: 10px;
+    padding: 0 1rem;
+
+    // background: #FFFFFF 0% 0% no-repeat padding-box;
+    // box-shadow: 0px 7px 20px #00000014;
     &:focus-visible{
       outline: #2198FA ;
     }
-  }
-  .log_button{
-    width:50px;
-    height: 25px;
-    position: absolute;
-    background: #2198FA 0% 0% no-repeat padding-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font: normal normal normal 12px/17px Manrope;
-    border-radius: 5px;
-    color:white;
-    right:1.5rem;
-
-    align-self: center;
-
   }
 }
 .grid_box{

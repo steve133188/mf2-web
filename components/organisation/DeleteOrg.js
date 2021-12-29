@@ -1,8 +1,8 @@
 import {MF_Input} from "../../components/Input";
+import Select from "@mui/material/Select";
 import React, {useContext, useEffect, useState} from "react";
 import MF_Modal from "../MF_Modal";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
@@ -33,38 +33,38 @@ const style ={
     width:"100%",
     height:"2rem"
 }
-
-export default function CreateTeamForm({show, toggle}){
+export default function DeleteDivisionForm({show, toggle,reload }){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
     const [rootDivision , setRootDivision] = useState([])
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
-
-    const handleChange = e=>{
+    const handleChange = (e)=>{
         setName(e.target.value)
     }
     const handleSelect =e=>{
         setParent(e.target.value)
     }
-    useEffect(    async () => {
-        const data = await orgInstance.getAllORG()
-        console.log(data,"org data")
-        setRootDivision(data.filter(data=>{return data.type=="division"}))
-    },[]);
-
+    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    useEffect(async ()=>{
+        const data = await orgInstance.getAllRootORG()
+          setRootDivision(data.filter(data=>{return data.type=="division"}))
+          console.log(data,"newDivision fetch ")
+      },[])
     const submit = async ()=>{
-        const status = await orgInstance.createOrg({type:"team" ,name,parent_id:parent})
-        console.log(status,"create team")
-        console.log(parent,",parent_id:parent")
+        const newDivision = {name:name,type:"division"}
+        console.log(newDivision)
+        const status = await orgInstance.deleteOrgById(parent)
+        console.log(status,"create Division")
         toggle()
+        reload()
     }
+   
     return(
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
                 <div className={"modal_title"}>
-                    <span>Create Team</span>
+                    <span>Create Division</span>
                 </div>
-                <MF_Input title={"Team Name"} value={name} onChange={handleChange}> </MF_Input>
+                {/* <MF_Input title={"Division Name"} value={name} onChange={handleChange}></MF_Input> */}
                 <div className="inputField">
                     <span>Division</span>
                     <Select
@@ -73,12 +73,13 @@ export default function CreateTeamForm({show, toggle}){
                         onChange={handleSelect}
                         label={"Select Division"}
                         input={<BootstrapInput />}
-                    >
+                        >
                         <MenuItem value={null}>Null</MenuItem>
                         {rootDivision.map((d)=>{
                             return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
                         })}
                     </Select>
+                        <span style={{height:"35px"}}></span>
                 </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>

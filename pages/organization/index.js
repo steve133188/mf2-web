@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import {TableCell, Tooltip, Zoom} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import CreateDivisionForm from "../../components/organisation/CreateDivisionForm";
+import DeleteDivisionForm from "../../components/organisation/DeleteOrg";
 import CreateTeamForm from "../../components/organisation/CreateTeamForm";
 import AddAgentForm from "../../components/organisation/AddAgentForm";
 import Profile from "../../components/profile";
@@ -70,6 +71,7 @@ export default function Organization() {
     const [isCreateTeamShow , setIsCreateTeamShow] = useState(false)
     const [isAddAgentShow , setIsAddAgentShow] = useState(false)
     const [isMoveAgentShow , setIsMoveAgentShow] = useState(false)
+
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedUsers , setSelectedUsers] = useState([])
     const [selectAll, setSelectAll] = useState(false);
@@ -107,7 +109,8 @@ export default function Organization() {
         set_root_org(data)
     }
     useEffect(    async () => {
-        if(user.token){
+        if(user.token)
+        {
             await fetchRootORG()
             await fetchUsers()
         }
@@ -195,8 +198,10 @@ export default function Organization() {
     function toggleSelectRow() {
         setSelectRow(!isSelectRow);
     }
+    // console.log(filteredData,"fjilterded Data")
     const displayTeam=(name)=>{
         set_curr_org(name)
+        console.log(name,"show   team name")
     }
     return (
         <div className="organization-layout">
@@ -205,12 +210,12 @@ export default function Organization() {
                 {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
                 {/*toggle Modal Start */}
 
-                <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision}/>
-                <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam}/>
+                <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision} reload={fetchRootORG}/>
+                <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam} data={root_org}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
                 <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers} />
-
-                <MF_Modal show={isDelete} toggle={toggleDelete}>
+                <DeleteDivisionForm show={isDelete} toggle={toggleDelete}  reload={fetchRootORG}/>
+                {/* <MF_Modal show={isDelete} toggle={toggleDelete}>
                     <div className={"modal_form"}>
                         <div className={"modal_title"} style={{textAlign:"center",margin:"20px"}}>
 
@@ -236,7 +241,7 @@ export default function Organization() {
                             <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>
                         </div>
                     </div>
-                </MF_Modal>
+                </MF_Modal> */}
                 {/*toggle Modal End*/}
                     <SearchSession
                         placeholder={"Search"}
@@ -244,11 +249,12 @@ export default function Organization() {
                             handleFilterChange(e.target.value)
                         }}
                     >
-                        {!isSelectRow ? (
-                            <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
+                        {!isSelectRow ? (<>
+                              <button  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"}> Delete</button>
+                            <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button></>
                         ) : (
                             <>
-                                <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button>
+                                {/* <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button> */}
                                 <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button>
                             <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                                 </>
@@ -284,7 +290,7 @@ export default function Organization() {
                                     </div>
                                 </TableCell>
                                 {default_cols.map((col,index)=>{
-                                    return ( <TableCell key={index}>{col}</TableCell>)
+                                    return ( <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                 })}
 
                             </TableRow>
@@ -297,6 +303,7 @@ export default function Organization() {
                                         role="checkbox"
                                         // tabIndex={-1}
                                         name={index}
+                                        sx={{height:"56px"}}
                                         checked={selectedUsers.includes(data.username)}
                                         onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >

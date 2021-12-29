@@ -35,10 +35,12 @@ export default function Newchatroom(props){
         </div>
         <div className="">
             <div className="contactList" >
+                Push for new Chat
                 {props.contacts.map((contact, index)=>{
                     // console.log(contact)
                     return(
                         <div key={index} className={"contact_box "} onClick={async ()=>{await createChatroom(contact)}} >
+                            
                             <div className={"contact_icon"}>
                                 <Avatar src={contact.profile_pic_url} style={{width: '35px',height:"35px"}} alt={contact.name} />
                             </div>

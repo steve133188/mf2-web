@@ -10,11 +10,11 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell} from "@mui/material";
+import TableHead from "@mui/material/TableHead";
+import Pagination from '@mui/material/Pagination';
 import Avatar from "@mui/material/Avatar";
 import {Pill} from "../../components/Pill";
 import MF_Select from "../../components/MF_Select";
-import TableHead from "@mui/material/TableHead";
-import Pagination from '@mui/material/Pagination';
 import Profile from "../../components/profile";
 import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
@@ -36,19 +36,19 @@ export default function Role() {
     const [roles, setRoles] = useState([]);
     const {adminInstance , user} = useContext(GlobalContext)
 
+    const [currentPage , setCurrentPage] = useState(1)
     const [filteredData , setFilteredData] = useState([])
+    const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
+    const indexOfFirstTodo = indexOfLastTodo - 10;
+    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
 
     const [isLoading, setIsLoading] = useState(false);
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
     const [isCreate , setIsCreate] = useState(false)
     const [isEdit , setIsEdit] = useState(false)
     const [isDelete , setIsDelete] = useState(false)
-    const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
     const [selectAll, setSelectAll] = useState(false);
-    const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
-    const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isSelectRow, setIsSelectRow] = useState( false);
 
     let result = currentContacts.map(d=>d.id)
@@ -176,7 +176,7 @@ export default function Role() {
                                 </div>
                             </TableCell>
                             {default_cols.map((col,index)=>{
-                                return ( <TableCell key={index}>{col}</TableCell>)
+                                return ( <TableCell  style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                             })}
 
                         </TableRow>
