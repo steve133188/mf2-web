@@ -3,6 +3,7 @@ import {API, graphqlOperation} from "aws-amplify";
 import {createMF2TCOCHATROOM} from "../../src/graphql/mutations";
 import {useContext} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
+import { Tooltip } from "@mui/material";
 
 
 export default function Newchatroom(props){
@@ -39,14 +40,19 @@ export default function Newchatroom(props){
                 {props.contacts.map((contact, index)=>{
                     // console.log(contact)
                     return(
-                        <div key={index} className={"contact_box "} onClick={async ()=>{await createChatroom(contact)}} >
+                        <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroom(contact)}} >
                             
-                            <div className={"contact_icon"}>
-                                <Avatar src={contact.profile_pic_url} style={{width: '35px',height:"35px"}} alt={contact.name} />
+                            <div className={"chatroom_icon"}>
+
+                                <Tooltip key={contact.name} className={""} title={contact.name} placement="top-start">
+                                <Avatar className={"text-center"} src={contact.profile_pic_url} sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} alt={contact.name} />
+                                </Tooltip> 
                             </div>
+                           
                             <div className={"contact_name_ss"}>
-                                <div>{contact.name}</div>
-                                <div className={"team"}>Team {contact.team}</div>
+                                <div>{contact.name??contact.phone}</div>
+                                {/* <div className={"team"}>Team {contact.team}</div> */}
+                                <div className={"team"}>+{contact.phone}</div>
                             </div>
                             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}
                             {/*<div className={"pin"}></div>*/}

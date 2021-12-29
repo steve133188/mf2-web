@@ -81,7 +81,7 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
                        <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
-                    <div className={"filter_title"} onClick={toggle}>Choose Agent</div>
+                    <div className={"filter_title"} onClick={toggle}>Choose Agent </div>
                     <div className={"agentSearchArea"}  style={show?{display:"block"}:{display:"none"}}>
                          {/* <div className={"search_bar"}>    
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
@@ -91,12 +91,12 @@ A
                         <div className={"channelList"} >
                             {filteredAgents.filter(users=>users.username.includes("")).map((user)=>{
                                 return(<li className={"channelListitem"} key={user.username} style={{width:"90%"}}>
-                                    <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-                                        <div className={"name"}>{user.username}</div>
-                                    </div>
+                                            <div className={"left"} style={{display:"flex" ,gap:10}}>
+                                                <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginLeft:"10px"}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                                                </Tooltip>
+                                                <div className={"name"}>{user.username}</div>
+                                            </div>
                                     <div className="newCheckboxContainer right">
                                         <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedAgents.includes(user.username)} onClick={toggleSelectAgents} />
                                         </label>

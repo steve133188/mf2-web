@@ -211,6 +211,13 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
+        .channelList{
+          padding: 3%;
+          .channelListitem{
+            margin:2px 3rem;
+            font: normal normal normal w00 0.9REM Manrope
+          }
+        }
         .search_bar{  
           width: 90%;
           display:flex;

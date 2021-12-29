@@ -15,7 +15,7 @@ export default function ChatroomList({chatroom , ...props}){
         <div className={"chatroom_li "} onClick={props.onClick}>
             <div className={"starred"}   > {chatroom.is_pin?<StarSVG /> : <NoStarSVG/>}</div>
             <div className={"chatroom_icon"}>
-            <Tooltip key={chatroom.name} className={""} title={chatroom.name} placement="top-start">
+             <Tooltip key={chatroom.name} className={""} title={chatroom.name} placement="top-start">
                       <Avatar className={"text-center"}  src={ null} sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} alt="icon" />
                     {/* <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} >{chatroom.name.substring(1,3).toUpperCase()}</Avatar> */}
                 </Tooltip>

@@ -27,6 +27,8 @@ import * as React from "react";
 import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
 import DeletePad from "../../../components/DeletePannel";
 import CreateReplyFolder from "../../../components/Admin/CreateReplyFolder";
+import ReplyFolder from "./replyFolder";
+import Profile from "../../../components/profile";
 
 export default function StandardReply() {
 
@@ -34,10 +36,12 @@ export default function StandardReply() {
     const [standardReply, setStandardReply] = useState([]);
     const [filteredData , setFilteredData] = useState([])
     const [agents ,setAgents] =useState([]);
+    const [useFolder,setUseFolder] = useState("")
     const [selectedAgents ,setSelectedAgents] =useState([])
     const [filteredAgents ,setFilteredAgents] =useState([]);;
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isProfileShow , setIsProfileShow] = useState(false)
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
     const [currentPage , setCurrentPage] = useState(1)
@@ -64,6 +68,7 @@ export default function StandardReply() {
         console.log("getAllStandardReply",data)
         setStandardReply(data)
         setFilteredData(data)
+
     }
     const getAgents = async ()=>{
         const data = await userInstance.getAllUser()
@@ -101,6 +106,7 @@ export default function StandardReply() {
         console.log(selectedTag,"tagtagtag")
     }
     const toggleDelete = (name)=>{
+        isSelectRow?setSelectedReply(name):null 
         setIsDelete(!isDelete)
         setDeleteTag(name)
     }
@@ -118,13 +124,19 @@ export default function StandardReply() {
     }
     console.log(selectedAgents,"selectedAgents")
     }
-
+    const toggleProfile = (key) =>{
+        if(!isProfileShow) setUseFolder(key)
+        setIsProfileShow(!isProfileShow)
+    }
     const submitDelete = () =>{
         deleteReplys(deleteTagname);
 
         setIsDelete(!isDelete)
     }
-
+    useEffect(()=>{
+        console.log(standardReply,"reply")
+        console.log(useFolder,"reply")
+    },[useFolder])
 
 
     const default_cols = ['Folder' , 'Channel' ,'Team','Assignee',""]
@@ -134,6 +146,8 @@ export default function StandardReply() {
         <div className={"admin_layout"}>
             <InnerSidebar />
             <div className="rightContent">
+                {isProfileShow?   ( <Profile handleClose={toggleProfile}><ReplyFolder data={useFolder} /></Profile>):null}
+
                 <CreateReplyFolder  show={isCreate} reload={fetchStandardReply} toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
                 <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReply} title={"Folders"}/>
                 <div className={"search_session"}>
@@ -203,7 +217,7 @@ export default function StandardReply() {
                                         role="checkbox"
                                         name={index}
                                         checked={selectedReply.includes(data.id)}
-                                        onClick={isSelectRow?toggleSelect:null}
+                                        onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
                                             width: "30px",
@@ -248,7 +262,7 @@ export default function StandardReply() {
 
                                         <TableCell key={"button"+index} align="right">
                                             <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.id,data.name)}><EditSVG/></span>
-                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.id)}><DeleteSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>{toggleDelete(data.id)}}><DeleteSVG/></span>
                                        </TableCell>
                                     </TableRow>
                                 )
