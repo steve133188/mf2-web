@@ -16,7 +16,7 @@ import Newchatroom from "../../components/livechat/newchatroomPanel";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
-import { subscribeToNewMessage} from "../../src/graphql/subscriptions"
+import { subscribeToChatroom} from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
@@ -318,7 +318,7 @@ export default function Live_chat() {
     const handleSub = async (chatroom)=>{
 
         if(subscribe)subscribe.unsubscribe()
-        const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:chatroom.room_id} ))
+        const sub = API.graphql(graphqlOperation(subscribeToChatroom ,{room_id:chatroom.room_id} ))
             .subscribe({
                 next: async (chatmessage)=>{
                     const newMessage = chatmessage.value.data.subscribeToNewMessage

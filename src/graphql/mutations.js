@@ -7,12 +7,19 @@ export const createMF2TCOMESSAGGE = /* GraphQL */ `
       room_id
       timestamp
       sender
-      receiver
+      recipient
       body
       is_media
+      link
       media_url
       from_me
       message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
     }
   }
 `;
@@ -22,12 +29,19 @@ export const updateMF2TCOMESSAGGE = /* GraphQL */ `
       room_id
       timestamp
       sender
-      receiver
+      recipient
       body
       is_media
+      link
       media_url
       from_me
       message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
     }
   }
 `;
@@ -37,12 +51,19 @@ export const deleteMF2TCOMESSAGGE = /* GraphQL */ `
       room_id
       timestamp
       sender
-      receiver
+      recipient
       body
       is_media
+      link
       media_url
       from_me
       message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
     }
   }
 `;
@@ -57,6 +78,7 @@ export const createMF2TCOCHATROOM = /* GraphQL */ `
       room_id
       unread
       user_id
+      avatar
     }
   }
 `;
@@ -71,6 +93,7 @@ export const updateMF2TCOCHATROOM = /* GraphQL */ `
       room_id
       unread
       user_id
+      avatar
     }
   }
 `;
@@ -85,6 +108,46 @@ export const deleteMF2TCOCHATROOM = /* GraphQL */ `
       room_id
       unread
       user_id
+      avatar
+    }
+  }
+`;
+export const createMF2ChannelInfo = /* GraphQL */ `
+  mutation CreateMF2ChannelInfo($input: CreateMF2ChannelInfoInput!) {
+    createMF2ChannelInfo(input: $input) {
+      channel_id
+      user_id
+      status
+      qr_data
+      channel_name
+      url
+      token
+    }
+  }
+`;
+export const updateMF2ChannelInfo = /* GraphQL */ `
+  mutation UpdateMF2ChannelInfo($input: UpdateMF2ChannelInfoInput!) {
+    updateMF2ChannelInfo(input: $input) {
+      channel_id
+      user_id
+      status
+      qr_data
+      channel_name
+      url
+      token
+    }
+  }
+`;
+export const deleteMF2ChannelInfo = /* GraphQL */ `
+  mutation DeleteMF2ChannelInfo($input: DeleteMF2ChannelInfoInput!) {
+    deleteMF2ChannelInfo(input: $input) {
+      channel_id
+      user_id
+      status
+      qr_data
+      channel_name
+      url
+      token
     }
   }
 `;
