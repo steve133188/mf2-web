@@ -15,9 +15,9 @@ export default function MsgRow({msg ,...props}){
 
     const [isImageOpen,setImageOpen] = useState(false)
 
-    const messageType = ()=>{
+    const messageType = (msg)=>{
         switch(msg.message_type){
-            case "sticker": return <div className={"msg_type_sticker"}><img className={"imageBox"} src={msg.media_url}/></div>;
+            case "sticker": return (<div className={"msg_type_sticker"}><img className={"imageBox"} src={msg.media_url}/></div>);
             case "image":   return <div className={"msg_type_image"}><img className={"imageBox"} src={msg.media_url}/></div> ;
             case "imageCaption":   
                 return <>
@@ -62,14 +62,14 @@ export default function MsgRow({msg ,...props}){
                     </div>
                 </div>;
 
-            default:   return  <div className={"msg_body"}>{msg.body}</div>
+            default:  return <div className={"msg_body"}>{msg.body}</div>
         }
     }
    
     return(
         <div className={"msg_row"}>
             <div className={msg.from_me?"msg_from_me":"msg_from_other"}>
-                <div>{messageType()}</div>
+                <div>{messageType(msg)}</div>
                 {/* <div className={"msg_body"}>{msg.body}</div> */}
                 <div className={"msg_timestamp"}>{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()}</div>
             </div>

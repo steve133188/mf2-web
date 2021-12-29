@@ -13,11 +13,38 @@ function mediaHelper(){
         return mediaKey
     }
 
-    this.putMedia = async (file)=>{
+    this.putSticker = async (file)=>{
         const result = await Storage.put(`stickers/${file.name}` , file )
         console.log("result : " , result)
-        return result.key
+        return this.objUrl(result.key)
     }
+
+    this.putVoice = async (file)=>{
+        const result = await Storage.put(`voice/${file.name}` , file )
+        console.log("result : " , result)
+        return this.objUrl(result.key)
+
+    }
+
+    this.putImg = async (file)=>{
+        const result = await Storage.put(`img/${file.name}` , file )
+        console.log("result : " , result)
+        return this.objUrl(result.key)
+
+    }
+
+    this.putVideo = async (file)=>{
+        const result = await Storage.put(`video/${file.name}` , file )
+        console.log("result : " , result)
+        return this.objUrl(result.key)
+    }
+
+    this.putDoc = async (file)=>{
+        const result = await Storage.put(`documents/${file.name}` , file )
+        console.log("result : " , result)
+        return this.objUrl(result.key)
+    }
+
 
     this.getStickers = async ()=>{
         let mediaKey = await Storage.list("stickers/" )
