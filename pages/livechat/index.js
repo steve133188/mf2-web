@@ -258,6 +258,7 @@ export default function Live_chat() {
     }
 
     const sendVideo = async(media_url )=>{
+
         const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"video" , is_media:true}
         const res = await messageInstance.sendMessage(data)
         setChatButtonOn("");
