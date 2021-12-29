@@ -52,12 +52,12 @@ export default function Live_chat() {
     const [isExpand , setIsExpand] = useState(false)
     const [isEmojiOn,setEmojiOn] = useState(false)
     const [ChatButtonOn,setChatButtonOn] = useState(false)
+    const [subscribe,setSubscribe] = useState()
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
         phone:"",
         message:"",
-        message_type:"text",
-        src:""
+        message_type:"text"
     })
 
 
@@ -189,7 +189,7 @@ export default function Live_chat() {
         setIsExpand(false);
         fileAttach()
         setAttachment(e.target.name)
-        console.log(e.target.files[0],"togglefile")
+        // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
     }
     const toggleQuickReply = () =>{
@@ -324,34 +324,13 @@ export default function Live_chat() {
             await getStickers()
             // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
-
-            // API.graphql(graphqlOperation(subscribeToNewMessage ,{sender:"85260957729"} ))
-            //     .subscribe({
-            //         next: (chatmessage)=>{
-            //             console.log("chatmsg:" , chatroomMsg)
-            //             const newMessage = chatmessage.value.data.subscribeToNewMessage
-            //             const prevMessage = chatroomMsg.filter(msg => msg.timestamp!= newMessage.timestamp)
-            //             console.log(newMessage)
-            //             let updatedPost = [ ...chatroomMsg,newMessage ]
-            //             setChatroomMsg(updatedPost)
-            //             scrollToBottom()
-            //         }
-            //     })
         }
     },[]);
 
-    // useEffect(async ()=>{
-    //     if(!start){  setStart(true)}
-    //     const data = await getChatrooms()
-    //     setChatrooms(data)
-    //     // console.log(chatrooms)
-    //     // console.log(selectedTeams)
-    // } , [selectedTeams])
+    const handleSub = async (chatroom)=>{
 
-    useEffect(async ()=>{
-        if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
-
-        API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:selectedChat.room_id} ))
+        if(subscribe)subscribe.unsubscribe()
+        const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{room_id:chatroom.room_id} ))
             .subscribe({
                 next: async (chatmessage)=>{
                     const newMessage = chatmessage.value.data.subscribeToNewMessage
@@ -360,22 +339,29 @@ export default function Live_chat() {
                     scrollToBottom()
                 }
             })
+        setSubscribe(prev=> sub)
+
+    }
+
+
+    useEffect(async ()=>{
+        if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
+        await handleSub(selectedChat)
     },[selectedChat])
 
     
-    useEffect(()=>{
-
-        if(!chatroomstart){  setChatroomStart(true)}
-        const new1=[]
-        chatrooms.length>0&&chatrooms.map(chat=>{
-            console.log(contacts,"contact in info")
-            const cc = contacts.filter(c=>{return c.id==chat.customer_id});
-            console.log(cc,"contacts show")
-            return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
-        })
-        setFilteredData(new1)
-        setChatroomsInfo(new1)
-    },[chatrooms])
+    // useEffect(()=>{
+    //     if(!chatroomstart){  setChatroomStart(true)}
+    //     const new1=[]
+    //     chatrooms.length>0&&chatrooms.map(chat=>{
+    //         console.log(contacts,"contact in info")
+    //         const cc = contacts.filter(c=>{return c.id==chat.customer_id});
+    //         console.log(cc,"contacts show")
+    //         return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
+    //     })
+    //     setFilteredData(new1)
+    //     setChatroomsInfo(new1)
+    // },[chatrooms])
 
 
     const advanceFilter =()=>{
