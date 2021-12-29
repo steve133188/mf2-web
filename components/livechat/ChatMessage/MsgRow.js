@@ -23,21 +23,21 @@ export default function MsgRow({msg ,...props}){
                 return <>
                         {/* {console.log(JSON.parse(captionJson).url)} */}
                                 {/* JSON.parse({msg.body}) */}
-                                <div className={"msg_type_imageCaption"}>
+                                <div value={msg.timestamp} className={"msg_type_imageCaption"}>
                                     <img className={"bigImageBox"} src={JSON.parse(captionJson).url}  onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/>
-                                    <img className={"imageBox"} src={JSON.parse(captionJson).url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
-                                    <div className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
+                                    <img value={msg.timestamp} className={"imageBox"} src={JSON.parse(captionJson).url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
+                                    <div value={msg.timestamp} className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
                                 </div>
                         </>
             case "video":   return <div className={"msg_type_video"}> 
                     {/* <iframe allowFullScreen className={"videoBox"} src={msg.body}  /> */}
-                    <Player className={"videoBox"} playsInline fluid={false} width={360} muted={true}>
+                    <Player value={msg.timestamp} className={"videoBox"} playsInline fluid={false} width={360} muted={true}>
                         <BigPlayButton position="center" />
-                                    <source src={msg.media_url}   type="video/mp4"/>
+                                    <source value={msg.timestamp} src={msg.media_url}   type="video/mp4"/>
                     </Player>
                     </div> 
-            case "ptt":   return <div className={"msg_type_voice"}>
-                                            <audio className={"voice_detail"} controls src={msg.media_url} ></audio>
+            case "ptt":   return <div className={"msg_type_voice "+"reply"}>
+                                            <audio value={msg.timestamp} className={"voice_detail"} controls src={msg.media_url} ></audio>
 
                         </div>;
             case "document":
@@ -58,11 +58,14 @@ export default function MsgRow({msg ,...props}){
                              <Embed   url={msg.body} />
                              </div>
 
-                        <div className={"msg_type_url"}><a href={msg.body}>{msg.body} </a></div>
+                        <div value={msg.timestamp} className={"msg_type_url"}><a href={msg.body}>{msg.body} </a></div>
                     </div>
                 </div>;
 
-            default:  return <div className={"msg_body"}>{msg.body}</div>
+            default:   return  <div value={msg.timestamp} className={"msg_body"}>{msg.body}</div>
+
+
+
         }
     }
    

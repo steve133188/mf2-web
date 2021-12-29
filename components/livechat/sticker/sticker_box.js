@@ -3,14 +3,15 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
+import { GlobalContext } from '../../../context/GlobalContext';
 
 
 export default function StickerBox({data , stickerSend ,ref }){
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
-
+   
     const [value, setValue] = useState(0);
     const filtered = data.files.filter((d)=>{
         return d.key.includes(data.folders[value])

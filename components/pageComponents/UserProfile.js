@@ -24,10 +24,12 @@ export default function UserProfileGrid({data}){
         //    fetch log by customer_id
         //    fetch assignee by customer_id
         //    fetch team by customer_id
+        
     },[])
     const fetchContacts = async () =>{
         const contactsdata = await contactInstance.getAllContacts()
-
+        console.log(data)
+        console.log(data.authority)
         console.log(contactsdata,"contactssss")
         const assigned = contactsdata.filter(c=>c.agents.includes(data.username))
         console.log(assigned,"contactssss")
@@ -86,6 +88,13 @@ export default function UserProfileGrid({data}){
                         <div className={"session_content"}>
                             {data.role}
                         </div>
+                        <div className={"top_row"}><span className={"title"}>Authority</span></div>
+                        <div className={"session_content"}>
+                            <div className={"authBox"}>
+                            {data.authority!=null&&Object.keys(data.authority).filter(e=>{return data.authority[e]!=true?"true":""}).map(e=>{return <div className={"authContainer"}>{e}</div>})}
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className={"block_session grid_box block"}>
@@ -139,7 +148,7 @@ export default function UserProfileGrid({data}){
                                             <TableCell align="left" style={{width: "27%"}}>
                                                 <div style={{display:"flex",alignItems:"center"}}>
                                                 <Tooltip key={index} className={""} title={item.name} placement="top-start">
-                                                    <Avatar alt={item.name}  className={"mf_bg_warning mf_color_warning text-center"} src="/livechat/tempSourceStore/pp.jpg" sx={{width:25 , height:25 ,fontSize:14}} />
+                                                    <Avatar alt={item.name}  className={"text-center"} src="" sx={{width:25 , height:25 ,fontSize:14}} />
                                                 </Tooltip>
                                                 <span style={{marginLeft:"1rem"}}>{item.name}</span>
                                                 </div>

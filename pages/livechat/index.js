@@ -59,7 +59,7 @@ export default function Live_chat() {
         message:"",
         message_type:"text"
     })
-
+    const [replybox,setReplybox] = useState("")
 
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
@@ -118,9 +118,11 @@ export default function Live_chat() {
     const [filteredData , setFilteredData] = useState([])
 
     const [isShow , setIsShow] =useState(false)
+    const [unread,setUnread] = useState(false)
+    const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const[start,setStart] = useState(false)
-    const[chatroomstart,setChatroomStart] = useState(false)
+    const [start,setStart] = useState(false)
+    const [chatroomstart,setChatroomStart] = useState(false)
 
 
     const handleTypedMsg = e =>{
@@ -288,6 +290,23 @@ export default function Live_chat() {
         setIsExpand(false);
         }
     };
+    const rightClickHandler =(e)=>{
+        e.preventDefault()
+        // console.log(e.target.className)
+        // if(e.target.className=="msg_body"||"video-react-video"||"attachmentBody"||"imageBox"||"voice_detail"){
+        //     console.log("right click",e.target.value)
+        //     setReplybox(e.target.value)
+        // }
+
+    }
+    useEffect(()=>{
+        document.addEventListener('click', handleClickOutside, true);
+        document.addEventListener("contextmenu",rightClickHandler,true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+            document.removeEventListener("contextmenu",rightClickHandler,true);
+        };
+    },[])
     const getStickers = async ()=>{
         const {folders , files} = await mediaInstance.getStickers()
         const arrfolders = Array.from(folders)
@@ -296,12 +315,6 @@ export default function Live_chat() {
         console.log("stickers data" , stickerData)
 
     }
-    useEffect(()=>{
-        document.addEventListener('click', handleClickOutside, true);
-        return () => {
-            document.removeEventListener('click', handleClickOutside, true);
-        };
-    },[])
     useEffect(    async () => {
         if(user.token!=null) {
             await fetchContacts()
@@ -361,7 +374,6 @@ export default function Live_chat() {
             if(selectedChannels.length ==0){
                 return data
             }
-            // return selectedChannels.includes(data.channel)
             return selectedChannels.includes(data.channel)
         })
         console.log(selectedChannels)
@@ -395,9 +407,33 @@ export default function Live_chat() {
             return data.team==selectedTeams
         })
         console.log("teamFiltered:",teamFiltered)
-        setFilteredData([...teamFiltered])
-    }
 
+        const unreadfilter = teamFiltered.filter(data=>{
+            if(!unread ){
+                return data
+            }
+            return data.unread>0
+        })
+
+        const unassignedfilter = unreadfilter.filter(data=>{
+            if(!unassigned ){
+                return data
+            }
+            return data.agents.length<1
+        })
+
+        console.log("unread :",unreadfilter,unassignedfilter,"unread",unread)
+        setFilteredData([...unassignedfilter])
+    }
+    const unreadHandle = () =>{
+        setUnread(!unread);
+        advanceFilter();
+    }
+    const unassigneHandle = () =>{
+        setUnassigned(!unassigned)
+        console.log(unassigned)
+        advanceFilter();
+    }
     const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
         setSelectedChannels([...selectedChannels, id.toLowerCase()]);
@@ -455,6 +491,7 @@ export default function Live_chat() {
                                     {/* <Livechat/> */}
                                         </div>
                                 </div>
+                                
                 {/* <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
                                 <div className={"group_icon"} ></div>
                                 <Team_Select  show={isShow} head={"All Team"} top_head={selectedTeams==""?"All Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
@@ -477,12 +514,13 @@ export default function Live_chat() {
                             <div className={"add_button"} onClick={()=>{setChatButtonOn("")}}  style={{display:ChatButtonOn=="m0"?"block":"none"}}>
                             <AddButtonSVG c={"#D0E9FF"}/>
                             </div>
-                            <div className={"add_button"} onClick={()=>{setChatButtonOn("m0")}}  style={{display:ChatButtonOn!=="m0"?"block":"none"}}>
+                            <div className={"add_button"} onClick={()=>{setChatButtonOn("m0"),setIsFilterOpen(false)}}  style={{display:ChatButtonOn!=="m0"?"block":"none"}}>
                             <AddButtonSVG c={"#f5f6f8"} />
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear} agents={toggleSelectUsers} />
+                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear} 
+                             agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} />

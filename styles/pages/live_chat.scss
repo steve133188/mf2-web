@@ -384,6 +384,7 @@
         overflow: auto;
         position: relative;
         flex-grow: 1;
+        padding-top: 1.2rem;;
 
         .chatroom_badge{
           position: absolute;
@@ -400,7 +401,7 @@
         height: 100vh;
         .chatroom_li{
           cursor:pointer;
-          padding:  1rem;
+          padding:  .8rem;
           width: 100%;
           position: relative;
           display: flex;
@@ -638,7 +639,7 @@
         resize: none;
         width: 100%;
         min-height:10%;
-        padding: 0.5rem;
+        padding: 1.5rem 0.8rem 0.5rem;
         overflow: scroll;
       }
       .chatroom_textField:focus{
@@ -923,6 +924,11 @@
         .tagsGroup{
           margin-bottom: 15px;
           display: flex;
+          .mf_circle_dropdown{
+            top:-22REM;
+            left:-2rem;
+
+          }
 
         }
     }
@@ -1063,10 +1069,6 @@
         border-width: 0;
         outline:0
       }
-
-
-
-
     }
   }
 }
@@ -1075,10 +1077,19 @@
   margin: 10px 5px;
   .confirmButton{
     margin: 10px;
-    
+    width: 100px;
+    margin: 10px 10 20px;
+    padding: 0.15rem 1rem .4rem;
+    height: 25px;    
+    font: normal normal normal 13px/22px Manrope;
   }
-  .cancelBUtton{
-    margin: 10px;
+  .cancelButton{
+    height: 25px;
+    margin: 10px 10 20px;
+    width: 100px;
+    
+    padding: 0.15rem 1rem .4rem;
+    font: normal normal normal 13px/22px Manrope;
 
   }
 }

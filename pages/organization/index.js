@@ -127,10 +127,10 @@ export default function Organization() {
     },[curr_org]);
 
     const toggleSelect = e => {
-        const { checked ,id} = e.target;
-        setSelectedUsers([...selectedUsers, id]);
+        const { checked ,value} = e.target;
+        setSelectedUsers([...selectedUsers, value]);
         if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== id));
+            setSelectedUsers(selectedUsers.filter(item => item !== value));
         }
         // console.log(selectedUsers)
     };
@@ -213,7 +213,7 @@ export default function Organization() {
                 <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision} reload={fetchRootORG}/>
                 <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam} data={root_org}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
-                <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers} />
+                <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers} reload={  async () => {  await fetchRootORG(),   await fetchUsers() }} clear={()=>{ setSelectedUsers([])}} />
                 <DeleteDivisionForm show={isDelete} toggle={toggleDelete}  reload={fetchRootORG}/>
                 {/* <MF_Modal show={isDelete} toggle={toggleDelete}>
                     <div className={"modal_form"}>
@@ -314,7 +314,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.username} name="checkbox" checked={selectedUsers.includes(data.username)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.username} value={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>

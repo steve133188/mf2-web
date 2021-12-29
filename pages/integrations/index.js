@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { LeftButton, RightlButton } from "../../components/Button";
 import {Card_channel} from "../../components/Cards";
 import Tabs from '@mui/material/Tabs';
@@ -11,6 +11,7 @@ import ConnectWhatsappBiss from "../../components/integrations/connect_whatsappB
 import ConnectWeChat from "../../components/integrations/connect_wechat";
 import ConnectFacebookMessager from "../../components/integrations/connect_facebook";
 import { GlobalContext } from "../../context/GlobalContext";
+import ConnectTempMessager from "../../components/integrations/connect_channels_temp";
 
 export default function Integrations() {
 
@@ -36,6 +37,10 @@ export default function Integrations() {
     const [whatsappBFetch,setWhatsappBFetch] = useState(false);
     const [wechatFetch,setWechatFetch] = useState(false);
     const [messagerFetch,setMessagerFetch] = useState(false);
+    const [lineFetch,setLineFetch] = useState(false);
+    const [signalFetch,setSignalFetch] = useState(false);
+    const [telegramFetch,setTelegramFetch] = useState(false);
+    const [kakaotalkFetch,setKakaotalkFetch] = useState(false);
 
     const toggleHandeler = (e) =>{
         // console.log(e.target)
@@ -43,11 +48,12 @@ export default function Integrations() {
         // console.log("activeChannel")
         setActiveChannel(channelList.filter((item)=>{if(!item.connectState){return item.channelID==e.target.id}}))
         setValue(e.target.id)
+        
         console.log(activeChannel)    
     }
     const myChannel = async() =>{
         console.log(user) 
-        const activedChannel = user.user.channels??["whatsapp","wechat"]
+        const activedChannel = user.user.channels??["whatsapp"]
         const unConlist = channelList.filter(item=>{return item.channelID!=activedChannel.filter(e=>{return item.channelID==e})})
         setAllChannel(unConlist )
         const activeList = channelList.filter(item=>{return activedChannel.some(el=>item.channelID==el)})
@@ -73,6 +79,11 @@ export default function Integrations() {
         if(value=="whatsappB"){setWhatsappBFetch(!whatsappBFetch)}
         if(value=="wechat"){setWechatFetch(!wechatFetch)}
         if(value=="messager"){setMessagerFetch(!messagerFetch)}
+        if(value=="line"){setLineFetch(!lineFetch)}
+        if(value=="signal"){setSignalFetch(!signalFetch)}
+        if(value=="telegram"){setTelegramFetch(!telegramFetch)}
+        if(value=="kakaotalk"){setKakaotalkFetch(!kakaotalkFetch)}
+
         // ()=>setWhatsappBFetch(!whatsappBFetch)   
     }
 
@@ -92,6 +103,24 @@ export default function Integrations() {
         // !connectState
     }   
   
+    const wrapperRef = useRef();
+
+    const handleClickOutside = (event) => {
+        if (
+            wrapperRef.current &&
+            !wrapperRef.current.contains(event.target.node)
+    ) {
+        setActiveChannel([])
+        setValue("")
+        setShowMe(false)
+        }
+    };
+    useEffect(()=>{
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    },[])
 
     return (
         <div className="integrations-layout">
@@ -105,7 +134,7 @@ export default function Integrations() {
                                 )})}
                         </div>
                     </div>
-                    <div className="cardChannelGroup">
+                    <div className="cardChannelGroup" >
                         <h1  >Channels</h1>
                         <div className="row cardContainer">
                             {allChannel.map(item=>{return (
@@ -126,13 +155,17 @@ export default function Integrations() {
                         </div>
 
                     </div>
-                    <div className={"broad_content " +(`${activeChannel.channelID}`)}>
-                         <TabContext value={value} >
+                    <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
+                         <TabContext value={value}  >
 
-                                <TabPanel value="whatsapp"><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
-                                <TabPanel value="whatsappB"><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
-                                <TabPanel value="wechat"><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
-                                <TabPanel value="messager"><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
+                                <TabPanel value="whatsapp" ><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
+                                <TabPanel value="whatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
+                                <TabPanel value="wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
+                                <TabPanel value="messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
+                                <TabPanel value="line" ><ConnectTempMessager fetchdata={lineFetch} /></TabPanel>
+                                <TabPanel value="signal" ><ConnectTempMessager fetchdata={signalFetch} /></TabPanel>
+                                <TabPanel value="telegram" ><ConnectTempMessager fetchdata={telegramFetch} /></TabPanel>
+                                <TabPanel value="kakaotalk" ><ConnectTempMessager fetchdata={kakaotalkFetch} /></TabPanel>
                 </TabContext>
                     </div>
                     <div className={"confirm_btn_set"}>

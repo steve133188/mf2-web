@@ -20,9 +20,7 @@ export function Card_channel(props) {
             <div className="card_channel"  >
                 <div className="connect_group" >
                     <img src={props.src} width="40px" height="40px" alt=""/>
-                    <label className="tickSVG" id={props.channelID} onClick={props.onclick}  style={{
-                        display:  "block"
-                    }}>
+                    <label className="tickSVG" id={props.channelID} onClick={props.onclick}  >
                         <Button  onClick={toggle} variant={props.state?"outlined":""} style={{
                             borderRadius: "10px",
                             paddingLeft: "1rem",
@@ -61,10 +59,11 @@ export function Card_channel(props) {
                     }}>
                         <Button id="connectedBtn" variant="outlined" style={{
                             borderRadius: "10px",
-                            paddingLeft: "1rem",
+                            // paddingLeft: "1rem",
                             color: "#444444",
                             background: "#F5F6F8",
-                            border: "none"
+                            border: "none",
+                            height:"30px",
                         }}
                         >
                             Connect

@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import * as React from "react";
 
-export default  function Mf_circle_btn({ children ,value=null, handleChange = null , customButton = null,svg}){
+export default  function Mf_circle_btn({ children ,value=null, handleChange = null , customButton = null,svg,switchs,}){
     const [isShow , setIsShow] =useState(false)
     const wrapperRef = useRef();
     const handleClickOutside = (event) => {
@@ -11,6 +11,7 @@ export default  function Mf_circle_btn({ children ,value=null, handleChange = nu
             !wrapperRef.current.contains(event.target)
         ) {
             setIsShow(false);
+            !isShow&&switchs();
         }
     };
     if (customButton){

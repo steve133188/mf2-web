@@ -14,8 +14,11 @@ import {GlobalContext} from "../../context/GlobalContext";
 import { AddStickerSVG } from "../../public/admin/adminSVG";
 import { ImportDropzone } from "../../components/ImportContact";
 
+
+
 export default function Stickers() {
-    const {adminInstance , userInstance, orgInstance,user} = useContext(GlobalContext)
+
+    const {mediaInstance, userInstance ,user , } = useContext(GlobalContext)
 
     const [roles, setRoles] = useState([]);
     const [stickers, setStickerList] = useState([]);
@@ -32,26 +35,31 @@ export default function Stickers() {
     const indexOfFirstTodo = indexOfLastTodo - 5;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isSelectRow, setIsSelectRow] = useState( false);
-    
+
+    const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
+    const getStickers = async ()=>{
+        const {folders , files} = await mediaInstance.getStickers()
+        const arrfolders = []
+        folders.forEach(e=>arrfolders.push(e.slice(9,-1)))
+
+        setStickerData(files)
+        setFilteredData(arrfolders )
+        console.log("stickers data" , folders,arrfolders , files)
+
+    }
     let result = currentContacts.map(d=>d.id)
+   
     
-    const stickersList = [
-        {id:"123",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
-        {id:"232",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"weq",name:"sticker_set_3",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"va",name:"bobby",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"fsavav",name:"siumi2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"fs",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
-        {id:"adsv",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"as",name:"bobby",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"sdf",name:"siumi2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-        {id:"sdf",name:"sticker_set_1",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"}]},
-        {id:"dsfa",name:"sticker_set_2",sticker:[{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/9aa2ee62-a5c4-44d6-96df-5bf4a4c6cda4.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/98baebf6-10ac-4cbd-98bc-438e75a78a7c.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/bd596641-5d91-4f65-8549-a716cd5a6117.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/5b5310f4-dc8d-476f-8571-fb8be0d63158.webp"},{name:"bobo01",src:"https://img-05.stickers.cloud/packs/46506700-08b0-4ea8-b2d0-45d03da853cf/webp/e24b79ad-61ee-4638-ba9d-109f6de2ad7f.webp"}]},
-    
-        ]
+    useEffect(async()=>{
+        await getStickers()
+
+    },[])
+
+
+
         useEffect( () =>{
             if(!isLoading){
-                setFilteredData(stickersList)
+                // setFilteredData(stickerData)
                 setIsLoading(!isLoading)
                 return
             } 
@@ -114,7 +122,7 @@ export default function Stickers() {
                                     type="search"
                                     name={"keyword"}
                                     onChange={(e)=> {
-                                        searchFilter(e.target.value , stickersList,(new_data)=>{
+                                        searchFilter(e.target.value , stickerData,(new_data)=>{
                                             setFilteredData(new_data)
                                             setCurrentPage(1)
                                         })
@@ -166,7 +174,7 @@ export default function Stickers() {
                                 </TableRow> */}
                             </TableHead>
                             <TableBody>
-                                { filteredData.length!=0 && currentContacts.map((data ,index) =>{ return(
+                                { filteredData.length!=0 && currentContacts.map((data ,index) =>{ console.log(filteredData,"filter data") ;return(
 
                                      <TableRow
                                      className={"stickers_box"}
@@ -174,31 +182,36 @@ export default function Stickers() {
                                             hover
                                             role="checkbox"
                                             name={index}
+                                            sx={{margin:"1rem",}}
                                             
                                             // checked={selectedContacts.includes(data.id)}
                                             // onClick={isSelectRow?toggleSelect:null}
                                         >
-                                <td><div key={index}>
-                                            <span >{data.name}
-                                            </span>
                                              <div className="newCheckboxContainer">
                                                     {isSelectRow ? <label className="newCheckboxLabel">
                                                         <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
                                                     </label> : null}
-                                                </div>
+                                                   </div>
+                                                 <td><div key={index}>
+                                                <span >{data==""?"Sticker":data}
+                                            </span>
                                     <div className="sticker-row"
-                                    key={index}
-                                    name={index}
-                                    id={index+data.id}> 
+                                        key={index}
+                                        name={index}
+                                        id={index+data.id} 
+                                        style={{margin:"1rem 0",}}> 
 
-                                                {data.sticker.map((data , index)=>{
+                                                {stickerData.filter(s=>{return s.key.includes(data)}).map((item , index)=>{
+                                                    console.log(data)
                                                     return(
                                                             <div key={index}>
-                                                            <img src={data.src}/>
-                                                            </div>
 
-                                                    )
-                                                })
+
+                                                    
+                                                 <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"2px 4px"}} />
+                                                            </div>
+                                                         )
+                                                    })
                                                 }
                                                 <div className={"add_sticker"} id={data.id} onClick={toggleDropzone}>
                                                     <AddStickerSVG size={80}/>

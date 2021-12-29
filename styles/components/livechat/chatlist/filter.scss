@@ -164,7 +164,7 @@
           justify-content: space-between;
           align-items: center;
           height: 30px;
-          margin: 4px 0;
+          // margin: 4px 0;
           font: normal normal normal 15px/22px Manrope;
           // margin: 5px 0;
           .left{
@@ -333,7 +333,7 @@
       }
     }
     .confirm_btn_set {
-        margin: 10px -10px;
+        margin: 10px -10px 30px -10px;
     }
   }
   .agentSearchArea{
@@ -342,7 +342,7 @@
         width: 250px;
         display: flex;
         justify-content: space-between;
-        margin: 5px;
+        margin: 5px 0;
 
       }
 

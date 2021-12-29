@@ -15,10 +15,10 @@ import DivisionDropDown from "../../../filter/divisionDropDown";
 export default function ChatlistFilter( {...props}){
     const channelData = [
         // {name:"All Channel",value:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp"},
-                {name:"WhatsApp Business",value:"WhatsappB"},
-                {name:"Messager",value:"Messager"},
-                {name:"WeChat",value:"Wechat"},];
+                {name:"WhastApp",value:"whatsapp"},
+                {name:"WhatsApp Business",value:"whatsappB"},
+                {name:"Messager",value:"messager"},
+                {name:"WeChat",value:"wechat"},];
 
     const [selectedUsers ,setSelectedUsers] =useState([]);
     const [selectedTags ,setSelectedTags] =useState([])
@@ -112,6 +112,15 @@ export default function ChatlistFilter( {...props}){
         props.channel(e)
         console.log(selectedChannels)
     };
+    const toggleSelectAllChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels(["all","whatsapp","whatsappB","wechat","messager"]);
+        if (!checked) {
+            setSelectedChannels([]);
+        }
+        props.channel(e)
+
+    };
     const handelConfirm = ()=>{
         props.click();
         props.confirm();
@@ -145,7 +154,7 @@ export default function ChatlistFilter( {...props}){
                 <div className={"filter_box_status"}  >
                     <div className={"status_box"}>
                         <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} />
+                            <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} onClick={props.unread} />
                             </label>
                         </div>
                         {/* <input type="checkbox" name="unread_check" />
@@ -155,7 +164,7 @@ export default function ChatlistFilter( {...props}){
                     </div>
                     <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                            <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} />
+                            <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} onClick={props.unassigned}/>
                             </label>
                         </div>
                         Unassign
@@ -171,6 +180,7 @@ export default function ChatlistFilter( {...props}){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
+                          <ChannelListItem name={"All Channels"} value={"all"} id={"all"} key={"all"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />
                         {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>

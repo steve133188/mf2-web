@@ -108,10 +108,10 @@ export default function Contacts() {
     }
     const channels = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+                {name:"WhastApp",value:"whatsapp",channelID:"whatsapp",id:1},
+                {name:"WhatsApp Business",value:"whatsappB",channelID:"whatsappB",id:2},
+                {name:"Messager",value:"messager",channelID:"messager",id:3},
+                {name:"WeChat",value:"wechat",channelID:"wechat",id:4},];
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
@@ -324,7 +324,9 @@ export default function Contacts() {
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
-
+    const clearFilter=()=>{
+        setSelectedUsers([]);setSelectedTeams([]);setSelectedTags([]);setSelectedChannel([]);advanceFilter()
+    }
     useEffect(()=>{
         advanceFilter()
     },[selectedTeams])
@@ -352,7 +354,15 @@ export default function Contacts() {
         </svg>
     )
 
+    const toggleSelectAllChannels = (e) => {
+        const { checked ,id} = e.target;
+        setSelectedChannel(["all","whatsapp","whatsappB","wechat","messager"]);
+        if (!checked) {
+            setSelectedChannel([]);
+        }
 
+
+    };
     useEffect(() => {
         setTimeout(function() { //Start the timer
             setIsLoading(false)
@@ -422,7 +432,7 @@ export default function Contacts() {
                         {/* <Mf_icon_dropdownform svg={tagSVG}>
                        
                         </Mf_icon_dropdownform> */} 
-                        <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                        {/* <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
                                         {filteredTags.map((tag)=>{
@@ -432,7 +442,7 @@ export default function Contacts() {
                                                         <input type="checkbox" id={tag.tag} name="checkbox" checked={addedTags.includes(tag.tag)} onClick={toggleAddTags} />
                                                     </label> </div></li>)
                                         })}
-                                    </Mf_circle_btn>
+                                    </Mf_circle_btn> */}
 
                         
                     {/* <div className={"tagsGroup"} >
@@ -493,6 +503,16 @@ export default function Contacts() {
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
+                            <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>  
+                                <img key={"all"} width={18} height={18} src={`/channel_SVG/All.svg`}  alt="" style={{maring:"0 3px"}}/>
+                                 All Channels 
+                                 </div>
+                                <div className="newCheckboxContainer">
+                                    <label className="newCheckboxLabel">
+                                      <input type="checkbox" key={"all"}  id={"all"} value={"all"} name="checkbox" checked={selectedChannel.includes("all")} onClick={toggleSelectAllChannels} />
+                                     </label> 
+                                </div>
+                            </li>
                     {filteredChannel.map((tag)=>{
                         return(<li key={tag.id}><div>  <img key={"id"} width="20px" height="20px" src={`/channel_SVG/${tag.channelID}.svg`}  alt=""/>
                         {tag.name}</div>
@@ -516,6 +536,8 @@ export default function Contacts() {
                 {/*<MF_Select head={"Channel"}  >*/}
                 {/*    /!*    waiting to fetch the channels*!/*/}
                 {/*</MF_Select>*/}
+
+                <button onClick={clearFilter} className={"mf_bg_light_blue mf_color_blue"} style={{margin:"0 1rem",padding:"0",minWidth:"8rem",maxWidth:"102rem",maxHeight:"50px"}}> Clear Filter </button>
             </SelectSession>    
             <TableContainer
                 sx={{minWidth: 750 , minHeight:"60vh"}}
@@ -586,18 +608,18 @@ export default function Contacts() {
                                     </TableCell>
 
                                     <TableCell align="left">
-                                        { data.channels!=null && data.channels.map((chan , index)=>{
+                                        { data.channels == null?  "":data.channels!=null && data.channels.map((chan , index)=>{
                                             // return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
-                                            return(<img key={index} width="24px" height="24px" src={`/channel_SVG/Whatsapp.svg`} alt=""/>)
+                                            return(<img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/>)
                                         })}
                                         {
-                                        data.channels == null?  (<div style={{paddingLeft:20}}><img key={index} width="24px" height="24px" src={`/channel_SVG/Whatsapp.svg`} alt=""/></div>):""
+                                        
                                      }
                                     </TableCell>
 
                                     <TableCell align="left">
                                         <div className="tagsGroup">
-                                            {data.tags.map((tag , index)=>{
+                                            {data.tags&&data.tags.map((tag , index)=>{
                                                 return( <Pill key={index}  color="lightBlue">{tag}</Pill>)
                                             })}
                                         </div>
@@ -618,7 +640,7 @@ export default function Contacts() {
                                         <Mf_icon_dropdown_select_btn
                                         btn={(<span className={styles.edit_span}
                                         >
-                                            ...
+                                            . . .
                                         </span>)}
                                         >
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>

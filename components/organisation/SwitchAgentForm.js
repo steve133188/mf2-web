@@ -37,7 +37,7 @@ const style ={
     height:"2rem"
 }
 
-export default function SwitchAgentForm({show, toggle ,selectedUsers}){
+export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clear}){
     const [team , setTeam] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
@@ -52,7 +52,7 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
         setTeam(data)
     },[]);
     const submit = async ()=>{
-        console.log(selectedUsers)
+        console.log(selectedUsers,"selected ")
         toggle();
         for (let i=0;i<selectedUsers.length;i++){
             const user_phone = selectedUsers[i]
@@ -60,6 +60,8 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers}){
             console.log(user_phone,team_id)
             const res = await userInstance.updateUserTeamIdByUserPhone(user_phone ,team_id)
             console.log(res)
+            clear()
+            reload()
         }
     }
     return(
