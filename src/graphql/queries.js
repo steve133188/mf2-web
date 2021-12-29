@@ -8,12 +8,19 @@ export const allMessage = /* GraphQL */ `
         room_id
         timestamp
         sender
-        receiver
+        recipient
         body
         is_media
+        link
         media_url
         from_me
         message_type
+        message_id
+        hasQuotedMsg
+        quote
+        is_forwarded
+        v_card
+        read
       }
       nextToken
     }
@@ -25,12 +32,19 @@ export const getMF2TCOMESSAGGE = /* GraphQL */ `
       room_id
       timestamp
       sender
-      receiver
+      recipient
       body
       is_media
+      link
       media_url
       from_me
       message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
     }
   }
 `;
@@ -45,12 +59,19 @@ export const listMF2TCOMESSAGGES = /* GraphQL */ `
         room_id
         timestamp
         sender
-        receiver
+        recipient
         body
         is_media
+        link
         media_url
         from_me
         message_type
+        message_id
+        hasQuotedMsg
+        quote
+        is_forwarded
+        v_card
+        read
       }
       nextToken
     }
@@ -67,6 +88,7 @@ export const getMF2TCOCHATROOM = /* GraphQL */ `
       room_id
       unread
       user_id
+      avatar
     }
   }
 `;
@@ -86,6 +108,64 @@ export const listMF2TCOCHATROOMS = /* GraphQL */ `
         room_id
         unread
         user_id
+        avatar
+      }
+      nextToken
+    }
+  }
+`;
+export const getMF2ChannelInfo = /* GraphQL */ `
+  query GetMF2ChannelInfo($channel_id: ID!, $user_id: Int!) {
+    getMF2ChannelInfo(channel_id: $channel_id, user_id: $user_id) {
+      channel_id
+      user_id
+      status
+      qr_data
+      channel_name
+      url
+      token
+    }
+  }
+`;
+export const listMF2ChannelInfos = /* GraphQL */ `
+  query ListMF2ChannelInfos(
+    $filter: TableMF2ChannelInfoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMF2ChannelInfos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        channel_id
+        user_id
+        status
+        qr_data
+        channel_name
+        url
+        token
+      }
+      nextToken
+    }
+  }
+`;
+export const queryMF2ChannelInfosByIdUserIndex = /* GraphQL */ `
+  query QueryMF2ChannelInfosByIdUserIndex(
+    $channel_id: ID!
+    $first: Int
+    $after: String
+  ) {
+    queryMF2ChannelInfosByIdUserIndex(
+      channel_id: $channel_id
+      first: $first
+      after: $after
+    ) {
+      items {
+        channel_id
+        user_id
+        status
+        qr_data
+        channel_name
+        url
+        token
       }
       nextToken
     }
