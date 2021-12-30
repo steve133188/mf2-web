@@ -13,7 +13,7 @@ import FilterDropDown from "./filterDropDown";
 
 
 export default function DashBroadFilter(props){
-    
+
     const { userInstance ,adminInstance ,orgInstance, user,contactInstance} = useContext(GlobalContext);
     // const [users ,setUsers] =useState([]);
     // const [selectedUsers ,setSelectedUsers] =useState([]);
@@ -206,6 +206,20 @@ export default function DashBroadFilter(props){
             })}
         </AvatarGroup>
     }
+    const [root_org, set_root_org] = useState([]);
+
+    useEffect(    async () => {
+        if(user.token)
+        {
+            await fetchRootORG()
+        }
+
+    },[]);
+    const fetchRootORG = async () =>{
+        const data = await orgInstance.getAllORG()
+        console.log(data,"org data")
+        set_root_org(data)
+    }
 
     return(
          <div><div className={"filter_title"}>Filter</div>
@@ -216,8 +230,7 @@ export default function DashBroadFilter(props){
                         {channels.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
                 </div>
-                <FilterDropDown title={"Teams"} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>
-                <FilterDropDown title={"Division"} filterdata={filteredDivision} selecteddata={selectedDivision} expand={dBarOpen} expandClick={()=>setDBar(!dBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectDivision} agentSearchValue={agentSearchValue} iname={"username"} />
+                <FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>
                 <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
