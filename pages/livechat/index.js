@@ -41,7 +41,7 @@ export default function Live_chat() {
         setReplyData(replyTemplateList)
     },[])
     let subscriptions ;
-    const {contactInstance ,mediaInstance, userInstance ,adminInstance ,orgInstance, user , messageInstance} = useContext(GlobalContext)
+    const {contactInstance ,mediaInstance, userInstance ,adminInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
     const [attachment , setAttachment ] = useState([])
@@ -335,7 +335,7 @@ export default function Live_chat() {
         const sub = API.graphql(graphqlOperation(subscribeToChatroom ,{room_id:chatroom.room_id} ))
             .subscribe({
                 next: async (chatmessage)=>{
-                    const newMessage = chatmessage.value.data.subscribeToNewMessage
+                    const newMessage = chatmessage.value.data.subscribeToChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
@@ -528,7 +528,7 @@ export default function Live_chat() {
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
+                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
                         })}
                     </div>
                 </div>
