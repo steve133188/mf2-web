@@ -30,6 +30,7 @@ export default function ReplyFolder({data}) {
     const [isSelectRow, setIsSelectRow] = useState( false);
 
     const [isDelete , setIsDelete] = useState(false)
+    const [isEdit , setIsEdit] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
     let result = currentReply.map(d=>d.id)
 
@@ -63,7 +64,7 @@ export default function ReplyFolder({data}) {
     }
     const toggleDelete = (name)=>{
         setIsDelete(!isDelete)
-        setDeleteTag(name)
+        // setDeleteTag(name)
     }
     useEffect(()=>{
         setFilteredData(data.content)

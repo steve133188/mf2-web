@@ -221,7 +221,7 @@ useEffect(()=>{
 
                     {/* eslint-disable-next-line react/no-unescaped-entities */}
                 </div>
-                <div className={""} style={{maxHeight:"50vh",overflowY:"scroll"}}>
+                <div className={""} style={{maxHeight:"50vh",overflowY:"scroll",minWidth:"230px"}}>
                     {notes.map((note)=>{
                         return (
                             <div key={note.id}>

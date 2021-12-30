@@ -769,7 +769,7 @@
       width: 100%;
       max-width: 320px;
       min-width: 200px;
-      height: 7rem;
+      height: 7.5rem;
       margin: 0 0 .5rem 0;
       padding: 0.25rem 0;
       display: flex;
@@ -975,6 +975,8 @@
       display: flex;
       width: 95%;
       white-space: nowrap;
+
+      margin-left: 5px;
       .nameTag{
         position: relative;
         .tag{
@@ -1031,7 +1033,7 @@
       flex-direction: column;
       justify-content: flex-start;
       text-align: left;
-      margin-left: auto;
+      margin-left: 15px;
       width: 90%;
       .message{
         height: auto;
@@ -1056,6 +1058,7 @@
     padding:10px;
     color: #8B8B8B;
     border-width: 0;
+    
     // margin: 10px 5%;
     
     .search_area{

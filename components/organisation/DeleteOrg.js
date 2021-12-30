@@ -44,16 +44,20 @@ export default function DeleteDivisionForm({show, toggle,reload }){
         setParent(e.target.value)
     }
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const teams = []
+    const[teamlist,setTeamlist]=useState([])
     useEffect(async ()=>{
-        const data = await orgInstance.getAllRootORG()
+        const data = await orgInstance.getAllORG()
           setRootDivision(data.filter(data=>{return data.type=="division"}))
-          console.log(data,"newDivision fetch ")
+          const teamCheck = data.map(item=>item.children&&item.children.map(child=>{console.log(child,"child");child.type=="team"?teams.push(child):null}))
+          setTeamlist(teams)
+
       },[])
     const submit = async ()=>{
         const newDivision = {name:name,type:"division"}
         console.log(newDivision)
         const status = await orgInstance.deleteOrgById(parent)
-        console.log(status,"create Division")
+        // console.log(status,"create Division")
         toggle()
         reload()
     }
@@ -62,7 +66,7 @@ export default function DeleteDivisionForm({show, toggle,reload }){
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
                 <div className={"modal_title"}>
-                    <span>Create Division</span>
+                    <span>Delete Division</span>
                 </div>
                 {/* <MF_Input title={"Division Name"} value={name} onChange={handleChange}></MF_Input> */}
                 <div className="inputField">
@@ -74,8 +78,23 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                         label={"Select Division"}
                         input={<BootstrapInput />}
                         >
-                        <MenuItem value={null}>Null</MenuItem>
+                        <MenuItem value={null}>Please Select</MenuItem>
                         {rootDivision.map((d)=>{
+                            return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
+                        })}
+                    </Select>
+                    <span></span>
+                    <span></span>
+                    <span>Team</span>
+                    <Select
+                        sx={style}
+                        value={parent}
+                        onChange={handleSelect}
+                        label={"Select Division"}
+                        input={<BootstrapInput />}
+                        >
+                        <MenuItem value={null}>Please Select</MenuItem>
+                        {teamlist.map((d)=>{
                             return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
                         })}
                     </Select>

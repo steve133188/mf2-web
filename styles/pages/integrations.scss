@@ -8,6 +8,7 @@
   .cardChannelGroupContainer {
     display: flex;
     width:98%;
+    // max-width: 1800px;
     flex-flow: column;
     h1{
       font: normal normal 800 24px/33px Manrope;
@@ -19,6 +20,7 @@
       overflow-y: scroll;
       height: 45%;
       width: 100%;
+      max-width: 1800px;
       max-height: 60vh;
       h1 {
         font-size: 24px;

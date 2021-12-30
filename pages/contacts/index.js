@@ -602,7 +602,7 @@ export default function Contacts() {
                                             <span style={{marginLeft: "11px"}}>{data.name}</span>
                                         </div>
                                     </TableCell>
-                                    <TableCell align="left">
+                                    <TableCell align="left" sx={{width:"7%"}}>
                                         <div>{data.team_id!=""?data.team:"not Assign"}</div>
                                         {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>

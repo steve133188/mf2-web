@@ -14,7 +14,7 @@ export default function CountDownTimer ({dayString}) {
         const ans= hours+":"+minutes+":"+seconds;
         return ans;
         }else
-        return "pass 24 hours";
+        return "00:00:00";
     }
 
     const [timeLeft, setTimeLeft] = useState(getTimeRemaining(endTime)); 
@@ -26,8 +26,10 @@ export default function CountDownTimer ({dayString}) {
 
     return(
             <div className={"confirmationBox"}>
-                {endTime.toString()}
-                <h1>{timeLeft}</h1>
+                {/* {endTime.toString()} */}
+                {/* <h1>{timeLeft}</h1> */}
+                <div className={'tim_timer'}>{timeLeft}
+                    </div>
             </div>
     )
 
