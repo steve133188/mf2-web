@@ -14,7 +14,7 @@ function mediaHelper(){
     }
 
     this.putSticker = async (file)=>{
-        const result = await Storage.put(`storage/stickers/${file.name}` , file )
+        const result = await Storage.put(`storage/stickers/All/${file.name}` , file )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
@@ -46,7 +46,7 @@ function mediaHelper(){
 
 
     this.getStickers = async ()=>{
-        let mediaKey = await Storage.list("storage/stickers/" )
+        let mediaKey = await Storage.list("storage/stickers/All/" )
         console.log("media key : " , mediaKey)
         const {files, folders} = await this.processStorageListSet(mediaKey)
         console.log("nested res : ", {files, folders})
