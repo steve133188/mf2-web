@@ -89,7 +89,7 @@ export default function UserProfileGrid({data}){
                             {data.role}
                         </div>
                         <div className={"top_row"}><span className={"title"}>Authority</span></div>
-                        <div className={"session_content"}>
+                        <div className={"session_content"} style={{padding:0}}>
                             <div className={"authBox"}>
                             {data.authority!=null&&Object.keys(data.authority).filter(e=>{return data.authority[e]!=true?"true":""}).map(e=>{return <div className={"authContainer"}>{e}</div>})}
 
@@ -101,9 +101,9 @@ export default function UserProfileGrid({data}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
-                            { data.channels!=null && data.channels.map((chan , index)=>{
-                                return(<div key={index} className={"content_row"}><div><img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/> <div>{chan} </div></div><div>{data.phone}</div></div>)
-                            })}
+                            { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
+                                return(<div><img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
+                            })}<div style={{width:"80%",display:"flex",justifyContent:"space-around", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px" src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</div>
                         </div>
                     </div>
 

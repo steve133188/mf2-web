@@ -44,19 +44,26 @@ export default function Stickers() {
 
         setStickerData(files)
         setFilteredData(arrfolders )
-        console.log("stickers data" , folders,arrfolders , files)
+        // console.log("stickers data" , folders,arrfolders , files)
 
     }
     let result = currentContacts.map(d=>d.id)
    
+    const stickerHandle=(e)=>{ 
+        e.preventDefault()
+        console.log("file",files)
+        if (acceptedFiles.length == 0 ){
+            console.log("no file here")
+            return
+        }
+        console.log(acceptedFiles[0].arrayBuffer())
+        acceptedFiles.pop()
+    }
     
     useEffect(async()=>{
         await getStickers()
 
     },[])
-
-
-
         useEffect( () =>{
             if(!isLoading){
                 // setFilteredData(stickerData)
@@ -217,7 +224,7 @@ export default function Stickers() {
                                                     <AddStickerSVG size={80}/>
                                                     <span style={{display: isShowDropzone ? "block" : "none"}}>
                                                         {/*DND Import Data start */}
-                                                        <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                                                        <ImportDropzone onClose={toggleDropzone} confirm={stickerHandle} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                                                         {/*DND Import Data end */}
                                                     </span>
                                                     </div> 

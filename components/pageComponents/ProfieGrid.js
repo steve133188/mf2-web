@@ -128,7 +128,7 @@ export default function ProfileGrid({data}){
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Tags</span></div>
-                        <div className={"session_content"}>
+                        <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
                             {data.tags.map((tag , index)=>{
                                 return( <Pill key={index} color="lightBlue">{tag}</Pill>)
                             })}

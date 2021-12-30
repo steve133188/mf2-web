@@ -184,7 +184,7 @@ export default function Agents() {
             </div>
             <div className="chartGroup">
                 <div className="dashboardRow">
-                    <div className="dashboardBarColumn"><MultipleBarChart title={"Months"} yaxis={"Contacts"} h={"700px"}
+                    <div className="dashboardBarColumn"><MultipleBarChart title={"Months"} yaxis={"Contacts"} h={"650px"}
                                                                         active={[12, 17, 19, 22, 24, 20, 18, 26, 20, 17, 15, 19]}
                                                                         unhandled={[5, 12, 14, 4, 12, 6, 7, 12, 16, 3, 5, 7]}
                                                                         delivered={[7, 5, 5, 18, 12, 14, 11, 14, 4, 14, 10, 12]}

@@ -11,7 +11,7 @@ export default  function Mf_circle_btn({ children ,value=null, handleChange = nu
             !wrapperRef.current.contains(event.target)
         ) {
             setIsShow(false);
-            !isShow&&switchs();
+            !isShow&&switchs&&switchs();
         }
     };
     if (customButton){

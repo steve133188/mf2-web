@@ -1,8 +1,10 @@
-import React, {useMemo ,useState} from 'react';
+import React, {useContext, useMemo ,useState} from 'react';
 import {useDropzone} from 'react-dropzone';
+import { GlobalContext } from '../context/GlobalContext';
 import {NormalButton, NormalButton2, CancelButton} from './Button';
 
 export function ImportDropzone({children,...props}) {
+    const {mediaInstance,adminInstance ,user , messageInstance} = useContext(GlobalContext)
     // const {  onClose } = props;
     const {
         getRootProps,
@@ -43,12 +45,15 @@ export function ImportDropzone({children,...props}) {
             {file.path} - {file.size} bytes
         </li>
     ));
-    const handleUpload = (e)=>{
+    const handleUpload = async (e)=>{
         e.preventDefault()
+        console.log("file",files[0])
         if (acceptedFiles.length == 0 ){
             console.log("no file here")
             return
         }
+        const res  = await mediaInstance.putSticker(files[0])
+
         console.log(acceptedFiles[0].arrayBuffer())
         acceptedFiles.pop()
 

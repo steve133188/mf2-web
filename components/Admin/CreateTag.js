@@ -49,6 +49,7 @@ export default function CreateTag({show, toggle,reload}){
         console.log(status)
         reload()
         toggle()
+        setName("")
     }
     return(
         <MF_Modal show={show} toggle={toggle}>

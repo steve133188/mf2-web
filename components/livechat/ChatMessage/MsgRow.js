@@ -1,7 +1,8 @@
 
 import { Player,BigPlayButton } from 'video-react';
 import Embed from 'react-embed';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { GlobalContext } from '../../../context/GlobalContext';
 
 
 const imageCaption = {
@@ -13,6 +14,7 @@ const captionJson = JSON.stringify(imageCaption)
 
 export default function MsgRow({msg ,...props}){
 
+    console.log(props.d,"checkuser user")
     const [isImageOpen,setImageOpen] = useState(false)
 
     const messageType = (msg)=>{
@@ -74,7 +76,9 @@ export default function MsgRow({msg ,...props}){
             <div className={msg.from_me?"msg_from_me":"msg_from_other"}>
                 <div>{messageType(msg)}</div>
                 {/* <div className={"msg_body"}>{msg.body}</div> */}
-                <div className={"msg_timestamp"}>{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()}</div>
+                {/* {props.d.map(e=>{return msg.sender==e.phone?console.log("I find it",e.phone):msg.sender})} */}
+                
+                {msg.sender&&<div className={"msg_timestamp"}>+{msg.sender.slice(0,3)} {msg.sender.slice(3)}__{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()} </div>}
             </div>
         </div>
     )

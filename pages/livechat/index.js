@@ -573,7 +573,7 @@ export default function Live_chat() {
                 // ref={messagesSearchRef}
                  className={"chatroom_records"}>
                     {chatroomMsg.map((r , i)=>{
-                        return  <MsgRow msg={r} key={i} />
+                        return  <MsgRow msg={r} key={i} d={filteredUsers} />
                       
                     })}
                     <div ref={messagesEndRef}>

@@ -128,7 +128,7 @@ export default function DashBroadFilter(props){
         if (!checked) {
             setSelectedAgents(selectedAgents.filter(item => item !== id));
         }
-        props.agents(e)
+        props.agents&&props.agents(e)
         console.log(selectedAgents)
     };
     const toggleSelectDivision = e => {

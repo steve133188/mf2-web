@@ -14,6 +14,7 @@ function mediaHelper(){
     }
 
     this.putSticker = async (file)=>{
+        console.log(file,"sticker is on the way")
         const result = await Storage.put(`stickers/${file.name}` , file )
         console.log("result : " , result)
         return this.objUrl(result.key)
