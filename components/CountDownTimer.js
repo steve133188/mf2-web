@@ -28,8 +28,7 @@ export default function CountDownTimer ({dayString}) {
             <div className={"confirmationBox"}>
                 {/* {endTime.toString()} */}
                 {/* <h1>{timeLeft}</h1> */}
-                <div className={'tim_timer'}>{timeLeft}
-                    </div>
+                <div className={'tim_timer'}>{timeLeft}</div>
             </div>
     )
 

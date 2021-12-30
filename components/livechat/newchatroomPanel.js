@@ -58,13 +58,6 @@ export default function Newchatroom(props){
                             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}
                             {/*<div className={"pin"}></div>*/}
                         </div>
-
-
-
-
-                    
-                    
-                    
                     )
                 })}
             </div>

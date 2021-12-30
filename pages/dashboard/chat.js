@@ -73,6 +73,11 @@ export default function Chat() {
         setFilteredTags(data)
 
     }
+    const renderTags=() => {
+        return selectedTags!=-1&&selectedTags.map((tag)=>{
+            return<Pill key={tag} color="vip">{tag}</Pill>
+        })
+    }
     const changeTags=()=>{
         if(selectedTags.length==0) return setTags(filteredTags)
         setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag==el)})); 
@@ -81,7 +86,7 @@ export default function Chat() {
     const renderAgents=() => {
 
         return selectedAgents!=-1&&selectedAgents.map((tag)=>{
-            return<Pill key={tag} color="vip">{tag}</Pill>
+            return<Pill key={tag} color="lightPurple">{tag}</Pill>
         })
     }
     const toggleSelectAgents = e => {
@@ -286,28 +291,30 @@ export default function Chat() {
                 <div className="dashboardRow">
                     <div className="tableSet">
                     <div className={"half_session block_session"}>
-                        <div className={"top_row"} style={{justifyContent:"flex-start"}}>
+                        <div className={"top_row"} style={{justifyContent:"space-around",width:"40%"}}>
 
 
-                            <span className={"title"}>Tags  {`${tags.length}`}</span></div>
-<div style={{width:"400px",overflow:"scroll"}}>
-
-                <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
+                            <span className={"title"}>Tags  {`${tags.length}`}</span>
+                            
+                <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                     setFilteredTags(new_data)
                 })}} >
                     {filteredTags.map((tag)=>{
                         return(<li key={tag.id}><Pill size="30px" key={tag.id} color="vip">{tag.tag}</Pill>
                             <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
+                                <label className="newCheckboxLabel">111
                                     <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
 
-                    </div>
-
                           
                         
+                            </div>
+                <div style={{width:"400px",overflow:"scroll",height:"50px"}}>
+
+                    </div>
+
                         <div className={"session_content"}>
                             <div className={"session_content_tag"}>
                                 

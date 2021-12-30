@@ -553,8 +553,8 @@ export default function Live_chat() {
                         <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                         </div>
-                           {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toDateString()}/></div>:""}
-                           {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toDateString()}/></div>:""}
+                           {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
+                           {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                         </div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>

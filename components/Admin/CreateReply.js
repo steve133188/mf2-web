@@ -8,6 +8,7 @@ import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
 import { Avatar, Tooltip } from "@mui/material";
 import { createRouteLoader } from "next/dist/client/route-loader";
+import { ImportDropzone } from "../ImportContact";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -75,8 +76,9 @@ export default function CreateReply({show, toggle,data,check}){
                     <div className="title">Message</div>
                     <textarea  className="message_box" placeholder="Type Here ..." onChange={(e)=>{setBody(e.target.value)}}>
                     </textarea>
-                    <div className="dropArea">Drag and drop a file or browse to upload your image.</div>
-
+                    <div className="dropArea">Drag and drop a file or browse to upload your image.
+                    <ImportDropzone />
+                    </div>
                     </div>
                     <div className="box_right">
                         <div>
