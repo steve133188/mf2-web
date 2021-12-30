@@ -12,7 +12,7 @@ import ChatroomInfo from "../../components/livechat/chatroom_info";
 import ChatlistFilter from "../../components/livechat/serach_filter/filter.js/chatlist_filter";
 import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "../../components/livechat/newchatroomPanel";
-
+import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
@@ -41,7 +41,7 @@ export default function Live_chat() {
         setReplyData(replyTemplateList)
     },[])
     let subscriptions ;
-    const {contactInstance ,mediaInstance, userInstance ,adminInstance ,orgInstance, user , messageInstance} = useContext(GlobalContext)
+    const {contactInstance ,mediaInstance, userInstance ,adminInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
     const [attachment , setAttachment ] = useState([])
@@ -335,7 +335,7 @@ export default function Live_chat() {
         const sub = API.graphql(graphqlOperation(subscribeToChatroom ,{room_id:chatroom.room_id} ))
             .subscribe({
                 next: async (chatmessage)=>{
-                    const newMessage = chatmessage.value.data.subscribeToNewMessage
+                    const newMessage = chatmessage.value.data.subscribeToChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
@@ -528,7 +528,7 @@ export default function Live_chat() {
                         </div>
                     <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
+                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
                         })}
                     </div>
                 </div>
@@ -582,8 +582,8 @@ export default function Live_chat() {
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
-
-                    <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
+                <VoiceRecorder/>
+                    <textarea className={"chatroom_textField"} placeholder={"Type something???"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
