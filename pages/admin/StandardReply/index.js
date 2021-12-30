@@ -109,12 +109,23 @@ export default function StandardReply() {
         // setSelectedTag({id,tag})
 
     }
-    const toggleDelete = (name)=>{
-        isSelectRow?setSelectedReply(name):null 
+    const toggleDelete = (data)=>{
+        console.log(data,"asdfasdf")
+        setSelectedReply([data])
         setIsDelete(!isDelete)
-        setDeleteTag(name)
+        setDeleteTag(data)
     }
     const [deleteTagname,setDeleteTag] = useState("")
+    const submitDelete = async() =>{
+        setIsDelete(!isDelete)
+        console.log("ddddddddddd",selectedReply)
+        const file = await adminInstance.getContentByFolderName(selectedReply[0].name)
+        // const data = await adminInstance.deleteContent()
+        console.log("DeleteStandardReply",file)
+        // console.log("DeleteStandardReply",data)
+        setSelectedReply([]);
+
+    }
     // const deleteReplys= async (id)=>{
     //     // const res = await adminInstance.deleteTag(id)
     //     console.log(res)
@@ -132,15 +143,11 @@ export default function StandardReply() {
         if(!isProfileShow) setUseFolder(key)
         setIsProfileShow(!isProfileShow)
     }
-    const submitDelete = () =>{
-        deleteReplys(deleteTagname);
-
-        setIsDelete(!isDelete)
-    }
     useEffect(()=>{
         console.log(standardReply,"reply")
         console.log(useFolder,"reply")
     },[useFolder])
+  
 
 
     const default_cols = ['Folder' , 'Channel' ,'Team','Assignee',""]
@@ -150,10 +157,10 @@ export default function StandardReply() {
         <div className={"admin_layout"}>
             <InnerSidebar />
             <div className="rightContent">
-                {isProfileShow?   ( <Profile handleClose={toggleProfile}><ReplyFolder data={useFolder} /></Profile>):null}
+                {isProfileShow?   ( <Profile handleClose={toggleProfile}><ReplyFolder data={useFolder} reload={fetchStandardReply }/></Profile>):null}
 
                 <CreateReplyFolder  show={isCreate} reload={fetchStandardReply} toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
-                <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReply} title={"Folders"}/>
+                <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={submitDelete} data={selectedReply} title={"Folders"}/>
                 <EditReplyFolder show={isEdit} toggle={toggleEdit} data={editData} reload={fetchStandardReply}  />
                 <div className={"search_session"}>
                     <div className="search">
@@ -265,9 +272,9 @@ export default function StandardReply() {
                                                              } </span>
                                         </TableCell>
 
-                                        <TableCell key={"button"+index} align="right">
-                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG/></span>
-                                            <span className={"right_icon_btn"} onClick={()=>{toggleDelete(data.id)}}><DeleteSVG/></span>
+                                        <TableCell key={"button"+index} align="right" >
+                                            <span className={"right_icon_btn"} onClick={(e)=>{e.stopPropagation();toggleEdit(data)}} ><EditSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={(e)=>{console.log(data,"raw data");e.stopPropagation();toggleDelete(data)}} ><DeleteSVG/></span>
                                        </TableCell>
                                     </TableRow>
                                 )

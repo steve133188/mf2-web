@@ -26,8 +26,8 @@ export default function DeletePad({show, toggle,reload,data,submit,title}){
         setName(e.target.value)
     }
 
-    const submitc = async ()=>{
-        submit()
+    const confirm = async ()=>{
+        submit&&submit()
         reload()
         toggle()
     }
@@ -35,10 +35,10 @@ export default function DeletePad({show, toggle,reload,data,submit,title}){
         <MF_Modal show={show} toggle={toggle}>
         <div className={"modal_form"}>
             <div className={"modal_title"} style={{textAlign:"center"}}>
-                <span>{`Delete ${!data?"":data.length} ${title}?`}</span>
+                <span>{`Delete ${data?data.length:"this"} ${title}?`}</span>
             </div> 
             <div className={"btn_row"}>
-                <button onClick={submitc }>Confirm</button>
+                <button onClick={confirm }>Confirm</button>
                 <button className={"cancel_btn"} onClick={toggle}>Cancel</button>
             </div>
         </div>

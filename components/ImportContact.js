@@ -47,12 +47,15 @@ export function ImportDropzone({children,...props}) {
     ));
     const handleUpload = async (e)=>{
         e.preventDefault()
+        console.log(acceptedFiles,"accepted files~")
         console.log("file",files[0])
+
+
         if (acceptedFiles.length == 0 ){
             console.log("no file here")
             return
         }
-        const res  = await mediaInstance.putSticker(files[0])
+        const res  = await mediaInstance.putSticker(acceptedFiles[0])
 
         console.log(acceptedFiles[0].arrayBuffer())
         acceptedFiles.pop()

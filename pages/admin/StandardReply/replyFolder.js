@@ -14,12 +14,14 @@ import { Tooltip } from '@mui/material';
 import searchFilter from "../../../helpers/searchFilter";
 import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
 import CreateReply from "../../../components/Admin/CreateReply";
+import { GlobalContext } from "../../../context/GlobalContext";
 
 
 
 
-export default function ReplyFolder({data}) {
+export default function ReplyFolder({data,reload}) {
 
+    const {adminInstance, userInstance , user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedReply , setSelectedReply] = useState([])
@@ -62,12 +64,19 @@ export default function ReplyFolder({data}) {
         // setSelectedTag({id,tag})
         console.log(selectedTag,"tagtagtag")
     }
-    const toggleDelete = (name)=>{
+    const toggleDelete = (item)=>{
+
+        setSelectedReply([item])
         setIsDelete(!isDelete)
-        // setDeleteTag(name)
+        // setDeleteTag(item)
+    }
+    const sumbitDelete=async ()=>{
+        const res = await adminInstance.deleteContent(data.name,selectedReply[0].id,selectedReply[0].body)
+        // console.log
     }
     useEffect(()=>{
         setFilteredData(data.content)
+        console.log(data)
     },[])
   
     const default_cols = ['Message Content' ,""]
@@ -75,8 +84,8 @@ export default function ReplyFolder({data}) {
         <div className={"admin_layout"}>
 
             <div className="rightContent">
-                    <CreateReply show={isCreate} reload={"fetchStandardReply"} toggle={toggleCreate}  data={data}/>
-                    <DeletePad show={isDelete} reload={"fetchStandardReply"} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReply} title={"Folders"}/>
+                    <CreateReply show={isCreate} reload={reload} toggle={toggleCreate}  data={data}/>
+                    <DeletePad show={isDelete}  reload={()=>console.log(data)} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Folders"}/>
                     <div className={"search_session"}>
                         <div className="search">
                             <div className="mf_icon_input_block  mf_search_input">
@@ -96,12 +105,12 @@ export default function ReplyFolder({data}) {
                             </div>
                         </div>
                         <div className={"btn_group"}>
-                            {!isSelectRow ? (
+                            {/* {!isSelectRow ? (
                                 <button onClick={toggleSelectRow} className={"mf_bg_light_blue mf_color_blue"}> Select </button>
                             ) : (
                                 <><button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
                                 <button  onClick={()=>toggleDelete(selectedReply)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button></>
-                            )}
+                            )} */}
                             <button onClick={toggleCreate }>+ New Templete</button>
                         </div>
                     </div>
@@ -109,7 +118,7 @@ export default function ReplyFolder({data}) {
                     btn={isSelectRow?(<div className={"select_session_btn_group"}>
                         {/*<div className={"select_session_btn"}><div svg={deleteSVG} onClick={}>{deleteSVG}</div> </div>*/}
                     </div>):null}
-                >
+                >{data.name}
                 </SelectSession>
                 <TableContainer
                     sx={{minWidth: 750 , minHeight:"60vh"}}
@@ -149,7 +158,7 @@ export default function ReplyFolder({data}) {
 
                                         <TableCell key={"button"+index} align="right">
                                             <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.id,data.name)}><EditSVG/></span>
-                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.id)}><DeleteSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete(data)}><DeleteSVG/></span>
                                        </TableCell>
                                     </TableRow>
                                 )

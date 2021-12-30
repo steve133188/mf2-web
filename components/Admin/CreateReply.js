@@ -37,7 +37,7 @@ const style ={
     height:"2rem"
 }
 
-export default function CreateReply({show, toggle,data,check}){
+export default function CreateReply({show, toggle,data,check,reload}){
     const [name , setName] = useState("")
     const [body , setBody] = useState({})
     const [rootDivision , setRootDivision] = useState([])
@@ -50,10 +50,9 @@ export default function CreateReply({show, toggle,data,check}){
         setParent(e.target.value)
     }
     useEffect(async ()=>{
-        console.log(body)
-        console.log(data)
-    //   const data = await orgInstance.getAllRootORG()
-    //     setRootDivision(data.filter(data=>{return data.type=="division"}))
+        // console.log(body)
+        // console.log(data)
+
     },[body])
     const submit = async ()=>{
         const dataupload = {name:data.name,body:body}
@@ -61,7 +60,7 @@ export default function CreateReply({show, toggle,data,check}){
         const status = await adminInstance.addContentToFolder( data.name,body)
         console.log(status,"create reply")
         toggle()
-
+        reload()
 
     }
     return(
@@ -77,7 +76,7 @@ export default function CreateReply({show, toggle,data,check}){
                     <textarea  className="message_box" placeholder="Type Here ..." onChange={(e)=>{setBody(e.target.value)}}>
                     </textarea>
                     <div className="dropArea">Drag and drop a file or browse to upload your image.
-                    <ImportDropzone />
+                    {/* <ImportDropzone /> */}
                     </div>
                     </div>
                     <div className="box_right">
