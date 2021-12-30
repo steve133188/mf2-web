@@ -9,8 +9,8 @@
     border-radius: 10px;
     box-shadow: 0px 7px 10px #0000001a;
     top:105px;
-    width: 20vw;
-    min-width: 350px;
+    width: 15vw;
+    min-width: 370px;
     max-width: 500px;   
     display: flex;
 
@@ -18,7 +18,7 @@
 //    left:0;
 }
 .chatlist_filter_box{
-  width: 90%;
+  width: 95%;
     display: flex;
     flex-direction: column;
     height: 93%;
@@ -157,7 +157,7 @@
         flex-direction: column;
         // align-items: center;
         // height: 30px;
-        width: 100%;
+        width: 97%;
         .channelListitem{
           // width: 90%;
           display: flex;
@@ -266,7 +266,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-      padding: 3px 0px 3px 10px ;
+        padding: 3px 0px 3px 10px ;
           height: 30px;
           margin: 3px 0;
           font: normal normal normal 16px/22px Manrope;
@@ -355,3 +355,95 @@
 
     }
   }
+
+.filter_box_channel{
+  min-width:300px ;
+  max-width: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.filter_box_agents{
+  min-width:300px ;
+  max-width: 500px;
+  overflow: none;
+  .taglList{
+    
+    display: flex;
+    justify-content:  flex-start;
+    align-items: center;
+    div{
+      padding: 2px 5px;
+    }
+  }
+}
+  .channelList{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: scroll ;
+    height: 120px;
+    .channelListitem{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0px 3px 10px ;
+      height: 30px;
+      margin: 3px 0;
+      max-width: 270px;
+      font: normal normal normal 16px/22px Manrope;
+      // margin: 5px 0;
+      div{
+        // width: 180px;
+      }
+      img{
+
+      }
+      .left{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: left;
+        width: 55%;
+        height: 20px;
+        padding: 5px;
+      }
+      .right{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 10px;
+
+      }
+    }
+  }
+  .filter_box_agents{
+    .search_bar{
+      width:75%;
+      padding: auto;
+      .search_area{
+        width: 100%;
+      }
+    }
+  }
+.inputField {
+  display: flex;
+  flex-flow: column;
+  span {
+    margin-left: 20px;
+    padding-bottom: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  input {
+    //max-width: 283px;
+    height: 2rem;
+    border-radius: 10px;
+    border: 1px solid #E5E7EC;
+    padding-left: 18px;
+    padding-right: 13px;
+
+    color: #444444;
+    font: normal normal 600 14px/22px Manrope;
+  }
+}

@@ -20,19 +20,19 @@ export default function ChatlistFilter( {...props}){
                 {name:"Messager",value:"messager"},
                 {name:"WeChat",value:"wechat"},];
 
-    const [selectedUsers ,setSelectedUsers] =useState([]);
-    const [selectedTags ,setSelectedTags] =useState([])
-    const { userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext);
-    const [users ,setUsers] =useState([]);
-    const [tags ,setTags] =useState([]);
-    const [teams ,setTeams] =useState([]);
-    const [selectedChannels ,setSelectedChannels] =useState([]);
-    const [filteredTags ,setFilteredTags] =useState([]);
-    const [filteredUsers ,setFilteredUsers] =useState([]);
-    const [agentBarOpen,setAgentBar] = useState(false)
-    const [agentSearchValue, setAgentValue]= useState("")
-
-
+                const [selectedTags ,setSelectedTags] =useState([])
+                const { userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext);
+                const [users ,setUsers] =useState([]);
+                const [tags ,setTags] =useState([]);
+                const [teams ,setTeams] =useState([]);
+                const [selectedChannels ,setSelectedChannels] =useState([]);
+                const [filteredTags ,setFilteredTags] =useState([]);
+                const [filteredUsers ,setFilteredUsers] =useState([]);
+                const [selectedUsers ,setSelectedUsers] =useState([]);
+                const [agentBarOpen,setAgentBar] = useState(false)
+                const [agentSearchValue, setAgentValue]= useState("")
+                
+                
                 // const advanceFilter =()=>{
                 //     setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
                 //     console.log("filter",filter)
@@ -119,7 +119,6 @@ export default function ChatlistFilter( {...props}){
             setSelectedChannels([]);
         }
         props.channel(e)
-
     };
     const handelConfirm = ()=>{
         props.click();
@@ -179,7 +178,7 @@ export default function ChatlistFilter( {...props}){
                 </div>
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
-                        Channel<br/>
+                        Channels<br/>
                           <ChannelListItem name={"All Channels"} value={"all"} id={"all"} key={"all"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />
                         {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>

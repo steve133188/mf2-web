@@ -80,7 +80,7 @@ export default function DashBroadFilter(props){
                     const data = await adminInstance.getAllTags()
                     console.log("tag")
                     console.log(data)
-                    setTags(data)
+                    setTags(data,"dashboard filter tags")
                     setFilteredTags(data)
                     
                 }
@@ -128,6 +128,7 @@ export default function DashBroadFilter(props){
         if (!checked) {
             setSelectedAgents(selectedAgents.filter(item => item !== id));
         }
+        props.agents(e)
         console.log(selectedAgents)
     };
     const toggleSelectDivision = e => {
@@ -156,10 +157,10 @@ export default function DashBroadFilter(props){
         // console.log(selectedChannels)
     };
 
-    useEffect(   ()=>{ 
+    useEffect(   async()=>{ 
 
-        let abortController = new AbortController();
-        async () => {
+        // let abortController = new AbortController();
+        // async () => {
         if(user.token!=null) {
 
             // await getUsers()
@@ -171,13 +172,14 @@ export default function DashBroadFilter(props){
             // await fetchContacts()
 
         }
-    }
+    
     channelOri()
         // setSelectedUsers([])
-        return () => {
-            abortController.abort();
-          }
+        // return () => {
+        //     abortController.abort();
+        //   }
     },[]);
+
     const channelOri =()=>{
     setChannels(channelData)
     setFilteredChannels(channelData)
@@ -256,7 +258,7 @@ export default function DashBroadFilter(props){
                             })}
                     </div>
                 </div>
-                <div className={"filter_box_tag"}  >
+                {/* <div className={"filter_box_tag"}  >
                      <div className={"channelList"}>
                         <div className={"filter_title"}>Tag</div>
                     
@@ -270,7 +272,7 @@ export default function DashBroadFilter(props){
                         })}
 
                     </div>
-                </div>
+                </div> */}
 
                 <div className="confirm_btn_set">
 

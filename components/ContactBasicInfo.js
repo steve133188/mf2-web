@@ -10,7 +10,7 @@ export function ContactBasicInfo(props) {
             <div className="contactNameAndPhone">
                 <div className="name">{props.name}</div>
                 <div className="phone"><img src={props.contactType} alt=""/>
-                    {props.phone}
+                {`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}
                 </div>
                 <Pill color={props.pillColor}>{props.pillContent}</Pill>
             </div>

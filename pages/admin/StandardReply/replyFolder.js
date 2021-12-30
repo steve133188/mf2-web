@@ -13,6 +13,7 @@ import Pagination from '@mui/material/Pagination';
 import { Tooltip } from '@mui/material';
 import searchFilter from "../../../helpers/searchFilter";
 import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
+import CreateReply from "../../../components/Admin/CreateReply";
 
 
 
@@ -73,8 +74,8 @@ export default function ReplyFolder({data}) {
         <div className={"admin_layout"}>
 
             <div className="rightContent">
-                    {/* <CreateReplyFolder  show={isCreate} reload={"fetchStandardReply"} toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
-                    <DeletePad show={isDelete} reload={"fetchStandardReply"} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReply} title={"Folders"}/> */}
+                    <CreateReply show={isCreate} reload={"fetchStandardReply"} toggle={toggleCreate}  data={data}/>
+                    <DeletePad show={isDelete} reload={"fetchStandardReply"} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReply} title={"Folders"}/>
                     <div className={"search_session"}>
                         <div className="search">
                             <div className="mf_icon_input_block  mf_search_input">
@@ -121,13 +122,7 @@ export default function ReplyFolder({data}) {
                     >
                         <TableHead>
                             <TableRow>
-                                <TableCell>
-                                    <div className="newCheckboxContainer">
-                                        {isSelectRow ? <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedReply.includes(el))} onClick={toggleSelectAll} />
-                                        </label> : null}
-                                    </div>
-                                </TableCell>
+                         
                                 {default_cols.map((col,index)=>{
                                     return ( <TableCell  style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                 })}
@@ -144,19 +139,8 @@ export default function ReplyFolder({data}) {
                                         checked={selectedReply.includes(data.id)}
                                         // onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
-                                        <TableCell style={{
-                                            width: "30px",
-                                            textAlign: "center",
-                                            borderBottom: "1px #e0e0e0 solid"
-                                        }}>
-                                            <div className="newCheckboxContainer">
-                                                {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.id} name="checkbox" checked={selectedReply.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
-                                                </label> : null}
 
-                                            </div>
-                                        </TableCell>
-                                        <TableCell align="left" sx={{width:"15%"}}>
+                                        <TableCell align="left">
                                             <span key={"name"+index}>{data.body}</span>
                                         </TableCell>
 

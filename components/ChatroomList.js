@@ -21,7 +21,7 @@ export default function ChatroomList({chatroom , ...props}){
                 </Tooltip>
             </div>
             <div className={"chatroom_name_ss"}>
-                <div style={{display:"flex",gap:4}}>{chatroom.name??chatroom.phone} <img src={`/channel_SVG/${chatroom.channel}.svg`} alt="Channel icon" width={20} height={20}  /></div>
+                <div style={{display:"flex",gap:4}}>{chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`} <img src={`/channel_SVG/${chatroom.channel}.svg`} alt="Channel icon" width={20} height={20}  /></div>
                 {/* <div className={""}>Team {chatroom.team}</div> */}
                 {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
             </div>

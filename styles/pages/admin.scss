@@ -16,6 +16,7 @@
 }
 
 .modal_form{
+  // width: 400px;
   min-height: 230px;
   display: flex;
   flex-direction: column;
@@ -42,11 +43,12 @@
   flex-wrap: wrap;
   padding: 0;
   max-height: 200px;
+  overflow: scroll;
 
   .select_item{
     display: inline-flex;
     margin: 5px ;
-    width:50%;
+    width:40%;
     .newCheckboxContainer{
       margin: 0;
     }
@@ -72,4 +74,72 @@
     }
   }
   
+}
+
+.reply_temp_box{
+  min-width:600px;
+  width: 40vw;
+  height: 25vw;
+  min-height: 350px;
+  .title{
+    text-align: left;
+    padding: 3rem 15px;
+
+    font: normal normal normal 16px/22px Manrope;
+    
+  }
+  .box_left{
+
+    width:75%;
+    textarea{
+      display: flex;
+      justify-content: left;
+      align-self: flex-start;
+      padding: 2rem;
+      font: normal normal normal 16px/22px Manrope;
+      &:focus-visible{
+        outline:transparent auto 0px;
+
+      }
+    }
+    ::placeholder {
+      display: flex;
+      justify-content: left;
+      align-self: flex-start;
+      max-width: 100%;
+
+      letter-spacing: 0px;
+       color: #8B8B8B;
+       border:10px none;
+    }
+       
+    .message_box{
+      width: 100%;
+      height: 10vw;
+      display: flex;
+      justify-content: left;
+      align-self: flex-start;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      border: 1px solid #E5E7EC;
+      border-radius: 10px;
+    }
+    .dropArea{
+      margin:3rem 0;
+      width: 100%;
+      height: 5vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      border: 1px dashed #2385FC;
+      border-radius: 10px;
+      font: normal normal normal 16px/22px Manrope;
+    }
+  }
+  .box_right{
+
+    width:23%
+    
+  }
 }

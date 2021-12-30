@@ -36,7 +36,7 @@ export default function Newchatroom(props){
         </div>
         <div className="">
             <div className="contactList" >
-                Push for new Chat
+                New Chatroom
                 {props.contacts.map((contact, index)=>{
                     // console.log(contact)
                     return(
@@ -52,8 +52,9 @@ export default function Newchatroom(props){
                             <div className={"contact_name_ss"}>
                                 <div>{contact.name??contact.phone}</div>
                                 {/* <div className={"team"}>Team {contact.team}</div> */}
-                                <div className={"team"}>+{contact.phone}</div>
+                                <div className={"team"}>+{contact.phone.slice(0,3)} {contact.phone.slice(3)}</div>
                             </div>
+                                <img src="/openChat.svg" style={{width:"30px",opacity:".8"}} />
                             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}
                             {/*<div className={"pin"}></div>*/}
                         </div>

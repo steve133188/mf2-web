@@ -53,7 +53,7 @@ export default function Integrations() {
     }
     const myChannel = async() =>{
         console.log(user) 
-        const activedChannel = user.user.channels??["whatsapp"]
+        const activedChannel = user.user.channels??[""]
         const unConlist = channelList.filter(item=>{return item.channelID!=activedChannel.filter(e=>{return item.channelID==e})})
         setAllChannel(unConlist )
         const activeList = channelList.filter(item=>{return activedChannel.some(el=>item.channelID==el)})

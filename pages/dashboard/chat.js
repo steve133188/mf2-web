@@ -20,16 +20,23 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell, TableHead} from "@mui/material";
 
+import searchFilter from "../../helpers/searchFilter";
 
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
    
+    const [filteredAgents , setFilteredAgents] = useState([])
+    const [selectedAgents , setSelectedAgents] = useState([])
+    const [filteredTags , setFilteredTags] = useState([])
+    const [selectedTags , setSelectedTags] = useState([])
     const [contacts, setContacts] = useState([]);
     const [tags, setTags] =useState([])
     const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
+
+    const [selectedData,setselectedDate] =useState([])
 
     const handleClickAway = () => {
         setOpen(false);
@@ -50,28 +57,67 @@ export default function Chat() {
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
       setDayState(range);
-    } 
+    }
+    const toggleSelectTags = e => {
+        const { checked ,id} = e.target;
+        setSelectedTags([...selectedTags, id]);
+        if (!checked) {
+            setSelectedTags(selectedTags.filter(item => item !== id));
+        }
+        console.log(selectedTags)
+    }; 
     const getTags = async ()=>{
         const data = await adminInstance.getAllTags()
         setTags(data)
         console.log(data,"tagsss")
-        // setFilteredTags(data)
+        setFilteredTags(data)
 
+    }
+    const changeTags=()=>{
+        if(selectedTags.length==0) return setTags(filteredTags)
+        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag==el)})); 
+        // setSelectedTags([])
+    }
+    const renderAgents=() => {
+
+        return selectedAgents!=-1&&selectedAgents.map((tag)=>{
+            return<Pill key={tag} color="vip">{tag}</Pill>
+        })
+    }
+    const toggleSelectAgents = e => {
+        const { checked ,id} = e.target;
+        setSelectedAgents([...selectedAgents, id]);
+        if (!checked) {
+            setSelectedAgents(selectedAgents.filter(item => item !== id));
+        }
+        // props.agents(e)
+        console.log(selectedAgents ,"slescted")
+    };
+    function tagSearchFilter(keyword , data ,callback ){
+        if(keyword.includes(":")){
+            console.log("trigger regex search")
+        }
+        const newData = data.filter(d=> {
+            if(keyword.trim() == ""){
+                return data
+            }
+            return d.tag.toLowerCase().includes(keyword)
+        })
+        callback(newData)
     }
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
-        // setFilteredData(data)
+        setFilteredAgents(data)
     }
+
     useEffect(
-        ()=>{
-            
-            let isMounted = true;  
+
             async ()=>{
                 await fetchContacts();
                 await getTags();
-            }
-            return () => { isMounted = false };
+            
+
     },[])
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
@@ -105,6 +151,11 @@ export default function Chat() {
         return () => { isMounted = false };
     },[]);
 
+
+    // tags.map(item=>{ const data = []
+    //                 data.push(item)
+    //                 data.push
+    // })
     return (
         <div className="dashboard-layout">
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
@@ -153,10 +204,11 @@ export default function Chat() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} />
+                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} agents={ toggleSelectAgents} />
                                     </div>
                                 </div>
                             </div>
+                        {renderAgents()}
                             
                 </div>    
                 <div className={"right"}>
@@ -202,7 +254,7 @@ export default function Chat() {
 
                         
                     <div className={"card_holder1"}>
-                    <div style={{margin:"6px 10px auto"}}>Channel</div>
+                    <div style={{margin:"6px 20px auto"}}>Channels</div>
                         <div className={"card_holder"}>
                         {channelData.map((data,index)=>{
                             return  <LineChartCard key={index} title={data.name} chart={false} img={true} d={data} channel={data.channelID} />
@@ -234,12 +286,31 @@ export default function Chat() {
                 <div className="dashboardRow">
                     <div className="tableSet">
                     <div className={"half_session block_session"}>
-                        <div className={"top_row"}>
-                            <span className={"title"}>Tags</span></div>
+                        <div className={"top_row"} style={{justifyContent:"flex-start"}}>
+
+
+                            <span className={"title"}>Tags  {`${tags.length}`}</span></div>
+<div style={{width:"400px",overflow:"scroll"}}>
+
+                <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
+                    setFilteredTags(new_data)
+                })}} >
+                    {filteredTags.map((tag)=>{
+                        return(<li key={tag.id}><Pill size="30px" key={tag.id} color="vip">{tag.tag}</Pill>
+                            <div className="newCheckboxContainer">
+                                <label className="newCheckboxLabel">
+                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                </label> </div></li>)
+                    })}
+                </MF_Select>
+
+                    </div>
+
                           
                         
                         <div className={"session_content"}>
                             <div className={"session_content_tag"}>
+                                
                             <TableContainer
                                 sx={{minWidth: 600 ,}}
                                 className={"table_container"}
@@ -254,6 +325,9 @@ export default function Chat() {
                                 <TableRow>
 
                                     {tagColumn.map((col,index)=>{
+                                        return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
+                                    })}
+                                    {selectedAgents&&selectedAgents.map((col,index)=>{
                                         return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                     })}
     
@@ -276,12 +350,16 @@ export default function Chat() {
                                            <TableCell align="left" style={{width: "20%",}}>
                                                 <span >{item.total}</span>
                                             </TableCell>
-                                            <TableCell align="left" style={{width: "60%",}}> 
 
-                                            </TableCell>
+                                            {selectedData&&selectedData.map(item=>{return  <
+                                                TableCell align="left" style={{width: "auto",}}> 
+                                                {item.name}
+                                                </TableCell>})}
     
+                                                <TableCell align="left" style={{width: "auto",}}> 
     
-                                            {/*<TableCell align="right">*/}
+                                                </TableCell>
+                                                {/*<TableCell align="right">*/}
                                             {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
                                             {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
                                             {/*</TableCell>*/}
@@ -303,3 +381,6 @@ export default function Chat() {
 
     )
 }
+
+
+

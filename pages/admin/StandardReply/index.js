@@ -29,6 +29,7 @@ import DeletePad from "../../../components/DeletePannel";
 import CreateReplyFolder from "../../../components/Admin/CreateReplyFolder";
 import ReplyFolder from "./replyFolder";
 import Profile from "../../../components/profile";
+import EditReplyFolder from "../../../components/Admin/EditReplyFolder";
 
 export default function StandardReply() {
 
@@ -54,6 +55,8 @@ export default function StandardReply() {
 
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
+    const [isEdit , setIsEdit] = useState(false)
+    const [editData,setEditData] = useState({})
     let result = currentReply.map(d=>d.id)
     
     useEffect(    async () => {
@@ -100,10 +103,11 @@ export default function StandardReply() {
     const toggleCreate = ()=>{
         setIsCreate(!isCreate)
     }
-    const toggleEdit = (id,tag)=>{
+    const toggleEdit = (data)=>{
+        setEditData(data)
         setIsEdit(!isEdit)
         // setSelectedTag({id,tag})
-        console.log(selectedTag,"tagtagtag")
+
     }
     const toggleDelete = (name)=>{
         isSelectRow?setSelectedReply(name):null 
@@ -150,6 +154,7 @@ export default function StandardReply() {
 
                 <CreateReplyFolder  show={isCreate} reload={fetchStandardReply} toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
                 <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={"removeManyContact"} data={selectedReply} title={"Folders"}/>
+                <EditReplyFolder show={isEdit} toggle={toggleEdit} data={editData} reload={fetchStandardReply}  />
                 <div className={"search_session"}>
                     <div className="search">
                         <div className="mf_icon_input_block  mf_search_input">
@@ -261,7 +266,7 @@ export default function StandardReply() {
                                         </TableCell>
 
                                         <TableCell key={"button"+index} align="right">
-                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.id,data.name)}><EditSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG/></span>
                                             <span className={"right_icon_btn"} onClick={()=>{toggleDelete(data.id)}}><DeleteSVG/></span>
                                        </TableCell>
                                     </TableRow>

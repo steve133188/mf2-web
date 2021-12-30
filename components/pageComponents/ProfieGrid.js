@@ -22,6 +22,7 @@ export default function ProfileGrid({data}){
     const router = useRouter()
     useEffect(()=>{
         setNotes(notesData)
+        console.log("user data",data)
     },[])
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) setUseContact(key);
@@ -66,7 +67,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{data.phone}</span>
+                <span className={"info_content"}>{`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
@@ -122,7 +123,7 @@ export default function ProfileGrid({data}){
                         <div className={"session_content"}>
                             { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
                                 return(<div><img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
-                            })}
+                            })}<div style={{width:"80%",display:"flex",justifyContent:"space-around", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px" src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</div>
                         </div>
                     </div>
                     <div className={"half_session block_session"}>

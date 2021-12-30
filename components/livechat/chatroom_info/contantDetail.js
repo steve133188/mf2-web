@@ -137,12 +137,12 @@ useEffect(()=>{
 
                     </div>
                 </div>
-                    <div style={{width: "110%",height:"1px",backgroundColor:"#d3d3d3",marginBottom:"1rem",marginLeft:"-10px"}}></div>
+                    <div style={{width: "110%",height:"1px",backgroundColor:"#d3d3d3",marginBottom:".5rem",marginLeft:"-10px"}}></div>
                 <div className={"assignedInfo"}>
 
                     <div>Assignee</div>
-                <div className={""}>
-                    <div className={"tagsGroup"} style={{margin:"10px 0"}}>
+
+                    <div className={"tagsGroup"} style={{margin:"10px 0",display:"flex",alignItems:"center"}}>
                         <Mf_circle_btn switchs={()=>{setUnAssigned(!unassigned)}} handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
                             setFilteredUsers(new_data)
 
@@ -174,11 +174,12 @@ useEffect(()=>{
                             })}
                         </AvatarGroup>
                     </div>
-                </div>
+
                     <div>Tags</div>
                 <div className={""}>
-                    <div className={"tagsGroup"} style={{display:"flex",maxWidth:"230px",height:"auto",}} >
+                    <div className={"tagsGroup"} style={{display:"flex",maxWidth:"230px",height:"8vw",}} >
                         <div style={{margin:"10px 5px 0 0 "}}>
+
                         <Mf_circle_btn  switchs={()=>{setUnread(!unread)}} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data) 
                         })}}>
@@ -190,9 +191,11 @@ useEffect(()=>{
                                             <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} onChange={()=>{}} />
                                         </label> </div></li>)
                             })}
+
                         </Mf_circle_btn>
+
                         </div>
-                            <div style={{display:"flex",flexWrap:"wrap",width:"250px"}}>
+                            <div style={{display:"flex",flexWrap:"wrap",width:"250px",height:"120px",overflow:"auto"}}>
                                     {selectedTags!=-1&&selectedTags.map((tag)=>{
                                         return<Pill key={tag} color="vip">{tag}</Pill>
                                     })}

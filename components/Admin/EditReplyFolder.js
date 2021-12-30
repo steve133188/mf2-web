@@ -6,6 +6,8 @@ import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
+import ChannelsDropList from "../droplist/ChannelsList";
+import AgentsDropList from "../droplist/AgentsList";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -33,27 +35,11 @@ const style ={
     width:"100%",
     height:"2rem"
 }
-const AuthList = [  {title:"Dashboard",name:"dashboard"},
-                    {title:"Contact",name:"contact"},
-                    {title:"Broadcast",name:"broadcast"},
-                    {title:"Integrations",name:"integrations"},
-                    {title:"Admin",name:"admin"},
-                    {title:"Livechat",name:"livechat"},
-                    {title:"Product",name:"product_catalogue"},
-                    {title:"Flowbuilder",name:"flowbuilder"},
-                    {title:"Organization",name:"organization"},]
-const channelData = [
-    // name:"WhastApp",value:"All",channelID:"All",id:0},
-            {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-            {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
-            {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-            {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
 
-export default function EditReplyFolder({show, toggle ,reload,role}){
+export default function EditReplyFolder({show, toggle ,reload,data}){
 
     const [roleName , setRoleName] = useState("")
-
     const [authority , setAuthority] = useState({
         assignee: null,
         channel: [],
@@ -62,20 +48,53 @@ export default function EditReplyFolder({show, toggle ,reload,role}){
         name: "",
         team: "",
     })
+
+    const [filteredUsers ,setFilteredUsers] =useState([]);
+    const [selectedUsers ,setSelectedUsers] =useState([]);
+
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
-   
-    // useEffect(()=>{
-    //     setAuthority(role.auth)
-    //     console.log(authority,"edit role page")
-    // },[authority])
+    const toggleSelectUsers = e => {
+        const { checked ,id} = e.target;
+        setSelectedUsers([...selectedUsers, id]);
+        if (!checked) {
+            setSelectedUsers(selectedUsers.filter(item => item !== id));
+        }
+
+        console.log(selectedUsers)
+    };
+    const getUsers = async ()=>{
+        const data = await userInstance.getAllUser()
+        setFilteredUsers(data)
+    }
+    useEffect(    async () => {
+        if(user.token!=null) {
+            await getUsers()
+        }
+        setSelectedUsers([])
+    },[]);
+
     useEffect(()=>{
         if(!show)return
-        show?console.log(role.auth,"dfasdfsd"):"";
-        setAuthority(role.auth)
-
-        setRoleName(role.name)
+        show?console.log(data,"data in"):"";
+        setAuthority(data)
     },[show])
 
+    const [selectedChannels ,setSelectedChannels] =useState([]);
+    const toggleSelectChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels([...selectedChannels, id]);
+        if (!checked) {
+            setSelectedChannels(selectedChannels.filter(item => item !== id));
+        }
+        console.log(selectedChannels)
+    };
+    const toggleSelectAllChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels(["all","whatsapp","whatsappB","wechat","messager"]);
+        if (!checked) {
+            setSelectedChannels([]);
+        }
+    };
     const handleSelect =e=>{
 
         const {name ,value ,checked} = e.target
@@ -98,82 +117,48 @@ export default function EditReplyFolder({show, toggle ,reload,role}){
         // console.log(roleName)
     }
     const submit = async ()=>{
-        console.log({name:roleName,auth: {...authority}})
-        const res = await adminInstance.updateRole(role.name,{name:roleName,auth: authority})
+        console.log({...authority})
 
-
-
+        // const res = await adminInstance.updateStandardReply(authority);
 
         
         console.log(res)
         reload()
         toggle()
     }
-    const clearData = ()=>{
-        setAuthority({  dashboard: false,
-            livechat: false,
-            contact: false,
-            broadcast: false,
-            flowbuilder: false,
-            integrations: false,
-            product_catalogue: false,
-            organization: false,
-            admin: false,
-            Whatsapp: false,
-            WhatsappB: false,
-            Wechat: false,
-            Messager: false,});
-            toggle();
-    }
 
     
     return(
         <MF_Modal show={show} toggle={toggle}>
-            <div className={"modal_form"}>
+            <div className={"modal_form"} style={{width:"100%",display:"flex",justifyContent:'center'}}>
                 <div className={"modal_title"}>
-                    <span>Edit Role</span>
+                    <span>Edit Folder</span>
                 </div>
                 <div className="inputField">
-                    <span>Role Name</span>
-                    <MF_Input value={roleName} onChange={handleChange}/>
+                    <span>Folder Name</span>
+                    <MF_Input value={authority.name} onChange={handleChange}/>
                 </div>
 
 
                 <div className="inputField">
-                        <span>Access Right</span>
+                        <span>Channels</span>
                     </div>
-                <div className={"access_right"}>
+                <div className={"access_right"} style={{display:"flex",justifyContent:'center',alignItems:"center"}}>
 
-                    {AuthList.map((item,index)=>{return  <div key={index} className={"select_item"}> 
-                        <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
-                                    <input type="checkbox"  name={item.name} value={authority[item.name]} checked={authority[item.name]} onChange={handleSelect} />
-                                </label>
-                                <span>{item.title}</span>
-                        </div>
-                    </div>
-                    })}
-                            
+
+                    <ChannelsDropList toggleChannels={toggleSelectChannels} toggleAll={toggleSelectAllChannels} />                            
                 </div>
-                    <div className="inputField">
-                            <span>Channels</span>
-                        </div>
-                    <div className={"access_right"}>
+                <div className="inputField">
+                    <span>Assign to</span>
+                </div>
 
-                        {channelData.map((item,index)=>{return  <div key={index} className={"select_item"} style={{width:"fit-content"}}> 
-                            <div className="newCheckboxContainer">
-                                    <label className="newCheckboxLabel">
-                                        <input type="checkbox"  name={item.value} value={authority[item.value]} checked={authority[item.value]} onChange={handleSelect} />
-                                    </label>
-                                    <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>
-                                   <span>{item.name}</span>
-                            </div>
-                        </div>
-                        })}
+                    <div className={"access_right"} style={{display:"flex",justifyContent:'center',alignItems:"center"}}>
+                    <AgentsDropList filterData={filteredUsers} toggleAgents={toggleSelectUsers} />
+                       
                     </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
-                    <button className={"cancel_btn"} onClick={clearData}>Cancel</button>
+                    <button className={"cancel_btn"} onClick={toggle} >Cancel</button>
                 </div>
             </div>
         </MF_Modal>
