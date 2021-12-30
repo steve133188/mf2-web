@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 // pass dayString to this component. it will start count 24hour from dayString
+// dayString is a string like date.toIsoString()
 export default function CountDownTimer ({dayString}) {
     //add 24 hour
     const endTime = new Date( new Date(dayString).getTime() +60 *60*24*1000);
