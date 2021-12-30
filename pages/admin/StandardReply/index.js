@@ -150,7 +150,7 @@ export default function StandardReply() {
   
 
 
-    const default_cols = ['Folder' , 'Channel' ,'Team','Assignee',""]
+    const default_cols = ['Folder' , 'Channel' ,'Team',""]
 
 
     return (
@@ -258,7 +258,7 @@ export default function StandardReply() {
 
                                         </TableCell>
 
-                                        <TableCell key={"agents"+index} align="left" sx={{width:"30%",}}>
+                                        {/* <TableCell key={"agents"+index} align="left" sx={{width:"30%",}}>
                                             <span style={{display:"flex"}}>
                                         {data.assignee? (
                                             data.assignee.map((item)=>{console.log(item);
@@ -270,7 +270,7 @@ export default function StandardReply() {
                                                                 <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14,margin:"0 5px"}} >x</Avatar>
                                                              </Tooltip> 
                                                              } </span>
-                                        </TableCell>
+                                        </TableCell> */}
 
                                         <TableCell key={"button"+index} align="right" >
                                             <span className={"right_icon_btn"} onClick={(e)=>{e.stopPropagation();toggleEdit(data)}} ><EditSVG/></span>

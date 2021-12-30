@@ -133,16 +133,17 @@ export default function EditRole({show, toggle ,reload,role}){
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
                 <div className={"modal_title"}>
-                    <span>Edit Role</span>
+                    <p>Edit Role</p>
                 </div>
                 <div className="inputField">
-                    <span>Role Name</span>
+                    <div>Role Name</div>
                     <MF_Input value={roleName} onChange={handleChange}/>
+                    <p></p>
                 </div>
 
 
                 <div className="inputField">
-                        <span>Access Right</span>
+                        <p>Access Right</p>
                     </div>
                 <div className={"access_right"}>
 
@@ -158,7 +159,7 @@ export default function EditRole({show, toggle ,reload,role}){
                             
                 </div>
                     <div className="inputField">
-                            <span>Channels</span>
+                            <p>Channels</p>
                         </div>
                     <div className={"access_right"}>
 
@@ -168,7 +169,7 @@ export default function EditRole({show, toggle ,reload,role}){
                                         <input type="checkbox"  name={item.value} value={authority[item.value]} checked={authority[item.value]} onChange={handleSelect} />
                                     </label>
                                     <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>
-                                   <span>{item.name}</span>
+                                   <span >{item.name}</span>
                             </div>
                         </div>
                         })}

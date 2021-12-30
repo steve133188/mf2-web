@@ -230,8 +230,8 @@ export default function DashBroadFilter(props){
                         {channels.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
                 </div>
-                <FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>
-                <div className={"filter_box_agents"}  >Agent
+                {props.auth==2?<FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>:""}
+                {props.auth==2?<div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
                     <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
@@ -270,7 +270,7 @@ export default function DashBroadFilter(props){
                                 )
                             })}
                     </div>
-                </div>
+                </div>:""}
                 {/* <div className={"filter_box_tag"}  >
                      <div className={"channelList"}>
                         <div className={"filter_title"}>Tag</div>

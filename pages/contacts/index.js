@@ -117,9 +117,9 @@ export default function Contacts() {
             {selectedUsers.map((agent, index) => {
                 return (
                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                        <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{
-                            width: 25,
-                            height: 25,
+                        <Avatar className={"mf_bg_warning mf_color_warning text-center 123"} sx={{
+                            width: 22,
+                            height: 22,
                             fontSize: 14
                         }}>{agent.substring(0, 2).toUpperCase()}</Avatar>
                     </Tooltip>
@@ -482,7 +482,7 @@ export default function Contacts() {
                         return(<li key={user.username}>
                             <div style={{display:"flex" ,gap:10}}>
                                 <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
-                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
                                 </Tooltip>
                                 <div className={"name"}>{user.username}</div>
                             </div>

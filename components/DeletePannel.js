@@ -33,7 +33,7 @@ export default function DeletePad({show, toggle,reload,data,submit,title}){
     }
     return(
         <MF_Modal show={show} toggle={toggle}>
-        <div className={"modal_form"}>
+        <div className={"modal_form"} style={{minHeight:"130px",height:"130px"}}>
             <div className={"modal_title"} style={{textAlign:"center"}}>
                 <span>{`Delete ${data?data.length:"this"} ${title}?`}</span>
             </div> 

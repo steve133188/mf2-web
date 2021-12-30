@@ -122,8 +122,8 @@ export default function ProfileGrid({data}){
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
                             { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
-                                return(<div><img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
-                            })}<div style={{width:"80%",display:"flex",justifyContent:"space-around", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px" src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</div>
+                                return(<div><img key={index} width="24px" height="24px"   style={{ margin:"15px 30px"}}   src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
+                            })}<div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px"  style={{ margin:"15px 30px"}}  src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</div>
                         </div>
                     </div>
                     <div className={"half_session block_session"}>

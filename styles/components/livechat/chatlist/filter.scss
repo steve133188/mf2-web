@@ -141,11 +141,16 @@
         
           
     }
+
     .filter_box_channel{
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin:20px 0;
+      min-width:300px ;
+      max-width: 500px;
+      overflow-y: auto;
+      overflow-x: hidden;
       
       .serachSVG{
         width: 20;
@@ -356,12 +361,7 @@
     }
   }
 
-.filter_box_channel{
-  min-width:300px ;
-  max-width: 500px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+
 .filter_box_agents{
   min-width:300px ;
   max-width: 500px;
@@ -447,3 +447,9 @@
     font: normal normal 600 14px/22px Manrope;
   }
 }
+// .filter_box_channel{
+//   min-width:300px ;
+//   max-width: 500px;
+//   overflow-y: auto;
+//   overflow-x: hidden;
+// }

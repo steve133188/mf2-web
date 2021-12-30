@@ -117,7 +117,7 @@ export default function Role() {
             <EditRole show={isEdit} reload={fetchRoles} toggle={toggleEdit} role={editRolename}/>
 
         <MF_Modal show={isDelete} toggle={toggleDelete}>
-            <div className={"modal_form"}>
+            <div className={"modal_form"} style={{minHeight:"130px",height:"130px"}}>
                 <div className={"modal_title"} style={{textAlign:"center"}}>
                     <span>Delete agent role?</span>
                 </div> 

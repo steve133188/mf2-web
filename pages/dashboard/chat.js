@@ -83,21 +83,16 @@ export default function Chat() {
         setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag==el)})); 
         // setSelectedTags([])
     }
-    const renderAgents=() => {
-
-        return selectedAgents!=-1&&selectedAgents.map((tag)=>{
-            return<Pill key={tag} color="lightPurple">{tag}</Pill>
-        })
-    }
-    const toggleSelectAgents = e => {
-        const { checked ,id} = e.target;
-        setSelectedAgents([...selectedAgents, id]);
-        if (!checked) {
-            setSelectedAgents(selectedAgents.filter(item => item !== id));
-        }
-        // props.agents(e)
-        console.log(selectedAgents ,"slescted")
-    };
+   
+    // const toggleSelectAgents = e => {
+    //     const { checked ,id} = e.target;
+    //     setSelectedAgents([...selectedAgents, id]);
+    //     if (!checked) {
+    //         setSelectedAgents(selectedAgents.filter(item => item !== id));
+    //     }
+    //     // props.agents(e)
+    //     console.log(selectedAgents ,"slescted")
+    // };
     function tagSearchFilter(keyword , data ,callback ){
         if(keyword.includes(":")){
             console.log("trigger regex search")
@@ -210,12 +205,12 @@ export default function Chat() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                         <div className={"chatlist_filter_box"} >
-                                                    <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} agents={ toggleSelectAgents} />
+                                                    <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} auth={1} />
                                         </div>
                                         
                                     </div>
                             </div>
-                        {renderAgents()}
+
                             
                             </div>    
                 <div className={"right"}>
@@ -304,7 +299,7 @@ export default function Chat() {
                     {filteredTags.map((tag)=>{
                         return(<li key={tag.id}><Pill size="30px" key={tag.id} color="vip">{tag.tag}</Pill>
                             <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">111
+                                <label className="newCheckboxLabel">
                                     <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}

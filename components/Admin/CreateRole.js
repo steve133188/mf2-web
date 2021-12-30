@@ -112,16 +112,17 @@ export default function CreateRole({show, toggle ,reload}){
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
                 <div className={"modal_title"}>
-                    <span>Create Role</span>
+                    <p>Create Role</p>
                 </div>
                 <div className="inputField">
-                    <span>Role Name</span>
+                    <div>Role Name</div>
                     <MF_Input onChange={handleChange}/>
+                    <p></p>
                 </div>
 
 
                     <div className="inputField">
-                        <span>Access Right</span>
+                        <p>Access Right</p>
                     </div>
                 <div className={"access_right"}>
 
@@ -139,7 +140,7 @@ export default function CreateRole({show, toggle ,reload}){
                     {/*  */}
 
                     <div className="inputField">
-                            <span>Channels</span>
+                            <p>Channels</p>
                         </div>
                     <div className={"access_right"}>
 
@@ -156,7 +157,7 @@ export default function CreateRole({show, toggle ,reload}){
                     </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
-                    <button className={"cancel_btn"} onClick={toggle}>Cancel</button>
+                    <button className={"cancel_btn"} onClick={toggle} style={{padding:"0 20px"}}>Cancel</button>
                 </div>
             </div>
         </MF_Modal>

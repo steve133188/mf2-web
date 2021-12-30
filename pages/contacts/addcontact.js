@@ -134,14 +134,14 @@ export default function AddContact() {
         router.back()
     }
     return (
-            <div className={"addContactSession"}>
+            <div className={"addContactSession"} style={{display:"flex"}}>
             <div className="addContactSession_info_ss addContactSession_ss">
                 {/* new form */}
-                <form onSubmit={handleSubmit}  >
+                <form onSubmit={handleSubmit} >
 
                 
 
-                <div className={"addContactSession_info_ss"}> 
+                <div className={"addContactSession_info_ss"} > 
                         <div className="ss_row addContactSession_title">
 
                             New Contact
@@ -166,11 +166,12 @@ export default function AddContact() {
                     </div>
                     <div className={"ss_row submit_row"}>
                         <button type="submit" value="Submit">+ New Contact</button>
-                        <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"} onClick={cancel}>Cancel</button></Link>
+                        <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"}  style={{paddinf:"0 25px",width:"140px"}} onClick={cancel}>Cancel</button></Link>
                     </div>
                 </form>
-            </div>
 
+
+            </div>
                 <div className={"addContactSession_ss  addContactSession_tags_ss"}>
                             <div className={"addContactSession_title"}>Tags & Assignee</div>
                         <div className={"tagsGroup"} style={{marginBottom:"30px"}} >

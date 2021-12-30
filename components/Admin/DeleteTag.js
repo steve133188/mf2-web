@@ -36,7 +36,7 @@ export default function DeleteTag({show, toggle,reload,tags}){
     }
     return(
         <MF_Modal show={show} toggle={toggle}>
-        <div className={"modal_form"}>
+        <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}>
             <div className={"modal_title"} style={{textAlign:"center"}}>
                 <span>{`Delete ${!tags?"":tags.length} Tag?`}</span>
             </div> 

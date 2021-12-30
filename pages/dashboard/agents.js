@@ -23,7 +23,7 @@ import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 export default function Agents() {
     const [open, setOpen] = useState(false);
     
-    
+    const [selectedAgents , setSelectedAgents] = useState([])
     const [isFilterOpen , setIsFilterOpen] = useState(false);
     const [selectedPeriod ,setSelectedPeriod] =useState("");
     const [dayState,setDayState] = useState({from:"",to:""});
@@ -37,7 +37,7 @@ export default function Agents() {
     let result = currentContacts.map(d=>d.id)
 
 
-    const default_cols = ["Name","Role","Status","Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts","Unhabdeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
+    const default_cols = ["Name","Role","Status","Total Contacts","Newly added Contacts","Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts","Unhabdeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
     useEffect(()=>{
         setFilteredData([{name:"",role:"2"},{}])
     },[])
@@ -57,8 +57,21 @@ export default function Agents() {
     };
     const handleClickOut = () => {
         setOpen(true);
+    }; const toggleSelectAgents = e => {
+        const { checked ,id} = e.target;
+        setSelectedAgents([...selectedAgents, id]);
+        if (!checked) {
+            setSelectedAgents(selectedAgents.filter(item => item !== id));
+        }
+        // props.agents(e)
+        console.log(selectedAgents ,"slescted")
     };
+    const renderAgents=() => {
 
+        return selectedAgents!=-1&&selectedAgents.map((tag)=>{
+            return<Pill key={tag} color="lightPurple">{tag}</Pill>
+        })
+    }
     const namePush = (nameList)=>{
         setDisplayNameTag(nameList)
         console.log(nameList,"from filter")
@@ -124,11 +137,12 @@ export default function Agents() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} />
+                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} />
                                     </div>
                                 </div>
                             </div>
                             
+                        {renderAgents()}
                 </div>    
                 <div className={"right"}>
                     {/* <div style={{position:"relative"}}>
@@ -175,6 +189,8 @@ export default function Agents() {
                     <AverageDailyCard/>
                 </div>
                 <div className="lineCardGroup2">
+                    <ChangingPercentageCard title={"Total Contacts"} total={41} changing={"+ 8%"} />
+                    <ChangingPercentageCard title={"Newly Added Contacts"} total={8} changing={"+ 0%"} />
                     <ChangingPercentageCard title={"Total Assigned Contacts"} total={34} changing={"- 25%"} />
                     <ChangingPercentageCard title={"Active Contacts"} total={30} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Delivered Contacts"} total={28} changing={"+ 8%"} />
@@ -237,6 +253,10 @@ export default function Agents() {
                                                 <span >{data.role}Role</span></TableCell>
                                             <TableCell align="left">
                                                 <span >{data.Status}Role</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.time}Total Contacts</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data.role}Contacts numeber</span></TableCell>
                                             <TableCell align="left">
                                                 <span >{data.time}Online Time</span></TableCell>
                                             <TableCell align="left">

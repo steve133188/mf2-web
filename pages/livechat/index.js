@@ -583,7 +583,7 @@ export default function Live_chat() {
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
                 <VoiceRecorder/>
-                    <textarea className={"chatroom_textField"} placeholder={"Type something???"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
+                    <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />

@@ -65,11 +65,11 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
                 <div className={"modal_title"}>
-                    <span>Folder Name</span>
+                    <span>New Folder</span>
                 </div>
-                <MF_Input  title={"Team Name"} value={name} onChange={handleChange}> </MF_Input>
+                <MF_Input  title={"Folder Name"} value={name} onChange={handleChange}> </MF_Input>
                 <div className="inputField">
-                    <span>Assign to</span>
+                    <span>Teams</span>
                     <Select
                     
                         sx={style}
@@ -78,16 +78,15 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                       <div className={"filter_box_agents"}  >Agent
+                       <div className={"filter_box_agents"}  >
                     <div className={"agentBroad"} >
 
-                    <div className={"filter_title"} onClick={toggle}>Choose Agent </div>
+                    <div className={"filter_title"} onClick={toggle}> </div>
                     <div className={"agentSearchArea"}  style={show?{display:"block"}:{display:"none"}}>
                          {/* <div className={"search_bar"}>    
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>  */}
                     
-A
                         <div className={"channelList"} >
                             {filteredAgents.filter(users=>users.username.includes("")).map((user)=>{
                                 return(<li className={"channelListitem"} key={user.username} style={{width:"90%"}}>

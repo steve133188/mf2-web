@@ -99,7 +99,7 @@ export default function Tags() {
     const [deleteTagname,setDeleteTag] = useState([])
 
 
-    const default_cols = ['Tag' , 'Created' ,'Last Updated ']
+    const default_cols = ['Tag' , 'Created' ,'Last Updated ',""]
 
 
     return (

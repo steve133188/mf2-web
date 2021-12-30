@@ -26,7 +26,8 @@ export function LineChart({children,...props}) {
             stroke: {
                 curve: 'straight'
             },
-
+        
+            
             markers: {
                 size: 0
             },
@@ -193,7 +194,8 @@ export function MultipleBarChart({children,...props}) {
             plotOptions: {
               bar: {
                 horizontal: false,
-                borderRadius: 10
+                borderRadius: 10,
+                columnWidth: '45%',
               },
             },
             xaxis: {
