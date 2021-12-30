@@ -12,7 +12,7 @@ import ChatroomInfo from "../../components/livechat/chatroom_info";
 import ChatlistFilter from "../../components/livechat/serach_filter/filter.js/chatlist_filter";
 import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "../../components/livechat/newchatroomPanel";
-
+import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
@@ -582,8 +582,8 @@ export default function Live_chat() {
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
-
-                    <textarea className={"chatroom_textField"} placeholder={"Type something…"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
+                <VoiceRecorder/>
+                    <textarea className={"chatroom_textField"} placeholder={"Type something???"} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
