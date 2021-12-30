@@ -206,16 +206,18 @@ export default function Chat() {
                     </MF_Select>
                             <div className={"filter_box "+(isFilterOpen?"active":"")}>
                                  <div className={"filter_icon"}  onClick={()=>setIsFilterOpen(!isFilterOpen)}></div>
+                                 
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
-                                    <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} agents={ toggleSelectAgents} />
+                                        <div className={"chatlist_filter_box"} >
+                                                    <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} agents={ toggleSelectAgents} />
+                                        </div>
+                                        
                                     </div>
-                                </div>
                             </div>
                         {renderAgents()}
                             
-                </div>    
+                            </div>    
                 <div className={"right"}>
                     {/* <div style={{position:"relative"}}>
                         <div >
