@@ -664,4 +664,3 @@ export default function Live_chat() {
         </div>
     )
 }
-}
