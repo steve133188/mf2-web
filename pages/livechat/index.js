@@ -65,8 +65,11 @@ export default function Live_chat() {
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
-        setChatrooms(result.data.listMF2TCOCHATROOMS.items)
-        setFilteredData(result.data.listMF2TCOCHATROOMS.items)
+        const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
+        .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
+        console.log(myData,"afterSort")
+        setChatrooms(myData)
+        setFilteredData(myData)
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -469,6 +472,12 @@ export default function Live_chat() {
     //     advanceFilter
     //     console.log(filteredData,"filteredData")
     // },[filteredData])
+    const refreshChatrooms = async ()=>{
+        clear()
+        await getChatrooms()
+    }
+
+    
     return (
         <div className="live_chat_layout">
             <div className={"chat_list"}>
@@ -526,11 +535,11 @@ export default function Live_chat() {
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} />
                         </div>
-                    <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
+                    <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
+                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} refresh={refreshChatrooms} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
                         })}
-                    </div>
+                    </ul>
                 </div>
             </div>
             <div className={"chatroom"}>
