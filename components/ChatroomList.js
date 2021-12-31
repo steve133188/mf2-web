@@ -16,7 +16,7 @@ import {Skeleton} from "@mui/material";
         }
         async function toggleChatPin (e){
             SetIsLoading(true);
-            //e.preventDefault()
+            e.preventDefault()
             e.stopPropagation()
             let ispin_input={
                 room_id:chatroom.room_id,
@@ -25,8 +25,8 @@ import {Skeleton} from "@mui/material";
             }
             await togglePin(ispin_input)
             console.log(ispin_input)
-            setTimeout(async() => {
-                await refresh();
+            setTimeout(() => {
+                refresh();
                 SetIsLoading(false);
             }, 300);
         }

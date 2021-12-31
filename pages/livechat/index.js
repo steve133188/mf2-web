@@ -16,7 +16,7 @@ import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
-import { subscribeToChatroom} from "../../src/graphql/subscriptions"
+import { subscribeToChatroom,subscribeToNewMessage} from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
@@ -54,6 +54,8 @@ export default function Live_chat() {
     const [isEmojiOn,setEmojiOn] = useState(false)
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [subscribe,setSubscribe] = useState()
+    const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
+
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
         phone:"",
@@ -245,6 +247,8 @@ export default function Live_chat() {
         const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"image" , is_media:true}
         const res = await messageInstance.sendMessage(data)
         console.log("result : " ,res)
+        console.log("media_url : " ,media_url)
+
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -256,9 +260,10 @@ export default function Live_chat() {
         setIsExpand(false)
     }
 
-    const sendVoice = async () =>{
-        const data = {media_url:typedMsg.src , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true}
+    const sendVoice = async (media_url) =>{
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true}
         const res = await messageInstance.sendMessage(data)
+        console.log("result : " ,res)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -342,12 +347,22 @@ export default function Live_chat() {
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
+                    console.log("new message: " , newMessage)
                 }
             })
         setSubscribe(prev=> sub)
 
     }
 
+    const handleLivechat = async (chatroom)=>{
+    // const handleSubToNewMessage = async (recipient)=>{
+    //     if(subscribeToNewMessage)subscribeToNewMessage.unsubscribe()
+    //     const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{recipient:recipient} ))
+    //         .subscribe({
+    //             next: async (chatmessage)=>{
+    //                 const newMessage = chatmessage.value.data.subscribeToNewMessage
+
+                    
 
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
@@ -472,12 +487,23 @@ export default function Live_chat() {
     //     advanceFilter
     //     console.log(filteredData,"filteredData")
     // },[filteredData])
-    const refreshChatrooms = async ()=>{
+    const refreshChatrooms =  ()=>{
         clear()
-        await getChatrooms()
-    }
+        getChatrooms()
 
+    }
     
+    
+
+    //record and send audio    
+    const getAudioFile = async (audioFile) => {
+        console.log("calling getAudioFile")
+        if(audioFile){
+            var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
+        const result = await mediaInstance.putVoice(file)
+        await sendVoice(result)
+        console.log(result,"audioFile")}
+    }
     return (
         <div className="live_chat_layout">
             <div className={"chat_list"}>
@@ -537,7 +563,7 @@ export default function Live_chat() {
                         </div>
                     <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} refresh={refreshChatrooms} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
+                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} refresh={refreshChatrooms} className={+(index==0&& "active")} onClick={ ()=>{ handleChatRoom(d)}}/> )
                         })}
                     </ul>
                 </div>
@@ -591,7 +617,7 @@ export default function Live_chat() {
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
-                <VoiceRecorder/>
+                
                     <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
@@ -626,9 +652,9 @@ export default function Live_chat() {
                             <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={toggleM5}
                                     ><Mask_Group_5/></div>
                         </div>
-
+                        
                         <div className={"right_btn_gp"}>
-                            <div className={"voice_btn"}><VoiceMsg size={12}/></div>
+                        <VoiceRecorder returnVoiceMessage={getAudioFile}/>
                             <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                         </div>
                     </div>

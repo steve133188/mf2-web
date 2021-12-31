@@ -14,7 +14,6 @@ const captionJson = JSON.stringify(imageCaption)
 
 export default function MsgRow({msg ,...props}){
 
-    console.log(props.d,"checkuser user")
     const [isImageOpen,setImageOpen] = useState(false)
 
     const messageType = (msg)=>{

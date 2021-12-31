@@ -23,6 +23,7 @@ export const subscribeToChatroom = /* GraphQL */ `
     }
   }
 `;
+// global notification
 export const subscribeToNewMessage = /* GraphQL */ `
   subscription SubscribeToNewMessage($recipient: String!) {
     subscribeToNewMessage(recipient: $recipient) {
@@ -45,6 +46,7 @@ export const subscribeToNewMessage = /* GraphQL */ `
     }
   }
 `;
+// livechat notification
 export const subscribeToChatroomUpdate = /* GraphQL */ `
   subscription SubscribeToChatroomUpdate($user_id: Int!) {
     subscribeToChatroomUpdate(user_id: $user_id) {
