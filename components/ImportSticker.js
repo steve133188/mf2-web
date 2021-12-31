@@ -2,10 +2,10 @@ import React, {useContext, useMemo ,useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import { GlobalContext } from '../context/GlobalContext';
 import {NormalButton, NormalButton2, CancelButton} from './Button';
-import Papa from "papaparse";
-import axios from "axios";
 
-export function ImportDropzone({children,...props}) {
+export function ImportDropzone({children,title,...props}) {
+    const {mediaInstance,adminInstance ,user , messageInstance} = useContext(GlobalContext)
+    // const {  onClose } = props;
     const {
         getRootProps,
         getInputProps,
@@ -14,6 +14,10 @@ export function ImportDropzone({children,...props}) {
         isDragReject,
         acceptedFiles
     } = useDropzone();
+
+    const api = "localhost:3020/"
+
+    // const [file , setFile] = useState(null)
 
     const baseStyle = {
         flex: 1,
@@ -41,31 +45,6 @@ export function ImportDropzone({children,...props}) {
             {file.path} - {file.size} bytes
         </li>
     ));
-
-    const newUser = async (data) =>{
-        //new contact
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
-
-        const name =` ${data.first_name} ${data.last_name}`
-        const res = await axios.post(url , {...data,name} ,{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-        })
-            .then(response => {
-                if(response.status != 200){
-                    return "something went wrong"
-                }
-                console.log(response)
-            }).catch(err=>{
-                console.log(err)
-            })
-        console.log(res)
-
-        props.onClose();
-    }
-
     const handleUpload = async (e)=>{
         e.preventDefault()
         console.log(acceptedFiles,"accepted files~")
@@ -76,34 +55,10 @@ export function ImportDropzone({children,...props}) {
             console.log("no file here")
             return
         }
- 
-        console.log("importContact.js(line:56) - file : ",acceptedFiles[0].type)
-        Papa.parse(acceptedFiles[0], {
-            header: true,
-            complete: function(results) {
-                results.data.forEach(element => {
-                    console.log("importContact.js(line:61) element.tags", element.tags);
-                     
-                    const data = {
-                       
-                        first_name:element.first_name,
-                        last_name:element.last_name,
-                        phone:element.phone,
-                        email:element.email,
-                        birthday:element.birthday,
-                        gender:element.gender,
-                        address:element.address,
-                        country:element.country,
-                        tags:element.tags.split(","),
-                        agents:element.agents.split(",")
-                    }
-                    
-                    if(data.phone) newUser(data)
-            }
-            )
-        }})
         
+        const res  = await mediaInstance.putSticker(acceptedFiles[0])
 
+        console.log(acceptedFiles[0].arrayBuffer())
         acceptedFiles.pop()
 
         // axios.post("api/uploadfile", formData);
@@ -136,7 +91,7 @@ export function ImportDropzone({children,...props}) {
         <div className={"importContactCenter"}>
             <div className={"importContactContainer"}>
                 <div className="header">
-                    <span>Import Contacts</span>
+                    <span>{title}</span>
                     <div className="buttonGrp">
                         <button disabled={acceptedFiles.length==0?true:false}  onClick={handleUpload}>Confirm</button>
                         <span style={{marginLeft: "30px"}} onClick={props.onClose}><CancelButton>Cancel</CancelButton></span>

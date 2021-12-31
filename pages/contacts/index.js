@@ -29,6 +29,8 @@ import Mf_circle_btn from "../../components/mf_circle_btn";
 import Loading from "../../components/Loading";
 import CancelConfirmation from "../../components/CancelConfirmation"
 import DeletePad from "../../components/DeletePannel";
+import {CSVLink, CSVDownload} from 'react-csv';
+
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
@@ -159,6 +161,7 @@ export default function Contacts() {
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
+        console.log("contacts",data)
         setFilteredData(data)
     }
     useEffect(    
@@ -378,8 +381,8 @@ export default function Contacts() {
     };
     const closeConfitmation = () => {
         setIsOpenConfirmation(false)
-    };
-
+    };  
+   
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
@@ -387,7 +390,7 @@ export default function Contacts() {
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
-                <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                <ImportDropzone title={"Import Contacts"} onClose={toggleDropzone} accept={".csv,.xlsx,.xls"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
@@ -471,10 +474,13 @@ export default function Contacts() {
 
 
 
-                    <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
+                    <div className={"select_session_btn"}>
+                        <CSVLink data={contacts} filename={"contact.csv"} >{editSVG}</CSVLink>
+                    </div>
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
             >
+                
                 <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredUsers(new_data)
                 })}}>
