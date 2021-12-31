@@ -29,7 +29,7 @@ export default function Live_chat() {
             {id:1,name:"Greating",set:[{name:"Morning",content:"Good morning, have a nice day!"}]},
             {id:4,name:"Questioning",set:[{name:"First meet",content:"What can i help you?"},{name:"Follow up",content:"That's great. Let me introduce you our service."}]},
             {id:2,name:"Merry Chrismax",set:[{name:"Set1",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"},{name:"Set2",content:"Merry Christmas, and may all your Christmases be white!!!"}]},
-            {id:3,name:"Happy new year",set:[{name:"è³?è©?ä¸?",content:"??­è????°æ??!"},{name:"è³?è©?äº?",content:"å¿???³ä?????!"},{name:"è³?è©?ä¸?",content:"èº«é????¥åº·!"}]},
+            {id:3,name:"Happy new year",set:[{name:"è³€è©ä¸€",content:"æ­è³€æ–°æ˜¥!"},{name:"è³€è©äºŒ",content:"å¿ƒæƒ³äº‹æˆ!"},{name:"è³€è©ä¸‰",content:"èº«é«”å¥åº·!"}]},
            
         ]
 
@@ -664,4 +664,4 @@ export default function Live_chat() {
         </div>
     )
 }
-
+}
