@@ -29,6 +29,10 @@ import Mf_circle_btn from "../../components/mf_circle_btn";
 import Loading from "../../components/Loading";
 import CancelConfirmation from "../../components/CancelConfirmation"
 import DeletePad from "../../components/DeletePannel";
+import {CSVLink, CSVDownload} from 'react-csv';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
@@ -160,8 +164,8 @@ export default function Contacts() {
     const fetchContacts = async () =>{
         const data =await contactInstance.getAllContacts()
         setContacts(data)
-        setFilteredData( prev=>data)
-        console.log("customers : " ,filteredData)
+        console.log("contacts",data)
+        setFilteredData(data)
     }
     useEffect(async () => {
         if(user.token!=null) {
@@ -364,6 +368,7 @@ export default function Contacts() {
 
     };
     useEffect(() => {
+        NotificationManager.info('Info message');
         setTimeout(function() { //Start the timer
             setIsLoading(false)
         }.bind(this), 100)
@@ -378,16 +383,18 @@ export default function Contacts() {
     };
     const closeConfitmation = () => {
         setIsOpenConfirmation(false)
-    };
-
+    };  
+   
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
+                    <NotificationContainer/>
+
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
-                <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                <ImportDropzone title={"Import Contacts"} onClose={toggleDropzone} accept={".csv,.xlsx,.xls"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
@@ -471,10 +478,13 @@ export default function Contacts() {
 
 
 
-                    <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
+                    <div className={"select_session_btn"}>
+                        <CSVLink data={contacts} filename={"contact.csv"} >{editSVG}</CSVLink>
+                    </div>
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
             >
+                
                 <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredUsers(new_data)
                 })}}>

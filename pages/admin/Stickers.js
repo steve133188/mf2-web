@@ -224,7 +224,7 @@ export default function Stickers() {
                                                     <AddStickerSVG size={80}/>
                                                     <span style={{display: isShowDropzone ? "block" : "none"}}>
                                                         {/*DND Import Data start */}
-                                                        <ImportDropzone onClose={toggleDropzone} confirm={stickerHandle} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                                                        <ImportDropzone title={"Import Sticker"} onClose={toggleDropzone} confirm={stickerHandle} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                                                         {/*DND Import Data end */}
                                                     </span>
                                                     </div> 
