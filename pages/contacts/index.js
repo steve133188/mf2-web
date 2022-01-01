@@ -30,6 +30,8 @@ import Loading from "../../components/Loading";
 import CancelConfirmation from "../../components/CancelConfirmation"
 import DeletePad from "../../components/DeletePannel";
 import {CSVLink, CSVDownload} from 'react-csv';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
@@ -367,6 +369,7 @@ export default function Contacts() {
 
     };
     useEffect(() => {
+        NotificationManager.info('Info message');
         setTimeout(function() { //Start the timer
             setIsLoading(false)
         }.bind(this), 100)
@@ -385,6 +388,8 @@ export default function Contacts() {
    
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
+                    <NotificationContainer/>
+
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}

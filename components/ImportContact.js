@@ -4,7 +4,7 @@ import { GlobalContext } from '../context/GlobalContext';
 import {NormalButton, NormalButton2, CancelButton} from './Button';
 import Papa from "papaparse";
 import axios from "axios";
-
+import xlsx from "xlsx";
 export function ImportDropzone({children,...props}) {
     const {
         getRootProps,
@@ -66,29 +66,68 @@ export function ImportDropzone({children,...props}) {
         props.onClose();
     }
 
-    const handleUpload = async (e)=>{
-        e.preventDefault()
-        console.log(acceptedFiles,"accepted files~")
-        console.log("file",files[0])
+    // const handleUpload = async (e)=>{
+    //     e.preventDefault()
+    //     console.log(acceptedFiles,"accepted files~")
+    //     console.log("file",acceptedFiles[0])
 
 
-        if (acceptedFiles.length == 0 ){
-            console.log("no file here")
-            return
-        }
- 
-        console.log("importContact.js(line:56) - file : ",acceptedFiles[0].type)
-        Papa.parse(acceptedFiles[0], {
-            header: true,
-            complete: function(results) {
-                results.data.forEach(element => {
-                    console.log("importContact.js(line:61) element.tags", element.tags);
+    //     if (acceptedFiles.length == 0 ){
+    //         console.log("no file here")
+    //         return
+    //     }
+
+    //     console.log("importContact.js(line:56) - file : ",acceptedFiles[0].type)
+    //     Papa.parse(acceptedFiles[0], {
+    //         header: true,
+    //         complete: function(results) {
+    //             results.data.forEach(element => {
                      
+    //                 const data = {
+                       
+    //                     first_name:element.first_name,
+    //                     last_name:element.last_name,
+    //                     phone:element.phone,
+    //                     email:element.email,
+    //                     birthday:element.birthday,
+    //                     gender:element.gender,
+    //                     address:element.address,
+    //                     country:element.country,
+    //                     tags:element.tags.split(","),
+    //                     agents:element.agents.split(",")
+    //                 }
+                    
+    //                 if(data.phone) newUser(data)
+    //         }
+    //         )
+    //     }})
+        
+
+    //     acceptedFiles.pop()
+
+    //     // axios.post("api/uploadfile", formData);
+    // }
+    const readUploadFile = (e) => {
+        e.preventDefault();//application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+        if (e.target.files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+            console.log(e.target.files[0].type)
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const data = e.target.result;
+                const workbook = xlsx.read(data, { type: "array" });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const json = xlsx.utils.sheet_to_json(worksheet,{raw: false});
+
+                json.forEach(element => {
+
                     const data = {
                        
                         first_name:element.first_name,
                         last_name:element.last_name,
-                        phone:element.phone,
+                        phone:element.phone.toString(),
                         email:element.email,
                         birthday:element.birthday,
                         gender:element.gender,
@@ -97,17 +136,50 @@ export function ImportDropzone({children,...props}) {
                         tags:element.tags.split(","),
                         agents:element.agents.split(",")
                     }
-                    
+                   
+                    console.log(data,"-data");
+
                     if(data.phone) newUser(data)
             }
             )
-        }})
-        
+            };
+            reader.readAsArrayBuffer(e.target.files[0]);
+        }else if(e.target.files[0].type === "text/csv"){
 
-        acceptedFiles.pop()
+            Papa.parse(e.target.files[0], {
+                header: true,
+                complete: function(results) {
+                    results.data.forEach(element => {
+                        
 
-        // axios.post("api/uploadfile", formData);
+                        const data = {
+                           
+                            first_name:element.first_name,
+                            last_name:element.last_name,
+                            phone:element.phone,
+                            email:element.email,
+                            birthday:element.birthday,
+                            gender:element.gender,
+                            address:element.address,
+                            country:element.country,
+                            tags:element.tags.split(","),
+                            agents:element.agents.split(",")
+                        }
+                        
+                    console.log(data,"-data");
+                        
+                        if(data.phone) newUser(data)
+                }
+                )
+            }})
+        }else{
+            
+        }
     }
+
+//     [Log]  (2)
+// {first_name: "Timtttabv", last_name: "Test", phone: "85244444444", email: "aaaa@aaa.com", birthday: "15/12/2021", ¡K}
+// "-data"
 
     const activeStyle = {
         borderColor: '#2385FC'
@@ -138,12 +210,12 @@ export function ImportDropzone({children,...props}) {
                 <div className="header">
                     <span>Import Contacts</span>
                     <div className="buttonGrp">
-                        <button disabled={acceptedFiles.length==0?true:false}  onClick={handleUpload}>Confirm</button>
+                        <button disabled={acceptedFiles.length==0?true:false}  onClick={readUploadFile}>Confirm</button>
                         <span style={{marginLeft: "30px"}} onClick={props.onClose}><CancelButton>Cancel</CancelButton></span>
                     </div>
                 </div>
                 <div {...getRootProps({style})}>
-                    <input {...getInputProps()} />
+                    <input {...getInputProps()} onChange={readUploadFile} />
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="60" fill="#2198FA"
                          className="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                         <path
