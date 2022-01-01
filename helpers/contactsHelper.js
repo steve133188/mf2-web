@@ -16,13 +16,16 @@ export default function contactsFetcher(token){
     instance.fetcher= axios.create( {
         headers:{
             'Content-Type': 'application/json',
-            'Authorization':`Bearer ${instance.token}`
+            'Authorization':`Bearer ${instance.token}`,
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials' : true,
         },
         timeout:5000,
-        baseURL:"https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"},
+        baseURL:"https://46bgula199.execute-api.ap-southeast-1.amazonaws.com/prod"},
     )
      instance.getAllContacts = async ()=>{
-        return (await instance.fetcher.get("/")).data
+        return (await instance.fetcher.get("/customers")).data
     }
      instance.createContact = async (data)=>{
         return (await instance.fetcher.post("/",data)).statusText

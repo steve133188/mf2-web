@@ -60,12 +60,14 @@ export default function Contacts() {
     const [filteredChannel ,setFilteredChannel] =useState([])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
-    let result = currentContacts.map(d=>d.id)
+    const currentContacts=() => {
+        return filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
+    };
+    let result = currentContacts().map(d=>d.id)
     
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
-    const [deleteRolename,setDeleteRole] = useState("")
+    const [deleteRole,setDeleteRole] = useState("")
     
     
     const advanceFilter =()=>{
@@ -96,7 +98,6 @@ export default function Contacts() {
         console.log("channelFiltered:",channelFiltered)
 
         const teamFiltered = channelFiltered.filter(data=>{
-            console.log(selectedTeams,"teamteamteam ")
             if(!selectedTeams.id){
                 return data
             }
@@ -157,19 +158,18 @@ export default function Contacts() {
         setFilteredChannel(channels)
     }
     const fetchContacts = async () =>{
-        const data = await contactInstance.getAllContacts()
+        const data =await contactInstance.getAllContacts()
         setContacts(data)
-        setFilteredData(data)
+        setFilteredData( prev=>data)
+        console.log("customers : " ,filteredData)
     }
-    useEffect(    
-        
-        async () => {
+    useEffect(async () => {
         if(user.token!=null) {
             await fetchContacts()
             await getTags()
             await getUsers()
             await getTeams()
-            getChannels ()
+            await getChannels ()
         }
         setSelectedUsers([])
         setSelectedContacts([])
@@ -628,10 +628,10 @@ export default function Contacts() {
 
                                     <TableCell sx={{width:"165px",overflow:"hidden",textOverflow:"ellipsis"}} >
                                         <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} >
-                                            {data.agents!=null &&data.agents.map((agent , index)=>{
+                                            {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )
                                             })}

@@ -29,22 +29,30 @@ export const GlobalContextProvider = ({children}) =>{
 
     useEffect(()=>{
         setUser({
-            user:JSON.parse(window.localStorage.getItem("user")) || {},
+            user:window.localStorage.getItem("user") || {},
             token:window.localStorage.getItem("token") || null
         })
+        console.log(user)
     },[])
 
 
     const login = async (credentials)=>{
-        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/login"
-        const res = await axios.post(url , credentials)
+        const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
+        const res = await axios.post(url , credentials,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':'*',
+                'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                'Access-Control-Allow-Credentials' : true,
+
+            }})
             .then(response => {
                 if(response.status != 200){
                     return "something went wrong"
                 }
                 const { token, data } = response.data;
                 localStorage.setItem("token", token)
-                localStorage.setItem("user", JSON.stringify(data))
+                localStorage.setItem("user", data)
 
                 setErrors(null)
                 userInstance.token = user.token

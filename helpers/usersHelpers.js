@@ -7,12 +7,15 @@ export default function usersFetcher(token){
         timeout:5000,
         headers:{
             'Content-Type': 'application/json',
-            'Authorization':`Bearer ${instance.token}`
+            'Authorization':`Bearer ${instance.token}`,
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials' : true,
         },
-        baseURL:"https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
+        baseURL:"https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api"
     })
     instance.login =  async (credentials)=>{
-        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/login"
+        const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
         const res = await instance.fetcher.post(url , credentials)
             .then(response => {
                 if(response.status != 200){
@@ -28,14 +31,14 @@ export default function usersFetcher(token){
                 setErrors("Email or password incorrect")
             })
         setUser({
-            user: JSON.parse(localStorage.getItem("user")),
+            user: localStorage.getItem("user"),
             token:localStorage.getItem("token")
         });
         console.log(user)
         if(res.status == 200) router.push("/dashboard/livechat")
     }
     instance.getAllUser = async ()=>{
-        return (await instance.fetcher.get(`/`)).data
+        return (await instance.fetcher.get(`/users/all`)).data
     }
     instance.getUserByName = async (name)=>{
         return (await instance.fetcher.get(`/name/${name}`)).data
