@@ -34,7 +34,7 @@ import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 export default function Role() {
 
     const [roles, setRoles] = useState([]);
-    const {adminInstance , user} = useContext(GlobalContext)
+    const {adminInstance,roleInstance  , user} = useContext(GlobalContext)
 
     const [currentPage , setCurrentPage] = useState(1)
     const [filteredData , setFilteredData] = useState([])
@@ -54,7 +54,7 @@ export default function Role() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchRoles = async () =>{
-        const data = await adminInstance.getAllRoles()
+        const data = await roleInstance .getAllRoles()
         setRoles(data)
         console.log(data,"role~")
         setFilteredData(data)
@@ -91,6 +91,7 @@ export default function Role() {
         console.log(editRolename,"toggleEdit")
     }
     const toggleDelete = (name)=>{
+        console.log(name,"delete test name")
         setIsDelete(!isDelete)
         setDeleteRole(name)
     }
@@ -102,7 +103,8 @@ export default function Role() {
         setIsDelete(!isDelete)
     }
     const deleteRole = async (id)=>{
-        const res = await adminInstance.deleteRole(id)
+        console.log("confirm delet name",id)
+        const res = await roleInstance.deleteRole(id)
         console.log(res)
         await fetchRoles()
     }
@@ -204,7 +206,7 @@ export default function Role() {
                                         </div>
                                     </TableCell>
                                     <TableCell align="left">
-                                        <span >{data.name}</span>
+                                        <span >{data.role_name}</span>
                                     </TableCell>
 
                                     <TableCell align="left">
@@ -214,7 +216,7 @@ export default function Role() {
 
                                     <TableCell align="right">
                                        <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG /></span>
-                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.name)}><DeleteSVG /></span>
+                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.role_name)}><DeleteSVG /></span>
                                     </TableCell>
                                 </TableRow>
                             )

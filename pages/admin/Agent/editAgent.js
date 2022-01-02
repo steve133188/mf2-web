@@ -9,7 +9,7 @@ import FilterDropDown from "../../../components/broadcast/filterDropDown";
 
 export default function EditAgent(props){
     const router = useRouter()
-    const {user ,userInstance,orgInstance ,adminInstance,contactInstance} =useContext(GlobalContext)
+    const {user ,userInstance,orgInstance ,roleInstance,contactInstance} =useContext(GlobalContext)
     const [userCredential , setUserCredential] = useState({
         username:"",
         email:"",
@@ -17,7 +17,8 @@ export default function EditAgent(props){
         password:"",
         confirm_password:"",
         organization:'',
-        role:"",
+        role_name:"",
+        team_id:0,
         channels:"",
         authority:{},
         chatAccessRight:{whatsapp:false , WABA : false, messager:false , wechat:false }
@@ -37,11 +38,11 @@ export default function EditAgent(props){
             email:userCredential.email,
             phone:userCredential.phone,
             password:userCredential.password,
-            team_id:selectedTeam.id,
-            role:selectedRole.name
+            team_id:selectedTeam.org_id,
+            role_name:selectedRole.role_name
         }
         console.log("payload",data)
-        const res = await userInstance.updateUser(phone,data )
+        const res = await userInstance.updateUser(data )
         console.log("res :",res)
         if(res == 201) router.back()
     }
@@ -53,11 +54,11 @@ export default function EditAgent(props){
         // setRoles(data)
     }
     useEffect(async()=>{
-        setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,phone:agent.phone,role:agent.role})
+        setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,phone:agent.phone,role_name:agent.role_name,team_id:agent.team_id})
       
     },[agent])
     const fetchRoles = async () =>{
-        const data = await adminInstance.getAllRoles()
+        const data = await roleInstance.getAllRoles()
         setRoles(data)
         console.log(data)
     }
@@ -66,14 +67,15 @@ export default function EditAgent(props){
         setTeams(data)
         setFilteredTeams(data)
     }
-    const toggleSelectTeams = e => {
-        const { checked ,id} = e.target;
-        setSelectedTeams([...selectedTeams, id]);
-        if (!checked) {
-            setSelectedTeams(selectedTeams.filter(item => item !== id));
-        }
-        console.log(selectedTeams)
-    };
+    // const toggleSelectTeams = e => {
+    //     const { checked ,id} = e.target;
+    //     console.log(id)
+    //     setSelectedTeams([...selectedTeams, e.target]);
+    //     if (checked) {
+    //         setSelectedTeams(selectedTeams.filter(item => item !== id));
+    //     }
+    //     console.log(selectedTeams)
+    // };
     const handleChange=e=>{
         const {name , value} = e.target
         setUserCredential({
@@ -134,7 +136,7 @@ export default function EditAgent(props){
                         <MF_Select className={"select_input"} head={"Team"} top_head={selectedTeam.name?selectedTeam.name:"Team"}
                             customeDropdown={true}>
                         {teams.map((team)=>{
-                            return(<li id={team.name} key={team.id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
+                            return(<li id={team.org_id} key={team.org_id} onClick={ ()=>{setSelectedTeam(team)}}> {team.name}</li>)
                         })}
                     </MF_Select>
                     </div>
@@ -143,10 +145,10 @@ export default function EditAgent(props){
 
                 <div className="">
                     <span className={"select_input_label"}>Role</span>
-                    <MF_Select className={"select_input"} head={"Role"} top_head={selectedRole.name?selectedRole.name:"Role"}
+                    <MF_Select className={"select_input"} head={"Role"} top_head={selectedRole.role_name?selectedRole.role_name:"Role"}
                            customeDropdown={true}>
                     {roles.map((role)=>{
-                        return(<li id={role.name} key={role.id} onClick={ (e)=>{setSelectedRole(role);}}> {role.name}</li>)
+                        return(<li id={role.role_name} key={role.role_id} onClick={ (e)=>{setSelectedRole(role);}}> {role.role_name}</li>)
                     })}
                 </MF_Select>
                 </div>

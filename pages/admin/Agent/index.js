@@ -70,6 +70,7 @@ export default function Index() {
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
+        console.log(data,"teams info")
         setTeams(data)
     }
     useEffect(    async () => {
@@ -85,9 +86,10 @@ export default function Index() {
     },[selectedTeam]);
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        setSelectedUsers([...selectedUsers, id]);
+        console.log(id)
+        setSelectedUsers([...selectedUsers, parseInt(id)]);
         if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== id));
+            setSelectedUsers(selectedUsers.filter(item => item !==  parseInt(id)));
         }
     };
     const toggleSelectAll = e => {
@@ -110,10 +112,13 @@ export default function Index() {
         toggleEditProfile(selectedUsers[0])
 
     }
+    useEffect(()=>{
+        console.log(selectedUsers)
+    },[selectedUsers])
     const [deleteRolename,setDeleteRole] = useState("")
-    const toggleDelete = (name)=>{
+    const toggleDelete = (id)=>{
         setIsDelete(!isDelete)
-        setDeleteRole(name)
+        setDeleteRole(id)
     }
 
     const submitDelete = () =>{
@@ -121,8 +126,8 @@ export default function Index() {
         setIsDelete(!isDelete)
     }
     const deleteRole = async (id)=>{
-        const res = await userInstance.deleteUserByName(id)
-        console.log(res)
+        const res = await userInstance.deleteUserById (id)
+        console.log(res,"delete User")
         await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
@@ -147,7 +152,7 @@ export default function Index() {
                 <MF_Modal show={isDelete} toggle={toggleDelete}>
                 <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}> 
                         <div className={"modal_title"} style={{textAlign:"center"}}>
-                            <span>Delete agent role?</span>
+                            <span>Delete This {deleteRolename}?</span>
                         </div> 
                         <div className={"btn_row"}>
                             <button onClick={submitDelete }>Confirm</button>
@@ -199,7 +204,7 @@ export default function Index() {
                             await fetchUsers()
                         }}>All</li>
                         {teams.map((team)=>{
-                            return(<li id={team.name} key={team.id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
+                            return(<li id={team.name} key={team.org_id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
                         })}
                     </MF_Select>
                 </SelectSession>
@@ -254,7 +259,7 @@ export default function Index() {
                                             <span >{data.username}</span>
                                         </TableCell>
                                         <TableCell align="left">
-                                            {data.role}
+                                            {data.role_name}
                                         </TableCell>
                                         <TableCell align="left">
                                             {data.email}
@@ -269,7 +274,7 @@ export default function Index() {
 
                                         <TableCell align="right">
                                        <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.phone)}><EditSVG /></span>
-                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.username)}><DeleteSVG /></span>
+                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.user_id)}><DeleteSVG /></span>
                                     </TableCell>
                                     </TableRow>
                                 )

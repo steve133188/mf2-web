@@ -37,6 +37,29 @@ export default function usersFetcher(token){
         console.log(user)
         if(res.status == 200) router.push("/dashboard/livechat")
     }
+    instance.createUser = async (credentials)=>{
+        const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users"
+        const res = await instance.fetcher.post(url , credentials)
+        .then(response => {
+            if(response.status != 200){
+                return "something went wrong"
+            }
+            // const { token, data } = response.data;
+            // localStorage.setItem("token", token)
+            // localStorage.setItem("user", JSON.stringify(data))
+            if(response.status == 200)return 200
+            if(response.status == 201)return 201
+
+        }).catch(err=>{
+            console.log(err)
+
+        })
+
+       
+        if(res == 200)return 200
+        if(res == 201)return 201
+    }
+
     instance.getAllUser = async ()=>{
         return (await instance.fetcher.get(`/users/all`)).data
     }
@@ -69,9 +92,9 @@ export default function usersFetcher(token){
         return (await instance.fetcher.get(`/users/team/${team_id}`)).data
     }
 
-    instance.createUser = async (data)=>{
-        return (await instance.fetcher.post(`/user` ,data)).status
-    }
+    // instance.createUser = async (data)=>{
+    //     return (await instance.fetcher.post(`/user` ,data)).status
+    // }
 
 
     instance.createManyUser = async (data)=>{
@@ -108,7 +131,7 @@ export default function usersFetcher(token){
         return (await instance.fetcher.put(`/user/del-channels` , {user_id , channels} )).statusText
     }
     instance.deleteUserById = async(id) =>{
-        return (await instance.fetcher.delete(`/name/${id}`  )).statusText
+        return (await instance.fetcher.delete(`/user/${id}`  )).statusText
     }
 
     instance.changeUserPassword = async (email , old_password, new_password) =>{

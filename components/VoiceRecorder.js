@@ -65,16 +65,6 @@ export default function Recorder({ returnVoiceMessage }) {
 
 
     return (
-<<<<<<< HEAD
-          <div className={isRecording?"":("mf_bg_light_grey") } style={{padding:"0 3px"}} onMouseDown={startRecording} onMouseUp={stopRecording}>
-            {/* start recording */}
-            <VoiceMsg size={12}/>
-          </div>
-        // <div className="App">
-        //   {/* <audio src={audioURL} controls /> */}
-        // </div>
-      );
-=======
         <>
             {/* <audio src={audioFile} controls /> */}
             <div className={"voice_btn"} onMouseDown={startRecording} style={{ backgroundColor: `${buttonColor}` }} onMouseUp={stopRecording}>
@@ -84,6 +74,5 @@ export default function Recorder({ returnVoiceMessage }) {
 
 
     );
->>>>>>> 29d6bc01f85541c504edbf1a1c49182dee0622ef
 
 }

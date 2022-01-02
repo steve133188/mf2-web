@@ -5,17 +5,18 @@ import {GlobalContext} from "../../../context/GlobalContext";
 import {useRouter} from "next/router";
 import MF_Select from "../../../components/MF_Select";
 import * as React from "react";
+import Link from 'next/link';
 
 export default function AddAgent(){
     const router = useRouter()
-    const {user ,userInstance,orgInstance ,adminInstance} =useContext(GlobalContext)
+    const {user ,userInstance,orgInstance ,roleInstance} =useContext(GlobalContext)
     const [userCredential , setUserCredential] = useState({
         username:"",
         email:"",
         phone:"",
         password:"",
         organization:'',
-        role:"",
+        role_name:"",
         channels:"",
         authority:{},
         chatAccessRight:{whatsapp:false , WABA : false, messager:false , wechat:false }
@@ -30,19 +31,21 @@ export default function AddAgent(){
         const data = {
             username:userCredential.username,
             email:userCredential.email,
-            phone:userCredential.phone,
+            phone:parseInt(userCredential.phone),
             password:userCredential.password,
-            team_id:selectedTeam.id,
-            role:selectedRole.name
+            team_id:selectedTeam.org_id,
+            role_name:selectedRole.role_name,
         }
         console.log("payload",data)
         const res = await userInstance.createUser(data )
         console.log("res :",res)
         if(res == 201) router.back()
+        if(res == 200) router.back()
         setSubmitCheck(!submitCheck )
     }
     const fetchRoles = async () =>{
-        const data = await adminInstance.getAllRoles()
+        const data = await roleInstance.getAllRoles()
+        console.log(data,"role detial")
         setRoles(data)
     }
     const getTeams = async ()=>{
@@ -105,16 +108,16 @@ export default function AddAgent(){
                     <MF_Select className={"select_input"} head={"Team"} top_head={selectedTeam.name?selectedTeam.name:"Team"}
                            customeDropdown={true}>
                     {teams.map((team)=>{
-                        return(<li id={team.name} key={team.id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
+                        return(<li id={team.name} key={team.org_id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
                     })}
                 </MF_Select>
                 </div>
                 <div className={"add_user_select"}>
                     <span className={"select_input_label"}>Role</span>
-                    <MF_Select className={"select_input"} head={"Role"} top_head={selectedRole.name?selectedRole.name:"Role"}
+                    <MF_Select className={"select_input"} head={"Role"} top_head={selectedRole.role_name?selectedRole.role_name:"Role"}
                            customeDropdown={true}>
                     {roles.map((role)=>{
-                        return(<li id={role.name} key={role.id} onClick={ (e)=>{setSelectedRole(role);}}> {role.name}</li>)
+                        return(<li id={role.role_name} key={role.role_id} onClick={ (e)=>{setSelectedRole(role);}}> {role.role_name}</li>)
                     })}
                 </MF_Select>
                 </div>
@@ -129,7 +132,7 @@ export default function AddAgent(){
                             <div className={"access_option"}>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="whatsapp" value={userCredential.chatAccessRight.whatsapp} checked={userCredential.chatAccessRight.whatsapp}/>
+                                        <input type="checkbox" name="whatsapp" value={userCredential.chatAccessRight.whatsapp} checked={userCredential.chatAccessRight.whatsapp} onChange={()=>{}}/>
                                     </label>
                                 </div>
                                 <span>All Chats</span>
@@ -137,7 +140,7 @@ export default function AddAgent(){
                             <div className={"access_option"}>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="whatsapp" value={userCredential.chatAccessRight.whatsapp} checked={!userCredential.chatAccessRight.whatsapp}/>
+                                        <input type="checkbox" name="whatsapp" value={userCredential.chatAccessRight.whatsapp} checked={!userCredential.chatAccessRight.whatsapp} onChange={()=>{}}/>
                                     </label>
                                 </div>
                                 <span>Assigned</span>
@@ -150,7 +153,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="WABA" value={userCredential.chatAccessRight.WABA} checked={userCredential.chatAccessRight.WABA}/>
+                                            <input type="checkbox" name="WABA" value={userCredential.chatAccessRight.WABA} checked={userCredential.chatAccessRight.WABA} onChange={()=>{}}/>
                                         </label>
                                     </div>
                                     <span>All Chats</span>
@@ -158,7 +161,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="WABA" value={userCredential.chatAccessRight.WABA} checked={!userCredential.chatAccessRight.WABA}/>
+                                            <input type="checkbox" name="WABA" value={userCredential.chatAccessRight.WABA} checked={!userCredential.chatAccessRight.WABA} onChange={()=>{}}/>
                                         </label>
                                     </div>
                                     <span>Assigned</span>
@@ -171,7 +174,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="messager" value={userCredential.chatAccessRight.messager} checked={userCredential.chatAccessRight.messager}/>
+                                            <input type="checkbox" name="messager" value={userCredential.chatAccessRight.messager} checked={userCredential.chatAccessRight.messager} onChange={()=>{}}/>
                                         </label>
                                     </div>
                                     <span>All Chats</span>
@@ -179,7 +182,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="messager" value={userCredential.chatAccessRight.messager}  checked={!userCredential.chatAccessRight.messager}/>
+                                            <input type="checkbox" name="messager" value={userCredential.chatAccessRight.messager}  checked={!userCredential.chatAccessRight.messager} onChange={()=>{}}/>
                                         </label>
                                     </div>
                                     <span>Assigned</span>
@@ -192,7 +195,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="wechat" value={userCredential.chatAccessRight.wechat}  checked={userCredential.chatAccessRight.wechat}/>
+                                            <input type="checkbox" name="wechat" value={userCredential.chatAccessRight.wechat}  checked={userCredential.chatAccessRight.wechat} onChange={()=>{}}/>
                                         </label>
                                     </div>
                                     <span>All Chats</span>
@@ -200,7 +203,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" value={userCredential.chatAccessRight.wechat} checked={!userCredential.chatAccessRight.wechat} name="wechat" />
+                                            <input type="checkbox" value={userCredential.chatAccessRight.wechat} checked={!userCredential.chatAccessRight.wechat} name="wechat" onChange={()=>{}} />
                                         </label>
                                     </div>
                                     <span>Assigned</span>
@@ -211,7 +214,7 @@ export default function AddAgent(){
                 </div>
             </div>
             <div className={"submit_row"}>
-                <button  onClick={async ()=> {
+            <button  onClick={async ()=> {
                     await submit()
                 }} className={"save_btn"}>Create</button>
                 <button className={"cancel_btn"} onClick={()=>{router.back()}}>Cancel</button>
