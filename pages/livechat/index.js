@@ -146,16 +146,19 @@ export default function Live_chat() {
 
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
+        console.log("AGENTs live chat",data)
         setUsers(data)
         setFilteredUsers(data)
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
+        console.log("tEAM live chat",data)
         setTeams(data)
     }
 
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
+        console.log("tags live chat",data)
         setTags(data)
         setFilteredTags(data)
 

@@ -16,7 +16,7 @@ export default function ChatlistFilter( {...props}){
     const channelData = [
         // {name:"All Channel",value:"All",id:0},
                 {name:"WhastApp",value:"whatsapp"},
-                {name:"WhatsApp Business",value:"whatsappB"},
+                {name:"WhatsApp Business",value:"WABA"},
                 {name:"Messager",value:"messager"},
                 {name:"WeChat",value:"wechat"},];
 
@@ -237,10 +237,10 @@ export default function ChatlistFilter( {...props}){
 
 
                             {filteredTags.map((tag)=>{
-                            return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>
+                            return(<li className={"channelListitem"}  key={tag.tag_id}><Pill key={tag.tag_id} size="30px" color="vip">{tag.tag_name}</Pill>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} onChange={()=>{}}/>
+                                        <input type="checkbox" id={tag.tag_name} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} onChange={()=>{}}/>
                                     </label> </div></li>)
                         })}
 

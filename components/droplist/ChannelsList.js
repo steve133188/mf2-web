@@ -5,7 +5,7 @@ import ChannelListItem from "../livechat/serach_filter/filter.js/channelListItem
 export default function ChannelsDropList({toggleChannels,toggleAll}){
     const channelList = [
         {name:"WhatsApp",channelID:"whatsapp",value:"whatsapp",connectState:false,token:""},
-        {name:"WhatsApp Business API",channelID:"whatsappB",value:"whatsappB",connectState:false,token:""},
+        {name:"WhatsApp Business API",channelID:"whatsappB",value:"WABA",connectState:false,token:""},
         {name:"WeChat", channelID:"wechat", value:"wechat", connectState:false,token:""},
         {name:"Facebook Messager", channelID:"messager",value:"messager",connectState:false,token:""},
         {name:"Line", channelID:"line",value:"line",connectState:false,token:""},

@@ -37,7 +37,7 @@ export default function Agents() {
     let result = currentContacts.map(d=>d.id)
 
 
-    const default_cols = ["Name","Role","Status","Total Contacts","Newly added Contacts","Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts","Unhabdeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
+    const default_cols = ["Name","Role","Status","All Contacts","Newly Added Contacts","Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts","Unhabdeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
     useEffect(()=>{
         setFilteredData([{name:"",role:"2"},{}])
     },[])

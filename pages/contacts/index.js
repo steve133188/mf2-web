@@ -112,7 +112,7 @@ export default function Contacts() {
     const channels = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
                 {name:"WhastApp",value:"whatsapp",channelID:"whatsapp",id:1},
-                {name:"WhatsApp Business",value:"whatsappB",channelID:"whatsappB",id:2},
+                {name:"WhatsApp Business",value:"WABA",channelID:"whatsappB",id:2},
                 {name:"Messager",value:"messager",channelID:"messager",id:3},
                 {name:"WeChat",value:"wechat",channelID:"wechat",id:4},];
     const renderUsers = ()=>{
