@@ -34,7 +34,7 @@ import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 export default function Role() {
 
     const [roles, setRoles] = useState([]);
-    const {adminInstance,roleInstance  , user} = useContext(GlobalContext)
+    const { user, roleInstance} = useContext(GlobalContext)
 
     const [currentPage , setCurrentPage] = useState(1)
     const [filteredData , setFilteredData] = useState([])
@@ -54,7 +54,7 @@ export default function Role() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchRoles = async () =>{
-        const data = await roleInstance .getAllRoles()
+        const data = await roleInstance.getAllRoles()
         setRoles(data)
         console.log(data,"role~")
         setFilteredData(data)
@@ -103,7 +103,6 @@ export default function Role() {
         setIsDelete(!isDelete)
     }
     const deleteRole = async (id)=>{
-        console.log("confirm delet name",id)
         const res = await roleInstance.deleteRole(id)
         console.log(res)
         await fetchRoles()
@@ -190,7 +189,7 @@ export default function Role() {
                                     hover
                                     role="checkbox"
                                     name={index}
-                                    checked={selectedContacts.includes(data.id)}
+                                    checked={selectedContacts.includes(data.role_id)}
                                     onClick={isSelectRow?toggleSelect:null}
                                 >
                                     <TableCell style={{
@@ -200,7 +199,7 @@ export default function Role() {
                                     }}>
                                         <div className="newCheckboxContainer">
                                             {isSelectRow ? <label className="newCheckboxLabel">
-                                                <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
+                                                <input type="checkbox" id={data.role_id} name="checkbox" checked={selectedContacts.includes(data.role_id)} onClick={isSelectRow?toggleSelect:null} />
                                             </label> : null}
 
                                         </div>

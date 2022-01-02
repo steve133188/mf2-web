@@ -18,7 +18,7 @@ import { ImportDropzone } from "../../components/ImportContact";
 
 export default function Stickers() {
 
-    const {mediaInstance, userInstance ,user , } = useContext(GlobalContext)
+    const {mediaInstance, userInstance ,user , roleInstance} = useContext(GlobalContext)
 
     const [roles, setRoles] = useState([]);
     const [stickers, setStickerList] = useState([]);
@@ -74,7 +74,7 @@ export default function Stickers() {
         },[isLoading])
 
     // const fetchRoles = async () =>{
-        //     const data = await adminInstance.getAllRoles()
+        //     const data = await roleInstance.getAllRoles()
         //     console.log("getAllRoles",data)
         //     setRoles(data)
         //     setFilteredData(data)

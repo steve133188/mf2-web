@@ -72,8 +72,8 @@ export default function CreateRole({show, toggle ,reload}){
 
         
     })
-    const { roleInstance,orgInstance, user} = useContext(GlobalContext)
 
+    const {contactInstance , userInstance ,adminInstance ,roleInstance, orgInstance, user} = useContext(GlobalContext)
     const handleSelect =e=>{
 
         const {name ,value ,checked} = e.target
@@ -95,8 +95,8 @@ export default function CreateRole({show, toggle ,reload}){
         console.log(roleName)
     }
     const submit = async ()=>{
-        console.log({role_name:roleName,authority: {...authority}})
-        const res = await roleInstance.createRole({role_name:roleName,authority: authority})
+        console.log({name:roleName,auth: {...authority}})
+        const res = await roleInstance.createRole({role_name:roleName,auth: authority})
         console.log(res)
         reload()
         toggle()
