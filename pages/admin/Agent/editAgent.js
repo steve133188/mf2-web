@@ -157,6 +157,7 @@ export default function EditAgent(props){
                     <span className={"session_label"}>Chat Access Right</span>
                     <div className={"chat_access_right_form"}>
                         <div className={"chat_access_right_form_row"}>
+                        <img src={`/channel_SVG/whatsapp.svg`} ></img>
                             <div className={"channel_name"}>Whatsapp</div>
                             <div className={"access_column"}>
                             <div className={"access_option"}>
@@ -178,6 +179,8 @@ export default function EditAgent(props){
                             </div>
                         </div>
                         <div className={"chat_access_right_form_row"}>
+
+                        <img src={`/channel_SVG/whatsappb.svg`} ></img>
                             <div className={"channel_name"}>Whatsapp Business API</div>
                             <div className={"access_column"}>
                                 <div className={"access_option"}>
@@ -199,6 +202,8 @@ export default function EditAgent(props){
                             </div>
                         </div>
                         <div className={"chat_access_right_form_row"}>
+
+                        <img src={`/channel_SVG/messager.svg`} ></img>
                             <div className={"channel_name"}>Messager</div>
                             <div className={"access_column"}>
                                 <div className={"access_option"}>
@@ -220,6 +225,8 @@ export default function EditAgent(props){
                             </div>
                         </div>
                         <div className={"chat_access_right_form_row"}>
+
+                        <img src={`/channel_SVG/wechat.svg`} ></img>
                             <div className={"channel_name"}>WeChat</div>
                             <div className={"access_column"}>
                                 <div className={"access_option"}>

@@ -582,7 +582,7 @@ export default function Live_chat() {
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
-                <VoiceRecorder/>
+     
                     <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
@@ -619,7 +619,7 @@ export default function Live_chat() {
                         </div>
 
                         <div className={"right_btn_gp"}>
-                            <div className={"voice_btn"}><VoiceMsg size={12}/></div>
+                            <div className={"voice_btn"}>           <VoiceRecorder/></div>
                             <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                         </div>
                     </div>

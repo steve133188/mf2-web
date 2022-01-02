@@ -15,7 +15,7 @@ export default function ChannelsDropList({toggleChannels,toggleAll}){
         // {name:"Telegram", channelID:"",connectState:false,token:""},
     ]
 
-    const [open,setOpen] =useState(false);
+    const [open,setOpen] =useState(true);
 
     const [selectedChannels ,setSelectedChannels] =useState([]);
     const toggleSelectChannels = e => {
@@ -37,7 +37,7 @@ export default function ChannelsDropList({toggleChannels,toggleAll}){
     };
     return(
         <div className={"filter_box_channel"}  >
-               <div onClick={()=>{setOpen(!open)}}> Select</div>
+               {/* <div onClick={()=>{setOpen(!open)}}> Select</div> */}
                 <br/>
             <div className={"channelList"} style={open?{display:"block"}:{display:"none"}} >
                   <ChannelListItem name={"All Channels"} value={"all"} id={"all"} key={"all"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />

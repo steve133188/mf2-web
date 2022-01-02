@@ -1,4 +1,5 @@
 import {useState , useEffect} from "react";
+import { VoiceMsg } from "../public/livechat/MF_LiveChat_Landing/chat_svg";
 
 const useRecorder = () => {
     const [audioURL, setAudioURL] = useState("");
@@ -48,12 +49,13 @@ async function requestRecorder() {
 export default function Recorder(){
     let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
     return (
-        <div className="App">
-          <audio src={audioURL} controls />
-          <button className={isRecording&&("mf_bg_light_grey")} onMouseDown={startRecording} onMouseUp={stopRecording}>
-            start recording
-          </button>
-        </div>
+          <div className={isRecording?"":("mf_bg_light_grey") } style={{padding:"0 3px"}} onMouseDown={startRecording} onMouseUp={stopRecording}>
+            {/* start recording */}
+            <VoiceMsg size={12}/>
+          </div>
+        // <div className="App">
+        //   {/* <audio src={audioURL} controls /> */}
+        // </div>
       );
 
 }
