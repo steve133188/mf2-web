@@ -28,7 +28,7 @@ export default function contactsFetcher(token){
         return (await instance.fetcher.get("/customers")).data
     }
      instance.createContact = async (data)=>{
-        return (await instance.fetcher.post("/",data)).statusText
+        return (await instance.fetcher.post("/customer",data)).statusText
     }
 
      instance.getContactsByUsers = async (data)=>{

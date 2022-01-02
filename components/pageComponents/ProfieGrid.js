@@ -14,7 +14,7 @@ export default function ProfileGrid({data}){
     const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
     const [notes,setNotes] = useState([])
     const {contactInstance } = useContext(GlobalContext)
-   
+
     const [writenote,setWritenote] = useState("")
     const [useContact , setUseContact] = useState()
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
@@ -42,7 +42,6 @@ export default function ProfileGrid({data}){
     const toggleChat = ()=>{
         const n = router.pathname
         return n.includes("/livechat")
-        
     }
     const [log , setLog]  = useState([])
     useEffect(()=>{
@@ -56,18 +55,18 @@ export default function ProfileGrid({data}){
             <span className={"dot"} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} >. . .</span>
             <div className={"ava_block"} style={{margin:"30px 0"}}>
                 <Avatar className={"ava"} src={data.img_url} alt="profile pic"/>
-                <span className={"title"}>{data.name}</span>
-                <Link href="/livechat" id={data.id}><button className={"chat_btn"} onClick={toggleChat}>chat</button></Link>
+                <span className={"title"}>{data.first_name + " " + data.last_name}</span>
+                <Link href="/livechat" id={data.customer_id}><button className={"chat_btn"} onClick={toggleChat}>chat</button></Link>
             </div>
             <div className="info_box">
-                
+
             <div className={"info_row"}>
                 <span className={"info_label"}>CustomerID</span>
-                <span className={"info_content"}>{data.id}</span>
+                <span className={"info_content"}>{data.customer_id}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</span>
+                <span className={"info_content"}>{`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
@@ -105,7 +104,7 @@ export default function ProfileGrid({data}){
                                 {data.agents!=null &&data.agents.map((agent , index)=>{
                                     return(
                                         <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  style={{margin:"0 3px"}}sx={{width:35 , height:35 ,fontSize:18}} alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  style={{margin:"0 3px"}}sx={{width:35 , height:35 ,fontSize:18}} alt={agent}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
                                     )
                                 })}
@@ -114,7 +113,7 @@ export default function ProfileGrid({data}){
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Team</span></div>
-                        <div className={"session_content"}>{data.team?data.team:"Not yet assigned."}</div>
+                        <div className={"session_content"}>{data.team?data.team.org_name:"Not yet assigned."}</div>
                     </div>
                 </div>
                 <div className={"block_session grid_box block"}>
@@ -122,15 +121,17 @@ export default function ProfileGrid({data}){
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
                             { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
-                                return(<div><img key={index} width="24px" height="24px"   style={{ margin:"15px 30px"}}   src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
-                            })}<div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px"  style={{ margin:"15px 30px"}}  src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</div>
+                                return(<div className={'channel_row'} key={index}><div className={"channel_row_lf"}><img key={index} width="40px" height="40px"   style={{ margin:"15px 30px"}}   src={`/channel_SVG/${chan}.svg`} alt=""/>{data.channels}</div><div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >{`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}</div>
+                                </div>)
+                            })}
+                            {/*<div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px"  style={{ margin:"15px 30px"}}  src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}</div>*/}
                         </div>
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Tags</span></div>
                         <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
                             {data.tags.map((tag , index)=>{
-                                return( <Pill key={index} color="lightBlue">{tag}</Pill>)
+                                return( <Pill key={index} color="lightBlue">{tag.tag_name}</Pill>)
                             })}
                         </div>
                     </div>
@@ -139,7 +140,7 @@ export default function ProfileGrid({data}){
             <div className={"log_input half_session grid_box"}>
                 <div className={"block_session"} style={{justifyContent: 'space-between'}}>
                     <div className={"top_row"}><span className={"title"}>Activity Log</span></div>
-            
+
                     <div className={'activity_log_box'}>
                         {/* <div className={"notesVolumn"}>Note : {notes.length}</div> */}
                             {notes.map((note , index)=>{
@@ -162,9 +163,9 @@ export default function ProfileGrid({data}){
                                                 <div className={"bottom_box"}>
                                             </div>
                                         </div>)
-                            })} 
+                            })}
                     </div>
-                    <div className={"message_pad_write"}>    
+                    <div className={"message_pad_write"}>
                         <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Start typing to log activities..."}></input>
                         <div className={"log_button"} onClick={()=>{setWritenote(notes.push({id:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>
                             Log

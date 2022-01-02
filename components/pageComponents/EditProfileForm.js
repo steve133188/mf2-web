@@ -21,11 +21,11 @@ export default function EditProfileForm({data , toggle}){
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
-    const {userInstance ,adminInstance, user} = useContext(GlobalContext)
+    const {userInstance ,tagInstance, user} = useContext(GlobalContext)
 
-    
+
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         setFilteredTags(data)
 
@@ -41,23 +41,23 @@ export default function EditProfileForm({data , toggle}){
             await getTags()
             await getUsers()
             if(editContact.agents)setSelectedUsers(editContact.agents)
-            setSelectedTags(editContact.tags)
+            if(editContact.tags)setSelectedTags(editContact.tags)
         }
 
     },[])
-    const toggleSelectTags = e => {
+    const toggleSelectTags = (e , data)  => {
         const { checked ,id} = e.target;
-        setSelectedTags([...selectedTags, id]);
+        setSelectedTags(selectedTags=>[...selectedTags, data]);
         if (!checked) {
-            setSelectedTags(selectedTags.filter(item => item !== id));
+            setSelectedTags(selectedTags.filter(item => item !== data));
         }
         console.log(selectedTags)
     };
-    const toggleSelectUsers = e => {
+    const toggleSelectUsers = (e , data)  => {
         const { checked ,id} = e.target;
-        setSelectedUsers([...selectedUsers, id]);
+        setSelectedUsers([...selectedUsers, data]);
         if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== id));
+            setSelectedUsers(selectedUsers.filter(item => item !== data));
         }
         console.log(selectedUsers)
     };
@@ -122,7 +122,7 @@ export default function EditProfileForm({data , toggle}){
     return (
         <div className={"addContactSession"} style={{backgroundColor:'white'}}>
             <div className="addContactSession_info_ss addContactSession_ss">
-                <div className={"addContactSession_info_ss "}> 
+                <div className={"addContactSession_info_ss "}>
                     <div className="ss_row addContactSession_title">
                         Edit Contact
                     </div>
@@ -138,12 +138,12 @@ export default function EditProfileForm({data , toggle}){
                     <div className={"ss_row"}>
                         <MF_Input title="Birthday" type={"date"} name={"birthday"} value={editContact.birthday} onChange={handleChange} placeholder={"dd/mm/yyyy"}/>
                         <MF_Input title="Gender" name={"gender"} value={editContact.gender} onChange={handleChange} placeholder={"M or F"}/>
-                
+
                     </div>
                     <span className="longInput"><MF_Input title="Address" name={"address"} value={editContact.address} onChange={handleChange}/></span>
                     <MF_Input title="Country" name={"country"} value={editContact.country} onChange={handleChange} />
-                </div>  
-                
+                </div>
+
                 <div className={"ss_row submit_row"}>
                     <button onClick={handleSubmit}>Save</button>
                     <Link href="/contacts"><button className={"mf_bg_light_grey mf_color_text"} onClick={cancel}>Cancel</button></Link>
@@ -156,7 +156,7 @@ export default function EditProfileForm({data , toggle}){
                     <p>Tags</p>
                     <div className={"tagsGroup"} style={{width:"100%",height:"30px"}}>
                         {selectedTags!=-1&&selectedTags.map((tag)=>{
-                            return<Pill key={tag} color="vip">{tag}</Pill>
+                            return<Pill key={tag} color="vip">{tag.tag_name}</Pill>
                         })}
 
                     </div>
@@ -164,10 +164,10 @@ export default function EditProfileForm({data , toggle}){
                             setFilteredTags(new_data)
                         })}}>
                             {filteredTags.map((tag)=>{
-                                return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                                return(<li key={tag.tag_id}><Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag)} onClick={(e)=>toggleSelectTags(e , tag)} />
                                         </label> </div></li>)
                             })}
                         </Mf_circle_btn>
@@ -176,11 +176,10 @@ export default function EditProfileForm({data , toggle}){
                     <p>Assignee</p>
                     <div className={"tagsGroup"}>
                         <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} >
-                            {selectedUsers &&selectedUsers.map((agent , index)=>{
+                            {selectedUsers!=-1 &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.substring(0,2).toUpperCase()}</Avatar>
-
+                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username&&agent.username.substring(0,2).toUpperCase()}</Avatar>
                                     </Tooltip>
                                 )
                             })}
@@ -199,7 +198,7 @@ export default function EditProfileForm({data , toggle}){
                                         <div className={"name"}>{user.username}</div>
                                     </div>
                                     <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={selectedUsers.includes(user)} onClick={(e)=>toggleSelectUsers(e, user)} />
                                         </label>
                                     </div>
                                 </li>)

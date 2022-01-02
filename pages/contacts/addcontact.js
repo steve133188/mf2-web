@@ -37,12 +37,12 @@ export default function AddContact() {
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
-    const {userInstance ,adminInstance, user} = useContext(GlobalContext)
+    const {userInstance ,tagInstance, user , contactInstance} = useContext(GlobalContext)
 
     const router = useRouter()
 
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         setFilteredTags(data)
 
@@ -55,23 +55,23 @@ export default function AddContact() {
 
     useEffect(async ()=>{
         if(user.token){
-            getTags()
-            getUsers()
+           await getTags()
+            await getUsers()
         }
     },[])
-    const toggleSelectTags = e => {
+    const toggleSelectTags = (e , data)  => {
         const { checked ,id} = e.target;
-        setSelectedTags([...selectedTags, id]);
+        setSelectedTags(selectedTags=>[...selectedTags, data]);
         if (!checked) {
-            setSelectedTags(selectedTags.filter(item => item !== id));
+            setSelectedTags(selectedTags.filter(item => item !== data));
         }
         console.log(selectedTags)
     };
-    const toggleSelectUsers = e => {
+    const toggleSelectUsers = (e , data)  => {
         const { checked ,id} = e.target;
-        setSelectedUsers([...selectedUsers, id]);
+        setSelectedUsers([...selectedUsers, data]);
         if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== id));
+            setSelectedUsers(selectedUsers.filter(item => item !== data));
         }
         console.log(selectedUsers)
     };
@@ -110,25 +110,15 @@ export default function AddContact() {
     }
     async function handleSubmit (e){
         e.preventDefault()
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
         const name =` ${newContact.first_name} ${newContact.last_name}`
-        const res = await axios.post(url , {...newContact,name , tags:selectedTags , agents:selectedUsers} ,{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-        })
-            .then(response => {
-                if(response.status != 200){
-                    return "something went wrong"
-                }
-                console.log(response)
-            }).catch(err=>{
-                console.log(err)
-            })
+        const phone = parseInt(newContact.phone)
+        const tags_id = selectedTags.map(t=>t.tag_id)
+        const agents_id = selectedUsers.map(a => a.customer_id )
+         const res = await contactInstance.createContact({...newContact , customer_name: name , phone:phone, tags_id , agents_id})
         console.log(res)
         router.back()
     }
+    const curr_tag = tags.filter(el=>selectedTags.indexOf(el.tag_id)!=-1)
     function cancel(e){
         e.preventDefault()
         router.back()
@@ -139,21 +129,21 @@ export default function AddContact() {
                 {/* new form */}
                 <form onSubmit={handleSubmit} >
 
-                
 
-                <div className={"addContactSession_info_ss"} > 
+
+                <div className={"addContactSession_info_ss"} >
                         <div className="ss_row addContactSession_title">
 
                             New Contact
                         </div>
                         <div className={"ss_row"}>
-                            
+
                             <MF_Required_Input title="First Name*" name={"first_name"} value={newContact.first_name} onChange={handleChange} />
                             <MF_Required_Input title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
 
                         </div>
                     <div className={"ss_row"}>
-                        <MF_Required_Input title="Phone*" name={"phone"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} pattern={"^852[0-9]{8}$"} onChange={handleChange}/>
+                        <MF_Required_Input title="Phone*" name={"phone"} type={"number"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} pattern={"^852[0-9]{8}$"} onChange={handleChange}/>
                         <MF_Input title="Email" name={"email"} value={newContact.email} pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"} onChange={handleChange}/>
                     </div>
                     <div className={"ss_row"}>
@@ -177,18 +167,18 @@ export default function AddContact() {
                         <div className={"tagsGroup"} style={{marginBottom:"30px"}} >
                             <p>Tags</p>
                             <div className={"tagsGroup"}  style={{width:"100%",height:"30px"}} >
-                                {selectedTags!=-1&&selectedTags.map((tag)=>{
-                                    return<Pill key={tag} color="vip">{tag}</Pill>
+                                {selectedTags!=-1&&selectedTags.map((tag, i)=>{
+                                    return<Pill key={i} color="vip">{tag.tag_name}</Pill>
                                 })}
                                     </div>
                                 <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                                     setFilteredTags(new_data)
                                 })}}>
                                     {filteredTags.map((tag)=>{
-                                        return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                                        return(<li key={tag.tag_id}><Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                                             <div className="newCheckboxContainer">
                                                 <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag)} onClick={(e)=>toggleSelectTags(e , tag)} />
                                         </label> </div></li>)
                                     })}
                                 </Mf_circle_btn>
@@ -201,7 +191,7 @@ export default function AddContact() {
                                     {selectedUsers!=-1 &&selectedUsers.map((agent , index)=>{
                                         return(
                                             <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.substring(0,2).toUpperCase()}</Avatar>
+                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                             </Tooltip>
                                         )
                                     })}
@@ -220,7 +210,7 @@ export default function AddContact() {
                                             <div className={"name"}>{user.username}</div>
                                             </div>
                                             <div className="newCheckboxContainer">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user)} onClick={(e)=>toggleSelectUsers(e , user)} />
                                             </label>
                                                 </div>
                                         </li>)

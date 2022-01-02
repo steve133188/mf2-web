@@ -162,8 +162,8 @@ export default function Contacts() {
     const fetchContacts = async () =>{
         const data =await contactInstance.getAllContacts()
         console.log("customer data : " , data)
-        setContacts(prev=>data)
-        setFilteredData(contacts)
+        setContacts(data)
+        setFilteredData(data)
         console.log("contacts",filteredData)
 
     }
@@ -181,9 +181,9 @@ export default function Contacts() {
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        setSelectedContacts([...selectedContacts, id]);
+        setSelectedContacts(selectedContacts=>[...selectedContacts, id]);
         if (!checked) {
-            setSelectedContacts(selectedContacts.filter(item => item !== id));
+            setSelectedContacts(selectedContacts=>selectedContacts.filter(item => item !== id));
         }
         console.log(selectedContacts)
     };
@@ -197,7 +197,7 @@ export default function Contacts() {
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.id));
+        setSelectedContacts(currentContacts.map(c => c.customer_id));
         if (selectAll) {
             setSelectedContacts([]);
         }
@@ -364,8 +364,6 @@ export default function Contacts() {
         if (!checked) {
             setSelectedChannel([]);
         }
-
-
     };
     useEffect(() => {
         NotificationManager.info('Info message');
@@ -488,8 +486,8 @@ export default function Contacts() {
                 <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredUsers(new_data)
                 })}}>
-                    {filteredUsers.map((user)=>{
-                        return(<li key={user.username}>
+                    {filteredUsers.map((user , index)=>{
+                        return(<li key={index}>
                             <div style={{display:"flex" ,gap:10}}>
                                 <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
@@ -503,13 +501,13 @@ export default function Contacts() {
                         </li>)
                     })}
                 </MF_Select>
-                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team":selectedTeams.name}  submit={advanceFilter}  customeDropdown={true}>
+                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team":selectedTeams }  submit={advanceFilter}  customeDropdown={true}>
                     <li onClick={()=> {
                         setSelectedTeams("");
                         advanceFilter()
                     }}>All</li>
-                    {teams.map((team)=>{
-                        return(<li id={team.id}  key={team.id} onClick={(e)=>{setSelectedTeams({name:team.name,id:e.target.id}) }}> {team.name}</li>)
+                    {teams.map((team , index)=>{
+                        return(<li id={team}  key={index} onClick={(e)=>{setSelectedTeams({name:team,id:e.target.id}) }}> {team}</li>)
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
@@ -523,8 +521,8 @@ export default function Contacts() {
                                      </label>
                                 </div>
                             </li>
-                    {filteredChannel.map((tag)=>{
-                        return(<li key={tag.id}><div>  <img key={"id"} width="20px" height="20px" src={`/channel_SVG/${tag.channelID}.svg`}  alt=""/>
+                    {filteredChannel.map((tag , index)=>{
+                        return(<li key={index}><div>  <img key={"id"} width="20px" height="20px" src={`/channel_SVG/${tag.channelID}.svg`}  alt=""/>
                         {tag.name}</div>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
@@ -535,11 +533,11 @@ export default function Contacts() {
                 <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredTags(new_data)
                 })}} >
-                    {filteredTags.map((tag)=>{
-                        return(<li key={tag.id}><Pill size="30px" key={tag.id} color="vip">{tag.tag}</Pill>
+                    {filteredTags.map((tag , index)=>{
+                        return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -582,14 +580,14 @@ export default function Contacts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length!=0 && contacts.map((data ,index) => {
+                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
                             return( <TableRow
                                     key={index}
                                     hover
                                     role="checkbox"
                                     name={index}
-                                    checked={selectedContacts.includes(data.id)}
-                                    onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
+                                    // checked={selectedContacts.includes(data.customer_id)}
+                                    onClick={isSelectRow?null:(e)=>{toggleProfile(data)}}
                                 >
                                     <TableCell style={{
                                         width: "30px",
@@ -598,22 +596,22 @@ export default function Contacts() {
                                     }}>
                                         <div className="newCheckboxContainer">
                                             {isSelectRow ? <label className="newCheckboxLabel">
-                                                <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
+                                                <input type="checkbox" id={data.customer_id} name="checkbox" checked={selectedContacts.includes(data.customer_id)} onClick={isSelectRow?toggleSelect:null} />
                                             </label> : null}
 
                                         </div>
                                     </TableCell>
                                     <TableCell align="left">
-                                        <span >{data.id}</span>
+                                        <span >{data.customer_id}</span>
                                     </TableCell>
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                            <Avatar alt={data.name} sx={{width:30 , height:30}} src={data.img_url||""}/>
-                                            <span style={{marginLeft: "11px"}}>{data.name}</span>
+                                            <Avatar alt={data.first_name} sx={{width:30 , height:30}} src={data.img_url||""}/>
+                                            <span style={{marginLeft: "11px"}}>{data.first_name}</span>
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>
-                                        <div>{data.team_id!=""?data.team:"not Assign"}</div>
+                                        <div>{data.team.org_id!=""?data.team.org_name:"not Assign"}</div>
                                         {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>
 
@@ -630,7 +628,7 @@ export default function Contacts() {
                                     <TableCell align="left">
                                         <div className="tagsGroup">
                                             {data.tags&&data.tags.map((tag , index)=>{
-                                                return( <Pill key={index}  color="lightBlue">{tag}</Pill>)
+                                                return( <Pill key={index}  color="lightBlue">{tag.tag_name}</Pill>)
                                             })}
                                         </div>
                                     </TableCell>
