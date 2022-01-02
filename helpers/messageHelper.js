@@ -1,8 +1,12 @@
 import axios from "axios"
 
 
-export default function WhatsappFetcher(url){
-    this.whatsappURL = url
+export default function WhatsappFetcher(){
+    this.whatsappURL = "https://f125-118-140-233-2.ngrok.io"
+
+    this.setWhatsappURL = (url)=>{
+        this.whatsappURL = url
+    }
 
     this.instance = axios.create( {
         headers:{

@@ -21,7 +21,7 @@ export default function ChatlistFilter( {...props}){
                 {name:"WeChat",value:"wechat"},];
 
                 const [selectedTags ,setSelectedTags] =useState([])
-                const { userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext);
+                const { userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext);
                 const [users ,setUsers] =useState([]);
                 const [tags ,setTags] =useState([]);
                 const [teams ,setTeams] =useState([]);
@@ -31,8 +31,8 @@ export default function ChatlistFilter( {...props}){
                 const [selectedUsers ,setSelectedUsers] =useState([]);
                 const [agentBarOpen,setAgentBar] = useState(false)
                 const [agentSearchValue, setAgentValue]= useState("")
-                
-                
+
+
                 // const advanceFilter =()=>{
                 //     setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
                 //     console.log("filter",filter)
@@ -55,10 +55,10 @@ export default function ChatlistFilter( {...props}){
 
 
                 const getTags = async ()=>{
-                    const data = await adminInstance.getAllTags()
+                    const data = await tagInstance.getAllTags()
                     setTags(data)
                     setFilteredTags(data)
-            
+
                 }
                 const getUsers = async ()=>{
                     const data = await userInstance.getAllUser()
@@ -131,7 +131,7 @@ export default function ChatlistFilter( {...props}){
         setSelectedChannels([])
         setSelectedTags([])
     }
-    
+
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
@@ -192,11 +192,11 @@ export default function ChatlistFilter( {...props}){
 
                     <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
                     <div className={"agentSearchArea"}  style={agentBarOpen?{display:"block"}:{display:"none"}}>
-                         <div className={"search_bar"}>    
+                         <div className={"search_bar"}>
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>
                         {/* <DivisionDropDown data={Division}  /> */}
-                    
+
 
                         <div className={"channelList"} >
                             {filteredUsers.filter(users=>users.username.includes(agentSearchValue)).map((user)=>{
@@ -234,7 +234,7 @@ export default function ChatlistFilter( {...props}){
                 <div className={"filter_box_tag"}  >
                      <div className={"channelList"}>
                         <div className={"filter_title"}>Tag</div>
-                    
+
 
                             {filteredTags.map((tag)=>{
                             return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>
@@ -254,4 +254,4 @@ export default function ChatlistFilter( {...props}){
                 </div>
          </div>
     )
-} 
+}

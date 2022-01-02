@@ -15,7 +15,6 @@ import BackToLogin from '../../components/login/backToLogin';
 
 export default function Recovery() {
     const r = useRouter()
-    const fakeData = [{username:"mstest",email:"mstest@gmail.com"}]
     const [address , setAddress] = useState("")
     const [isSubmit , setIsSubmit] = useState(false)
     const [emailType, setEmailType] = useState("")
@@ -33,8 +32,13 @@ export default function Recovery() {
 
 
         console.log(errors)
-        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/forgot-password"
-        const res = await axios.post(url , {address})
+        const url ="https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/forgot-password"
+        const res = await axios.post(url , {address} , {
+            headers:{
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin' : '*'
+            },
+        })
         if (res.status ==200 || res.status == 201) {
             setIsSubmit(true)
         }else{

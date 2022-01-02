@@ -16,7 +16,7 @@ import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
-import { subscribeToChatroom} from "../../src/graphql/subscriptions"
+import { subscribeToChatroom,subscribeToNewMessage} from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
@@ -30,7 +30,7 @@ export default function Live_chat() {
             {id:4,name:"Questioning",set:[{name:"First meet",content:"What can i help you?"},{name:"Follow up",content:"That's great. Let me introduce you our service."}]},
             {id:2,name:"Merry Chrismax",set:[{name:"Set1",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"},{name:"Set2",content:"Merry Christmas, and may all your Christmases be white!!!"}]},
             {id:3,name:"Happy new year",set:[{name:"賀詞一",content:"恭賀新春!"},{name:"賀詞二",content:"心想事成!"},{name:"賀詞三",content:"身體健康!"}]},
-           
+
         ]
 
 
@@ -41,7 +41,7 @@ export default function Live_chat() {
         setReplyData(replyTemplateList)
     },[])
     let subscriptions ;
-    const {contactInstance ,mediaInstance, userInstance ,adminInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
+    const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
     const [attachment , setAttachment ] = useState([])
@@ -54,6 +54,8 @@ export default function Live_chat() {
     const [isEmojiOn,setEmojiOn] = useState(false)
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [subscribe,setSubscribe] = useState()
+    const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
+
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
         phone:"",
@@ -65,8 +67,11 @@ export default function Live_chat() {
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
-        setChatrooms(result.data.listMF2TCOCHATROOMS.items)
-        setFilteredData(result.data.listMF2TCOCHATROOMS.items)
+        const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
+        .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
+        console.log(myData,"afterSort")
+        setChatrooms(myData)
+        setFilteredData(myData)
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -123,7 +128,7 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
-    const [chatroomstart,setChatroomStart] = useState(false)
+    const [chatroomStart,setChatroomStart] = useState(false)
 
 
     const handleTypedMsg = e =>{
@@ -150,7 +155,7 @@ export default function Live_chat() {
     }
 
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         setFilteredTags(data)
 
@@ -209,15 +214,15 @@ export default function Live_chat() {
     const toggleQuickReply = () =>{
         setChatButtonOn(ChatButtonOn=="m4"?"":"m4");
         setIsExpand(isExpand&&ChatButtonOn=="m4"?false:true);
-        
-        
+
+
     }
     const toggleM5 = () =>{
         setChatButtonOn(ChatButtonOn=="m5"?"":"m5");
         setIsExpand(false);
 
     }
-    
+
     const attachFile = useRef()
     const fileAttach = () =>{
         attachFile.current.click();
@@ -242,6 +247,8 @@ export default function Live_chat() {
         const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"image" , is_media:true}
         const res = await messageInstance.sendMessage(data)
         console.log("result : " ,res)
+        console.log("media_url : " ,media_url)
+
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -253,9 +260,10 @@ export default function Live_chat() {
         setIsExpand(false)
     }
 
-    const sendVoice = async () =>{
-        const data = {media_url:typedMsg.src , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true}
+    const sendVoice = async (media_url) =>{
+        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true}
         const res = await messageInstance.sendMessage(data)
+        console.log("result : " ,res)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -271,7 +279,7 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"text"}
-        const res = await messageInstance.sendMessage(data)
+        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})
         setIsExpand(false)
@@ -339,11 +347,21 @@ export default function Live_chat() {
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
+                    console.log("new message: " , newMessage)
                 }
             })
         setSubscribe(prev=> sub)
 
     }
+
+    //const handleLivechat = async (chatroom)=>{
+    // const handleSubToNewMessage = async (recipient)=>{
+    //     if(subscribeToNewMessage)subscribeToNewMessage.unsubscribe()
+    //     const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{recipient:recipient} ))
+    //         .subscribe({
+    //             next: async (chatmessage)=>{
+    //                 const newMessage = chatmessage.value.data.subscribeToNewMessage
+
 
 
     useEffect(async ()=>{
@@ -351,7 +369,7 @@ export default function Live_chat() {
         await handleSub(selectedChat)
     },[selectedChat])
 
-    
+
     // useEffect(()=>{
     //     if(!chatroomstart){  setChatroomStart(true)}
     //     const new1=[]
@@ -380,10 +398,10 @@ export default function Live_chat() {
         console.log(selectedChannels)
         console.log("channelFiltered:",channelFiltered)
         console.log(selectedUsers)
-        
+
         const agentFiltered = channelFiltered.filter(data=>{
             if(selectedUsers.length==0){
-                
+
                 return data
             }
             console.log(data)
@@ -469,6 +487,23 @@ export default function Live_chat() {
     //     advanceFilter
     //     console.log(filteredData,"filteredData")
     // },[filteredData])
+    const refreshChatrooms =  ()=>{
+        clear()
+        getChatrooms()
+
+    }
+
+
+
+    //record and send audio
+    const getAudioFile = async (audioFile) => {
+        console.log("calling getAudioFile")
+        if(audioFile){
+            var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
+        const result = await mediaInstance.putVoice(file)
+        await sendVoice(result)
+        console.log(result,"audioFile")}
+    }
     return (
         <div className="live_chat_layout">
             <div className={"chat_list"}>
@@ -492,7 +527,7 @@ export default function Live_chat() {
                                     {/* <Livechat/> */}
                                         </div>
                                 </div>
-                                
+
                 {/* <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
                                 <div className={"group_icon"} ></div>
                                 <Team_Select  show={isShow} head={"All Team"} top_head={selectedTeams==""?"All Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
@@ -507,7 +542,7 @@ export default function Live_chat() {
                                 </Team_Select>
                             </button> */}
 
-                            
+
                         </div>
                         <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
                                         <div className={"filter_icon"}></div>
@@ -520,17 +555,17 @@ export default function Live_chat() {
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear} 
+                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}
                              agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} />
                         </div>
-                    <div  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
+                    <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} className={+(index==0&& "active")} onClick={async ()=>{  await handleChatRoom(d)}}/> )
+                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} refresh={refreshChatrooms} className={+(index==0&& "active")} onClick={ ()=>{ handleChatRoom(d)}}/> )
                         })}
-                    </div>
+                    </ul>
                 </div>
             </div>
             <div className={"chatroom"}>
@@ -569,20 +604,19 @@ export default function Live_chat() {
                         </div>
                     </div>
                 </div>
-                <div 
+                <div
                 // ref={messagesSearchRef}
                  className={"chatroom_records"}>
                     {chatroomMsg.map((r , i)=>{
                         return  <MsgRow msg={r} key={i} d={filteredUsers} />
-                      
+
                     })}
                     <div ref={messagesEndRef}>
-                        
+
                     </div>
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
-     
                     <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
@@ -593,7 +627,7 @@ export default function Live_chat() {
                         <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleQuickReply } ref={wrapperRef}>
                             <QuickReply data={replyData} onclick={replySelect} ref={wrapperRef}/>
                         </div>
-                    
+
                     <div className={"chatroom_input_btn_gp"}>
                         <div className={"left_btn_gp"}>
                             <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={toggleSticker }
@@ -619,7 +653,7 @@ export default function Live_chat() {
                         </div>
 
                         <div className={"right_btn_gp"}>
-                            <div className={"voice_btn"}>           <VoiceRecorder/></div>
+                        <VoiceRecorder returnVoiceMessage={getAudioFile}/>
                             <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                         </div>
                     </div>

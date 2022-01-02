@@ -9,6 +9,8 @@ import usersFetcher from "../helpers/usersHelpers";
 import WhatsappFetcher from "../helpers/messageHelper";
 import mediaHelper from "../helpers/mediaHelper";
 import ChatHelper from "../helpers/chatHelper";
+import tagFetcher from "../helpers/tagHelpers";
+import roleFetcher from "../helpers/roleHelpers";
 
 export const GlobalContext = createContext({})
 
@@ -24,7 +26,9 @@ export const GlobalContextProvider = ({children}) =>{
     const orgInstance= orgFetcher(user.token)
     const adminInstance = adminFetcher(user.token)
     const contactInstance = contactsFetcher(user.token)
-    const messageInstance =new WhatsappFetcher("https://f125-118-140-233-2.ngrok.io")
+    const tagInstance = tagFetcher(user.token)
+    const roleInstance = roleFetcher(user.token)
+    const messageInstance =new WhatsappFetcher()
     const chatHelper =new ChatHelper()
 
     useEffect(()=>{
@@ -32,25 +36,36 @@ export const GlobalContextProvider = ({children}) =>{
             user:JSON.parse(window.localStorage.getItem("user")) || {},
             token:window.localStorage.getItem("token") || null
         })
+        console.log(user)
     },[])
 
 
     const login = async (credentials)=>{
-        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/login"
-        const res = await axios.post(url , credentials)
+        const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
+        const res = await axios.post(url , credentials,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':'*',
+                'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                'Access-Control-Allow-Credentials' : true,
+
+            }})
             .then(response => {
                 if(response.status != 200){
                     return "something went wrong"
                 }
-                const { token, data } = response.data;
+                const { token, user } = response.data;
                 localStorage.setItem("token", token)
-                localStorage.setItem("user", JSON.stringify(data))
-
+                localStorage.setItem("user", JSON.stringify(user))
+                console.log("login data ",response.data.data)
                 setErrors(null)
                 userInstance.token = user.token
                 orgInstance.token = user.token
                 adminInstance.token = user.token
                 contactInstance.token = user.token
+                tagInstance.token = user.token
+                roleInstance.token = user.token
+                messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
                 router.push("/dashboard/chat")
             }).catch(err=>{
                 console.log(err)
@@ -70,6 +85,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance}}>{children}</GlobalContext.Provider>
     )
 }

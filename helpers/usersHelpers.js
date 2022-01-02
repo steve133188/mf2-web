@@ -7,12 +7,15 @@ export default function usersFetcher(token){
         timeout:5000,
         headers:{
             'Content-Type': 'application/json',
-            'Authorization':`Bearer ${instance.token}`
+            'Authorization':`Bearer ${instance.token}`,
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials' : true,
         },
-        baseURL:"https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users"
+        baseURL:"https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api"
     })
     instance.login =  async (credentials)=>{
-        const url = "https://mf-api-user-sj8ek.ondigitalocean.app/mf-2/api/users/login"
+        const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
         const res = await instance.fetcher.post(url , credentials)
             .then(response => {
                 if(response.status != 200){
@@ -28,17 +31,20 @@ export default function usersFetcher(token){
                 setErrors("Email or password incorrect")
             })
         setUser({
-            user: JSON.parse(localStorage.getItem("user")),
+            user: localStorage.getItem("user"),
             token:localStorage.getItem("token")
         });
         console.log(user)
         if(res.status == 200) router.push("/dashboard/livechat")
     }
     instance.getAllUser = async ()=>{
-        return (await instance.fetcher.get(`/`)).data
+        return (await instance.fetcher.get(`/users/all`)).data
     }
     instance.getUserByName = async (name)=>{
-        return (await instance.fetcher.get(`/name/${name}`)).data
+        return (await instance.fetcher.get(`/api/users/name/${name}`)).data
+    }
+    instance.getUserById = async (id)=>{
+        return (await instance.fetcher.get(`/users/${id}`)).data
     }
     instance.getUserByEmail = async (email)=>{
         return (await instance.fetcher.get(`/email/${email}`)).data
@@ -55,13 +61,16 @@ export default function usersFetcher(token){
     instance.getUserByNoTeam = async ()=>{
         return (await instance.fetcher.get(`/team`)).data
     }
+    instance.getUserByRoleId = async ({role_id})=>{
+        return (await instance.fetcher.get(`/users/role/{role_id}`)).data
+    }
 
     instance.getUsersByTeamId = async (team_id)=>{
-        return (await instance.fetcher.get(`/team/${team_id}`)).data
+        return (await instance.fetcher.get(`/users/team/${team_id}`)).data
     }
 
     instance.createUser = async (data)=>{
-        return (await instance.fetcher.post(`/` ,data)).status
+        return (await instance.fetcher.post(`/user` ,data)).status
     }
 
 
@@ -70,26 +79,36 @@ export default function usersFetcher(token){
     }
 
     instance.updateUserTeamIdByUserPhone = async (user_phone , team_id) =>{
-        return (await instance.fetcher.put(`/change-user-team` ,{user_phone , team_id})).statusText
+        return (await instance.fetcher.put(`/users/team` ,{user_phone , team_id})).statusText
     }
 
     instance.updateUserTeam = async (old_id , new_id) =>{
-        return (await instance.fetcher.put(`/change-user-team` ,{old_id , new_id})).statusText
+        return (await instance.fetcher.put(`/users/team` ,{old_id , new_id})).statusText
     }
 
     instance.deleteUserTeam = async (team_id)=>{
         return (await instance.fetcher.put(`/delete-user-team/${team_id}` )).statusText
     }
-    instance.updateUser = async (phone,data)=>{
-        console.log(phone,'hhhh',data,"dataaaa")
-        return (await instance.fetcher.put(`/phone4/${phone}` , {...data,data} )).statusText
+    instance.updateUser = async (data)=>{
+        return (await instance.fetcher.put(`/users` , data )).statusText
     }
-    instance.updateUserChannelInfo = async (data)=>{
-        return (await instance.fetcher.put(`/chanInfo` , data )).statusText
+    instance.updateUserPwd = async (data)=>{
+        return (await instance.fetcher.put(`/users/change-password` , data )).statusText
     }
-
-    instance.deleteUserByName = async(name) =>{
-        return (await instance.fetcher.delete(`/name/${name}`  )).statusText
+    instance.updateUserChannel = async (user_id , channels)=>{
+        return (await instance.fetcher.put(`/user/add-channels` , {user_id , channels} )).statusText
+    }
+    instance.editUserChannel = async (user_id , channels)=>{
+        return (await instance.fetcher.put(`/user/edit-channels` , {user_id , channels} )).statusText
+    }
+    instance.updateUserRole = async (user_id , role_id)=>{
+        return (await instance.fetcher.put(`/users/role` , {user_id , role_id} )).statusText
+    }
+    instance.removeUserChannel = async (user_id , channels)=>{
+        return (await instance.fetcher.put(`/user/del-channels` , {user_id , channels} )).statusText
+    }
+    instance.deleteUserById = async(id) =>{
+        return (await instance.fetcher.delete(`/name/${id}`  )).statusText
     }
 
     instance.changeUserPassword = async (email , old_password, new_password) =>{

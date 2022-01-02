@@ -110,8 +110,10 @@
 
 .active-side-item {
   padding: 0 .5rem;
+  margin-bottom: 3px;
+
   border-right: 3px solid #2198FA;
-  
+
 }
 
 .page-title {
@@ -177,8 +179,6 @@
   text-align: center;
   border: none;
   align-items: center;
-  background-color:#D0E9FF ;
-   color: #2198FA;
 
   .notify_box{
     display: flex;
@@ -194,17 +194,17 @@
     border-radius: 10px;
     box-shadow: 0px 3px 6px #00000029;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    overflow: scroll;
+    overflow: auto;
     color: #444444;
     opacity: 1;
-
+    margin-left: 12px;
     .notify_box_title{
       padding: 1rem;
       text-align: left;
       font: normal normal bold 16px/22px Manrope;
     }
     .notify_box_list{
-      overflow: scroll;
+      overflow: auto;
       .notify_box_li{
 
         cursor: pointer;
@@ -267,9 +267,7 @@
     }
 
   }
-  .notification_activate{
-    background-color:#D0E9FF ;
-  }
+
 
 
   //.badge {
@@ -344,6 +342,7 @@
     .side-item{
       display: flex;
       justify-content: center;
+      margin-bottom: 3px;
     }
     .side-item-name {
       display: none;
@@ -425,11 +424,11 @@
   display: flex;
   //width: 100%;
   height: 100vh;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .main-content {
-  overflow: scroll;
+  overflow: auto;
   width: 100%;
   //max-width: 95vw;
 }

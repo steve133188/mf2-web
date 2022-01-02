@@ -79,10 +79,10 @@ const fetchData = ()=>{
             <div className="twillo" style={{display:tab=="twillo"?"block":"none"}}>
                 <div className={"form_item"}>
                     <p>1. Create twilio account and Buy A Number. <br/>
-                2. From “Programmable Sms => WhatsApp” get your whatsapp number. <br/>
+                2. From “Programmable Sms to WhatsApp” get your whatsapp number. <br/>
                     3. From Dashboard get Account Sid and Auth Token.<br/>
                     4. Copy Callback Url that we have provided and paste it in Sandbox Configuration. <br/>
-                    5. Submit your details and can start testing it by initially sending code provided in “Programmable Sms => WhatsApp” screen.</p>
+                    5. Submit your details and can start testing it by initially sending code provided in “Programmable Sms to WhatsApp” screen.</p>
                 </div>
                 <div className={"form_item"}>
                         <label>URL</label>
@@ -101,9 +101,9 @@ const fetchData = ()=>{
                         <input type="text" id="t-number" onChange={(e)=>setTwilloData({...stellaData, wsnumber:e.target.value})} ></input>
                     </div>
             </div>
-                
+
             </form>
-        
+
     </div>
     </>)
 }

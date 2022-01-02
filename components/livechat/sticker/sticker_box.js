@@ -18,7 +18,7 @@ export default function StickerBox({data , stickerSend ,ref }){
     })
     return(
 
-          <TabContext value={"sticker"} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} ref={ref} >
+          <TabContext value={"sticker"} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'auto'}} ref={ref} >
             <Box component="div" 
                     visibleScrollbar={true}
 
@@ -41,7 +41,7 @@ export default function StickerBox({data , stickerSend ,ref }){
                 </Tabs>
             </Box>
             {/* <TabPanel> */}
-            <div className={"stickers_box"} style={{display:"flex",flexWrap:"wrap",width:"100%",overflow:"scroll",maxHeight:"184px",minHeight:"87px",objectFit:"contain"}}                                    > 
+            <div className={"stickers_box"} style={{display:"flex",flexWrap:"wrap",width:"100%",overflow:"auto",maxHeight:"184px",minHeight:"87px",objectFit:"contain"}}                                    >
 
                     {data.files&&filtered.map((item,index)=>(
                       <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"3px"}} onClick={stickerSend} />

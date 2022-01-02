@@ -11,7 +11,7 @@ import { GlobalContext } from "../../../context/GlobalContext";
 
 
 export default function ContantDetail({data , ...props}){
-    
+
 const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"2012-12-10",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"2021-10-09",content:"Nice to meet you."},])
 const [notes,setNotes] = useState([])
 const [writenote,setWritenote] = useState("")
@@ -26,10 +26,10 @@ const [filteredUsers ,setFilteredUsers] =useState([])
 const [contact, setContact] = useState([]);
 const [unread,setUnread] = useState(false)
 const [unassigned,setUnAssigned] = useState(false)
-const { userInstance ,adminInstance,contactInstance ,orgInstance, user} = useContext(GlobalContext);
+const { userInstance ,tagInstance,contactInstance ,orgInstance, user} = useContext(GlobalContext);
 
 const getTags = async ()=>{
-    const data = await adminInstance.getAllTags()
+    const data = await tagInstance.getAllTags()
     // setTags(data)
     setFilteredTags(data)
 
@@ -39,14 +39,15 @@ const getUsers = async ()=>{
     // setUsers(data)
     console.log(data,"useruser")
     setFilteredUsers(data)
-} 
+}
 const fetchContact = async (cid) =>{
     const data = await contactInstance.getContactById(cid)
     setContact(data)
     console.log(data,"cid")
-    setSelectedTags(data.tags)
-    setSelectedUsers(data.agents)
-    console.log(data.tags)
+    const {tags , agents} = data
+    setSelectedTags(new Array(tags))
+    setSelectedUsers(agents)
+    console.log(tags , agents)
 
 }
 useEffect(    async () => {
@@ -70,7 +71,7 @@ const toggleSelectTags = e => {
         setSelectedTags(selectedTags.filter(item => item !== id));
     }
     console.log(selectedTags)
-};  
+};
 const toggleSelectUsers = e => {
     const { checked ,id} = e.target;
     setSelectedUsers([...selectedUsers, id]);
@@ -80,14 +81,14 @@ const toggleSelectUsers = e => {
     console.log(selectedUsers)
 };
 useEffect(async()=>{
-    
+
 if(unassigned){
 
     const data =  {...contact,agents:selectedUsers}
     const res = await contactInstance.updateContact (data)
-    console.log(res)  
-    setUnAssigned(!unassigned)  
-}   
+    console.log(res)
+    setUnAssigned(!unassigned)
+}
 
 },[unassigned])
 
@@ -167,8 +168,7 @@ useEffect(()=>{
                             {selectedUsers &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.substring(0,2).toUpperCase()}</Avatar>
-
+                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                     </Tooltip>
                                 )
                             })}
@@ -181,14 +181,14 @@ useEffect(()=>{
                         <div style={{margin:"10px 5px 0 0 "}}>
 
                         <Mf_circle_btn  switchs={()=>{setUnread(!unread)}} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                            setFilteredTags(new_data) 
+                            setFilteredTags(new_data)
                         })}}>
 
-                            {filteredTags.map((tag)=>{
-                                return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                            {filteredTags.map((tag , index)=>{
+                                return(<li key={index}><Pill key={index} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} onChange={()=>{}} />
+                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
                                         </label> </div></li>)
                             })}
 
@@ -196,21 +196,21 @@ useEffect(()=>{
 
                         </div>
                             <div style={{display:"flex",flexWrap:"wrap",width:"250px",height:"120px",overflow:"auto"}}>
-                                    {selectedTags!=-1&&selectedTags.map((tag)=>{
-                                        return<Pill key={tag} color="vip">{tag}</Pill>
+                                    {selectedTags!=-1&&selectedTags.map((tag , index)=>{
+                                        return<Pill key={index} color="vip">{tag.tag_name}</Pill>
                                     })}
 
                             </div>
                     </div>
                 </div>
-               
+
 
                 </div>
             </div>
 
             <div className={'noteBox'} style={props.tab=="note"?{display:"block"}:{display:"none"}}>
                 <div className={"notesVolumn"}>Note : {notes.length}</div>
-                <div className={"write_pad"}>    
+                <div className={"write_pad"}>
                             <input type="text" className={"write_note"} value={writenote} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Write a note..."}>
                             </input>
 
@@ -243,11 +243,11 @@ useEffect(()=>{
 
                                 </div>
 
-                                
+
                                     <div className={"message_box"}>
                                         <div className={"message"} style={props.tab=="note"?{display:"flex"}:{display:"none"}}>{note.content}</div>
                                     </div>
-                                
+
 
                             </div>)
                         })}

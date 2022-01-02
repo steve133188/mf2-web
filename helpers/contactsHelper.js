@@ -16,27 +16,30 @@ export default function contactsFetcher(token){
     instance.fetcher= axios.create( {
         headers:{
             'Content-Type': 'application/json',
-            'Authorization':`Bearer ${instance.token}`
+            'Authorization':`Bearer ${instance.token}`,
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials' : true,
         },
         timeout:5000,
-        baseURL:"https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"},
+        baseURL:"https://46bgula199.execute-api.ap-southeast-1.amazonaws.com/prod"},
     )
      instance.getAllContacts = async ()=>{
-        return (await instance.fetcher.get("/")).data
+        return (await instance.fetcher.get("/customers")).data
     }
      instance.createContact = async (data)=>{
         return (await instance.fetcher.post("/",data)).statusText
     }
 
      instance.getContactsByUsers = async (data)=>{
-        return (await instance.fetcher.post("/filter/agent",data)).data
+        return (await instance.fetcher.post("/customers/agent",data)).data
     }
 
      instance.getContactsByTags = async (data)=>{
-        return (await instance.fetcher.post("/filter/tag",data)).data
+        return (await instance.fetcher.post("/customers/tag",data)).data
     }
      instance.getContactsByChannels = async (data)=>{
-        return (await instance.fetcher.post("/filter/channel",data)).data
+        return (await instance.fetcher.post("/customers/channel",data)).data
     }
 
      instance.getContactByName = async (name)=>{
@@ -44,11 +47,11 @@ export default function contactsFetcher(token){
     }
 
      instance.getContactById = async (id)=>{
-        return (await instance.fetcher.get(`/id/${id}`)).data
+        return (await instance.fetcher.get(`/customer/${id}`)).data
     }
 
      instance.getContactsByTeamId = async (team_id)=>{
-        return (await instance.fetcher.get(`/team/${team_id}`)).data
+        return (await instance.fetcher.get(`/customers/team/${team_id}`)).data
     }
 
      instance.getContactsByNoTeam = async ()=>{
@@ -56,23 +59,25 @@ export default function contactsFetcher(token){
     }
 
      instance.updateContactTags = async(id,tags) =>{
-        return (await instance.fetcher.post("/add-tags",{id,tags})).status
+        return (await instance.fetcher.post("/customer/add-tags",{id,tags})).status
     }
 
      instance.updateContact = async (data)=>{
-        return (await instance.fetcher.put("/id",data)).status
+        return (await instance.fetcher.put("/customer/id",data)).status
     }
 
      instance.updateContacts = async (data)=>{
         return (await instance.fetcher.put("/many",data)).status
     }
-
+    instance.updateTagsToAllCustomers = async (data)=>{
+        return (await instance.fetcher.put("/customers/edit-tags")).status
+    }
      instance.deleteAllContactTag = async(data)=>{
-        return (await instance.fetcher.put("/del-tag",data)).status
+        return (await instance.fetcher.put("/customers/del-tags",data)).status
     }
 
      instance.deleteContactTags = async(data)=>{
-        return (await instance.fetcher.put("/del-customer-tag",data)).status
+        return (await instance.fetcher.put("/customer/del-customer-tag",data)).status
     }
 
      instance.createContactsByExcel = async (data) =>{
@@ -80,11 +85,14 @@ export default function contactsFetcher(token){
     }
 
      instance.addTeamToContact = async (data)=>{
-        return (await instance.fetcher.put("/add-team-to-customer",data)).status
+        return (await instance.fetcher.put("/customers/add-teams",data)).status
+    }
+    instance.deleteOrUpdateTeamToContact = async (data)=>{
+        return (await instance.fetcher.put("/customers/teams",data)).status
     }
 
      instance.deleteContact = async (data)=>{
-        return (await instance.fetcher.delete("/id", {data:data})).status
+        return (await instance.fetcher.delete("/customer/id", {data:data})).status
     }
      instance.deleteContacts = async (data)=>{
         return (await instance.fetcher.delete("/many", {data:data})).status

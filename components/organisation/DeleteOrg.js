@@ -34,14 +34,14 @@ const style ={
     height:"2rem"
 }
 export default function DeleteDivisionForm({show, toggle,reload }){
-    const [name , setName] = useState("")
-    const [parent , setParent] = useState({})
+    const [div , setDiv] = useState({})
+    const [team , setTeam] = useState({})
     const [rootDivision , setRootDivision] = useState([])
-    const handleChange = (e)=>{
-        setName(e.target.value)
+    const handleChangeDiv = (e)=>{
+        setDiv(e.target.value)
     }
-    const handleSelect =e=>{
-        setParent(e.target.value)
+    const handleSelectTeam =e=>{
+        setTeam(e.target.value)
     }
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const teams = []
@@ -53,7 +53,8 @@ export default function DeleteDivisionForm({show, toggle,reload }){
           setTeamlist(teams)
 
       },[])
-    const submit = async ()=>{
+    const submit = async (e)=>{
+        e.preventDefault()
         const newDivision = {name:name,type:"division"}
         console.log(newDivision)
         const status = await orgInstance.deleteOrgById(parent)
@@ -61,7 +62,7 @@ export default function DeleteDivisionForm({show, toggle,reload }){
         toggle()
         reload()
     }
-   
+
     return(
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
@@ -73,8 +74,8 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                     <span>Division</span>
                     <Select
                         sx={style}
-                        value={parent}
-                        onChange={handleSelect}
+                        value={div}
+                        onChange={handleChangeDiv}
                         label={"Select Division"}
                         input={<BootstrapInput />}
                         >
@@ -88,8 +89,8 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                     <span>Team</span>
                     <Select
                         sx={style}
-                        value={parent}
-                        onChange={handleSelect}
+                        value={team}
+                        onChange={handleSelectTeam}
                         label={"Select Division"}
                         input={<BootstrapInput />}
                         >

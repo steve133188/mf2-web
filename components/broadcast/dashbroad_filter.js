@@ -14,7 +14,7 @@ import FilterDropDown from "./filterDropDown";
 
 export default function DashBroadFilter(props){
 
-    const { userInstance ,adminInstance ,orgInstance, user,contactInstance} = useContext(GlobalContext);
+    const { userInstance ,tagInstance ,orgInstance, user,contactInstance} = useContext(GlobalContext);
     // const [users ,setUsers] =useState([]);
     // const [selectedUsers ,setSelectedUsers] =useState([]);
     const channelData = [
@@ -38,7 +38,7 @@ export default function DashBroadFilter(props){
     const [filteredAgents ,setFilteredAgents] =useState([]);
     const [filteredDivision ,setFilteredDivision] =useState([]);
     const [filteredChannels ,setFilteredChannels] =useState([]);
-    // const [filteredUsers ,setFilteredUsers] =useState([]); 
+    // const [filteredUsers ,setFilteredUsers] =useState([]);
     const [filteredData , setFilteredData] = useState([])
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[], division:[], })
 
@@ -46,7 +46,7 @@ export default function DashBroadFilter(props){
     const [dBarOpen,setDBar] = useState(false)
     const [teamBarOpen,setTeamBar] = useState(false)
     const [agentSearchValue, setAgentValue]= useState("")
-   
+
 
     useEffect(()=>{() =>{
 
@@ -77,12 +77,12 @@ export default function DashBroadFilter(props){
 
 
                 const getTags = async ()=>{
-                    const data = await adminInstance.getAllTags()
+                    const data = await tagInstance.getAllTags()
                     console.log("tag")
                     console.log(data)
                     setTags(data,"dashboard filter tags")
                     setFilteredTags(data)
-                    
+
                 }
                 const getAgents = async ()=>{
                     const data = await userInstance.getAllUser()
@@ -105,8 +105,8 @@ export default function DashBroadFilter(props){
                     setTeams(data)
                     setFilteredTeams(data)
                 }
-       
-            
+
+
                 // const getChannels = async ()=>{
                 //     const data = await contactInstance.getContactsByChannels()
                 //     console.log(data)
@@ -157,7 +157,7 @@ export default function DashBroadFilter(props){
         // console.log(selectedChannels)
     };
 
-    useEffect(   async()=>{ 
+    useEffect(   async()=>{
 
         // let abortController = new AbortController();
         // async () => {
@@ -172,7 +172,7 @@ export default function DashBroadFilter(props){
             // await fetchContacts()
 
         }
-    
+
     channelOri()
         // setSelectedUsers([])
         // return () => {
@@ -189,8 +189,8 @@ export default function DashBroadFilter(props){
     useEffect(()=>{
         advanceFilter()
     },[tags,channels])
-    
-    
+
+
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedAgents.map((agent, index) => {
@@ -236,10 +236,10 @@ export default function DashBroadFilter(props){
 
                     <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
                     <div className={"agentSearchArea"}  style={agentBarOpen?{display:"block"}:{display:"none"}}>
-                         <div className={"search_bar"}>    
+                         <div className={"search_bar"}>
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>
-                    
+
 
                         <div className={"channelList"} >
                             {filteredAgents.filter(users=>users.username.includes(agentSearchValue)).map((user)=>{
@@ -274,7 +274,7 @@ export default function DashBroadFilter(props){
                 {/* <div className={"filter_box_tag"}  >
                      <div className={"channelList"}>
                         <div className={"filter_title"}>Tag</div>
-                    
+
 
                             {filteredTags.map((tag)=>{
                             return(<li className={"channelListitem"}  key={tag.id}><Pill key={tag.id} size="30px" color="vip">{tag.tag}</Pill>

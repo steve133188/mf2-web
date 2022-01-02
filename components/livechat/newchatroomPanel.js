@@ -10,19 +10,18 @@ export default function Newchatroom(props){
     const {user} = useContext(GlobalContext)
 
     const createChatroom = async (data)=>{
-        const user_id = parseInt(user.user.phone.replace("852",""))
-        const room_id = parseInt(data.phone.replace("852",""))
-        console.log(parseInt(user.user.phone))
+        console.log(user)
         const input = {
             channel:"whatsapp",
-            customer_id:data.id,
+            customer_id:data.customer_id,
             is_pin: false,
-            name: data.name,
-            phone: data.phone,
-            room_id:room_id ,
+            name: data.first_name,
+            phone: data.customer_id,
+            room_id:data.phone ,
             unread:0 ,
-            user_id: user_id ,
+            user_id: user.user.phone ,
         }
+        console.log(input)
         const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input}))
         console.log(result)
     }
@@ -41,18 +40,18 @@ export default function Newchatroom(props){
                     // console.log(contact)
                     return(
                         <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroom(contact)}} >
-                            
+
                             <div className={"chatroom_icon"}>
 
                                 <Tooltip key={contact.name} className={""} title={contact.name} placement="top-start">
                                 <Avatar className={"text-center"} src={contact.profile_pic_url} sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} alt={contact.name} />
-                                </Tooltip> 
+                                </Tooltip>
                             </div>
-                           
+
                             <div className={"contact_name_ss"}>
                                 <div>{contact.name??contact.phone}</div>
                                 {/* <div className={"team"}>Team {contact.team}</div> */}
-                                <div className={"team"}>+{contact.phone.slice(0,3)} {contact.phone.slice(3)}</div>
+                                <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
                             </div>
                                 <img src="/openChat.svg" style={{width:"30px",opacity:".8"}} />
                             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}

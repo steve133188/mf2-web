@@ -290,7 +290,7 @@
           .taglList{
             display: flex;
             justify-content: flex-start;
-            overflow: scroll;
+            overflow: auto;
             .tag{
               width: 23px;
               padding: 0;
@@ -385,7 +385,7 @@
         position: relative;
         flex-grow: 1;
         padding-top: 1.2rem;;
-
+        padding-left: 0;
         .chatroom_badge{
           position: absolute;
           right:2.5%;
@@ -613,7 +613,7 @@
     }
     .chatroom_records{
       // max-height: 87%;
-      overflow: scroll;
+      overflow: auto;
       flex-grow: 1;
     }
     .chatroom_input_field{
@@ -640,7 +640,7 @@
         width: 100%;
         min-height:10%;
         padding: 1.5rem 0.8rem 0.5rem;
-        overflow: scroll;
+        overflow: auto;
       }
       .chatroom_textField:focus{
         border: none;
@@ -649,7 +649,7 @@
       .emoji-mart{
         .emoji-mart-bar{
           width: 100%;
-          overflow: scroll;
+          overflow: auto;
         }
         .emoji-mart-preview{
           display: none;
@@ -867,7 +867,7 @@
         height:60vh;
         padding:0 10%;
         .contactInfo{
-        overflow:scroll;;
+        overflow:auto;
         height: 40vh;
         min-height: 270px;
         max-height: 330px;

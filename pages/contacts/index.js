@@ -29,11 +29,15 @@ import Mf_circle_btn from "../../components/mf_circle_btn";
 import Loading from "../../components/Loading";
 import CancelConfirmation from "../../components/CancelConfirmation"
 import DeletePad from "../../components/DeletePannel";
+import {CSVLink, CSVDownload} from 'react-csv';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
     const [contacts, setContacts] = useState([]);
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(true);
@@ -60,14 +64,14 @@ export default function Contacts() {
     const [filteredChannel ,setFilteredChannel] =useState([])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
-    let result = currentContacts.map(d=>d.id)
-    
+    const currentContacts= filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
+    let result = currentContacts.map(d=>d.customer_id)
+
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
-    const [deleteRolename,setDeleteRole] = useState("")
-    
-    
+    const [deleteRole,setDeleteRole] = useState("")
+
+
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         console.log("filter",filter)
@@ -96,7 +100,6 @@ export default function Contacts() {
         console.log("channelFiltered:",channelFiltered)
 
         const teamFiltered = channelFiltered.filter(data=>{
-            console.log(selectedTeams,"teamteamteam ")
             if(!selectedTeams.id){
                 return data
             }
@@ -138,7 +141,7 @@ export default function Contacts() {
         })
     }
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         setFilteredTags(data)
 
@@ -157,19 +160,20 @@ export default function Contacts() {
         setFilteredChannel(channels)
     }
     const fetchContacts = async () =>{
-        const data = await contactInstance.getAllContacts()
-        setContacts(data)
-        setFilteredData(data)
+        const data =await contactInstance.getAllContacts()
+        console.log("customer data : " , data)
+        setContacts(prev=>data)
+        setFilteredData(contacts)
+        console.log("contacts",filteredData)
+
     }
-    useEffect(    
-        
-        async () => {
+    useEffect(async () => {
         if(user.token!=null) {
             await fetchContacts()
             await getTags()
             await getUsers()
             await getTeams()
-            getChannels ()
+            await getChannels ()
         }
         setSelectedUsers([])
         setSelectedContacts([])
@@ -364,6 +368,7 @@ export default function Contacts() {
 
     };
     useEffect(() => {
+        NotificationManager.info('Info message');
         setTimeout(function() { //Start the timer
             setIsLoading(false)
         }.bind(this), 100)
@@ -382,12 +387,14 @@ export default function Contacts() {
 
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
+                    <NotificationContainer/>
+
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
-                <ImportDropzone onClose={toggleDropzone} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                <ImportDropzone title={"Import Contacts"} onClose={toggleDropzone} accept={".csv,.xlsx,.xls"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
@@ -427,11 +434,11 @@ export default function Contacts() {
 
 
 
-                    
+
                     <div className={"select_session_btn"}>
                         {/* <Mf_icon_dropdownform svg={tagSVG}>
-                       
-                        </Mf_icon_dropdownform> */} 
+
+                        </Mf_icon_dropdownform> */}
                         {/* <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
@@ -444,7 +451,7 @@ export default function Contacts() {
                                         })}
                                     </Mf_circle_btn> */}
 
-                        
+
                     {/* <div className={"tagsGroup"} >
                                 {selectedTags!=-1&&selectedTags.map((tag)=>{
                                     return<Pill key={tag} color="vip">{tag}</Pill>
@@ -471,10 +478,13 @@ export default function Contacts() {
 
 
 
-                    <div className={"select_session_btn"}><div svg={editSVG}>{editSVG} </div></div>
+                    <div className={"select_session_btn"}>
+                        <CSVLink data={contacts} filename={"contact.csv"} >{editSVG}</CSVLink>
+                    </div>
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
             >
+
                 <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredUsers(new_data)
                 })}}>
@@ -503,14 +513,14 @@ export default function Contacts() {
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
-                            <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>  
+                            <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>
                                 <img key={"all"} width={18} height={18} src={`/channel_SVG/All.svg`}  alt="" style={{maring:"0 3px"}}/>
-                                 All Channels 
+                                 All Channels
                                  </div>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
                                       <input type="checkbox" key={"all"}  id={"all"} value={"all"} name="checkbox" checked={selectedChannel.includes("all")} onClick={toggleSelectAllChannels} />
-                                     </label> 
+                                     </label>
                                 </div>
                             </li>
                     {filteredChannel.map((tag)=>{
@@ -538,7 +548,7 @@ export default function Contacts() {
                 {/*</MF_Select>*/}
 
                 <button onClick={clearFilter} className={"mf_bg_light_blue mf_color_blue"} style={{margin:"0 1rem",padding:"0",minWidth:"8rem",maxWidth:"102rem",maxHeight:"50px"}}> Clear Filter </button>
-            </SelectSession>    
+            </SelectSession>
             <TableContainer
                 sx={{minWidth: 750 , minHeight:"60vh"}}
                 className={"table_container"}
@@ -555,7 +565,7 @@ export default function Contacts() {
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
                                         <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
-                                    </label> : null} 
+                                    </label> : null}
                                 </div>
                             </TableCell>
                             <TableCell align="left" style={{width:"200px"}}>
@@ -572,7 +582,7 @@ export default function Contacts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                        {filteredData.length!=0 && contacts.map((data ,index) => {
                             return( <TableRow
                                     key={index}
                                     hover
@@ -613,7 +623,7 @@ export default function Contacts() {
                                             return(<img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/>)
                                         })}
                                         {
-                                        
+
                                      }
                                     </TableCell>
 
@@ -628,10 +638,10 @@ export default function Contacts() {
 
                                     <TableCell sx={{width:"165px",overflow:"hidden",textOverflow:"ellipsis"}} >
                                         <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} >
-                                            {data.agents!=null &&data.agents.map((agent , index)=>{
+                                            {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )
                                             })}
