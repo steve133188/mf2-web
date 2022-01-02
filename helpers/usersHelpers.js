@@ -41,7 +41,10 @@ export default function usersFetcher(token){
         return (await instance.fetcher.get(`/users/all`)).data
     }
     instance.getUserByName = async (name)=>{
-        return (await instance.fetcher.get(`/name/${name}`)).data
+        return (await instance.fetcher.get(`/api/users/name/${name}`)).data
+    }
+    instance.getUserById = async (id)=>{
+        return (await instance.fetcher.get(`/users/${id}`)).data
     }
     instance.getUserByEmail = async (email)=>{
         return (await instance.fetcher.get(`/email/${email}`)).data
@@ -58,13 +61,16 @@ export default function usersFetcher(token){
     instance.getUserByNoTeam = async ()=>{
         return (await instance.fetcher.get(`/team`)).data
     }
+    instance.getUserByRoleId = async ({role_id})=>{
+        return (await instance.fetcher.get(`/users/role/{role_id}`)).data
+    }
 
     instance.getUsersByTeamId = async (team_id)=>{
-        return (await instance.fetcher.get(`/team/${team_id}`)).data
+        return (await instance.fetcher.get(`/users/team/${team_id}`)).data
     }
 
     instance.createUser = async (data)=>{
-        return (await instance.fetcher.post(`/` ,data)).status
+        return (await instance.fetcher.post(`/user` ,data)).status
     }
 
 
@@ -73,26 +79,36 @@ export default function usersFetcher(token){
     }
 
     instance.updateUserTeamIdByUserPhone = async (user_phone , team_id) =>{
-        return (await instance.fetcher.put(`/change-user-team` ,{user_phone , team_id})).statusText
+        return (await instance.fetcher.put(`/users/team` ,{user_phone , team_id})).statusText
     }
 
     instance.updateUserTeam = async (old_id , new_id) =>{
-        return (await instance.fetcher.put(`/change-user-team` ,{old_id , new_id})).statusText
+        return (await instance.fetcher.put(`/users/team` ,{old_id , new_id})).statusText
     }
 
     instance.deleteUserTeam = async (team_id)=>{
         return (await instance.fetcher.put(`/delete-user-team/${team_id}` )).statusText
     }
-    instance.updateUser = async (phone,data)=>{
-        console.log(phone,'hhhh',data,"dataaaa")
-        return (await instance.fetcher.put(`/phone4/${phone}` , {...data,data} )).statusText
+    instance.updateUser = async (data)=>{
+        return (await instance.fetcher.put(`/users` , data )).statusText
     }
-    instance.updateUserChannelInfo = async (data)=>{
-        return (await instance.fetcher.put(`/chanInfo` , data )).statusText
+    instance.updateUserPwd = async (data)=>{
+        return (await instance.fetcher.put(`/users/change-password` , data )).statusText
     }
-
-    instance.deleteUserByName = async(name) =>{
-        return (await instance.fetcher.delete(`/name/${name}`  )).statusText
+    instance.updateUserChannel = async (user_id , channels)=>{
+        return (await instance.fetcher.put(`/user/add-channels` , {user_id , channels} )).statusText
+    }
+    instance.editUserChannel = async (user_id , channels)=>{
+        return (await instance.fetcher.put(`/user/edit-channels` , {user_id , channels} )).statusText
+    }
+    instance.updateUserRole = async (user_id , role_id)=>{
+        return (await instance.fetcher.put(`/users/role` , {user_id , role_id} )).statusText
+    }
+    instance.removeUserChannel = async (user_id , channels)=>{
+        return (await instance.fetcher.put(`/user/del-channels` , {user_id , channels} )).statusText
+    }
+    instance.deleteUserById = async(id) =>{
+        return (await instance.fetcher.delete(`/name/${id}`  )).statusText
     }
 
     instance.changeUserPassword = async (email , old_password, new_password) =>{

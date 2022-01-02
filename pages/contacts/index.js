@@ -64,16 +64,14 @@ export default function Contacts() {
     const [filteredChannel ,setFilteredChannel] =useState([])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts=() => {
-        return filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
-    };
-    let result = currentContacts().map(d=>d.id)
-    
+    const currentContacts= filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
+    let result = currentContacts.map(d=>d.customer_id)
+
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
     const [deleteRole,setDeleteRole] = useState("")
-    
-    
+
+
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         console.log("filter",filter)
@@ -163,9 +161,11 @@ export default function Contacts() {
     }
     const fetchContacts = async () =>{
         const data =await contactInstance.getAllContacts()
-        setContacts(data)
-        console.log("contacts",data)
-        setFilteredData(data)
+        console.log("customer data : " , data)
+        setContacts(prev=>data)
+        setFilteredData(contacts)
+        console.log("contacts",filteredData)
+
     }
     useEffect(async () => {
         if(user.token!=null) {
@@ -383,8 +383,8 @@ export default function Contacts() {
     };
     const closeConfitmation = () => {
         setIsOpenConfirmation(false)
-    };  
-   
+    };
+
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
                     <NotificationContainer/>
@@ -434,11 +434,11 @@ export default function Contacts() {
 
 
 
-                    
+
                     <div className={"select_session_btn"}>
                         {/* <Mf_icon_dropdownform svg={tagSVG}>
-                       
-                        </Mf_icon_dropdownform> */} 
+
+                        </Mf_icon_dropdownform> */}
                         {/* <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
@@ -451,7 +451,7 @@ export default function Contacts() {
                                         })}
                                     </Mf_circle_btn> */}
 
-                        
+
                     {/* <div className={"tagsGroup"} >
                                 {selectedTags!=-1&&selectedTags.map((tag)=>{
                                     return<Pill key={tag} color="vip">{tag}</Pill>
@@ -484,7 +484,7 @@ export default function Contacts() {
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
             >
-                
+
                 <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredUsers(new_data)
                 })}}>
@@ -513,14 +513,14 @@ export default function Contacts() {
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
-                            <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>  
+                            <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>
                                 <img key={"all"} width={18} height={18} src={`/channel_SVG/All.svg`}  alt="" style={{maring:"0 3px"}}/>
-                                 All Channels 
+                                 All Channels
                                  </div>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
                                       <input type="checkbox" key={"all"}  id={"all"} value={"all"} name="checkbox" checked={selectedChannel.includes("all")} onClick={toggleSelectAllChannels} />
-                                     </label> 
+                                     </label>
                                 </div>
                             </li>
                     {filteredChannel.map((tag)=>{
@@ -548,7 +548,7 @@ export default function Contacts() {
                 {/*</MF_Select>*/}
 
                 <button onClick={clearFilter} className={"mf_bg_light_blue mf_color_blue"} style={{margin:"0 1rem",padding:"0",minWidth:"8rem",maxWidth:"102rem",maxHeight:"50px"}}> Clear Filter </button>
-            </SelectSession>    
+            </SelectSession>
             <TableContainer
                 sx={{minWidth: 750 , minHeight:"60vh"}}
                 className={"table_container"}
@@ -565,7 +565,7 @@ export default function Contacts() {
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
                                         <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
-                                    </label> : null} 
+                                    </label> : null}
                                 </div>
                             </TableCell>
                             <TableCell align="left" style={{width:"200px"}}>
@@ -582,7 +582,7 @@ export default function Contacts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                        {filteredData.length!=0 && contacts.map((data ,index) => {
                             return( <TableRow
                                     key={index}
                                     hover
@@ -623,7 +623,7 @@ export default function Contacts() {
                                             return(<img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/>)
                                         })}
                                         {
-                                        
+
                                      }
                                     </TableCell>
 

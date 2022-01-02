@@ -10,47 +10,9 @@ export default function adminFetcher(token){
             'Authorization':`Bearer ${instance.token}`
         },
         timeout:5000,
-        baseURL:"https://mf-api-aoc-e7o4q.ondigitalocean.app/api/admin"
+        baseURL:"https://8a516swpa8.execute-api.ap-southeast-1.amazonaws.com/prod/api/admin"
     })
-    instance.getAllRoles = async ()=>{
-        return (await instance.fetcher.get(`/roles`)).data
-    }
-    instance.getRoleByName = async  (role_name)=>{
-        return (await instance.fetcher.get(`/role/name/${role_name}`)).data
-    }
 
-    instance.getRolesName = async ()=>{
-        return (await instance.fetcher.get(`/roles-name`)).data
-    }
-    instance.createRole = async (data)=>{
-        console.log(data,"testing createRole")
-        return (await instance.fetcher.post(`/role` ,data)).statusText
-    }
-    instance.updateRole = async (data)=>{
-        console.log(data,"edit role console")
-        return (await instance.fetcher.put(`/role`,data)).statusText
-    }
-    instance.deleteRole = async (role_name)=>{
-        return (await instance.fetcher.delete(`/role/name/${role_name}`)).statusText
-    }
-    instance.getAllTags = async ()=>{
-        return (await instance.fetcher.get(`/tags`)).data
-    }
-    instance.getTagByName = async (data)=>{
-        return (await instance.fetcher.get(`/tag/${data}`)).data
-    }
-    instance.getTagList = async ()=>{
-        return (await instance.fetcher.get(`/taglist`)).data
-    }
-    instance.addTag = async (data) =>{
-        return(await instance.fetcher.post(`/tag`,data)).statusText
-    }
-    instance.updateTag = async (data)=>{
-        return (await instance.fetcher.put(`/tag`,data)).statusText
-    }
-    instance.deleteTag = async (id)=>{
-        return (await instance.fetcher.delete(`/tag/id/${id}`)).statusText
-    }
     instance.createStandardReply = async (data) =>{
         console.log(data,"creater reply")
         return(await instance.fetcher.post(`/reply`,data)).statusText

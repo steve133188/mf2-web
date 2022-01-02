@@ -41,18 +41,18 @@ export default function Newchatroom(props){
                     // console.log(contact)
                     return(
                         <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroom(contact)}} >
-                            
+
                             <div className={"chatroom_icon"}>
 
                                 <Tooltip key={contact.name} className={""} title={contact.name} placement="top-start">
                                 <Avatar className={"text-center"} src={contact.profile_pic_url} sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} alt={contact.name} />
-                                </Tooltip> 
+                                </Tooltip>
                             </div>
-                           
+
                             <div className={"contact_name_ss"}>
                                 <div>{contact.name??contact.phone}</div>
                                 {/* <div className={"team"}>Team {contact.team}</div> */}
-                                <div className={"team"}>+{contact.phone.slice(0,3)} {contact.phone.slice(3)}</div>
+                                <div className={"team"}>+{contact.phone.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
                             </div>
                                 <img src="/openChat.svg" style={{width:"30px",opacity:".8"}} />
                             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}

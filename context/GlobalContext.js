@@ -9,6 +9,8 @@ import usersFetcher from "../helpers/usersHelpers";
 import WhatsappFetcher from "../helpers/messageHelper";
 import mediaHelper from "../helpers/mediaHelper";
 import ChatHelper from "../helpers/chatHelper";
+import tagFetcher from "../helpers/tagHelpers";
+import roleFetcher from "../helpers/roleHelpers";
 
 export const GlobalContext = createContext({})
 
@@ -24,6 +26,8 @@ export const GlobalContextProvider = ({children}) =>{
     const orgInstance= orgFetcher(user.token)
     const adminInstance = adminFetcher(user.token)
     const contactInstance = contactsFetcher(user.token)
+    const tagInstance = tagFetcher(user.token)
+    const roleInstance = roleFetcher(user.token)
     const messageInstance =new WhatsappFetcher("https://f125-118-140-233-2.ngrok.io")
     const chatHelper =new ChatHelper()
 
@@ -59,6 +63,8 @@ export const GlobalContextProvider = ({children}) =>{
                 orgInstance.token = user.token
                 adminInstance.token = user.token
                 contactInstance.token = user.token
+                tagInstance.token = user.token
+                roleInstance.token = user.token
                 router.push("/dashboard/chat")
             }).catch(err=>{
                 console.log(err)
@@ -78,6 +84,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance}}>{children}</GlobalContext.Provider>
     )
 }
