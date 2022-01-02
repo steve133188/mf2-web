@@ -15,14 +15,17 @@ export default function ContantDetail({ data, ...props }) {
     const notesData = ([{ id: "dsafdsfd", wroteBy: "Lawrance", date: "2012-12-10", content: "Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us." }, { id: "dsafds32", wroteBy: "Maric", date: "2021-10-09", content: "Nice to meet you." },])
     const [notes, setNotes] = useState([])
     const [writenote, setWritenote] = useState("")
-
+    const [disable, setDisable] = useState(false)
     const [start, setStart] = useState(false)
     const [users, setUsers] = useState([])
     const [tags, setTags] = useState([])
     const [selectedTags, setSelectedTags] = useState([])
     const [filteredTags, setFilteredTags] = useState([])
+    const [alltags, setAlltags] = useState([])
+
     const [selectedUsers, setSelectedUsers] = useState([])
     const [filteredUsers, setFilteredUsers] = useState([])
+    const [alluser, setAlluser] = useState([])
     const [contact, setContact] = useState([]);
     const [unread, setUnread] = useState(false)
     const [unassigned, setUnAssigned] = useState(false)
@@ -30,64 +33,83 @@ export default function ContantDetail({ data, ...props }) {
 
     const getTags = async () => {
         const data = await tagInstance.getAllTags()
-        // setTags(data)
         setFilteredTags(data)
-
+        setAlltags(data)
     }
     const getUsers = async () => {
         const data = await userInstance.getAllUser()
-        // setUsers(data)
-        console.log(data, "useruser")
         setFilteredUsers(data)
+        setAlluser(data)
     }
     const fetchContact = async (cid) => {
         const data = await contactInstance.getContactById(cid)
         setContact(data)
-        console.log(data, "cid")
         const { tags, agents } = data
-        setSelectedTags(new Array(tags))
+        setSelectedTags(tags)
         setSelectedUsers(agents)
-        console.log(tags, agents)
-
     }
     useEffect(async () => {
         if (user.token != null) {
             await getTags()
             await getUsers()
-            console.log(user, 'useruser123123')
         }
     }, []);
     useEffect(async () => {
-
         if (!start) { return setStart(true) }
         if (data && user.token) { await fetchContact(data.customer_id); }
-        //    console.log(data,"details~~~")
+        if (data.customer_id == null) setDisable(true)
+        else
+            setDisable(false)
     }, [data])
 
-    const toggleSelectTags = e => {
+    const toggleSelectTags = async e => {
         const { checked, id } = e.target;
-        console.log(checked, id)
-        setSelectedTags([...selectedTags, id]);
+        const tag = await tagInstance.getTagById(id)
+        // get all selectedtags.tag_id
+        setSelectedTags([...selectedTags, tag]);
+        // const uploadTags = {
+        //     tag_id: tag.tag_id,
+        //     tag_name: tag.tag_name,
+        //     update_at: parseInt(tag.update_at),
+        //     create_at: parseInt(tag.create_at)
+
+        // }
         if (!checked) {
-            setSelectedTags(selectedTags.filter(item => item !== id));
+            await setSelectedTags(selectedTags.filter(item =>  item.tag_id != id ));
+            
+            await contactInstance.deleteCustomerTag(contact.customer_id, [tag.tag_id])
+
+        }else{
+            
+            await contactInstance.updateContactTags(contact.customer_id, [tag.tag_id])
         }
-        console.log(selectedTags)
+
+
     };
-    const toggleSelectUsers = e => {
+    const toggleSelectUsers = async e => {
+
         const { checked, id } = e.target;
-        setSelectedUsers([...selectedUsers, id]);
+
+        const user = filteredUsers.find(t => t.user_id == id)
+        setSelectedUsers([...selectedUsers, user]);
+        
         if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== id));
+            setSelectedUsers(selectedUsers.filter(u => { return u.user_id != id }));
+           
+
+            await contactInstance.deleteCustomerAgent(contact.customer_id, [user.user_id])
+
+        }else{
+            
+            await contactInstance.updateContactAgent(contact.customer_id, [user.user_id])
         }
-        console.log(selectedUsers)
     };
     useEffect(async () => {
 
         if (unassigned) {
 
             const data = { ...contact, agents: selectedUsers }
-            const res = await contactInstance.updateContact(data)
-            console.log(res)
+            //const res = await contactInstance.updateContact(data)
             setUnAssigned(!unassigned)
         }
 
@@ -97,8 +119,7 @@ export default function ContantDetail({ data, ...props }) {
         if (unread) {
 
             const data = { ...contact, tags: selectedTags }
-            console.log(data)
-            const res = await contactInstance.updateContact(data)
+            //const res = await contactInstance.updateContact(data)
             setUnread(!unread)
         }
 
@@ -107,20 +128,33 @@ export default function ContantDetail({ data, ...props }) {
 
     useEffect(() => {
         setNotes(notesData)
+        if (data.customer_id == null) setDisable(true)
 
     }, [])
 
-    
+    const isContainTags = (id) => {
+        if (selectedTags != null) {
+            return selectedTags.some(selectedtag => selectedtag.tag_id === id)
+        } else return false
+    }
+    const isContainUser = (id) => {
+
+        if (selectedUsers) {
+            return selectedUsers.some(selecteduser => selecteduser.user_id == id)
+        }
+        else { return false }
+    }
+
     return (<>
         <div className={"infoBox"} style={props.tab == "info" ? { display: "block" } : { display: "none" }} >
             <div className="contactInfo">
                 <div className={"keyList"} >
-                    <div className={"keys"} style={{}}>Phone Number</div>
-                    <div className={"keys"} style={{}}>Email</div>
-                    <div className={"keys"} style={{}}>Birthday</div>
-                    <div className={"keys"} style={{}}>Address</div>
-                    <div className={"keys"} style={{}}>Country</div>
-                    <div className={"keys"} style={{}}>Created Date</div>
+                    <div className={"keys"} >Phone Number</div>
+                    <div className={"keys"} >Email</div>
+                    <div className={"keys"} >Birthday</div>
+                    <div className={"keys"} >Address</div>
+                    <div className={"keys"} >Country</div>
+                    <div className={"keys"} >Created Date</div>
 
                     {/*{Object.keys(data).map((item=>(*/}
                     {/*    <>               */}
@@ -145,11 +179,15 @@ export default function ContantDetail({ data, ...props }) {
                 <div>Assignee</div>
 
                 <div className={"tagsGroup"} style={{ margin: "10px 0", display: "flex", alignItems: "center" }}>
-                    <Mf_circle_btn switchs={() => { setUnAssigned(!unassigned) }} handleChange={(e) => {
-                        userSearchFilter(e.target.value, users, (new_data) => {
-                            setFilteredUsers(new_data)
 
-                        })
+
+
+                    <Mf_circle_btn isDisable={disable} switchs={() => { setUnAssigned(!unassigned) }} handleChange={(e) => {
+                        
+                            const new_data = alluser.filter(i => i.username.toLowerCase().includes(e.target.value.toLowerCase()))
+                            setFilteredUsers(new_data)
+                            
+                        
                     }} >
 
                         {filteredUsers && filteredUsers.map((user) => {
@@ -161,7 +199,8 @@ export default function ContantDetail({ data, ...props }) {
                                     <div className={"name"}>{user.username}</div>
                                 </div>
                                 <div className="newCheckboxContainer">
-                                    <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" onClick={toggleSelectUsers} checked={selectedUsers.includes(user.username)} onChange={() => { }} />
+
+                                    <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" onClick={toggleSelectUsers} checked={isContainUser(user.user_id)} onChange={() => { }} />
                                     </label>
                                 </div>
                             </li>)
@@ -169,8 +208,10 @@ export default function ContantDetail({ data, ...props }) {
                     </Mf_circle_btn>
                     <AvatarGroup className={"AvatarGroup"} sx={{ display: 'flex', flexDirection: 'row-reverse', width: "fit-content", margin: "10px 0" }} spacing={-5} >
                         {selectedUsers && selectedUsers.map((agent, index) => {
+
                             return (
-                                <Tooltip key={index} className={""} title={agent} placement="top-start">
+
+                                <Tooltip onClick={null} style={{ pointerEvents: "null" }} key={index} title={agent.username} placement="top-start">
                                     <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{ width: 25, height: 25, fontSize: 14 }} >{agent.username.substring(0, 2).toUpperCase()}</Avatar>
                                 </Tooltip>
                             )
@@ -178,38 +219,35 @@ export default function ContantDetail({ data, ...props }) {
                     </AvatarGroup>
                 </div>
 
-                <div>Tags</div>
-                <div className={""}>
-                    <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", }} >
-                        <div style={{ margin: "10px 5px 0 0 " }}>
+                <div className="tagssss">Tags</div>
+                <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", }} >
 
-                            <Mf_circle_btn switchs={() => { setUnread(!unread) }} handleChange={(e) => {
-                                tagSearchFilter(e.target.value, tags, (new_data) => {
-                                    setFilteredTags(new_data)
-                                })
-                            }}>
+                        <Mf_circle_btn isDisable={disable} switchs={() => { setUnread(!unread) }} handleChange={(e) => {
+                           console.log(alltags)
+                           const new_data = alltags.filter(i => i.tag_name.toLowerCase().includes(e.target.value.toLowerCase()))
+                           setFilteredTags(new_data)
+                        }}>
 
-                                {filteredTags.map((tag, index) => {
+                            {filteredTags.map((tag, index) => {
 
-                                    return (<li key={index}>
-                                        <Pill key={index} color="vip">{tag.tag_name}</Pill>
-                                        <div className="newCheckboxContainer">
-                                            <label className="newCheckboxLabel">
-                                                <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags[0].some(selectedtag => selectedtag.tag_id == tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />
-                                            </label>
-                                        </div>
-                                    </li>)
-                                })}
-
-                            </Mf_circle_btn>
-
-                        </div>
-                        <div style={{ display: "flex", flexWrap: "wrap", width: "250px", height: "120px", overflow: "auto" }}>
-                            {selectedTags != -1 && selectedTags.map((tag, index) => {
-                                return <Pill key={index} color="vip">{tag.tag_name}</Pill>
+                                return (<li key={index}>
+                                    <Pill onClick={null} key={index} color="vip">{tag.tag_name}</Pill>
+                                    <div className="newCheckboxContainer">
+                                        <label className="newCheckboxLabel">
+                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />
+                                        </label>
+                                    </div>
+                                </li>)
                             })}
 
-                        </div>
+                        </Mf_circle_btn>
+
+                   
+                    <div style={{paddingTop:"3px"}} >
+                        {selectedTags != -1 && selectedTags.map((tag, index) => {
+                            return <Pill key={index} color="vip">{tag.tag_name}</Pill>
+                        })}
+
                     </div>
                 </div>
 
@@ -230,7 +268,7 @@ export default function ContantDetail({ data, ...props }) {
 
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
             </div>
-            <div className={""} style={{ maxHeight: "50vh", overflowY: "scroll", minWidth: "230px" }}>
+            <div style={{ maxHeight: "50vh", overflowY: "auto", minWidth: "230px" }}>
                 {notes.map((note) => {
                     return (
                         <div key={note.id}>

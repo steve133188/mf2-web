@@ -20,6 +20,9 @@ export default function tagFetcher(token){
     instance.getTagByName = async (data)=>{
         return (await instance.fetcher.get(`/tag/id/${data}`)).data
     }
+    instance.getTagById = async (tag_id)=>{
+        return (await instance.fetcher.get(`/tag/id/${tag_id}`)).data
+    }
     instance.getTagList = async ()=>{
         return (await instance.fetcher.get(`/taglist`)).data
     }
