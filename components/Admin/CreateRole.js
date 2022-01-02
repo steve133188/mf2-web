@@ -72,7 +72,6 @@ export default function CreateRole({show, toggle ,reload}){
 
         
     })
-    const {contactInstance , userInstance ,adminInstance ,roleInstance, orgInstance, user} = useContext(GlobalContext)
 
     const {contactInstance , userInstance ,adminInstance ,roleInstance, orgInstance, user} = useContext(GlobalContext)
     const handleSelect =e=>{
