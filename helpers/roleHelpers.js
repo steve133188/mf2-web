@@ -31,9 +31,11 @@ export default function roleFetcher(token){
         return (await instance.fetcher.post(`/role` ,data)).statusText
     }
     instance.updateRole = async (data)=>{
+        console.log(data,"update role")
         return (await instance.fetcher.put(`/role`,data)).statusText
     }
     instance.deleteRole = async (role_name)=>{
+        console.log(role_name,("name to delete server"))
         return (await instance.fetcher.delete(`/role/name/${role_name}`)).statusText
     }
 

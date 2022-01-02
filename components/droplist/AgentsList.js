@@ -2,7 +2,7 @@ import { Avatar, Tooltip } from "@mui/material"
 import { useEffect ,useState } from "react";
 
 export default function AgentsDropList({filterData,selectedData,toggleAgents}){
-    const [agentBarOpen,setAgentBar] = useState(false)
+    const [agentBarOpen,setAgentBar] = useState(true)
     const [agentSearchValue, setAgentValue]= useState("")
 
     const [filteredUsers ,setFilteredUsers] =useState([]);
@@ -22,7 +22,9 @@ export default function AgentsDropList({filterData,selectedData,toggleAgents}){
     return(
 
         <div className={"filter_box_agents"}  >
-            <div style={{display:"flex" ,alignItems:"center"}} onClick={()=>{setAgentBar(!agentBarOpen)}}> Agent<div className={"taglList"}>
+            <div style={{display:"flex" ,alignItems:"center"}} > Agent  
+            {/* onClick={()=>{setAgentBar(!agentBarOpen)}} */}
+            <div className={"taglList"}>
                     {selectedUsers.map((user,index)=>{
                         return(
                             <div key={index} className={"tag"} style={{display:"flex" }}>

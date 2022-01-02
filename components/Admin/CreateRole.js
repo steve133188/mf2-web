@@ -46,7 +46,7 @@ const AuthList = [  {title:"Dashboard",name:"dashboard"},
 const channelData = [
     // name:"WhastApp",value:"All",channelID:"All",id:0},
             {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-            {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+            {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
             {name:"Messager",value:"Messager",channelID:"Messager",id:3},
             {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
@@ -72,7 +72,7 @@ export default function CreateRole({show, toggle ,reload}){
 
         
     })
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const { roleInstance,orgInstance, user} = useContext(GlobalContext)
 
     const handleSelect =e=>{
 
@@ -95,8 +95,8 @@ export default function CreateRole({show, toggle ,reload}){
         console.log(roleName)
     }
     const submit = async ()=>{
-        console.log({name:roleName,auth: {...authority}})
-        const res = await adminInstance.createRole({name:roleName,auth: authority})
+        console.log({role_name:roleName,authority: {...authority}})
+        const res = await roleInstance.createRole({role_name:roleName,authority: authority})
         console.log(res)
         reload()
         toggle()

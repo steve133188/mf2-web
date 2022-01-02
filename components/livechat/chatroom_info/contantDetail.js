@@ -37,7 +37,7 @@ const getTags = async ()=>{
 const getUsers = async ()=>{
     const data = await userInstance.getAllUser()
     // setUsers(data)
-    console.log(data,"useruser")
+    console.log(data,"AgentSSSS")
     setFilteredUsers(data)
 }
 const fetchContact = async (cid) =>{
@@ -54,7 +54,7 @@ useEffect(    async () => {
     if(user.token!=null) {
         await getTags()
         await getUsers()
-        console.log(user,'useruser123123')
+        console.log(user,'AgentSSSS123123')
     }
 },[]);
 useEffect(async()=>{
@@ -78,7 +78,7 @@ const toggleSelectUsers = e => {
     if (!checked) {
         setSelectedUsers(selectedUsers.filter(item => item !== id));
     }
-    console.log(selectedUsers)
+    console.log(selectedUsers,"input selected user")
 };
 useEffect(async()=>{
 

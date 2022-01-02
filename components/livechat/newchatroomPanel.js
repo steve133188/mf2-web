@@ -43,13 +43,13 @@ export default function Newchatroom(props){
 
                             <div className={"chatroom_icon"}>
 
-                                <Tooltip key={contact.name} className={""} title={contact.name} placement="top-start">
-                                <Avatar className={"text-center"} src={contact.profile_pic_url} sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} alt={contact.name} />
+                                <Tooltip key={contact.customer_name} className={""} title={contact.customer_name} placement="top-start">
+                                <Avatar className={"text-center"} src={contact.profile_pic_url} sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} alt={contact.customer_name} />
                                 </Tooltip>
                             </div>
 
                             <div className={"contact_name_ss"}>
-                                <div>{contact.name??contact.phone}</div>
+                                <div>{contact.customer_name??contact.phone}</div>
                                 {/* <div className={"team"}>Team {contact.team}</div> */}
                                 <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
                             </div>

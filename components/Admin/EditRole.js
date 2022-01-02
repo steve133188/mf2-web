@@ -45,7 +45,7 @@ const AuthList = [  {title:"Dashboard",name:"dashboard"},
 const channelData = [
     // name:"WhastApp",value:"All",channelID:"All",id:0},
             {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-            {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+            {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
             {name:"Messager",value:"Messager",channelID:"Messager",id:3},
             {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
@@ -69,7 +69,7 @@ export default function EditRole({show, toggle ,reload,role}){
         Wechat: false,
         Messager: false,
     })
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {roleInstance , user} = useContext(GlobalContext)
    
     // useEffect(()=>{
     //     setAuthority(role.auth)
@@ -77,10 +77,10 @@ export default function EditRole({show, toggle ,reload,role}){
     // },[authority])
     useEffect(()=>{
         if(!show)return
-        show?console.log(role.auth,"dfasdfsd"):"";
-        setAuthority(role.auth)
+        show?console.log(role.authority,"from main to edit page"):"";
+        setAuthority(role.authority)
 
-        setRoleName(role.name)
+        setRoleName(role.role_name)
     },[show])
 
     const handleSelect =e=>{
@@ -105,8 +105,9 @@ export default function EditRole({show, toggle ,reload,role}){
         // console.log(roleName)
     }
     const submit = async ()=>{
-        const data = {name:roleName,auth: authority}
-        const res = await adminInstance.updateRole(data)
+        const data = {role_name:roleName,authority: {...authority},role_id:role.role_id}
+        console.log(data,"role to server")
+        const res = await roleInstance.updateRole(data)
         console.log(res)
         reload()
         toggle()

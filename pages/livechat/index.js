@@ -146,16 +146,19 @@ export default function Live_chat() {
 
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
+        console.log("AGENTs live chat",data)
         setUsers(data)
         setFilteredUsers(data)
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
+        console.log("tEAM live chat",data)
         setTeams(data)
     }
 
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
+        console.log("tags live chat",data)
         setTags(data)
         setFilteredTags(data)
 
@@ -617,7 +620,6 @@ export default function Live_chat() {
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
-
                     <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
