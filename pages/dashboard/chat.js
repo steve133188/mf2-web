@@ -24,8 +24,8 @@ import searchFilter from "../../helpers/searchFilter";
 
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
-   
+    const {contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
+
     const [filteredAgents , setFilteredAgents] = useState([])
     const [selectedAgents , setSelectedAgents] = useState([])
     const [filteredTags , setFilteredTags] = useState([])
@@ -65,9 +65,9 @@ export default function Chat() {
             setSelectedTags(selectedTags.filter(item => item !== id));
         }
         console.log(selectedTags)
-    }; 
+    };
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         console.log(data,"tagsss")
         setFilteredTags(data)
@@ -80,10 +80,10 @@ export default function Chat() {
     }
     const changeTags=()=>{
         if(selectedTags.length==0) return setTags(filteredTags)
-        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag==el)})); 
+        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag==el)}));
         // setSelectedTags([])
     }
-   
+
     // const toggleSelectAgents = e => {
     //     const { checked ,id} = e.target;
     //     setSelectedAgents([...selectedAgents, id]);
@@ -116,7 +116,7 @@ export default function Chat() {
             async ()=>{
                 await fetchContacts();
                 await getTags();
-            
+
 
     },[])
     const channelData = [
@@ -143,7 +143,7 @@ export default function Chat() {
             return () => { isMounted = false };
     },[dayState])
 
-    useEffect(() => { 
+    useEffect(() => {
         let isMounted = true;
         setTimeout(function() { //Start the timer
             setIsLoading(false);
@@ -201,18 +201,18 @@ export default function Chat() {
                     </MF_Select>
                             <div className={"filter_box "+(isFilterOpen?"active":"")}>
                                  <div className={"filter_icon"}  onClick={()=>setIsFilterOpen(!isFilterOpen)}></div>
-                                 
+
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                         <div className={"chatlist_filter_box"} >
                                                     <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} auth={1} />
                                         </div>
-                                        
+
                                     </div>
                             </div>
 
-                            
-                            </div>    
+
+                            </div>
                 <div className={"right"}>
                     {/* <div style={{position:"relative"}}>
                         <div >
@@ -234,12 +234,12 @@ export default function Chat() {
                             <div className={"right"}>
 
                             <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> 
-                                            <input type="checkbox" 
-                                                    id={12} 
-                                                    name="checkbox" 
-                                                    checked={false} 
-                                                    // onClick={props.onclick} 
+                                            <label className="newCheckboxLabel">
+                                            <input type="checkbox"
+                                                    id={12}
+                                                    name="checkbox"
+                                                    checked={false}
+                                                    // onClick={props.onclick}
                                                     />
                                             </label>
                                         </div>
@@ -254,7 +254,7 @@ export default function Chat() {
                 <div className="lineCardGroup1">
                     <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
 
-                        
+
                     <div className={"card_holder1"}>
                     <div style={{margin:"6px 20px auto"}}>Channels</div>
                         <div className={"card_holder"}>
@@ -292,7 +292,7 @@ export default function Chat() {
 
 
                             <span className={"title"}>Tags  {`${tags.length}`}</span>
-                            
+
                 <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                     setFilteredTags(new_data)
                 })}} >
@@ -305,8 +305,8 @@ export default function Chat() {
                     })}
                 </MF_Select>
 
-                          
-                        
+
+
                             </div>
                 <div style={{width:"400px",overflow:"scroll",height:"50px"}}>
 
@@ -314,7 +314,7 @@ export default function Chat() {
 
                         <div className={"session_content"}>
                             <div className={"session_content_tag"}>
-                                
+
                             <TableContainer
                                 sx={{minWidth: 600 ,}}
                                 className={"table_container"}
@@ -334,7 +334,7 @@ export default function Chat() {
                                     {selectedAgents&&selectedAgents.map((col,index)=>{
                                         return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                     })}
-    
+
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -356,12 +356,12 @@ export default function Chat() {
                                             </TableCell>
 
                                             {selectedData&&selectedData.map(item=>{return  <
-                                                TableCell align="left" style={{width: "auto",}}> 
+                                                TableCell align="left" style={{width: "auto",}}>
                                                 {item.name}
                                                 </TableCell>})}
-    
-                                                <TableCell align="left" style={{width: "auto",}}> 
-    
+
+                                                <TableCell align="left" style={{width: "auto",}}>
+
                                                 </TableCell>
                                                 {/*<TableCell align="right">*/}
                                             {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}

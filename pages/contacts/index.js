@@ -37,7 +37,7 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 export default function Contacts() {
     const [contacts, setContacts] = useState([]);
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
     const [isLoading, setIsLoading] = useState(true);
@@ -141,7 +141,7 @@ export default function Contacts() {
         })
     }
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         setFilteredTags(data)
 

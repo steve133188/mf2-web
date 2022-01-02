@@ -33,7 +33,7 @@ export const GlobalContextProvider = ({children}) =>{
 
     useEffect(()=>{
         setUser({
-            user:window.localStorage.getItem("user") || {},
+            user:JSON.parse(window.localStorage.getItem("user")) || {},
             token:window.localStorage.getItem("token") || null
         })
         console.log(user)
@@ -54,10 +54,10 @@ export const GlobalContextProvider = ({children}) =>{
                 if(response.status != 200){
                     return "something went wrong"
                 }
-                const { token, data } = response.data;
+                const { token, user } = response.data;
                 localStorage.setItem("token", token)
-                localStorage.setItem("user", data)
-
+                localStorage.setItem("user", JSON.stringify(user))
+                console.log("login data ",response.data.data)
                 setErrors(null)
                 userInstance.token = user.token
                 orgInstance.token = user.token

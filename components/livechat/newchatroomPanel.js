@@ -10,18 +10,15 @@ export default function Newchatroom(props){
     const {user} = useContext(GlobalContext)
 
     const createChatroom = async (data)=>{
-        const user_id = parseInt(user.user.phone.replace("852",""))
-        const room_id = parseInt(data.phone.replace("852",""))
-        console.log(parseInt(user.user.phone))
         const input = {
             channel:"whatsapp",
             customer_id:data.id,
             is_pin: false,
             name: data.name,
-            phone: data.phone,
-            room_id:room_id ,
+            phone: data.customer_id,
+            room_id:data.customer_id ,
             unread:0 ,
-            user_id: user_id ,
+            user_id: user.user_id ,
         }
         const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input}))
         console.log(result)
@@ -52,7 +49,7 @@ export default function Newchatroom(props){
                             <div className={"contact_name_ss"}>
                                 <div>{contact.name??contact.phone}</div>
                                 {/* <div className={"team"}>Team {contact.team}</div> */}
-                                <div className={"team"}>+{contact.phone.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
+                                <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
                             </div>
                                 <img src="/openChat.svg" style={{width:"30px",opacity:".8"}} />
                             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}

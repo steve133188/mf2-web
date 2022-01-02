@@ -41,7 +41,7 @@ export default function Live_chat() {
         setReplyData(replyTemplateList)
     },[])
     let subscriptions ;
-    const {contactInstance ,mediaInstance, userInstance ,adminInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
+    const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
     const [attachment , setAttachment ] = useState([])
@@ -155,7 +155,7 @@ export default function Live_chat() {
     }
 
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         setFilteredTags(data)
 
