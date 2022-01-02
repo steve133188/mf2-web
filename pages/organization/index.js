@@ -58,7 +58,6 @@ const style ={
 export default function Organization() {
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [users, setUsers] = useState([]);
-    const [root_org, set_root_org] = useState([]);
     const [org, set_org] = useState([]);
     const [filteredData , setFilteredData] = useState([])
 
@@ -106,7 +105,7 @@ export default function Organization() {
     const fetchRootORG = async () =>{
         const data = await orgInstance.getAllORG()
         console.log(data,"org data")
-        set_root_org(data)
+        set_org(data)
     }
     useEffect(    async () => {
         if(user.token)
@@ -180,7 +179,6 @@ export default function Organization() {
         setIsDelete(!isDelete)
     }
     const delete_org = async (id)=>{
-        console.log(id)
         const res = await orgInstance.deleteOrgById(id)
         console.log(`deleted ${id} ${res}`)
         await fetchRootORG()
@@ -188,7 +186,7 @@ export default function Organization() {
     }
     const [isDelete , setIsDelete] = useState(false)
     const submitDelete = async() =>{
-        await delete_org(deleteOrg.id);
+        await delete_org(deleteOrg.org_id);
         setIsDelete(!isDelete)
     }
 
@@ -205,13 +203,13 @@ export default function Organization() {
     }
     return (
         <div className="organization-layout">
-            <ORGSidebar orgData={root_org} selection={curr_org} setSelection={displayTeam}/>
+            <ORGSidebar orgData={org} selection={curr_org} setSelection={displayTeam}/>
             <div className="rightContent">
                 {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
                 {/*toggle Modal Start */}
 
                 <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision} reload={fetchRootORG}/>
-                <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam} data={root_org}/>
+                <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam} data={org}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
                 <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers} reload={  async () => {  await fetchRootORG(),   await fetchUsers() }} clear={()=>{ setSelectedUsers([])}} />
                 <DeleteDivisionForm show={isDelete} toggle={toggleDelete}  reload={fetchRootORG}/>
@@ -225,13 +223,13 @@ export default function Organization() {
                             <span>Team</span>
                             <Select
                                 sx={style}
-                                value={root_org}
+                                value={org}
                                 onChange={handleSelectDelete}
                                 label={"Select Division"}
                                 input={<BootstrapInput />}
                             >
                                 <MenuItem sx={{padding:"1px"}} value={null}>Null</MenuItem>
-                                {root_org.map((d)=>{
+                                {org.map((d)=>{
                                     return (<MenuItem key={d.id} value={d}>{d.name}</MenuItem>)
                                 })}
                             </Select>
@@ -297,7 +295,7 @@ export default function Organization() {
                         </TableHead>
                         <TableBody>
                             {filteredData.length!=0 && currentContacts.map((data ,index) => {
-                                return( <TableRow 
+                                return( <TableRow
                                         key={index}
                                         hover
                                         role="checkbox"

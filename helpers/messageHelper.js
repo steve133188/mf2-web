@@ -1,8 +1,12 @@
 import axios from "axios"
 
 
-export default function WhatsappFetcher(url){
-    this.whatsappURL = url
+export default function WhatsappFetcher(){
+    this.whatsappURL;
+
+    this.setWhatsappURL = (url)=>{
+        this.whatsappURL = url
+    }
 
     this.instance = axios.create( {
         headers:{
