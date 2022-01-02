@@ -194,7 +194,7 @@
     border-radius: 10px;
     box-shadow: 0px 3px 6px #00000029;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    overflow: scroll;
+    overflow: auto;
     color: #444444;
     opacity: 1;
     margin-left: 12px;
@@ -204,7 +204,7 @@
       font: normal normal bold 16px/22px Manrope;
     }
     .notify_box_list{
-      overflow: scroll;
+      overflow: auto;
       .notify_box_li{
 
         cursor: pointer;
@@ -424,11 +424,11 @@
   display: flex;
   //width: 100%;
   height: 100vh;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .main-content {
-  overflow: scroll;
+  overflow: auto;
   width: 100%;
   //max-width: 95vw;
 }
