@@ -28,7 +28,7 @@ export const GlobalContextProvider = ({children}) =>{
     const contactInstance = contactsFetcher(user.token)
     const tagInstance = tagFetcher(user.token)
     const roleInstance = roleFetcher(user.token)
-    const messageInstance =new WhatsappFetcher("https://f125-118-140-233-2.ngrok.io")
+    const messageInstance =new WhatsappFetcher()
     const chatHelper =new ChatHelper()
 
     useEffect(()=>{
@@ -65,6 +65,7 @@ export const GlobalContextProvider = ({children}) =>{
                 contactInstance.token = user.token
                 tagInstance.token = user.token
                 roleInstance.token = user.token
+                messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
                 router.push("/dashboard/chat")
             }).catch(err=>{
                 console.log(err)

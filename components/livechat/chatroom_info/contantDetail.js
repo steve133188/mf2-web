@@ -44,9 +44,10 @@ const fetchContact = async (cid) =>{
     const data = await contactInstance.getContactById(cid)
     setContact(data)
     console.log(data,"cid")
-    setSelectedTags(data.tags)
-    setSelectedUsers(data.agents)
-    console.log(data.tags)
+    const {tags , agents} = data
+    setSelectedTags(new Array(tags))
+    setSelectedUsers(agents)
+    console.log(tags , agents)
 
 }
 useEffect(    async () => {
@@ -167,8 +168,7 @@ useEffect(()=>{
                             {selectedUsers &&selectedUsers.map((agent , index)=>{
                                 return(
                                     <Tooltip key={index} className={""} title={agent} placement="top-start">
-                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.substring(0,2).toUpperCase()}</Avatar>
-
+                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                     </Tooltip>
                                 )
                             })}
@@ -184,11 +184,11 @@ useEffect(()=>{
                             setFilteredTags(new_data)
                         })}}>
 
-                            {filteredTags.map((tag)=>{
-                                return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
+                            {filteredTags.map((tag , index)=>{
+                                return(<li key={index}><Pill key={index} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} onChange={()=>{}} />
+                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
                                         </label> </div></li>)
                             })}
 
@@ -196,8 +196,8 @@ useEffect(()=>{
 
                         </div>
                             <div style={{display:"flex",flexWrap:"wrap",width:"250px",height:"120px",overflow:"auto"}}>
-                                    {selectedTags!=-1&&selectedTags.map((tag)=>{
-                                        return<Pill key={tag} color="vip">{tag}</Pill>
+                                    {selectedTags!=-1&&selectedTags.map((tag , index)=>{
+                                        return<Pill key={index} color="vip">{tag.tag_name}</Pill>
                                     })}
 
                             </div>

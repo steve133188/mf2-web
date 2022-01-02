@@ -279,7 +279,7 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"text"}
-        const res = await messageInstance.sendMessage(data)
+        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})
         setIsExpand(false)

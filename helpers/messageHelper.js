@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 export default function WhatsappFetcher(){
-    this.whatsappURL;
+    this.whatsappURL = "https://f125-118-140-233-2.ngrok.io"
 
     this.setWhatsappURL = (url)=>{
         this.whatsappURL = url

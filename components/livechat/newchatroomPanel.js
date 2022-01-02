@@ -10,16 +10,18 @@ export default function Newchatroom(props){
     const {user} = useContext(GlobalContext)
 
     const createChatroom = async (data)=>{
+        console.log(user)
         const input = {
             channel:"whatsapp",
-            customer_id:data.id,
+            customer_id:data.customer_id,
             is_pin: false,
-            name: data.name,
+            name: data.first_name,
             phone: data.customer_id,
-            room_id:data.customer_id ,
+            room_id:data.phone ,
             unread:0 ,
-            user_id: user.user_id ,
+            user_id: user.user.phone ,
         }
+        console.log(input)
         const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input}))
         console.log(result)
     }
