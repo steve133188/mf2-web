@@ -263,9 +263,11 @@ export default function SideBar(props) {
 
                 
                     <div className={"side_bottom"}>
-                        <div className={isNotifyBoxOpen? "side-item notification_activate":"side-item notification"} >
+                        {/*<div className={isNotifyBoxOpen? "side-item notify_activate":"side-item"} >*/}
+
+                        <div className={isNotifyBoxOpen? "active-side-item ":"side-item"} >
                             <span onClick={notifyBoxToggle}>
-                                <div className={"nav-item "}>
+                                <div className={isNotifyBoxOpen?"active nav-item":"nav-item "}>
 
                                         <svg xmlns="http://www.w3.org/2000/svg"  width="16.8" height="16.8"  fill="currentColor"
                                             className="bi bi-person" viewBox="0 0 16 16">
@@ -278,18 +280,21 @@ export default function SideBar(props) {
                                 </div>
                             </span>
                             {isNotifyBoxOpen ? (
+                                <div className="notification_activate">
                                     <div className="notify_box">
                                         <div className="notify_box_title" >Notification</div>
                                         <div className="notify_box_list">
                                             {notifications.length>-1&&notifications.map((d , index )=>{
-                                                    return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
+                                                return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
                                             })}
                                         </div>
-                                    </div>) : null}
+                                    </div>
+                                </div>
+                            ) : null}
                         </div>
-                        <div className={router.pathname == "/setting" ? "active-side-item" : "side-item "}>
+                        <div className={router.pathname == "/setting" ? "active-side-item" : "side-item"}>
                             <Link href={"/setting"}>
-                                <div className={router.pathname == "/setting" ? "active nav-item" : "nav-item "}>
+                                <div className={router.pathname == "/setting" ? "active nav-item" : "nav-item"}>
                                 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             className="bi bi-person" viewBox="0 0 16 16">

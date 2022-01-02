@@ -110,8 +110,10 @@
 
 .active-side-item {
   padding: 0 .5rem;
+  margin-bottom: 3px;
+
   border-right: 3px solid #2198FA;
-  
+
 }
 
 .page-title {
@@ -177,8 +179,6 @@
   text-align: center;
   border: none;
   align-items: center;
-  background-color:#D0E9FF ;
-   color: #2198FA;
 
   .notify_box{
     display: flex;
@@ -197,7 +197,7 @@
     overflow: scroll;
     color: #444444;
     opacity: 1;
-
+    margin-left: 12px;
     .notify_box_title{
       padding: 1rem;
       text-align: left;
@@ -267,9 +267,7 @@
     }
 
   }
-  .notification_activate{
-    background-color:#D0E9FF ;
-  }
+
 
 
   //.badge {
@@ -344,6 +342,7 @@
     .side-item{
       display: flex;
       justify-content: center;
+      margin-bottom: 3px;
     }
     .side-item-name {
       display: none;
