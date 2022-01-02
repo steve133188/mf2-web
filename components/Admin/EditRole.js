@@ -45,7 +45,7 @@ const AuthList = [  {title:"Dashboard",name:"dashboard"},
 const channelData = [
     // name:"WhastApp",value:"All",channelID:"All",id:0},
             {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-            {name:"WhatsApp Business",value:"WhatsappB",channelID:"WhatsappB",id:2},
+            {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
             {name:"Messager",value:"Messager",channelID:"Messager",id:3},
             {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
