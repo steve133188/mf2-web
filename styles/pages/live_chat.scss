@@ -131,7 +131,7 @@
         width: 90%;
         // max-height: 93vh;
         margin: auto;
-        overflow-y: "scroll";
+        overflow-y: auto;
 
         font: normal normal normal 12px/17px Manrope;
         letter-spacing: 0px;
@@ -301,7 +301,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            overflow-x: scroll ;
+            overflow-x: auto;
             height: 120px;
             .channelListitem{
               display: flex;
@@ -340,7 +340,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            overflow-x: scroll ;
+            overflow-x: auto ;
             // align-items: center;
             height: 120px;
             .channelListitem{
