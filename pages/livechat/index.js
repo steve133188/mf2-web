@@ -29,7 +29,7 @@ export default function Live_chat() {
             {id:1,name:"Greating",set:[{name:"Morning",content:"Good morning, have a nice day!"}]},
             {id:4,name:"Questioning",set:[{name:"First meet",content:"What can i help you?"},{name:"Follow up",content:"That's great. Let me introduce you our service."}]},
             {id:2,name:"Merry Chrismax",set:[{name:"Set1",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"},{name:"Set2",content:"Merry Christmas, and may all your Christmases be white!!!"}]},
-            {id:3,name:"Happy new year",set:[{name:"è³€è©ä¸€",content:"æ­è³€æ–°æ˜¥!"},{name:"è³€è©äºŒ",content:"å¿ƒæƒ³äº‹æˆ!"},{name:"è³€è©ä¸‰",content:"èº«é«”å¥åº·!"}]},
+            {id:3,name:"Happy new year",set:[{name:"è³?è©?ä¸?",content:"??­è????°æ??!"},{name:"è³?è©?äº?",content:"å¿???³ä?????!"},{name:"è³?è©?ä¸?",content:"èº«é????¥åº·!"}]},
 
         ]
 
@@ -139,13 +139,43 @@ export default function Live_chat() {
         })
     }
     const fetchContacts = async () =>{
-        const data = await contactInstance.getAllContacts()
+        //const data = await contactInstance.getAllContacts()
+        const data=[{
+            "room_id": 69358633,
+            "user_id": 92443663,
+            "unread": 0,
+            "is_pin": false,
+            "customer_id": "85269358633",
+            "name": "Chi Yui Steve",
+            "phone": "85269358633",
+            "channel": "whatsapp"
+           }]
         setContacts(data)
         console.log(data,"all contacts")
     }
 
     const getUsers = async ()=>{
-        const data = await userInstance.getAllUser()
+        //const data = await userInstance.getAllUser()
+        const data = [{
+            "customer_id": 85269358633,
+            "email": "steve.chak@matrixsense.tech",
+            "name": "chak chi yui steve",
+            "gender": "M",
+            "update_at": 1641189592,
+            "last_name": "Chak",
+            "first_name": "Chi Yui Steve",
+            "agents_id": [
+             0
+            ],
+            "channels": [
+             "whatsapp"
+            ],
+            "customer_group": "group2",
+            "tags_id": [
+             1181817
+            ],
+            "phone": 69358633
+           }]
         console.log("AGENTs live chat",data)
         setUsers(data)
         setFilteredUsers(data)
@@ -185,10 +215,22 @@ export default function Live_chat() {
     }
 
     const getChatroomMessage = async()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id}}}))
-        console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
-        setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
+       // const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id}}}))
+       const result =[{
+        "room_id": 68902855,
+        "timestamp": "1641189751",
+        "sender": "85268902855@c.us",
+        "media_url": "",
+        "recipient": "85260957729@c.us",
+        "message_type": "chat",
+        "is_media": false,
+        "from_me": false,
+        "body": "Hey!"
+       }]
+        //console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
+        setChatroomMsg(result)
     }
+
 
     useEffect(async ()=>{
         if(!start){  setStart(true)}
