@@ -14,12 +14,12 @@ export default function dashboardFetcher(token){
         timeout:5000,
         baseURL:"https://mkw892fwn0.execute-api.ap-southeast-1.amazonaws.com/prod/dashboard"
     })
-    instance.getDefaultData = async ()=>{
-        return (await instance.fetcher.get(`/roles`)).data
+    instance.getDefaultData = async ( {start , end})=>{
+        return (await instance.fetcher.get(`/` , {params: {start , end}})).data
     }
 
     instance.getTimeRangeData = async (start , end)=>{
-        return (await instance.fetcher.get(`/roles` ,{params: {start , end} })).data
+        return (await instance.fetcher.get(`/` ,{params: {start , end} })).data
     }
 
 

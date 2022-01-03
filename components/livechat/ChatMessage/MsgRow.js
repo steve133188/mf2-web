@@ -84,19 +84,18 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
 
         }
     }
-   
+
     return(
         <div className={"msg_row"} id={msg.timestamp} >
             <div className={msg.from_me?"msg_from_me":"msg_from_other"}>
                 <div>{messageType(msg)}</div>
                 {/* <div className={"msg_body"}>{msg.body}</div> */}
                 {/* {props.d.map(e=>{return msg.sender==e.phone?console.log("I find it",e.phone):msg.sender})} */}
-                {msg.message_type!="replyMsg"?props.d.map(e=>{e.user_id.toString()==msg.sender ?<div>{e.username}</div>:""}):""}
-                {msg.message_type!="replyMsg"?props.c.map(e=>{e.customer_id.toString()==msg.sender ? <div>{e.first_name}</div>:""}):""}
-                {msg.message_type!="replyMsg"?msg.sender&&<div className={"msg_timestamp"}>+{msg.sender.slice(0,3)} {msg.sender.slice(3)}__{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()} </div>:""}
+
+                {/*{msg.sender&&msg.from_me&&<div className={"msg_timestamp"}>+{msg.sender.slice(0,3)} {msg.sender.slice(3)}__{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()} </div>}*/}
+                {msg.sender&&msg.from_me&&<div className={"msg_timestamp"}>{user.user.username} _ {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()} </div>}
             </div>
         </div>
     )
 }
 
- 
