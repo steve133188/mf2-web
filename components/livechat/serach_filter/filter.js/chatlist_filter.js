@@ -114,7 +114,7 @@ export default function ChatlistFilter( {...props}){
     };
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;
-        setSelectedChannels(["all","whatsapp","whatsappB","wechat","messager"]);
+        setSelectedChannels(["all","whatsapp","WABA","wechat","messager"]);
         if (!checked) {
             setSelectedChannels([]);
         }

@@ -109,8 +109,9 @@ export default function Live_chat() {
 
     }
     const getCustomerbyID = async (id)=>{
-        // console.log(id)
+        console.log(id,"chatroom selected")
         const result = await contactInstance.getContactById(id)
+        console.log(result)
         setChatUser(result.data)
     }
     const [contacts, setContacts] = useState([]);
@@ -395,18 +396,19 @@ export default function Live_chat() {
     },[selectedChat])
 
 
-    // useEffect(()=>{
-    //     if(!chatroomstart){  setChatroomStart(true)}
-    //     const new1=[]
-    //     chatrooms.length>0&&chatrooms.map(chat=>{
-    //         console.log(contacts,"contact in info")
-    //         const cc = contacts.filter(c=>{return c.id==chat.customer_id});
-    //         console.log(cc,"contacts show")
-    //         return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
-    //     })
-    //     setFilteredData(new1)
-    //     setChatroomsInfo(new1)
-    // },[chatrooms])
+    useEffect(()=>{
+        console.log(chatrooms,"ftech info")
+        if(!chatroomStart){  setChatroomStart(true)}
+        const new1=[]
+        chatrooms&&chatrooms.map(chat=>{
+            console.log(contacts,"contact in info")
+            const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
+            console.log(cc,"contacts show")
+            return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
+        })
+        setFilteredData(new1)
+        setChatroomsInfo(new1)
+    },[chatrooms])
 
 
     const advanceFilter =()=>{
@@ -543,8 +545,10 @@ export default function Live_chat() {
                                             // type={type}
                                             // value={state}
                                             onChange={(e)=> {
+                                                console.log(e.target.value ,"searching chatlist")
                                                 searchFilter(e.target.value , chatroomsInfo,(new_data)=>{
-                                                    setFilteredData(new_data)
+                                                    setFilteredData(new_data);
+                                                      console.log(new_data,"after searching");
                                                 })
                                             }}
                                             placeholder={"Search"}
@@ -613,7 +617,7 @@ export default function Live_chat() {
                         <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                         </div>
-                           {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
+                           {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
                            {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                         </div>
                            <div className="msg_noti_popup">
