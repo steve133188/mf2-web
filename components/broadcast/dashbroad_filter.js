@@ -19,10 +19,10 @@ export default function DashBroadFilter(props){
     // const [selectedUsers ,setSelectedUsers] =useState([]);
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+                {name:"WhastApp",value:"whatsapp",channelID:"whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WABA",channelID:"whatsappB",id:2},
+                {name:"Messager",value:"messager",channelID:"messager",id:3},
+                {name:"WeChat",value:"wechat",channelID:"wechat",id:4},];
     const [tags ,setTags] =useState([]);
     const [teams ,setTeams] =useState([]);
     const [agents ,setAgents] =useState([]);
@@ -147,6 +147,14 @@ export default function DashBroadFilter(props){
         }
         console.log(selectedTeams)
     };
+    const toggleSelectAllChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels(["all","whatsapp","WABA","wechat","messager"]);
+        if (!checked) {
+            setSelectedChannels([]);
+        }
+
+    };
     const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
 
@@ -227,6 +235,7 @@ export default function DashBroadFilter(props){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
+                        <ChannelListItem name={"All Channels"} value={"all"} id={"all"} key={"all"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />
                         {channels.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
                 </div>

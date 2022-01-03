@@ -82,7 +82,7 @@ export default function Chat() {
     }
     const changeTags=()=>{
         if(selectedTags.length==0) return setTags(filteredTags)
-        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag==el)}));
+        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag_name==el)}));
         // setSelectedTags([])
     }
 
@@ -299,10 +299,10 @@ export default function Chat() {
                     setFilteredTags(new_data)
                 })}} >
                     {filteredTags.map((tag)=>{
-                        return(<li key={tag.id}><Pill size="30px" key={tag.id} color="vip">{tag.tag}</Pill>
+                        return(<li key={tag.tag_id}><Pill size="30px" key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                    <input type="checkbox" id={tag.tag_name} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -351,7 +351,7 @@ export default function Chat() {
                                         >
                                             <TableCell style={{width: "20%",}}>
 
-                                             <Pill key={item.id} size="30px" color="vip">{item.tag}</Pill>
+                                             <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>
                                             </TableCell>
                                            <TableCell align="left" style={{width: "20%",}}>
                                                 <span >{item.total}</span>
