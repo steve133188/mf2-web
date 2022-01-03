@@ -5,17 +5,17 @@ import Link from 'next/link';
 import {ImportDropzone} from '../../../components/ImportContact.js'
 import axios from "axios";
 import SelectSession from "../../../components/SelectSession";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableRow from "@mui/material/TableRow";
-import {TableCell} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+// import TableContainer from "@mui/material/TableContainer";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableRow from "@mui/material/TableRow";
+// import Avatar from "@mui/material/Avatar";
+import {TableCell ,TableContainer ,Table ,TableBody ,TableRow ,Avatar, TableHead ,Pagination ,Tooltip} from "@mui/material";
 import {Pill} from "../../../components/Pill";
 import MF_Select from "../../../components/MF_Select";
-import TableHead from "@mui/material/TableHead";
-import Pagination from '@mui/material/Pagination';
-import { Tooltip } from '@mui/material';
+// import TableHead from "@mui/material/TableHead";
+// import Pagination from '@mui/material/Pagination';
+// import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdownform from "../../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../../components/mf_dropdown_select";
@@ -27,7 +27,7 @@ import * as React from "react";
 import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
 import DeletePad from "../../../components/DeletePannel";
 import CreateReplyFolder from "../../../components/Admin/CreateReplyFolder";
-import ReplyFolder from "./replyFolder";
+import ReplyFolder from "../../../components/Admin/replyFolder";
 import Profile from "../../../components/profile";
 import EditReplyFolder from "../../../components/Admin/EditReplyFolder";
 
@@ -58,13 +58,13 @@ export default function StandardReply() {
     const [isEdit , setIsEdit] = useState(false)
     const [editData,setEditData] = useState({})
     let result = currentReply.map(d=>d.id)
-    
+
     useEffect(    async () => {
         if(user.token) {
             await fetchStandardReply();
              await getAgents ();
             }
-           
+
     },[]);
     const fetchStandardReply = async () =>{
         const data = await adminInstance.getAllStandardReply()
@@ -147,7 +147,7 @@ export default function StandardReply() {
         console.log(standardReply,"reply")
         console.log(useFolder,"reply")
     },[useFolder])
-  
+
 
 
     const default_cols = ['Folder' , 'Channel' ,'Team',""]
@@ -225,7 +225,7 @@ export default function StandardReply() {
                             {filteredData.length!=0 && currentReply.map((data ,index) => {
                                 return( <TableRow
                                         key={index}
-                                        hover 
+                                        hover
                                         role="checkbox"
                                         name={index}
                                         checked={selectedReply.includes(data.id)}
@@ -249,7 +249,7 @@ export default function StandardReply() {
 
                                         <TableCell align="left" sx={{width:"15%"}}>
                                         {data.channel?data.channel.map((item, index)=>{;
-                                            return <span key={index} ><Image src={`/channel_SVG/${item}.svg`} alt="Channel icon" width={22} height={22}  /> 
+                                            return <span key={index} ><Image src={`/channel_SVG/${item}.svg`} alt="Channel icon" width={22} height={22}  />
                                             </span>}):""}
 
                                         </TableCell>
@@ -268,7 +268,7 @@ export default function StandardReply() {
                                                              :
                                                              <Tooltip key={"no"} className={""} title={"no Assignee"} placement="top-start">
                                                                 <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14,margin:"0 5px"}} >x</Avatar>
-                                                             </Tooltip> 
+                                                             </Tooltip>
                                                              } </span>
                                         </TableCell> */}
 

@@ -1,20 +1,19 @@
-import CreateReplyFolder from "../../../components/Admin/CreateReplyFolder"
-import DeletePad from "../../../components/DeletePannel"
+import CreateReplyFolder from "./CreateReplyFolder"
+import DeletePad from "../DeletePannel"
 import {useContext, useEffect, useRef, useState} from "react";
-import SelectSession from "../../../components/SelectSession";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableRow from "@mui/material/TableRow";
-import {TableCell} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import TableHead from "@mui/material/TableHead";
-import Pagination from '@mui/material/Pagination';
-import { Tooltip } from '@mui/material';
-import searchFilter from "../../../helpers/searchFilter";
-import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
-import CreateReply from "../../../components/Admin/CreateReply";
-import { GlobalContext } from "../../../context/GlobalContext";
+import SelectSession from "../SelectSession";
+// import  TableContainer from "@mui/material/TableContainer";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableRow from "@mui/material/TableRow";
+// import {TableCell} from "@mui/material";
+// import TableHead from "@mui/material/TableHead";
+// import Pagination from '@mui/material/Pagination';
+import { AvatarGroup ,Avatar ,Tooltip ,TableContainer ,Table,TableBody,TableRow,TableCell,TableHead ,Pagination} from '@mui/material'
+import searchFilter from "../../helpers/searchFilter";
+import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
+import CreateReply from "./CreateReply";
+import { GlobalContext } from "../../context/GlobalContext";
 
 
 
@@ -78,7 +77,7 @@ export default function ReplyFolder({data,reload}) {
         setFilteredData(data.content)
         console.log(data)
     },[])
-  
+
     const default_cols = ['Message Content' ,""]
     return(
         <div className={"admin_layout"}>
@@ -132,7 +131,7 @@ export default function ReplyFolder({data,reload}) {
                     >
                         <TableHead>
                             <TableRow>
-                         
+
                                 {default_cols.map((col,index)=>{
                                     return ( <TableCell  style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
                                 })}
@@ -143,7 +142,7 @@ export default function ReplyFolder({data,reload}) {
                             {filteredData.length!=0 && currentReply.map((data ,index) => {
                                 return( <TableRow
                                         key={index}
-                                        hover 
+                                        hover
                                         role="checkbox"
                                         name={index}
                                         checked={selectedReply.includes(data.id)}
