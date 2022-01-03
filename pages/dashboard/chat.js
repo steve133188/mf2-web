@@ -21,6 +21,7 @@ import TableRow from "@mui/material/TableRow";
 import {TableCell, TableHead} from "@mui/material";
 
 import searchFilter from "../../helpers/searchFilter";
+import dashboardFetcher from "../../helpers/dashboardHelpers";
 
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,7 @@ export default function Chat() {
     const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
-
+    const [dash  , setDash ] = useState({allContacts :[] , activeContacts:[] , totalMessagesSent:[] , totalMessagesReceived:[] , newlyAddedContacts:[] , avgResTime :[] , mostComHr :[] , tags:[]})
     const [selectedData,setselectedDate] =useState([])
 
     const handleClickAway = () => {
@@ -105,16 +106,13 @@ export default function Chat() {
         })
         callback(newData)
     }
-    const fetchContacts = async () =>{
-        const data = await contactInstance.getAllContacts()
-        setContacts(data)
-        setFilteredAgents(data)
+    const fetchDefault = async ()=>{
+        let start = new Date.now().getTime() / 1000
+        let end = start - 3600 * 48
+        const data = await dashboardInstance.getDefaultData(start ,end)
     }
 
-    useEffect(
-
-            async ()=>{
-                await fetchContacts();
+    useEffect(async ()=>{
                 await getTags();
 
 
@@ -252,7 +250,7 @@ export default function Chat() {
             <div className="lineCardGroupSet">
 
                 <div className="lineCardGroup1">
-                    <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"34"} leftPercentage={"- 25%"} rightTitle={"Sent"} rightTotal={"10"} rightPercentage={"+ 10%"} />
+                    <BigChangingPercentageCard title={"WhatsApp Templated Message"} leftTitle={"Quote:"} leftTotal={"0"} leftPercentage={"0%"} rightTitle={"Sent"} rightTotal={"0"} rightPercentage={"0%"} />
 
 
                     <div className={"card_holder1"}>
@@ -270,20 +268,20 @@ export default function Chat() {
             </div>
             <div className="chartGroup">
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={[25, 24, 32, 36, 32, 30, 33, 33, 20, 17, 19, 34]} yaxis={"Contacts"} total={"34"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} data={[12, 17, 19, 22, 24, 20, 18, 26, 20, 17, 15, 19]} yaxis={"Contacts"} total={"19"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={[25, 24, 32, 36, 32, 30, 33, 33, 20, 17, 19, 34]} x_cate={[]}  yaxis={"Contacts"} total={"34"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} data={[12, 17, 19, 22, 24, 20, 18, 26, 20, 17, 15, 19]}  x_cate={[]} yaxis={"Contacts"} total={"19"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} data={[23, 38, 30, 17, 26, 18, 34, 13, 19, 39, 22, 14]} yaxis={"Messages"} total={"14"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} data={[17, 18, 17, 13, 40, 17, 36, 33, 25, 34, 36, 15]} yaxis={"Messages"} total={"15"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} data={[23, 38, 30, 17, 26, 18, 34, 13, 19, 39, 22, 14]}  x_cate={[]} yaxis={"Messages"} total={"14"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} data={[17, 18, 17, 13, 40, 17, 36, 33, 25, 34, 36, 15]} x_cate={[]}  yaxis={"Messages"} total={"15"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} data={[21, 18, 17, 35, 38, 16, 40, 18, 12, 24, 30, 20]} yaxis={"Contacts"} total={"20"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} data={[21, 18, 17, 35, 38, 16, 40, 18, 12, 24, 30, 20]}  x_cate={[]} yaxis={"Contacts"} total={"20"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} data={[28, 30, 17, 18, 36, 13, 23, 36, 34, 23, 15, 26]} yaxis={"Hours"} total={"26"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} data={[28, 30, 17, 18, 36, 13, 23, 36, 34, 23, 15, 26]} x_cate={[]}  yaxis={"Hours"} total={"26"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     <div className="tableSet">
@@ -297,10 +295,10 @@ export default function Chat() {
                     setFilteredTags(new_data)
                 })}} >
                     {filteredTags.map((tag)=>{
-                        return(<li key={tag.id}><Pill size="30px" key={tag.id} color="vip">{tag.tag}</Pill>
+                        return(<li key={tag.tag_id}><Pill size="30px" key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                    <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -343,13 +341,13 @@ export default function Chat() {
                                             key={index}
                                             hover
                                             // role="checkbox"
-                                            name={index}
+                                            name={item.tag_name}
                                             // checked={selectedUsers.includes(data.phone)}
 
                                         >
                                             <TableCell style={{width: "20%",}}>
 
-                                             <Pill key={item.id} size="30px" color="vip">{item.tag}</Pill>
+                                             <Pill key={item.id} size="30px" color="vip">{item.tag_name}</Pill>
                                             </TableCell>
                                            <TableCell align="left" style={{width: "20%",}}>
                                                 <span >{item.total}</span>
@@ -357,7 +355,7 @@ export default function Chat() {
 
                                             {selectedData&&selectedData.map(item=>{return  <
                                                 TableCell align="left" style={{width: "auto",}}>
-                                                {item.name}
+                                                {item.tag_name}
                                                 </TableCell>})}
 
                                                 <TableCell align="left" style={{width: "auto",}}>

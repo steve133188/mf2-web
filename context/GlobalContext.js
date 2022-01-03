@@ -11,6 +11,7 @@ import mediaHelper from "../helpers/mediaHelper";
 import ChatHelper from "../helpers/chatHelper";
 import tagFetcher from "../helpers/tagHelpers";
 import roleFetcher from "../helpers/roleHelpers";
+import dashboardFetcher from "../helpers/dashboardHelpers";
 
 export const GlobalContext = createContext({})
 
@@ -30,6 +31,7 @@ export const GlobalContextProvider = ({children}) =>{
     const roleInstance = roleFetcher(user.token)
     const messageInstance =new WhatsappFetcher()
     const chatHelper =new ChatHelper()
+    const dashboardInstance = dashboardFetcher(user.token)
 
     useEffect(()=>{
         setUser({
@@ -39,7 +41,7 @@ export const GlobalContextProvider = ({children}) =>{
         console.log(user)
     },[])
 
-   
+
     const login = async (credentials)=>{
         const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
         const res = await axios.post(url , credentials,{
@@ -85,6 +87,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance}}>{children}</GlobalContext.Provider>
     )
 }
