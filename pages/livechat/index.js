@@ -22,6 +22,7 @@ import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
 import searchFilter from "../../helpers/searchFilter";
 import CountDownTimer from "../../components/CountDownTimer";
+import NotificationList from "../../components/NotificationList";
 
 export default function Live_chat() {
 
@@ -55,7 +56,11 @@ export default function Live_chat() {
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [subscribe,setSubscribe] = useState()
     const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-
+    
+    const [replyMsg, setReplyMsg] = useState("")
+    const [quotaMsg,setQuotaMsg] = useState({})
+    const [reply,setReply] =useState(false)
+    
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
         phone:"",
@@ -128,6 +133,7 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
+    const [noti,setNofis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
     const [chatroomStart,setChatroomStart] = useState(false)
 
 
@@ -194,7 +200,12 @@ export default function Live_chat() {
         const data = await getChatrooms()
         setChatrooms(data)
     } , [selectedTeams])
+    
+    const toggleReply = () =>{
+        setChatButtonOn(ChatButtonOn=="mr");
+        setIsExpand(true);
 
+    }
     const toggleSticker = () =>{
         setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
         setIsExpand(isExpand&&ChatButtonOn=="m1"?false:true);
@@ -302,23 +313,34 @@ export default function Live_chat() {
         setIsExpand(false);
         }
     };
-    const rightClickHandler =(e)=>{
-        e.preventDefault()
-        // console.log(e.target.className)
-        // if(e.target.className=="msg_body"||"video-react-video"||"attachmentBody"||"imageBox"||"voice_detail"){
-        //     console.log("right click",e.target.value)
-        //     setReplybox(e.target.value)
-        // }
+    const replyClick=click=>{
+
+        console.log(click,"done donedone")
+        setReplyMsg(click)
+        const quotaMsg = chatroomMsg.filter(e=>{return click==(e.room_id+e.timestamp)})
+        const m={...quotaMsg[0],message_type:"replyMsg"}
+        console.log(m,"message get")
+        setQuotaMsg(m)
+        !m?setQuotaMsg({}):""
+        if(click==replyMsg){setReplyMsg("")}
+    }
+
+    const confirmReply=()=>{
+        setReply(!reply)
+        setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
+        setIsExpand(isExpand&&ChatButtonOn=="mr"?false:true);
 
     }
+
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
-        document.addEventListener("contextmenu",rightClickHandler,true);
+
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
-            document.removeEventListener("contextmenu",rightClickHandler,true);
+
         };
     },[])
+
     const getStickers = async ()=>{
         const {folders , files} = await mediaInstance.getStickers()
         const arrfolders = Array.from(folders)
@@ -594,6 +616,33 @@ export default function Live_chat() {
                            {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                            {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                         </div>
+                           <div className="msg_noti_popup">
+                               <div className="popleft">
+                                   <div className="pop_matter">
+                                       {noti.type=="Disconnect"?<img src={`/channel_SVG/disconnect.svg`}/>:""}
+                                       {noti.type=="newMsg"?<img src={`/channel_SVG/${noti.channel}.svg`}  style={{width:"40px",height:"40px"}} />:""}
+                                   </div>
+                                   <div className="pop_content">
+                                        {noti.type=="Disconnect"?<img src={`/channel_SVG/${noti.channel}.svg`} Disconnected/>:""}
+                                        {noti.type=="newMsg"?
+
+
+                                        <div className="pop_half"> 
+                                            <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"0px"}} alt="icon" />
+                                                "{noti.sender}"see if there are sender
+
+                                        </div>
+                                        :""}    
+                                       <div className="pop_half"> {noti.content}</div>
+
+
+                                   </div>
+                                   
+                               </div>
+                               <div className=".popright">
+
+                               </div>
+                            </div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
                         <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} ><ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
@@ -611,7 +660,7 @@ export default function Live_chat() {
                 // ref={messagesSearchRef}
                  className={"chatroom_records"}>
                     {chatroomMsg.map((r , i)=>{
-                        return  <MsgRow msg={r} key={i} d={filteredUsers} />
+                        return  <MsgRow msg={r} key={i} d={filteredUsers} c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
 
                     })}
                     <div ref={messagesEndRef}>
@@ -620,7 +669,13 @@ export default function Live_chat() {
                 </div>
 
                 <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
-                    <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} ></textarea>
+                           {quotaMsg&&
+                            <div style={{display:(ChatButtonOn=="mr"?"flex":"none")}} onClick={toggleReply }>
+                                <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
+                           </div> 
+                           }
+                    <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} >
+                    </textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />

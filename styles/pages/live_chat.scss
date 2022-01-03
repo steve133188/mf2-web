@@ -410,7 +410,7 @@
           //border-top: 1px solid #F1F1F1;
           .starred{
             position:absolute;
-            right: 2.5%;
+            right: 5%;
             // border: 1px solid #E5E7EC;
             // opacity: 1;
           }
@@ -430,6 +430,7 @@
           .chatroom_name_ss{
             display: flex;
             //width: 30%;
+            // min-width: 140px;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
@@ -449,6 +450,13 @@
               letter-spacing: 0px;
               padding: 3px 12px;
 
+            }
+            .chatroom_contacts_cardname{
+              display:"flex";
+              white-space:"nowrap";
+              max-height:"100%";
+              justify-content:"flex-start";
+              gap:4;
             }
           }
           .chatroom_time{
@@ -527,6 +535,43 @@
         }
         .chatroom_channel{
 
+        }
+        .msg_noti_popup{
+          position:absolute;
+          width:250px;
+          height: 50px;
+          right:5%;
+          z-index: 120;
+          display: flex;
+          justify-content: space-between;
+          box-shadow: 0px 3px 6px #00000029;
+          background: #FFFFFF 0% 0% no-repeat;
+          border-radius: 10px;
+
+          .popleft{
+
+          display: flex;
+          justify-content: flex-start;
+          height: 100%;
+          .pop_matter{
+            width: 45px;
+            margin: 0 ;
+            margin: 0 8px;;
+            img{
+              margin: 5px;;
+            }
+          }
+          .pop_content{
+            width:150px;
+            padding: 5px 0;
+          }
+          }
+          .pop_half{
+            height: 50%;
+
+          display: flex;
+          justify-content: flex-start;
+          }
         }
       }
      .chatroom_top_btn_gp{
@@ -1111,7 +1156,7 @@
     //border-top: 1px solid #F1F1F1;
     .starred{
       position:absolute;
-      right: 2.5%;
+      right: 5%;
       // border: 1px solid #E5E7EC;
       // opacity: 1;
     }
