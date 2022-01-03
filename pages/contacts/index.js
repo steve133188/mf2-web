@@ -638,7 +638,7 @@ export default function Contacts() {
                                         <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} >
                                             {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
-                                                    <Tooltip key={index} className={""} title={agent.username} placement="top-start">
+                                                    <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
                                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )

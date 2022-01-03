@@ -190,7 +190,7 @@ export default function AddContact() {
                                 <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} >
                                     {selectedUsers!=-1 &&selectedUsers.map((agent , index)=>{
                                         return(
-                                            <Tooltip key={index} className={""} title={agent} placement="top-start">
+                                            <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
                                                 <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                             </Tooltip>
                                         )
@@ -204,7 +204,7 @@ export default function AddContact() {
                                     {filteredUsers.map((user)=>{
                                         return(<li key={user.username}>
                                             <div style={{display:"flex" ,gap:10}}>
-                                            <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
+                                            <Tooltip key={user.username} className={""} title={user.username?user.username:""} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
                                             <div className={"name"}>{user.username}</div>
