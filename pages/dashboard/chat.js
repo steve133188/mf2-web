@@ -56,6 +56,8 @@ export default function Chat() {
 
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
+      console.log(range,"day tiem range ")
+      console.log(typeof(range.from),"day tiem range ")
       setDayState(range);
     }
     const toggleSelectTags = e => {

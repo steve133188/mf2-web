@@ -12,7 +12,8 @@ const imageCaption = {
 }
 const captionJson = JSON.stringify(imageCaption)
 
-export default function MsgRow({msg,replyHandle,confirmReply ,...props}){
+export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,...props}){
+
     
     const [isImageOpen,setImageOpen] = useState(false)
     useEffect(()=>{
@@ -37,6 +38,7 @@ export default function MsgRow({msg,replyHandle,confirmReply ,...props}){
                 return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}
                         {/* {console.log(JSON.parse(captionJson).url)} */}
                                 {/* JSON.parse({msg.body}) */}
+                                {/* // <div value={msg.timestamp}  className={"msg_type_imageCaption"}> */}
                                     <img className={"bigImageBox"} src={JSON.parse(captionJson).url}  onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/>
                                     <img id={defaultId} onClick={replyclick}  className={"imageBox"} src={JSON.parse(captionJson).url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
                                     <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
@@ -75,7 +77,8 @@ export default function MsgRow({msg,replyHandle,confirmReply ,...props}){
                                     </div>
                                 </div>;
 
-            default:   return  <div id={defaultId} onClick={replyclick}   className={"msg_body" +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}{msg.body}</div>
+            default:   return  <div id={defaultId} onClick={replyclick}  value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body" +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}{msg.body}</div>
+            // default:   return  <div value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body"}>{msg.body}</div>
 
 
 
@@ -83,7 +86,7 @@ export default function MsgRow({msg,replyHandle,confirmReply ,...props}){
     }
    
     return(
-        <div className={"msg_row"}>
+        <div className={"msg_row"} id={msg.timestamp} >
             <div className={msg.from_me?"msg_from_me":"msg_from_other"}>
                 <div>{messageType(msg)}</div>
                 {/* <div className={"msg_body"}>{msg.body}</div> */}

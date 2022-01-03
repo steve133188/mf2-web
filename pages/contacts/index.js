@@ -121,7 +121,7 @@ export default function Contacts() {
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
                 return (
-                    <Tooltip key={index} className={""} title={agent} placement="top-start">
+                    <Tooltip key={index} className={""} title={agent.username} placement="top-start">
                         <Avatar className={"mf_bg_warning mf_color_warning text-center 123"} sx={{
                             width: 22,
                             height: 22,
@@ -388,7 +388,7 @@ export default function Contacts() {
 
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
-                    <NotificationContainer/>
+                    {/* <NotificationContainer/> */}
 
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
             {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}
@@ -492,7 +492,7 @@ export default function Contacts() {
                     {filteredUsers.map((user , index)=>{
                         return(<li key={index}>
                             <div style={{display:"flex" ,gap:10}}>
-                                <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
+                                <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
                                 </Tooltip>
                                 <div className={"name"}>{user.username}</div>
@@ -641,7 +641,7 @@ export default function Contacts() {
                                         <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} >
                                             {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
-                                                    <Tooltip key={index} className={""} title={agent} placement="top-start">
+                                                    <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
                                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )

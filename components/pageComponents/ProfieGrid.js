@@ -104,7 +104,7 @@ export default function ProfileGrid({data}){
                                 {data.agents!=null &&data.agents.map((agent , index)=>{
                                     console.log(agent,"contact file agents")
                                     return(
-                                        <Tooltip key={index} className={""} title={agent} placement="top-start">
+                                        <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning"}  style={{margin:"0 3px"}}sx={{width:35 , height:35 ,fontSize:18}} alt={agent}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
                                     )
