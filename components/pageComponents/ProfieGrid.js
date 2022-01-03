@@ -102,6 +102,7 @@ export default function ProfileGrid({data}){
                         <div className={"session_content"}>
                             {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
                                 {data.agents!=null &&data.agents.map((agent , index)=>{
+                                    console.log(agent,"contact file agents")
                                     return(
                                         <Tooltip key={index} className={""} title={agent} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning"}  style={{margin:"0 3px"}}sx={{width:35 , height:35 ,fontSize:18}} alt={agent}>{agent.username.substring(0,2).toUpperCase()}</Avatar>

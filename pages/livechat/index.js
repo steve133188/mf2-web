@@ -134,7 +134,7 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
-    const [noti,setNofis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
+    const [noti,setNofis]= useState({type:"safe",channel:"whatsapp",content:"",sender:""})
     const [chatroomStart,setChatroomStart] = useState(false)
 
 
@@ -620,7 +620,7 @@ export default function Live_chat() {
                            {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
                            {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                         </div>
-                           <div className="msg_noti_popup">
+                           <div className="msg_noti_popup" style={{display:noti.type=="safe"?"none":"flex" }}>
                                <div className="popleft">
                                    <div className="pop_matter">
                                        {noti.type=="Disconnect"?<img src={`/channel_SVG/disconnect.svg`}/>:""}

@@ -57,7 +57,7 @@ export default function Contacts() {
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
-    const [selectedTeams ,setSelectedTeams] =useState([])
+    const [selectedTeams ,setSelectedTeams] =useState("")
     const [selectedChannel ,setSelectedChannel] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
@@ -100,10 +100,12 @@ export default function Contacts() {
         console.log("channelFiltered:",channelFiltered)
 
         const teamFiltered = channelFiltered.filter(data=>{
-            if(!selectedTeams.id){
+            console.log(selectedTeams,"teamfilstedf before")
+            if(selectedTeams.length ==0){
                 return data
             }
-            return data.team==selectedTeams.id
+            return selectedTeams==data.team.name
+            // return data.team==selectedTeams.id
         })
         console.log("teamFiltered:",teamFiltered)
         setFilteredData([...teamFiltered])
@@ -153,6 +155,7 @@ export default function Contacts() {
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
+        console.log(data,"TEAM INFO")
         setTeams(data)
     }
     const getChannels = async ()=>{
@@ -507,7 +510,7 @@ export default function Contacts() {
                         advanceFilter()
                     }}>All</li>
                     {teams.map((team , index)=>{
-                        return(<li id={team}  key={index} onClick={(e)=>{setSelectedTeams({name:team,id:e.target.id}) }}> {team}</li>)
+                        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams(team.name) }}> {team.name}</li>)
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
