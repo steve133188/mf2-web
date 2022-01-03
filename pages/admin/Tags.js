@@ -32,7 +32,7 @@ import DeleteTag from "../../components/Admin/DeleteTag";
 export default function Tags() {
 
     const [tags, setTags] = useState([]);
-    const {adminInstance , user} = useContext(GlobalContext)
+    const {tagInstance , user} = useContext(GlobalContext)
 
     const [filteredData , setFilteredData] = useState([])
 
@@ -54,7 +54,7 @@ export default function Tags() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchTags = async () =>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         console.log("getAllTags()",data)
         setTags(data)
         setFilteredData(data)
@@ -178,7 +178,7 @@ export default function Tags() {
                                         hover
                                         role="checkbox"
                                         name={index}
-                                        checked={selectedContacts.includes(data.id)}
+                                        checked={selectedContacts.includes(data.tag_id)}
                                         onClick={isSelectRow?toggleSelect:null}
                                     >
                                         <TableCell style={{
@@ -188,28 +188,28 @@ export default function Tags() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.id} name="checkbox" checked={selectedContacts.includes(data.id)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.tag_id} name="checkbox" checked={selectedContacts.includes(data.tag_id)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
 
                                             </div>
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"50%"}}>
-                                            <span >{data.tag}</span>
+                                            <span >{data.tag_name}</span>
                                         </TableCell>
 
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{data.created.slice(0,-9)}</span>
+                                            <span >{data.create_at}</span>
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{data.updated.slice(0,-9)}</span>
+                                            <span >{data.update_at}</span>
 
                                         </TableCell>
 
 
                                         <TableCell align="right">
                                             <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG/></span>
-                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete([data.id])}><DeleteSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleDelete([data.tag_id])}><DeleteSVG/></span>
                                         </TableCell>
                                     </TableRow>
                                 )

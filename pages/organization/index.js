@@ -160,6 +160,7 @@ export default function Organization() {
 
     const toggleProfile = (key) =>{
         if(!isProfileShow) setUseUser(key)
+        console.log(key,"use users")
         setIsProfileShow(!isProfileShow)
     }
     const toggleNewTeam = async () =>{
@@ -320,7 +321,7 @@ export default function Organization() {
                                             <span >{data.username}</span>
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
-                                            {data.role}
+                                            {data.role_name}
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.email}

@@ -120,14 +120,14 @@ export default function StandardReply() {
         setIsDelete(!isDelete)
         console.log("ddddddddddd",selectedReply)
         const file = await adminInstance.getContentByFolderName(selectedReply[0].name)
-        // const data = await adminInstance.deleteContent()
+        // const data = await tagInstance.deleteContent()
         console.log("DeleteStandardReply",file)
         // console.log("DeleteStandardReply",data)
         setSelectedReply([]);
 
     }
     // const deleteReplys= async (id)=>{
-    //     // const res = await adminInstance.deleteTag(id)
+    //     // const res = await tagInstance.deleteTag(id)
     //     console.log(res)
     //     await fetchStandardReply()
     // }

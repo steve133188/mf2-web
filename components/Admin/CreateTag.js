@@ -37,7 +37,7 @@ const style ={
 export default function CreateTag({show, toggle,reload}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {contactInstance , tagInstance  ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const handleChange = e=>{
         console.log(e.target.value)
@@ -45,7 +45,7 @@ export default function CreateTag({show, toggle,reload}){
     }
 
     const submit = async ()=>{
-        const status = await adminInstance.addTag({tag:name})
+        const status = await tagInstance .addTag({tag_name:name})
         console.log(status)
         reload()
         toggle()

@@ -305,6 +305,10 @@ export default function Live_chat() {
         //     scrollToBottom()
         // },1500)
     }
+    const ReferechHandle=async()=>{
+        await getChatrooms();
+        await getChatroomMessage ();
+    }
     const wrapperRef = useRef();
 
     const handleClickOutside = (event) => {
@@ -395,6 +399,7 @@ export default function Live_chat() {
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
         await handleSub(selectedChat)
+        
     },[selectedChat])
 
 
@@ -688,7 +693,7 @@ export default function Live_chat() {
                             </div>
                             
                         </div>
-                        <div className={"chatroom_top_btn chatroom_top_btn_refresh"}><RefreshBTN/></div>
+                        <div className={"chatroom_top_btn chatroom_top_btn_refresh"} onClick={ReferechHandle}><RefreshBTN/></div>
                         <div className={"chatroom_top_btn chatbot_switch"}>
                             <RobotSwitch isOn={isRobotOn} handleToggle={()=>setIsRobotOn(!isRobotOn)} onColor="#2198FA" />
                         </div>
@@ -754,7 +759,7 @@ export default function Live_chat() {
                         </div>
 
                         <div className={"right_btn_gp"}>
-                        <VoiceRecorder returnVoiceMessage={getAudioFile}/>
+                        {/* <VoiceRecorder returnVoiceMessage={getAudioFile}/> */}
                             <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                         </div>
                     </div>

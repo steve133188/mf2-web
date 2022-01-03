@@ -35,7 +35,7 @@ export default function roleFetcher(token){
         return (await instance.fetcher.put(`/role`,data)).statusText
     }
     instance.deleteRole = async (role_id)=>{
-        return (await instance.fetcher.delete(`/role/name/${role_id}`)).statusText
+        return (await instance.fetcher.delete(`/role/id/${role_id}`)).statusText
     }
 
     return instance

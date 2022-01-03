@@ -22,7 +22,7 @@ import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
 import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
-import searchFilter from "../../helpers/searchFilter";
+import searchContactsFilter from "../../helpers/searchContactsFilter";
 import * as React from "react";
 import { width } from "@mui/system";
 import Mf_circle_btn from "../../components/mf_circle_btn";
@@ -92,10 +92,12 @@ export default function Contacts() {
         console.log("tagFiltered:",tagFiltered)
 
         const channelFiltered = tagFiltered.filter(data=>{
+            console.log(data,"filterdata")
             if(selectedChannel.length ==0){
                 return data
             }
-            return selectedChannel.includes(data.channels)
+            return selectedChannel.some(el=>data.channels?data.channels.includes(el):false)
+
         })
         console.log("channelFiltered:",channelFiltered)
 
@@ -363,7 +365,7 @@ export default function Contacts() {
 
     const toggleSelectAllChannels = (e) => {
         const { checked ,id} = e.target;
-        setSelectedChannel(["all","whatsapp","whatsappB","wechat","messager"]);
+        setSelectedChannel(["all","whatsapp","WABA","wechat","messager"]);
         if (!checked) {
             setSelectedChannel([]);
         }
@@ -409,7 +411,7 @@ export default function Contacts() {
                             type="search"
                             name={"keyword"}
                             onChange={(e)=> {
-                                searchFilter(e.target.value , contacts,(new_data)=>{
+                                searchContactsFilter(e.target.value , contacts,(new_data)=>{
                                     setFilteredData(new_data)
                                     setCurrentPage(1)
                                 })
@@ -540,7 +542,7 @@ export default function Contacts() {
                         return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
+                                    <input type="checkbox" id={tag.tag_name} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -609,7 +611,7 @@ export default function Contacts() {
                                     </TableCell>
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                            <Avatar alt={data.first_name} sx={{width:30 , height:30}} src={data.img_url||""}/>
+                                            <Avatar alt={data.first_name} sx={{width:27 , height:27}} src={data.img_url||""}/>
                                             <span style={{marginLeft: "11px"}}>{data.first_name}</span>
                                         </div>
                                     </TableCell>

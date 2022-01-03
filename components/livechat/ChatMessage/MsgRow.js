@@ -22,7 +22,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
 
     const replyclick=e=>{
 
-        replyHandle(e.target.id);
+        // replyHandle(e.target.id);
 
     }
     const defaultId=msg.room_id+msg.timestamp

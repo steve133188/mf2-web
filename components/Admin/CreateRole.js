@@ -96,7 +96,7 @@ export default function CreateRole({show, toggle ,reload}){
     }
     const submit = async ()=>{
         console.log({name:roleName,auth: {...authority}})
-        const res = await roleInstance.createRole({role_name:roleName,auth: authority})
+        const res = await roleInstance.createRole({role_name:roleName,authority: authority})
         console.log(res)
         reload()
         toggle()

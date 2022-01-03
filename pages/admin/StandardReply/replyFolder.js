@@ -71,7 +71,7 @@ export default function ReplyFolder({data,reload}) {
         // setDeleteTag(item)
     }
     const sumbitDelete=async ()=>{
-        const res = await adminInstance.deleteContent(data.name,selectedReply[0].id,selectedReply[0].body)
+        const res = await tagInstance.deleteContent(data.name,selectedReply[0].id,selectedReply[0].body)
         // console.log
     }
     useEffect(()=>{
