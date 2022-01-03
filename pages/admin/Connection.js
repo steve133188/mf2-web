@@ -29,7 +29,7 @@ import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 
 export default function Connection() {
     const [roles, setRoles] = useState([]);
-    const {adminInstance , userInstance, user} = useContext(GlobalContext)
+    const {adminInstance , userInstance,roleInstance, user} = useContext(GlobalContext)
 
     const [filteredData , setFilteredData] = useState([])
 
@@ -49,7 +49,7 @@ export default function Connection() {
     
     useEffect(   ()=>{ async () => {
         const fetchRoles = async () =>{
-            const data = await adminInstance.getAllRoles()
+            const data = await roleInstance.getAllRoles()
             console.log("getAllRoles",data)
             setRoles(data)
             setFilteredData(data)

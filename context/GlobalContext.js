@@ -39,7 +39,7 @@ export const GlobalContextProvider = ({children}) =>{
         console.log(user)
     },[])
 
-
+   
     const login = async (credentials)=>{
         const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
         const res = await axios.post(url , credentials,{

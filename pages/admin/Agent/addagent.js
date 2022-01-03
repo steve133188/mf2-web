@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 export default function AddAgent(){
     const router = useRouter()
-    const {user ,userInstance,orgInstance ,roleInstance} =useContext(GlobalContext)
+    const {user ,userInstance,orgInstance ,adminInstance,roleInstance} =useContext(GlobalContext)
     const [userCredential , setUserCredential] = useState({
         username:"",
         email:"",
@@ -45,7 +45,6 @@ export default function AddAgent(){
     }
     const fetchRoles = async () =>{
         const data = await roleInstance.getAllRoles()
-        console.log(data,"role detial")
         setRoles(data)
     }
     const getTeams = async ()=>{

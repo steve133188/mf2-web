@@ -28,7 +28,7 @@ export default function contactsFetcher(token){
         return (await instance.fetcher.get("/customers")).data
     }
      instance.createContact = async (data)=>{
-        return (await instance.fetcher.post("/",data)).statusText
+        return (await instance.fetcher.post("/customer",data)).statusText
     }
 
      instance.getContactsByUsers = async (data)=>{
@@ -49,7 +49,6 @@ export default function contactsFetcher(token){
      instance.getContactById = async (id)=>{
         return (await instance.fetcher.get(`/customer/${id}`)).data
     }
-
      instance.getContactsByTeamId = async (team_id)=>{
         return (await instance.fetcher.get(`/customers/team/${team_id}`)).data
     }
@@ -58,8 +57,17 @@ export default function contactsFetcher(token){
         return (await instance.fetcher.get(`/team`)).data
     }
 
-     instance.updateContactTags = async(id,tags) =>{
-        return (await instance.fetcher.post("/customer/add-tags",{id,tags})).status
+     instance.updateContactTags = async(customer_id,tag_id) =>{
+        return (await instance.fetcher.put("/customer/add-tag",{customer_id,tag_id})).status
+    }
+    instance.deleteCustomerTag = async(customer_id,tag_id) =>{
+        return (await instance.fetcher.put("/customer/del-tag",{customer_id,tag_id})).status
+    }
+    instance.updateContactAgent = async(customer_id,agents_id) =>{
+        return (await instance.fetcher.put("/customer/add-agent",{customer_id,agents_id})).status
+    }
+    instance.deleteCustomerAgent = async(customer_id,agents_id) =>{
+        return (await instance.fetcher.put("/customer/del-agent",{customer_id,agents_id})).status
     }
 
      instance.updateContact = async (data)=>{
