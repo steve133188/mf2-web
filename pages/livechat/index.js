@@ -1,4 +1,4 @@
-import {useContext,useState , useEffect, useRef} from "react";
+import {useContext,useState , useEffect, useRef,createRef} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import ChatroomList from "../../components/ChatroomList";
 import MsgRow from "../../components/livechat/ChatMessage/MsgRow";
@@ -55,7 +55,7 @@ export default function Live_chat() {
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [subscribe,setSubscribe] = useState()
     const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-
+    const [searchResult, setSearchResult] = useState([])
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
         phone:"",
@@ -166,11 +166,12 @@ export default function Live_chat() {
 
     const messagesSearchRef = useRef()
     const scrollToMSG = () => {messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})}
-    useEffect(()=>{scrollToMSG(),[chatboxSearch]})
+    useEffect(()=>{scrollToMSG()
+        ,[chatboxSearch]})
     //////Chatroom End Point
     const messagesEndRef = useRef()
     const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
-    useEffect(()=>{scrollToBottom(),[]})
+    //useEffect(()=>{scrollToBottom(),[]})
     ///////
 
     async function handleChatRoom(chatroom){
@@ -496,6 +497,31 @@ export default function Live_chat() {
 
     }
 
+    //search bar
+    // const refs = chatroomMsg.reduce((acc, value) => {
+    //     acc[parseInt(value.timestamp)] = useRef(null);
+    //     return acc;
+    // }, {});
+    const [resultMoreThanOne, setResultMoreThanOne] = useState(false);
+    //function find chatroomMsg.id by keyword as list
+    const search = e => {
+        if(e.target.value!=""){
+            const result = chatroomMsg.filter(i => {
+                return i.body.toLowerCase().includes(e.target.value.toLowerCase());
+            });
+            console.log(result,"search result");
+            setSearchResult(result);
+            if(result.length==0)setResultMoreThanOne(false)
+            if(result.length>0) {document.getElementById(result[result.length-1].timestamp).scrollIntoView({behavior: "smooth"});}
+            if(result.length>1) setResultMoreThanOne(true)
+        }
+
+        // refs[result[result.length-1].timestamp].current.scrollIntoView({
+        //     behavior: 'smooth',
+        //     block: 'start',
+        //   });
+
+    }
 
 
     //record and send audio
@@ -596,10 +622,15 @@ export default function Live_chat() {
                         </div>
                     </div>
                     <div className={"chatroom_top_btn_gp"}>
-                        <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} ><ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
+                        <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} >
+                            <ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
                             <div className={"search_bar"} style={{display:chatSearch?"flex":"none"}}>
-                                <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input>
+                                {/* <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input> */}
+                                <input type="text" className={"search_area"} onChange={search} placeholder={"Search"}></input>
+                                <div className={"search_icon"}></div>
+                            
                             </div>
+                            
                         </div>
                         <div className={"chatroom_top_btn chatroom_top_btn_refresh"}><RefreshBTN/></div>
                         <div className={"chatroom_top_btn chatbot_switch"}>
@@ -608,10 +639,15 @@ export default function Live_chat() {
                     </div>
                 </div>
                 <div
-                // ref={messagesSearchRef}
+                ref={messagesSearchRef}
                  className={"chatroom_records"}>
                     {chatroomMsg.map((r , i)=>{
-                        return  <MsgRow msg={r} key={i} d={filteredUsers} />
+
+                        return (
+                                <MsgRow isSearch={searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 }msg={r} key={i} d={filteredUsers} />
+
+                        )
+                        
 
                     })}
                     <div ref={messagesEndRef}>

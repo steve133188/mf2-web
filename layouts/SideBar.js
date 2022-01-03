@@ -9,19 +9,38 @@ import {GlobalContext} from "../context/GlobalContext";
 import NavItem from "../components/SideItem";
 import {API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOMESSAGGES} from "../src/graphql/queries";
+import { subscribeToNewMessage} from "../src/graphql/subscriptions"
 
 
 export default function SideBar(props) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
+    const { user} = useContext(GlobalContext)
+
     const getMesssages = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES))
         console.log(result.data.listMF2TCOMESSAGGES.items)
         return result.data.listMF2TCOMESSAGGES.items
     }
+    const [subscribe, setSubscribe] = useState(null)
    useEffect(()=>{
     // getMesssages()
+        
+        const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{recipient:user.user_id} ))
+            .subscribe({
+                next: async (chatmessage)=>{
+                    const newMessage = chatmessage.value.data.subscribeToNewMessage
+                    // let updatedPost = [ ...chatroomMsg,newMessage ]
+                    setNotifications(notifications=>[...notifications ,newMessage ])
+                    console.log("new message to me: " , newMessage)
+                }
+            })
+        setSubscribe(prev=> sub)
    },[]) 
+
+   useEffect(()=>{
+       
+   },[notifications])
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
         {

@@ -12,7 +12,7 @@ const imageCaption = {
 const captionJson = JSON.stringify(imageCaption)
 
 
-export default function MsgRow({msg ,...props}){
+export default function MsgRow({msg ,isSearch,refProp,...props}){
 
     const [isImageOpen,setImageOpen] = useState(false)
 
@@ -24,7 +24,7 @@ export default function MsgRow({msg ,...props}){
                 return <>
                         {/* {console.log(JSON.parse(captionJson).url)} */}
                                 {/* JSON.parse({msg.body}) */}
-                                <div value={msg.timestamp} className={"msg_type_imageCaption"}>
+                                <div value={msg.timestamp}  className={"msg_type_imageCaption"}>
                                     <img className={"bigImageBox"} src={JSON.parse(captionJson).url}  onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/>
                                     <img value={msg.timestamp} className={"imageBox"} src={JSON.parse(captionJson).url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
                                     <div value={msg.timestamp} className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
@@ -63,7 +63,7 @@ export default function MsgRow({msg ,...props}){
                     </div>
                 </div>;
 
-            default:   return  <div value={msg.timestamp} className={"msg_body"}>{msg.body}</div>
+            default:   return  <div value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body"}>{msg.body}</div>
 
 
 
@@ -71,7 +71,7 @@ export default function MsgRow({msg ,...props}){
     }
    
     return(
-        <div className={"msg_row"}>
+        <div className={"msg_row"} id={msg.timestamp} >
             <div className={msg.from_me?"msg_from_me":"msg_from_other"}>
                 <div>{messageType(msg)}</div>
                 {/* <div className={"msg_body"}>{msg.body}</div> */}
