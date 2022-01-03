@@ -15,7 +15,7 @@ import {Skeleton} from "@mui/material";
             is_pin:chatroom.is_pin
         }
         async function toggleChatPin (e){
-            SetIsLoading(true);
+            // SetIsLoading(true);
             e.preventDefault()
             e.stopPropagation()
             let ispin_input={
@@ -24,11 +24,11 @@ import {Skeleton} from "@mui/material";
                 is_pin:!chatroom.is_pin
             }
             await togglePin(ispin_input)
-            console.log(ispin_input)
-            setTimeout(() => {
-                refresh();
-                SetIsLoading(false);
-            }, 300);
+
+            // setTimeout(() => {
+            //     refresh();
+            //     SetIsLoading(false);
+            // }, 300);
         }
 
         return(
@@ -41,18 +41,18 @@ import {Skeleton} from "@mui/material";
               {/* <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} >{chatroom.name.substring(1,3).toUpperCase()}</Avatar> */}
           </Tooltip>)
                 }
-                
-                 
+
+
                 </div>
                 <div className={"chatroom_name_ss"}>
                     {isLoading?( <h1 style={{width:"100%"}}> <Skeleton/> </h1> ):(
-                    <div style={{display:"flex",gap:4}}> 
-                        {chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`} 
+                    <div style={{display:"flex",gap:4}}>
+                        {chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}
                         <img src={`/channel_SVG/${chatroom.channel}.svg`} alt="Channel icon" width={20} height={20}  />
                     </div>)}
-                    
-                    
-                    
+
+
+
                     {/* <div className={""}>Team {chatroom.team}</div> */}
                     {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
                 </div>
