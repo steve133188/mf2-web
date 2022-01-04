@@ -53,6 +53,7 @@ export const GlobalContextProvider = ({children}) =>{
 
             }})
             .then(response => {
+                console.log(response,"respone")
                 if(response.status != 200){
                     return "something went wrong"
                 }
@@ -68,14 +69,21 @@ export const GlobalContextProvider = ({children}) =>{
                 tagInstance.token = user.token
                 roleInstance.token = user.token
                 messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
-                router.push("/dashboard/chat")
+                // router.push("/dashboard/chat")
+                return response.status
             }).catch(err=>{
                 console.log(err)
                 setErrors("Invaild email or password, please try again.")
                 return err
             })
         console.log(user)
-        if(res.status == 200) router.push("/dashboard/chat")
+        console.log(res)
+        if(res == 200) {
+            setTimeout(
+                ()=>{router.push("/dashboard/chat")},1000
+            )
+            
+        }
     }
 
 

@@ -43,6 +43,7 @@ export default function Recovery() {
             setIsSubmit(true)
         }else{
             setError(true)
+            alert("Can't reset password now.")
         }
 
     }
@@ -110,7 +111,7 @@ export default function Recovery() {
                     </div>
                             <div className={"submit_row"}>
                                 <button className={"send_button align-self-center"} disabled={!validateForm()} type={'submit'} >
-                                    <p className={"bottomName"}style={ {color: "#FFF"}}>Request Reset</p>
+                                    <p className={"bottomName"}style={ {color: "#FFF"}} >Request Reset</p>
 
                                 </button>
                                     <BackToLogin name={"Cancel"} onclick={backToLogin}/>

@@ -126,12 +126,12 @@ export default function ProfileGrid({data}){
                                     <div className={"channel_row_lf"}>
                                             <div>
                                         <   img key={index} width="40px" height="40px"   style={{ margin:"15px 3px",textAlign:"center"}}   src={`/channel_SVG/${chan}.svg`} alt=""/>
-                                            {data.channels}
+                                            {data.chan}
 </div>
                                             </div>
                                    
                                     <div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >
-                                        {`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}
+                                        {`+${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)}`}1
                                         </div>
                                 </div>)
                             })}

@@ -498,7 +498,7 @@ export default function Contacts() {
                     setFilteredUsers(new_data)
                 })}}>
                     {filteredUsers.map((user , index)=>{
-                        console.log("filterd User", user)
+                        // console.log("filterd User", user)
                         return(<li key={index}>
                             <div style={{display:"flex" ,gap:10}}>
                                 <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
@@ -620,7 +620,7 @@ export default function Contacts() {
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
                                             <Avatar alt={data.username} sx={{width:27 , height:27}} src={data.img_url||""}/>
-                                            <span style={{marginLeft: "11px"}}>{data.first_name}</span>
+                                            <span style={{marginLeft: "11px"}}>{data.customer_name}</span>
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>
@@ -648,7 +648,9 @@ export default function Contacts() {
 
 
                                     <TableCell sx={{width:"165px",overflow:"hidden",textOverflow:"ellipsis"}} >
-                                        <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} >
+                                        {/* <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} > */}
+                                            <div className={"avaGroupInstead"} >
+
                                             {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
@@ -656,7 +658,8 @@ export default function Contacts() {
                                                     </Tooltip>
                                                 )
                                             })}
-                                        </AvatarGroup>
+                                            </div>
+                                        {/* </AvatarGroup> */}
                                     </TableCell>
                                     <TableCell  >
                                         <Mf_icon_dropdown_select_btn

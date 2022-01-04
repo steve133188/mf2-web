@@ -206,7 +206,7 @@ export default function Live_chat() {
     //////Chatroom End Point
     const messagesEndRef = useRef()
     const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
-    //useEffect(()=>{scrollToBottom(),[]})
+    useEffect(()=>{scrollToBottom(),[chatroomMsg]})
     ///////
 
     async function handleChatRoom(chatroom){
@@ -269,8 +269,8 @@ export default function Live_chat() {
     const replySelect = async(e) =>{
         e.preventDefault();
         setTypedMsg({...typedMsg , message: e.target.childNodes[1].innerHTML})
-        setChatButtonOn("");
-        setIsExpand(false)
+        // setChatButtonOn("");
+        // setIsExpand(false)
     }
     const stickerSend =  async e=>{
         e.preventDefault();
@@ -338,7 +338,9 @@ export default function Live_chat() {
     const handleClickOutside = (event) => {
 
         if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
-            if (wrapperRef2.current &&!wrapperRef.current.contains(event.target.node)){
+            setChatButtonOn("");
+            setIsExpand(false);
+            if (wrapperRef2.current &&!wrapperRef2.current.contains(event.target.node)){
                 if (wrapperRef3.current &&!wrapperRef3.current.contains(event.target.node)){
 
                     setChatButtonOn("");
@@ -736,32 +738,28 @@ export default function Live_chat() {
 
                         return (
                                 <MsgRow isSearch={searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 }msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
-
-                        )
-
-
-                    })}
-                    <div ref={messagesEndRef}>
-
-                    </div>
+                                 )
+                                 })}
+                                 
+                    <div ref={messagesEndRef}> </div>
                 </div>
 
-                <div className={"chatroom_input_field "+(isExpand?"expand":"")} >
+                <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef1} >
                            {quotaMsg&&
                             <div style={{display:(ChatButtonOn=="mr"?"flex":"none")}} onClick={toggleReply }>
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                            </div>
                            }
-                    <textarea  inputRef={wrapperRef1} className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                    <textarea   className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
-                        <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleSticker }  ref={wrapperRef2}>
-                            <StickerBox data={stickerData} stickerSend={stickerSend}  ref={wrapperRef2} />
+                        <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
+                            <StickerBox data={stickerData} stickerSend={stickerSend}  />
                             </div>
-                        <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleQuickReply } ref={wrapperRef3}>
-                            <QuickReply data={replyData} onclick={replySelect} ref={wrapperRef3}/>
+                        <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} >
+                            <QuickReply data={replyData} onclick={replySelect} />
                         </div>
 
                     <div className={"chatroom_input_btn_gp"}>

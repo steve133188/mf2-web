@@ -291,7 +291,7 @@ export default function Chat() {
                             <div className={"half_session block_session"}>
                                 <div className={"top_row"} style={{justifyContent:"space-around",width:"40%"}}>
 
-
+{/* 
                                     <span className={"title"}>Tags  {`${tags.length}`}</span>
 
                                     <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
@@ -304,10 +304,11 @@ export default function Chat() {
                                                         <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} />
                                                     </label> </div></li>)
                                         })}
-                                    </MF_Select>
+                                    </MF_Select> */}
+
                             <span className={"title"} style={{display:"flex",alignItems:"center"}}>Tags : {`${tags.length}`}</span>
 
-                        <div style={{backgroundColor:"grey",width:"100px",padding:"3px .1px",borderRadius:"10px"}}>
+                        <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px"}}>
                 <MF_Select top_head={"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                     setFilteredTags(new_data)
                 })}} >
