@@ -38,6 +38,7 @@ export default function DeleteDivisionForm({show, toggle,reload }){
     const [team , setTeam] = useState({})
     const [rootDivision , setRootDivision] = useState([])
     const handleChangeDiv = (e)=>{
+        console.log(e.target.value,"division data")
         setDiv(e.target.value)
     }
     const handleSelectTeam =e=>{
@@ -48,6 +49,7 @@ export default function DeleteDivisionForm({show, toggle,reload }){
     const[teamlist,setTeamlist]=useState([])
     useEffect(async ()=>{
         const data = await orgInstance.getAllORG()
+        console.log(data,"All Org data")
           setRootDivision(data.filter(data=>{return data.type=="division"}))
           const teamCheck = data.map(item=>item.children&&item.children.map(child=>{console.log(child,"child");child.type=="team"?teams.push(child):null}))
           setTeamlist(teams)
@@ -55,9 +57,9 @@ export default function DeleteDivisionForm({show, toggle,reload }){
       },[])
     const submit = async (e)=>{
         e.preventDefault()
-        const newDivision = {name:name,type:"division"}
+        const newDivision = {type:"division"}
         console.log(newDivision)
-        const status = await orgInstance.deleteOrgById(parent)
+        const status = await orgInstance.deleteOrgById(div)
         // console.log(status,"create Division")
         toggle()
         reload()
@@ -81,7 +83,8 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                         >
                         <MenuItem value={null}>Please Select</MenuItem>
                         {rootDivision.map((d)=>{
-                            return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
+                            console.log(d ,"dividsion selection")
+                            return (<MenuItem key={d.org_id} value={d.org_id}>{d.name}</MenuItem>)
                         })}
                     </Select>
                     <span></span>

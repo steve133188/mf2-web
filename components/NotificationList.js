@@ -9,7 +9,7 @@ export default function NotificationList({notification , ...props}){
 
         <div className="notify_box_li" onClick={props.onClick}>
             <div className={"notify_icon"}>
-                <Avatar src={notification.profile_pic_url} alt={notification.notify_from} />
+                <Avatar src={"notification.profile_pic_url"} alt={"notification.notify_from"} />
             </div>
 
             <div className="notification_content">

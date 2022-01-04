@@ -19,7 +19,7 @@ const style ={
 export default function DeleteTag({show, toggle,reload,tags}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {tagInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const handleChange = e=>{
         console.log(e.target.value)
@@ -28,7 +28,8 @@ export default function DeleteTag({show, toggle,reload,tags}){
 
     const submit = async ()=>{
         tags.map(async(id)=>{
-            const status = await adminInstance.deleteTag(id)
+            console.log("deletet tag id",id)
+            const status = await tagInstance.deleteTag(id)
             console.log("status",status)
         }  )
         reload()

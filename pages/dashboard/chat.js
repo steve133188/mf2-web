@@ -57,6 +57,8 @@ export default function Chat() {
 
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
+      console.log(range,"day tiem range ")
+      console.log(typeof(range.from),"day tiem range ")
       setDayState(range);
     }
     const toggleSelectTags = e => {
@@ -81,7 +83,7 @@ export default function Chat() {
     }
     const changeTags=()=>{
         if(selectedTags.length==0) return setTags(filteredTags)
-        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag==el)}));
+        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag_name==el)}));
         // setSelectedTags([])
     }
 
@@ -347,7 +349,7 @@ export default function Chat() {
                                         >
                                             <TableCell style={{width: "20%",}}>
 
-                                             <Pill key={item.id} size="30px" color="vip">{item.tag_name}</Pill>
+                                             <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>
                                             </TableCell>
                                            <TableCell align="left" style={{width: "20%",}}>
                                                 <span >{item.total}</span>

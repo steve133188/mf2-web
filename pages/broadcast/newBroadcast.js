@@ -37,12 +37,12 @@ export default function AddBroadcast() {
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
-    const {userInstance ,adminInstance, user} = useContext(GlobalContext)
+    const {userInstance ,tagInstance, user} = useContext(GlobalContext)
 
     const router = useRouter()
 
     const getTags = async ()=>{
-        const data = await adminInstance.getAllTags()
+        const data = await tagInstance.getAllTags()
         setTags(data)
         setFilteredTags(data)
 

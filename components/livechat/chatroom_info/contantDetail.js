@@ -220,7 +220,7 @@ export default function ContantDetail({ data, ...props }) {
                 </div>
 
                 <div className="tagssss">Tags</div>
-                <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", }} >
+                <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", marginTop:"18px"}} >
 
                         <Mf_circle_btn isDisable={disable} switchs={() => { setUnread(!unread) }} handleChange={(e) => {
                            console.log(alltags)

@@ -95,8 +95,11 @@ export default function Organization() {
         const data = await userInstance.getAllUser()
         setUsers(data)
         setFilteredData(data)
+        console.log("get user",data)
     }
     const fetchTeamUsers = async (id)=>{
+        
+        console.log("get team user",data)
         const data = await userInstance.getUsersByTeamId(id)
         console.log("team users:",data)
         setUsers(data)
@@ -121,7 +124,7 @@ export default function Organization() {
         }else{
             console.log("currentContacts",currentContacts)
             console.log("curr_org",curr_org)
-            await fetchTeamUsers(curr_org.id)
+            curr_org&& await fetchTeamUsers(curr_org.org_id)
         }
     },[curr_org]);
 
@@ -160,6 +163,7 @@ export default function Organization() {
 
     const toggleProfile = (key) =>{
         if(!isProfileShow) setUseUser(key)
+        console.log(key,"use users")
         setIsProfileShow(!isProfileShow)
     }
     const toggleNewTeam = async () =>{
@@ -320,7 +324,7 @@ export default function Organization() {
                                             <span >{data.username}</span>
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
-                                            {data.role}
+                                            {data.role_name}
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.email}

@@ -102,6 +102,7 @@ export default function ProfileGrid({data}){
                         <div className={"session_content"}>
                             {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
                                 {data.agents!=null &&data.agents.map((agent , index)=>{
+                                    console.log(agent,"contact file agents")
                                     return(
                                         <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning"}  style={{margin:"0 3px"}}sx={{width:35 , height:35 ,fontSize:18}} alt={agent}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
@@ -121,7 +122,17 @@ export default function ProfileGrid({data}){
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
                             { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
-                                return(<div className={'channel_row'} key={index}><div className={"channel_row_lf"}><img key={index} width="40px" height="40px"   style={{ margin:"15px 30px"}}   src={`/channel_SVG/${chan}.svg`} alt=""/>{data.channels}</div><div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >{`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}</div>
+                                return(<div className={'channel_row'} key={index}>
+                                    <div className={"channel_row_lf"}>
+                                            <div>
+                                        <   img key={index} width="40px" height="40px"   style={{ margin:"15px 3px",textAlign:"center"}}   src={`/channel_SVG/${chan}.svg`} alt=""/>
+                                            {data.channels}
+</div>
+                                            </div>
+                                   
+                                    <div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >
+                                        {`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}
+                                        </div>
                                 </div>)
                             })}
                             {/*<div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px"  style={{ margin:"15px 30px"}}  src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}</div>*/}

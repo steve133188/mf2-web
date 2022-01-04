@@ -105,7 +105,7 @@ export default function EditRole({show, toggle ,reload,role}){
         // console.log(roleName)
     }
     const submit = async ()=>{
-        const data = {role_name:roleName,authority: {...authority},role_id:role.role_id}
+        const data = {role_name:roleName,auth: authority,role_id:role.role_id}
         console.log(data,"role to server")
         const res = await roleInstance.updateRole(data)
         console.log(res)

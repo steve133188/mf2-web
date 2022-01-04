@@ -35,6 +35,7 @@ export default function AddAgent(){
             password:userCredential.password,
             team_id:selectedTeam.org_id,
             role_name:selectedRole.role_name,
+            role_id:selectedRole.role_id,
         }
         console.log("payload",data)
         const res = await userInstance.createUser(data )

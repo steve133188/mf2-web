@@ -30,7 +30,7 @@ const style ={
     // border: "1px solid #E5E7EC",
     borderRadius: "10px",
     opacity: 1,
-    width:"100%",
+    width:"100%", 
     height:"2rem"
 }
 export default function CreateDivisionForm({show, toggle,reload }){
@@ -44,11 +44,11 @@ export default function CreateDivisionForm({show, toggle,reload }){
         setParent(e.target.value)
     }
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
-    useEffect(async ()=>{
-        const data = await orgInstance.getAllRootORG()
-          setRootDivision(data.filter(data=>{return data.type=="division"}))
-          console.log(data,"newDivision fetch ")
-      },[])
+    // useEffect(async ()=>{
+    //     const data = await orgInstance.getAllORG()
+    //       setRootDivision(data.filter(data=>{return data.type=="division"}))
+    //       console.log(data,"newDivision fetch ")
+    //   },[])
     const submit = async ()=>{
         console.log("Parent ",parent)
         const newDivision = {name:name,type:"division"}

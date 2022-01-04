@@ -186,16 +186,18 @@ export default function Agents() {
                     <LineChartCard chart={true} img={false} title={"Agents"} />
                     <LineChartCard chart={true} img={false} title={"Online"} />
                     <LineChartCard chart={true} img={false} title={"Offline"} />
+                    <LineChartCard chart={true} img={false} title={"All Contacts"} />
+                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} />
                     <AverageDailyCard/>
                 </div>
                 <div className="lineCardGroup2">
-                    <ChangingPercentageCard title={"Total Contacts"} total={41} changing={"+ 8%"} />
-                    <ChangingPercentageCard title={"Newly Added Contacts"} total={8} changing={"+ 0%"} />
                     <ChangingPercentageCard title={"Total Assigned Contacts"} total={34} changing={"- 25%"} />
                     <ChangingPercentageCard title={"Active Contacts"} total={30} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Delivered Contacts"} total={28} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Unhandled Contacts"} total={28} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
+                    <ChangingPercentageCard title={"Average Response Time"} total={41} changing={"+ 8%"} />
+                    <ChangingPercentageCard title={"Average First Response Time"} total={8} changing={"+ 0%"} />
                 </div>
             </div>
             <div className="chartGroup">

@@ -49,7 +49,7 @@ export default function CreateTeamForm({show, toggle}){
     useEffect(    async () => {
         const data = await orgInstance.getAllORG()
         console.log(data,"org data")
-        setRootDivision(data.filter(data=>{return data.type=="division"}))
+        setRootDivision(data.filter(data=>{return data.type=="team"}))
     },[]);
 
     const submit = async ()=>{

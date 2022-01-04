@@ -37,7 +37,7 @@ export default function Newchatroom(props){
             <div className="contactList" >
                 New Chatroom
                 {props.contacts.map((contact, index)=>{
-                    // console.log(contact)
+                    console.log(contact,"newChatroom contact")
                     return(
                         <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroom(contact)}} >
 
@@ -49,8 +49,13 @@ export default function Newchatroom(props){
                             </div>
 
                             <div className={"contact_name_ss"}>
-                                <div>{contact.customer_name??contact.phone}</div>
-                                {/* <div className={"team"}>Team {contact.team}</div> */}
+                               <div style={{display:"flex"}}>
+
+                                <div>{contact.customer_name&&contact.customer_name!=""?contact.customer_name:"Unknown"}</div>
+                                {/* <div className={"team"}>{contact.channel}</div> */}
+                                {<img src={`/channel_SVG/${contact.channels!=null?contact.channels:"whatsapp"}.svg`} alt="Channel icon" width={20} height={20}  />}
+                               </div>
+                               
                                 <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
                             </div>
                                 <img src="/openChat.svg" style={{width:"30px",opacity:".8"}} />

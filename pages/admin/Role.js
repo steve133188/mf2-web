@@ -215,7 +215,7 @@ export default function Role() {
 
                                     <TableCell align="right">
                                        <span className={"right_icon_btn"} onClick={()=>toggleEdit(data)}><EditSVG /></span>
-                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.role_name)}><DeleteSVG /></span>
+                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.role_id)}><DeleteSVG /></span>
                                     </TableCell>
                                 </TableRow>
                             )

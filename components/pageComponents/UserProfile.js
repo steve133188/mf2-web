@@ -19,12 +19,16 @@ export default function UserProfileGrid({data}){
     const [assingedContacts, setAssingedContacts] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
 
+    console.log(data)
     useEffect(async()=>{
              await  fetchContacts()
         //    fetch log by customer_id
         //    fetch assignee by customer_id
         //    fetch team by customer_id
         
+    },[])
+    useEffect(()=>{
+        console.log(data)
     },[])
     const fetchContacts = async () =>{
         const contactsdata = await contactInstance.getAllContacts()
@@ -38,7 +42,7 @@ export default function UserProfileGrid({data}){
         // setFilteredData(data)
     }
     const toggleEdit = ()=>{
-      console.log(data)
+      console.log(data, "toggleEdit")
         toggleEditProfile(data)
     }   
     const toggleEditProfile =async (key) =>{
@@ -63,12 +67,12 @@ export default function UserProfileGrid({data}){
             <div className={"info_session"}>
             <div className={"info_row"}>
                 <span className={"info_label"}>Organization</span>
-                <span className={"info_content"}>{data.organization}</span>
+                <span className={"info_content"}>{data.team.id}</span>
                 {/* team.id > */}
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{data.phone}</span>
+                <span className={"info_content"}>{ `+${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)}`}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
@@ -86,7 +90,7 @@ export default function UserProfileGrid({data}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Role</span></div>
                         <div className={"session_content"}>
-                            {data.role}
+                            {data.role_name}
                         </div>
                         <div className={"top_row"}><span className={"title"}>Authority</span></div>
                         <div className={"session_content"} style={{padding:0}}>
@@ -103,7 +107,7 @@ export default function UserProfileGrid({data}){
                         <div className={"session_content"}>
                             { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
                                 return(<div><img key={index} width="24px" height="24px" style={{ margin:"15px 30px"}} src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
-                            })}<div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px" style={{ margin:"15px 30px"}} src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.phone.slice(0,3)} ${data.phone.slice(3)}`}</div>
+                            })}<div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px" style={{ margin:"15px 30px"}} src={`/channel_SVG/whatsapp.svg`} alt=""/> </div>
                         </div>
                     </div>
 
