@@ -27,10 +27,13 @@ import NotificationList from "../../components/NotificationList";
 export default function Live_chat() {
 
     const replyTemplateList = [
-            {id:1,name:"Greating",set:[{name:"Morning",content:"Good morning, have a nice day!"}]},
-            {id:4,name:"Questioning",set:[{name:"First meet",content:"What can i help you?"},{name:"Follow up",content:"That's great. Let me introduce you our service."}]},
-            {id:2,name:"Merry Chrismax",set:[{name:"Set1",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"},{name:"Set2",content:"Merry Christmas, and may all your Christmases be white!!!"}]},
-            {id:3,name:"Happy new year",set:[{name:"賀詞一",content:"恭賀新春!"},{name:"賀詞二",content:"心想事成!"},{name:"賀詞三",content:"身體健康!"}]},
+            {id:1,name:"Greating",set:[{name:"Morning",content:"Morning"}]},
+            {id:4,name:"Questioning",set:[{name:"What can i help you?",content:"What can i help you?"},{name:"Follow up",content:"Follow up"}]},
+            {id:2,name:"Merry Chrismax",set:[{name:"Merry Christmas! I hope you receive one blessing after another this coming year!",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"}
+            ,{name:"Merry Christmas, and may all your Christmases be white!!!",content:"Merry Christmas, and may all your Christmases be white!!!"}
+            ,{name:"Super mario~~ Jump!!!Super mario~~ Jump!!!Super mario~~ Jump!!!",content:"Super mario~~ Jump!!!Super mario~~ Jump!!!Super mario~~ Jump!!!"}
+        ]},
+            {id:3,name:"Happy new year",set:[{name:"恭賀新春!",content:"恭賀新春!"},{name:"心想事成!",content:"心想事成!"},{name:"身體健康",content:"身體健康!"}]},
 
         ]
 
@@ -577,7 +580,7 @@ export default function Live_chat() {
     const [resultMoreThanOne, setResultMoreThanOne] = useState(false);
     //function find chatroomMsg.id by keyword as list
     const search = e => {
-
+        if(e.target.value==""){setSearchResult("")}
         if(e.target.value!=""){
             const result = chatroomMsg.filter(i => {
                 return i.body.toLowerCase().includes(e.target.value.toLowerCase());
@@ -742,9 +745,8 @@ export default function Live_chat() {
                 ref={messagesSearchRef}
                  className={"chatroom_records"}>
                     {chatroomMsg.map((r , i)=>{
-
                         return (
-                                <MsgRow isSearch={searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 }msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
+                                <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
                                  )
                                  })}
                                  
