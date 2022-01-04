@@ -8,7 +8,7 @@ export default function searchContactsFilter(keyword , data ,callback ){
         }
         console.log(d)
         console.log("dddddd")
-        return d.first_name.toLowerCase().includes(keyword)
+        return d.customer_name.toLowerCase().includes(keyword)
     })
     callback(newData)
 }

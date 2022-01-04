@@ -498,7 +498,7 @@ export default function Contacts() {
                     setFilteredUsers(new_data)
                 })}}>
                     {filteredUsers.map((user , index)=>{
-                        console.log("filterd User", user)
+                        // console.log("filterd User", user)
                         return(<li key={index}>
                             <div style={{display:"flex" ,gap:10}}>
                                 <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
@@ -620,7 +620,7 @@ export default function Contacts() {
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
                                             <Avatar alt={data.username} sx={{width:27 , height:27}} src={data.img_url||""}/>
-                                            <span style={{marginLeft: "11px"}}>{data.first_name}</span>
+                                            <span style={{marginLeft: "11px"}}>{data.customer_name}</span>
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>

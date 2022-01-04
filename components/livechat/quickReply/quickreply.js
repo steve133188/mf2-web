@@ -15,7 +15,7 @@ export default function QuickReply(props) {
 
     return(
         < div className="reply_template_box">
-             <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}} ref={props.ref} >
+             <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}}  >
             <Box component="div" 
                     visibleScrollbar={true}
                     scrollButtons={"on"}

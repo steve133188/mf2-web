@@ -111,8 +111,8 @@ export default function EditProfileForm({data , toggle}){
         });
     }
     async function handleSubmit (e){
-        e.preventDefault()
-console.log(editContact)
+        // e.preventDefault()
+    console.log(editContact)
         const name =` ${editContact.first_name} ${editContact.last_name}`
         const data = {...editContact,name , tags:selectedTags , agents:selectedUsers}
         console.log(data,"edit data")
