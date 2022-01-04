@@ -113,7 +113,8 @@ export default function AddContact() {
         const name =` ${newContact.first_name} ${newContact.last_name}`
         const phone = parseInt(newContact.phone)
         const tags_id = selectedTags.map(t=>t.tag_id)
-        const agents_id = selectedUsers.map(a => a.customer_id )
+        const agents_id = selectedUsers.map(a => a.user_id )
+        console.log(selectedUsers,"tagsss",agents_id)
          const res = await contactInstance.createContact({...newContact , customer_name: name , phone:phone, tags_id , agents_id})
         console.log(res)
         router.back()
