@@ -433,7 +433,7 @@
             // min-width: 140px;
             flex-direction: column;
             justify-content: space-between;
-            align-items: center;
+            align-items:flex-start;
             padding-left: 5%;
             padding-top: 1.5%;
             font: normal normal 600 15px Manrope;
@@ -1178,14 +1178,14 @@
 
     }
     .chatroom_name_ss{
-      display: flex;
-      //width: 30%;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding-left: 5%;
-      padding-top: 1.5%;
-      margin-left: 0 10px;
+      // display: flex;
+      // //width: 30%;
+      // flex-direction: column;
+      // justify-content: space-between;
+      // align-items: flex-start;
+      // padding-left: 5%;
+      // padding-top: 1.5%;
+      // margin-left: 0 10px;
       font: normal normal 600 15px Manrope;
       color: #4E4E4E;
       .team{

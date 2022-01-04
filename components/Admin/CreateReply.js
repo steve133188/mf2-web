@@ -58,7 +58,7 @@ export default function CreateReply({show, toggle,data,check,reload}){
         const dataupload = {name:data.name,body:body}
         console.log(dataupload,"create reply")
         const status = await adminInstance.addContentToFolder( data.name,body)
-        console.log(status,"create reply")
+    console.log(status,"create reply")
         toggle()
         reload()
 

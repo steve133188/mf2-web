@@ -59,13 +59,7 @@ export default function StandardReply() {
     const [editData,setEditData] = useState({})
     let result = currentReply.map(d=>d.id)
 
-    useEffect(    async () => {
-        if(user.token) {
-            await fetchStandardReply();
-             await getAgents ();
-            }
-
-    },[]);
+   
     const fetchStandardReply = async () =>{
         const data = await adminInstance.getAllStandardReply()
         console.log("getAllStandardReply",data)
@@ -147,7 +141,14 @@ export default function StandardReply() {
         console.log(standardReply,"reply")
         console.log(useFolder,"reply")
     },[useFolder])
+    
+    useEffect(    async () => {
+        if(user.token) {
+            await fetchStandardReply();
+             await getAgents ();
+            }
 
+    },[]);
 
 
     const default_cols = ['Folder' , 'Channel' ,'Team',""]
