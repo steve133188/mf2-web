@@ -56,11 +56,11 @@ export default function Live_chat() {
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [subscribe,setSubscribe] = useState()
     const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-    
+
     const [replyMsg, setReplyMsg] = useState("")
     const [quotaMsg,setQuotaMsg] = useState({})
     const [reply,setReply] =useState(false)
-    
+
     const [searchResult, setSearchResult] = useState([])
     const [typedMsg , setTypedMsg] = useState({
         channel:"whatsapp",
@@ -230,7 +230,7 @@ export default function Live_chat() {
         const data = await getChatrooms()
         setChatrooms(data)
     } , [selectedTeams])
-    
+
     const toggleReply = () =>{
         setChatButtonOn(ChatButtonOn=="mr");
         setIsExpand(true);
@@ -442,7 +442,7 @@ export default function Live_chat() {
             const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
             console.log(cc,"contacts show")
             if(!cc[0]){return new1.push[chat]}
-            return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organiztion,tags:cc[0].tags,})
+            return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organization,tags:cc[0].tags,})
         })
         const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
         console.log(myChat,user.user.user_id, "my chatroom")
@@ -697,17 +697,15 @@ export default function Live_chat() {
                                         {noti.type=="newMsg"?
 
 
-                                        <div className="pop_half"> 
+                                        <div className="pop_half">
                                             <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"0px"}} alt="icon" />
                                                 "{noti.sender}"see if there are sender
 
                                         </div>
-                                        :""}    
+                                        :""}
                                        <div className="pop_half"> {noti.content}</div>
-
-
                                    </div>
-                                   
+
                                </div>
                                <div className=".popright">
 
@@ -752,7 +750,7 @@ export default function Live_chat() {
                            {quotaMsg&&
                             <div style={{display:(ChatButtonOn=="mr"?"flex":"none")}} onClick={toggleReply }>
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
-                           </div> 
+                           </div>
                            }
                     <textarea  inputRef={wrapperRef1} className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>

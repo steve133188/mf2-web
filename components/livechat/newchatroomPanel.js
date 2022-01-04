@@ -17,9 +17,9 @@ export default function Newchatroom(props){
             is_pin: false,
             name: data.first_name,
             phone: data.customer_id,
-            room_id:data.phone ,
+            room_id:parseInt(data.phone.toString().slice(3)) ,
             unread:0 ,
-            user_id: user.user.phone ,
+            user_id:  parseInt(user.user.phone.toString().slice(3)),
         }
         console.log(input)
         const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input}))
@@ -55,7 +55,7 @@ export default function Newchatroom(props){
                                 {/* <div className={"team"}>{contact.channel}</div> */}
                                 {<img src={`/channel_SVG/${contact.channels!=null?contact.channels:"whatsapp"}.svg`} alt="Channel icon" width={20} height={20}  />}
                                </div>
-                               
+
                                 <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
                             </div>
                                 <img src="/openChat.svg" style={{width:"30px",opacity:".8"}} />
