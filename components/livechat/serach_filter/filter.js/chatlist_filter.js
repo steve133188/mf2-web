@@ -261,61 +261,11 @@ const channelData = [
                     </div>
                 </div>
 
-              
-                <div className={"filter_box_agents"}  >Team
-                    <div className={"agentBroad"} >
-
-                        <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
-                        <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
-                                <div className={"search_bar"}>
-                                <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
-                            </div>
-                            {/* <DivisionDropDown data={Division}  /> */}
-
-
-                            <div className={"channelList"} >
-
-                                {teams.map((team)=>{
-                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
-                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                            {/* <Tooltip key={team.name} className={""} title={team.name} placement="top-start">
-                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{team.name.substring(0,2).toUpperCase()}</Avatar>
-                                            </Tooltip> */}
-                                            <div className={"name"}>{team.name}</div>
-                                        </div>
-                                        <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name)} onClick={toggleSelectTeams} onChange={()=>{}}/>
-                                            </label>
-                                        </div>
-                                    </li>) })
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    {/* <div className={"taglList"}>
-                        {selectedTeams.map((user,index)=>{
-                                return(
-                                    <div key={index} className={"tag"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip  className={""} title={user} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-
-                                    </div>
-
-
-                                )
-                            })}
-                    </div> */}
-                </div>
-  <div className={"filter_box_agents"}  >Division
+                {/* <div className={"filter_box_agents"}  >Division
                     <div className={"agentBroad"} >
 
                         <div className={"filter_title"} onClick={()=>{setDBar(!dBarOpen)}}>Choose Division</div>
                         <div className={"agentSearchArea"}  style={dBarOpen?{display:"block"}:{display:"none"}}>
-                                {/* <div className={"search_bar"}>
-                                <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
-                            </div> */}
-                            {/* <DivisionDropDown data={Division}  /> */}
 
 
                             <div className={"channelList"} >
@@ -323,9 +273,7 @@ const channelData = [
                                 {division.map((team)=>{
                                     return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
                                         <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                            {/* <Tooltip key={team.name} className={""} title={team.name} placement="top-start">
-                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{team.name.substring(0,2).toUpperCase()}</Avatar>
-                                            </Tooltip> */}
+
                                             <div className={"name"}>{team.name}</div>
                                         </div>
                                         <div className="newCheckboxContainer right">
@@ -337,21 +285,38 @@ const channelData = [
                             </div>
                         </div>
                     </div>
-                    {/* <div className={"taglList"}>
-                        {selectedTeams.map((user,index)=>{
-                                return(
-                                    <div key={index} className={"tag"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip  className={""} title={user} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
+                </div> */}
+                {/* <div className={"filter_box_agents"}  >Team
+                    <div className={"agentBroad"} >
 
-                                    </div>
+                        <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
+                        <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
+                                <div className={"search_bar"}>
+                                <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
+                            </div>
 
 
-                                )
-                            })}
-                    </div> */}
-                </div>
+
+                            <div className={"channelList"} >
+
+                                {teams.map((team)=>{
+                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
+                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
+
+                                            <div className={"name"}>{team.name}</div>
+                                        </div>
+                                        <div className="newCheckboxContainer right">
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name)} onClick={toggleSelectTeams} onChange={()=>{}}/>
+                                            </label>
+                                        </div>
+                                    </li>) })
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div> */}
+
 
                
                 <div className={"filter_box_tag"}  >

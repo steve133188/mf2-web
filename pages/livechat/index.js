@@ -159,7 +159,7 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
-    const [noti,setNofis]= useState({type:"safe",channel:"whatsapp",content:"",sender:""})
+    const [noti,setNofis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
     const [chatroomStart,setChatroomStart] = useState(false)
     // const windowUrl = window.location.search;
     // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
@@ -710,12 +710,11 @@ export default function Live_chat() {
 
 
                                         <div className="pop_half">
-                                            <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"0px"}} alt="icon" />
-                                                "{noti.sender}"see if there are sender
-
+                                            <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
+                                                {noti.sender} Sender name
                                         </div>
                                         :""}
-                                       <div className="pop_half"> {noti.content}</div>
+                                       <div className="pop_half"> {noti.content}New message coming</div>
                                    </div>
 
                                </div>
