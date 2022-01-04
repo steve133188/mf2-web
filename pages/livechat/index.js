@@ -309,16 +309,25 @@ export default function Live_chat() {
         await getChatrooms();
         await getChatroomMessage ();
     }
-    const wrapperRef = useRef();
+    const wrapperRef1 = useRef();
+    const wrapperRef2 = useRef();
+    const wrapperRef3 = useRef();
+
 
     const handleClickOutside = (event) => {
-        if (
-            wrapperRef.current &&
-            !wrapperRef.current.contains(event.target.node)
-    ) {
-        setChatButtonOn("");
-        setIsExpand(false);
+
+        if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
+            if (wrapperRef2.current &&!wrapperRef.current.contains(event.target.node)){
+                if (wrapperRef3.current &&!wrapperRef3.current.contains(event.target.node)){
+
+                    setChatButtonOn("");
+                    setIsExpand(false);
+                }
+
+            }
+
         }
+
     };
     const replyClick=click=>{
 
@@ -399,7 +408,7 @@ export default function Live_chat() {
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
         await handleSub(selectedChat)
-        
+
     },[selectedChat])
 
 
@@ -716,22 +725,22 @@ export default function Live_chat() {
                     </div>
                 </div>
 
-                <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef}>
+                <div className={"chatroom_input_field "+(isExpand?"expand":"")} >
                            {quotaMsg&&
                             <div style={{display:(ChatButtonOn=="mr"?"flex":"none")}} onClick={toggleReply }>
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                            </div> 
                            }
-                    <textarea className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} ref={wrapperRef} >
+                    <textarea  inputRef={wrapperRef1} className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
                     }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
-                        <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleSticker }ref={wrapperRef} >
-                            <StickerBox data={stickerData} stickerSend={stickerSend}  ref={wrapperRef} />
+                        <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleSticker }  ref={wrapperRef2}>
+                            <StickerBox data={stickerData} stickerSend={stickerSend}  ref={wrapperRef2} />
                             </div>
-                        <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleQuickReply } ref={wrapperRef}>
-                            <QuickReply data={replyData} onclick={replySelect} ref={wrapperRef}/>
+                        <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} onClick={toggleQuickReply } ref={wrapperRef3}>
+                            <QuickReply data={replyData} onclick={replySelect} ref={wrapperRef3}/>
                         </div>
 
                     <div className={"chatroom_input_btn_gp"}>
@@ -754,8 +763,8 @@ export default function Live_chat() {
                                    </div>
                             <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply}
                                     ><Mask_Group_4/></div>
-                            <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={toggleM5}
-                                    ><Mask_Group_5/></div>
+                            {/* <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={toggleM5}
+                                    ><Mask_Group_5/></div> */}
                         </div>
 
                         <div className={"right_btn_gp"}>

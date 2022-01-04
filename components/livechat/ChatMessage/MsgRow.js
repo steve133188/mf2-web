@@ -14,6 +14,8 @@ const captionJson = JSON.stringify(imageCaption)
 
 export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,...props}){
 
+
+    const { user }  = useContext(GlobalContext)
     
     const [isImageOpen,setImageOpen] = useState(false)
     useEffect(()=>{
@@ -22,20 +24,20 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
 
     const replyclick=e=>{
 
-        // replyHandle(e.target.id);
+        replyHandle(e.target.id);
 
     }
     const defaultId=msg.room_id+msg.timestamp
     const messageType = (msg)=>{
         switch(msg.message_type){
-            case "replyMsg":   return <div id={"reply"+defaultId} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
+            case "replyMsg":   return <div id={"reply"+defaultId} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}>  {props.replyMsg==defaultId? <Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
             case "sticker": return (<div className={"msg_type_sticker" +( props.replyMsg==defaultId?" replyActive":"")}> 
-                                        {props.replyMsg==defaultId? <Reply confirmReply={()=>{confirmReply()}} />:""}
+                                        {props.replyMsg==defaultId? <Reply confirmReply={confirmReply} />:""}
                                         <img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/>
                                     </div>);
-            case "image":   return <div id={defaultId} onClick={replyclick} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
+            case "image":   return <div id={defaultId} onClick={replyclick} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
             case "imageCaption":   
-                return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}
+                return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                         {/* {console.log(JSON.parse(captionJson).url)} */}
                                 {/* JSON.parse({msg.body}) */}
                                 {/* // <div value={msg.timestamp}  className={"msg_type_imageCaption"}> */}
@@ -44,19 +46,19 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                     <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
                                 </div>
 
-            case "video":   return <div id={defaultId} onClick={replyclick} className={"msg_type_video"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""} 
+            case "video":   return <div id={defaultId} onClick={replyclick} className={"msg_type_video"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""} 
                     {/* <iframe allowFullScreen className={"videoBox"} src={msg.body}  /> */}
                     <Player   className={"videoBox"} playsInline fluid={false} width={360} muted={true}>
                         <BigPlayButton position="center" />
                                     <source  id={defaultId} onClick={replyclick} src={msg.media_url}   type="video/mp4"/>
                     </Player>
                     </div> 
-            case "ptt":   return <div id={defaultId} onClick={replyclick} className={"msg_type_voice "  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}
+            case "ptt":   return <div id={defaultId} onClick={replyclick} className={"msg_type_voice "  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                                             <audio id={defaultId} onClick={replyclick}  className={"voice_detail"} controls src={msg.media_url} ></audio>
 
                         </div>;
             case "document":
-                return  <div id={defaultId} onClick={replyclick}  className={"msg_type_attachment"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}
+                return  <div id={defaultId} onClick={replyclick}  className={"msg_type_attachment"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                             <div className={"attachmentBox"}> 
                                 <svg xmlns="http://www.w3.org/2000/svg"  width="35" height="35" viewBox="0 0 35 35" >
                                         <g id="Mask_Group_62" data-name="Mask Group 62" transform="translate(-2746 -1111)" >
@@ -67,17 +69,17 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                 <a id={defaultId} onClick={replyclick} className={"attachmentBody"} href='/msg.body.fileURL' download>{msg.body}</a>
                             <div className={"attachmentSize"}>size.kb</div></div>
                      </div>;
-            case "link": return <div id={defaultId} onClick={replyclick} className={"url_body"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}
+            case "link": return <div id={defaultId} onClick={replyclick} className={"url_body"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                                     <div className={"url_box"}>
                                         <div className={"url_detail"} >                        
                                             <Embed   url={msg.body} />
                                             </div>
 
-                                        <div  id={defaultId} onClick={replyclick} className={"msg_type_url" +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}<a id={defaultId} onClick={replyclick} href={msg.body}>{msg.body} </a></div>
+                                        <div  id={defaultId} onClick={replyclick} className={"msg_type_url" +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<a id={defaultId} onClick={replyclick} href={msg.body}>{msg.body} </a></div>
                                     </div>
                                 </div>;
 
-            default:   return  <div id={defaultId} onClick={replyclick}  value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body" +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply onclick={replyclick} />:""}{msg.body}</div>
+            default:   return  <div id={defaultId} onClick={replyclick}  value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body" +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}{msg.body}</div>
             // default:   return  <div value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body"}>{msg.body}</div>
 
 

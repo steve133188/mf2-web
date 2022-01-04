@@ -43,7 +43,7 @@ export default function EditProfileForm({data , toggle}){
             if(editContact.agents)setSelectedUsers(editContact.agents)
             if(editContact.tags)setSelectedTags(editContact.tags)
         }
-        console.log(data)
+        console.log
 
     },[])
     const toggleSelectTags = (e , data)  => {
