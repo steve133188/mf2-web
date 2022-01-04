@@ -648,7 +648,9 @@ export default function Contacts() {
 
 
                                     <TableCell sx={{width:"165px",overflow:"hidden",textOverflow:"ellipsis"}} >
-                                        <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} >
+                                        {/* <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} > */}
+                                            <div className={"avaGroupInstead"} >
+
                                             {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
@@ -656,7 +658,8 @@ export default function Contacts() {
                                                     </Tooltip>
                                                 )
                                             })}
-                                        </AvatarGroup>
+                                            </div>
+                                        {/* </AvatarGroup> */}
                                     </TableCell>
                                     <TableCell  >
                                         <Mf_icon_dropdown_select_btn

@@ -181,14 +181,17 @@ console.log(editContact)
                 <div className={"addTagsGroup"}>
                     <p>Assignee</p>
                     <div className={"tagsGroup"}>
-                        <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} >
+                        {/* <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} > */}
+                           <div className={"avaGroupInstead"}>
+
                             {selectedUsers!=-1 &&selectedUsers.map((agent , index)=>{
                                 return(
-                                        <Avatar key={index} className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username&&agent.username.substring(0,2).toUpperCase()}</Avatar>
-                                )
-                            })}
+                                    <Avatar key={index} className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username&&agent.username.substring(0,2).toUpperCase()}</Avatar>
+                                    )
+                                })}
 
-                        </AvatarGroup>
+                                </div>
+                        {/* </AvatarGroup> */}
 
                         <Mf_circle_btn handleChange={(e)=>{ userSearchFilter(e.target.value , users,(new_data)=>{
                             setFilteredUsers(new_data)

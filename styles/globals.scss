@@ -288,3 +288,11 @@ svg{
   width:26px;
   height:26px;
 }
+
+.avaGroupInstead{
+  display: flex;
+  justify-content: flex-start;
+  gap:5px;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
