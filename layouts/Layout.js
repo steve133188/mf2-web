@@ -15,9 +15,9 @@ import MenuItem from "@mui/material/MenuItem";
 
 export default function Layout({children}) {
     const [userSelect , setUserSelect] = useState("")
+    const [isAuth , setIsAuth] = useState(false)
     const router = useRouter()
     const {user , logout} = useContext(GlobalContext)
-    const u = user.user
 
     const layout = (
         <div className={"layout"}><SideBar navItems={navItems} />
@@ -28,16 +28,20 @@ export default function Layout({children}) {
         </div>
     )
 
+
+
     const unAuth = (<div className={"unauth"}>{children}</div>)
+
     useEffect(()=>{
-        // if(user.token == null){
-        //     console.log("please log in")
-        //     router.push("/login" )
-        // }
-        // console.log(user)
-    },[])
+        if(user.token != null){
+            setIsAuth(true)
+        }else {
+            setIsAuth(false)
+        }
+        console.log(user)
+    },[user])
 
     return (
-        user.token ? layout : unAuth
+        isAuth ? layout : unAuth
     )
 }
