@@ -213,15 +213,15 @@
   }
   .channel_row{
     display: flex;
-    flex-direction: "row";
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width:100%;
     .channel_row_lf{
       width:80%;
       // display: inline-flex;
-      display: "flex";
-      flex-direction: "row";
+      display: flex;
+      flex-direction: row;
       vertical-align: center;
       justify-content: flex-start;
       text-align: center;
