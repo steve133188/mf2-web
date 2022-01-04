@@ -15,7 +15,7 @@ export default function QuickReply(props) {
 
     return(
         < div className="reply_template_box">
-             <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'nowrap',overflow:'scroll'}}  >
+             <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'normal',overflow:'scroll'}}  >
             <Box component="div" 
                     visibleScrollbar={true}
                     scrollButtons={"on"}
@@ -38,9 +38,9 @@ export default function QuickReply(props) {
                 </Tabs>
             </Box>
                     {props.data.map((item,index)=>(
-                    <TabPanel  sx={{ overflow: "auto" }} value={`${item.id}`} key={index}>
-                        <div className={'reply_box'}>{item.set.map((item,index)=>(
-                            <div key={index}>
+                    <TabPanel value={`${item.id}`} key={index}>
+                        <div className={'reply_box'} style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"100px"}}>{item.set.map((item,index)=>(
+                            <div key={index} style={{margin:"3px"}}>
                                 <div className={'nameTag'} id={item.id} content={item.content} onClick={props.onclick}>
                                     {item.name}
                                 <div hidden={true}>{item.content}</div>
