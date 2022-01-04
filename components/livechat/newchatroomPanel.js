@@ -12,10 +12,10 @@ export default function Newchatroom(props){
     const createChatroom = async (data)=>{
         console.log(user)
         const input = {
-            channel:"whatsapp",
+            channel:"Whatsapp",
             customer_id:data.customer_id,
             is_pin: false,
-            name: data.first_name,
+            name: data.first_name + data.last_name,
             phone: data.customer_id,
             room_id:parseInt(data.phone.toString().slice(3)) ,
             unread:0 ,
