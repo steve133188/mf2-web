@@ -14,6 +14,7 @@ import {GlobalContext} from "../../context/GlobalContext";
 import Mf_circle_btn from "../mf_circle_btn";
 
 export default function EditProfileForm({data , toggle}){
+
     const [editContact , setEditContact] = useState(data)
     const [users ,setUsers] =useState([])
     const [tags ,setTags] =useState([])
@@ -21,7 +22,7 @@ export default function EditProfileForm({data , toggle}){
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
-    const {userInstance ,tagInstance, user} = useContext(GlobalContext)
+    const {userInstance ,tagInstance,contactInstance, user} = useContext(GlobalContext)
 
 
     const getTags = async ()=>{
@@ -60,7 +61,7 @@ export default function EditProfileForm({data , toggle}){
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, data]);
         if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== data));
+            setSelectedUsers(selectedUsers.filter(item => item.user_id !== data.user_id));
         }
         console.log(selectedUsers)
     };
@@ -88,6 +89,19 @@ export default function EditProfileForm({data , toggle}){
         })
         callback(newData)
     }
+    const isContainTags = (id) => {
+        if (selectedTags != null) {
+            return selectedTags.some(selectedtag => selectedtag.tag_id === id.tag_id)
+        } else return false
+    }
+    const isContainUser = (id) => {
+
+        if (selectedUsers) {
+            return selectedUsers.some(selecteduser => selecteduser.user_id == id.user_id)
+        }
+        else { return false }
+    }
+
     function handleChange(evt) {
         const value = evt.target.value;
         setEditContact({
@@ -98,24 +112,13 @@ export default function EditProfileForm({data , toggle}){
     }
     async function handleSubmit (e){
         e.preventDefault()
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
+console.log(editContact)
         const name =` ${editContact.first_name} ${editContact.last_name}`
-        const res = await axios.put(url , {...editContact,name , tags:selectedTags , agents:selectedUsers} ,{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-        })
-            .then(response => {
-                if(response.status != 200){
-                    return "something went wrong"
-                }
-                console.log(response)
-            }).catch(err=>{
-                console.log(err)
-            })
-        console.log(res)
-        toggle()
+        const data = {...editContact,name , tags:selectedTags , agents:selectedUsers}
+        console.log(data,"edit data")
+        const res = await contactInstance.updateContact (data)
+            console.log(res)
+
     }
     function cancel(e){
         e.preventDefault()
@@ -159,18 +162,18 @@ export default function EditProfileForm({data , toggle}){
                     <p>Tags</p>
                     <div className={"tagsGroup"} style={{width:"100%",height:"30px"}}>
                         {selectedTags!=-1&&selectedTags.map((tag)=>{
-                            return<Pill key={tag} color="vip">{tag.tag_name}</Pill>
+                            return<Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                         })}
 
                     </div>
                         <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                             setFilteredTags(new_data)
                         })}}>
-                            {filteredTags.map((tag)=>{
-                                return(<li key={tag.tag_id}><Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
+                            {filteredTags.map((tag,index)=>{
+                                return(<li key={tag.tag_id+index}><Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag)} onClick={(e)=>toggleSelectTags(e , tag)} />
+                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={isContainTags(tag)} onClick={(e)=>toggleSelectTags(e , tag)} onChange={()=>{}}/>
                                         </label> </div></li>)
                             })}
                         </Mf_circle_btn>
@@ -181,7 +184,7 @@ export default function EditProfileForm({data , toggle}){
                         <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} >
                             {selectedUsers!=-1 &&selectedUsers.map((agent , index)=>{
                                 return(
-                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username&&agent.username.substring(0,2).toUpperCase()}</Avatar>
+                                        <Avatar key={index} className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username&&agent.username.substring(0,2).toUpperCase()}</Avatar>
                                 )
                             })}
 
@@ -191,7 +194,7 @@ export default function EditProfileForm({data , toggle}){
                             setFilteredUsers(new_data)
                         })}} >
                             {filteredUsers&&filteredUsers.map((user)=>{
-                                return(<li key={user.username}>
+                                return(<li key={user.user_id}>
                                     <div style={{display:"flex" ,gap:10}}>
                                         <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
@@ -199,7 +202,7 @@ export default function EditProfileForm({data , toggle}){
                                         <div className={"name"}>{user.username}</div>
                                     </div>
                                     <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={selectedUsers.includes(user)} onClick={(e)=>toggleSelectUsers(e, user)} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={isContainUser(user)} onClick={(e)=>toggleSelectUsers(e, user)} onChange={()=>{}} />
                                         </label>
                                     </div>
                                 </li>)

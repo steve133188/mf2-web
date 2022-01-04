@@ -71,7 +71,7 @@ export default function contactsFetcher(token){
     }
 
      instance.updateContact = async (data)=>{
-        return (await instance.fetcher.put("/customer/id",data)).status
+        return (await instance.fetcher.put("/customer",data)).status
     }
 
      instance.updateContacts = async (data)=>{

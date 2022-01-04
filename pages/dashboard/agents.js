@@ -39,10 +39,103 @@ export default function Agents() {
     let result = currentContacts.map(d=>d.id)
 
 
-    const default_cols = ["Name","Role","Status","All Contacts","Newly Added Contacts","Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts","Unhabdeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
-    useEffect(()=>{
-        setFilteredData([{name:"",role:"2"},{}])
+    const default_cols = ["Name","Role","Status","All Contacts","Newly Added Contacts",
+    "Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts",
+    "Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
+   
+    const rolename =["name",
+    "role",
+    "statue",
+    "allContacts",
+    "newlyContacts",
+    "avgDailyOnline",
+    "AssignedContacts",
+    "activeContacts",
+    "delivered",
+    "unhandeled",
+    "totalMsg",
+    "avgRepTime",
+    "avgFirstRepTime",
+]
+    const temp = [
+        {name:"Wiva",
+        role:"Manager",
+        statue:"Conneceted",
+        allContacts:11,
+        newlyContacts:0,
+        avgDailyOnline:31,
+        AssignedContacts:11,
+        activeContacts:2,
+        delivered:7,
+        unhandeled:2,
+        totalMsg:7,
+        avgRepTime:4,
+        avgFirstRepTime:1,
+     },
+
+        {name:"John",
+        role:"Agent",
+        statue:"Conneceted",
+        allContacts:9,
+        newlyContacts:8,
+        avgDailyOnline:8,
+        AssignedContacts:11,
+        activeContacts:2,
+        delivered:7,
+        unhandeled:2,
+        totalMsg:7,
+        avgRepTime:3,
+        avgFirstRepTime:5,
+        },
+        {name:"Ben",
+        role:"Agent",
+        statue:"Disonneceted",
+        allContacts:11,
+        newlyContacts:0,
+        avgDailyOnline:7,
+        AssignedContacts:11,
+        activeContacts:3,
+        delivered:5,
+        unhandeled:13,
+        totalMsg:9,
+        avgRepTime:3,
+        avgFirstRepTime:6,
+      },
+        {name:"Henry",
+        role:"Agent",
+        statue:"Conneceted",
+        allContacts:19,
+        newlyContacts:0,
+        avgDailyOnline:25,
+        AssignedContacts:1,
+        activeContacts:6,
+        delivered:8,
+        unhandeled:5,
+        totalMsg:33,
+        avgRepTime:8,
+        avgFirstRepTime:4,
+     },
+        {name:"Mary",
+        role:"Agent",
+        statue:"Disonneceted",
+        allContacts:12,
+        newlyContacts:0,
+        avgDailyOnline:22,
+        AssignedContacts:12,
+        activeContacts:3,
+        delivered:4,
+        unhandeled:5,
+        totalMsg:23,
+        avgRepTime:2,
+        avgFirstRepTime:1,
+     },]
+
+
+     useEffect(()=>{
+        setFilteredData(temp)
     },[])
+    
+
 
     
     const periodFilter = () =>{
@@ -230,10 +323,10 @@ export default function Agents() {
             <div className="chartGroup">
                 <div className="dashboardRow">
                     <div className="dashboardBarColumn"><MultipleBarChart title={"Months"} yaxis={"Contacts"} h={"650px"}
-                                                                        active={[12, 17, 19, 22, 24, 20, 18, 26, 20, 17, 15, 19]}
-                                                                        unhandled={[5, 12, 14, 4, 12, 6, 7, 12, 16, 3, 5, 7]}
-                                                                        delivered={[7, 5, 5, 18, 12, 14, 11, 14, 4, 14, 10, 12]}
-                                                                        agents={['harry','john','harry','john','harry','john','harry','john','harry','john','harry','john']}
+                                                                        active={[2, 2, 3, 6, 5,]}
+                                                                        unhandled={[2, 3, 11, 5,5]}
+                                                                        delivered={[7, 7, 5, 8, 4,]}
+                                                                        agents={["Wiva","John","Ben","Henry","Mary"]}
                                                                         min1={"12"} min2={12} min3={12}/></div>
                 </div>
                 
@@ -277,31 +370,31 @@ export default function Agents() {
                                                
                                             </TableCell>
                                             <TableCell align="left">
-                                                <span >{data.name} Name</span></TableCell>
+                                                <span >{data[rolename[0]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Role</span></TableCell>
+                                                <span >{data[rolename[1]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.Status}Role</span></TableCell>
+                                                <span >{data[rolename[2]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.time}Total Contacts</span></TableCell>
+                                                <span >{data[rolename[3]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Contacts numeber</span></TableCell>
+                                                <span >{data[rolename[4]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.time}Online Time</span></TableCell>
+                                                <span >{data[rolename[5]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Contacts numeber</span></TableCell>
+                                                <span >{data[rolename[6]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Active COntact</span></TableCell>
+                                                <span >{data[rolename[7]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Delete Contact</span></TableCell>
+                                                <span >{data[rolename[8]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}totle mess</span></TableCell>
+                                                <span >{data[rolename[9]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Response Timee</span></TableCell>
+                                                <span >{data[rolename[10]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Role</span></TableCell>
+                                                <span >{data[rolename[11]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data.role}Role</span></TableCell>
+                                                <span >{data[rolename[12]]}</span></TableCell>
                                             <TableCell align="left"></TableCell>
 
                                         </TableRow>
