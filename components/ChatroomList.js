@@ -7,7 +7,7 @@ import {Skeleton} from "@mui/material";
 
 
 
-    export default function ChatroomList({chatroom,togglePin, refresh, ...props}){
+    export default function ChatroomList({chatroom,togglePin, refresh,chose, ...props}){
         const [isLoading, SetIsLoading] = useState(false);
         let ispin_input={
             room_id:chatroom.room_id,
@@ -30,9 +30,10 @@ import {Skeleton} from "@mui/material";
             //     SetIsLoading(false);
             // }, 300);
         }
+        console.log(chose,"chose chatroom")
 
         return(
-            <div className={"chatroom_li "} onClick={props.onClick}>
+            <div className={"chatroom_li "+(chose.room_id==chatroom.room_id?"activeRoom":"")} onClick={props.onClick}>
                 <div className={"starred"}  onClick={toggleChatPin} > {isLoading?(<Skeleton/>):(chatroom.is_pin?<StarSVG/> : <NoStarSVG/>)}</div>
                 <div className={"chatroom_icon"}>
                 {isLoading?(<Skeleton variant="circle" width={40} height={40} />):
