@@ -32,6 +32,7 @@ export default function EditProfileForm({data , toggle}){
     }
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
+        console.log(data,"User fetch")
         setUsers(data)
         setFilteredUsers(data)
     }
@@ -43,14 +44,15 @@ export default function EditProfileForm({data , toggle}){
             if(editContact.agents)setSelectedUsers(editContact.agents)
             if(editContact.tags)setSelectedTags(editContact.tags)
         }
-        console.log
+        console.log(data,"contact bring in")
 
     },[])
     const toggleSelectTags = (e , data)  => {
         const { checked ,id} = e.target;
+        console.log(id)
         setSelectedTags(selectedTags=>[...selectedTags, data]);
         if (!checked) {
-            setSelectedTags(selectedTags.filter(item => item !== data));
+            setSelectedTags(selectedTags.filter(item => {console.log(item,"select");return item.tag_id !== parseInt(id)}));
         }
         console.log(selectedTags)
     };
@@ -179,9 +181,7 @@ export default function EditProfileForm({data , toggle}){
                         <AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}}  spacing={1} >
                             {selectedUsers!=-1 &&selectedUsers.map((agent , index)=>{
                                 return(
-                                    <Tooltip key={index} className={""} title={agent} placement="top-start">
                                         <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{agent.username&&agent.username.substring(0,2).toUpperCase()}</Avatar>
-                                    </Tooltip>
                                 )
                             })}
 

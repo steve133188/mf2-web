@@ -164,6 +164,14 @@ export default function DashBroadFilter(props){
         }
         // console.log(selectedChannels)
     };
+    const clearFilter=()=>{
+        props.click()
+        setSelectedTeams([])
+        setSelectedChannels([])
+        setSelectedDivision([])
+        setSelectedTags([])
+        setSelectedAgents([])
+    }
 
     useEffect(   async()=>{
 
@@ -299,7 +307,7 @@ export default function DashBroadFilter(props){
                 <div className="confirm_btn_set">
 
                     <button className={"confirmButton"}  onClick={props.click}  color="neutral">Confirm</button>
-                    <button className={"cancelButton"} onClick={props.click} >Cancel</button>
+                    <button className={"cancelButton"} onClick={clearFilter} >Cancel</button>
                 </div>
          </div>
     )

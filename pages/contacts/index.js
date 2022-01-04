@@ -79,7 +79,7 @@ export default function Contacts() {
             if(selectedUsers.length==0){
                 return data
             }
-            return data.agents.some(el=>selectedUsers.includes(el))
+            return data.agents.some(el=>selectedUsers.includes(el.username))
         })
         console.log("agent:",agentFiltered)
         const tagFiltered = agentFiltered.filter(data=>{
@@ -152,6 +152,7 @@ export default function Contacts() {
     }
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
+        console.log(data,"User Data")
         setUsers(data)
         setFilteredUsers(data)
     }
@@ -226,6 +227,8 @@ export default function Contacts() {
     };
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
+        console.log(checked,id)
+
         setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
@@ -492,6 +495,7 @@ export default function Contacts() {
                     setFilteredUsers(new_data)
                 })}}>
                     {filteredUsers.map((user , index)=>{
+                        console.log("filterd User", user)
                         return(<li key={index}>
                             <div style={{display:"flex" ,gap:10}}>
                                 <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
@@ -611,7 +615,7 @@ export default function Contacts() {
                                     </TableCell>
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                            <Avatar alt={data.first_name} sx={{width:27 , height:27}} src={data.img_url||""}/>
+                                            <Avatar alt={data.username} sx={{width:27 , height:27}} src={data.img_url||""}/>
                                             <span style={{marginLeft: "11px"}}>{data.first_name}</span>
                                         </div>
                                     </TableCell>

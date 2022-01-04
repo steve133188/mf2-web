@@ -64,8 +64,10 @@ export default function ContantDetail({ data, ...props }) {
 
     const toggleSelectTags = async e => {
         const { checked, id } = e.target;
-        const tag = await tagInstance.getTagById(id)
+        console.log(typeof(id))
+        const tag = await tagInstance.getTagById(parseInt(id))
         // get all selectedtags.tag_id
+        console.log(tag,"tag tag")
         setSelectedTags([...selectedTags, tag]);
         // const uploadTags = {
         //     tag_id: tag.tag_id,
@@ -75,13 +77,14 @@ export default function ContantDetail({ data, ...props }) {
 
         // }
         if (!checked) {
-            await setSelectedTags(selectedTags.filter(item =>  item.tag_id != id ));
+            setSelectedTags(selectedTags.filter(item =>  item.tag_id != parseInt(id) ));
             
-            await contactInstance.deleteCustomerTag(contact.customer_id, [tag.tag_id])
-
+            console.log(contact.customer_id, tag.tag_id)
+            const res = await contactInstance.deleteCustomerTag(contact.customer_id, [tag.tag_id])
         }else{
             
-            await contactInstance.updateContactTags(contact.customer_id, [tag.tag_id])
+            const res = await contactInstance.updateContactTags(contact.customer_id, [tag.tag_id])
+            console.log(res)
         }
 
 
@@ -200,7 +203,7 @@ export default function ContantDetail({ data, ...props }) {
                                 </div>
                                 <div className="newCheckboxContainer">
 
-                                    <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" onClick={toggleSelectUsers} checked={isContainUser(user.user_id)} onChange={() => { }} />
+                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.user_id} name="checkbox" onClick={toggleSelectUsers} checked={isContainUser(user.user_id)} onChange={() => { }} />
                                     </label>
                                 </div>
                             </li>)
@@ -209,8 +212,8 @@ export default function ContantDetail({ data, ...props }) {
                     <AvatarGroup className={"AvatarGroup"} sx={{ display: 'flex', flexDirection: 'row-reverse', width: "fit-content", margin: "10px 0" }} spacing={-5} >
                         {selectedUsers && selectedUsers.map((agent, index) => {
 
-                            return (
 
+                            return (
                                 <Tooltip onClick={null} style={{ pointerEvents: "null" }} key={index} title={agent.username} placement="top-start">
                                     <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{ width: 25, height: 25, fontSize: 14 }} >{agent.username.substring(0, 2).toUpperCase()}</Avatar>
                                 </Tooltip>
@@ -223,9 +226,9 @@ export default function ContantDetail({ data, ...props }) {
                 <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", marginTop:"18px"}} >
 
                         <Mf_circle_btn isDisable={disable} switchs={() => { setUnread(!unread) }} handleChange={(e) => {
-                           console.log(alltags)
-                           const new_data = alltags.filter(i => i.tag_name.toLowerCase().includes(e.target.value.toLowerCase()))
-                           setFilteredTags(new_data)
+                           console.log(alltags,"alltags")
+                        //    const new_data = alltags.filter(i => i.tag_name.toLowerCase().includes(e.target.value.toLowerCase()))
+                        //    setFilteredTags(new_data)
                         }}>
 
                             {filteredTags.map((tag, index) => {
@@ -234,7 +237,7 @@ export default function ContantDetail({ data, ...props }) {
                                     <Pill onClick={null} key={index} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />
+                                            <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />
                                         </label>
                                     </div>
                                 </li>)
@@ -258,7 +261,7 @@ export default function ContantDetail({ data, ...props }) {
         <div className={'noteBox'} style={props.tab == "note" ? { display: "block" } : { display: "none" }}>
             <div className={"notesVolumn"}>Note : {notes.length}</div>
             <div className={"write_pad"}>
-                <input type="text" className={"write_note"} value={writenote} onChange={(e) => setWritenote(e.target.value)} placeholder={"Write a note..."}>
+                <input type="text" value={writenote} className={"write_note"} value={writenote} onChange={(e) => setWritenote(e.target.value)} placeholder={"Write a note..."}>
                 </input>
 
                 <div onClick={() => { setWritenote(notes.push({ cid: user.user.phone, wroteBy: user.user.username, "date": new Date().toISOString().slice(0, 10), content: writenote })), setWritenote("") }}>
