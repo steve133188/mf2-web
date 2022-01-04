@@ -40,7 +40,7 @@ export default function ChannelsDropList({toggleChannels,toggleAll}){
                {/* <div onClick={()=>{setOpen(!open)}}> Select</div> */}
                 <br/>
             <div className={"channelList"} style={open?{display:"block"}:{display:"none"}} >
-                  <ChannelListItem name={"All Channels"} value={"all"} id={"all"} key={"all"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />
+                  <ChannelListItem name={"All Channels"} value={"All"} id={"All"} key={"All"} checked={selectedChannels.includes("All")} onclick={toggleSelectAllChannels } />
                 {channelList.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
             </div>
         </div>
