@@ -12,10 +12,10 @@ export default function Newchatroom(props){
     const createChatroom = async (data)=>{
         console.log(user)
         const input = {
-            channel:"whatsapp",
+            channel:"Whatsapp",
             customer_id:data.customer_id,
             is_pin: false,
-            name: data.first_name,
+            name: data.first_name + data.last_name,
             phone: data.customer_id,
             room_id:parseInt(data.phone.toString().slice(3)) ,
             unread:0 ,
@@ -53,7 +53,7 @@ export default function Newchatroom(props){
 
                                 <div>{contact.customer_name&&contact.customer_name!=""?contact.customer_name:"Unknown"}</div>
                                 {/* <div className={"team"}>{contact.channel}</div> */}
-                                {<img src={`/channel_SVG/${contact.channels!=null?contact.channels:"whatsapp"}.svg`} alt="Channel icon" width={20} height={20}  />}
+                                {<img src={`/channel_SVG/${contact.channels!=null?contact.channels[0].slice(0).toUpperCase()+contact.channels[0].slice(1):"Whatsapp"}.svg`} alt="Channel icon" width={20} height={20}  />}
                                </div>
 
                                 <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
