@@ -47,11 +47,12 @@ export default function EditAgent(props){
         if(res == 201) router.back()
     }
     const fetchUser = async (id) =>{
-        const data = await userInstance.getAllUser()
-        console.log(data)
-        setAgent((data.filter((data)=>{return (data.phone==id)}))[0])
-        console.log(agent,"i am Agent")
-        // setRoles(data)
+        console.log(id)
+        const data = await userInstance.getUserById (id)
+        console.log(data,"user will edit")
+        // setAgent((data.filter((data)=>{return (data.phone==id)}))[0])
+        // console.log(agent,"i am Agent")
+
     }
     useEffect(async()=>{
         setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,phone:agent.phone,role_name:agent.role_name,team_id:agent.team_id})

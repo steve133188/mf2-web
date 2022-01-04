@@ -105,11 +105,11 @@ export default function Index() {
     const toggleEdit = (agent)=>{
         console.log(agent,"toggle")
         agent?setSelectedUsers([agent]):null
+        toggleEditProfile(agent)
         if (selectedUsers.length!=1){
             return
         }
         console.log(selectedUsers,"0000")
-        toggleEditProfile(selectedUsers[0])
 
     }
     useEffect(()=>{
