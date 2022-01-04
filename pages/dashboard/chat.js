@@ -278,108 +278,113 @@ export default function Chat() {
                     <div className="dashboardColumn"><LineChart title={"Total Messages Received"} data={[17, 18, 17, 13, 40, 17, 36, 33, 25, 34, 36, 15]} x_cate={[]}  yaxis={"Messages"} total={"15"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>
+                    {/*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*/}
                     <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} data={[21, 18, 17, 35, 38, 16, 40, 18, 12, 24, 30, 20]}  x_cate={[]} yaxis={"Contacts"} total={"20"} percentage={"+5%"} /></div>
-                </div>
-                <div className="dashboardRow">
                     <div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} data={[28, 30, 17, 18, 36, 13, 23, 36, 34, 23, 15, 26]} x_cate={[]}  yaxis={"Hours"} total={"26"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="tableSet">
-                    <div className={"half_session block_session"}>
-                        <div className={"top_row"} style={{justifyContent:"space-around",width:"40%"}}>
+                    {/*<div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>*/}
+                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} data={[28, 30, 17, 18, 36, 13, 23, 36, 34, 23, 15, 26]} x_cate={[]}  yaxis={"Hours"} total={"26"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn">
+                        <div className="tableSet">
+                            <div className={"half_session block_session"}>
+                                <div className={"top_row"} style={{justifyContent:"space-around",width:"40%"}}>
 
 
-                            <span className={"title"}>Tags  {`${tags.length}`}</span>
+                                    <span className={"title"}>Tags  {`${tags.length}`}</span>
 
-                <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                    setFilteredTags(new_data)
-                })}} >
-                    {filteredTags.map((tag)=>{
-                        return(<li key={tag.tag_id}><Pill size="30px" key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
-                            <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} />
-                                </label> </div></li>)
-                    })}
-                </MF_Select>
+                                    <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                                        setFilteredTags(new_data)
+                                    })}} >
+                                        {filteredTags.map((tag)=>{
+                                            return(<li key={tag.tag_id}><Pill size="30px" key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
+                                                <div className="newCheckboxContainer">
+                                                    <label className="newCheckboxLabel">
+                                                        <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} />
+                                                    </label> </div></li>)
+                                        })}
+                                    </MF_Select>
 
 
 
-                            </div>
-                <div style={{width:"400px",overflow:"scroll",height:"50px"}}>
+                                </div>
+                                <div style={{width:"400px",overflow:"scroll",height:"50px"}}>
 
-                    </div>
+                                </div>
 
-                        <div className={"session_content"}>
-                            <div className={"session_content_tag"}>
+                                <div className={"session_content"}>
+                                    <div className={"session_content_tag"}>
 
-                            <TableContainer
-                                sx={{minWidth: 600 ,}}
-                                className={"table_container"}
-                            >
-                             <Table
-                            sx={{minWidth: 650 }}
-                            aria-labelledby="tableTitle"
-                            size={'medium'}
-                            stickyHeader={true}
-                               >
-                            <TableHead>
-                                <TableRow>
-
-                                    {tagColumn.map((col,index)=>{
-                                        return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
-                                    })}
-                                    {selectedAgents&&selectedAgents.map((col,index)=>{
-                                        return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
-                                    })}
-
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                            {tags.map((item,index)=>{
-                                    return( <TableRow
-                                            key={index}
-                                            hover
-                                            // role="checkbox"
-                                            name={item.tag_name}
-                                            // checked={selectedUsers.includes(data.phone)}
-
+                                        <TableContainer
+                                            sx={{minWidth: 600 ,}}
+                                            className={"table_container"}
                                         >
-                                            <TableCell style={{width: "20%",}}>
+                                            <Table
+                                                sx={{minWidth: 650 }}
+                                                aria-labelledby="tableTitle"
+                                                size={'medium'}
+                                                stickyHeader={true}
+                                            >
+                                                <TableHead>
+                                                    <TableRow>
 
-                                             <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>
-                                            </TableCell>
-                                           <TableCell align="left" style={{width: "20%",}}>
-                                                <span >{item.total}</span>
-                                            </TableCell>
+                                                        {tagColumn.map((col,index)=>{
+                                                            return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
+                                                        })}
+                                                        {selectedAgents&&selectedAgents.map((col,index)=>{
+                                                            return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
+                                                        })}
 
-                                            {selectedData&&selectedData.map(item=>{return  <
-                                                TableCell align="left" style={{width: "auto",}}>
-                                                {item.tag_name}
-                                                </TableCell>})}
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {tags.map((item,index)=>{
+                                                        return( <TableRow
+                                                                key={index}
+                                                                hover
+                                                                // role="checkbox"
+                                                                name={item.tag_name}
+                                                                // checked={selectedUsers.includes(data.phone)}
 
-                                                <TableCell align="left" style={{width: "auto",}}>
+                                                            >
+                                                                <TableCell style={{width: "20%",}}>
 
-                                                </TableCell>
-                                                {/*<TableCell align="right">*/}
-                                            {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
-                                            {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
-                                            {/*</TableCell>*/}
-                                        </TableRow>
-                                    ) })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                                                    <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>
+                                                                </TableCell>
+                                                                <TableCell align="left" style={{width: "20%",}}>
+                                                                    <span >{item.total}</span>
+                                                                </TableCell>
 
+                                                                {selectedData&&selectedData.map(item=>{return  <
+                                                                    TableCell align="left" style={{width: "auto",}}>
+                                                                    {item.tag_name}
+                                                                </TableCell>})}
+
+                                                                <TableCell align="left" style={{width: "auto",}}>
+
+                                                                </TableCell>
+                                                                {/*<TableCell align="right">*/}
+                                                                {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
+                                                                {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
+                                                                {/*</TableCell>*/}
+                                                            </TableRow>
+                                                        ) })}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+
+                                    </div>
+                                </div>
                             </div>
+
+                            {/*<div className="dashboardColumn" style={{width: "55%"}}><EnhancedTable3/></div>*/}
                         </div>
                     </div>
 
-                        {/*<div className="dashboardColumn" style={{width: "55%"}}><EnhancedTable3/></div>*/}
-                    </div>
                 </div>
+                </div>
+                <div className="dashboardRow">
+
             </div>
         </div>
 
