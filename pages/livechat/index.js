@@ -23,6 +23,8 @@ import QuickReply from "../../components/livechat/quickReply/quickreply";
 import searchFilter from "../../helpers/searchFilter";
 import CountDownTimer from "../../components/CountDownTimer";
 import NotificationList from "../../components/NotificationList";
+import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
+
 
 export default function Live_chat() {
 
@@ -36,7 +38,9 @@ export default function Live_chat() {
             {id:3,name:"Happy new year",set:[{name:"恭賀新春!",content:"恭賀新春!"},{name:"心想事成!",content:"心想事成!"},{name:"身體健康",content:"身體健康!"}]},
 
         ]
-
+        getLinkPreview("https://www.google.com/").then((data) =>
+        console.log(data,"URL testing")
+      );
 
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
