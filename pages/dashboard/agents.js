@@ -315,6 +315,7 @@ export default function Agents() {
                     <ChangingPercentageCard title={"Active Contacts"} total={30} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Delivered Contacts"} total={28} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Unhandled Contacts"} total={28} changing={"+ 8%"} />
+                    <ChangingPercentageCard title={"Total Messages Received"} total={28} changing={"- 8%"} />
                     <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
                     <ChangingPercentageCard title={"Average Response Time"} total={41} changing={"+ 8%"} />
                     <ChangingPercentageCard title={"Average First Response Time"} total={8} changing={"+ 0%"} />

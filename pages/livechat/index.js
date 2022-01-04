@@ -112,6 +112,9 @@ export default function Live_chat() {
         const file = e.target.files[0]
         console.log("upload file : " , file)
         const filetype =  messageInstance.mediaTypeHandler(file)
+        console.log(file.name,"file data console")
+        console.log(file.size)
+        console.log(file.type)
         console.log("FileType",filetype)
         // console.log("result : " , result)
         if(filetype.includes("image")){
@@ -157,13 +160,13 @@ export default function Live_chat() {
     const [noti,setNofis]= useState({type:"safe",channel:"whatsapp",content:"",sender:""})
     const [chatroomStart,setChatroomStart] = useState(false)
     // const windowUrl = window.location.search;
-    const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
-    // params['id']
-    const rul_id = params.get('id');
-    const rul_name = params.get('name');
-    const rul_type = params.get('type');
-    console.log(rul_id, rul_name, rul_type)
-    console.log(params)
+    // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
+    // // params['id']
+    // const rul_id = params.get('id');
+    // const rul_name = params.get('name');
+    // const rul_type = params.get('type');
+    // console.log(rul_id, rul_name, rul_type)
+    // console.log(params)
 
     const handleTypedMsg = e =>{
         const {name , value} = e.target
@@ -225,11 +228,11 @@ export default function Live_chat() {
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
 
-    useEffect(async ()=>{
-        if(!start){  setStart(true)}
-        const data = await getChatrooms()
-        setChatrooms(data)
-    } , [selectedTeams])
+    // useEffect(async ()=>{
+    //     if(!start){  setStart(true)}
+    //     const data = await getChatrooms()
+    //     setChatrooms(data)
+    // } , [selectedTeams])
 
     const toggleReply = () =>{
         setChatButtonOn(ChatButtonOn=="mr");
@@ -294,7 +297,7 @@ export default function Live_chat() {
 
     const sendDocument = async (media_url) =>{
         const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
-        const res = await messageInstance.sendMessage(data)
+        // const res = await messageInstance.sendMessage(data)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -473,8 +476,7 @@ export default function Live_chat() {
 
                 return data
             }
-            console.log(data)
-            return  data.agents.some(el=>selectedUsers.includes(el))
+            return  data.agents.some(el=>selectedUsers.includes(el.username))
         })
         console.log("agent:",agentFiltered)
 
@@ -482,7 +484,7 @@ export default function Live_chat() {
             if(selectedTags.length ==0){
                 return data
             }
-            return data.tags.some(el=>selectedTags.includes(el))
+            return data.tags.some(el=>selectedTags.includes(el.tag_name))
         })
         console.log("tagFiltered:",tagFiltered)
 
@@ -493,6 +495,9 @@ export default function Live_chat() {
                 return data
             }
             return data.team==selectedTeams
+            //contacts not yet have team
+            //contacts not yet have team
+            //contacts not yet have team
         })
         console.log("teamFiltered:",teamFiltered)
 
@@ -550,7 +555,9 @@ export default function Live_chat() {
         setSelectedChannels([])
         setSelectedTags([])
         setSelectedTeams([])
-        setFilteredData(chatroomsInfo)
+        // setFilteredData(chatroomsInfo)
+            advanceFilter()
+
     }
     // useEffect(()=>{
     //     advanceFilter

@@ -26,14 +26,17 @@ const channelData = [
                 const [users ,setUsers] =useState([]);
                 const [tags ,setTags] =useState([]);
                 const [teams ,setTeams] =useState([]);
+                const [division ,setDivision] =useState([]);
                 const [selectedChannels ,setSelectedChannels] =useState([]);
                 const [filteredTags ,setFilteredTags] =useState([]);
                 const [filteredUsers ,setFilteredUsers] =useState([]);
                 const [selectedUsers ,setSelectedUsers] =useState([]);
                 const [agentBarOpen,setAgentBar] = useState(false)
                 const [agentSearchValue, setAgentValue]= useState("")
-
-
+                const [selectedTeams ,setSelectedTeams] =useState([])
+                const [selectedDivision ,setSelectedDivision] =useState([])
+                const [teamBarOpen,setTeamBar] = useState(false)
+                const [dBarOpen,setDBar] = useState(false)
                 // const advanceFilter =()=>{
                 //     setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
                 //     console.log("filter",filter)
@@ -69,6 +72,13 @@ const channelData = [
                 const getTeams = async ()=>{
                     const data = await orgInstance.getOrgTeams()
                     setTeams(data)
+                    console.log(data,"team fetch")
+                }
+                const getDivision = async () =>{
+                    const data = await orgInstance.getAllORG ()
+                    setDivision(data.filter(e=>{return e.type=="division"}))
+                    console.log(data,"team fetch")
+                    
                 }
                 // const fetchContacts = async () =>{
                 //     const data = await contactInstance.getAllContacts()
@@ -80,6 +90,7 @@ const channelData = [
                         await getTags()
                         await getUsers()
                         await getTeams()
+                        await getDivision()
                     }
                     setSelectedUsers([])
 
@@ -94,6 +105,24 @@ const channelData = [
         }
         props.agents(e)
         console.log(selectedUsers)
+    };
+    const toggleSelectDivision = e => {
+        const { checked ,id} = e.target;
+        setSelectedDivision([...selectedDivision, id]);
+        if (!checked) {
+            setSelectedDivision(selectedDivision.filter(item => item !== id));
+        }
+        // props.team(e)
+        console.log(selectedTeams)
+    };
+    const toggleSelectTeams = e => {
+        const { checked ,id} = e.target;
+        setSelectedTeams([...selectedTeams, id]);
+        if (!checked) {
+            setSelectedTeams(selectedTeams.filter(item => item !== id));
+        }
+        // props.team(e)
+        console.log(selectedTeams)
     };
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
@@ -115,7 +144,7 @@ const channelData = [
     };
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;
-        setSelectedChannels(["all","whatsapp","WABA","wechat","messager"]);
+        setSelectedChannels(["all","Whatsapp","WABA","Wechat","Messager"]);
         if (!checked) {
             setSelectedChannels([]);
         }
@@ -187,35 +216,34 @@ const channelData = [
 
 
                         {/* <DropDown data={"teamsList"}/> */}
-
-                <div className={"filter_box_agents"}  >Agent
+ <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
-                    <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
-                    <div className={"agentSearchArea"}  style={agentBarOpen?{display:"block"}:{display:"none"}}>
-                         <div className={"search_bar"}>
-                            <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
-                        </div>
-                        {/* <DivisionDropDown data={Division}  /> */}
+                        <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
+                        <div className={"agentSearchArea"}  style={agentBarOpen?{display:"block"}:{display:"none"}}>
+                                <div className={"search_bar"}>
+                                <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
+                            </div>
+                            {/* <DivisionDropDown data={Division}  /> */}
 
 
-                        <div className={"channelList"} >
-                            {filteredUsers.filter(users=>users.username.includes(agentSearchValue)).map((user)=>{
-                                return(<li className={"channelListitem"} key={user.username} style={{width:"100%"}}>
-                                    <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-                                        <div className={"name"}>{user.username}</div>
-                                    </div>
-                                    <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
-                                        </label>
-                                    </div>
-                                </li>) })
-                            }
+                            <div className={"channelList"} >
+                                {filteredUsers.filter(users=>users.username.includes(agentSearchValue)).map((user)=>{
+                                    return(<li className={"channelListitem"} key={user.username} style={{width:"100%"}}>
+                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
+                                            <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
+                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                                            </Tooltip>
+                                            <div className={"name"}>{user.username}</div>
+                                        </div>
+                                        <div className="newCheckboxContainer right">
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
+                                            </label>
+                                        </div>
+                                    </li>) })
+                                }
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div className={"taglList"}>
                         {selectedUsers.map((user,index)=>{
@@ -232,6 +260,100 @@ const channelData = [
                             })}
                     </div>
                 </div>
+
+              
+                <div className={"filter_box_agents"}  >Team
+                    <div className={"agentBroad"} >
+
+                        <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
+                        <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
+                                <div className={"search_bar"}>
+                                <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
+                            </div>
+                            {/* <DivisionDropDown data={Division}  /> */}
+
+
+                            <div className={"channelList"} >
+
+                                {teams.map((team)=>{
+                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
+                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
+                                            {/* <Tooltip key={team.name} className={""} title={team.name} placement="top-start">
+                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{team.name.substring(0,2).toUpperCase()}</Avatar>
+                                            </Tooltip> */}
+                                            <div className={"name"}>{team.name}</div>
+                                        </div>
+                                        <div className="newCheckboxContainer right">
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name)} onClick={toggleSelectTeams} onChange={()=>{}}/>
+                                            </label>
+                                        </div>
+                                    </li>) })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className={"taglList"}>
+                        {selectedTeams.map((user,index)=>{
+                                return(
+                                    <div key={index} className={"tag"} style={{display:"flex" ,gap:10}}>
+                                        <Tooltip  className={""} title={user} placement="top-start">
+                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
+                                        </Tooltip>
+
+                                    </div>
+
+
+                                )
+                            })}
+                    </div> */}
+                </div>
+  <div className={"filter_box_agents"}  >Division
+                    <div className={"agentBroad"} >
+
+                        <div className={"filter_title"} onClick={()=>{setDBar(!dBarOpen)}}>Choose Division</div>
+                        <div className={"agentSearchArea"}  style={dBarOpen?{display:"block"}:{display:"none"}}>
+                                {/* <div className={"search_bar"}>
+                                <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
+                            </div> */}
+                            {/* <DivisionDropDown data={Division}  /> */}
+
+
+                            <div className={"channelList"} >
+
+                                {division.map((team)=>{
+                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
+                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
+                                            {/* <Tooltip key={team.name} className={""} title={team.name} placement="top-start">
+                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{team.name.substring(0,2).toUpperCase()}</Avatar>
+                                            </Tooltip> */}
+                                            <div className={"name"}>{team.name}</div>
+                                        </div>
+                                        <div className="newCheckboxContainer right">
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedDivision.includes(team.name)} onClick={toggleSelectDivision} onChange={()=>{}}/>
+                                            </label>
+                                        </div>
+                                    </li>) })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className={"taglList"}>
+                        {selectedTeams.map((user,index)=>{
+                                return(
+                                    <div key={index} className={"tag"} style={{display:"flex" ,gap:10}}>
+                                        <Tooltip  className={""} title={user} placement="top-start">
+                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
+                                        </Tooltip>
+
+                                    </div>
+
+
+                                )
+                            })}
+                    </div> */}
+                </div>
+
+               
                 <div className={"filter_box_tag"}  >
                      <div className={"channelList"}>
                         <div className={"filter_title"}>Tag</div>

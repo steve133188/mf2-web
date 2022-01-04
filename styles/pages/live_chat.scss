@@ -235,6 +235,7 @@
               }
             }
           }
+          
         }
         .filter_box_agents{
           display: flex;
@@ -302,7 +303,9 @@
             flex-direction: column;
             width: 100%;
             overflow-x: auto;
-            height: 120px;
+            min-height: 120px;
+            height: fit-content;
+            max-height: 20vh;
             .channelListitem{
               display: flex;
               justify-content: space-between;
@@ -340,9 +343,11 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            overflow-x: auto ;
+            overflow: auto ;
             // align-items: center;
-            height: 120px;
+            min-height: 120px;
+            height: fit-content;
+            max-height: 10vh;
             .channelListitem{
               display: flex;
               justify-content: space-between;
@@ -1124,26 +1129,6 @@
   }
 }
 
-.confirm_btn_set{
-  margin: 10px 5px;
-  .confirmButton{
-    margin: 10px;
-    width: 100px;
-    margin: 10px 10 20px;
-    padding: 0.15rem 1rem .4rem;
-    height: 25px;    
-    font: normal normal normal 13px/22px Manrope;
-  }
-  .cancelButton{
-    height: 25px;
-    margin: 10px 10 20px;
-    width: 100px;
-    
-    padding: 0.15rem 1rem .4rem;
-    font: normal normal normal 13px/22px Manrope;
-
-  }
-}
 
 .contactList{
   
