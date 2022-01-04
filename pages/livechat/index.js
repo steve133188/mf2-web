@@ -327,6 +327,7 @@ export default function Live_chat() {
         console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})
         setIsExpand(false)
+        setChatButtonOn("")
         // setTimeout(async ()=>{
         //     await getChatroomMessage()
         //     scrollToBottom()
