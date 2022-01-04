@@ -110,11 +110,10 @@ export default function Live_chat() {
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
-        console.log("upload file : " , file)
-        const filetype =  messageInstance.mediaTypeHandler(file)
         console.log(file.name,"file data console")
         console.log(file.size)
         console.log(file.type)
+        const filetype =  messageInstance.mediaTypeHandler(file)
         console.log("FileType",filetype)
         // console.log("result : " , result)
         if(filetype.includes("image")){
@@ -127,7 +126,7 @@ export default function Live_chat() {
         }
         if(filetype.includes("document")){
             const result = await mediaInstance.putDoc(file)
-            await sendDocument(result)
+            await sendDocument(result,file.size)
         }
 
     }
@@ -290,14 +289,15 @@ export default function Live_chat() {
         const res = await messageInstance.sendMessage(data)
         console.log("result : " ,res)
         console.log("media_url : " ,media_url)
-
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendDocument = async (media_url) =>{
-        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
-        // const res = await messageInstance.sendMessage(data)
+    const sendDocument = async (media_url,size) =>{
+        const body = JSON.stringify({msg:"",size:size})
+        const data = {media_url:media_url , body:body, phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
+        console.log(data,"get body")
+        const res = await messageInstance.sendMessage(data)
         setChatButtonOn("");
         setIsExpand(false)
     }
