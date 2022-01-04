@@ -156,7 +156,14 @@ export default function Live_chat() {
     const [start,setStart] = useState(false)
     const [noti,setNofis]= useState({type:"safe",channel:"whatsapp",content:"",sender:""})
     const [chatroomStart,setChatroomStart] = useState(false)
-
+    // const windowUrl = window.location.search;
+    const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
+    // params['id']
+    const rul_id = params.get('id');
+    const rul_name = params.get('name');
+    const rul_type = params.get('type');
+    console.log(rul_id, rul_name, rul_type)
+    console.log(params)
 
     const handleTypedMsg = e =>{
         const {name , value} = e.target
@@ -432,14 +439,15 @@ export default function Live_chat() {
         if(!chatroomStart){  setChatroomStart(true)}
         let new1=[]
         chatrooms&&chatrooms.map(chat=>{
-            console.log(contacts,"contact in info")
             const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
             console.log(cc,"contacts show")
             if(!cc[0]){return new1.push[chat]}
             return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organization,tags:cc[0].tags,})
         })
-        setFilteredData(new1)
-        setChatroomsInfo(new1)
+        const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
+        console.log(myChat,user.user.user_id, "my chatroom")
+        setFilteredData(myChat)
+        setChatroomsInfo(myChat)
     },[chatrooms])
 
 

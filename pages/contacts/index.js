@@ -75,18 +75,19 @@ export default function Contacts() {
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         console.log("filter",filter)
+        console.log("filter",contacts)
         const agentFiltered = contacts.filter(data=>{
             if(selectedUsers.length==0){
                 return data
             }
-            return data.agents.some(el=>selectedUsers.includes(el))
+            return data.agents.some(el=>selectedUsers.includes(el.username))
         })
         console.log("agent:",agentFiltered)
         const tagFiltered = agentFiltered.filter(data=>{
             if(selectedTags.length ==0){
                 return data
             }
-            return data.tags.some(el=>selectedTags.includes(el))
+            return data.tags.some(el=>selectedTags.includes(el.tag_name))
         })
         console.log(selectedTags)
         console.log("tagFiltered:",tagFiltered)
@@ -152,6 +153,7 @@ export default function Contacts() {
     }
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
+        console.log(data,"User Data")
         setUsers(data)
         setFilteredUsers(data)
     }
@@ -186,6 +188,8 @@ export default function Contacts() {
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
+        console.log(id,"selected customer")
+        console.log(selectedContacts,"selected customer")
         setSelectedContacts(selectedContacts=>[...selectedContacts, id]);
         if (!checked) {
             setSelectedContacts(selectedContacts=>selectedContacts.filter(item => item !== id));
@@ -226,6 +230,8 @@ export default function Contacts() {
     };
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
+        console.log(checked,id)
+
         setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
@@ -492,6 +498,7 @@ export default function Contacts() {
                     setFilteredUsers(new_data)
                 })}}>
                     {filteredUsers.map((user , index)=>{
+                        console.log("filterd User", user)
                         return(<li key={index}>
                             <div style={{display:"flex" ,gap:10}}>
                                 <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
@@ -511,6 +518,7 @@ export default function Contacts() {
                         setSelectedTeams("");
                         advanceFilter()
                     }}>All</li>
+                    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams("") }}> No Assigned</li>
                     {teams.map((team , index)=>{
                         return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams(team.name) }}> {team.name}</li>)
                     })}
@@ -601,7 +609,7 @@ export default function Contacts() {
                                     }}>
                                         <div className="newCheckboxContainer">
                                             {isSelectRow ? <label className="newCheckboxLabel">
-                                                <input type="checkbox" id={data.customer_id} name="checkbox" checked={selectedContacts.includes(data.customer_id)} onClick={isSelectRow?toggleSelect:null} />
+                                                <input type="checkbox" id={data.customer_id} name="checkbox" checked={selectedContacts.includes(data.customer_id.toString())} onClick={isSelectRow?toggleSelect:null} />
                                             </label> : null}
 
                                         </div>
@@ -611,12 +619,12 @@ export default function Contacts() {
                                     </TableCell>
                                     <TableCell align="left">
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
-                                            <Avatar alt={data.first_name} sx={{width:27 , height:27}} src={data.img_url||""}/>
+                                            <Avatar alt={data.username} sx={{width:27 , height:27}} src={data.img_url||""}/>
                                             <span style={{marginLeft: "11px"}}>{data.first_name}</span>
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>
-                                        <div>{data.team.org_id!=""?data.team.org_name:"not Assign"}</div>
+                                        <div>{data.team.org_id!=""?data.team.org_name:"not Assigned"}</div>
                                         {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>
 

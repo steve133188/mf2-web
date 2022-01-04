@@ -30,7 +30,7 @@ export default function Chat() {
     const [filteredAgents , setFilteredAgents] = useState([])
     const [selectedAgents , setSelectedAgents] = useState([])
     const [filteredTags , setFilteredTags] = useState([])
-    const [selectedTags , setSelectedTags] = useState([])
+    const [selectedTags , setSelectedTags] =useState([])
     const [contacts, setContacts] = useState([]);
     const [tags, setTags] =useState([])
     const [open, setOpen] = useState(false);
@@ -63,9 +63,10 @@ export default function Chat() {
     }
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
-        setSelectedTags([...selectedTags, id]);
+        console.log( checked,id)
+        setSelectedTags([...selectedTags, parseInt( id)]);
         if (!checked) {
-            setSelectedTags(selectedTags.filter(item => item !== id));
+            setSelectedTags(selectedTags.filter(item => item !== parseInt(id)));
         }
         console.log(selectedTags)
     };
@@ -78,12 +79,12 @@ export default function Chat() {
     }
     const renderTags=() => {
         return selectedTags!=-1&&selectedTags.map((tag)=>{
-            return<Pill key={tag} color="vip">{tag}</Pill>
+            return<Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
         })
     }
     const changeTags=()=>{
         if(selectedTags.length==0) return setTags(filteredTags)
-        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>tag.tag_name==el)}));
+        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>parseInt(tag.tag_id)==el)}));
         // setSelectedTags([])
     }
 
@@ -98,13 +99,13 @@ export default function Chat() {
     // };
     function tagSearchFilter(keyword , data ,callback ){
         if(keyword.includes(":")){
-            console.log("trigger regex search")
+            // console.log("trigger regex search")
         }
         const newData = data.filter(d=> {
             if(keyword.trim() == ""){
                 return data
             }
-            return d.tag.toLowerCase().includes(keyword)
+            return d.tag_name.toLowerCase().includes(keyword)
         })
         callback(newData)
     }
@@ -121,10 +122,10 @@ export default function Chat() {
     },[])
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhastApp",value:"whatsapp",channelID:"Whatsapp",id:1},
                 {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+                {name:"Messager",value:"messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"wechat",channelID:"Wechat",id:4},];
     const [channels, setChannelData] = useState([] )
     // useEffect(()=>{
     //     setChannelData(channelData)
@@ -304,7 +305,24 @@ export default function Chat() {
                                                     </label> </div></li>)
                                         })}
                                     </MF_Select>
+                            <span className={"title"} style={{display:"flex",alignItems:"center"}}>Tags : {`${tags.length}`}</span>
 
+                        <div style={{backgroundColor:"grey",width:"100px",padding:"3px .1px",borderRadius:"10px"}}>
+                <MF_Select top_head={"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                    setFilteredTags(new_data)
+                })}} >
+                    {filteredTags.map((tag,index)=>{
+                        console.log(tag)
+                        return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>
+                            <div className="newCheckboxContainer">
+                                <label className="newCheckboxLabel">
+                                    <input type="checkbox" value={tag.tag_id} id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
+                                </label> </div></li>)
+                    })}
+                </MF_Select>
+
+
+                    </div>
 
 
                                 </div>

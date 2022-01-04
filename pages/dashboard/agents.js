@@ -23,6 +23,8 @@ import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 export default function Agents() {
     const [open, setOpen] = useState(false);
     
+    const [selectedChannels ,setSelectedChannels] =useState([]);
+    const [selectedTeams ,setSelectedTeams] =useState([]);
     const [selectedAgents , setSelectedAgents] = useState([])
     const [isFilterOpen , setIsFilterOpen] = useState(false);
     const [selectedPeriod ,setSelectedPeriod] =useState("");
@@ -47,10 +49,10 @@ export default function Agents() {
         console.log("filter period : "+selectedPeriod)
         // dayState <<<timestamp for comparing range
     }
-
+    
     const handleDayClick=(day) => {
-      const range = DateUtils.addDayToRange(day, dayState);
-      setDayState(range);
+        const range = DateUtils.addDayToRange(day, dayState);
+        setDayState(range);
     } 
     const handleClickAway = () => {
         setOpen(false);
@@ -65,9 +67,27 @@ export default function Agents() {
         }
         // props.agents(e)
         console.log(selectedAgents ,"slescted")
+    
+    }; const toggleSelectChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels([...selectedChannels, id]);
+        if (!checked) {
+            setSelectedChannels(selectedChannels.filter(item => item !== id));
+        }
+        // props.agents(e)
+        console.log(selectedChannels ,"slescted")
+    
+    }; const toggleSelectTeams = e => {
+        const { checked ,id} = e.target;
+        setSelectedTeams([...selectedTeams, id]);
+        if (!checked) {
+            setSelectedTeams(selectedTeams.filter(item => item !== id));
+        }
+        // props.agents(e)
+        console.log(selectedTeams ,"slescted")
     };
     const renderAgents=() => {
-
+        
         return selectedAgents!=-1&&selectedAgents.map((tag)=>{
             return<Pill key={tag} color="lightPurple">{tag}</Pill>
         })
@@ -75,6 +95,13 @@ export default function Agents() {
     const namePush = (nameList)=>{
         setDisplayNameTag(nameList)
         console.log(nameList,"from filter")
+    }
+    const dashClear = () =>{
+        setIsFilterOpen(!isFilterOpen)
+        setSelectedAgents([])
+        setSelectedChannels([])
+        setSelectedTeams([])
+
     }
     useEffect(()=>{
 
@@ -137,7 +164,7 @@ export default function Agents() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} />
+                                                <DashBroadFilter click={dashClear } change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } teams={toggleSelectTeams} />
                                     </div>
                                 </div>
                             </div>
