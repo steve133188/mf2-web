@@ -122,10 +122,10 @@ export default function Chat() {
     },[])
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
                 {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"wechat",channelID:"Wechat",id:4},];
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const [channels, setChannelData] = useState([] )
     // useEffect(()=>{
     //     setChannelData(channelData)
@@ -260,7 +260,7 @@ export default function Chat() {
                     <div style={{margin:"6px 20px auto"}}>Channels</div>
                         <div className={"card_holder"}>
                         {channelData.map((data,index)=>{
-                            return  <LineChartCard key={index} title={data.name} chart={false} img={true} d={data} channel={data.channelID} />
+                            return  <LineChartCard key={index} title={data.name} chart={false} img={true} d={data} channel={data.value} />
                         })
                         }
                         </div>

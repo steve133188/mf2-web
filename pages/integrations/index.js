@@ -16,10 +16,10 @@ import ConnectTempMessager from "../../components/integrations/connect_channels_
 export default function Integrations() {
 
     const channelList = [
-        {name:"WhatsApp",channelID:"whatsapp",connectState:false,token:""},
-        {name:"WhatsApp Business API",channelID:"whatsappB",connectState:false,token:""},
-        {name:"WeChat", channelID:"wechat",connectState:false,token:""},
-        {name:"Facebook Messager", channelID:"messager",connectState:false,token:""},
+        {name:"WhatsApp",channelID:"Whatsapp",connectState:false,token:""},
+        {name:"WhatsApp Business API",channelID:"WhatsappB",connectState:false,token:""},
+        {name:"WeChat", channelID:"Wechat",connectState:false,token:""},
+        {name:"Facebook Messager", channelID:"Messager",connectState:false,token:""},
         {name:"Line", channelID:"line",connectState:false,token:""},
         {name:"Signal", channelID:"signal",connectState:false,token:""},
         {name:"Telegram", channelID:"telegram",connectState:false,token:""},

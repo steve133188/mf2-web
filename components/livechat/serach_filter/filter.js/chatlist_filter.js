@@ -179,7 +179,7 @@ export default function ChatlistFilter( {...props}){
                 <div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channels<br/>
-                          <ChannelListItem name={"All Channels"} value={"all"} id={"all"} key={"all"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />
+                          <ChannelListItem name={"All Channels"} value={"All"} id={"All"} key={"All"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />
                         {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>

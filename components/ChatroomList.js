@@ -50,7 +50,7 @@ import {Skeleton} from "@mui/material";
                         <div style={{display:"flex",whiteSpace:"nowrap",maxHeight:"100%",justifyContent:"flex-start",gap:4,width:"fit-content"}}> 
                         {chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`} 
                     </div>)}
-
+                    <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${chartoom.channel}.svg`}  hidden={false}  alt=""/>
                         <img src={`/channel_SVG/${chatroom.channel}.svg`} alt="Channel icon" width={20} height={20}  />
                     </div>
                     <div style={{display:"flex",height:"50%",opacity:0}}>    {`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}  </div>
