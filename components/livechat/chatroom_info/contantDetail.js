@@ -8,6 +8,9 @@ import Avatar from "@mui/material/Avatar";
 import { Pill } from "../../Pill";
 import Mf_circle_btn from "../../mf_circle_btn";
 import { GlobalContext } from "../../../context/GlobalContext";
+import {API, graphqlOperation} from "aws-amplify";
+import {listNotesTables} from "../../../src/graphql/queries";
+import {createNotesTable} from "../../../src/graphql/mutations";
 
 
 export default function ContantDetail({ data, ...props }) {
@@ -56,10 +59,12 @@ export default function ContantDetail({ data, ...props }) {
     }, []);
     useEffect(async () => {
         if (!start) { return setStart(true) }
-        if (data && user.token) { await fetchContact(data.customer_id); }
+        if (data && user.token) { await fetchContact(data.customer_id);await fetchNotes(parseInt(data.customer_id.slice(3)))
+        }
         if (data.customer_id == null) setDisable(true)
         else
             setDisable(false)
+
     }, [data])
 
     const toggleSelectTags = async e => {
@@ -78,16 +83,14 @@ export default function ContantDetail({ data, ...props }) {
         // }
         if (!checked) {
             setSelectedTags(selectedTags.filter(item =>  item.tag_id != parseInt(id) ));
-            
+
             console.log(contact.customer_id, tag.tag_id)
             const res = await contactInstance.deleteCustomerTag(contact.customer_id, [tag.tag_id])
         }else{
-            
+
             const res = await contactInstance.updateContactTags(contact.customer_id, [tag.tag_id])
             console.log(res)
         }
-
-
     };
     const toggleSelectUsers = async e => {
 
@@ -95,15 +98,15 @@ export default function ContantDetail({ data, ...props }) {
 
         const user = filteredUsers.find(t => t.user_id == id)
         setSelectedUsers([...selectedUsers, user]);
-        
+
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(u => { return u.user_id != id }));
-           
+
 
             await contactInstance.deleteCustomerAgent(contact.customer_id, [user.user_id])
 
         }else{
-            
+
             await contactInstance.updateContactAgent(contact.customer_id, [user.user_id])
         }
     };
@@ -127,10 +130,22 @@ export default function ContantDetail({ data, ...props }) {
         }
 
     }, [unread])
+    const fetchNotes = async (data)=>{
+        console.log(data)
+        const res = API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} }})).then(res=>{
+            setNotes(prev=>res.data.listNotesTables.items)
+        }).catch(err=>console.log(err))
+        console.log("fetch notes" ,res)
+    }
 
+    const dropNote = async (input)=>{
+        const res = API.graphql(graphqlOperation(createNotesTable , {input:input})).then(res=>{
+            setNotes(prev=>[...prev , res.data.createNotesTable])
+            console.log("create Note success")
+        }).catch(err=>console.log(err))
+    }
 
-    useEffect(() => {
-        setNotes(notesData)
+    useEffect(async () => {
         if (data.customer_id == null) setDisable(true)
 
     }, [])
@@ -146,6 +161,18 @@ export default function ContantDetail({ data, ...props }) {
             return selectedUsers.some(selecteduser => selecteduser.user_id == id)
         }
         else { return false }
+    }
+    const submitNote = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const input = {
+            customer_id:  parseInt(data.customer_id.slice(3)) ,
+            message:writenote ,
+            user_id :parseInt(user.user.user_id.toString().slice(3)),
+            timestamp:  Date.now().toString() ,
+            signed_name:user.user.username} ;
+        await dropNote(input)  ;
+        setWritenote("")
     }
 
     return (<>
@@ -186,11 +213,11 @@ export default function ContantDetail({ data, ...props }) {
 
 
                     <Mf_circle_btn isDisable={disable} switchs={() => { setUnAssigned(!unassigned) }} handleChange={(e) => {
-                        
+
                             const new_data = alluser.filter(i => i.username.toLowerCase().includes(e.target.value.toLowerCase()))
                             setFilteredUsers(new_data)
-                            
-                        
+
+
                     }} >
 
                         {filteredUsers && filteredUsers.map((user) => {
@@ -245,7 +272,7 @@ export default function ContantDetail({ data, ...props }) {
 
                         </Mf_circle_btn>
 
-                   
+
                     <div style={{paddingTop:"3px"}} >
                         {selectedTags != -1 && selectedTags.map((tag, index) => {
                             return <Pill key={index} color="vip">{tag.tag_name}</Pill>
@@ -261,10 +288,11 @@ export default function ContantDetail({ data, ...props }) {
         <div className={'noteBox'} style={props.tab == "note" ? { display: "block" } : { display: "none" }}>
             <div className={"notesVolumn"}>Note : {notes.length}</div>
             <div className={"write_pad"}>
-                <input type="text" value={writenote} className={"write_note"} value={writenote} onChange={(e) => setWritenote(e.target.value)} placeholder={"Write a note..."}>
+                <input type="text" value={writenote} className={"write_note"} onChange={(e) => setWritenote(e.target.value)} placeholder={"Write a note..."}>
                 </input>
 
-                <div onClick={() => { setWritenote(notes.push({ cid: user.user.phone, wroteBy: user.user.username, "date": new Date().toISOString().slice(0, 10), content: writenote })), setWritenote("") }}>
+                {/*<div onClick={() => { setWritenote(notes.push({ cid: user.user.phone, wroteBy: user.user.username, "date": new Date().toISOString().slice(0, 10), content: writenote })), setWritenote("") }}>*/}
+                <div onClick={submitNote}>
                     <NoteButtonSVG />
 
                 </div>
@@ -274,20 +302,20 @@ export default function ContantDetail({ data, ...props }) {
             <div style={{ maxHeight: "50vh", overflowY: "auto", minWidth: "230px" }}>
                 {notes.map((note) => {
                     return (
-                        <div key={note.id}>
+                        <div key={note.note_id}>
                             <div className={"message_pad"}>
                                 <div className={"left nameTag"}>
-                                    <Tooltip key={note.id} className={""} title={note.wroteBy} placement="top-start">
-                                        <Avatar className={"mf_bg_warning mf_color_warning tag "} sx={{ width: 50, height: 50, fontSize: 20, padding: "0rem" }} >{note.wroteBy.substring(0, 2).toUpperCase()}</Avatar>
+                                    <Tooltip key={note.note_id} className={""} title={note.signed_name} placement="top-start">
+                                        <Avatar className={"mf_bg_warning mf_color_warning tag "} sx={{ width: 50, height: 50, fontSize: 20, padding: "0rem" }} >{note.signed_name.slice(0,2).toUpperCase()}</Avatar>
                                     </Tooltip>
                                 </div>
 
 
                                 <div className={"right"}>
                                     <div className={"listitem name "}>
-                                        <div className={"left"}>{note.wroteBy}</div>
+                                        <div className={"left"}>{note.signed_name}</div>
                                         {/* <div className={"left"}>{props.name}</div> */}
-                                        <div className={"right"}>{note.date}</div>
+                                        <div className={"right"}>{ new Date(parseInt(note.timestamp)).toLocaleTimeString()}</div>
                                     </div>
                                 </div>
 
@@ -295,7 +323,7 @@ export default function ContantDetail({ data, ...props }) {
 
 
                             <div className={"message_box"}>
-                                <div className={"message"} style={props.tab == "note" ? { display: "flex" } : { display: "none" }}>{note.content}</div>
+                                <div className={"message"} style={props.tab == "note" ? { display: "flex" } : { display: "none" }}>{note.message}</div>
                             </div>
 
 

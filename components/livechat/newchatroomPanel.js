@@ -21,9 +21,7 @@ export default function Newchatroom(props){
             unread:0 ,
             user_id:  parseInt(user.user.phone.toString().slice(3)),
         }
-        console.log(input)
         const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input}))
-        console.log(result)
     }
     return(
         <>
@@ -37,7 +35,6 @@ export default function Newchatroom(props){
             <div className="contactList" >
                 New Chatroom
                 {props.contacts.map((contact, index)=>{
-                    console.log(contact,"newChatroom contact")
                     return(
                         <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroom(contact)}} >
 
