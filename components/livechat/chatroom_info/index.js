@@ -10,7 +10,7 @@ import { GlobalContext } from "../../../context/GlobalContext";
 export default function ChatroomInfo ({data}){
 
     const [start,setStart]= useState(false)
-    const {contactInstance } = useContext(GlobalContext)   
+    const {contactInstance } = useContext(GlobalContext)
      const [tabActive,setTabAcive] = useState("info")
     const [useContact , setUseContact] = useState(data)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
@@ -33,9 +33,9 @@ export default function ChatroomInfo ({data}){
         return data
         // setFilteredData(data)
     }
-    useEffect(()=>{
-        console.log("chat info info info ",typeof(data.phone))
-    },[data])
+    // useEffect(()=>{
+    //     console.log("chat info info info ",typeof(data.phone))
+    // },[data])
     useEffect(async()=>{
         if(!start){return setStart(true)}
         // console.log("ChatroomInf",data)
@@ -44,7 +44,7 @@ export default function ChatroomInfo ({data}){
         // console.log("chatroomINfo",res)
         return
     },[data])
-    
+
     return (
     <div className={"chatroom_info"}>
         <div className={"editContact_chatroom"}>
@@ -52,7 +52,7 @@ export default function ChatroomInfo ({data}){
 
         {isEditProfileShow?  (<Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
         </div>
-            
+
         </div>
         <div className={"contact_card"}>
             <div className={"profile_pic"}><Avatar  alt={data.name} src={data.img_url} sx={{ width: 80, height: 80 }}/></div>
@@ -64,13 +64,13 @@ export default function ChatroomInfo ({data}){
                 </div>
                 {/* <div className={"contact_detail_team"}> Team</div> */}
             </div>
-            
+
             {/* <div className={"config"} onClick={handelEditContact}> ... </div> */}
         </div>
 
         <div className={"tabs_field"}>
             <div className={"tabs_row"}>
-           
+
                 <div className={"tab " + (tabActive == "info"?"active":"") } onClick={()=>{setTabAcive("info")}}>Info</div>
                 <div className={"tab "+ (tabActive == "note"?"active":"")} onClick={()=>{setTabAcive("note")}}>Note</div>
             </div>

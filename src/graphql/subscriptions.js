@@ -10,6 +10,7 @@ export const subscribeToChatroom = /* GraphQL */ `
       recipient
       body
       is_media
+      channel
       link
       media_url
       from_me
@@ -20,10 +21,10 @@ export const subscribeToChatroom = /* GraphQL */ `
       is_forwarded
       v_card
       read
+      sign_name
     }
   }
 `;
-// global notification
 export const subscribeToNewMessage = /* GraphQL */ `
   subscription SubscribeToNewMessage($recipient: String!) {
     subscribeToNewMessage(recipient: $recipient) {
@@ -33,6 +34,7 @@ export const subscribeToNewMessage = /* GraphQL */ `
       recipient
       body
       is_media
+      channel
       link
       media_url
       from_me
@@ -43,10 +45,10 @@ export const subscribeToNewMessage = /* GraphQL */ `
       is_forwarded
       v_card
       read
+      sign_name
     }
   }
 `;
-// livechat notification
 export const subscribeToChatroomUpdate = /* GraphQL */ `
   subscription SubscribeToChatroomUpdate($user_id: Int!) {
     subscribeToChatroomUpdate(user_id: $user_id) {
@@ -134,6 +136,204 @@ export const onDeleteMF2ChannelInfo = /* GraphQL */ `
       channel_name
       url
       token
+    }
+  }
+`;
+export const onCreateWhatsapp_node = /* GraphQL */ `
+  subscription OnCreateWhatsapp_node(
+    $node_index: Int
+    $whatsapp_id: String
+    $node_name: String
+    $status: String
+    $init: Boolean
+  ) {
+    onCreateWhatsapp_node(
+      node_index: $node_index
+      whatsapp_id: $whatsapp_id
+      node_name: $node_name
+      status: $status
+      init: $init
+    ) {
+      node_index
+      user_id
+      whatsapp_id
+      node_name
+      status
+      init
+      channel_id
+    }
+  }
+`;
+export const onUpdateWhatsapp_node = /* GraphQL */ `
+  subscription OnUpdateWhatsapp_node(
+    $node_index: Int
+    $whatsapp_id: String
+    $node_name: String
+    $status: String
+    $init: Boolean
+  ) {
+    onUpdateWhatsapp_node(
+      node_index: $node_index
+      whatsapp_id: $whatsapp_id
+      node_name: $node_name
+      status: $status
+      init: $init
+    ) {
+      node_index
+      user_id
+      whatsapp_id
+      node_name
+      status
+      init
+      channel_id
+    }
+  }
+`;
+export const onDeleteWhatsapp_node = /* GraphQL */ `
+  subscription OnDeleteWhatsapp_node(
+    $node_index: Int
+    $whatsapp_id: String
+    $node_name: String
+    $status: String
+    $init: Boolean
+  ) {
+    onDeleteWhatsapp_node(
+      node_index: $node_index
+      whatsapp_id: $whatsapp_id
+      node_name: $node_name
+      status: $status
+      init: $init
+    ) {
+      node_index
+      user_id
+      whatsapp_id
+      node_name
+      status
+      init
+      channel_id
+    }
+  }
+`;
+export const onCreateMF2TCOUSER = /* GraphQL */ `
+  subscription OnCreateMF2TCOUSER($user_id: Int, $email: String) {
+    onCreateMF2TCOUSER(user_id: $user_id, email: $email) {
+      user_id
+      email
+      username
+      password
+      phone
+    }
+  }
+`;
+export const onUpdateMF2TCOUSER = /* GraphQL */ `
+  subscription OnUpdateMF2TCOUSER($user_id: Int, $email: String) {
+    onUpdateMF2TCOUSER(user_id: $user_id, email: $email) {
+      user_id
+      email
+      username
+      password
+      phone
+    }
+  }
+`;
+export const onDeleteMF2TCOUSER = /* GraphQL */ `
+  subscription OnDeleteMF2TCOUSER($user_id: Int, $email: String) {
+    onDeleteMF2TCOUSER(user_id: $user_id, email: $email) {
+      user_id
+      email
+      username
+      password
+      phone
+    }
+  }
+`;
+export const onCreateMF2TCOCUSTOMER = /* GraphQL */ `
+  subscription OnCreateMF2TCOCUSTOMER($customer_id: Int) {
+    onCreateMF2TCOCUSTOMER(customer_id: $customer_id) {
+      customer_id
+    }
+  }
+`;
+export const onUpdateMF2TCOCUSTOMER = /* GraphQL */ `
+  subscription OnUpdateMF2TCOCUSTOMER($customer_id: Int) {
+    onUpdateMF2TCOCUSTOMER(customer_id: $customer_id) {
+      customer_id
+    }
+  }
+`;
+export const onDeleteMF2TCOCUSTOMER = /* GraphQL */ `
+  subscription OnDeleteMF2TCOCUSTOMER($customer_id: Int) {
+    onDeleteMF2TCOCUSTOMER(customer_id: $customer_id) {
+      customer_id
+    }
+  }
+`;
+export const onCreateNotesTable = /* GraphQL */ `
+  subscription OnCreateNotesTable(
+    $customer_id: Int
+    $timestamp: String
+    $message: String
+    $user_id: Int
+    $signed_name: String
+  ) {
+    onCreateNotesTable(
+      customer_id: $customer_id
+      timestamp: $timestamp
+      message: $message
+      user_id: $user_id
+      signed_name: $signed_name
+    ) {
+      customer_id
+      timestamp
+      message
+      user_id
+      signed_name
+    }
+  }
+`;
+export const onUpdateNotesTable = /* GraphQL */ `
+  subscription OnUpdateNotesTable(
+    $customer_id: Int
+    $timestamp: String
+    $message: String
+    $user_id: Int
+    $signed_name: String
+  ) {
+    onUpdateNotesTable(
+      customer_id: $customer_id
+      timestamp: $timestamp
+      message: $message
+      user_id: $user_id
+      signed_name: $signed_name
+    ) {
+      customer_id
+      timestamp
+      message
+      user_id
+      signed_name
+    }
+  }
+`;
+export const onDeleteNotesTable = /* GraphQL */ `
+  subscription OnDeleteNotesTable(
+    $customer_id: Int
+    $timestamp: String
+    $message: String
+    $user_id: Int
+    $signed_name: String
+  ) {
+    onDeleteNotesTable(
+      customer_id: $customer_id
+      timestamp: $timestamp
+      message: $message
+      user_id: $user_id
+      signed_name: $signed_name
+    ) {
+      customer_id
+      timestamp
+      message
+      user_id
+      signed_name
     }
   }
 `;
