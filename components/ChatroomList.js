@@ -15,7 +15,7 @@ import {Skeleton} from "@mui/material";
             is_pin:chatroom.is_pin
         }
         async function toggleChatPin (e){
-            SetIsLoading(true);
+            // SetIsLoading(true);
             e.preventDefault()
             e.stopPropagation()
             let ispin_input={
@@ -24,11 +24,11 @@ import {Skeleton} from "@mui/material";
                 is_pin:!chatroom.is_pin
             }
             await togglePin(ispin_input)
-            console.log(ispin_input)
-            setTimeout(() => {
-                refresh();
-                SetIsLoading(false);
-            }, 300);
+
+            // setTimeout(() => {
+            //     refresh();
+            //     SetIsLoading(false);
+            // }, 300);
         }
 
         return(
@@ -41,8 +41,8 @@ import {Skeleton} from "@mui/material";
                         {/* <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} >{chatroom.name.substring(1,3).toUpperCase()}</Avatar> */}
                 </Tooltip>)
                 }
-                
-                 
+
+
                 </div>
                 <div className={"chatroom_name_ss"}>
                     <div style={{display:"flex",height:"50%"}}> 

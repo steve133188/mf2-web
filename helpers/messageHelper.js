@@ -47,5 +47,13 @@ export default function WhatsappFetcher(){
             return "video"
         }
     }
+
+    this.getProfilePic = async (phone , room_id)=>{
+        const result = await this.instance.post("/profile_pic",{phone , room_id}).then(res=>{
+            console.log(res)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
 }
 

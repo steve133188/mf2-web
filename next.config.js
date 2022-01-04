@@ -5,9 +5,7 @@ module.exports = {
 const path = require('path')
 const withSass = require('@zeit/next-sass');
 module.exports = withSass({
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
 
   cssModules: true
 })
@@ -18,9 +16,16 @@ module.exports = {
   },
 }
 module.exports = {
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   webpack5: true,
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false ,crypto:false , stream: false , path :false};
+  webpack: (config, { isServer }) => {
+    if(!isServer){
+      config.resolve.fallback = { fs: false ,crypto:false , stream: false , path :false};
+    }
     return config;
   },
 };

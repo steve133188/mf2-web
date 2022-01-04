@@ -16,7 +16,7 @@ import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
-import { subscribeToChatroom,subscribeToNewMessage} from "../../src/graphql/subscriptions"
+import {subscribeToChatroom, subscribeToChatroomUpdate, subscribeToNewMessage} from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
@@ -68,7 +68,26 @@ export default function Live_chat() {
         message:"",
         message_type:"text"
     })
+    const [chatroomsSub , setChatroomsSub] = useState()
     const [replybox,setReplybox] = useState("")
+
+    const subChatrooms=  ()=>{
+        let user_id= parseInt(user.user.user_id.toString().slice(3))
+        if(chatroomsSub) chatroomsSub.unsubscribe()
+        const sub = API.graphql(graphqlOperation(subscribeToChatroomUpdate, {user_id: user_id}))
+            .subscribe({
+                next: async (chat) => {
+                    console.log("new chat " ,chat)
+                    const newChat = chat.value.data.subscribeToChatroomUpdate
+                    const filter = chatrooms.filter(c=>c.room_id!=newChat.room_id)
+                    setChatrooms(chatroomMsg => [newChat,...filter])
+                    setFilteredData(prev=>[...chatrooms])
+                    // console.log("new message: ", newChat)
+                }
+            })
+        setChatroomsSub(prev=>sub)
+
+    }
 
     const getChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
@@ -169,8 +188,9 @@ export default function Live_chat() {
         console.log("tags live chat",data)
         setTags(data)
         setFilteredTags(data)
-
     }
+
+
 
     const messagesSearchRef = useRef()
     const scrollToMSG = () => {messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})}
@@ -212,13 +232,11 @@ export default function Live_chat() {
     const toggleSticker = () =>{
         setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
         setIsExpand(isExpand&&ChatButtonOn=="m1"?false:true);
-
     }
     const toggleEmoji = () =>{
         setChatButtonOn(ChatButtonOn=="m2"?"":"m2");
         setEmojiOn(!isEmojiOn);
         setIsExpand(false);
-
     }
     const toggleFile= e =>{
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
@@ -231,13 +249,10 @@ export default function Live_chat() {
     const toggleQuickReply = () =>{
         setChatButtonOn(ChatButtonOn=="m4"?"":"m4");
         setIsExpand(isExpand&&ChatButtonOn=="m4"?false:true);
-
-
     }
     const toggleM5 = () =>{
         setChatButtonOn(ChatButtonOn=="m5"?"":"m5");
         setIsExpand(false);
-
     }
 
     const attachFile = useRef()
@@ -286,7 +301,6 @@ export default function Live_chat() {
     }
 
     const sendVideo = async(media_url )=>{
-
         const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"video" , is_media:true}
         const res = await messageInstance.sendMessage(data)
         setChatButtonOn("");
@@ -373,6 +387,7 @@ export default function Live_chat() {
             await getTeams()
             await getChatrooms()
             await getStickers()
+            subChatrooms()
             // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
         }
@@ -635,7 +650,7 @@ export default function Live_chat() {
                         </div>
                     <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} refresh={refreshChatrooms} className={+(index==0&& "active")} onClick={ ()=>{ handleChatRoom(d)}}/> )
+                            return ( <ChatroomList chatroom={d} key={index} togglePin={chatHelper.toggleIsPin} refresh={refreshChatrooms} className={+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
                         })}
                     </ul>
                 </div>
@@ -698,9 +713,9 @@ export default function Live_chat() {
                                 {/* <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input> */}
                                 <input type="text" className={"search_area"} onChange={search} placeholder={"Search"}></input>
                                 <div className={"search_icon"}></div>
-                            
+
                             </div>
-                            
+
                         </div>
                         <div className={"chatroom_top_btn chatroom_top_btn_refresh"} onClick={ReferechHandle}><RefreshBTN/></div>
                         <div className={"chatroom_top_btn chatbot_switch"}>
@@ -717,7 +732,7 @@ export default function Live_chat() {
                                 <MsgRow isSearch={searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 }msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
 
                         )
-                        
+
 
                     })}
                     <div ref={messagesEndRef}>
