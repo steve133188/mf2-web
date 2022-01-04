@@ -43,7 +43,7 @@ export function ORGSidebar({orgData, selection ,setSelection}) {
     )
     return (
         <nav className="blueMenu">
-        {/*<DivisionDropDown data={data} setSelection={setSelection} />*/}
+        {/* <DivisionDropDown data={data} setSelection={setSelection} /> */}
 
             {isLoading ?ske: <ul className="blueMenuGroup">
                 <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}>All</li>

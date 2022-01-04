@@ -13,6 +13,7 @@ button {
   text-transform: none;
   letter-spacing: 0px;
   min-width: 64px;
+  margin: 0 10px;
 }
 
 button[disabled] {
@@ -103,6 +104,7 @@ button[disabled] {
   width: 5vw;
   padding: 0.5rem 1rem;
   border-radius: 10px;
+  margin: 0  0 0 15px;
   color: variables.$mf_text_color;
 }
 .confirm_btn_set{

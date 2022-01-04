@@ -53,7 +53,7 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
     //     setRootDivision(data.filter(data=>{return data.type=="division"}))
     },[])
     const submit = async ()=>{
-        const data = {assignee: selectedAgents, name:name, team: "team1"}
+        const data = {assignee: selectedAgents, name:name, team: ""}
         const status = await adminInstance.createStandardReply( data)
         console.log(data,"create reply")
         console.log(status,"create reply")

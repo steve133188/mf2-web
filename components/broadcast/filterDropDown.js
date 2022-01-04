@@ -61,7 +61,7 @@ function TreeNode({ node, handleClick }) {
             {hasChild&&node.type=="division" ?(<Tree data={node.children} />):
             (
                 
-                <li className={"channelListitem"} style={{width: "85%"}} >
+                <li className={"channelListitem"} style={{width: "90%"}} >
                     <div className={"left"} style={{ display: "flex", gap: 10 }}>
                         <Tooltip className={node.name} title={node.name} placement="top-start">
                             <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{ width: 25, height: 25, fontSize: 14 }} >{node.name.substring(0, 2).toUpperCase()}</Avatar>

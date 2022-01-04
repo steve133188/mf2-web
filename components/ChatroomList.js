@@ -7,7 +7,7 @@ import {Skeleton} from "@mui/material";
 
 
 
-    export default function ChatroomList({chatroom,togglePin, refresh, ...props}){
+    export default function ChatroomList({chatroom,togglePin, refresh,chose, ...props}){
         const [isLoading, SetIsLoading] = useState(false);
         // let ispin_input={
         //     room_id:chatroom.room_id,
@@ -30,9 +30,10 @@ import {Skeleton} from "@mui/material";
             //     SetIsLoading(false);
             // }, 300);
         }
+        console.log(chose,"chose chatroom")
 
         return(
-            <div className={"chatroom_li "} onClick={props.onClick}>
+            <div className={"chatroom_li "+(chose&&chose.room_id==chatroom.room_id&&chose.user_id == chatroom.user_id?"activeRoom":"")} onClick={props.onClick}>
                 <div className={"starred"}  onClick={toggleChatPin} > {isLoading?(<Skeleton/>):(chatroom.is_pin?<StarSVG/> : <NoStarSVG/>)}</div>
                 <div className={"chatroom_icon"}>
                 {isLoading?(<Skeleton variant="circle" width={40} height={40} />):
@@ -45,12 +46,20 @@ import {Skeleton} from "@mui/material";
 
                 </div>
                 <div className={"chatroom_name_ss"}>
-                    <div style={{display:"flex",height:"50%"}}>
-                    {isLoading?( <h1 style={{width:"100%"}}> <Skeleton/> </h1> ):(
-                        <div style={{display:"flex",whiteSpace:"nowrap",maxHeight:"100%",justifyContent:"flex-start",gap:4,width:"fit-content"}}>
-                        {chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}
-                    </div>)}
+
+                    {/*<div style={{display:"flex",height:"50%"}}>*/}
+                    {/*{isLoading?( <h1 style={{width:"100%"}}> <Skeleton/> </h1> ):(*/}
+                    {/*    <div style={{display:"flex",whiteSpace:"nowrap",maxHeight:"100%",justifyContent:"flex-start",gap:4,width:"fit-content"}}>*/}
+                    {/*    {chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}*/}
+                    {/*</div>)}*/}
                     {/* <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${chatroom.channel}.svg`}  hidden={false}  alt=""/> */}
+
+                    <div className={"name_row"} style={{display:"flex",height:"50%",justifyContent:"flex-start"}}>
+                        {isLoading?( <h1 style={{width:"100%"}}> <Skeleton/> </h1> ):(
+                        <div style={{display:"flex",whiteSpace:"nowrap",maxHeight:"100%",justifyContent:"flex-start",gap:4,width:"fit-content"}}>
+                            {chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}
+                        </div>)}
+
                         <img src={`/channel_SVG/${chatroom.channel}.svg`} alt="Channel icon" width={20} height={20}  />
                     </div>
                     <div style={{display:"flex",height:"50%",opacity:0}}>    {`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}  </div>

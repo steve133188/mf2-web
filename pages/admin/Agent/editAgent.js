@@ -26,7 +26,7 @@ export default function EditAgent(props){
     const [agent,setAgent] = useState({})
     const [teams , setTeams] = useState([])
     const [filteredTeams ,setFilteredTeams] =useState([]);
-    const [selectedTeams ,setSelectedTeams] =useState([]);
+
     const [searchValue, setSearchValue]= useState("")
     const [teamBarOpen,setTeamBar] = useState(false)
     const [roles , setRoles] = useState([])
@@ -52,11 +52,13 @@ export default function EditAgent(props){
         console.log(data,"user will edit")
         // setAgent((data.filter((data)=>{return (data.phone==id)}))[0])
         // console.log(agent,"i am Agent")
+        setAgent(data)
 
     }
     useEffect(async()=>{
-        setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,phone:agent.phone,role_name:agent.role_name,team_id:agent.team_id})
-      
+        setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,phone:agent.phone,role_name:agent.role_name??" ",team_id:agent.team_id??" "})
+    //   setSelectedRole()
+    //     setSelectedTeam()
     },[agent])
     const fetchRoles = async () =>{
         const data = await roleInstance.getAllRoles()

@@ -27,10 +27,13 @@ import NotificationList from "../../components/NotificationList";
 export default function Live_chat() {
 
     const replyTemplateList = [
-            {id:1,name:"Greating",set:[{name:"Morning",content:"Good morning, have a nice day!"}]},
-            {id:4,name:"Questioning",set:[{name:"First meet",content:"What can i help you?"},{name:"Follow up",content:"That's great. Let me introduce you our service."}]},
-            {id:2,name:"Merry Chrismax",set:[{name:"Set1",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"},{name:"Set2",content:"Merry Christmas, and may all your Christmases be white!!!"}]},
-            {id:3,name:"Happy new year",set:[{name:"賀詞一",content:"恭賀新春!"},{name:"賀詞二",content:"心想事成!"},{name:"賀詞三",content:"身體健康!"}]},
+            {id:1,name:"Greating",set:[{name:"Morning",content:"Morning"}]},
+            {id:4,name:"Questioning",set:[{name:"What can i help you?",content:"What can i help you?"},{name:"Follow up",content:"Follow up"}]},
+            {id:2,name:"Merry Chrismax",set:[{name:"Merry Christmas! I hope you receive one blessing after another this coming year!",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"}
+            ,{name:"Merry Christmas, and may all your Christmases be white!!!",content:"Merry Christmas, and may all your Christmases be white!!!"}
+            ,{name:"Super mario~~ Jump!!!Super mario~~ Jump!!!Super mario~~ Jump!!!",content:"Super mario~~ Jump!!!Super mario~~ Jump!!!Super mario~~ Jump!!!"}
+        ]},
+            {id:3,name:"Happy new year",set:[{name:"恭賀新春!",content:"恭賀新春!"},{name:"心想事成!",content:"心想事成!"},{name:"身體健康",content:"身體健康!"}]},
 
         ]
 
@@ -111,7 +114,9 @@ export default function Live_chat() {
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
-        console.log("upload file : " , file)
+        console.log(file.name,"file data console")
+        console.log(file.size)
+        console.log(file.type)
         const filetype =  messageInstance.mediaTypeHandler(file)
         console.log("FileType",filetype)
         // console.log("result : " , result)
@@ -125,7 +130,7 @@ export default function Live_chat() {
         }
         if(filetype.includes("document")){
             const result = await mediaInstance.putDoc(file)
-            await sendDocument(result)
+            await sendDocument(result,file.size)
         }
 
     }
@@ -155,16 +160,16 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
-    const [noti,setNofis]= useState({type:"safe",channel:"whatsapp",content:"",sender:""})
+    const [noti,setNofis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
     const [chatroomStart,setChatroomStart] = useState(false)
     // const windowUrl = window.location.search;
-    const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
-    // params['id']
-    const rul_id = params.get('id');
-    const rul_name = params.get('name');
-    const rul_type = params.get('type');
-    console.log(rul_id, rul_name, rul_type)
-    console.log(params)
+    // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
+    // // params['id']
+    // const rul_id = params.get('id');
+    // const rul_name = params.get('name');
+    // const rul_type = params.get('type');
+    // console.log(rul_id, rul_name, rul_type)
+    // console.log(params)
 
     const handleTypedMsg = e =>{
         const {name , value} = e.target
@@ -226,11 +231,11 @@ export default function Live_chat() {
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
 
-    useEffect(async ()=>{
-        if(!start){  setStart(true)}
-        const data = await getChatrooms()
-        setChatrooms(data)
-    } , [selectedTeams])
+    // useEffect(async ()=>{
+    //     if(!start){  setStart(true)}
+    //     const data = await getChatrooms()
+    //     setChatrooms(data)
+    // } , [selectedTeams])
 
     const toggleReply = () =>{
         setChatButtonOn(ChatButtonOn=="mr");
@@ -288,13 +293,14 @@ export default function Live_chat() {
         const res = await messageInstance.sendMessage(data)
         console.log("result : " ,res)
         console.log("media_url : " ,media_url)
-
         setChatButtonOn("");
         setIsExpand(false)
     }
 
-    const sendDocument = async (media_url) =>{
-        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
+    const sendDocument = async (media_url,size) =>{
+        const body = JSON.stringify({msg:"",size:size})
+        const data = {media_url:media_url , body:body, phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
+        console.log(data,"get body")
         const res = await messageInstance.sendMessage(data)
         setChatButtonOn("");
         setIsExpand(false)
@@ -322,6 +328,7 @@ export default function Live_chat() {
         console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})
         setIsExpand(false)
+        setChatButtonOn("")
         // setTimeout(async ()=>{
         //     await getChatroomMessage()
         //     scrollToBottom()
@@ -477,8 +484,7 @@ export default function Live_chat() {
 
                 return data
             }
-            console.log(data)
-            return  data.agents.some(el=>selectedUsers.includes(el))
+            return  data.agents.some(el=>selectedUsers.includes(el.username))
         })
         console.log("agent:",agentFiltered)
 
@@ -486,7 +492,7 @@ export default function Live_chat() {
             if(selectedTags.length ==0){
                 return data
             }
-            return data.tags.some(el=>selectedTags.includes(el))
+            return data.tags.some(el=>selectedTags.includes(el.tag_name))
         })
         console.log("tagFiltered:",tagFiltered)
 
@@ -497,6 +503,9 @@ export default function Live_chat() {
                 return data
             }
             return data.team==selectedTeams
+            //contacts not yet have team
+            //contacts not yet have team
+            //contacts not yet have team
         })
         console.log("teamFiltered:",teamFiltered)
 
@@ -554,7 +563,9 @@ export default function Live_chat() {
         setSelectedChannels([])
         setSelectedTags([])
         setSelectedTeams([])
-        setFilteredData(chatroomsInfo)
+        // setFilteredData(chatroomsInfo)
+            advanceFilter()
+
     }
     // useEffect(()=>{
     //     advanceFilter
@@ -588,7 +599,7 @@ export default function Live_chat() {
     const [resultMoreThanOne, setResultMoreThanOne] = useState(false);
     //function find chatroomMsg.id by keyword as list
     const search = e => {
-
+        if(e.target.value==""){setSearchResult("")}
         if(e.target.value!=""){
             const result = chatroomMsg.filter(i => {
                 return i.body.toLowerCase().includes(e.target.value.toLowerCase());
@@ -678,7 +689,9 @@ export default function Live_chat() {
                         </div>
                     <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
                         {filteredData.map((d , index)=>{
-                            return ( <ChatroomList chatroom={d} key={index} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+
+                            return ( <ChatroomList chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+
                         })}
                     </ul>
                 </div>
@@ -721,9 +734,13 @@ export default function Live_chat() {
                                             <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"0px"}} alt="icon" />
                                                 {`"${noti.sender}"`}see if there are sender
 
+
+                                            <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
+                                                {noti.sender} Sender name
+
                                         </div>
                                         :""}
-                                       <div className="pop_half"> {noti.content}</div>
+                                       <div className="pop_half"> {noti.content}New message coming</div>
                                    </div>
 
                                </div>
@@ -753,9 +770,8 @@ export default function Live_chat() {
                 ref={messagesSearchRef}
                  className={"chatroom_records"}>
                     {chatroomMsg.map((r , i)=>{
-
                         return (
-                                <MsgRow isSearch={searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 }msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
+                                <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
                                  )
                                  })}
 

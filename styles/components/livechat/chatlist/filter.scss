@@ -149,8 +149,8 @@
       margin:20px 0;
       min-width:300px ;
       max-width: 500px;
-      overflow-y: auto;
-      overflow-x: hidden;
+      // overflow-y: auto;
+      // overflow-x: hidden;
       
       .serachSVG{
         width: 20;
@@ -161,8 +161,10 @@
         display: flex;
         flex-direction: column;
         // align-items: center;
-        // height: 30px;
+        height: 90%;
+        justify-content: space-between;
         width: 98%;
+        
         .channelListitem{
           // width: 90%;
           display: flex;
@@ -304,7 +306,7 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        overflow-x: scroll ;
+        // overflow-x: scroll ;
         // align-items: center;
         height: 120px;
         .channelListitem{
@@ -376,11 +378,11 @@
     }
   }
 }
-  .channelList{
+.channelList{
     display: flex;
     flex-direction: column;
     width: 100%;
-    overflow-x: scroll ;
+    // overflow-x: scroll ;
     // height: 120px;
     .channelListitem{
       display: flex;

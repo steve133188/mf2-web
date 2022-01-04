@@ -236,9 +236,9 @@ export default function ContantDetail({ data, ...props }) {
                             </li>)
                         })}
                     </Mf_circle_btn>
-                    <AvatarGroup className={"AvatarGroup"} sx={{ display: 'flex', flexDirection: 'row-reverse', width: "fit-content", margin: "10px 0" }} spacing={-5} >
+                    {/* <AvatarGroup className={"AvatarGroup"} sx={{ display: 'flex', flexDirection: 'row-reverse', width: "fit-content", margin: "10px 0" }} spacing={-5} > */}
+                    <div className={"avaGroupInstead"} >
                         {selectedUsers && selectedUsers.map((agent, index) => {
-
 
                             return (
                                 <Tooltip onClick={null} style={{ pointerEvents: "null" }} key={index} title={agent.username} placement="top-start">
@@ -246,7 +246,8 @@ export default function ContantDetail({ data, ...props }) {
                                 </Tooltip>
                             )
                         })}
-                    </AvatarGroup>
+                        </div>
+                    {/* </AvatarGroup> */}
                 </div>
 
                 <div className="tagssss">Tags</div>

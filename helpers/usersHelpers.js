@@ -113,7 +113,7 @@ export default function usersFetcher(token){
         return (await instance.fetcher.put(`/delete-user-team/${team_id}` )).statusText
     }
     instance.updateUser = async (data)=>{
-        // return (await instance.fetcher.put(`/users` , data )).statusText
+        return (await instance.fetcher.put(`/users` , data )).statusText
     }
     instance.updateUserPwd = async (data)=>{
         return (await instance.fetcher.put(`/users/change-password` , data )).statusText
