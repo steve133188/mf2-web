@@ -116,10 +116,10 @@ export default function Contacts() {
     }
     const channels = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WABA",channelID:"whatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"wechat",id:4},];
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {

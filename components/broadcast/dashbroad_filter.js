@@ -19,10 +19,10 @@ export default function DashBroadFilter(props){
     // const [selectedUsers ,setSelectedUsers] =useState([]);
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WABA",channelID:"whatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"wechat",id:4},];
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const [tags ,setTags] =useState([]);
     const [teams ,setTeams] =useState([]);
     const [agents ,setAgents] =useState([]);
