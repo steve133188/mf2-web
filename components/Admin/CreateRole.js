@@ -45,10 +45,10 @@ const AuthList = [  {title:"Dashboard",name:"dashboard"},
                     {title:"Organization",name:"organization"},]
 const channelData = [
     // name:"WhastApp",value:"All",channelID:"All",id:0},
-            {name:"WhastApp",value:"whatsapp",channelID:"whatsapp",id:1},
-            {name:"WhatsApp Business",value:"WABA",channelID:"whatsappB",id:2},
-            {name:"Messager",value:"messager",channelID:"messager",id:3},
-            {name:"WeChat",value:"wechat",channelID:"wechat",id:4},];
+            {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+            {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
+            {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+            {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
 export default function CreateRole({show, toggle ,reload}){
 

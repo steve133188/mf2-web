@@ -122,10 +122,10 @@ export default function Chat() {
     },[])
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
                 {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"wechat",channelID:"Wechat",id:4},];
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
     const [channels, setChannelData] = useState([] )
     // useEffect(()=>{
     //     setChannelData(channelData)
