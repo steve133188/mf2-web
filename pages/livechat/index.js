@@ -446,8 +446,8 @@ export default function Live_chat() {
         })
         const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
         console.log(myChat,user.user.user_id, "my chatroom")
-        setFilteredData(myChat)
-        setChatroomsInfo(myChat)
+        setFilteredData(new1)
+        setChatroomsInfo(new1)
     },[chatrooms])
 
 
