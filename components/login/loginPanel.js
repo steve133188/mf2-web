@@ -78,7 +78,7 @@ export default function LoginPanel(){
                             </div>
                         <div className={"form_bottom"}>
                             <span className={"rememberMe"}><label className="toggleSwitch"><input type="checkbox"/><span className="slider" 
-                                    style={{width:"32px",margin:"0 5px"}}></span></label><p>Remember me</p></span>
+                        ></span></label><p>Remember me</p></span>
                             <Link href="/login/recovery">
                                 {/*<a style={{font: "normal normal normal 1rem/22px Manrope", color: "var(--unnamed-color-2198fa)",color:"#2198fa"}}className={"forgotPassword"}> color was duplicated*/}
                                 <a style={{font: "normal normal normal 1rem/22px Manrope",color:"#2198fa"}}className={"forgotPassword"}>

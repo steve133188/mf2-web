@@ -22,6 +22,9 @@ import QuickReply from "../../components/livechat/quickReply/quickreply";
 import searchFilter from "../../helpers/searchFilter";
 import CountDownTimer from "../../components/CountDownTimer";
 import NotificationList from "../../components/NotificationList";
+import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
+import { getURL } from "next/dist/shared/lib/utils";
+
 
 export default function Live_chat() {
 
@@ -107,26 +110,35 @@ export default function Live_chat() {
         console.log("imgKeys : " , imageKeys)
         setAttachment(imageKeys)
     }
+    const [filePreview,setFilePrevier] = useState({name:"",size:0,type:""})
+    useEffect(()=>{
+
+        console.log(filePreview,"filepreview")
+   
+    },[filePreview])
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
-        console.log(file.name,"file data console")
-        console.log(file.size)
-        console.log(file.type)
+        console.log(file.mozFullPath,"file data console")
+        console.log(URL.createObjectURL(file))
+        // console.log()
+        
         const filetype =  messageInstance.mediaTypeHandler(file)
-        console.log("FileType",filetype)
+        const path =URL.createObjectURL(file)
+        console.log("FileType~~~",path)
         // console.log("result : " , result)
         if(filetype.includes("image")){
-            const result = await mediaInstance.putImg(file)
-            await sendImg(result)
+            setFilePrevier({name:file.name,size:file.size,type:"image",path:path})
+            // const result = await mediaInstance.putImg(file)
+            // await sendImg(result)
         }
         if(filetype.includes("video")){
-            const result = await mediaInstance.putVideo(file)
-            await sendVideo(result)
+            // const result = await mediaInstance.putVideo(file)
+            // await sendVideo(result)
         }
         if(filetype.includes("document")){
-            const result = await mediaInstance.putDoc(file)
-            await sendDocument(result,file.size)
+            // const result = await mediaInstance.putDoc(file)
+            // await sendDocument(result,file.size)
         }
 
     }
@@ -156,7 +168,8 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
-    const [noti,setNofis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
+    const [noti,setNotis]= useState({type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"})
+    const [notiOpen,setNotiOpen] = useState(false)
     const [chatroomStart,setChatroomStart] = useState(false)
     // const windowUrl = window.location.search;
     // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
@@ -166,7 +179,14 @@ export default function Live_chat() {
     // const rul_type = params.get('type');
     // console.log(rul_id, rul_name, rul_type)
     // console.log(params)
+    useEffect(()=>{
+        setTimeout(()=>{setNotiOpen(true);
+            // setTimeout(()=>{
+            //     setNotiOpen(false)
+            // },5000)
+            },1000);
 
+    },[noti])
     const handleTypedMsg = e =>{
         const {name , value} = e.target
         setTypedMsg({
@@ -249,6 +269,7 @@ export default function Live_chat() {
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
         fileAttach()
+        setIsExpand(isExpand&&ChatButtonOn=="m3"?false:true);
         // setAttachment(e.target.files[0])
         // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
@@ -295,7 +316,7 @@ export default function Live_chat() {
         const body = JSON.stringify({msg:"",size:size})
         const data = {media_url:media_url , body:body, phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
         console.log(data,"get body")
-        const res = await messageInstance.sendMessage(data)
+        // const res = await messageInstance.sendMessage(data)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -314,6 +335,14 @@ export default function Live_chat() {
         setChatButtonOn("");
         setIsExpand(false)
     }
+    const onEnterPress = (e) => {
+        if(e.keyCode == 13 && e.shiftKey == false) {
+          e.preventDefault();
+          console.log("enter press")
+          sendMessageToClient(e)
+        }
+      }
+    
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
@@ -409,6 +438,7 @@ export default function Live_chat() {
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
                     console.log("new message: " , newMessage)
+                    setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                 }
             })
         setSubscribe(prev=> sub)
@@ -679,38 +709,41 @@ export default function Live_chat() {
                         <Avatar src={ null} alt="icon" />
                         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
 
-                        <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
-                        <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
+                                <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
+                                <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
+                                </div>
+                                {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
+                                {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                         </div>
-                           {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
-                           {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
-                        </div>
-                           <div className="msg_noti_popup" style={{display:noti.type=="safe"?"none":"flex" }}>
+                           <div className="msg_noti_popup" style={{display:notiOpen?"flex":"none" }}>
                                <div className="popleft">
                                    <div className="pop_matter">
-                                       {noti.type=="Disconnect"?<img src={`/channel_SVG/disconnect.svg`}/>:""}
+
+                                       {noti.type=="disconnect"?<img src={`/channel_SVG/disconnect.svg`} style={{borderRadius:0}} />:""}
                                        {noti.type=="newMsg"?<img src={`/channel_SVG/${noti.channel}.svg`}  style={{width:"40px",height:"40px"}} />:""}
                                    </div>
                                    <div className="pop_content">
-                                        {noti.type=="Disconnect"?<img src={`/channel_SVG/${noti.channel}.svg`} Disconnected/>:""}
+                                   {noti.type=="disconnect"?
+                                    <div className="pop_half">
+                                        <img src={`/channel_SVG/${noti.channel}.svg`} style={{width:20 , height:20 ,fontSize:12,margin:"0 5px 0 0"}}/>Disconnected
+                                        </div>
+
+                                        :""}
                                         {noti.type=="newMsg"?
 
 
                                         <div className="pop_half">
-                                            <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"0px"}} alt="icon" />
-                                                {`"${noti.sender}"`}see if there are sender
-
-
                                             <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
-                                                {noti.sender} Sender name
+                                                {`${noti.sender}`}
+
 
                                         </div>
                                         :""}
-                                       <div className="pop_half"> {noti.content}New message coming</div>
+                                       <div className="pop_half"> {noti.content??"New message coming"}</div>
                                    </div>
 
                                </div>
-                               <div className=".popright">
+                               <div className="popright">
 
                                </div>
                             </div>
@@ -750,7 +783,17 @@ export default function Live_chat() {
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                            </div>
                            }
-                    <textarea   className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                           {filePreview&&
+                            <div style={{display:(ChatButtonOn=="m3"?"flex":"none")}} onClick={toggleReply }>
+                                {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
+                                {/* <div>{filePreview.name} </div> */}
+                                <div>{filePreview.type}file </div>
+                                <div>
+                                    <img src={filePreview.path} style={{width:"80px",height:"80px"}}/><div>{filePreview.size/1000}kb</div>
+                                </div>
+                           </div>
+                           }
+                    <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
