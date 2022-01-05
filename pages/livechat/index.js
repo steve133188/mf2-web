@@ -24,6 +24,7 @@ import searchFilter from "../../helpers/searchFilter";
 import CountDownTimer from "../../components/CountDownTimer";
 import NotificationList from "../../components/NotificationList";
 import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
+import { getURL } from "next/dist/shared/lib/utils";
 
 
 export default function Live_chat() {
@@ -113,26 +114,35 @@ export default function Live_chat() {
         console.log("imgKeys : " , imageKeys)
         setAttachment(imageKeys)
     }
+    const [filePreview,setFilePrevier] = useState({name:"",size:0,type:""})
+    useEffect(()=>{
+
+        console.log(filePreview,"filepreview")
+   
+    },[filePreview])
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
-        console.log(file.name,"file data console")
-        console.log(file.size)
-        console.log(file.type)
+        console.log(file.mozFullPath,"file data console")
+        console.log(URL.createObjectURL(file))
+        // console.log()
+        
         const filetype =  messageInstance.mediaTypeHandler(file)
-        console.log("FileType",filetype)
+        const path =URL.createObjectURL(file)
+        console.log("FileType~~~",path)
         // console.log("result : " , result)
         if(filetype.includes("image")){
-            const result = await mediaInstance.putImg(file)
-            await sendImg(result)
+            setFilePrevier({name:file.name,size:file.size,type:"image",path:path})
+            // const result = await mediaInstance.putImg(file)
+            // await sendImg(result)
         }
         if(filetype.includes("video")){
-            const result = await mediaInstance.putVideo(file)
-            await sendVideo(result)
+            // const result = await mediaInstance.putVideo(file)
+            // await sendVideo(result)
         }
         if(filetype.includes("document")){
-            const result = await mediaInstance.putDoc(file)
-            await sendDocument(result,file.size)
+            // const result = await mediaInstance.putDoc(file)
+            // await sendDocument(result,file.size)
         }
 
     }
@@ -262,6 +272,7 @@ export default function Live_chat() {
         setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
         fileAttach()
+        setIsExpand(isExpand&&ChatButtonOn=="m3"?false:true);
         // setAttachment(e.target.files[0])
         // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
@@ -308,7 +319,7 @@ export default function Live_chat() {
         const body = JSON.stringify({msg:"",size:size})
         const data = {media_url:media_url , body:body, phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true}
         console.log(data,"get body")
-        const res = await messageInstance.sendMessage(data)
+        // const res = await messageInstance.sendMessage(data)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -795,6 +806,16 @@ export default function Live_chat() {
                            {quotaMsg&&
                             <div style={{display:(ChatButtonOn=="mr"?"flex":"none")}} onClick={toggleReply }>
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
+                           </div>
+                           }
+                           {filePreview&&
+                            <div style={{display:(ChatButtonOn=="m3"?"flex":"none")}} onClick={toggleReply }>
+                                {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
+                                {/* <div>{filePreview.name} </div> */}
+                                <div>{filePreview.type}file </div>
+                                <div>
+                                    <img src={filePreview.path} style={{width:"80px",height:"80px"}}/><div>{filePreview.size/1000}kb</div>
+                                </div>
                            </div>
                            }
                     <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
