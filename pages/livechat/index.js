@@ -5,7 +5,6 @@ import MsgRow from "../../components/livechat/ChatMessage/MsgRow";
 import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
-import axios from "axios";
 import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
 import ChatroomInfo from "../../components/livechat/chatroom_info";
@@ -41,10 +40,8 @@ export default function Live_chat() {
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
     const [replyData ,setReplyData] = useState([])
-    useEffect(()=>{
-        setReplyData(replyTemplateList)
-    },[])
-    let subscriptions ;
+
+
     const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
@@ -59,7 +56,6 @@ export default function Live_chat() {
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [subscribe,setSubscribe] = useState()
     const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-
     const [replyMsg, setReplyMsg] = useState("")
     const [quotaMsg,setQuotaMsg] = useState({})
     const [reply,setReply] =useState(false)
@@ -94,7 +90,7 @@ export default function Live_chat() {
     }
 
     const getChatrooms = async ()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
         const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
         .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
@@ -178,6 +174,11 @@ export default function Live_chat() {
             [name]:value
         })
     }
+
+    useEffect(()=>{
+        setReplyData(replyTemplateList)
+    },[])
+
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
@@ -231,16 +232,9 @@ export default function Live_chat() {
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
 
-    // useEffect(async ()=>{
-    //     if(!start){  setStart(true)}
-    //     const data = await getChatrooms()
-    //     setChatrooms(data)
-    // } , [selectedTeams])
-
     const toggleReply = () =>{
         setChatButtonOn(ChatButtonOn=="mr");
         setIsExpand(true);
-
     }
     const toggleSticker = () =>{
         setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
@@ -329,10 +323,6 @@ export default function Live_chat() {
         setTypedMsg({...typedMsg , message: ""})
         setIsExpand(false)
         setChatButtonOn("")
-        // setTimeout(async ()=>{
-        //     await getChatroomMessage()
-        //     scrollToBottom()
-        // },1500)
     }
     const ReferechHandle=async()=>{
         await getChatrooms();
@@ -361,7 +351,6 @@ export default function Live_chat() {
 
     };
     const replyClick=click=>{
-
         console.log(click,"done donedone")
         setReplyMsg(click)
         const quotaMsg = chatroomMsg.filter(e=>{return click==(e.room_id+e.timestamp)})
@@ -376,7 +365,6 @@ export default function Live_chat() {
         setReply(!reply)
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsExpand(isExpand&&ChatButtonOn=="mr"?false:true);
-
     }
 
     useEffect(()=>{
@@ -426,17 +414,6 @@ export default function Live_chat() {
         setSubscribe(prev=> sub)
 
     }
-
-    //const handleLivechat = async (chatroom)=>{
-    // const handleSubToNewMessage = async (recipient)=>{
-    //     if(subscribeToNewMessage)subscribeToNewMessage.unsubscribe()
-    //     const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{recipient:recipient} ))
-    //         .subscribe({
-    //             next: async (chatmessage)=>{
-    //                 const newMessage = chatmessage.value.data.subscribeToNewMessage
-
-
-
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
         await handleSub(selectedChat)
@@ -504,8 +481,6 @@ export default function Live_chat() {
             }
             return data.team==selectedTeams
             //contacts not yet have team
-            //contacts not yet have team
-            //contacts not yet have team
         })
         console.log("teamFiltered:",teamFiltered)
 
@@ -567,10 +542,6 @@ export default function Live_chat() {
             advanceFilter()
 
     }
-    // useEffect(()=>{
-    //     advanceFilter
-    //     console.log(filteredData,"filteredData")
-    // },[filteredData])
     const refreshChatrooms =  ()=>{
         clear()
         getChatrooms()
@@ -591,11 +562,6 @@ export default function Live_chat() {
             // setChatrooms(chatrooms=>[ oldChat , newData ])
         }
     }); }
-    //search bar
-    // const refs = chatroomMsg.reduce((acc, value) => {
-    //     acc[parseInt(value.timestamp)] = useRef(null);
-    //     return acc;
-    // }, {});
     const [resultMoreThanOne, setResultMoreThanOne] = useState(false);
     //function find chatroomMsg.id by keyword as list
     const search = e => {
