@@ -109,7 +109,7 @@ export default function Recovery() {
                                 {errors?<h4 className={"login_error"}>{emailType}</h4>:null}
                                 </div>
                     </div>
-                            <div className={"submit_row"}>
+                            <div className={"submit_row"} style={{display:"flex",alignItem:"flex-start",flexDirection:"column",height:"100px"}}>
                                 <button className={"send_button align-self-center"} disabled={!validateForm()} type={'submit'} >
                                     <p className={"bottomName"}style={ {color: "#FFF"}} >Request Reset</p>
 

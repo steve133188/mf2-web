@@ -38,9 +38,7 @@ export default function Live_chat() {
             {id:3,name:"Happy new year",set:[{name:"恭賀新春!",content:"恭賀新春!"},{name:"心想事成!",content:"心想事成!"},{name:"身體健康",content:"身體健康!"}]},
 
         ]
-        getLinkPreview("https://www.google.com/").then((data) =>
-        console.log(data,"URL testing")
-      );
+
 
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
@@ -164,7 +162,8 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
-    const [noti,setNofis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
+    const [noti,setNotis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
+    const [notiOpen,setNotiOpen] = useState(false)
     const [chatroomStart,setChatroomStart] = useState(false)
     // const windowUrl = window.location.search;
     // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
@@ -174,7 +173,11 @@ export default function Live_chat() {
     // const rul_type = params.get('type');
     // console.log(rul_id, rul_name, rul_type)
     // console.log(params)
+    useEffect(()=>{
+        setTimeout(()=>{setNotiOpen(true);
+            setTimeout(()=>{setNotiOpen(false)},5000)},1000);
 
+    },[noti])
     const handleTypedMsg = e =>{
         const {name , value} = e.target
         setTypedMsg({
@@ -324,6 +327,14 @@ export default function Live_chat() {
         setChatButtonOn("");
         setIsExpand(false)
     }
+    const onEnterPress = (e) => {
+        if(e.keyCode == 13 && e.shiftKey == false) {
+          e.preventDefault();
+          console.log("enter press")
+          sendMessageToClient(e)
+        }
+      }
+    
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
@@ -425,6 +436,7 @@ export default function Live_chat() {
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
                     console.log("new message: " , newMessage)
+                    setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                 }
             })
         setSubscribe(prev=> sub)
@@ -717,13 +729,13 @@ export default function Live_chat() {
                         <Avatar src={ null} alt="icon" />
                         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
 
-                        <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
-                        <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
+                                <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
+                                <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
+                                </div>
+                                {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
+                                {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                         </div>
-                           {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
-                           {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
-                        </div>
-                           <div className="msg_noti_popup" style={{display:noti.type=="safe"?"none":"flex" }}>
+                           <div className="msg_noti_popup" style={{display:notiOpen?"flex":"none" }}>
                                <div className="popleft">
                                    <div className="pop_matter">
                                        {noti.type=="Disconnect"?<img src={`/channel_SVG/disconnect.svg`}/>:""}
@@ -735,16 +747,13 @@ export default function Live_chat() {
 
 
                                         <div className="pop_half">
-                                            <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"0px"}} alt="icon" />
-                                                {`"${noti.sender}"`}see if there are sender
-
-
                                             <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
-                                                {noti.sender} Sender name
+                                                {`${noti.sender}`}
+
 
                                         </div>
                                         :""}
-                                       <div className="pop_half"> {noti.content}New message coming</div>
+                                       <div className="pop_half"> {noti.content??"New message coming"}</div>
                                    </div>
 
                                </div>
@@ -788,7 +797,7 @@ export default function Live_chat() {
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                            </div>
                            }
-                    <textarea   className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                    <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                     <Picker  onSelect={(emoji)=> {
                         setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})

@@ -316,7 +316,7 @@ export default function ContantDetail({ data, ...props }) {
                                     <div className={"listitem name "}>
                                         <div className={"left"}>{note.signed_name}</div>
                                         {/* <div className={"left"}>{props.name}</div> */}
-                                        <div className={"right"}>{ new Date(parseInt(note.timestamp)).toLocaleTimeString()}</div>
+                                        <div className={"right"}>{ new Date(parseInt(note.timestamp)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
                                     </div>
                                 </div>
 
