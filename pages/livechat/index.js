@@ -172,7 +172,7 @@ export default function Live_chat() {
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
-    const [noti,setNotis]= useState({type:"newMsg",channel:"whatsapp",content:"",sender:""})
+    const [noti,setNotis]= useState({type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"})
     const [notiOpen,setNotiOpen] = useState(false)
     const [chatroomStart,setChatroomStart] = useState(false)
     // const windowUrl = window.location.search;
@@ -185,7 +185,10 @@ export default function Live_chat() {
     // console.log(params)
     useEffect(()=>{
         setTimeout(()=>{setNotiOpen(true);
-            setTimeout(()=>{setNotiOpen(false)},5000)},1000);
+            // setTimeout(()=>{
+            //     setNotiOpen(false)
+            // },5000)
+            },1000);
 
     },[noti])
     const handleTypedMsg = e =>{
@@ -749,11 +752,17 @@ export default function Live_chat() {
                            <div className="msg_noti_popup" style={{display:notiOpen?"flex":"none" }}>
                                <div className="popleft">
                                    <div className="pop_matter">
-                                       {noti.type=="Disconnect"?<img src={`/channel_SVG/disconnect.svg`}/>:""}
+
+                                       {noti.type=="disconnect"?<img src={`/channel_SVG/disconnect.svg`} style={{borderRadius:0}} />:""}
                                        {noti.type=="newMsg"?<img src={`/channel_SVG/${noti.channel}.svg`}  style={{width:"40px",height:"40px"}} />:""}
                                    </div>
                                    <div className="pop_content">
-                                        {noti.type=="Disconnect"?<img src={`/channel_SVG/${noti.channel}.svg`} Disconnected/>:""}
+                                   {noti.type=="disconnect"?
+                                    <div className="pop_half">
+                                        <img src={`/channel_SVG/${noti.channel}.svg`} style={{width:20 , height:20 ,fontSize:12,margin:"0 5px 0 0"}}/>Disconnected
+                                        </div>
+
+                                        :""}
                                         {noti.type=="newMsg"?
 
 
@@ -768,7 +777,7 @@ export default function Live_chat() {
                                    </div>
 
                                </div>
-                               <div className=".popright">
+                               <div className="popright">
 
                                </div>
                             </div>

@@ -71,7 +71,7 @@ import {Skeleton} from "@mui/material";
                     {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
                 </div>
                 <div style={{width:"50%",display:"flex",justifyContent:"flex-end",alignItems:"flex-end"}}>
-                     <Avatar  className={"mf_bg_primary mf_color_white text-cente"} sx={{width:23 , height:23 ,fontSize:13,marginRight:"2px",display:chatroom.unread==0?"none":"block"}} >{chatroom.unread.toString()}</Avatar>
+                     <Avatar  className={"mf_bg_primary mf_color_white text-cente"} sx={{width:23 , height:23 ,fontSize:13,marginRight:"2px",display:chatroom.unread==0?"none":"block"}} >{chatroom.unread}</Avatar>
                     </div>
                 {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}
                 {/*<div className={"pin"}></div>*/}
