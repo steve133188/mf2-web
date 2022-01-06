@@ -439,6 +439,9 @@ export default function Live_chat() {
         await handleSub(selectedChat)
 
     },[selectedChat])
+    useEffect(()=>{
+      console.log(  chatroomMsg,"chatroom msg data")
+    },)
 
 
     useEffect(()=>{
@@ -708,7 +711,13 @@ export default function Live_chat() {
                                     {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                                 </div>
 
-                            </div>
+                                {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
+                                {selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(
+
+                                    // chatroomMsg.map
+
+                                ).toISOString()}/></div>:""}
+                        </div>
                             <div className={"chatroom_top_btn_gp"}>
                                 <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} >
                                     <ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
