@@ -47,6 +47,7 @@ export function ORGSidebar({orgData, selection ,setSelection}) {
 
             {isLoading ?ske: <ul className="blueMenuGroup">
                 <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}>All</li>
+                <li className={"blueMenuLink "+(selection.name=="Not Assigned"? "active":null)} onClick={()=>handleClick({name:"Not Assigned"})}>Not Assigned</li>
                 <Tree data={orgData} handleClick={handleClick} selection={selection}/>
 
             </ul>}
