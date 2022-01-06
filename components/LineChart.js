@@ -6,7 +6,8 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function LineChart({children,...props}) {
-    const {title, data, yaxis,x_cate, total, percentage} = props;
+    const {xname, title, data, yaxis, x_cate, total, percentage} = props;
+    const [loading, setLoading] = useState(true)
     const [state, setState] = useState({
         series: [{
             name: "Contacts",
@@ -34,7 +35,7 @@ export function LineChart({children,...props}) {
             xaxis: {
                 categories: x_cate,
                 title: {
-                    text: 'Month'
+                    text: xname
                 },
                 label: {
                     style: {
@@ -55,9 +56,20 @@ export function LineChart({children,...props}) {
                 }
             },
         },
-
     })
 
+    useEffect(() => {
+        if (data != []) {
+            setState({...state,
+                series: [{
+                    name: "Contacts",
+                    data: data,
+                    yaxis: "contacts"
+                }],
+
+            })
+        }
+    }, [props])
 
     return (
         <div>
@@ -217,6 +229,24 @@ export function MultipleBarChart({children,...props}) {
         useEffect(()=>{
             console.log("props",active)
             console.log("props",props)
+            setState({...state,
+                series: [{
+                    name: 'Unhandled Contacts',
+                    data: unhandled
+                }, {
+                    name: 'Delivered Contacts',
+                    data: delivered
+                }, {
+                    name: 'Active Contacts',
+                    data: active
+                }],
+                options: {
+                    xaxis: {
+                        type: 'string',
+                        categories: agents,
+                    },
+                }
+            })
         },[props])
 
 

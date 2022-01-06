@@ -19,10 +19,13 @@ import {TableCell} from "@mui/material";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
+import {GlobalContext} from "../../context/GlobalContext";
 
 export default function Agents() {
     const [open, setOpen] = useState(false);
-    
+    const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
+
+
     const [selectedChannels ,setSelectedChannels] =useState([]);
     const [selectedTeams ,setSelectedTeams] =useState([]);
     const [selectedAgents , setSelectedAgents] = useState([])
@@ -35,6 +38,18 @@ export default function Agents() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [displayNameTag, setDisplayNameTag] = useState([])
+    const [dash  , setDash ] = useState({
+        agents_no:[],
+        connected :[], disconnected:[],
+        all_contacts:[], new_added_contacts:[],
+        total_assigned_contacts : [], total_active_contacts : [], total_delivered_contacts : [], total_unhandled_contact : [],
+        total_msg_sent : [], total_msg_rev : [],
+        avg_resp_time : [],avg_total_first_resp_time : [], longest_resp_time : [],
+        chart : {unhandled :[], delivered :[], active :[], user_name :[], user_id :[], team_id :[]},
+        data_collected : 0
+
+    })
+
 
     let result = currentContacts.map(d=>d.id)
 
@@ -43,101 +58,40 @@ export default function Agents() {
     "Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts",
     "Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
    
-    const rolename =["name",
-    "role",
-    "statue",
-    "allContacts",
-    "newlyContacts",
+    const rolename =["user_name",
+    "user_role_name",
+    "user_status",
+    "all_contacts",
+    "new_added_contacts",
     "avgDailyOnline",
-    "AssignedContacts",
-    "activeContacts",
-    "delivered",
-    "unhandeled",
-    "totalMsg",
-    "avgRepTime",
-    "avgFirstRepTime",
+    "assigned_contacts",
+    "active_contacts",
+    "delivered_contacts",
+    "unhandled_contact",
+    "msg_sent",
+    "avg_resp_time",
+    "first_resp_time",
 ]
-    const temp = [
-        {name:"Wiva",
-        role:"Manager",
-        statue:"Conneceted",
-        allContacts:11,
-        newlyContacts:0,
-        avgDailyOnline:31,
-        AssignedContacts:11,
-        activeContacts:2,
-        delivered:7,
-        unhandeled:2,
-        totalMsg:7,
-        avgRepTime:4,
-        avgFirstRepTime:1,
-     },
+    const fetchDefault = async ()=>{
+        let end = new window.Date().getTime() / 1000
+        let start = end - 3600 * 48
+        const data = await dashboardInstance.getAgentDefaultData(start ,end)
+        return data
 
-        {name:"John",
-        role:"Agent",
-        statue:"Conneceted",
-        allContacts:9,
-        newlyContacts:8,
-        avgDailyOnline:8,
-        AssignedContacts:11,
-        activeContacts:2,
-        delivered:7,
-        unhandeled:2,
-        totalMsg:7,
-        avgRepTime:3,
-        avgFirstRepTime:5,
-        },
-        {name:"Ben",
-        role:"Agent",
-        statue:"Disonneceted",
-        allContacts:11,
-        newlyContacts:0,
-        avgDailyOnline:7,
-        AssignedContacts:11,
-        activeContacts:3,
-        delivered:5,
-        unhandeled:13,
-        totalMsg:9,
-        avgRepTime:3,
-        avgFirstRepTime:6,
-      },
-        {name:"Henry",
-        role:"Agent",
-        statue:"Conneceted",
-        allContacts:19,
-        newlyContacts:0,
-        avgDailyOnline:25,
-        AssignedContacts:1,
-        activeContacts:6,
-        delivered:8,
-        unhandeled:5,
-        totalMsg:33,
-        avgRepTime:8,
-        avgFirstRepTime:4,
-     },
-        {name:"Mary",
-        role:"Agent",
-        statue:"Disonneceted",
-        allContacts:12,
-        newlyContacts:0,
-        avgDailyOnline:22,
-        AssignedContacts:12,
-        activeContacts:3,
-        delivered:4,
-        unhandeled:5,
-        totalMsg:23,
-        avgRepTime:2,
-        avgFirstRepTime:1,
-     },]
+    }
+
+    useEffect(async ()=>{
+        if (dash.agents_no.length == 0) {
+            let data = await fetchDefault();
+            setDash(data)
+        } else {
+            setFilteredData(dash.Agent)
+        }
+        console.log("dashboard = ",dash)
+
+    },[dash])
 
 
-     useEffect(()=>{
-        setFilteredData(temp)
-    },[])
-    
-
-
-    
     const periodFilter = () =>{
         console.log("filter period : "+selectedPeriod)
         // dayState <<<timestamp for comparing range
@@ -303,31 +257,31 @@ export default function Agents() {
             </div>
             <div className="lineCardGroupSet">
                 <div className="lineCardGroup1">
-                    <LineChartCard chart={true} img={false} title={"Agents"} />
-                    <LineChartCard chart={true} img={false} title={"Online"} />
-                    <LineChartCard chart={true} img={false} title={"Offline"} />
-                    <LineChartCard chart={true} img={false} title={"All Contacts"} />
-                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} />
-                    <AverageDailyCard/>
+                    <LineChartCard chart={true} img={false} title={"Agents"} data = {dash.agents_no}/>
+                    <LineChartCard chart={true} img={false} title={"Connected"} data = {dash.connected}/>
+                    <LineChartCard chart={true} img={false} title={"Disconnected"} data = {dash.disconnected}/>
+                    <LineChartCard chart={true} img={false} title={"All Contacts"} data = {dash.all_contacts}/>
+                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data = {dash.new_added_contacts}/>
+                    <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/>
                 </div>
                 <div className="lineCardGroup2">
-                    <ChangingPercentageCard title={"Total Assigned Contacts"} total={34} changing={"- 25%"} />
-                    <ChangingPercentageCard title={"Active Contacts"} total={30} changing={"+ 8%"} />
-                    <ChangingPercentageCard title={"Delivered Contacts"} total={28} changing={"+ 8%"} />
-                    <ChangingPercentageCard title={"Unhandled Contacts"} total={28} changing={"+ 8%"} />
-                    <ChangingPercentageCard title={"Total Messages Received"} total={28} changing={"- 8%"} />
-                    <ChangingPercentageCard title={"Total Messages Sent"} total={28} changing={"- 8%"} />
-                    <ChangingPercentageCard title={"Average Response Time"} total={41} changing={"+ 8%"} />
-                    <ChangingPercentageCard title={"Average First Response Time"} total={8} changing={"+ 0%"} />
+                    <ChangingPercentageCard title={"Total Assigned Contacts"} data1={dash.total_assigned_contacts[0]} data2={dash.total_assigned_contacts[1]}/>
+                    <ChangingPercentageCard title={"Active Contacts"} data1={dash.total_active_contacts[0]} data2={dash.total_active_contacts[1]} />
+                    <ChangingPercentageCard title={"Delivered Contacts"} data1={dash.total_delivered_contacts[0]} data2={dash.total_delivered_contacts[1]} />
+                    <ChangingPercentageCard title={"Unhandled Contacts"} data1={dash.total_unhandled_contact[0]} data2={dash.total_unhandled_contact[1]} />
+                    <ChangingPercentageCard title={"Total Messages Received"} data1={dash.total_msg_rev[0]} data2={dash.total_msg_rev[1]} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} data1={dash.total_msg_sent[0]} data2={dash.total_msg_sent[1]} />
+                    <ChangingPercentageCard title={"Average Response Time"} data1={dash.avg_resp_time[0]} data2={dash.avg_resp_time[1]} />
+                    <ChangingPercentageCard title={"Average First Response Time"} data1={dash.avg_total_first_resp_time[0]} data2={dash.avg_total_first_resp_time[1]} />
                 </div>
             </div>
             <div className="chartGroup">
                 <div className="dashboardRow">
                     <div className="dashboardBarColumn"><MultipleBarChart title={"Months"} yaxis={"Contacts"} h={"650px"}
-                                                                        active={[2, 2, 3, 6, 5,]}
-                                                                        unhandled={[2, 3, 11, 5,5]}
-                                                                        delivered={[7, 7, 5, 8, 4,]}
-                                                                        agents={["Wiva","John","Ben","Henry","Mary"]}
+                                                                        active={dash.chart.active}
+                                                                        unhandled={dash.chart.unhandled}
+                                                                        delivered={dash.chart.delivered}
+                                                                        agents={dash.chart.user_name}
                                                                         min1={"12"} min2={12} min3={12}/></div>
                 </div>
                 
