@@ -200,13 +200,14 @@ export default function Stickers() {
                                                     </label> : null}
                                                    </div>
                                                  <td><div key={index}>
-                                                <span >{data==""?"Sticker":data}
-                                            </span>
+                                                <div  style={{margin:"3rem 0 0",}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(12)}
+                                            </div>
                                     <div className="sticker-row"
                                         key={index}
                                         name={index}
                                         id={index+data.id} 
-                                        style={{margin:"1rem 0",}}> 
+                                        // style={{margin:"1rem 0",}}
+                                        > 
 
                                                 {stickerData.filter(s=>{return s.key.includes(data)}).map((item , index)=>{
                                                     console.log(data)

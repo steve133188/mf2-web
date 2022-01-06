@@ -168,7 +168,7 @@ export default function UserProfileGrid({data}){
                                                 </div>
                                             </TableCell>
                                             <TableCell align="left" style={{width: "35%",}}>
-                                                <span >{item.phone}</span>
+                                                <span >+{item.country_code} {item.phone}</span>
                                             </TableCell>
                                             <TableCell align="left" style={{width: "12%",}}> 
                                                 {item.channels?<img src={`/channel_SVG/${item.channels}.svg`} style={{width:"20px",margin:"0 5px"}}></img>:""}
