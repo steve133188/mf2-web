@@ -18,9 +18,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
     const { user }  = useContext(GlobalContext)
 
     const [isImageOpen,setImageOpen] = useState(false)
-    useEffect(()=>{
-        console.log(msg,"msg info")
-    },[])
+
 
     const replyclick=e=>{
 
