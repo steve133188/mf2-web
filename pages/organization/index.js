@@ -97,6 +97,14 @@ export default function Organization() {
         setFilteredData(data)
         console.log("get user",data)
     }
+    const fetchNoTeamUsers = async()=>{
+        const data = await userInstance.getAllUser()
+        const newData = data.filter(d=>d.team_id==0)
+        setUsers(newData)
+        setFilteredData(newData)
+        console.log("get user",data)
+
+    }
     const fetchTeamUsers = async (id)=>{
         
         console.log("get team user",data)
@@ -121,6 +129,8 @@ export default function Organization() {
     useEffect(    async () => {
         if(user.token&&!curr_org.name){
             await fetchUsers()
+        }else if(user.token&&curr_org.name=="Not Assigned"){
+            await fetchNoTeamUsers()
         }else{
             console.log("currentContacts",currentContacts)
             console.log("curr_org",curr_org)
@@ -270,7 +280,7 @@ export default function Organization() {
                         <div className={"team_label"}>
                             {editName?<input type="text" className="nameEdit" onChange={e=>setEditedName(e.target.value)} placeholder={`edit... ${curr_org.name}`}></input>:(curr_org.name || "All")} {"(" +currentContacts.length+")"}
                         </div>
-                        <div onClick={nameEditConfirm} >
+                        <div onClick={nameEditConfirm} style={curr_org.name&&curr_org.name!="Not Assigned"?null:{visibility:"hidden"}} >
 
                         <EditPenSVG size={18} />
                         </div>
