@@ -72,13 +72,10 @@ const channelData = [
                 const getTeams = async ()=>{
                     const data = await orgInstance.getOrgTeams()
                     setTeams(data)
-                    console.log(data,"team fetch")
                 }
                 const getDivision = async () =>{
                     const data = await orgInstance.getAllORG ()
                     setDivision(data.filter(e=>{return e.type=="division"}))
-                    console.log(data,"team fetch")
-                    
                 }
                 // const fetchContacts = async () =>{
                 //     const data = await contactInstance.getAllContacts()
@@ -318,7 +315,7 @@ const channelData = [
                 </div> */}
 
 
-               
+
                 <div className={"filter_box_tag"}  >
                      <div className={"channelList"}>
                         <div className={"filter_title"}>Tag</div>

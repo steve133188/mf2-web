@@ -91,6 +91,17 @@ export default function Live_chat() {
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [start,setStart] = useState(false)
     const [chatroomStart,setChatroomStart] = useState(false)
+    const [pinChat , setPinChat] = useState([])
+
+    const getOwnPinChatList = async ()=>{
+        const res=API.graphql(graphqlOperation( listMF2TCOCHATROOMS , {filter:{is_pin:{eq:true} , user_id:{eq:parseInt(user.user.user_id)}}}))
+            .then(response=>{
+                setPinChat(prev=>response.data.listMF2TCOCHATROOMS.items)
+            })
+            .catch(err=>alert(err))
+    }
+
+
     const subChatrooms=  ()=>{
         let user_id= parseInt(user.user.user_id.toString().slice(3))
         if(chatroomsSub) chatroomsSub.unsubscribe()
@@ -111,10 +122,19 @@ export default function Live_chat() {
     }
 
     const getChatrooms = async ()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
+        let user_id= parseInt(user.user.user_id.toString().slice(3))
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id}}}))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
         const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
         .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
+        setChatrooms(myData)
+        setFilteredData(myData)
+    }
+    const getAllChatrooms = async ()=>{
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
+        console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
+        const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
+            .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
         console.log(myData,"afterSort")
         setChatrooms(myData)
         setFilteredData(myData)
@@ -192,24 +212,20 @@ export default function Live_chat() {
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
-        console.log(data,"all contacts")
     }
 
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
-        console.log("AGENTs live chat",data)
         setUsers(data)
         setFilteredUsers(data)
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
-        console.log("tEAM live chat",data)
         setTeams(data)
     }
 
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
-        console.log("tags live chat",data)
         setTags(data)
         setFilteredTags(data)
     }
@@ -326,10 +342,18 @@ export default function Live_chat() {
         setIsExpand(false)
     }
     const onEnterPress = (e) => {
-        if(e.keyCode == 13 && e.shiftKey == false) {
+        if(e.keyCode == 13 && e.ctrlKey == false) {
           e.preventDefault();
-          console.log("enter press")
-          sendMessageToClient(e)
+          // console.log("enter press")
+          // sendMessageToClient(e)
+        }
+        if(e.keyCode == 13 && e.ctrlKey == true) {
+            e.preventDefault();
+            e.target.innerHTML+="/n"
+            // setTypedMsg({
+            //     ...typedMsg,
+            //     message: typedMsg.message+="/n"
+            // })
         }
       }
 
@@ -439,24 +463,18 @@ export default function Live_chat() {
         await handleSub(selectedChat)
 
     },[selectedChat])
-    useEffect(()=>{
-      console.log(  chatroomMsg,"chatroom msg data")
-    },)
 
 
     useEffect(()=>{
         if(typeof (window) !== undefined){
-            console.log(chatrooms,"ftech info")
             if(!chatroomStart){  setChatroomStart(true)}
             let new1=[]
             chatrooms&&chatrooms.map(chat=>{
                 const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
-                console.log(cc,"contacts show")
                 if(!cc[0]){return new1.push[chat]}
                 return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organization,tags:cc[0].tags,})
             })
             const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
-            console.log(myChat,user.user.user_id, "my chatroom")
             setFilteredData(new1)
             setChatroomsInfo(new1)
         }
@@ -465,9 +483,8 @@ export default function Live_chat() {
 
 
     const advanceFilter =()=>{
-        setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]
-        })
-        console.log("filter",filter)
+        setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
+        // console.log("filter",filter)
 
         const channelFiltered = chatroomsInfo.filter(data=>{
             if(selectedChannels.length ==0){
@@ -561,9 +578,7 @@ export default function Live_chat() {
         setSelectedChannels([])
         setSelectedTags([])
         setSelectedTeams([])
-        // setFilteredData(chatroomsInfo)
-            advanceFilter()
-
+            // advanceFilter()
     }
     const refreshChatrooms =  ()=>{
         clear()
@@ -573,16 +588,16 @@ export default function Live_chat() {
         const oldFilter = filteredData.filter(d=> {
             return d.room_id != newData.room_id
         })
-        const oldChat = filteredData.filter(d=> {
+        const newPinChat = pinChat.filter(d=> {
             return d.room_id != newData.room_id
         })
-        const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
+        // const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
         if(newData.is_pin){
-            setFilteredData(filteredData=> [...oldFilter ,filteredData[indexOfDate]=newData])
-            // setChatrooms(chatrooms=>[newData , oldChat])
+            setFilteredData(filteredData=> [...oldFilter])
+            setPinChat(chatrooms=>[newData , ...newPinChat])
         }else{
-            setFilteredData(filteredData=> [ ...oldFilter,newData ])
-            // setChatrooms(chatrooms=>[ oldChat , newData ])
+            setFilteredData(filteredData=> [newData, ...oldFilter ])
+            setPinChat(chatrooms=>[ ...newPinChat ])
         }
     }); }
     const [resultMoreThanOne, setResultMoreThanOne] = useState(false);
@@ -677,9 +692,16 @@ export default function Live_chat() {
                                     <Newchatroom contacts={contacts} setFilteredData={setFilteredData}/>
                         </div>
                     <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
+                        {pinChat!=-1&&pinChat.map((d , index)=>{
+
+                            // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+
+                        })}
                         {filteredData.map((d , index)=>{
 
-                            return ( <ChatroomList chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                            // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
 
                         })}
                     </ul>
