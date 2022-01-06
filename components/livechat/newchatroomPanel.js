@@ -6,7 +6,7 @@ import {GlobalContext} from "../../context/GlobalContext";
 import { Tooltip } from "@mui/material";
 
 
-export default function Newchatroom(props){
+export default function Newchatroom({ setFilteredData ,...props}){
     const {user} = useContext(GlobalContext)
 
     const createChatroom = async (data)=>{
@@ -21,7 +21,11 @@ export default function Newchatroom(props){
             unread:0 ,
             user_id:  parseInt(user.user.phone.toString().slice(3)),
         }
-        const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input}))
+        const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input})).then(
+            res=>{
+                setFilteredData(prev=>[res.data.createMF2TCOCHATROOM , ...prev])
+            }
+        )
     }
     return(
         <>

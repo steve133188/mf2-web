@@ -48,7 +48,6 @@ function mediaHelper(){
 
     this.getStickers = async ()=>{
         let mediaKey = await Storage.list("storage/stickers/All/" )
-        console.log("media key : " , mediaKey)
         const {files, folders} = await this.processStorageListSet(mediaKey)
         console.log("nested res : ", {files, folders})
         return {files, folders}

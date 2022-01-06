@@ -67,7 +67,8 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                         </g>
                                     </svg>
                                 <a id={defaultId} onClick={replyclick} className={"attachmentBody"} href={msg.media_url} download>{msg.body}</a>
-                            <div className={"attachmentSize"}>size.kb</div></div>
+                            {/*<div className={"attachmentSize"}>{msg.media_url}</div>*/}
+                            </div>
                      </div>;
             case "link": return <div id={defaultId} onClick={replyclick} className={"url_body"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                                     <div className={"url_box"}>

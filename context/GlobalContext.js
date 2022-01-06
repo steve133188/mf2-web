@@ -78,11 +78,13 @@ export const GlobalContextProvider = ({children}) =>{
             })
         console.log(user)
         console.log(res)
-        if(res == 200) {
-            setTimeout(
-                ()=>{router.push("/dashboard/chat")},1000
-            )
-            
+        if(res ==200) {
+            await router.push("/dashboard/chat")
+            router.reload()
+
+            // window.location.reload(true)
+            // router.push("/dashboard/chat")
+            // setTimeout(()=>window.location.reload(true) , 100)
         }
     }
 

@@ -5,7 +5,6 @@ import MsgRow from "../../components/livechat/ChatMessage/MsgRow";
 import { Picker } from 'emoji-mart-next'
 import 'emoji-mart-next/css/emoji-mart.css'
 import RobotSwitch from "../../components/livechat/RobotSwitch";
-import axios from "axios";
 import {MaskGroup1,MaskGroup2,Mask_Group_3,Mask_Group_4,Mask_Group_5,VoiceMsg,SendButton,RefreshBTN,ResearchBTN} from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { AddButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
 import ChatroomInfo from "../../components/livechat/chatroom_info";
@@ -44,16 +43,13 @@ export default function Live_chat() {
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
     const [replyData ,setReplyData] = useState([])
-    useEffect(()=>{
-        setReplyData(replyTemplateList)
-    },[])
-    let subscriptions ;
+
+
     const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
     const [chatrooms , setChatrooms] = useState([])
     const [chatroomMsg , setChatroomMsg]  = useState([])
     const [attachment , setAttachment ] = useState([])
     const [selectedChat , setSelectedChat] = useState({})
-    const [chatrecord , setChatrecord] = useState([])
     const [chatSearch, setSearch] = useState(false)
     const [isRobotOn , setIsRobotOn] = useState(false)
     const [chatboxSearch, setChatBoxSearch] = useState("")
@@ -62,7 +58,6 @@ export default function Live_chat() {
     const [ChatButtonOn,setChatButtonOn] = useState(false)
     const [subscribe,setSubscribe] = useState()
     const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-
     const [replyMsg, setReplyMsg] = useState("")
     const [quotaMsg,setQuotaMsg] = useState({})
     const [reply,setReply] =useState(false)
@@ -76,6 +71,36 @@ export default function Live_chat() {
     })
     const [chatroomsSub , setChatroomsSub] = useState()
     const [replybox,setReplybox] = useState("")
+    const [users ,setUsers] =useState([])
+    const [teams ,setTeams] =useState([])
+    const [tags ,setTags] =useState([])
+    const [selectedTags ,setSelectedTags] =useState([])
+    const [selectedUsers ,setSelectedUsers] =useState([])
+    const [chatUser , setChatUser] = useState({})
+    const [selectedTeams ,setSelectedTeams] =useState([])
+    const [selectedChannels ,setSelectedChannels] =useState([]);
+    const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
+    const [chatroomsInfo, setChatroomsInfo] = useState([])
+    const [filteredTags ,setFilteredTags] =useState([])
+    const [filteredUsers ,setFilteredUsers] =useState([])
+    const [filteredData , setFilteredData] = useState([])
+
+    const [isShow , setIsShow] =useState(false)
+    const [unread,setUnread] = useState(false)
+    const [unassigned,setUnassigned] = useState(false)
+    const [isFilterOpen , setIsFilterOpen] = useState(false)
+    const [start,setStart] = useState(false)
+    const [chatroomStart,setChatroomStart] = useState(false)
+    const [pinChat , setPinChat] = useState([])
+
+    const getOwnPinChatList = async ()=>{
+        const res=API.graphql(graphqlOperation( listMF2TCOCHATROOMS , {filter:{is_pin:{eq:true} , user_id:{eq:parseInt(user.user.user_id)}}}))
+            .then(response=>{
+                setPinChat(prev=>response.data.listMF2TCOCHATROOMS.items)
+            })
+            .catch(err=>alert(err))
+    }
+
 
     const subChatrooms=  ()=>{
         let user_id= parseInt(user.user.user_id.toString().slice(3))
@@ -97,10 +122,19 @@ export default function Live_chat() {
     }
 
     const getChatrooms = async ()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS))
+        let user_id= parseInt(user.user.user_id.toString().slice(3))
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id}}}))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
         const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
         .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
+        setChatrooms(myData)
+        setFilteredData(myData)
+    }
+    const getAllChatrooms = async ()=>{
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
+        console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
+        const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
+            .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
         console.log(myData,"afterSort")
         setChatrooms(myData)
         setFilteredData(myData)
@@ -118,7 +152,7 @@ export default function Live_chat() {
     useEffect(()=>{
 
         console.log(filePreview,"filepreview")
-   
+
     },[filePreview])
     const upload = async (e) =>{
         e.preventDefault()
@@ -126,7 +160,7 @@ export default function Live_chat() {
         console.log(file.mozFullPath,"file data console")
         console.log(URL.createObjectURL(file))
         // console.log()
-        
+
         const filetype =  messageInstance.mediaTypeHandler(file)
         const path =URL.createObjectURL(file)
         console.log("FileType~~~",path)
@@ -153,28 +187,7 @@ export default function Live_chat() {
         setChatUser(result.data)
     }
     const [contacts, setContacts] = useState([]);
-    const [users ,setUsers] =useState([])
-    const [teams ,setTeams] =useState([])
-    const [tags ,setTags] =useState([])
-    const [selectedTags ,setSelectedTags] =useState([])
-    const [selectedUsers ,setSelectedUsers] =useState([])
-    const [chatUser , setChatUser] = useState({})
-    const [selectedTeams ,setSelectedTeams] =useState([])
-    const [selectedChannels ,setSelectedChannels] =useState([]);
-    const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
-    const [chatroomsInfo, setChatroomsInfo] = useState([])
-    const [filteredTags ,setFilteredTags] =useState([])
-    const [filteredUsers ,setFilteredUsers] =useState([])
-    const [filteredData , setFilteredData] = useState([])
 
-    const [isShow , setIsShow] =useState(false)
-    const [unread,setUnread] = useState(false)
-    const [unassigned,setUnassigned] = useState(false)
-    const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const [start,setStart] = useState(false)
-    const [noti,setNotis]= useState({type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"})
-    const [notiOpen,setNotiOpen] = useState(false)
-    const [chatroomStart,setChatroomStart] = useState(false)
     // const windowUrl = window.location.search;
     // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
     // // params['id']
@@ -183,14 +196,7 @@ export default function Live_chat() {
     // const rul_type = params.get('type');
     // console.log(rul_id, rul_name, rul_type)
     // console.log(params)
-    useEffect(()=>{
-        setTimeout(()=>{setNotiOpen(true);
-            // setTimeout(()=>{
-            //     setNotiOpen(false)
-            // },5000)
-            },1000);
 
-    },[noti])
     const handleTypedMsg = e =>{
         const {name , value} = e.target
         setTypedMsg({
@@ -198,27 +204,28 @@ export default function Live_chat() {
             [name]:value
         })
     }
+
+    useEffect(()=>{
+        setReplyData(replyTemplateList)
+    },[])
+
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
         setContacts(data)
-        console.log(data,"all contacts")
     }
 
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
-        console.log("AGENTs live chat",data)
         setUsers(data)
         setFilteredUsers(data)
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
-        console.log("tEAM live chat",data)
         setTeams(data)
     }
 
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
-        console.log("tags live chat",data)
         setTags(data)
         setFilteredTags(data)
     }
@@ -251,16 +258,9 @@ export default function Live_chat() {
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }
 
-    // useEffect(async ()=>{
-    //     if(!start){  setStart(true)}
-    //     const data = await getChatrooms()
-    //     setChatrooms(data)
-    // } , [selectedTeams])
-
     const toggleReply = () =>{
         setChatButtonOn(ChatButtonOn=="mr");
         setIsExpand(true);
-
     }
     const toggleSticker = () =>{
         setChatButtonOn(ChatButtonOn=="m1"?"":"m1");
@@ -342,13 +342,21 @@ export default function Live_chat() {
         setIsExpand(false)
     }
     const onEnterPress = (e) => {
-        if(e.keyCode == 13 && e.shiftKey == false) {
+        if(e.keyCode == 13 && e.ctrlKey == false) {
           e.preventDefault();
-          console.log("enter press")
-          sendMessageToClient(e)
+          // console.log("enter press")
+          // sendMessageToClient(e)
+        }
+        if(e.keyCode == 13 && e.ctrlKey == true) {
+            e.preventDefault();
+            e.target.innerHTML+="/n"
+            // setTypedMsg({
+            //     ...typedMsg,
+            //     message: typedMsg.message+="/n"
+            // })
         }
       }
-    
+
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
@@ -358,10 +366,6 @@ export default function Live_chat() {
         setTypedMsg({...typedMsg , message: ""})
         setIsExpand(false)
         setChatButtonOn("")
-        // setTimeout(async ()=>{
-        //     await getChatroomMessage()
-        //     scrollToBottom()
-        // },1500)
     }
     const ReferechHandle=async()=>{
         await getChatrooms();
@@ -390,7 +394,6 @@ export default function Live_chat() {
 
     };
     const replyClick=click=>{
-
         console.log(click,"done donedone")
         setReplyMsg(click)
         const quotaMsg = chatroomMsg.filter(e=>{return click==(e.room_id+e.timestamp)})
@@ -405,7 +408,6 @@ export default function Live_chat() {
         setReply(!reply)
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsExpand(isExpand&&ChatButtonOn=="mr"?false:true);
-
     }
 
     useEffect(()=>{
@@ -450,46 +452,29 @@ export default function Live_chat() {
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     scrollToBottom()
                     console.log("new message: " , newMessage)
-                    setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
+                    // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                 }
             })
         setSubscribe(prev=> sub)
 
     }
-
-    //const handleLivechat = async (chatroom)=>{
-    // const handleSubToNewMessage = async (recipient)=>{
-    //     if(subscribeToNewMessage)subscribeToNewMessage.unsubscribe()
-    //     const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{recipient:recipient} ))
-    //         .subscribe({
-    //             next: async (chatmessage)=>{
-    //                 const newMessage = chatmessage.value.data.subscribeToNewMessage
-
-
-
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
         await handleSub(selectedChat)
 
     },[selectedChat])
-    useEffect(()=>{
-      console.log(  chatroomMsg,"chatroom msg data")
-    },)
 
 
     useEffect(()=>{
         if(typeof (window) !== undefined){
-            console.log(chatrooms,"ftech info")
             if(!chatroomStart){  setChatroomStart(true)}
             let new1=[]
             chatrooms&&chatrooms.map(chat=>{
                 const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
-                console.log(cc,"contacts show")
                 if(!cc[0]){return new1.push[chat]}
                 return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organization,tags:cc[0].tags,})
             })
             const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
-            console.log(myChat,user.user.user_id, "my chatroom")
             setFilteredData(new1)
             setChatroomsInfo(new1)
         }
@@ -498,9 +483,8 @@ export default function Live_chat() {
 
 
     const advanceFilter =()=>{
-        setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]
-        })
-        console.log("filter",filter)
+        setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
+        // console.log("filter",filter)
 
         const channelFiltered = chatroomsInfo.filter(data=>{
             if(selectedChannels.length ==0){
@@ -536,8 +520,6 @@ export default function Live_chat() {
                 return data
             }
             return data.team==selectedTeams
-            //contacts not yet have team
-            //contacts not yet have team
             //contacts not yet have team
         })
         console.log("teamFiltered:",teamFiltered)
@@ -596,14 +578,8 @@ export default function Live_chat() {
         setSelectedChannels([])
         setSelectedTags([])
         setSelectedTeams([])
-        // setFilteredData(chatroomsInfo)
-            advanceFilter()
-
+            // advanceFilter()
     }
-    // useEffect(()=>{
-    //     advanceFilter
-    //     console.log(filteredData,"filteredData")
-    // },[filteredData])
     const refreshChatrooms =  ()=>{
         clear()
         getChatrooms()
@@ -612,23 +588,18 @@ export default function Live_chat() {
         const oldFilter = filteredData.filter(d=> {
             return d.room_id != newData.room_id
         })
-        const oldChat = filteredData.filter(d=> {
+        const newPinChat = pinChat.filter(d=> {
             return d.room_id != newData.room_id
         })
-        const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
+        // const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
         if(newData.is_pin){
-            setFilteredData(filteredData=> [...oldFilter ,filteredData[indexOfDate]=newData])
-            // setChatrooms(chatrooms=>[newData , oldChat])
+            setFilteredData(filteredData=> [...oldFilter])
+            setPinChat(chatrooms=>[newData , ...newPinChat])
         }else{
-            setFilteredData(filteredData=> [ ...oldFilter,newData ])
-            // setChatrooms(chatrooms=>[ oldChat , newData ])
+            setFilteredData(filteredData=> [newData, ...oldFilter ])
+            setPinChat(chatrooms=>[ ...newPinChat ])
         }
     }); }
-    //search bar
-    // const refs = chatroomMsg.reduce((acc, value) => {
-    //     acc[parseInt(value.timestamp)] = useRef(null);
-    //     return acc;
-    // }, {});
     const [resultMoreThanOne, setResultMoreThanOne] = useState(false);
     //function find chatroomMsg.id by keyword as list
     const search = e => {
@@ -718,113 +689,93 @@ export default function Live_chat() {
                              agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
-                                    <Newchatroom contacts={contacts} />
+                                    <Newchatroom contacts={contacts} setFilteredData={setFilteredData}/>
                         </div>
                     <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
+                        {pinChat!=-1&&pinChat.map((d , index)=>{
+
+                            // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+
+                        })}
                         {filteredData.map((d , index)=>{
 
-                            return ( <ChatroomList chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                            // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
 
                         })}
                     </ul>
                 </div>
             </div>
             <div className={"chatroom"}>
-                <div className={"chatroom_top"}>
-                    <div className={"chatroom_top_info"}>
+                {selectedChat.room_id&&
+                    <>
+                        <div className={"chatroom_top"}>
+                            <div className={"chatroom_top_info"}>
 
 
-                        {/*{selectedChat!==-1 && (*/}
-                        {/*    <>*/}
-                        {/*    <Avatar src={selectedChat.avatar|| null} alt="icon"/>*/}
-                        {/*        <div className={"chatroom_name"}>{selectedChat.customer_name|| null}</div>*/}
-                        {/*    <div className={"chatroom_channel"}>{selectedChat.channel|| null}</div>*/}
-                        {/*    </>*/}
-                        {/*    )}*/}
+                                {/*{selectedChat!==-1 && (*/}
+                                {/*    <>*/}
+                                {/*    <Avatar src={selectedChat.avatar|| null} alt="icon"/>*/}
+                                {/*        <div className={"chatroom_name"}>{selectedChat.customer_name|| null}</div>*/}
+                                {/*    <div className={"chatroom_channel"}>{selectedChat.channel|| null}</div>*/}
+                                {/*    </>*/}
+                                {/*    )}*/}
 
-                        {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
-                        <Avatar src={ null} alt="icon" />
-                        <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                                {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
+                                <Avatar src={ null} alt="icon" />
+                                <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
 
-                                <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
-                                <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
+                                    <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
+                                        <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
+                                    </div>
+                                    {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
+                                    {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
                                 </div>
+
                                 {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
                                 {selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(
-                                    
+
                                     // chatroomMsg.map
 
                                 ).toISOString()}/></div>:""}
                         </div>
-                           <div className="msg_noti_popup" style={{display:notiOpen?"flex":"none" }}>
-                               <div className="popleft">
-                                   <div className="pop_matter">
+                            <div className={"chatroom_top_btn_gp"}>
+                                <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} >
+                                    <ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
+                                    <div className={"search_bar"} style={{display:chatSearch?"flex":"none"}}>
+                                        {/* <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input> */}
+                                        <input type="text" className={"search_area"} onChange={search} placeholder={"Search"}></input>
+                                        <div className={"search_icon"}></div>
 
-                                       {noti.type=="disconnect"?<img src={`/channel_SVG/disconnect.svg`} style={{borderRadius:0}} />:""}
-                                       {noti.type=="newMsg"?<img src={`/channel_SVG/${noti.channel}.svg`}  style={{width:"40px",height:"40px"}} />:""}
-                                   </div>
-                                   <div className="pop_content">
-                                   {noti.type=="disconnect"?
-                                    <div className="pop_half">
-                                        <img src={`/channel_SVG/${noti.channel}.svg`} style={{width:20 , height:20 ,fontSize:12,margin:"0 5px 0 0"}}/>Disconnected
-                                        </div>
+                                    </div>
 
-                                        :""}
-                                        {noti.type=="newMsg"?
-
-
-                                        <div className="pop_half">
-                                            <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
-                                                {`${noti.sender}`}
-
-
-                                        </div>
-                                        :""}
-                                       <div className="pop_half"> {noti.content??"New message coming"}</div>
-                                   </div>
-
-                               </div>
-                               <div className="popright">
-
-                               </div>
+                                </div>
+                                <div className={"chatroom_top_btn chatroom_top_btn_refresh"} onClick={ReferechHandle}><RefreshBTN/></div>
+                                <div className={"chatroom_top_btn chatbot_switch"}>
+                                    <RobotSwitch isOn={isRobotOn} handleToggle={()=>setIsRobotOn(!isRobotOn)} onColor="#2198FA" />
+                                </div>
                             </div>
-                    </div>
-                    <div className={"chatroom_top_btn_gp"}>
-                        <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} >
-                            <ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
-                            <div className={"search_bar"} style={{display:chatSearch?"flex":"none"}}>
-                                {/* <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input> */}
-                                <input type="text" className={"search_area"} onChange={search} placeholder={"Search"}></input>
-                                <div className={"search_icon"}></div>
-
-                            </div>
-
                         </div>
-                        <div className={"chatroom_top_btn chatroom_top_btn_refresh"} onClick={ReferechHandle}><RefreshBTN/></div>
-                        <div className={"chatroom_top_btn chatbot_switch"}>
-                            <RobotSwitch isOn={isRobotOn} handleToggle={()=>setIsRobotOn(!isRobotOn)} onColor="#2198FA" />
+                        <div
+                            ref={messagesSearchRef}
+                            className={"chatroom_records"}>
+                            {chatroomMsg.map((r , i)=>{
+                                return (
+                                    <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
+                                )
+                            })}
+
+                            <div ref={messagesEndRef}> </div>
                         </div>
-                    </div>
-                </div>
-                <div
-                ref={messagesSearchRef}
-                 className={"chatroom_records"}>
-                    {chatroomMsg.map((r , i)=>{
-                        return (
-                                <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
-                                 )
-                                 })}
 
-                    <div ref={messagesEndRef}> </div>
-                </div>
-
-                <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef1} >
-                           {quotaMsg&&
+                        <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef1} >
+                            {quotaMsg&&
                             <div style={{display:(ChatButtonOn=="mr"?"flex":"none")}} onClick={toggleReply }>
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
-                           </div>
-                           }
-                           {filePreview&&
+                            </div>
+                            }
+                            {filePreview&&
                             <div style={{display:(ChatButtonOn=="m3"?"flex":"none")}} onClick={toggleReply }>
                                 {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                 {/* <div>{filePreview.name} </div> */}
@@ -832,50 +783,51 @@ export default function Live_chat() {
                                 <div>
                                     <img src={filePreview.path} style={{width:"80px",height:"80px"}}/><div>{filePreview.size/1000}kb</div>
                                 </div>
-                           </div>
-                           }
-                    <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                            </div>
+                            }
+                            <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
-                    <Picker  onSelect={(emoji)=> {
-                        setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
-                    }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
-                        <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
-                            <StickerBox data={stickerData} stickerSend={stickerSend}  />
+                            <Picker  onSelect={(emoji)=> {
+                                setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
+                            }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
+                            <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
+                                <StickerBox data={stickerData} stickerSend={stickerSend}  />
                             </div>
-                        <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} >
-                            <QuickReply data={replyData} onclick={replySelect} />
-                        </div>
+                            <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} >
+                                <QuickReply data={replyData} onclick={replySelect} />
+                            </div>
 
-                    <div className={"chatroom_input_btn_gp"}>
-                        <div className={"left_btn_gp"}>
-                            <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={toggleSticker }
+                            <div className={"chatroom_input_btn_gp"}>
+                                <div className={"left_btn_gp"}>
+                                    <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={toggleSticker }
                                     ><MaskGroup1/></div>
-                            <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={ toggleEmoji }
-                                    // style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={ toggleEmoji }
+                                        // style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
                                     ><MaskGroup2/>
-                                    {/* <Picker style={{ position: 'absolute', bottom: '35px', right: '20px' }} /> */}
+                                        {/* <Picker style={{ position: 'absolute', bottom: '35px', right: '20px' }} /> */}
 
-                            </div>
+                                    </div>
 
-                            <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={toggleFile }
-                            // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}}
+                                    <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={toggleFile }
+                                        // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}}
                                     >
-                                    {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
-                                    <input type="file" name="fileAttach" ref={attachFile} onChange={upload} onClick={toggleFile}></input>
-                                    <Mask_Group_3/>
-                                   </div>
-                            <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply}
+                                        {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
+                                        <input type="file" name="fileAttach" ref={attachFile} onChange={upload} onClick={toggleFile}></input>
+                                        <Mask_Group_3/>
+                                    </div>
+                                    <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply}
                                     ><Mask_Group_4/></div>
-                            {/* <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={toggleM5}
+                                    {/* <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={toggleM5}
                                     ><Mask_Group_5/></div> */}
-                        </div>
+                                </div>
 
-                        <div className={"right_btn_gp"}>
-                        {/* <VoiceRecorder returnVoiceMessage={getAudioFile}/> */}
-                            <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
-                        </div>
-                    </div>
-                </div>
+                                <div className={"right_btn_gp"}>
+                                    {/* <VoiceRecorder returnVoiceMessage={getAudioFile}/> */}
+                                    <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
+                                </div>
+                            </div>
+                        </div></>}
+
             </div>
             <ChatroomInfo data={selectedChat}/>
         </div>

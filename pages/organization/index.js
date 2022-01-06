@@ -78,17 +78,18 @@ export default function Organization() {
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
-    const [editName,setEditNameActive] = useState(false)
+    const [isEditNameActive,setisEditNameActive] = useState(false)
     const [editedName,setEditedName] = useState("")
-    const nameEditConfirm=(e)=>{
+    const handleEditName=(e)=>{
 
         if(editedName){
             // fetch change name
             console.log(editedName)
             setEditedName("")
         }
-        setEditNameActive(!editName)
+        setisEditNameActive(!isEditNameActive)
     }
+
     //filtered Data
     let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
@@ -96,6 +97,14 @@ export default function Organization() {
         setUsers(data)
         setFilteredData(data)
         console.log("get user",data)
+    }
+    const fetchNoTeamUsers = async()=>{
+        const data = await userInstance.getAllUser()
+        const newData = data.filter(d=>d.team_id==0)
+        setUsers(newData)
+        setFilteredData(newData)
+        console.log("get user",data)
+
     }
     const fetchTeamUsers = async (id)=>{
         
@@ -121,6 +130,8 @@ export default function Organization() {
     useEffect(    async () => {
         if(user.token&&!curr_org.name){
             await fetchUsers()
+        }else if(user.token&&curr_org.name=="Not Assigned"){
+            await fetchNoTeamUsers()
         }else{
             console.log("currentContacts",currentContacts)
             console.log("curr_org",curr_org)
@@ -205,6 +216,16 @@ export default function Organization() {
         set_curr_org(name)
         console.log(name,"show   team name")
     }
+    const handleChangeName=e=>{
+        setEditedName(e.target.value)
+        console.log(e.target.value,"edited name")
+        /*
+        ==============
+        update name not working
+        ==============
+        orgInstance.updateOrgName(curr_org.org_id,e.target.value)
+        */
+    }
     return (
         <div className="organization-layout">
             <ORGSidebar orgData={org} selection={curr_org} setSelection={displayTeam}/>
@@ -268,12 +289,15 @@ export default function Organization() {
                     <SelectSession >
                     {/* btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)} */}
                         <div className={"team_label"}>
-                            {editName?<input type="text" className="nameEdit" onChange={e=>setEditedName(e.target.value)} placeholder={`edit... ${curr_org.name}`}></input>:(curr_org.name || "All")} {"(" +currentContacts.length+")"}
+                            {isEditNameActive?<input type="text" className="nameEdit" onChange={handleChangeName} placeholder={`edit... ${curr_org.name}`}></input>:(curr_org.name || "All")} {"(" +currentContacts.length+")"}
                         </div>
-                        <div onClick={nameEditConfirm} >
-
-                        <EditPenSVG size={18} />
-                        </div>
+                       
+                                <div onClick={handleEditName} style={curr_org.name&&curr_org.name!="Not Assigned"?null:{visibility:"hidden"}} >
+                                    <EditPenSVG size={18} />
+                                </div>
+                            
+                        
+                        
                     </SelectSession>
                 <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
                     <Table

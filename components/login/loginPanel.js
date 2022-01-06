@@ -21,9 +21,9 @@ export default function LoginPanel(){
 
     const router = useRouter()
     useEffect(()=>{
-        if(user.token){
-            router.push("/dashboard/agents")
-        }
+        // if(user.token){
+        //     router.push("/dashboard/agents")
+        // }
     },[])
     return(<>
                     <div className={"logo_container"}>
@@ -53,7 +53,7 @@ export default function LoginPanel(){
                                         style={ credential.email.length>0?{border: "1px solid #2385FC",fontSize:"1vw"}:{fontSize:"1vw"}}
                                         // style={ {fontSize:"1vw"}}
                                         // className={invalid}
-                                       
+
                                     />
                                     </div>
                             </div>
@@ -77,7 +77,7 @@ export default function LoginPanel(){
                             {errors?<h4 className={"login_error"}>{errors}</h4>:null}
                             </div>
                         <div className={"form_bottom"}>
-                            <span className={"rememberMe"}><label className="toggleSwitch"><input type="checkbox"/><span className="slider" 
+                            <span className={"rememberMe"}><label className="toggleSwitch"><input type="checkbox"/><span className="slider"
                         ></span></label><p>Remember me</p></span>
                             <Link href="/login/recovery">
                                 {/*<a style={{font: "normal normal normal 1rem/22px Manrope", color: "var(--unnamed-color-2198fa)",color:"#2198fa"}}className={"forgotPassword"}> color was duplicated*/}
@@ -93,7 +93,7 @@ export default function LoginPanel(){
                         </div>
                     </form>
                     </div>
-    
+
     </>
 
 

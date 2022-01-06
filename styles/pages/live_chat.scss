@@ -40,7 +40,7 @@
       &.active{
         background-color: #D0E9FF;
         border-radius: 10px;
-       
+
       }
       .filter_icon{
         background-image: url("../../public/livechat/filter_icon.svg");
@@ -122,7 +122,7 @@
             padding: 0.5rem;
           }
         }
-        
+
       }
       .chatlist_filter_box{
         // overflow:auto;
@@ -149,14 +149,14 @@
           letter-spacing: 0px;
           // color: #444444;
         }
-        
+
         .filter_box_status{
           display: flex;
           // justify-content: space-between;
           // align-items: center;
           padding-right: 35px;
           margin:10px 0;
-          
+
           label{
             // margin: 0;ont-family: system-ui, sans-serif;
             font-weight: bold;
@@ -169,7 +169,7 @@
             display: -moz-box;
             display: flex;
           }
-          
+
         .status_box{
           display: flex;
           align-items: center;
@@ -189,15 +189,15 @@
             margin:0;
           }
 
-            
-              
+
+
         }
         .filter_box_channel{
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin:20px 0;
-          
+
           .serachSVG{
             width: 20px;
             height: 20px;
@@ -235,7 +235,7 @@
               }
             }
           }
-          
+
         }
         .filter_box_agents{
           display: flex;
@@ -260,7 +260,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            .search_bar{  
+            .search_bar{
               width: 80%;
               display:flex;
               background: #FFF 0% no-repeat padding-box;
@@ -269,7 +269,7 @@
               color: #8B8B8B;
               border-width: 0;
               margin: 10px 5%;
-              
+
               .search_area{
                 width: 100%;
                 text-align: left;
@@ -361,7 +361,7 @@
                 padding: 3px 15px 5px 15px;
                 height: 25px;
                 font: normal normal normal 15px/22px Manrope;
-               
+
 
               }
               .left{
@@ -538,12 +538,12 @@
           text-align: left;
           display: flex;
           vertical-align: middle;
-          
+
           font: normal normal bold 15/22 Manrope;
           letter-spacing: 0px;
           color: #444444;
           opacity: 1;
-          img{    
+          img{
             width: 22px;
             height: 22px;
             margin: 0;
@@ -553,45 +553,7 @@
         .chatroom_channel{
 
         }
-        .msg_noti_popup{
-          position:absolute;
-          width:300px;
-          height: 56px;
 
-          left: 30rem;
-          z-index: 120;
-          display: flex;
-          justify-content: space-between;
-          box-shadow: 0px 3px 6px #00000029;
-          background: #FFFFFF 0% 0% no-repeat;
-          border-radius: 10px;
-
-          .popleft{
-
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          height: 100%;
-          .pop_matter{
-            width: 45px;
-            margin: 0 ;
-            margin: 0 8px;;
-            img{
-              margin: 5px;;
-            }
-          }
-          .pop_content{
-            width:150px;
-            padding: 5px 0;
-          }
-          }
-          .pop_half{
-            height: 50%;
-
-          display: flex;
-          justify-content: flex-start;
-          }
-        }
       }
      .chatroom_top_btn_gp{
        display: flex;
@@ -599,9 +561,9 @@
        justify-content: space-around;
        button , .chatroom_top_btn{
          margin: auto .5rem;
-       
-       
-       
+
+
+
          .msg_noti_popup{
           // position:absolute;
           // width:300px;
@@ -640,7 +602,7 @@
           justify-content: flex-start;
           }
         }
-      
+
         }
 
 
@@ -658,7 +620,7 @@
        .chatroom_top_btn_refresh{
         //  background-image: url("../../public/livechat/refresh.svg");
        }
-       
+
 
        .chatroom_top_btn_refresh,.chatroom_top_btn_research{
        background-repeat: no-repeat;
@@ -761,7 +723,7 @@
         .emoji-mart-preview{
           display: none;
         }
-      } 
+      }
 
       .chatroom_input_btn_gp{
           //width: 90%;
@@ -856,7 +818,7 @@
     }
   }
 
-  
+
   .chatroom_info{
     flex: 27%;
     max-width: 300px;
@@ -870,7 +832,7 @@
       position: absolute;
       right: 650px;
       top:-50px;
-    
+
     }
     .contact_card{
       width: 100%;
@@ -912,7 +874,7 @@
           text-align: left;
           font: normal normal normal 14px Manrope;
           letter-spacing: 0px;
-          color: #444444;   
+          color: #444444;
            display: flex;
           opacity: 1;
         }
@@ -980,7 +942,7 @@
         max-height: 330px;
       }
         .keyList
-          {position:absolute; 
+          {position:absolute;
             text-align:left;
             // height:20px;
             margin:0px 0;
@@ -1059,7 +1021,7 @@
         border-width: 0;
         margin: 20px 0;
         height: 50px;
-        
+
         // font: normal normal normal 14px/22px Manrope;
 
         .write_note{
@@ -1076,7 +1038,7 @@
           }
         }
       }
-      
+
     }
     .message_pad{
       display: flex;
@@ -1119,7 +1081,7 @@
 
         text-align: right;
 
-        width: 90%; 
+        width: 90%;
         margin-right: 0px;
         margin-left: auto;
         padding: 1px;
@@ -1133,7 +1095,7 @@
         font: normal normal normal 14px/22px Manrope;
         margin: 0px 0 0;
 
-      padding: 0rem 10px ;  
+      padding: 0rem 10px ;
       }
     }
     .message_box{
@@ -1150,7 +1112,7 @@
         letter-spacing: 0.08px;
         color: #4E4E4E;
         opacity: 1;
-        padding: 0rem 10px ;  
+        padding: 0rem 10px ;
         margin-bottom: 10px;
         margin-left:24px;
         // white-space: nowrap;
@@ -1158,7 +1120,7 @@
       }
     }
   }
-  .search_bar{  
+  .search_bar{
     width: 90%;
     display:flex;
     background: transparent 0% no-repeat padding-box;
@@ -1166,9 +1128,9 @@
     padding:10px;
     color: #8B8B8B;
     border-width: 0;
-    
+
     // margin: 10px 5%;
-    
+
     .search_area{
       width: 100%;
       text-align: left;
@@ -1186,7 +1148,7 @@
 
 
 .contactList{
-  
+
 
   .chatroom_li{
     cursor:pointer;
@@ -1254,7 +1216,7 @@
     opacity: 1;
     border-radius: 10px;
   }
-  
+
 
 
 }

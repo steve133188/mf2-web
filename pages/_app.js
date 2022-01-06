@@ -24,10 +24,6 @@ function MyApp({ Component, pageProps }) {
     //     }
     // })
     const [connected, setConnected] = useState(false);
-    useEffect(()=>{
-
-
-    },[])
   return(
       <>
       <Head>

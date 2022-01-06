@@ -24,13 +24,7 @@ import {Skeleton} from "@mui/material";
                 is_pin:!chatroom.is_pin
             }
             await togglePin(ispin_input)
-
-            // setTimeout(() => {
-            //     refresh();
-            //     SetIsLoading(false);
-            // }, 300);
         }
-        console.log(chose,"chose chatroom")
 
         return(
             <div className={"chatroom_li "+(chose&&chose.room_id==chatroom.room_id&&chose.user_id == chatroom.user_id?"activeRoom":"")} onClick={props.onClick}>
