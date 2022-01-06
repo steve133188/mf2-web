@@ -29,7 +29,6 @@ export default function AddContact() {
         country_code:852,
         tags:[],
         Assignee:[]
-        address:"",
     })
     const [users ,setUsers] =useState([])
     const [tags ,setTags] =useState([])
