@@ -1,11 +1,27 @@
-import React, {useContext, useMemo ,useState} from 'react';
+import React, {useContext, useEffect, useMemo ,useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import { GlobalContext } from '../context/GlobalContext';
 import {NormalButton, NormalButton2, CancelButton} from './Button';
 import Papa from "papaparse";
 import axios from "axios";
 import xlsx from "xlsx";
+import {CSVLink, CSVDownload} from 'react-csv';
+
 export function ImportDropzone({children,...props}) {
+    const [template,setTemplate]=useState([])
+    useEffect(()=>{
+        setTemplate([{
+            address:"ft 123, abc hse, abc city, abc state, abc country",
+            email:"example@example.com",
+            first_name:"(Required)Chris",
+            last_name:"(Required)Wong",
+            birthday:"DD/MM/YYYY",
+            country:"HK",
+            gender:"(M/F)",
+            phone:"(Required)85212345678",
+            agents:"(agent id)1234,1235"
+        }])
+    },[])
     const {
         getRootProps,
         getInputProps,
@@ -41,13 +57,13 @@ export function ImportDropzone({children,...props}) {
             {file.path} - {file.size} bytes
         </li>
     ));
+        const {contactInstance } = useContext(GlobalContext)
 
     const newUser = async (data) =>{
         //new contact
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"
+        const url = "https://46bgula199.execute-api.ap-southeast-1.amazonaws.com/prod/customer"
 
-        const name =` ${data.first_name} ${data.last_name}`
-        const res = await axios.post(url , {...data,name} ,{
+        const res = await axios.post(url , {...data} ,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -106,12 +122,12 @@ export function ImportDropzone({children,...props}) {
     //     acceptedFiles.pop()
 
     //     // axios.post("api/uploadfile", formData);
-    // }
+    // } 
     const readUploadFile = (e) => {
         e.preventDefault();//application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-
-        if (e.target.files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-            console.log(e.target.files[0].type)
+        const files = e.target.files||acceptedFiles;
+        if (files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+            console.log(files[0].type)
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -124,17 +140,16 @@ export function ImportDropzone({children,...props}) {
                 json.forEach(element => {
 
                     const data = {
-                       
+                        customer_id:parseInt(element.phone),
+                        address:element.address,
+                        email:element.email,
                         first_name:element.first_name,
                         last_name:element.last_name,
-                        phone:element.phone.toString(),
-                        email:element.email,
+                        customer_name:element.first_name+" "+element.last_name,
                         birthday:element.birthday,
-                        gender:element.gender,
-                        address:element.address,
                         country:element.country,
-                        tags:element.tags.split(","),
-                        agents:element.agents.split(",")
+                        gender:element.gender,
+                        phone:parseInt(element.phone)
                     }
                    
                     console.log(data,"-data");
@@ -143,10 +158,10 @@ export function ImportDropzone({children,...props}) {
             }
             )
             };
-            reader.readAsArrayBuffer(e.target.files[0]);
-        }else if(e.target.files[0].type === "text/csv"){
+            reader.readAsArrayBuffer(files[0]);
+        }else if(files[0].type === "text/csv"){
 
-            Papa.parse(e.target.files[0], {
+            Papa.parse(files[0], {
                 header: true,
                 complete: function(results) {
                     results.data.forEach(element => {
@@ -154,16 +169,17 @@ export function ImportDropzone({children,...props}) {
 
                         const data = {
                            
+                            customer_id:parseInt(element.phone),
+                            address:element.address,
+                            email:element.email,
                             first_name:element.first_name,
                             last_name:element.last_name,
-                            phone:element.phone,
-                            email:element.email,
+                            customer_name:element.first_name+" "+element.last_name,
                             birthday:element.birthday,
-                            gender:element.gender,
-                            address:element.address,
                             country:element.country,
-                            tags:element.tags.split(","),
-                            agents:element.agents.split(",")
+                            gender:element.gender,
+                            phone:parseInt(element.phone)
+                          
                         }
                         
                     console.log(data,"-data");
@@ -215,7 +231,7 @@ export function ImportDropzone({children,...props}) {
                     </div>
                 </div>
                 <div {...getRootProps({style})}>
-                    <input {...getInputProps()} onChange={readUploadFile} />
+                    <input {...getInputProps()} onChange={readUploadFile} ondrop={readUploadFile}  />
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="60" fill="#2198FA"
                          className="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                         <path
@@ -237,7 +253,9 @@ export function ImportDropzone({children,...props}) {
                         color: "#444444"
                     }}>{files}</ul>
                 </aside>
-                <NormalButton>Download Template</NormalButton>
+                
+
+                <NormalButton><CSVLink data={template} filename={"template.csv"} >Download Template</CSVLink></NormalButton>
             </div>
         </div>
     );
