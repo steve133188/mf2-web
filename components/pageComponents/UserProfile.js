@@ -36,10 +36,14 @@ export default function UserProfileGrid({data}){
         console.log(data)
         console.log(data.authority)
         console.log(contactsdata,"contactssss")
-        const assigned = contactsdata.filter(c=>{console.log(c.agents,"C");return c.agents.some(el=>el.username ==data.username)})
+        const assigned = contactsdata.filter(c=>{return c.agents.some(el=>el.username ==data.username)})
         console.log(assigned,"contactssss")
-
         setAssingedContacts(assigned)
+
+        const date = new Date(data.last_login)
+        console.log(data.last_login)
+        console.log(Date.now())
+        console.log(date.toUTCString())
         // setFilteredData(data)
     }
     const toggleEdit = ()=>{
@@ -81,7 +85,7 @@ export default function UserProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Last Login</span>
-                <span className={"info_content"}>{(data.last_login)}</span>
+                <span className={"info_content"}>{(new Date(data.last_login)).toUTCString()}</span>
             </div>
             </div>
         </div>
@@ -155,7 +159,7 @@ export default function UserProfileGrid({data}){
                                             </TableCell>
                                             <TableCell align="left" style={{width: "32%"}}>
                                                 <div style={{display:"flex",alignItems:"center"}}>
-                                                <Tooltip key={index} className={""} title={item.name} placement="top-start">
+                                                <Tooltip key={index} className={""} title={item.customer_name} placement="top-start">
                                                     <Avatar alt={item.customer_name}  className={"text-center"} src="" sx={{width:25 , height:25 ,fontSize:14}} />
                                                 </Tooltip>
                                                 <span style={{marginLeft:"1rem"}}>{item.customer_name}</span>
