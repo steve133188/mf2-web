@@ -66,12 +66,11 @@ export default function Contacts() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts= filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
     let result = currentContacts.map(d=>d.customer_id)
-
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
     const [deleteRole,setDeleteRole] = useState("")
 
-
+    
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         console.log("filter",filter)
@@ -84,11 +83,26 @@ export default function Contacts() {
         })
         console.log("agent:",agentFiltered)
         const tagFiltered = agentFiltered.filter(data=>{
+            const dataTags = data.tags.map(el=>el.tag_name)
+            let ans =false
             if(selectedTags.length ==0){
-                return data
+                return false
             }
+            for(let i=0;i<selectedTags.length;i++){
+                if(dataTags.includes(selectedTags[i])){
+                    ans=true
+                }else return false
+            }
+            
+            return ans;
+            }
+            /*
+            ================
+            return OR condition
+            ================
             return data.tags.some(el=>selectedTags.includes(el.tag_name))
-        })
+            */
+        )
         console.log(selectedTags)
         console.log("tagFiltered:",tagFiltered)
 
@@ -112,7 +126,6 @@ export default function Contacts() {
         })
         console.log("teamFiltered:",teamFiltered)
         setFilteredData([...teamFiltered])
-
     }
     const channels = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
@@ -169,10 +182,9 @@ export default function Contacts() {
     const fetchContacts = async () =>{
         const data =await contactInstance.getAllContacts()
         console.log("customer data : " , data)
+
         setContacts(data)
         setFilteredData(data)
-        console.log("contacts",filteredData)
-
     }
     useEffect(async () => {
         if(user.token!=null) {
@@ -345,8 +357,12 @@ export default function Contacts() {
     function toggleDropzone() {
         setIsShowDropzone(!isShowDropzone);
     }
-    const clearFilter=()=>{
-        setSelectedUsers([]);setSelectedTeams([]);setSelectedTags([]);setSelectedChannel([]);advanceFilter()
+    const clearFilter=async()=>{
+        setSelectedTeams([]);setSelectedTags([]);setSelectedChannel([]);advanceFilter();
+            await fetchContacts()
+        setSelectedUsers([])
+        setSelectedContacts([])
+    
     }
     useEffect(()=>{
         advanceFilter()
@@ -504,7 +520,6 @@ export default function Contacts() {
                     setFilteredUsers(new_data)
                 })}}>
                     {filteredUsers.map((user , index)=>{
-                        // console.log("filterd User", user)
                         return(<li key={index}>
                             <div style={{display:"flex" ,gap:10}}>
                                 <Tooltip key={user.username} className={""} title={"a"} placement="top-start">

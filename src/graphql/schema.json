@@ -1365,6 +1365,15 @@
             "ofType" : null
           },
           "defaultValue" : null
+        }, {
+          "name" : "is_pin",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "TableBooleanFilterInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
         } ],
         "interfaces" : null,
         "enumValues" : null,
@@ -4124,6 +4133,15 @@
                 "name" : "Int",
                 "ofType" : null
               }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "is_pin",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Boolean",
+              "ofType" : null
             },
             "defaultValue" : null
           } ],

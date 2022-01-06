@@ -19,14 +19,13 @@ import Mf_circle_btn from "../../components/mf_circle_btn";
 
 export default function AddContact() {
     const [newContact , setNewContact] = useState({
+        address:"",
+        email:"",
         first_name:"",
         last_name:"",
-        name:"",
-        phone:"",
-        email:"",
         birthday:"",
+        country:"",
         gender:"",
-        address:"",
         country_code:852,
         tags:[],
         Assignee:[]

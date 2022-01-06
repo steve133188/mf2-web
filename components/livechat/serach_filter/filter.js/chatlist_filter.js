@@ -1,16 +1,10 @@
-import { Checkbox } from "@mui/material";
+
 import { CheckBoxM,Whatsapp,WhatsappB,Messager,Wechat } from "../../../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
-import MF_Select from "../../../MF_Select";
 import ChannelListItem from "./channelListItem";
 import { useContext, useEffect,useState } from "react";
 import { GlobalContext } from "../../../../context/GlobalContext";
-import { Tooltip } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import { Tooltip ,Avatar ,AvatarGroup } from "@mui/material";
 import { Pill } from "../../../Pill";
-import { AvatarGroup } from "@mui/material";
-import { getThemeProps } from "@mui/system";
-import DropDown from "../../../filter/teamDropDown";
-import DivisionDropDown from "../../../filter/divisionDropDown";
 
 export default function ChatlistFilter( {...props}){
 
@@ -37,25 +31,6 @@ const channelData = [
                 const [selectedDivision ,setSelectedDivision] =useState([])
                 const [teamBarOpen,setTeamBar] = useState(false)
                 const [dBarOpen,setDBar] = useState(false)
-                // const advanceFilter =()=>{
-                //     setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
-                //     console.log("filter",filter)
-                //     const agentFiltered = contacts.filter(data=>{
-                //         if(selectedUsers.length==0){
-                //             return data
-                //         }
-                //         return data.agents.some(el=>selectedUsers.includes(el))
-                //     })
-                //     console.log("agent:",agentFiltered)
-                //     const tagFiltered = agentFiltered.filter(data=>{
-                //         if(selectedTags.length ==0){
-                //             return data
-                //         }
-                //         return data.tags.some(el=>selectedTags.includes(el))
-                //     })
-                //     console.log("tagFiltered:",tagFiltered)
-
-                // }
 
 
                 const getTags = async ()=>{
