@@ -197,7 +197,7 @@ export default function ContantDetail({ data, ...props }) {
                     <div className={"values"}>{contact.birthday}</div>
                     <div className={"values"}>{contact.address}</div>
                     <div className={"values"}>{contact.country}</div>
-                    <div className={"values"}>{contact.created_at}</div>
+                    <div className={"values"}>{new Date(contact.created_at*1000).toLocaleDateString('en-US')}</div>
 
                 </div>
             </div>

@@ -79,7 +79,7 @@ export default function Index() {
             if(!selectedTeam.name){
                 await fetchUsers()
             }else{
-                await fetchTeamUsers(selectedTeam.id)
+                await fetchTeamUsers(selectedTeam.org_id)
             }
             await getTeams()
         }
@@ -111,9 +111,9 @@ export default function Index() {
         }
 
     }
-    useEffect(()=>{
-        console.log(selectedUsers)
-    },[selectedUsers])
+    // useEffect(()=>{
+    //     setFilteredData(filteredData.filter(e=>e.team_id==selectedTeam.org_id))
+    // },[selectedTeam])
     const [deleteRolename,setDeleteRole] = useState({})
     const toggleDelete = (id,name)=>{
 
@@ -207,7 +207,7 @@ export default function Index() {
                                customeDropdown={true}>
                         <li onClick={async ()=> {
                             setSelectedTeam({});
-                            await fetchUsers()
+                            // await fetchUsers()
                         }}>All</li>
                         {teams.map((team)=>{
                             return(<li id={team.name} key={team.org_id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)

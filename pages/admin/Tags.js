@@ -198,11 +198,11 @@ export default function Tags() {
                                         </TableCell>
 
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{(new Date(data.create_at)).toLocaleDateString('en-US')}</span>
+                                            <span >{(new Date(data.create_at*1000)).toLocaleDateString('en-US')}</span>
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{(new Date(data.update_at)).toLocaleDateString('en-US')}</span>
+                                            <span >{(new Date(data.update_at*1000)).toLocaleDateString('en-US')}</span>
 
                                         </TableCell>
 

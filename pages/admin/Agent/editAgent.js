@@ -53,9 +53,7 @@ export default function EditAgent(props){
             username:userCredential.username,
             email:userCredential.email,
             phone:parseInt(userCredential.phone),
-            // password:userCredential.password,
             team_id:selectedTeam.org_id,
-            // role_name:selectedRole.role_name,
             role_id:selectedRole.role_id, 
             country_code:parseInt(userCredential.country_code),
             chat_access:authChannel,
@@ -64,6 +62,8 @@ export default function EditAgent(props){
         const res = await userInstance.updateUser(data )
         console.log("res :",res)
         if(res == 201) router.back()
+        if(res == 200) router.back()
+        router.back()
     }
     const fetchUser = async (id) =>{
         console.log(id)

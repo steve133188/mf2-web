@@ -87,7 +87,7 @@ export default function UserProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Last Login</span>
-                <span className={"info_content"}>{(new Date(data.last_login)).toUTCString()}</span>
+                <span className={"info_content"}>{(new Date(data.last_login*1000)).toUTCString()}</span>
             </div>
             </div>
         </div>

@@ -86,7 +86,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Created Date</span>
-                <span className={"info_content"}>{new Date(data.created_at).toLocaleDateString('en-US')}</span>
+                <span className={"info_content"}>{new Date(data.created_at*1000).toLocaleDateString('en-US')}</span>
             </div>
             {/* <div className={"info_row"}>
                 <span className={"info_label"}>Contact Owner</span>
