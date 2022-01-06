@@ -277,18 +277,24 @@ export default function Contacts() {
     }
 
     const removeContact = async (id)=>{
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        const deleteItems = {data:[id]}
-        const res =await axios.delete(url ,{ headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-        data: deleteItems})
-        if (res.status == 200) {
+
+        const res =await contactInstance.deleteContact (id)
+
+        setDeleteID("")
+        // const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
+        // const deleteItems = {data:[id]}
+        // const res =await axios.delete(url ,{ headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${localStorage.getItem("token")}`
+        //     },
+        // data: deleteItems})
+        // if (res.status == 200) {
+            console.log(id)
+            console.log(res)
             await fetchContacts()
-            setSelectedContacts([])
-        }
-        setSelectedTags([])
+        //     setSelectedContacts([])
+        // }
+        // setSelectedTags([])
     }
     const addManyTags = async ()=>{
         // let items =[]
@@ -371,7 +377,7 @@ export default function Contacts() {
 
     const toggleSelectAllChannels = (e) => {
         const { checked ,id} = e.target;
-        setSelectedChannel(["all","whatsapp","WABA","wechat","messager"]);
+        setSelectedChannel(["all","Whatsapp","WABA","Wechat","Messager"]);
         if (!checked) {
             setSelectedChannel([]);
         }
@@ -624,7 +630,7 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>
-                                        <div>{data.team.org_id!=""?data.team.org_name:"not Assigned"}</div>
+                                        <div>{data.team.org_id!=0?data.team.org_name:"not Assigned"}</div>
                                         {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>
 
@@ -670,7 +676,7 @@ export default function Contacts() {
                                         >
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>
                                             {/*<li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>*/}
-                                            <li onClick={(e)=>{e.stopPropagation();openConfirmation(data.id);}}> Delete </li>
+                                            <li onClick={(e)=>{e.stopPropagation();openConfirmation(data.customer_id);}}> Delete </li>
                                         </Mf_icon_dropdown_select_btn>
                                     </TableCell>
                                 </TableRow>

@@ -101,6 +101,9 @@ export default function usersFetcher(token){
         return (await instance.fetcher.post(`/addMany` ,data)).statusText
     }
 
+    instance.updateUser = async (data)=>{
+        return (await instance.fetcher.put(`/users` , data )).statusText
+    }
     instance.updateUserTeamIdById = async (user_id , team_id) =>{
         return (await instance.fetcher.put(`user/team` ,{user_id , team_id})).statusText
     }
@@ -111,9 +114,6 @@ export default function usersFetcher(token){
 
     instance.deleteUserTeam = async (team_id)=>{
         return (await instance.fetcher.put(`/delete-user-team/${team_id}` )).statusText
-    }
-    instance.updateUser = async (data)=>{
-        return (await instance.fetcher.put(`/users` , data )).statusText
     }
     instance.updateUserPwd = async (data)=>{
         return (await instance.fetcher.put(`/users/change-password` , data )).statusText
