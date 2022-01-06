@@ -472,6 +472,9 @@ export default function Live_chat() {
         await handleSub(selectedChat)
 
     },[selectedChat])
+    useEffect(()=>{
+      console.log(  chatroomMsg,"chatroom msg data")
+    },)
 
 
     useEffect(()=>{
@@ -747,7 +750,11 @@ export default function Live_chat() {
                                 <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                                 </div>
                                 {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
-                                {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
+                                {selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(
+                                    
+                                    // chatroomMsg.map
+
+                                ).toISOString()}/></div>:""}
                         </div>
                            <div className="msg_noti_popup" style={{display:notiOpen?"flex":"none" }}>
                                <div className="popleft">
