@@ -170,30 +170,30 @@ export default function Live_chat() {
 
         const filetype =  messageInstance.mediaTypeHandler(file)
         const path =URL.createObjectURL(file)
-        console.log("FileType~~~",path)
+        console.log("FileType~~~",filetype)
         // console.log("result : " , result)
         setIsMedia(true)
         if(filetype.includes("image")){
             setFilePrevier({name:file.name,size:file.size,type:"image",path:path})
-            const result = await mediaInstance.putImg(file)
+            const result = await mediaInstance.putImg(file , filetype)
            setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
         }
         if(filetype.includes("video")){
             setFilePrevier({name:file.name,size:file.size,type:"video",path:path})
-            const result = await mediaInstance.putVideo(file)
+            const result = await mediaInstance.putVideo(file , filetype)
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "VIDEO"})
         }
         if(filetype.includes("audio")){
             setFilePrevier({name:file.name,size:file.size,type:"AUDIO",path:path})
-            const result = await mediaInstance.putVoice(file)
+            const result = await mediaInstance.putVoice(file , filetype)
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "AUDIO"})
         }
         if(filetype.includes("document")){
             setFilePrevier({name:file.name,size:file.size,type:"document",path:path})
-            const result = await mediaInstance.putDoc(file)
+            const result = await mediaInstance.putDoc(file , filetype)
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "document"})
         }
@@ -379,7 +379,7 @@ export default function Live_chat() {
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
-        const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"text",channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
+        const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
         const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})

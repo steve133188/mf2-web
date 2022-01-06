@@ -13,34 +13,34 @@ function mediaHelper(){
         return mediaKey
     }
 
-    this.putSticker = async (file)=>{
+    this.putSticker = async (file , filetype)=>{
         console.log(file,"sticker is on the way")
-        const result = await Storage.put(`stickers/${file.name}` , file )
+        const result = await Storage.put(`stickers/${file.name}` , file , {contentType: filetype})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putVoice = async (file)=>{
-        const result = await Storage.put(`voice/${file.name}` , file )
+    this.putVoice = async (file , filetype)=>{
+        const result = await Storage.put(`voice/${file.name}` , file, {contentType: filetype} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putImg = async (file)=>{
-        const result = await Storage.put(`image/${file.name}` , file )
+    this.putImg = async (file , filetype)=>{
+        const result = await Storage.put(`image/${file.name}` , file, {contentType: filetype} )
         console.log("result : " , result)
         return this.objUrl(result.key)
 
     }
 
-    this.putVideo = async (file)=>{
-        const result = await Storage.put(`video/${file.name}` , file )
+    this.putVideo = async (file , filetype)=>{
+        const result = await Storage.put(`video/${file.name}` , file , {contentType: filetype})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putDoc = async (file)=>{
-        const result = await Storage.put(`documents/${file.name}` , file )
+    this.putDoc = async (file , filetype)=>{
+        const result = await Storage.put(`documents/${file.name}` , file, {contentType: filetype} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
