@@ -34,7 +34,7 @@ export default function Layout({children}) {
             </div>
             <div className={"notification-container"}>
                 {/* eslint-disable-next-line react/jsx-key */}
-                {notificationList.map(li=> <NotificationAlert  notification={li}  setNotificationList={setNotificationList}/>)}
+                {notificationList.map((li,i)=> <NotificationAlert  key={i} notification={li}  setNotificationList={setNotificationList}/>)}
 
             </div>
         </div>

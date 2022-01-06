@@ -56,9 +56,9 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clea
         toggle();
         for (let i=0;i<selectedUsers.length;i++){
             const user_phone = selectedUsers[i]
-            const team_id = selectedTeam.id
+            const team_id = selectedTeam.org_id
             console.log(user_phone,team_id)
-            const res = await userInstance.updateUserTeamIdByUserPhone(parseInt(user_phone) ,parseInt(team_id))
+            const res = await userInstance.updateUserTeamIdById(parseInt(user_phone) ,parseInt(team_id))
             console.log(res)
             clear()
             reload()
@@ -79,9 +79,9 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clea
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                        <MenuItem value={null}>Null</MenuItem>
-                        {team.map((d)=>{
-                            return (<MenuItem key={d.id} value={d}>{d.name}</MenuItem>)
+                        <MenuItem value=" ">Not Assigned</MenuItem>
+                        {team.map((d,i)=>{
+                            return (<MenuItem key={i} value={d}>{d.name}</MenuItem>)
                         })}
                     </Select>
                 </div>
