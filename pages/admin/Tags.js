@@ -65,9 +65,9 @@ export default function Tags() {
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        setSelectedContacts([...selectedContacts, id]);
+        setSelectedContacts([...selectedContacts, parseInt( id)]);
         if (!checked) {
-            setSelectedContacts(selectedContacts.filter(item => item !== id));
+            setSelectedContacts(selectedContacts.filter(item => item !==parseInt( id) ));
         }
         console.log(selectedContacts)
     };
@@ -178,8 +178,8 @@ export default function Tags() {
                                         hover
                                         role="checkbox"
                                         name={index}
-                                        checked={selectedContacts.includes(data.tag_id)}
-                                        onClick={isSelectRow?toggleSelect:null}
+                                        // checked={selectedContacts.includes(data.tag_id)}
+                                        // onClick={isSelectRow?toggleSelect:null}
                                     >
                                         <TableCell style={{
                                             width: "30px",
@@ -198,11 +198,14 @@ export default function Tags() {
                                         </TableCell>
 
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{(new Date(data.create_at*1000)).toLocaleDateString('en-US')}</span>
+                                            <span >{(new Date(data.create_at*1000)).toLocaleDateString('en-US',{ day: 'numeric'})} </span>
+                                            <span >{(new Date(data.create_at*1000)).toLocaleDateString('en-US',{ month: 'long',year:'numeric'})}</span>
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span >{(new Date(data.update_at*1000)).toLocaleDateString('en-US')}</span>
+                                            <span >{(new Date(data.create_at*1000)).toLocaleDateString('en-US',{ day: 'numeric'})} </span>
+                                            <span >{(new Date(data.create_at*1000)).toLocaleDateString('en-US',{ month: 'long',year:'numeric'})}</span>
+
 
                                         </TableCell>
 

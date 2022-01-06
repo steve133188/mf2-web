@@ -29,6 +29,7 @@ import { getURL } from "next/dist/shared/lib/utils";
 export default function Live_chat() {
 
     const replyTemplateList = [
+            {id:0,name:"Whatspp Template",set:[{name:"temp1",content:"temp1"}]},
             {id:1,name:"Greating",set:[{name:"Morning",content:"Morning"}]},
             {id:4,name:"Questioning",set:[{name:"What can i help you?",content:"What can i help you?"},{name:"Follow up",content:"Follow up"}]},
             {id:2,name:"Merry Chrismax",set:[{name:"Merry Christmas! I hope you receive one blessing after another this coming year!",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"}

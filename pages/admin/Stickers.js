@@ -194,33 +194,34 @@ export default function Stickers() {
                                             // checked={selectedContacts.includes(data.id)}
                                             // onClick={isSelectRow?toggleSelect:null}
                                         >
+                                                 <td>
                                              <div className="newCheckboxContainer">
                                                     {isSelectRow ? <label className="newCheckboxLabel">
                                                         <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
                                                     </label> : null}
                                                    </div>
-                                                 <td><div key={index}>
+                                                     <div key={index}>
                                                 <div  style={{margin:"3rem 0 0",}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(12)}
                                             </div>
-                                    <div className="sticker-row"
-                                        key={index}
-                                        name={index}
-                                        id={index+data.id} 
-                                        // style={{margin:"1rem 0",}}
-                                        > 
+                                        <div className="sticker-row"
+                                            key={index}
+                                            name={index}
+                                            id={index} 
+                                            // style={{margin:"1rem 0",}}
+                                            > 
 
                                                 {stickerData.filter(s=>{return s.key.includes(data)}).map((item , index)=>{
                                                     console.log(data)
                                                     return(
-                                                            <div key={index}>
-
-
-                                                    
-                                                 <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"2px 4px"}} />
+                                                            <div key={index} style={{position:"relative"}}>
+                                                                <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"2px 4px"}} />
+                                                                {isSelectRow ? <label className="newCheckboxLabel" style={{position:"absolute",left:0,bottom:0}}>
+                                                                    <input type="checkbox" name="checkbox" style={{width:"30px",height:"20px"}} id={item.key} checked={selectedContacts.includes(item.key)} onClick={toggleSelect} />
+                                                                </label> : null}
                                                             </div>
-                                                         )
-                                                    })
-                                                }
+                                                            )
+                                                        })
+                                                    }
                                                 <div className={"add_sticker"} id={data.id} onClick={toggleDropzone}>
                                                     <AddStickerSVG size={80}/>
                                                     <span style={{display: isShowDropzone ? "block" : "none"}}>
@@ -228,7 +229,7 @@ export default function Stickers() {
                                                         <ImportDropzone title={"Import Sticker"} onClose={toggleDropzone} confirm={stickerHandle} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                                                         {/*DND Import Data end */}
                                                     </span>
-                                                    </div> 
+                                                </div> 
                                         </div>
                                 </div>
                                 </td></TableRow>

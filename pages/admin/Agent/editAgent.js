@@ -61,10 +61,10 @@ export default function EditAgent(props){
         console.log("payload",data)
         const res = await userInstance.updateUser(data )
         console.log("res :",res)
-        if(res == 201) router.back()
-        if(res == 200) router.back()
-        router.back()
+        // if(res == 201) router.back()
+        // if(res == 200) router.back()
     }
+    
     const fetchUser = async (id) =>{
         console.log(id)
         const data = await userInstance.getUserById (id)
@@ -248,8 +248,8 @@ export default function EditAgent(props){
             </div>
             <div className={"submit_row"}>
                 <button  onClick={async ()=> {
-                    await submit(agent.phone)
-                }} className={"save_btn"}>Confirm Edit</button>
+                    await submit(agent.phone);router.back()
+                }} className={"save_btn"}>Confirm</button>
                 <button className={"cancel_btn"} onClick={()=>{router.back()}}>Cancel</button>
             </div>
         </div>
