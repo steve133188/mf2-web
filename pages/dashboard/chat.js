@@ -25,7 +25,7 @@ import dashboardFetcher from "../../helpers/dashboardHelpers";
 
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
-    const {contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const [filteredAgents , setFilteredAgents] = useState([])
     const [selectedAgents , setSelectedAgents] = useState([])
@@ -36,8 +36,12 @@ export default function Chat() {
     const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
-    const [dash  , setDash ] = useState({allContacts :[] , activeContacts:[] , totalMessagesSent:[] , totalMessagesReceived:[] , newlyAddedContacts:[] , avgResTime :[] , mostComHr :[] , tags:[]})
+    const [dash  , setDash ] = useState({all_contacts :[] , active_contacts:[] , total_msg_sent:[] , total_msg_rev:[] , new_added_contacts:[] , avg_resp_time :[] ,
+        communication_hours :[] , tags:[],
+        ChannelContact: [{ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0}]})
     const [selectedData,setselectedDate] =useState([])
+
+
 
     const handleClickAway = () => {
         setOpen(false);
@@ -110,22 +114,30 @@ export default function Chat() {
         callback(newData)
     }
     const fetchDefault = async ()=>{
-        let start = new Date.now().getTime() / 1000
-        let end = start - 3600 * 48
-        const data = await dashboardInstance.getDefaultData(start ,end)
+        let end = new window.Date().getTime() / 1000
+        let start = end - 3600 * 48
+        const data = await dashboardInstance.getLiveChatDefaultData(start ,end)
+        return data
+
     }
 
     useEffect(async ()=>{
-                await getTags();
+        if (isLoading ) {
+            let data = await fetchDefault();
+            setDash(data)
+            setIsLoading(!isLoading)
+        }
+        await getTags();
+        console.log("dashboard = ",dash)
 
+    },[dash])
 
-    },[])
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1, number : dash.ChannelContact[0].ChannelTotalContact},
+                {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2, number : dash.ChannelContact[1].ChannelTotalContact},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3, number : dash.ChannelContact[2].ChannelTotalContact},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4, number : dash.ChannelContact[3].ChannelTotalContact}];
     const [channels, setChannelData] = useState([] )
     // useEffect(()=>{
     //     setChannelData(channelData)
@@ -259,8 +271,8 @@ export default function Chat() {
                     <div className={"card_holder1"}>
                     <div style={{margin:"6px 20px auto"}}>Channels</div>
                         <div className={"card_holder"}>
-                        {channelData.map((data,index)=>{
-                            return  <LineChartCard key={index} title={data.name} chart={false} img={true} d={data} channel={data.value} />
+                        {channelData.map((data2,index)=>{
+                            return  <LineChartCard key={index} title={data2.name} chart={false} img={true} d={data2} data = {[data2.number]} channel={data2.value} />
                         })
                         }
                         </div>
@@ -269,23 +281,23 @@ export default function Chat() {
                     {/* <AverageDailyCard/> */}
                 </div>
             </div>
-            <div className="chartGroup">
+            <div className="chartGroup" >
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={[25, 24, 32, 36, 32, 30, 33, 33, 20, 17, 19, 34]} x_cate={[]}  yaxis={"Contacts"} total={"34"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} data={[12, 17, 19, 22, 24, 20, 18, 26, 20, 17, 15, 19]}  x_cate={[]} yaxis={"Contacts"} total={"19"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={dash.all_contacts} x_cate={dash.yaxis}   xname={"Date"} yaxis={"Contacts"} total={dash.all_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} data={dash.active_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.active_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} data={[23, 38, 30, 17, 26, 18, 34, 13, 19, 39, 22, 14]}  x_cate={[]} yaxis={"Messages"} total={"14"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} data={[17, 18, 17, 13, 40, 17, 36, 33, 25, 34, 36, 15]} x_cate={[]}  yaxis={"Messages"} total={"15"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} data={dash.total_msg_sent}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={dash.total_msg_sent.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} data={dash.total_msg_rev} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={dash.total_msg_rev.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} data={[21, 18, 17, 35, 38, 16, 40, 18, 12, 24, 30, 20]}  x_cate={[]} yaxis={"Contacts"} total={"20"} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} data={dash.new_added_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.new_added_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} data={dash.avg_resp_time} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={"0"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} data={[28, 30, 17, 18, 36, 13, 23, 36, 34, 23, 15, 26]} x_cate={[]}  yaxis={"Hours"} total={"26"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} data={dash.communication_hours} x_cate={[2,4,6,8,10,12,14,16,18,20,22,24]}  xname={"Hours"} yaxis={"Msg Sent"} total={dash.communication_hours.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
                     <div className="dashboardColumn">
                         <div className="tableSet">
                             <div className={"half_session block_session"}>

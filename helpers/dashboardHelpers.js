@@ -14,14 +14,29 @@ export default function dashboardFetcher(token){
         timeout:5000,
         baseURL:"https://mkw892fwn0.execute-api.ap-southeast-1.amazonaws.com/prod/dashboard"
     })
-    instance.getDefaultData = async ( {start , end})=>{
-        return (await instance.fetcher.get(`/` , {params: {start , end}})).data
+    instance.getLiveChatDefaultData = async (start, end)=>{
+        return (await instance.fetcher.get(`/livechat` , {params: {start , end} })).data
     }
 
-    instance.getTimeRangeData = async (start , end)=>{
-        return (await instance.fetcher.get(`/` ,{params: {start , end} })).data
+    instance.getLiveChatTimeRangeData = async (start , end)=>{
+        return (await instance.fetcher.get(`/livechat` ,{params: {start , end} })).data
     }
 
+    instance.getLiveChatTimeChannelData = async (start , end, channel)=>{
+        return (await instance.fetcher.get(`/livechat/channel` ,{params: {start , end, channel} })).data
+    }
+
+    instance.getAgentDefaultData = async (start , end)=>{
+        return (await instance.fetcher.get(`/agent` , {params: {start , end}})).data
+    }
+
+    instance.getAgentRangeData = async (start , end)=>{
+        return (await instance.fetcher.get(`/agent` ,{params: {start , end} })).data
+    }
+
+    instance.getAgentTimeChannelData = async (start , end, channel)=>{
+        return (await instance.fetcher.get(`/agent/channel` ,{params: {start , end, channel} })).data
+    }
 
     return instance
 }

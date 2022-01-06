@@ -80,13 +80,10 @@ export function Card_channel(props) {
 }
 
 export function LineChartCard({children,...props}) {
-    // const {lineColor} = props;
-    useEffect(()=>{
-        console.log(props)
-    },[])
+    const {data} = props;
     const [chartState, setChartState] = useState({
         series1: [{
-            data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
+            data: data
         }],
         options1: {
             chart: {
@@ -123,13 +120,22 @@ export function LineChartCard({children,...props}) {
         },
 
     })
+
+    useEffect(() => {
+        setChartState({...chartState,
+            series1: [{
+                data: data,
+            }]
+        })
+    }, [chartState])
+
     return (
         <div className="lineChartCard">
             <div className={"lineChartCardTitle"}>{props.title}</div>
             <div className={"contentGroup"}>
                 <div className={"dataGroup"}>
-                    <div className={"number"}>50</div>
-                    <div className={"changingPercentagePos"}>+ 25%</div>
+                    <div className={"number"}>{data[data.length -1]}</div>
+                    <div className={"changingPercentagePos"}>{(data[data.length -1] -data[data.length -2]) / data[data.length -1]* 100 + "%"}</div>
                 </div>
                 <Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} hidden={props.chart?!props.chart:true} />
                 <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${props.channel}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
@@ -139,24 +145,23 @@ export function LineChartCard({children,...props}) {
 }
 
 export function ChangingPercentageCard({children,...props}) {
-    const {title, total, changing} = props;
+    const {title, data1, data2} = props;
     let classnamee= "";
+    let changing = (data2 - data1) / data2 * 100 + "%"
 
-    if(changing.charAt(0)=='+') {
-        classnamee = "changingPercentagePos";
-    } else if (changing.charAt(0)=='-') {
+    if(changing.charAt(0)=='-') {
         classnamee = "changingPercentageNeg";
+    } else {
+        classnamee = "changingPercentagePos";
     }
-    else {
-        return null;
-    }
+
     return (
         <div className={"changingPercentageCard"}>
             <div className={"changingPercentageCardTitle"}>
                 {title}
             </div>
             <div className={"dataGroup"}>
-                <div className={"number"}>{total}</div>
+                <div className={"number"}>{data2}</div>
                 <div className={classnamee}>
                     {changing}
                 </div>
@@ -206,12 +211,14 @@ export function BigChangingPercentageCard({children,...props}) {
     )
 }
 
-export function AverageDailyCard() {
+export function AverageDailyCard({children,...props}) {
+    const {data} = props;
+    let total = data / 60+ " Mins"
     return (
         <div className="lineChartCard">
             <div className={"lineChartCardTitle"}>Average Daily Online Time</div>
             <div className={"dataGroup"}>
-                <div className={"onlineTime"}>09:20:11</div>
+                <div className={"onlineTime"}>{total}</div>
 
             </div>
         </div>
