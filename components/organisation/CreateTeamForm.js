@@ -38,8 +38,7 @@ export default function CreateTeamForm({show, toggle}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
     const [rootDivision , setRootDivision] = useState([])
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
-
+    const {orgInstance} = useContext(GlobalContext)
     const handleChange = e=>{
         setName(e.target.value)
     }
@@ -49,11 +48,21 @@ export default function CreateTeamForm({show, toggle}){
     useEffect(    async () => {
         const data = await orgInstance.getAllORG()
         console.log(data,"org data")
-        setRootDivision(data.filter(data=>{return data.type=="team"}))
+        setRootDivision(getTree(data))
     },[]);
-
+    //recursive function to return a tree as an array
+    const getTree =  (data) => {
+        let tree = [];
+        for(let i = 0; i < data.length; i++){
+            if(data[i].type=="division"){
+                tree.push(data[i]);
+            if(data[i].children!=null){tree=tree.concat( getTree(data[i].children)); }
+            }
+        }
+        return tree;
+    };
     const submit = async ()=>{
-        const status = await orgInstance.createOrg({type:"team" ,name,parent_id:parent})
+        const status = await orgInstance.createOrg({type:"team" ,name,parent_id:parent.org_id})
         console.log(status,"create team")
         console.log(parent,",parent_id:parent")
         toggle()
@@ -70,13 +79,14 @@ export default function CreateTeamForm({show, toggle}){
                     <Select
                         sx={style}
                         value={parent}
+                        id="divisionSelection"
                         onChange={handleSelect}
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                        <MenuItem value={null}>Null</MenuItem>
+                        <MenuItem value="">Null</MenuItem>
                         {rootDivision.map((d)=>{
-                            return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
+                            return (<MenuItem key={d.org_id}  value={d}>{d.name}</MenuItem>)
                         })}
                     </Select>
                 </div>

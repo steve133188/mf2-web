@@ -78,17 +78,18 @@ export default function Organization() {
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
-    const [editName,setEditNameActive] = useState(false)
+    const [isEditNameActive,setisEditNameActive] = useState(false)
     const [editedName,setEditedName] = useState("")
-    const nameEditConfirm=(e)=>{
+    const handleEditName=(e)=>{
 
         if(editedName){
             // fetch change name
             console.log(editedName)
             setEditedName("")
         }
-        setEditNameActive(!editName)
+        setisEditNameActive(!isEditNameActive)
     }
+
     //filtered Data
     let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
@@ -119,6 +120,7 @@ export default function Organization() {
         set_org(data)
     }
     useEffect(    async () => {
+        set_curr_org({}) 
         if(user.token)
         {
             await fetchRootORG()
@@ -141,6 +143,7 @@ export default function Organization() {
     const toggleSelect = e => {
         const { checked ,value} = e.target;
         setSelectedUsers([...selectedUsers, value]);
+        console.log("selectedUsers",selectedUsers)
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== value));
         }
@@ -152,6 +155,8 @@ export default function Organization() {
         if (selectAll) {
             setSelectedUsers([]);
         }
+        console.log("selectedUsers",selectedUsers)
+
     };
     const handleSelectDelete =e=>{
         setDeleteOrg(e.target.value)
@@ -214,6 +219,12 @@ export default function Organization() {
     const displayTeam=(name)=>{
         set_curr_org(name)
         console.log(name,"show   team name")
+    }
+    const handleChangeName=e=>{
+        setEditedName(e.target.value)
+        console.log(e.target.value,"edited name")
+        orgInstance.updateOrgName(curr_org.org_id,e.target.value)
+        
     }
     return (
         <div className="organization-layout">
@@ -278,12 +289,15 @@ export default function Organization() {
                     <SelectSession >
                     {/* btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)} */}
                         <div className={"team_label"}>
-                            {editName?<input type="text" className="nameEdit" onChange={e=>setEditedName(e.target.value)} placeholder={`edit... ${curr_org.name}`}></input>:(curr_org.name || "All")} {"(" +currentContacts.length+")"}
+                            {isEditNameActive?<input type="text" className="nameEdit" onChange={handleChangeName} placeholder={`edit... ${curr_org.name}`}></input>:(curr_org.name || "All")} {"(" +currentContacts.length+")"}
                         </div>
-                        <div onClick={nameEditConfirm} style={curr_org.name&&curr_org.name!="Not Assigned"?null:{visibility:"hidden"}} >
-
-                        <EditPenSVG size={18} />
-                        </div>
+                       
+                                <div onClick={handleEditName} style={curr_org.name&&curr_org.name!="Not Assigned"?null:{visibility:"hidden"}} >
+                                    <EditPenSVG size={18} />
+                                </div>
+                            
+                        
+                        
                     </SelectSession>
                 <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
                     <Table
@@ -316,7 +330,7 @@ export default function Organization() {
                                         // tabIndex={-1}
                                         name={index}
                                         sx={{height:"56px"}}
-                                        checked={selectedUsers.includes(data.username)}
+                                        checked={selectedUsers.includes(data.phone)}
                                         onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
@@ -326,7 +340,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.username} value={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.username} value={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone.toString())} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>

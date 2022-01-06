@@ -69,10 +69,8 @@ export default function ContantDetail({ data, ...props }) {
 
     const toggleSelectTags = async e => {
         const { checked, id } = e.target;
-        console.log(typeof(id))
         const tag = await tagInstance.getTagById(parseInt(id))
         // get all selectedtags.tag_id
-        console.log(tag,"tag tag")
         setSelectedTags([...selectedTags, tag]);
         // const uploadTags = {
         //     tag_id: tag.tag_id,

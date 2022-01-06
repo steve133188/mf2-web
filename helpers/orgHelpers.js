@@ -40,8 +40,8 @@ export default function orgFetcher(token){
         return (await instance.fetcher.post(`/org` ,data)).status
     }
 
-    instance.updateOrgName = async (org_id , new_name)=>{
-        return (await instance.fetcher.put(`/org` ,{org_id , new_name})).status
+    instance.updateOrgName = async (org_id , name)=>{
+        return (await instance.fetcher.put(`/org` ,{org_id , name})).status
     }
 
     instance.deleteOrgById = async (org_id)=>{
