@@ -101,8 +101,8 @@ export default function usersFetcher(token){
         return (await instance.fetcher.post(`/addMany` ,data)).statusText
     }
 
-    instance.updateUserTeamIdByUserPhone = async (user_phone , team_id) =>{
-        return (await instance.fetcher.put(`/users/team` ,{user_phone , team_id})).statusText
+    instance.updateUserTeamIdById = async (user_id , team_id) =>{
+        return (await instance.fetcher.put(`user/team` ,{user_id , team_id})).statusText
     }
 
     instance.updateUserTeam = async (old_id , new_id) =>{
