@@ -11,7 +11,7 @@ import Pagination from '@mui/material/Pagination';
 import searchFilter from "../../helpers/searchFilter";
 import {InnerSidebar} from "../../components/InnerSidebar";
 import {GlobalContext} from "../../context/GlobalContext";
-import { AddStickerSVG } from "../../public/admin/adminSVG";
+import { AddStickerSVG, DeleteSVG } from "../../public/admin/adminSVG";
 import { ImportDropzone } from "../../components/ImportContact";
 
 
@@ -92,9 +92,12 @@ export default function Stickers() {
         console.log(selectedContacts)
     };
     const toggleSelectAll = e => {
-        setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.id));
-        if (selectAll) {
+        // setSelectAll(!selectAll);
+        const {checked,id} = e.target
+        console.log(id)
+        setSelectedContacts(id);
+        // setSelectedContacts(currentContacts.map(c => c.id));
+        if (!checked) {
             setSelectedContacts([]);
         }
         console.log(selectedContacts)
@@ -148,8 +151,8 @@ export default function Stickers() {
                         </div>
                     </div>
                     <SelectSession
-                        btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                            {/*<div className={"select_session_btn"}><div svg={deleteSVG} onClick={}>{deleteSVG}</div> </div>*/}
+                        btn={isSelectRow?(<div className={"select_session_btn_group"}>     
+                        <div className={"select_session_btn"}><div ><DeleteSVG/></div> </div>
                         </div>):null}
                     >Sticker
                     </SelectSession>
@@ -189,19 +192,22 @@ export default function Stickers() {
                                             hover
                                             role="checkbox"
                                             name={index}
-                                            sx={{margin:"1rem",}}
+                                            sx={{margin:"0rem",}}
                                             
                                             // checked={selectedContacts.includes(data.id)}
                                             // onClick={isSelectRow?toggleSelect:null}
                                         >
                                                  <td>
-                                             <div className="newCheckboxContainer">
-                                                    {isSelectRow ? <label className="newCheckboxLabel">
-                                                        <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
-                                                    </label> : null}
-                                                   </div>
                                                      <div key={index}>
-                                                <div  style={{margin:"3rem 0 0",}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(12)}
+                                                         <div style={{display:"flex",alignItems:"center",margin:"3rem 0 0",}}>
+
+                                                        <div className="newCheckboxContainer">
+                                                            {isSelectRow ? <label className="newCheckboxLabel">
+                                                                <input type="checkbox" name="checkbox" id={data.value} checked={selectedContacts.includes(data.value)} onClick={toggleSelectAll} />
+                                                            </label> : null}
+                                                        </div>
+                                                        <div  style={{margin:"1rem "}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(12)}
+                                                    </div>
                                             </div>
                                         <div className="sticker-row"
                                             key={index}

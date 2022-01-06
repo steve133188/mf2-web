@@ -194,7 +194,7 @@ export function ImportDropzone({children,...props}) {
     }
 
 //     [Log]  (2)
-// {first_name: "Timtttabv", last_name: "Test", phone: "85244444444", email: "aaaa@aaa.com", birthday: "15/12/2021", ¡K}
+// {first_name: "Timtttabv", last_name: "Test", phone: "85244444444", email: "aaaa@aaa.com", birthday: "15/12/2021", ï¿½K}
 // "-data"
 
     const activeStyle = {
@@ -231,7 +231,7 @@ export function ImportDropzone({children,...props}) {
                     </div>
                 </div>
                 <div {...getRootProps({style})}>
-                    <input {...getInputProps()} onChange={readUploadFile} ondrop={readUploadFile}  />
+                    <input {...getInputProps()} onChange={readUploadFile} onDrop={readUploadFile}  />
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="60" fill="#2198FA"
                          className="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                         <path
