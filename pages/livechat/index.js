@@ -94,7 +94,8 @@ export default function Live_chat() {
     const [pinChat , setPinChat] = useState([])
 
     const getOwnPinChatList = async ()=>{
-        const res=API.graphql(graphqlOperation( listMF2TCOCHATROOMS , {filter:{is_pin:{eq:true} , user_id:{eq:parseInt(user.user.user_id)}}}))
+        let user_id= parseInt(user.user.user_id.toString().slice(3))
+        const res=API.graphql(graphqlOperation( listMF2TCOCHATROOMS , {filter:{user_id:{eq:user_id} ,is_pin:{eq:true} }}))
             .then(response=>{
                 setPinChat(prev=>response.data.listMF2TCOCHATROOMS.items)
             })
@@ -123,12 +124,14 @@ export default function Live_chat() {
 
     const getChatrooms = async ()=>{
         let user_id= parseInt(user.user.user_id.toString().slice(3))
-        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id}}}))
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
         console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
-        const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
-        .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
-        setChatrooms(myData)
-        setFilteredData(myData)
+        // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
+        // .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
+        await getOwnPinChatList()
+        setChatrooms(result.data.listMF2TCOCHATROOMS.items)
+        setFilteredData(result.data.listMF2TCOCHATROOMS.items)
+
     }
     const getAllChatrooms = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
@@ -149,11 +152,11 @@ export default function Live_chat() {
         setAttachment(imageKeys)
     }
     const [filePreview,setFilePrevier] = useState({name:"",size:0,type:""})
-    useEffect(()=>{
-
-        console.log(filePreview,"filepreview")
-
-    },[filePreview])
+    // useEffect(()=>{
+    //
+    //     console.log(filePreview,"filepreview")
+    //
+    // },[filePreview])
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
@@ -465,21 +468,21 @@ export default function Live_chat() {
     },[selectedChat])
 
 
-    useEffect(()=>{
-        if(typeof (window) !== undefined){
-            if(!chatroomStart){  setChatroomStart(true)}
-            let new1=[]
-            chatrooms&&chatrooms.map(chat=>{
-                const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
-                if(!cc[0]){return new1.push[chat]}
-                return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organization,tags:cc[0].tags,})
-            })
-            const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
-            setFilteredData(new1)
-            setChatroomsInfo(new1)
-        }
-
-    },[])
+    // useEffect(()=>{
+    //     if(typeof (window) !== undefined){
+    //         if(!chatroomStart){  setChatroomStart(true)}
+    //         let new1=[]
+    //         chatrooms&&chatrooms.map(chat=>{
+    //             const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
+    //             if(!cc[0]){return new1.push[chat]}
+    //             return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organization,tags:cc[0].tags,})
+    //         })
+    //         const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
+    //         setFilteredData(new1)
+    //         setChatroomsInfo(new1)
+    //     }
+    //
+    // },[])
 
 
     const advanceFilter =()=>{
@@ -492,9 +495,6 @@ export default function Live_chat() {
             }
             return selectedChannels.includes(data.channel)
         })
-        console.log(selectedChannels)
-        console.log("channelFiltered:",channelFiltered)
-        console.log(selectedUsers)
 
         const agentFiltered = channelFiltered.filter(data=>{
             if(selectedUsers.length==0){
@@ -503,7 +503,6 @@ export default function Live_chat() {
             }
             return  data.agents.some(el=>selectedUsers.includes(el.username))
         })
-        console.log("agent:",agentFiltered)
 
         const tagFiltered = agentFiltered.filter(data=>{
             if(selectedTags.length ==0){
@@ -511,7 +510,6 @@ export default function Live_chat() {
             }
             return data.tags.some(el=>selectedTags.includes(el.tag_name))
         })
-        console.log("tagFiltered:",tagFiltered)
 
 
         const teamFiltered = tagFiltered.filter(data=>{
@@ -522,7 +520,6 @@ export default function Live_chat() {
             return data.team==selectedTeams
             //contacts not yet have team
         })
-        console.log("teamFiltered:",teamFiltered)
 
         const unreadfilter = teamFiltered.filter(data=>{
             if(!unread ){
@@ -538,7 +535,6 @@ export default function Live_chat() {
             return data.agents.length<1
         })
 
-        console.log("unread :",unreadfilter,unassignedfilter,"unread",unread)
         setFilteredData([...unassignedfilter])
     }
     const unreadHandle = () =>{
@@ -547,7 +543,6 @@ export default function Live_chat() {
     }
     const unassigneHandle = () =>{
         setUnassigned(!unassigned)
-        console.log(unassigned)
         advanceFilter();
     }
     const toggleSelectChannels = e => {
@@ -580,9 +575,9 @@ export default function Live_chat() {
         setSelectedTeams([])
             // advanceFilter()
     }
-    const refreshChatrooms =  ()=>{
+    const refreshChatrooms = async ()=>{
         clear()
-        getChatrooms()
+        await getChatrooms()
     }
     const updateChatroomPin = async (input)=>{await chatHelper.toggleIsPin(input ,(newData)=>{
         const oldFilter = filteredData.filter(d=> {
@@ -614,11 +609,6 @@ export default function Live_chat() {
             if(result.length>0) {document.getElementById(result[result.length-1].timestamp).scrollIntoView({behavior: "smooth"});}
             if(result.length>1) setResultMoreThanOne(true)
         }
-
-        // refs[result[result.length-1].timestamp].current.scrollIntoView({
-        //     behavior: 'smooth',
-        //     block: 'start',
-        //   });
 
     }
 
@@ -685,8 +675,10 @@ export default function Live_chat() {
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}
-                             agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} />
+                             {/*<ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}*/}
+                             {/*agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} /> */}
+                            <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}
+                             agents={toggleSelectUsers}  />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} setFilteredData={setFilteredData}/>
@@ -708,7 +700,7 @@ export default function Live_chat() {
                 </div>
             </div>
             <div className={"chatroom"}>
-                {selectedChat.room_id&&
+                {selectedChat.room_id?
                     <>
                         <div className={"chatroom_top"}>
                             <div className={"chatroom_top_info"}>
@@ -826,7 +818,7 @@ export default function Live_chat() {
                                     <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                                 </div>
                             </div>
-                        </div></>}
+                        </div></> : <div className={"center_text"}> Select a conversation </div>}
 
             </div>
             <ChatroomInfo data={selectedChat}/>

@@ -512,6 +512,18 @@
     opacity: 1;
     height: 100%;
     padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+    .center_text{
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      align-self: center;
+      font: normal normal bold 16px/22px Manrope;
+      letter-spacing: 0px;
+      color: #2198FA;
+      opacity: 1;
+      margin:auto 0;
+      transform: translateY(50%);
+    }
     .chatroom_top{
       display: flex;
       flex-direction: row;
@@ -555,6 +567,7 @@
         }
 
       }
+
      .chatroom_top_btn_gp{
        display: flex;
        flex-direction: row;
