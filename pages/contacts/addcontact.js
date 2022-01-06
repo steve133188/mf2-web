@@ -19,17 +19,17 @@ import Mf_circle_btn from "../../components/mf_circle_btn";
 
 export default function AddContact() {
     const [newContact , setNewContact] = useState({
+        address:"",
+        email:"",
         first_name:"",
         last_name:"",
-        name:"",
-        phone:"",
-        email:"",
         birthday:"",
-        gender:"",
-        address:"",
         country:"",
+        gender:"",
+        country_code:852,
         tags:[],
         Assignee:[]
+        address:"",
     })
     const [users ,setUsers] =useState([])
     const [tags ,setTags] =useState([])
@@ -114,8 +114,9 @@ export default function AddContact() {
         const phone = parseInt(newContact.phone)
         const tags_id = selectedTags.map(t=>t.tag_id)
         const agents_id = selectedUsers.map(a => a.user_id )
+        const country_code = parseInt(newContact.country_code)
         console.log(selectedUsers,"tagsss",agents_id)
-         const res = await contactInstance.createContact({...newContact , customer_name: name , phone:phone, tags_id , agents_id})
+         const res = await contactInstance.createContact({...newContact , customer_name: name , phone:phone,country_code, tags_id , agents_id})
         console.log(res)
         router.back()
     }
@@ -125,14 +126,14 @@ export default function AddContact() {
         router.back()
     }
     return (
-            <div className={"addContactSession"} style={{display:"flex"}}>
-            <div className="addContactSession_info_ss addContactSession_ss">
+            <div className={"addContactSession"} style={{display:"flex",alignItems:"flex-start"}}>
+            <div className="addContactSession_info_ss addContactSession_ss" style={{display:"flex",justifyContent:"flex-start"}} >
                 {/* new form */}
                 <form onSubmit={handleSubmit} >
 
 
 
-                <div className={"addContactSession_info_ss"} >
+                <div className={"addContactSession_info_ss"}  >
                         <div className="ss_row addContactSession_title">
 
                             New Contact
@@ -143,7 +144,7 @@ export default function AddContact() {
                             <MF_Required_Input title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
 
                         </div>
-                    <div className={"ss_row"}>
+                    <div className={"ss_row"}>  <MF_Input name={"country_code"} value={newContact.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
                         <MF_Required_Input title="Phone*" name={"phone"} type={"number"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} pattern={"^852[0-9]{8}$"} onChange={handleChange}/>
                         <MF_Input title="Email" name={"email"} value={newContact.email} pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"} onChange={handleChange}/>
                     </div>
@@ -163,8 +164,8 @@ export default function AddContact() {
 
 
             </div>
-                <div className={"addContactSession_ss  addContactSession_tags_ss"}>
-                            <div className={"addContactSession_title"}>Tags & Assignee</div>
+                <div className={"addContactSession_ss  addContactSession_tags_ss"} style={{display:"flex",justifyContent:"flex-start"}} >
+                            <div className={"addContactSession_title"} style={{marginBottom:"60px",marginTop:"100px"}}>Tags & Assignee</div>
                         <div className={"tagsGroup"} style={{marginBottom:"30px"}} >
                             <p>Tags</p>
                             <div className={"tagsGroup"}  style={{width:"100%",height:"30px"}} >

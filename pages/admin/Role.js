@@ -209,6 +209,7 @@ export default function Role() {
                                     </TableCell>
 
                                     <TableCell align="left">
+                                        <span >{data.total}</span>
 
                                     </TableCell>
 

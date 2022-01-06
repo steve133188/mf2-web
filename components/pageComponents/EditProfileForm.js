@@ -113,12 +113,19 @@ export default function EditProfileForm({data , toggle}){
     async function handleSubmit (e){
         // e.preventDefault()
     console.log(editContact)
+    
+    const tagslist=selectedTags.map(e=>e.tag_id)
+    const userslist=selectedUsers.map(e=>e.user_id)
+    const phone = parseInt(editContact.phone)
+    const country_code = parseInt(editContact.country_code)
         const name =` ${editContact.first_name} ${editContact.last_name}`
-        const data = {...editContact,name , tags:selectedTags , agents:selectedUsers}
+        const data = {...editContact,customer_name:name ,phone:phone,country_code,  tags_id:tagslist , agents_id:userslist}
         console.log(data,"edit data")
         const res = await contactInstance.updateContact (data)
             console.log(res)
 
+            
+            if(res == 200 ){toggle()}
     }
     function cancel(e){
         e.preventDefault()
@@ -138,6 +145,7 @@ export default function EditProfileForm({data , toggle}){
 
                     </div>
                     <div className={"ss_row"}>
+                    <MF_Input name={"country_code"} value={editContact.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
                         <MF_Input title="Phone*" name={"phone"} value={editContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
                         <MF_Input title="Email" name={"email"} value={editContact.email} onChange={handleChange}/>
                     </div>

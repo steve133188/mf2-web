@@ -66,7 +66,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}</span>
+                <span className={"info_content"}>{`+${data.country_code} ${data.phone}`}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
@@ -86,7 +86,7 @@ export default function ProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Created Date</span>
-                <span className={"info_content"}>{data.created_at}</span>
+                <span className={"info_content"}>{new Date(data.created_at).toLocaleDateString('en-US')}</span>
             </div>
             {/* <div className={"info_row"}>
                 <span className={"info_label"}>Contact Owner</span>

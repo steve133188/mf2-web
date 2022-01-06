@@ -34,6 +34,7 @@ const style ={
     width:"100%",
     height:"2rem"
 }
+
 const AuthList = [  {title:"Dashboard",name:"dashboard"},
                     {title:"Contact",name:"contact"},
                     {title:"Boardcast",name:"broadcast"},
@@ -65,14 +66,10 @@ export default function CreateRole({show, toggle ,reload}){
         product_catalogue: false,
         organization: false,
         admin: false,
-        Whatsapp: false,
-        WhatsappB: false,
-        Wechat: false,
-        Messager: false,
-
-        
     })
-    const {contactInstance , userInstance ,adminInstance ,roleInstance, orgInstance, user} = useContext(GlobalContext)
+    const [authChannel,setAuthChannel] = useState([])
+
+    const {roleInstance,} = useContext(GlobalContext)
 
     const handleSelect =e=>{
 
@@ -90,13 +87,27 @@ export default function CreateRole({show, toggle ,reload}){
             })
         }
     }
+    const handleChannelSelect =e=>{
+
+        const {name ,value ,checked,id} = e.target
+        console.log(id)
+
+        setAuthChannel([
+            ...authChannel,id])
+        if(!checked){
+        
+            setAuthChannel(
+                authChannel.filter(item => {return item != id})
+            )
+    }
+}
     const handleChange=e =>{
         setRoleName(e.target.value)
         console.log(roleName)
     }
     const submit = async ()=>{
         console.log({name:roleName,auth: {...authority}})
-        const res = await roleInstance.createRole({role_name:roleName,authority: authority})
+        const res = await roleInstance.createRole({role_name:roleName,authority: authority,role_channel:authChannel})
         console.log(res)
         reload()
         toggle()
@@ -108,6 +119,7 @@ export default function CreateRole({show, toggle ,reload}){
         if(roleName.length<=0){Alert("Please fill in name.")}
 
     },[submitCheck])
+    
     return(
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"}>
@@ -147,7 +159,7 @@ export default function CreateRole({show, toggle ,reload}){
                         {channelData.map((item,index)=>{return  <div key={"channel"+index} className={"select_item"} style={{width:"fit-content"}}> 
                             <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox"  name={item.value} value={authority[item.value]} checked={authority[item.value]} onChange={handleSelect} />
+                                        <input type="checkbox" id={item.value} name={item.value} value={item.value} checked={authChannel.includes(item.value)} onChange={handleChannelSelect} />
                                     </label>
                                     <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>
                                     <span>{item.name}</span>
