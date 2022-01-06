@@ -36,6 +36,7 @@ export default function AddAgent(){
             team_id:selectedTeam.org_id,
             role_name:selectedRole.role_name,
             role_id:selectedRole.role_id,
+            // country_code:userCredential.country_code,
         }
         console.log("payload",data)
         const res = await userInstance.createUser(data )
@@ -93,7 +94,8 @@ export default function AddAgent(){
                     <MF_Input name={"username"}  value={userCredential.username} onChange={handleChange} title="Username"/>
                     <MF_Input name={"email"} value={userCredential.email} onChange={handleChange} title="Email"/>
                 </div>
-                <div className="form_row">
+                <div className="form_row"> 
+                    <MF_Input name={"country_code"} value={userCredential.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
                     <MF_Input name={"phone"} value={userCredential.phone} onChange={handleChange} title="Phone"/>
                 </div>
             </div>

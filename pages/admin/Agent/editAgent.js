@@ -5,6 +5,8 @@ import {GlobalContext} from "../../../context/GlobalContext";
 import {useRouter} from "next/router";
 import MF_Select from "../../../components/MF_Select";
 import * as React from "react";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 import FilterDropDown from "../../../components/broadcast/filterDropDown";
 
 export default function EditAgent(props){
@@ -15,6 +17,7 @@ export default function EditAgent(props){
         email:"",
         phone:"",
         password:"",
+        country_code:0,
         confirm_password:"",
         organization:'',
         role_name:"",
@@ -33,13 +36,15 @@ export default function EditAgent(props){
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
     const submit = async (phone)=>{
-        const data = {
+        const data = {...userCredential,
             username:userCredential.username,
             email:userCredential.email,
             phone:userCredential.phone,
             password:userCredential.password,
             team_id:selectedTeam.org_id,
-            role_name:selectedRole.role_name
+            role_name:selectedRole.role_name,
+            role_id:selectedRole.role_id,
+            country_code:userCredential.country_code,
         }
         console.log("payload",data)
         const res = await userInstance.updateUser(data )
@@ -56,17 +61,17 @@ export default function EditAgent(props){
 
     }
     useEffect(async()=>{
-        setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,phone:agent.phone,role_name:agent.role_name??" ",team_id:agent.team_id??" "})
-    //   setSelectedRole()
-    //     setSelectedTeam()
+        setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,country_code:agent.country_code,phone:agent.phone,role_name:agent.role_name??" ",team_id:agent.team_id??" "})
+      
     },[agent])
     const fetchRoles = async () =>{
         const data = await roleInstance.getAllRoles()
         setRoles(data)
-        console.log(data)
+        console.log(data,"role")
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
+        console.log(data,"team")
         setTeams(data)
         setFilteredTeams(data)
     }
@@ -93,6 +98,8 @@ export default function EditAgent(props){
             await fetchRoles()
             await fetchUser (props.data)
             console.log(agent)
+            setSelectedRole({role_name:agent.role_name,role_id:agent.role_id})
+            // setSelectedTeam(agent.team)
         }
     },[])
     return(
@@ -119,6 +126,7 @@ export default function EditAgent(props){
                     <MF_Input name={"email"} value={userCredential.email} onChange={handleChange} title="Email" placeholder={agent.email}/>
                 </div>
                 <div className="form_row">
+                    <MF_Input name={"country_code"} value={userCredential.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
                     <MF_Input name={"phone"} value={userCredential.phone} onChange={handleChange} title="Phone" placeholder={agent.phone} />
                 </div>
             </div>
@@ -162,7 +170,7 @@ export default function EditAgent(props){
                     <span className={"session_label"}>Chat Access Right</span>
                     <div className={"chat_access_right_form"}>
                         <div className={"chat_access_right_form_row"}>
-                        <img src={`/channel_SVG/whatsapp.svg`} ></img>
+                        <img src={`/channel_SVG/Whatsapp.svg`} ></img>
                             <div className={"channel_name"}>Whatsapp</div>
                             <div className={"access_column"}>
                             <div className={"access_option"}>
@@ -185,7 +193,7 @@ export default function EditAgent(props){
                         </div>
                         <div className={"chat_access_right_form_row"}>
 
-                        <img src={`/channel_SVG/whatsappb.svg`} ></img>
+                        <img src={`/channel_SVG/WABA.svg`} ></img>
                             <div className={"channel_name"}>Whatsapp Business API</div>
                             <div className={"access_column"}>
                                 <div className={"access_option"}>
@@ -208,7 +216,7 @@ export default function EditAgent(props){
                         </div>
                         <div className={"chat_access_right_form_row"}>
 
-                        <img src={`/channel_SVG/messager.svg`} ></img>
+                        <img src={`/channel_SVG/Messager.svg`} ></img>
                             <div className={"channel_name"}>Messager</div>
                             <div className={"access_column"}>
                                 <div className={"access_option"}>
@@ -231,7 +239,7 @@ export default function EditAgent(props){
                         </div>
                         <div className={"chat_access_right_form_row"}>
 
-                        <img src={`/channel_SVG/wechat.svg`} ></img>
+                        <img src={`/channel_SVG/Wechat.svg`} ></img>
                             <div className={"channel_name"}>WeChat</div>
                             <div className={"access_column"}>
                                 <div className={"access_option"}>
