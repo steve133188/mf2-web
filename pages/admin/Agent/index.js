@@ -28,6 +28,7 @@ import * as React from "react";
 import EditAgent from "./editAgent";
 import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
 import MF_Modal from "../../../components/MF_Modal";
+import UserProfileGrid from "../../../components/pageComponents/UserProfile";
 
 export default function Index() {
 
@@ -42,6 +43,7 @@ export default function Index() {
     const [filter , setFilter] = useState("")
 
     const [users, setUsers] = useState([]);
+    const [useUser , setUseUser] = useState()
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [isDelete , setIsDelete] = useState(false)
@@ -70,7 +72,6 @@ export default function Index() {
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
-        console.log(data,"teams info")
         setTeams(data)
     }
     useEffect(    async () => {
@@ -78,7 +79,6 @@ export default function Index() {
             if(!selectedTeam.name){
                 await fetchUsers()
             }else{
-                console.log("selectedTeam",selectedTeam)
                 await fetchTeamUsers(selectedTeam.id)
             }
             await getTeams()
@@ -109,34 +109,41 @@ export default function Index() {
         if (selectedUsers.length!=1){
             return
         }
-        console.log(selectedUsers,"0000")
 
     }
     useEffect(()=>{
         console.log(selectedUsers)
     },[selectedUsers])
-    const [deleteRolename,setDeleteRole] = useState("")
-    const toggleDelete = (id)=>{
+    const [deleteRolename,setDeleteRole] = useState({})
+    const toggleDelete = (id,name)=>{
+
+
         setIsDelete(!isDelete)
-        setDeleteRole(id)
+        setDeleteRole({id,name})
     }
 
     const submitDelete = () =>{
         deleteRole(deleteRolename);
         setIsDelete(!isDelete)
     }
-    const deleteRole = async (id)=>{
-        const res = await userInstance.deleteUserById (id)
+    const deleteRole = async (role)=>{
+        const res = await userInstance.deleteUserById (role.id)
         console.log(res,"delete User")
         await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
+
+
         if(!isEditProfileShow) 
         // setUseUser(key);
         if(isEditProfileShow) await fetchUsers();
         setIsEditProfileShow(!isEditProfileShow)
     }
-
+    const toggleProfile = (key) =>{
+        if(!isProfileShow) setUseUser(key)
+        console.log(key,"use users")
+        setIsProfileShow(!isProfileShow)
+    }
 
 
     const default_cols = ['Name','Role','Email' , "Phone" , "No. Of Leads",""]
@@ -146,13 +153,12 @@ export default function Index() {
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <div className="rightContent">  
-                {/*{isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact}/></Profile>):null}*/}
-                <div></div>
+                {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
                 {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile}/></Profile>):null}
                 <MF_Modal show={isDelete} toggle={toggleDelete}>
                 <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}> 
                         <div className={"modal_title"} style={{textAlign:"center"}}>
-                            <span>Delete This {deleteRolename}?</span>
+                            <span>Delete This {deleteRolename.name}?</span>
                         </div> 
                         <div className={"btn_row"}>
                             <button onClick={submitDelete }>Confirm</button>
@@ -191,7 +197,7 @@ export default function Index() {
                 {/* drag and drop end*/}
                 <SelectSession
                     btn={isSelectRow?(<div className={"select_session_btn_group"}>
-                        <div className={"select_session_btn"}><div  onClick={toggleEdit}><EditSVG/> </div></div>
+                        {/* <div className={"select_session_btn"}><div  onClick={toggleEdit}><EditSVG/> </div></div> */}
                         <div className={"select_session_btn"}><div ><DeleteSVG/></div> </div>
                     </div>):null}
                 >
@@ -241,7 +247,7 @@ export default function Index() {
                                         role="checkbox"
                                         name={index}
                                         checked={selectedUsers.includes(data.phone)}
-                                        // onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
+                                        onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
                                             width: "30px",
@@ -273,8 +279,8 @@ export default function Index() {
 
 
                                         <TableCell align="right">
-                                       <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.phone)}><EditSVG /></span>
-                                       <span className={"right_icon_btn"} onClick={()=>toggleDelete(data.user_id)}><DeleteSVG /></span>
+                                       <span className={"right_icon_btn"} onClick={(e)=>{ e.stopPropagation();toggleEdit(data.user_id)}}><EditSVG /></span>
+                                        <span className={"right_icon_btn"} onClick={(e)=>{ e.stopPropagation();toggleDelete(data.user_id,data.username)}}><DeleteSVG /></span>
                                     </TableCell>
                                     </TableRow>
                                 )

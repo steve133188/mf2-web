@@ -16,7 +16,7 @@ export function Input(props) {
 
 export function MF_Input(props) {
     return (
-        <div className="inputField">
+        <div className="inputField" style={props.style||null}>
             <span>{props.title}</span>
             <input type={props.type ?? "text"} name={props.name||null} placeholder={props.placeholder||null} disabled={props.disabled ? "disabled" : ""} onChange={props.onChange} value={props.value} pattern={props.pattern||null }/>
         </div>

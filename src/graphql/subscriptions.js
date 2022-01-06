@@ -50,8 +50,8 @@ export const subscribeToNewMessage = /* GraphQL */ `
   }
 `;
 export const subscribeToChatroomUpdate = /* GraphQL */ `
-  subscription SubscribeToChatroomUpdate($user_id: Int!) {
-    subscribeToChatroomUpdate(user_id: $user_id) {
+  subscription SubscribeToChatroomUpdate($user_id: Int!, $is_pin: Boolean) {
+    subscribeToChatroomUpdate(user_id: $user_id, is_pin: $is_pin) {
       channel
       customer_id
       is_pin

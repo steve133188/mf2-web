@@ -69,6 +69,8 @@ export const GlobalContextProvider = ({children}) =>{
                 tagInstance.token = user.token
                 roleInstance.token = user.token
                 messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
+                // chatHelper.setUserId(user.user_id)
+                // messageInstance.setUserId(user.user_id)
                 // router.push("/dashboard/chat")
                 return response.status
             }).catch(err=>{

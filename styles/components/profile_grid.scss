@@ -258,9 +258,10 @@
       display: flex;
       flex-direction: column;
       // margin: 5px;
-      width: 55%;
+      // width: 80%;
+      max-width: 100%;
       height: 400px;
-      overflow: hidden;
+      overflow: auto;
       }
       .authBox{
         display: flex;

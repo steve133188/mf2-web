@@ -101,7 +101,8 @@ export default function contactsFetcher(token){
     }
 
      instance.deleteContact = async (data)=>{
-        return (await instance.fetcher.delete("/customer/id", {data:data})).status
+         console.log(data,"Deleted")
+        return (await instance.fetcher.delete(`/customer/${data}`, {data:data})).status
     }
      instance.deleteContacts = async (data)=>{
         return (await instance.fetcher.delete("/many", {data:data})).status

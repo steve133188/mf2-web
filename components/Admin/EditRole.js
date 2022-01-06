@@ -45,7 +45,7 @@ const AuthList = [  {title:"Dashboard",name:"dashboard"},
 const channelData = [
     // name:"WhastApp",value:"All",channelID:"All",id:0},
             {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-            {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
+            {name:"WhatsApp Business API",value:"WABA",channelID:"WhatsappB",id:2},
             {name:"Messager",value:"Messager",channelID:"Messager",id:3},
             {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
@@ -64,11 +64,10 @@ export default function EditRole({show, toggle ,reload,role}){
         product_catalogue: false,
         organization: false,
         admin: false,
-        Whatsapp: false,
-        WhatsappB: false,
-        Wechat: false,
-        Messager: false,
+
     })
+    const [authChannel,setAuthChannel] = useState([])
+
     const {roleInstance , user} = useContext(GlobalContext)
    
     // useEffect(()=>{
@@ -81,6 +80,7 @@ export default function EditRole({show, toggle ,reload,role}){
         setAuthority(role.authority)
 
         setRoleName(role.role_name)
+        role.role_channel&&setAuthChannel(role.role_channel)
     },[show])
 
     const handleSelect =e=>{
@@ -99,13 +99,27 @@ export default function EditRole({show, toggle ,reload,role}){
                 [name]:false
             })
         }
-    }
+    }  
+    const handleChannelSelect =e=>{
+        
+        const {name ,value ,checked,id} = e.target
+        console.log(id)
+        
+        setAuthChannel([
+            ...authChannel,id])
+            if(!checked){
+                
+                setAuthChannel(
+                    authChannel.filter(item => {return item != id})
+                    )
+                }
+            }
     const handleChange=e =>{
         setRoleName(e.target.value)
         // console.log(roleName)
     }
     const submit = async ()=>{
-        const data = {role_name:roleName,auth: authority,role_id:role.role_id}
+        const data = {role_name:roleName,authority: authority,role_id:role.role_id,role_channel:authChannel}
         console.log(data,"role to server")
         const res = await roleInstance.updateRole(data)
         console.log(res)
@@ -167,7 +181,7 @@ export default function EditRole({show, toggle ,reload,role}){
                         {channelData.map((item,index)=>{return  <div key={index} className={"select_item"} style={{width:"fit-content"}}> 
                             <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox"  name={item.value} value={authority[item.value]} checked={authority[item.value]} onChange={handleSelect} />
+                                        <input type="checkbox"  id={item.value} name={item.value} value={item.value} checked={authChannel.includes(item.value)}  onChange={handleChannelSelect} />
                                     </label>
                                     <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>
                                    <span >{item.name}</span>

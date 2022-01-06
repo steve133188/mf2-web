@@ -19,6 +19,7 @@ export default function UserProfileGrid({data}){
     const [assingedContacts, setAssingedContacts] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
 
+
     console.log(data)
     useEffect(async()=>{
              await  fetchContacts()
@@ -35,10 +36,14 @@ export default function UserProfileGrid({data}){
         console.log(data)
         console.log(data.authority)
         console.log(contactsdata,"contactssss")
-        const assigned = contactsdata.filter(c=>c.agents.includes(data.username))
+        const assigned = contactsdata.filter(c=>{return c.agents.some(el=>el.username ==data.username)})
         console.log(assigned,"contactssss")
-
         setAssingedContacts(assigned)
+
+        const date = new Date(data.last_login)
+        console.log(data.last_login)
+        console.log(Date.now())
+        console.log(date.toUTCString())
         // setFilteredData(data)
     }
     const toggleEdit = ()=>{
@@ -67,12 +72,14 @@ export default function UserProfileGrid({data}){
             <div className={"info_session"}>
             <div className={"info_row"}>
                 <span className={"info_label"}>Organization</span>
-                <span className={"info_content"}>{data.team.id}</span>
+                <span className={"info_content"}>{data.team.name}</span>
                 {/* team.id > */}
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{ `+${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)}`}</span>
+                <span className={"info_content"}>{ data.phone}
+                {/* +${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)} */}
+                </span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
@@ -80,7 +87,7 @@ export default function UserProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Last Login</span>
-                <span className={"info_content"}></span>
+                <span className={"info_content"}>{(new Date(data.last_login)).toUTCString()}</span>
             </div>
             </div>
         </div>
@@ -90,12 +97,12 @@ export default function UserProfileGrid({data}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Role</span></div>
                         <div className={"session_content"}>
-                            {data.role_name}
+                            {data.role_id? `${data.role_name}`:"No Role Assigned"}
                         </div>
                         <div className={"top_row"}><span className={"title"}>Authority</span></div>
                         <div className={"session_content"} style={{padding:0}}>
                             <div className={"authBox"}>
-                            {data.authority!=null&&Object.keys(data.authority).filter(e=>{return data.authority[e]!=true?"true":""}).map(e=>{return <div className={"authContainer"}>{e}</div>})}
+                            {data.authority!=null&&Object.keys(data.authority).filter(e=>{return data.authority[e]==true?"true":""}).map(e=>{return <div className={"authContainer"}>{e}</div>})}
 
                             </div>
                         </div>
@@ -149,15 +156,15 @@ export default function UserProfileGrid({data}){
                                             // checked={selectedUsers.includes(data.phone)}
 
                                         >
-                                            <TableCell style={{width: "28%",}}>
-                                                {item.id}
+                                            <TableCell style={{width: "20%",}}>
+                                                {item.customer_id}
                                             </TableCell>
-                                            <TableCell align="left" style={{width: "27%"}}>
+                                            <TableCell align="left" style={{width: "32%"}}>
                                                 <div style={{display:"flex",alignItems:"center"}}>
-                                                <Tooltip key={index} className={""} title={item.name} placement="top-start">
-                                                    <Avatar alt={item.name}  className={"text-center"} src="" sx={{width:25 , height:25 ,fontSize:14}} />
+                                                <Tooltip key={index} className={""} title={item.customer_name} placement="top-start">
+                                                    <Avatar alt={item.customer_name}  className={"text-center"} src="" sx={{width:25 , height:25 ,fontSize:14}} />
                                                 </Tooltip>
-                                                <span style={{marginLeft:"1rem"}}>{item.name}</span>
+                                                <span style={{marginLeft:"1rem"}}>{item.customer_name}</span>
                                                 </div>
                                             </TableCell>
                                             <TableCell align="left" style={{width: "35%",}}>
