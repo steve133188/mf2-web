@@ -72,12 +72,14 @@ export default function UserProfileGrid({data}){
             <div className={"info_session"}>
             <div className={"info_row"}>
                 <span className={"info_label"}>Organization</span>
-                <span className={"info_content"}>{data.team.id}</span>
+                <span className={"info_content"}>{data.team.name}</span>
                 {/* team.id > */}
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{ `+${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)}`}</span>
+                <span className={"info_content"}>{ data.phone}
+                {/* +${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)} */}
+                </span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>

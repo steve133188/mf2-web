@@ -25,7 +25,14 @@ export default function EditAgent(props){
         channels:"",
         authority:{},
         chatAccessRight:{whatsapp:false , WABA : false, messager:false , wechat:false }
-    })
+    })  
+    const channelData = [
+        // name:"WhastApp",value:"All",channelID:"All",id:0},
+                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+   
     const [agent,setAgent] = useState({})
     const [teams , setTeams] = useState([])
     const [filteredTeams ,setFilteredTeams] =useState([]);
@@ -35,16 +42,18 @@ export default function EditAgent(props){
     const [roles , setRoles] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
+    const [authChannel,setAuthChannel] = useState([])
     const submit = async (phone)=>{
         const data = {...userCredential,
             username:userCredential.username,
             email:userCredential.email,
-            phone:userCredential.phone,
+            phone:parseInt(userCredential.phone),
             password:userCredential.password,
             team_id:selectedTeam.org_id,
             role_name:selectedRole.role_name,
-            role_id:selectedRole.role_id,
-            country_code:userCredential.country_code,
+            role_id:selectedRole.role_id, 
+            country_code:parseInt(userCredential.country_code),
+            role_channel:authChannel,
         }
         console.log("payload",data)
         const res = await userInstance.updateUser(data )
@@ -58,11 +67,14 @@ export default function EditAgent(props){
         // setAgent((data.filter((data)=>{return (data.phone==id)}))[0])
         // console.log(agent,"i am Agent")
         setAgent(data)
+        setUserCredential(data)
+        setAuthChannel(data.role_channel??[])
 
     }
     useEffect(async()=>{
         setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,country_code:agent.country_code,phone:agent.phone,role_name:agent.role_name??" ",team_id:agent.team_id??" "})
-      
+      console.log(userCredential,"userCredential")
+      console.log(agent,"userCredential")
     },[agent])
     const fetchRoles = async () =>{
         const data = await roleInstance.getAllRoles()
@@ -91,6 +103,20 @@ export default function EditAgent(props){
             [name]:value
         })
         console.log(userCredential)
+    }
+    const handleChannelSelect =e=>{
+        
+        const {name ,value ,checked,id} = e.target
+        console.log(id)
+        
+        setAuthChannel([
+            ...authChannel,id])
+            if(!checked){
+                
+                setAuthChannel(
+                authChannel.filter(item => {return item != id})
+                )
+            }
     }
     useEffect(async ()=>{
         if(user.token){
@@ -169,97 +195,29 @@ export default function EditAgent(props){
                 <div className={"chat_access_right"}>
                     <span className={"session_label"}>Chat Access Right</span>
                     <div className={"chat_access_right_form"}>
-                        <div className={"chat_access_right_form_row"}>
-                        <img src={`/channel_SVG/Whatsapp.svg`} ></img>
-                            <div className={"channel_name"}>Whatsapp</div>
-                            <div className={"access_column"}>
-                            <div className={"access_option"}>
-                                <div className="newCheckboxContainer">
-                                    <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="whatsapp" value={userCredential.chatAccessRight.whatsapp} checked={userCredential.chatAccessRight.whatsapp}/>
-                                    </label>
-                                </div>
-                                <span>All Chats</span>
-                            </div>
-                            <div className={"access_option"}>
-                                <div className="newCheckboxContainer">
-                                    <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="whatsapp" value={userCredential.chatAccessRight.whatsapp} checked={!userCredential.chatAccessRight.whatsapp}/>
-                                    </label>
-                                </div>
-                                <span>Assigned</span>
-                            </div>
-                            </div>
-                        </div>
-                        <div className={"chat_access_right_form_row"}>
-
-                        <img src={`/channel_SVG/WABA.svg`} ></img>
-                            <div className={"channel_name"}>Whatsapp Business API</div>
-                            <div className={"access_column"}>
-                                <div className={"access_option"}>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="WABA" value={userCredential.chatAccessRight.WABA} checked={userCredential.chatAccessRight.WABA}/>
-                                        </label>
+                        {channelData.map((item,index)=>{return <div key={index} className={"chat_access_right_form_row"}>
+                                   
+                                    <div className={"channel_name"}> <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>{item.name}</div>
+                                    <div className={"access_column"}>
+                                    <div className={"access_option"}>
+                                        <div className="newCheckboxContainer">
+                                            <label className="newCheckboxLabel">
+                                                <input type="checkbox" name={item.channelID} value={item.value} id={item.value}  checked={authChannel.includes(item.value)} onChange={()=>{}}  onChange={handleChannelSelect}  />
+                                            </label>
+                                        </div>
+                                        <span>All Chats</span>
                                     </div>
-                                    <span>All Chats</span>
-                                </div>
-                                <div className={"access_option"}>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="WABA" value={userCredential.chatAccessRight.WABA} checked={!userCredential.chatAccessRight.WABA}/>
-                                        </label>
+                                    <div className={"access_option"}>
+                                        <div className="newCheckboxContainer">
+                                            <label className="newCheckboxLabel">
+                                                <input type="checkbox" name={item.channelID} value={item.value} id={item.value} checked={!authChannel.includes(item.value)} onChange={()=>{}} onChange={handleChannelSelect} />
+                                            </label>
+                                        </div>
+                                        <span>Assigned</span>
                                     </div>
-                                    <span>Assigned</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={"chat_access_right_form_row"}>
-
-                        <img src={`/channel_SVG/Messager.svg`} ></img>
-                            <div className={"channel_name"}>Messager</div>
-                            <div className={"access_column"}>
-                                <div className={"access_option"}>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="messager" value={userCredential.chatAccessRight.messager} checked={userCredential.chatAccessRight.messager}/>
-                                        </label>
                                     </div>
-                                    <span>All Chats</span>
                                 </div>
-                                <div className={"access_option"}>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="messager" value={userCredential.chatAccessRight.messager}  checked={!userCredential.chatAccessRight.messager}/>
-                                        </label>
-                                    </div>
-                                    <span>Assigned</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={"chat_access_right_form_row"}>
-
-                        <img src={`/channel_SVG/Wechat.svg`} ></img>
-                            <div className={"channel_name"}>WeChat</div>
-                            <div className={"access_column"}>
-                                <div className={"access_option"}>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="wechat" value={userCredential.chatAccessRight.wechat}  checked={userCredential.chatAccessRight.wechat}/>
-                                        </label>
-                                    </div>
-                                    <span>All Chats</span>
-                                </div>
-                                <div className={"access_option"}>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" value={userCredential.chatAccessRight.wechat} checked={!userCredential.chatAccessRight.wechat} name="wechat" />
-                                        </label>
-                                    </div>
-                                    <span>Assigned</span>
-                                </div>
-                            </div>
-                        </div>
+                            })}
                     </div>
                 </div>
             </div>

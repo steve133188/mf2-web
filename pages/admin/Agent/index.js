@@ -157,7 +157,6 @@ export default function Index() {
             <InnerSidebar/>
             <div className="rightContent">  
                 {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
-                <div></div>
                 {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile}/></Profile>):null}
                 <MF_Modal show={isDelete} toggle={toggleDelete}>
                 <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}> 
@@ -283,7 +282,7 @@ export default function Index() {
 
 
                                         <TableCell align="right">
-                                       <span className={"right_icon_btn"} onClick={(e)=>{ e.stopPropagation();toggleEdit(data.phone)}}><EditSVG /></span>
+                                       <span className={"right_icon_btn"} onClick={(e)=>{ e.stopPropagation();toggleEdit(data.user_id)}}><EditSVG /></span>
                                         <span className={"right_icon_btn"} onClick={(e)=>{ e.stopPropagation();toggleDelete(data.user_id,data.username)}}><DeleteSVG /></span>
                                     </TableCell>
                                     </TableRow>
