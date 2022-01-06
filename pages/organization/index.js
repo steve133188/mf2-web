@@ -120,6 +120,7 @@ export default function Organization() {
         set_org(data)
     }
     useEffect(    async () => {
+        set_curr_org({}) 
         if(user.token)
         {
             await fetchRootORG()
@@ -142,6 +143,7 @@ export default function Organization() {
     const toggleSelect = e => {
         const { checked ,value} = e.target;
         setSelectedUsers([...selectedUsers, value]);
+        console.log("selectedUsers",selectedUsers)
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== value));
         }
@@ -153,6 +155,8 @@ export default function Organization() {
         if (selectAll) {
             setSelectedUsers([]);
         }
+        console.log("selectedUsers",selectedUsers)
+
     };
     const handleSelectDelete =e=>{
         setDeleteOrg(e.target.value)
@@ -219,12 +223,8 @@ export default function Organization() {
     const handleChangeName=e=>{
         setEditedName(e.target.value)
         console.log(e.target.value,"edited name")
-        /*
-        ==============
-        update name not working
-        ==============
         orgInstance.updateOrgName(curr_org.org_id,e.target.value)
-        */
+        
     }
     return (
         <div className="organization-layout">
@@ -330,7 +330,7 @@ export default function Organization() {
                                         // tabIndex={-1}
                                         name={index}
                                         sx={{height:"56px"}}
-                                        checked={selectedUsers.includes(data.username)}
+                                        checked={selectedUsers.includes(data.phone)}
                                         onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
                                         <TableCell style={{
@@ -340,7 +340,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.username} value={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.username} value={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone.toString())} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>

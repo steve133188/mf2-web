@@ -58,7 +58,7 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clea
             const user_phone = selectedUsers[i]
             const team_id = selectedTeam.id
             console.log(user_phone,team_id)
-            const res = await userInstance.updateUserTeamIdByUserPhone(user_phone ,team_id)
+            const res = await userInstance.updateUserTeamIdByUserPhone(parseInt(user_phone) ,parseInt(team_id))
             console.log(res)
             clear()
             reload()
