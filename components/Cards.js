@@ -127,7 +127,7 @@ export function LineChartCard({children,...props}) {
                 data: data,
             }]
         })
-    }, [chartState])
+    }, [])
 
     return (
         <div className="lineChartCard">

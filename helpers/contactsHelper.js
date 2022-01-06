@@ -82,7 +82,7 @@ export default function contactsFetcher(token){
         return (await instance.fetcher.put("/customers/edit-tags")).status
     }
      instance.deleteAllContactTag = async(data)=>{
-        return (await instance.fetcher.put("/customers/del-tags",data)).status
+        return (await instance.fetcher.put(`/customers/del-tags/${data}`,data)).status
     }
 
      instance.deleteContactTags = async(data)=>{
