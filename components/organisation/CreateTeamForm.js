@@ -84,7 +84,7 @@ export default function CreateTeamForm({show, toggle}){
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                        <MenuItem value="">Null</MenuItem>
+                        <MenuItem value=" ">Not Assigned</MenuItem>
                         {rootDivision.map((d)=>{
                             return (<MenuItem key={d.org_id}  value={d}>{d.name}</MenuItem>)
                         })}

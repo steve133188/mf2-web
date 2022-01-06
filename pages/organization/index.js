@@ -96,27 +96,21 @@ export default function Organization() {
         const data = await userInstance.getAllUser()
         setUsers(data)
         setFilteredData(data)
-        console.log("get user",data)
     }
     const fetchNoTeamUsers = async()=>{
         const data = await userInstance.getAllUser()
         const newData = data.filter(d=>d.team_id==0)
         setUsers(newData)
         setFilteredData(newData)
-        console.log("get user",data)
 
     }
     const fetchTeamUsers = async (id)=>{
-        
-        console.log("get team user",data)
         const data = await userInstance.getUsersByTeamId(id)
-        console.log("team users:",data)
         setUsers(data)
         setFilteredData(data)
     }
     const fetchRootORG = async () =>{
         const data = await orgInstance.getAllORG()
-        console.log(data,"org data")
         set_org(data)
     }
     useEffect(    async () => {
@@ -126,6 +120,7 @@ export default function Organization() {
             await fetchRootORG()
             await fetchUsers()
         }
+        
 
     },[]);
     useEffect(    async () => {
@@ -134,20 +129,16 @@ export default function Organization() {
         }else if(user.token&&curr_org.name=="Not Assigned"){
             await fetchNoTeamUsers()
         }else{
-            console.log("currentContacts",currentContacts)
-            console.log("curr_org",curr_org)
-            curr_org&& await fetchTeamUsers(curr_org.org_id)
+            curr_org.org_id&& await fetchTeamUsers(curr_org.org_id)
         }
     },[curr_org]);
 
     const toggleSelect = e => {
         const { checked ,value} = e.target;
         setSelectedUsers([...selectedUsers, value]);
-        console.log("selectedUsers",selectedUsers)
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== value));
         }
-        // console.log(selectedUsers)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
@@ -155,7 +146,6 @@ export default function Organization() {
         if (selectAll) {
             setSelectedUsers([]);
         }
-        console.log("selectedUsers",selectedUsers)
 
     };
     const handleSelectDelete =e=>{
@@ -218,13 +208,18 @@ export default function Organization() {
     // console.log(filteredData,"fjilterded Data")
     const displayTeam=(name)=>{
         set_curr_org(name)
+        setisEditNameActive(false)
         console.log(name,"show   team name")
     }
     const handleChangeName=e=>{
         setEditedName(e.target.value)
         console.log(e.target.value,"edited name")
-        orgInstance.updateOrgName(curr_org.org_id,e.target.value)
         
+    }
+    const comfirmTeamNameEdit = async()=>{
+        await orgInstance.updateOrgName(curr_org.org_id,editedName) 
+        setisEditNameActive(false)
+        window.location.reload(false);
     }
     return (
         <div className="organization-layout">
@@ -279,7 +274,7 @@ export default function Organization() {
                             <>
                                 {/* <button  onClick={()=>toggleDelete(selectedUsers)} className={"mf_bg_light_blue mf_color_delete"}> Delete</button> */}
                                 <button  onClick={toggleMoveAgent} className={"mf_bg_light_blue mf_color_blue"}> Move</button>
-                            <button  onClick={toggleSelectRow} className={"mf_bg_light_grey mf_color_text"}> Cancel</button>
+                            <button  onClick={toggleSelectRow} className={"cancelButton mf_color_text"}> Cancel</button>
                                 </>
 
                         )}
@@ -289,12 +284,25 @@ export default function Organization() {
                     <SelectSession >
                     {/* btn={(<button style={{marginLeft: "auto"}} onClick={toggleAddAgent}>+ New Agent</button>)} */}
                         <div className={"team_label"}>
-                            {isEditNameActive?<input type="text" className="nameEdit" onChange={handleChangeName} placeholder={`edit... ${curr_org.name}`}></input>:(curr_org.name || "All")} {"(" +currentContacts.length+")"}
+                            {isEditNameActive?(
+                                <input type="text" className="nameEdit" onChange={handleChangeName} placeholder={`${curr_org.name}`}></input>
+                            ):
+                            (curr_org.name || "All")} 
+                            {"(" +currentContacts.length+")"}
                         </div>
-                       
-                                <div onClick={handleEditName} style={curr_org.name&&curr_org.name!="Not Assigned"?null:{visibility:"hidden"}} >
-                                    <EditPenSVG size={18} />
-                                </div>
+                        {isEditNameActive?(
+                        <>
+                            <button onClick={comfirmTeamNameEdit}>Confirm</button>
+                            <button onClick={e=>setisEditNameActive(false)} className="mf_bg_light_grey mf_color_text">Cancel</button>
+                        </>
+                        )
+                        :
+                        (
+                            <div onClick={handleEditName} style={curr_org.name&&curr_org.name!="Not Assigned"?null:{visibility:"hidden"}} >
+                                <EditPenSVG size={18} />
+                            </div>
+                        )}
+                        
                             
                         
                         

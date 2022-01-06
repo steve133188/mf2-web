@@ -49,9 +49,8 @@ export default function DeleteDivisionForm({show, toggle,reload }){
     const[teamlist,setTeamlist]=useState([])
     useEffect(async ()=>{
         const data = await orgInstance.getAllORG()
-        console.log(data,"All Org data")
           setRootDivision(data.filter(data=>{return data.type=="division"}))
-          const teamCheck = data.map(item=>item.children&&item.children.map(child=>{console.log(child,"child");child.type=="team"?teams.push(child):null}))
+          const teamCheck = data.map(item=>item.children&&item.children.map(child=>{child.type=="team"?teams.push(child):null}))
           setTeamlist(teams)
 
       },[])
@@ -81,10 +80,10 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                         label={"Select Division"}
                         input={<BootstrapInput />}
                         >
-                        <MenuItem value={null}>Please Select</MenuItem>
-                        {rootDivision.map((d)=>{
-                            console.log(d ,"dividsion selection")
-                            return (<MenuItem key={d.org_id} value={d.org_id}>{d.name}</MenuItem>)
+                        <MenuItem value=" ">Please Select</MenuItem>
+                        {rootDivision.map((d,i)=>{
+                            
+                            return (<MenuItem key={i} value={d.org_id}>{d.name}</MenuItem>)
                         })}
                     </Select>
                     <span></span>
@@ -97,9 +96,9 @@ export default function DeleteDivisionForm({show, toggle,reload }){
                         label={"Select Division"}
                         input={<BootstrapInput />}
                         >
-                        <MenuItem value={null}>Please Select</MenuItem>
-                        {teamlist.map((d)=>{
-                            return (<MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)
+                        <MenuItem value=" ">Please Select</MenuItem>
+                        {teamlist.map((d,i)=>{
+                            return (<MenuItem key={i} value={d.id}>{d.name}</MenuItem>)
                         })}
                     </Select>
                         <span style={{height:"35px"}}></span>

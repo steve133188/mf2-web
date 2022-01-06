@@ -79,9 +79,9 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clea
                         label={"Select Division"}
                         input={<BootstrapInput />}
                     >
-                        <MenuItem value={null}>Null</MenuItem>
-                        {team.map((d)=>{
-                            return (<MenuItem key={d.id} value={d}>{d.name}</MenuItem>)
+                        <MenuItem value=" ">Not Assigned</MenuItem>
+                        {team.map((d,i)=>{
+                            return (<MenuItem key={i} value={d}>{d.name}</MenuItem>)
                         })}
                     </Select>
                 </div>
