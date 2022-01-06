@@ -113,12 +113,17 @@ export default function EditProfileForm({data , toggle}){
     async function handleSubmit (e){
         // e.preventDefault()
     console.log(editContact)
+    
+    const tagslist=selectedTags.map(e=>e.tag_id)
+    const userslist=selectedUsers.map(e=>e.user_id)
         const name =` ${editContact.first_name} ${editContact.last_name}`
-        const data = {...editContact,name , tags:selectedTags , agents:selectedUsers}
+        const data = {...editContact,customer_name:name , tags_id:tagslist , agents_id:userslist}
         console.log(data,"edit data")
         const res = await contactInstance.updateContact (data)
             console.log(res)
 
+            
+            if(res == 200 ){toggle()}
     }
     function cancel(e){
         e.preventDefault()

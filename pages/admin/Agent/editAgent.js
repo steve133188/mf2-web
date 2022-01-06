@@ -16,25 +16,25 @@ export default function EditAgent(props){
         username:"",
         email:"",
         phone:"",
-        password:"",
+        // password:"",
         country_code:0,
-        confirm_password:"",
+        // confirm_password:"",
         organization:'',
         role_name:"",
         team_id:0,
         channels:"",
         authority:{},
-        chatAccessRight:{whatsapp:false , WABA : false, messager:false , wechat:false }
+        chat_access:{Whatsapp:1 , WABA : 1, Messager:1 , Wechat:1 }
     })  
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+                {name:"WhastApp",value:"Whatsapp",channelID:"whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WABA",channelID:"waba",id:2},
+                {name:"Messager",value:"Messager",channelID:"messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"wechat",id:4},];
    
     const [agent,setAgent] = useState({})
-    const [teams , setTeams] = useState([])
+    const [teams , setTeams] = useState([{org_id:0,name:""}])
     const [filteredTeams ,setFilteredTeams] =useState([]);
 
     const [searchValue, setSearchValue]= useState("")
@@ -42,18 +42,23 @@ export default function EditAgent(props){
     const [roles , setRoles] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
-    const [authChannel,setAuthChannel] = useState([])
+
+    const [authChannel,setAuthChannel] = useState({
+        messager: "",
+        waba: "",
+        wechat: "",
+        whatsapp: "",})
     const submit = async (phone)=>{
-        const data = {...userCredential,
+        const data = {...agent,
             username:userCredential.username,
             email:userCredential.email,
             phone:parseInt(userCredential.phone),
-            password:userCredential.password,
+            // password:userCredential.password,
             team_id:selectedTeam.org_id,
-            role_name:selectedRole.role_name,
+            // role_name:selectedRole.role_name,
             role_id:selectedRole.role_id, 
             country_code:parseInt(userCredential.country_code),
-            role_channel:authChannel,
+            chat_access:authChannel,
         }
         console.log("payload",data)
         const res = await userInstance.updateUser(data )
@@ -68,13 +73,13 @@ export default function EditAgent(props){
         // console.log(agent,"i am Agent")
         setAgent(data)
         setUserCredential(data)
-        setAuthChannel(data.role_channel??[])
+        setAuthChannel(data.chat_access)
+        setSelectedTeam(data.team)
 
     }
     useEffect(async()=>{
         setUserCredential({...userCredential,username:agent.username,password:agent.password,email:agent.email,country_code:agent.country_code,phone:agent.phone,role_name:agent.role_name??" ",team_id:agent.team_id??" "})
-      console.log(userCredential,"userCredential")
-      console.log(agent,"userCredential")
+      setSelectedRole({role_name:agent.role_name,role_id:agent.role_id})
     },[agent])
     const fetchRoles = async () =>{
         const data = await roleInstance.getAllRoles()
@@ -103,28 +108,48 @@ export default function EditAgent(props){
             [name]:value
         })
         console.log(userCredential)
+        console.log(agent)
     }
     const handleChannelSelect =e=>{
         
         const {name ,value ,checked,id} = e.target
+        console.log(name )
+        
+        setAuthChannel({
+            ...authChannel,
+            [name]:"all"
+        }  )
+        if(!checked){
+            setAuthChannel({
+                ...authChannel,
+                [name]:"assign"
+            }  )
+        }
+        console.log(authChannel)
+        }
+    const handleChannelAssSelect =e=>{
+        
+        const {name ,value ,checked,id} = e.target
         console.log(id)
         
-        setAuthChannel([
-            ...authChannel,id])
+        setAuthChannel({
+            ...authChannel,
+            [name]:"assign"
+        }  )
             if(!checked){
-                
-                setAuthChannel(
-                authChannel.filter(item => {return item != id})
-                )
+                setAuthChannel({
+                    ...authChannel,
+                    [name]:"all"
+                }  )
             }
-    }
+        }
+
     useEffect(async ()=>{
         if(user.token){
             await getTeams()
             await fetchRoles()
             await fetchUser (props.data)
-            console.log(agent)
-            setSelectedRole({role_name:agent.role_name,role_id:agent.role_id})
+      
             // setSelectedTeam(agent.team)
         }
     },[])
@@ -196,28 +221,28 @@ export default function EditAgent(props){
                     <span className={"session_label"}>Chat Access Right</span>
                     <div className={"chat_access_right_form"}>
                         {channelData.map((item,index)=>{return <div key={index} className={"chat_access_right_form_row"}>
-                                   
-                                    <div className={"channel_name"}> <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>{item.name}</div>
-                                    <div className={"access_column"}>
-                                    <div className={"access_option"}>
-                                        <div className="newCheckboxContainer">
-                                            <label className="newCheckboxLabel">
-                                                <input type="checkbox" name={item.channelID} value={item.value} id={item.value}  checked={authChannel.includes(item.value)} onChange={()=>{}}  onChange={handleChannelSelect}  />
-                                            </label>
-                                        </div>
-                                        <span>All Chats</span>
+                                <img src={`/channel_SVG/${item.value}.svg`} style={{width:"20px",margin:"0 5px"}}></img>
+                                <div className={"channel_name"}>{item.name}</div>
+                                <div className={"access_column"}>
+                                <div className={"access_option"}>
+                                    <div className="newCheckboxContainer">
+                                        <label className="newCheckboxLabel">
+                                            <input type="checkbox" name={item.channelID} value={"all"} id={item.value}  checked={authChannel[item.channelID]=="all"}  onChange={handleChannelSelect}  />
+                                        </label>
                                     </div>
-                                    <div className={"access_option"}>
-                                        <div className="newCheckboxContainer">
-                                            <label className="newCheckboxLabel">
-                                                <input type="checkbox" name={item.channelID} value={item.value} id={item.value} checked={!authChannel.includes(item.value)} onChange={()=>{}} onChange={handleChannelSelect} />
-                                            </label>
-                                        </div>
-                                        <span>Assigned</span>
-                                    </div>
-                                    </div>
+                                    <span>All Chats</span>
                                 </div>
-                            })}
+                                <div className={"access_option"}>
+                                    <div className="newCheckboxContainer">
+                                        <label className="newCheckboxLabel">
+                                            <input type="checkbox" name={item.channelID} value={"assign"} id={item.value} checked={authChannel[item.channelID]=="assign"} onChange={handleChannelAssSelect} />
+                                        </label>
+                                    </div>
+                                    <span>Assigned</span>
+                                </div>
+                                </div>
+                            </div>
+                        })}
                     </div>
                 </div>
             </div>

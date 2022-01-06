@@ -72,7 +72,6 @@ export default function Index() {
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
-        console.log(data,"teams info")
         setTeams(data)
     }
     useEffect(    async () => {
@@ -80,7 +79,6 @@ export default function Index() {
             if(!selectedTeam.name){
                 await fetchUsers()
             }else{
-                console.log("selectedTeam",selectedTeam)
                 await fetchTeamUsers(selectedTeam.id)
             }
             await getTeams()
@@ -111,7 +109,6 @@ export default function Index() {
         if (selectedUsers.length!=1){
             return
         }
-        console.log(selectedUsers,"0000")
 
     }
     useEffect(()=>{

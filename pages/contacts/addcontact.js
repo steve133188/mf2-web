@@ -27,7 +27,7 @@ export default function AddContact() {
         birthday:"",
         gender:"",
         address:"",
-        country:"",
+        country_code:"",
         tags:[],
         Assignee:[]
     })
@@ -143,7 +143,7 @@ export default function AddContact() {
                             <MF_Required_Input title="Last Name*" name={"last_name"} value={newContact.last_name} onChange={handleChange}/>
 
                         </div>
-                    <div className={"ss_row"}>
+                    <div className={"ss_row"}>  <MF_Input name={"country_code"} value={newContact.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
                         <MF_Required_Input title="Phone*" name={"phone"} type={"number"} value={newContact.phone} placeholder={"e.g. 852XXXXXXXX"} pattern={"^852[0-9]{8}$"} onChange={handleChange}/>
                         <MF_Input title="Email" name={"email"} value={newContact.email} pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"} onChange={handleChange}/>
                     </div>

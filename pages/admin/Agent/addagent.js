@@ -20,34 +20,41 @@ export default function AddAgent(){
         channels:"",
         authority:{},
         country_code:852,
-        chatAccessRight:{whatsapp:false , WABA : false, messager:false , wechat:false }
+        chat_access: [
+            {whatsapp:""
+            }
+        ],
     })
 
     const [teams , setTeams] = useState([])
     const [roles , setRoles] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
-    const [authChannel,setAuthChannel] = useState([])
+    const [authChannel,setAuthChannel] = useState({
+        messager: "",
+        waba: "",
+        wechat: "",
+        whatsapp: "",})
     const [submitCheck,setSubmitCheck]=useState(false)
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+                {name:"WhastApp",value:"Whatsapp",channelID:"whatsapp",id:1},
+                {name:"WhatsApp Business",value:"WABA",channelID:"waba",id:2},
+                {name:"Messager",value:"Messager",channelID:"messager",id:3},
+                {name:"WeChat",value:"Wechat",channelID:"wechat",id:4},];
     
     const submit = async ()=>{
         const data = {
-            user_id:parseInt(userCredential.country_code+userCredential.phone),
+
             username:userCredential.username,
             email:userCredential.email,
             phone:parseInt(userCredential.phone),
             password:userCredential.password,
             team_id:selectedTeam.org_id,
-            role_name:selectedRole.role_name,
+            // role_name:selectedRole.role_name,
             role_id:selectedRole.role_id,
             country_code:parseInt(userCredential.country_code),
-            role_channel:authChannel,
+            chat_access:authChannel,
         }
         console.log("payload",data)
         const res = await userInstance.createUser(data )
@@ -75,17 +82,37 @@ export default function AddAgent(){
     const handleChannelSelect =e=>{
         
         const {name ,value ,checked,id} = e.target
+        console.log(name )
+        
+        setAuthChannel({
+            ...authChannel,
+            [name]:"all"
+        }  )
+        if(!checked){
+            setAuthChannel({
+                ...authChannel,
+                [name]:"assign"
+            }  )
+        }
+        console.log(authChannel)
+        }
+    const handleChannelAssSelect =e=>{
+        
+        const {name ,value ,checked,id} = e.target
         console.log(id)
         
-        setAuthChannel([
-            ...authChannel,id])
+        setAuthChannel({
+            ...authChannel,
+            [name]:"assign"
+        }  )
             if(!checked){
-                
-                setAuthChannel(
-                authChannel.filter(item => {return item != id})
-                )
+                setAuthChannel({
+                    ...authChannel,
+                    [name]:"all"
+                }  )
             }
         }
+
     useEffect(async ()=>{
         if(user.token){
             await getTeams()
@@ -160,7 +187,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name={item.channelID} value={item.value} id={item.value}  checked={authChannel.includes(item.value)} onChange={()=>{}}  onChange={handleChannelSelect}  />
+                                            <input type="checkbox" name={item.channelID} value={"all"} id={item.value}  checked={authChannel[item.channelID]=="all"}  onChange={handleChannelSelect}  />
                                         </label>
                                     </div>
                                     <span>All Chats</span>
@@ -168,7 +195,7 @@ export default function AddAgent(){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name={item.channelID} value={item.value} id={item.value} checked={!authChannel.includes(item.value)} onChange={()=>{}} onChange={handleChannelSelect} />
+                                            <input type="checkbox" name={item.channelID} value={"assign"} id={item.value} checked={authChannel[item.channelID]=="assign"} onChange={handleChannelAssSelect} />
                                         </label>
                                     </div>
                                     <span>Assigned</span>
