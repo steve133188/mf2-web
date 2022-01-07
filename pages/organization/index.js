@@ -355,8 +355,11 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.phone} value={data.username} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
-                                                </label> : null}
+                                                    <input type="checkbox" id={data.phone} value={data.username} name="checkbox" 
+                                                        /*toString() is need. it can only compare to same type*/ 
+                                                        checked={selectedUsers.includes(data.phone.toString())}
+                                                        onClick={isSelectRow?toggleSelect:null} />
+                                                </label>: null}
                                             </div>
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}} >
