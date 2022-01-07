@@ -277,7 +277,25 @@ export default function Live_chat() {
     }
 
 
+    const whatsappFilter = ()=>{
+        return chatrooms.filter(chat=>chat.channel=="Whatsapp")
+    }
+    const WABAFilter = ()=>{
+        return chatrooms.filter(chat=>chat.channel=="WABA")
+    }
 
+    const teamFilter =(agents , filter , chats )=>{
+        const gp= agents.some(d=>filter.includes(d.team_id)).map(g=>g.user_id)
+        return chats.filter(ch=>gp.includes(ch.user_id))
+    }
+    const agentfilter =(agents , filter , chats)=>{
+        const gp= agents.some(d=>filter.includes(d.username)).map(g=>g.user_id)
+        return chats.filter(ch=>gp.includes(ch.user_id))
+    }
+    const tagFilter =(agents , filter , chats)=>{
+        const gp= agents.tags.some(d=>filter.includes(d.tag_name)).map(g=>g.user_id)
+        return chats.filter(ch=>gp.includes(ch.user_id))
+    }
     const messagesSearchRef = useRef()
     const scrollToMSG = () => {messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})}
     useEffect(()=>{scrollToMSG()
@@ -612,7 +630,6 @@ export default function Live_chat() {
 
     }
 
-
     //record and send audio
     const getAudioFile = async (audioFile) => {
         console.log("calling getAudioFile")
@@ -636,7 +653,7 @@ export default function Live_chat() {
                                             // value={state}
                                             onChange={(e)=> {
                                                 console.log(e.target.value ,"searching chatlist")
-                                                searchFilter(e.target.value , chatroomsInfo,(new_data)=>{
+                                                searchFilter(e.target.value , chatrooms,(new_data)=>{
                                                     setFilteredData(new_data);
                                                       console.log(new_data,"after searching");
                                                 })
