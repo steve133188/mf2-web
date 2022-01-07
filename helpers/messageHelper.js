@@ -23,7 +23,7 @@ export default function WhatsappFetcher(){
             'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
             'Access-Control-Allow-Credentials' : true,
         },
-        timeout:5000,
+        timeout:10000,
         baseURL:this.whatsappURL},)
 
 
@@ -31,7 +31,7 @@ export default function WhatsappFetcher(){
         headers:{
             'Content-Type': 'application/json',
         },
-        timeout:5000,
+        timeout:10000,
         baseURL:this.WABAURL},)
 
 
@@ -46,8 +46,11 @@ export default function WhatsappFetcher(){
 
         switch (data.channel){
             case "WABA" :
-                if(data.message_type=="document")data.message_type="FILE"
                 let obj={channelId:"5e4367dd3c660d5d5e541176" , recipientId :data.phone , type:data.message_type.toUpperCase() ,text:data.message , url:data.media_url}
+                if(data.message_type=="document"){
+                    obj.type="FILE"
+                }
+                // let obj={channelId:"5e4367dd3c660d5d5e541176" , recipientId :data.phone , type:data.message_type.toUpperCase() ,text:data.message , url:data.media_url}
                 console.log(`send data :`  ,obj)
                  await this.WABAInstance.post("/send-message" ,obj )
                     .then(res=>console.log("Send Message Status : " , res))
