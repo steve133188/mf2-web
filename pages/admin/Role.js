@@ -30,8 +30,10 @@ import CreateRole from "../../components/Admin/CreateRole";
 import EditRole from "../../components/Admin/EditRole";
 import MF_Modal from "../../components/MF_Modal";
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
+import Loading from "../../components/Loading";
 
 export default function Role() {
+    const [isLoading, setIsLoading] = useState(true);
 
     const [roles, setRoles] = useState([]);
     const { user, roleInstance} = useContext(GlobalContext)
@@ -42,7 +44,6 @@ export default function Role() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
 
-    const [isLoading, setIsLoading] = useState(false);
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
     const [isCreate , setIsCreate] = useState(false)
     const [isEdit , setIsEdit] = useState(false)
@@ -61,6 +62,11 @@ export default function Role() {
     }
     useEffect(    async () => {
         if(user.token)await fetchRoles()
+        if(isLoading){
+            setTimeout(function() { //Start the timer
+                setIsLoading(false);
+            }.bind(this), 100)
+        }
     },[]);
 
     const toggleSelect = e => {
@@ -112,6 +118,7 @@ export default function Role() {
 
     return (
         <div className={"admin_layout"}>
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
             <InnerSidebar/>
             <CreateRole show={isCreate} reload={fetchRoles} toggle={toggleCreate}/>
             {/* <EditRole show={isCreate} reload={fetchRoles} toggle={toggleCreate}/> */}

@@ -36,11 +36,11 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
+    const [isLoading, setIsLoading] = useState(true);
     const [contacts, setContacts] = useState([]);
     const {contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
-    const [isLoading, setIsLoading] = useState(true);
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
 
     const [useContact , setUseContact] = useState()
@@ -189,6 +189,11 @@ export default function Contacts() {
         }
         setSelectedUsers([])
         setSelectedContacts([])
+        if(isLoading){
+            setTimeout(function() { //Start the timer
+                setIsLoading(false);
+            }.bind(this), 100)
+        }
     },[]);
 
     const toggleSelect = e => {
@@ -393,9 +398,7 @@ export default function Contacts() {
     };
     useEffect(() => {
         NotificationManager.info('Info message');
-        setTimeout(function() { //Start the timer
-            setIsLoading(false)
-        }.bind(this), 100)
+
 
     },[]);
     // confirmation
@@ -411,6 +414,8 @@ export default function Contacts() {
 
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
+
                     {/* <NotificationContainer/> */}
 
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
@@ -421,7 +426,6 @@ export default function Contacts() {
                 <ImportDropzone title={"Import Contacts"} onClose={toggleDropzone} accept={".csv,.xlsx,.xls"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
-            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
              <DeletePad show={isDelete} reload={fetchContacts} toggle={toggleDelete } submit={removeManyContact} data={selectedContacts} title={"Contacts"}/>
             <div className={"search_session"}>
                 <div className="search">

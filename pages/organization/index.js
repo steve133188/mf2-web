@@ -23,6 +23,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import {styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import Loading from "../../components/Loading";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -60,6 +61,7 @@ export default function Organization() {
     const [users, setUsers] = useState([]);
     const [org, set_org] = useState([]);
     const [filteredData , setFilteredData] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
 
     const [curr_org , set_curr_org] = useState({})
     const [useUser , setUseUser] = useState()
@@ -119,6 +121,11 @@ export default function Organization() {
         {
             await fetchRootORG()
             await fetchUsers()
+        }
+        if(isLoading){
+            setTimeout(function() { //Start the timer
+                setIsLoading(false);
+            }.bind(this), 100)
         }
 
 
@@ -222,6 +229,7 @@ export default function Organization() {
     }
     return (
         <div className="organization-layout">
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
             <ORGSidebar orgData={org} selection={curr_org} setSelection={displayTeam}/>
             <div className="rightContent">
                 {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
