@@ -279,7 +279,7 @@ const channelData = [
                                             <div className={"name"}>{team.name}</div>
                                         </div>
                                         <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name)} onClick={toggleSelectTeams} onChange={()=>{}}/>
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.org_id} name="checkbox" checked={selectedTeams.includes(team.org_id)} onClick={toggleSelectTeams} onChange={()=>{}}/>
                                             </label>
                                         </div>
                                     </li>) })
