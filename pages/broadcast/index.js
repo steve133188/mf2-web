@@ -29,6 +29,7 @@ import { flexbox } from "@mui/system";
 import Helmet from 'react-helmet';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import Loading from "../../components/Loading";
 
 import EditBroadcast from "../../components/pageComponents/EditBroadcast";
 import BroadcastDatails from "../../components/pageComponents/BroadcastDetails";
@@ -39,7 +40,7 @@ export default function Broadcast() {
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [filter , setFilter] = useState({period:"",status:"" })
 
     const [useContact , setUseContact] = useState()
@@ -134,6 +135,11 @@ export default function Broadcast() {
         }
         setSelectedUsers([])
         setSelectedBroadcasts([])
+        if(isLoading){
+            setTimeout(function() { //Start the timer
+                setIsLoading(false);
+            }.bind(this), 100)
+        }
     },[]);
 
     const toggleSelect = e => {
@@ -281,6 +287,7 @@ export default function Broadcast() {
 
     return (
         <div className={styles.layout}>
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
             {isProfileShow?           ( <Profile handleClose={toggleProfile} classname={"broadcast_datails_box"}><BroadcastDatails data={useContact}/></Profile>):null}
             {isEditBroadcastsShow?           ( <Profile handleClose={toggleEditBroadcasts}><EditBroadcast data={useContact} toggle={toggleEditBroadcasts}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>

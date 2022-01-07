@@ -30,8 +30,10 @@ import CreateReplyFolder from "../../../components/Admin/CreateReplyFolder";
 import ReplyFolder from "../../../components/Admin/replyFolder";
 import Profile from "../../../components/profile";
 import EditReplyFolder from "../../../components/Admin/EditReplyFolder";
+import Loading from "../../../components/Loading";
 
 export default function StandardReply() {
+    const [isLoading, setIsLoading] = useState(true);
 
     const {adminInstance, userInstance , user} = useContext(GlobalContext)
     const [standardReply, setStandardReply] = useState([]);
@@ -41,7 +43,6 @@ export default function StandardReply() {
     const [selectedAgents ,setSelectedAgents] =useState([])
     const [filteredAgents ,setFilteredAgents] =useState([]);;
 
-    const [isLoading, setIsLoading] = useState(false);
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 

@@ -29,8 +29,10 @@ import EditAgent from "./editAgent";
 import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
 import MF_Modal from "../../../components/MF_Modal";
 import UserProfileGrid from "../../../components/pageComponents/UserProfile";
+import Loading from "../../../components/Loading";
 
 export default function Index() {
+    const [isLoading, setIsLoading] = useState(true);
 
     const {adminInstance , userInstance, orgInstance,user} = useContext(GlobalContext)
     const [selectedUsers , setSelectedUsers] = useState([])
@@ -39,7 +41,6 @@ export default function Index() {
     const [roles, setRoles] = useState([]);
     const [filteredData , setFilteredData] = useState([])
 
-    const [isLoading, setIsLoading] = useState(false);
     const [filter , setFilter] = useState("")
 
     const [users, setUsers] = useState([]);
@@ -82,6 +83,11 @@ export default function Index() {
                 await fetchTeamUsers(selectedTeam.org_id)
             }
             await getTeams()
+        }
+        if(isLoading){
+            setTimeout(function() { //Start the timer
+                setIsLoading(false);
+            }.bind(this), 100)
         }
     },[selectedTeam]);
     const toggleSelect = e => {
@@ -151,6 +157,8 @@ export default function Index() {
 
     return (
         <div className={"admin_layout"}>
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
+
             <InnerSidebar/>
             <div className="rightContent">  
                 {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
