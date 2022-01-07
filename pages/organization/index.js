@@ -149,7 +149,9 @@ export default function Organization() {
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedUsers(prev=>currentContacts.map(c => c.phone));
+        setSelectedUsers([])
+        //toString() is needed for comparison
+        setSelectedUsers(prev=>currentContacts.map(c => c.phone.toString()));
         if (selectAll) {
             setSelectedUsers([]);
         }
@@ -326,7 +328,7 @@ export default function Organization() {
                                 <TableCell>
                                     <div className="newCheckboxContainer">
                                         {isSelectRow ? <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedUsers.includes(el))} onClick={toggleSelectAll} />
+                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedUsers.includes(el.toString()))} onClick={toggleSelectAll} />
                                         </label> : null}
                                     </div>
                                 </TableCell>

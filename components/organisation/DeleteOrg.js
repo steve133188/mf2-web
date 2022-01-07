@@ -34,8 +34,8 @@ const style ={
     height:"2rem"
 }
 export default function DeleteDivisionForm({show, toggle,reload ,org}){
-    const [div , setDiv] = useState({})
-    const [team , setTeam] = useState({})
+    const [div , setDiv] = useState(" ")
+    const [team , setTeam] = useState(" ")
     const [rootDivision , setRootDivision] = useState([])
     const handleChangeDiv = (e)=>{
         console.log(e.target.value,"division data")
