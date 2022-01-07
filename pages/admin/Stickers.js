@@ -13,6 +13,7 @@ import {InnerSidebar} from "../../components/InnerSidebar";
 import {GlobalContext} from "../../context/GlobalContext";
 import { AddStickerSVG, DeleteSVG } from "../../public/admin/adminSVG";
 import { ImportDropzone } from "../../components/ImportContact";
+import DeletePad from "../../components/DeletePannel";
 
 
 
@@ -25,7 +26,9 @@ export default function Stickers() {
 
     const [filteredData , setFilteredData] = useState([])
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);   
+     const [isDelete , setIsDelete] = useState(false)
+     const [selectedReply , setSelectedReply] = useState([])
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
     const [currentPage , setCurrentPage] = useState(1)
@@ -93,15 +96,27 @@ export default function Stickers() {
     };
     const toggleSelectAll = e => {
         // setSelectAll(!selectAll);
-        const {checked,id} = e.target
+        const {check,id} = e.target
         console.log(id)
         setSelectedContacts(id);
         // setSelectedContacts(currentContacts.map(c => c.id));
-        if (!checked) {
+        if (selectAll) {
             setSelectedContacts([]);
         }
         console.log(selectedContacts)
     };
+
+    const toggleDelete = (item)=>{
+console.log("hihi")
+        setSelectedReply(selectedContacts)
+        setIsDelete(!isDelete)
+        // setDeleteTag(item)
+    }
+    const sumbitDelete=async ()=>{
+        const res = await tagInstance.deleteContent(data.name,selectedReply[0].id,selectedReply[0].body)
+        // console.log
+    }
+    
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
@@ -122,11 +137,12 @@ export default function Stickers() {
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <div className="rightContent">
+                                <DeletePad show={isDelete}  reload={()=>console.log(data)} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Sticker"}/>
                 <div className="sticker_box">
                     <div className={"search_session"}>
                         <div className="search">
                             <div className="mf_icon_input_block  mf_search_input">
-                                <div className={"mf_inside_icon mf_search_icon "} > </div>
+                                <div className={"mf_inside_icon mf_search_icon "} > </div>  
                                 <input
                                     className={"mf_input mf_bg_light_grey"}
                                     type="search"
@@ -152,7 +168,7 @@ export default function Stickers() {
                     </div>
                     <SelectSession
                         btn={isSelectRow?(<div className={"select_session_btn_group"}>     
-                        <div className={"select_session_btn"}><div ><DeleteSVG/></div> </div>
+                        <div className={"select_session_btn"}><div onClick={toggleDelete}><DeleteSVG/></div> </div>
                         </div>):null}
                     >Sticker
                     </SelectSession>

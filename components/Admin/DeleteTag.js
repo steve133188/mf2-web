@@ -30,7 +30,7 @@ export default function DeleteTag({show, toggle,reload,tags}){
         tags.map(async(id)=>{
             console.log("deletet tag id",id)
             const status = await tagInstance.deleteTag(id)
-            // const res = await contactInstance.deleteAllContactTag()
+            const res = await contactInstance.deleteAllContactTag(id)
             console.log("status",status)
         }  )
         reload()

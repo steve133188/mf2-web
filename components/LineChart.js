@@ -69,7 +69,9 @@ export function LineChart({children,...props}) {
 
             })
         }
-    }, [props])
+    }, [
+        props.data
+    ])
 
     return (
         <div>
@@ -247,7 +249,9 @@ export function MultipleBarChart({children,...props}) {
                     },
                 }
             })
-        },[props])
+        },[
+            props.data
+        ])
 
 
 
