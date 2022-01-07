@@ -38,6 +38,7 @@ export default function Agents() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [displayNameTag, setDisplayNameTag] = useState([])
+    const [show,setShow] =useState(false)
     const [dash  , setDash ] = useState({
         agents_no:[],
         connected :[], disconnected:[],
@@ -75,23 +76,40 @@ export default function Agents() {
     const fetchDefault = async ()=>{
         let end = new window.Date().getTime() / 1000
         let start = end - 3600 * 48
+        console.log(start,end)
         const data = await dashboardInstance.getAgentDefaultData(start ,end)
         return data
-
+        
     }
-
+    useEffect(async()=>{
+        let data = await fetchDefault();
+        setDash(data)
+        
+    },[])
     useEffect(async ()=>{
         if (dash.agents_no.length == 0) {
             let data = await fetchDefault();
+            console.log(data,"let me see")
             setDash(data)
+            setFilteredData(data.Agent)
         } else {
+            const data = await dashboardInstance.getAgentDefaultData(Date.parse(dayState.from)/1000 ,Date.parse(dayState.to)/1000)
+            console.log(data)
+            // setDash(data)
+            
             setFilteredData(dash.Agent)
         }
         console.log("dashboard = ",dash)
-
-    },[dash])
-
-
+        console.log("dashboard dayState = ",dayState)
+        
+    },[dayState.to])
+    
+    
+    useEffect(async()=>{
+        console.log(dash,"determin time ") 
+        setShow(!show)
+    },[filteredData])
+    
     const periodFilter = () =>{
         console.log("filter period : "+selectedPeriod)
         // dayState <<<timestamp for comparing range
@@ -99,6 +117,8 @@ export default function Agents() {
     
     const handleDayClick=(day) => {
         const range = DateUtils.addDayToRange(day, dayState);
+        console.log(range)
+        console.log(Date.parse(range.from)/1000,"try")
         setDayState(range);
     } 
     const handleClickAway = () => {
@@ -211,7 +231,7 @@ export default function Agents() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter click={dashClear } change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } teams={toggleSelectTeams} />
+                                                <DashBroadFilter click={dashClear } confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } teams={toggleSelectTeams} />
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +302,7 @@ export default function Agents() {
                                                                         unhandled={dash.chart.unhandled}
                                                                         delivered={dash.chart.delivered}
                                                                         agents={dash.chart.user_name}
-                                                                        min1={"12"} min2={12} min3={12}/></div>
+                                                                        min1={"12"} min2={12} min3={12} show={show}/></div>
                 </div>
                 
                 <div className="dashboardRow" style={{display:"flex",flexDirection:"column"}}>
