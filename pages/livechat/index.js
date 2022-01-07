@@ -262,6 +262,7 @@ export default function Live_chat() {
 
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
+        console.log(data)
         setUsers(data)
         setFilteredUsers(data)
     }
@@ -277,23 +278,29 @@ export default function Live_chat() {
     }
 
 
-    const whatsappFilter = ()=>{
-        return chatrooms.filter(chat=>chat.channel=="Whatsapp")
+    const whatsappFilter = (chats)=>{
+        return chats.filter(chat=>chat.channel=="Whatsapp")
     }
-    const WABAFilter = ()=>{
-        return chatrooms.filter(chat=>chat.channel=="WABA")
+    const WABAFilter = (chats)=>{
+        return chats.filter(chat=>chat.channel=="WABA")
     }
 
     const teamFilter =(agents , filter , chats )=>{
-        const gp= agents.some(d=>filter.includes(d.team_id)).map(g=>g.user_id)
+        const gp= agents.filter(d=>filter.includes(d.team_id))
+        console.log("gp" , gp)
+            gp.map(g=>g.user_id)
         return chats.filter(ch=>gp.includes(ch.user_id))
     }
     const agentfilter =(agents , filter , chats)=>{
-        const gp= agents.some(d=>filter.includes(d.username)).map(g=>g.user_id)
+        const gp= agents.filter(d=>filter.includes(d.username))
+        console.log("gp" , gp)
+        gp.map(g=>g.user_id)
         return chats.filter(ch=>gp.includes(ch.user_id))
     }
     const tagFilter =(agents , filter , chats)=>{
-        const gp= agents.tags.some(d=>filter.includes(d.tag_name)).map(g=>g.user_id)
+        const gp= agents.tags.filter(d=>filter.includes(d.tag_name))
+        console.log("gp" , gp)
+        gp.map(g=>g.user_id)
         return chats.filter(ch=>gp.includes(ch.user_id))
     }
     const messagesSearchRef = useRef()
@@ -502,60 +509,73 @@ export default function Live_chat() {
 
     },[selectedChat])
 
-
+    const unassignFilter = (contact ,chats)=>{
+        const data = contact.filter(c=>c.agent_id.length==0)
+        return chats.filter(chat=>data.includes(chat))
+    }
 
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         // console.log("filter",filter)
-
-        const channelFiltered = chatrooms.filter(data=>{
-            if(selectedChannels.length ==0){
-                return data
-            }
-            console.log(selectedChannels)
-            return selectedChannels.includes(data.channel)
-        })
-
-        const agentFiltered = channelFiltered.filter(data=>{
-            if(selectedUsers.length==0){
-
-                return data
-            }
-            return  data.agents.every(el=>selectedUsers.includes(el.username))
-        })
-
-        const tagFiltered = agentFiltered.filter(data=>{
-            if(selectedTags.length ==0){
-                return data
-            }
-            return data.tags.every(el=>selectedTags.includes(el.tag_name))
-        })
-
-
-        const teamFiltered = tagFiltered.filter(data=>{
-        // const teamFiltered = channelFiltered.filter(data=>{
-            if(selectedTeams.length ==0){
-                return data
-            }
-            return data.team==selectedTeams
-            //contacts not yet have team
-        })
-
-        const unreadfilter = teamFiltered.filter(data=>{
-            if(!unread ){
-                return data
-            }
-            return data.unread>0
-        })
-
-        const unassignedfilter = unreadfilter.filter(data=>{
-            if(!unassigned ){
-                return data
-            }
-            return data.agents.length<1
-        })
-
-        setFilteredData([...unassignedfilter])
+        let newData = [...chatrooms]
+        console.log("user" , users)
+        if(selectedTeams.length>0) newData = teamFilter(users , selectedTeams , newData);
+        if(selectedUsers.length>0) newData = agentfilter(users , selectedUsers , newData);
+        if(selectedTags.length>0)  newData = tagFilter(users , selectedTags , newData);
+        if(selectedChannels.includes("Whatsapp"))newData = whatsappFilter(newData);
+        if(selectedChannels.includes("WABA"))newData=WABAFilter(newData);
+        if(selectedChannels.includes("Messager"))newData=[];
+        if(selectedChannels.includes("Wechat"))newData=[];
+        if(unread)newData = newData.filter(data => data.unread>0)
+        if(unassigned)newData = unassignFilter(contacts , newData)
+        // const channelFiltered = chatrooms.filter(data=>{
+        //     if(selectedChannels.length ==0){
+        //         return data
+        //     }
+        //     console.log(selectedChannels)
+        //     return selectedChannels.includes(data.channel)
+        // })
+        //
+        // const agentFiltered = channelFiltered.filter(data=>{
+        //     if(selectedUsers.length==0){
+        //
+        //         return data
+        //     }
+        //     return  data.agents.every(el=>selectedUsers.includes(el.username))
+        // })
+        //
+        // const tagFiltered = agentFiltered.filter(data=>{
+        //     if(selectedTags.length ==0){
+        //         return data
+        //     }
+        //     return data.tags.every(el=>selectedTags.includes(el.tag_name))
+        // })
+        //
+        //
+        // const teamFiltered = tagFiltered.filter(data=>{
+        // // const teamFiltered = channelFiltered.filter(data=>{
+        //     if(selectedTeams.length ==0){
+        //         return data
+        //     }
+        //     return data.team==selectedTeams
+        //     //contacts not yet have team
+        // })
+        //
+        // const unreadfilter = teamFiltered.filter(data=>{
+        //     if(!unread ){
+        //         return data
+        //     }
+        //     return data.unread>0
+        // })
+        //
+        // const unassignedfilter = unreadfilter.filter(data=>{
+        //     if(!unassigned ){
+        //         return data
+        //     }
+        //     return data.agents.length<1
+        // })
+        //
+        setFilteredData([...newData])
     }
     const unreadHandle = () =>{
         setUnread(!unread);
