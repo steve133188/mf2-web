@@ -8,7 +8,7 @@ import NotificationList from "../components/NotificationList";
 import {GlobalContext} from "../context/GlobalContext";
 import NavItem from "../components/SideItem";
 import {API , graphqlOperation} from "aws-amplify";
-import {listMF2TCOMESSAGGES} from "../src/graphql/queries";
+import {listMF2TCOMESSAGGES,listMF2TCOCHATROOMS} from "../src/graphql/queries";
 import {subscribeToChatroom, subscribeToNewMessage} from "../src/graphql/subscriptions"
 
 import {Avatar } from "@mui/material";
@@ -18,12 +18,35 @@ export default function SideBar(props) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
     const { user} = useContext(GlobalContext)
+    const [totalUnread, setTotalUnread] = useState(0)
 
     const getMesssages = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES))
         console.log(result.data.listMF2TCOMESSAGGES.items)
         return result.data.listMF2TCOMESSAGGES.items
     }
+    const getAllChatrooms = async ()=>{
+
+        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
+            .then(async res =>{
+                let chatroom = res.data.listMF2TCOCHATROOMS.items
+                 chatroom.forEach(async chat=>{
+                    await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false} }}))
+                        .then(async msg=>{
+                            chat.unread = msg.data.listMF2TCOMESSAGGES.items.length
+                        }).catch(error => console.log(error))
+                })
+
+                const totalNum = chatroom.reduce((ori,next)=>{
+                    return ori+next.unread;},0
+                )
+                console.log(totalNum,"number test")
+                setTotalUnread(totalNum)
+
+            })
+            .catch(error => console.log(error))
+    }
+
     const [subscribe, setSubscribe] = useState(null)
    useEffect(async ()=>{
     // getMesssages()
@@ -35,11 +58,12 @@ export default function SideBar(props) {
                }
            })
         setSubscribe(prev=> sub)
+        await getAllChatrooms()
    },[])
 
-   useEffect(()=>{
+//    useEffect(()=>{
 
-   },[notifications])
+//    },[notifications])
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
         {
@@ -80,6 +104,10 @@ export default function SideBar(props) {
     },[notifications])
 
     const [notifications, setNotifications] = useState(props.notices.map(e=>{return {...e,unread:true}}))
+    const [totalNotices,setTotalNotices] = useState(0)
+    const getNoticesNumber =(num)=>{
+        setTotalNotices(num)
+    }
     // let unreadNotificationCount =()=> notifications.filter(msg => {return msg.unread } ).length || 0;
     // useEffect( async ()=>{
     //     const data = await getMesssages()
@@ -222,7 +250,7 @@ export default function SideBar(props) {
 
 
                         </div>)}
-                        <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")}/>
+                        <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")} />
                         <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>
                         <NavItem url={"/broadcast"} name={"Broadcast"} icon={(<BroadcastSVG size="16"/>)} active={isActiveURL("/broadcast")}/>
                         <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="16"/>)} active={isActiveURL("/integrations")}/>
@@ -307,15 +335,25 @@ export default function SideBar(props) {
                                             </g>
                                         </svg>
                                     <span className="side-item-name" style={{margin:"0 5px 0 0"}}>Notifications</span>
-                                    {unreadNotificationCount>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount}</Avatar> :null}
+                                    {totalUnread>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount+totalUnread}</Avatar> 
+                                    : unreadNotificationCount>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount}</Avatar>: "" }
                                 </div>
                             </span>
                             {isNotifyBoxOpen ? (
                                 <div className="notification_activate">
                                     <div className="notify_box">
                                         <div className="notify_box_title" >Notification</div>
+                                        <div className="notification_content">
+                                                <div className="notification_title" style={{display:"flex",justifyContent:"space-evenly",padding:"5%"}}>
+                                                    <b className="notification_from">Unread Message :</b> 
+                                                    <Avatar  className={"text-cente"}  sx={{width:24, height:24 ,fontSize:15 ,backgroundColor:"#D0E9FF",color:"#2198FA"}} >{totalUnread} </Avatar>
+                                                    {/* <div className="notification_detail"> {"total number"} </div> */}
+                                                </div>
+                                                {/* <div className="notification_time"> {notification.receive_time} </div> */}
+                                            </div>
                                         <div className="notify_box_list">
-                                            {notifications.length>-1&&notifications.map((d , index )=>{
+                                          
+                                            {(notifications.length>-1)&&notifications.map((d , index )=>{
                                                 return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
                                             })}
                                         </div>

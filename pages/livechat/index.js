@@ -50,59 +50,59 @@ export default function Live_chat() {
 
 
 
-    const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
-    const [replyData ,setReplyData] = useState([])
+        
+        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
+        const [chatrooms , setChatrooms] = useState([])
+        const [chatroomMsg , setChatroomMsg]  = useState([])
+        const [attachment , setAttachment ] = useState([])
+        const [selectedChat , setSelectedChat] = useState({})
+        const [chatSearch, setSearch] = useState(false)
+        const [isRobotOn , setIsRobotOn] = useState(false)
+        const [chatboxSearch, setChatBoxSearch] = useState("")
+        const [isExpand , setIsExpand] = useState(false)
+        const [isEmojiOn,setEmojiOn] = useState(false)
+        const [ChatButtonOn,setChatButtonOn] = useState(false)
+        const [subscribe,setSubscribe] = useState()
+        const [subscribePin,setSubscribePin] = useState()
+        const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
+        
+        const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
+        const [replyData ,setReplyData] = useState([])
+        const [replyMsg, setReplyMsg] = useState("")
+        const [quotaMsg,setQuotaMsg] = useState({})
+        const [reply,setReply] =useState(false)
 
+        const [searchResult, setSearchResult] = useState([])
+        const [typedMsg , setTypedMsg] = useState({
+            channel:"whatsapp",
+            phone:"",
+            message:"",
+            message_type:"text"
+        })
+        const [chatroomsSub , setChatroomsSub] = useState()
+        const [replybox,setReplybox] = useState("")
+        const [users ,setUsers] =useState([])
+        const [teams ,setTeams] =useState([])
+        const [tags ,setTags] =useState([])
+        const [selectedTags ,setSelectedTags] =useState([])
+        const [selectedUsers ,setSelectedUsers] =useState([])
+        const [chatUser , setChatUser] = useState({})
+        const [selectedTeams ,setSelectedTeams] =useState([])
+        const [selectedChannels ,setSelectedChannels] =useState([]);
+        const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
+        const [chatroomsInfo, setChatroomsInfo] = useState([])
+        const [filteredTags ,setFilteredTags] =useState([])
+        const [filteredUsers ,setFilteredUsers] =useState([])
+        const [filteredData , setFilteredData] = useState([])
 
-    const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
-    const [chatrooms , setChatrooms] = useState([])
-    const [chatroomMsg , setChatroomMsg]  = useState([])
-    const [attachment , setAttachment ] = useState([])
-    const [selectedChat , setSelectedChat] = useState({})
-    const [chatSearch, setSearch] = useState(false)
-    const [isRobotOn , setIsRobotOn] = useState(false)
-    const [chatboxSearch, setChatBoxSearch] = useState("")
-    const [isExpand , setIsExpand] = useState(false)
-    const [isEmojiOn,setEmojiOn] = useState(false)
-    const [ChatButtonOn,setChatButtonOn] = useState(false)
-    const [subscribe,setSubscribe] = useState()
-    const [subscribePin,setSubscribePin] = useState()
-    const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-    const [replyMsg, setReplyMsg] = useState("")
-    const [quotaMsg,setQuotaMsg] = useState({})
-    const [reply,setReply] =useState(false)
-
-    const [searchResult, setSearchResult] = useState([])
-    const [typedMsg , setTypedMsg] = useState({
-        channel:"whatsapp",
-        phone:"",
-        message:"",
-        message_type:"text"
-    })
-    const [chatroomsSub , setChatroomsSub] = useState()
-    const [replybox,setReplybox] = useState("")
-    const [users ,setUsers] =useState([])
-    const [teams ,setTeams] =useState([])
-    const [tags ,setTags] =useState([])
-    const [selectedTags ,setSelectedTags] =useState([])
-    const [selectedUsers ,setSelectedUsers] =useState([])
-    const [chatUser , setChatUser] = useState({})
-    const [selectedTeams ,setSelectedTeams] =useState([])
-    const [selectedChannels ,setSelectedChannels] =useState([]);
-    const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
-    const [chatroomsInfo, setChatroomsInfo] = useState([])
-    const [filteredTags ,setFilteredTags] =useState([])
-    const [filteredUsers ,setFilteredUsers] =useState([])
-    const [filteredData , setFilteredData] = useState([])
-
-    const [isShow , setIsShow] =useState(false)
-    const [unread,setUnread] = useState(false)
-    const [unassigned,setUnassigned] = useState(false)
-    const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const [pinChat , setPinChat] = useState([])
-    const [mediaUrl , setMediaUrl] = useState('')
-    const [isMedia , setIsMedia ] = useState(false)
-    const [totalUnread, setTotalUnread] = useState(0)
+        const [isShow , setIsShow] =useState(false)
+        const [totalUnread, setTotalUnread] = useState(0)
+        const [unread,setUnread] = useState(false)
+        const [unassigned,setUnassigned] = useState(false)
+        const [isFilterOpen , setIsFilterOpen] = useState(false)
+        const [pinChat , setPinChat] = useState([])
+        const [mediaUrl , setMediaUrl] = useState('')
+        const [isMedia , setIsMedia ] = useState(false)
 
     const gqlFilter = async ()=>{
 
@@ -177,7 +177,11 @@ export default function Live_chat() {
                 console.log(totalUnread,"TOTALTOTAL")
                 const pin = chatroom.filter(chat=>chat.is_pin==true)
                 const unpin = chatroom.filter(chat=>chat.is_pin==false)
-
+                const totalNum = chatroom.reduce((ori,next)=>{
+                    return ori+next.unread;},0
+                )
+                console.log(totalNum,"number test")
+                setTotalUnread(totalNum)
                 setChatrooms(chatroom)
                 setFilteredData(unpin)
                 setPinChat(pin)
@@ -197,17 +201,13 @@ export default function Live_chat() {
         console.log("imgKeys : " , imageKeys)
         setAttachment(imageKeys)
     }
+
     const [filePreview,setFilePrevier] = useState({name:"",size:0,type:""})
-    // useEffect(()=>{
-    //
-    //     console.log(filePreview,"filepreview")
-    //
-    // },[filePreview])
+
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
         console.log(URL.createObjectURL(file))
-
         const filetype =  messageInstance.mediaTypeHandler(file)
         const path =URL.createObjectURL(file)
         console.log("FileType~~~",filetype)
@@ -351,7 +351,6 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
         console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
-        console.log(totalUnread,"dafsdfsdfsdf dsf")
         
     }
 
@@ -443,13 +442,10 @@ export default function Live_chat() {
     const ReferechHandle=async()=>{
         await getChatrooms();
         await getChatroomMessage ();
-        console.log("total unread",totalUnread)
+
     }
 
     const wrapperRef1 = useRef();
-    const wrapperRef2 = useRef();
-    const wrapperRef3 = useRef();
-
 
     const handleClickOutside = (event) => {
 
@@ -457,18 +453,9 @@ export default function Live_chat() {
             setChatButtonOn("");
             setIsExpand(false);
             setFilePrevier({name:"",size:0,type:""})
-            if (wrapperRef2.current &&!wrapperRef2.current.contains(event.target.node)){
-                if (wrapperRef3.current &&!wrapperRef3.current.contains(event.target.node)){
-
-                    setChatButtonOn("");
-                    setIsExpand(false);
-                }
-
-            }
-
-        }
-
+          }
     };
+
     const replyClick=click=>{
         console.log(click,"done donedone")
         setReplyMsg(click)
@@ -559,11 +546,7 @@ export default function Live_chat() {
 
     }
 
-    useEffect(()=>{
 
-        chatrooms.map(e=>{return setTotalUnread(totalUnread+e.unread)})
-        console.log(totalUnread)
-    },[chatrooms])
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
         await handleSub(selectedChat)
