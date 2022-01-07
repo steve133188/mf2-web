@@ -423,7 +423,8 @@
           //border-top: 1px solid #F1F1F1;
           .starred{
             position:absolute;
-            right: 5%;
+            right: 10%;
+
             // border: 1px solid #E5E7EC;
             // opacity: 1;
           }
@@ -432,7 +433,8 @@
             height: 50px;
             justify-content: center;
             vertical-align: center;
-            padding:  0;
+            padding:  0 0 0 5px;
+            
             img{
               width: 30px;
               height: 30px;
@@ -1185,6 +1187,7 @@
       vertical-align: center;
       padding:  0;
       margin-right: 15px;
+      margin-left: 10px;
       img{
         width: 30px;
         height: 30px;

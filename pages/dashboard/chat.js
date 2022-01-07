@@ -285,7 +285,7 @@ export default function Chat() {
             </div>
             <div className="chartGroup" >
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={dash.all_contacts} x_cate={dash.yaxis}   xname={"Date"} yaxis={"Contacts"} total={dash.all_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"All Contacts"} data={dash.all_contacts} x_cate={dash.yaxis}   xname={"Date"} yaxis={"Contacts"} total={dash.all_contacts.slice(-1)} percentage={""} /></div>
                     <div className="dashboardColumn"><LineChart title={"Active Contacts"} data={dash.active_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.active_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">

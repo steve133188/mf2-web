@@ -284,10 +284,6 @@ svg{
     outline:0;
   }
 }
-.MuiAvatarGroup-avatar{
-  width:26px;
-  height:26px;
-}
 
 .avaGroupInstead{
   display: flex;
@@ -339,3 +335,13 @@ svg{
     justify-content: flex-start;
   }
 }
+
+  .MuiAvatarGroup-avatar{
+    width:26px;
+    height:26px;
+  }
+  // .MuiAvatar-root{
+  //   background-color: #D0E9FF !important;
+  //   color:#2198FA !important;
+
+  // }

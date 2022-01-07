@@ -24,6 +24,9 @@ import CountDownTimer from "../../components/CountDownTimer";
 import NotificationList from "../../components/NotificationList";
 import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
 import { getURL } from "next/dist/shared/lib/utils";
+import { padding } from "@mui/system";
+import BigPlayButton from "video-react/lib/components/BigPlayButton";
+import Player from "video-react/lib/components/Player";
 
 
 export default function Live_chat() {
@@ -191,9 +194,7 @@ export default function Live_chat() {
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
-        console.log(file.mozFullPath,"file data console")
         console.log(URL.createObjectURL(file))
-        // console.log()
 
         const filetype =  messageInstance.mediaTypeHandler(file)
         const path =URL.createObjectURL(file)
@@ -205,12 +206,14 @@ export default function Live_chat() {
             const result = await mediaInstance.putImg(file , filetype)
            setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
+            
         }
         if(filetype.includes("video")){
             setFilePrevier({name:file.name,size:file.size,type:"video",path:path})
             const result = await mediaInstance.putVideo(file , filetype)
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "VIDEO"})
+            // sendMessageToClient()
         }
         if(filetype.includes("audio")){
             setFilePrevier({name:file.name,size:file.size,type:"AUDIO",path:path})
@@ -320,14 +323,16 @@ export default function Live_chat() {
         setIsExpand(false);
     }
     const toggleFile= e =>{
-        setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
+        if(filePreview.size<100){
+            setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
-        fileAttach()
         setIsExpand(isExpand&&ChatButtonOn=="m3"?false:true);
         // setAttachment(e.target.files[0])
         // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
     }
+    fileAttach()
+        }
     const toggleQuickReply = () =>{
         setChatButtonOn(ChatButtonOn=="m4"?"":"m4");
         setIsExpand(isExpand&&ChatButtonOn=="m4"?false:true);
@@ -380,10 +385,11 @@ export default function Live_chat() {
         setTypedMsg({...typedMsg , message: ""})
         if(isMedia){
             setIsMedia(false)
-            setFilePrevier({})
+            // setFilePrevier({})
+            setFilePrevier({name:"",size:0,type:""})
         }
-        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         setIsExpand(false)
+        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         console.log("data :" , data)
         setChatButtonOn("")
     }
@@ -402,6 +408,7 @@ export default function Live_chat() {
         if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
             setChatButtonOn("");
             setIsExpand(false);
+            setFilePrevier({name:"",size:0,type:""})
             if (wrapperRef2.current &&!wrapperRef2.current.contains(event.target.node)){
                 if (wrapperRef3.current &&!wrapperRef3.current.contains(event.target.node)){
 
@@ -766,15 +773,69 @@ export default function Live_chat() {
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                             </div>
                             }
-                            {filePreview&&
-                            <div style={{display:(ChatButtonOn=="m3"?"flex":"none")}} onClick={toggleReply }>
-                                {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
-                                {/* <div>{filePreview.name} </div> */}
-                                <div>{filePreview.type}file </div>
-                                <div>
-                                    <img src={filePreview.path} style={{width:"80px",height:"80px"}}/><div>{filePreview.size/1000}kb</div>
+                            {filePreview.size > 100 &&
+                                <div style={{display:(ChatButtonOn=="m3"?"flex":"none"), padding:"1.5rem 1rem" }} onClick={toggleReply }>
+                                    {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
+                                    {/* <div>{filePreview.name} </div> */}
+                                       
+                                            {filePreview.type=="image"? <div style={{display:"flex"}}>
+                                                                            <div>
+                                                                                    <div>{filePreview.type}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                                <div>
+                                                                                    <img src={filePreview.path} style={{width:"100px",height:"100px", margin:"0 15px"}}/>
+                                                                                </div>
+                                                                        </div>:""}
+                                            {filePreview.type=="video"?<div style={{display:"flex"}}>
+                                                                            <div>
+                                                                                    <div style={{fontSize:"18px"}}>{filePreview.type}</div>
+                                                                                <div>{filePreview.name}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                                <div> 
+                                                                                <div style={{display:"flex",alignItems:"center",margin:"0 15px"}}>
+                                                                                    <Player   className={"videoBox"} playsInline fluid={false} width={150} muted={true}>
+                                                                                    <BigPlayButton position="center" />
+                                                                                                <source  id={filePreview.name} src={filePreview.path}  onClick={e=>e.preventDefault} type="video/mp4" />
+                                                                                </Player>
+                                                                                        {/* <svg xmlns="http://www.w3.org/2000/svg"  width="35" height="35" viewBox="0 0 35 35" >
+                                                                                            <g id="Mask_Group_62" data-name="Mask Group 62" transform="translate(-2746 -1111)" >
+                                                                                                <rect id="Background-2" data-name="Background" width="35" height="35" transform="translate(2746 1111)" fill="none"/>
+                                                                                                <path id="Path_34405" data-name="Path 34405" d="M973.181,507.951h0a1.148,1.148,0,0,0-1.1,1.1v14.067a5.318,5.318,0,0,1-4.667,5.362c-.175.017-.348.026-.519.026a5.141,5.141,0,0,1-5.13-4.651,4.806,4.806,0,0,1-.028-.52V506.919a3.306,3.306,0,0,1,2.849-3.349,3.222,3.222,0,0,1,.333-.017,3.168,3.168,0,0,1,3.156,2.846,2.922,2.922,0,0,1,.017.338v13.951a1.189,1.189,0,0,1-1.222,1.144h0a1.19,1.19,0,0,1-1.145-1.14V509.048a1.144,1.144,0,0,0-1.182-1.1h0a1.146,1.146,0,0,0-1.1,1.1v11.438a3.6,3.6,0,0,0,3.1,3.644,3.468,3.468,0,0,0,3.81-3.09c.012-.12.017-.242.017-.364V506.956a5.607,5.607,0,0,0-4.927-5.656c-.18-.017-.359-.026-.536-.026a5.436,5.436,0,0,0-5.429,4.93c-.016.174-.023.348-.025.523v16.3a7.655,7.655,0,0,0,6.723,7.737c.247.025.493.036.735.036a7.431,7.431,0,0,0,7.416-6.736c.023-.241.035-.484.035-.728V509.048A1.144,1.144,0,0,0,973.181,507.951Z" transform="translate(1796.697 612.626)" className={"attachmentPinLogo"} fill="#2198fa"/>
+                                                                                            </g>
+                                                                                        </svg> */}
+                                                                                </div>
+                                                                                </div>
+                                                                        </div>:""}
+                                            {filePreview.type=="AUDIO"?<div style={{display:"flex",background: "#D0E9FF 0% 0% no-repeat padding-box",borderRadius:" 10px",padding:"1rem"}}>
+                                                                            <div>
+                                                                                    <div>{filePreview.type}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                            <div  style={{margin:"0 15px",fill:"#2198fa"}}>
+                                                                            <VoiceMsg size={20} />
+                                                                            </div>
+                                                                        </div>:""}
+                                            {filePreview.type=="document"?<div style={{display:"flex",background: "#D0E9FF 0% 0% no-repeat padding-box",borderRadius:" 10px",padding:"1rem"}}>
+                                                                            <div>
+                                                                                    <div>{filePreview.type}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                                <div style={{display:"flex",alignItems:"center"}}>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"  width="35" height="35" viewBox="0 0 35 35" >
+                                                                                            <g id="Mask_Group_62" data-name="Mask Group 62" transform="translate(-2746 -1111)" >
+                                                                                                <rect id="Background-2" data-name="Background" width="35" height="35" transform="translate(2746 1111)" fill="none"/>
+                                                                                                <path id="Path_34405" data-name="Path 34405" d="M973.181,507.951h0a1.148,1.148,0,0,0-1.1,1.1v14.067a5.318,5.318,0,0,1-4.667,5.362c-.175.017-.348.026-.519.026a5.141,5.141,0,0,1-5.13-4.651,4.806,4.806,0,0,1-.028-.52V506.919a3.306,3.306,0,0,1,2.849-3.349,3.222,3.222,0,0,1,.333-.017,3.168,3.168,0,0,1,3.156,2.846,2.922,2.922,0,0,1,.017.338v13.951a1.189,1.189,0,0,1-1.222,1.144h0a1.19,1.19,0,0,1-1.145-1.14V509.048a1.144,1.144,0,0,0-1.182-1.1h0a1.146,1.146,0,0,0-1.1,1.1v11.438a3.6,3.6,0,0,0,3.1,3.644,3.468,3.468,0,0,0,3.81-3.09c.012-.12.017-.242.017-.364V506.956a5.607,5.607,0,0,0-4.927-5.656c-.18-.017-.359-.026-.536-.026a5.436,5.436,0,0,0-5.429,4.93c-.016.174-.023.348-.025.523v16.3a7.655,7.655,0,0,0,6.723,7.737c.247.025.493.036.735.036a7.431,7.431,0,0,0,7.416-6.736c.023-.241.035-.484.035-.728V509.048A1.144,1.144,0,0,0,973.181,507.951Z" transform="translate(1796.697 612.626)" className={"attachmentPinLogo"} fill="#2198fa"/>
+                                                                                            </g>
+                                                                                        </svg>
+                                                                                    <div>{filePreview.name}</div>
+                                                                                </div>
+                                                                        </div>:""}
+
+                                        
+                                   
                                 </div>
-                            </div>
                             }
                             <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>

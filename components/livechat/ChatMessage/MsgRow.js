@@ -33,7 +33,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                         {props.replyMsg==defaultId? <Reply confirmReply={confirmReply} />:""}
                                         <img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/>
                                     </div>);
-            case "image":   return <div id={defaultId} onClick={replyclick} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
+            case "IMAGE":   return <div id={defaultId} onClick={replyclick} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
             case "imageCaption":
                 return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                         {/* {console.log(JSON.parse(captionJson).url)} */}
@@ -44,7 +44,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                     <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
                                 </div>
 
-            case "video":   return <div id={defaultId} onClick={replyclick} className={"msg_type_video"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
+            case "VIDEO":   return <div id={defaultId} onClick={replyclick} className={"msg_type_video"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                     {/* <iframe allowFullScreen className={"videoBox"} src={msg.body}  /> */}
                     <Player   className={"videoBox"} playsInline fluid={false} width={360} muted={true}>
                         <BigPlayButton position="center" />
@@ -95,7 +95,9 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
 
                 {/*{msg.sender&&msg.from_me&&<div className={"msg_timestamp"}>+{msg.sender.slice(0,3)} {msg.sender.slice(3)}__{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()} </div>}*/}
                 {msg.sender&&msg.from_me&&<div className={"msg_timestamp"}>{user.user.username}&ensp; {new Date(parseInt(msg.timestamp*1000)).toDateString('en-US', { hour: '2-digit', minute: '2-digit' })} &ensp; {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} </div>}
-                {msg.sender&&!msg.from_me&&<div className={"msg_timestamp"}>{props.c.filter(e=>{return parseInt(msg.sender)==e.customer_id?true:false})[0].customer_name} &ensp;  {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} </div>}
+                {msg.sender&&!msg.from_me&&<div className={"msg_timestamp"}>
+                    {/* {props.c.filter(e=>{return parseInt(msg.sender)==e.customer_id?true:false})[0].customer_name} */}
+                 &ensp;  {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} </div>}
             </div>
         </div>
     )

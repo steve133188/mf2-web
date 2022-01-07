@@ -6,7 +6,8 @@ export default function NotificationList({notification , ...props}){
     return(
         <div className={state}>
             <div className="loader">
-                <h1><Skeleton sx={{ bgcolor: '#0ABAB5' }}/></h1>
+                {/* <h1><Skeleton sx={{ bgcolor: 'rgb(208, 233, 255);' ,width:"100vw",height:"100vh"}}/></h1> */}
+                <img src="/000loading.svg"/>
             </div>
         </div>
     )

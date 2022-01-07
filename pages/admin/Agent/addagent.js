@@ -43,9 +43,13 @@ export default function AddAgent(){
                 {name:"Messager",value:"Messager",channelID:"messager",id:3},
                 {name:"WeChat",value:"Wechat",channelID:"wechat",id:4},];
     
-    const submit = async ()=>{
-        const data = {
+    const fieldCheck=()=>{
+        if(userCredential.username.length<1){console.log("username to short");return }
+    }
 
+    const submit = async ()=>{
+        fieldCheck();
+        const data = {
             username:userCredential.username,
             email:userCredential.email,
             phone:parseInt(userCredential.phone),
@@ -143,8 +147,8 @@ export default function AddAgent(){
             </div>
             <div className="add_user_session">
                 <div className="form_row">
-                    <MF_Input name={"username"}  value={userCredential.username} onChange={handleChange} title="Username"/>
-                    <MF_Input name={"email"} value={userCredential.email} onChange={handleChange} title="Email"/>
+                    <MF_Input name={"username"}  value={userCredential.username} onChange={handleChange} title="Username" minlength={1} />
+                    <MF_Input name={"email"} value={userCredential.email} onChange={handleChange} title="Email" type={"email"}/>
                 </div>
                 <div className="form_row"> 
                     <MF_Input name={"country_code"} value={userCredential.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
