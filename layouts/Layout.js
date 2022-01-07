@@ -25,9 +25,26 @@ export default function Layout({children}) {
     const u = user.user
     // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
     const [notificationList,setNotificationList]= useState([])
+    const [notiSub , setNotiSub] = useState()
 
-
-
+    const sub = async ()=>{
+        if(notiSub) notiSub.unsubscribe()
+        console.log("subscribe notification start")
+        const s = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
+            .subscribe({
+                next: async (chat) => {
+                    console.log("update chat " ,chat)
+                    const no ={
+                        type:"newMsg",
+                        channel:chat.channel || "Whatsapp",
+                        content:chat.body,
+                        sender:chat.name
+                    }
+                    setNotificationList(prev=>[...prev,no])
+                }
+            })
+        setNotiSub(prev=>s)
+    }
     //auto remove notification
 
     const layout = (
@@ -49,19 +66,7 @@ export default function Layout({children}) {
     useEffect(async ()=>{
         if(user.token != null){
             setIsAuth(true)
-            const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
-                .subscribe({
-                    next: async (chat) => {
-                        console.log("update chat " ,chat)
-                        const no ={
-                            type:"newMsg",
-                            channel:chat.channel || "Whatsapp",
-                            content:chat.body,
-                            sender:chat.name
-                        }
-                        setNotificationList(prev=>[...prev,no])
-                    }
-                })
+            await sub()
         }else {
             setIsAuth(false)
         }
