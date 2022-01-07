@@ -54,7 +54,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                             <audio id={defaultId} onClick={replyclick}  className={"voice_detail"} controls src={msg.media_url} ></audio>
 
                         </div>;
-            case "document":
+            case "FILE":
                 return  <div id={defaultId} onClick={replyclick}  className={"msg_type_attachment"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                             <div className={"attachmentBox"}>
                                 <svg xmlns="http://www.w3.org/2000/svg"  width="35" height="35" viewBox="0 0 35 35" >

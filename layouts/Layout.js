@@ -28,7 +28,7 @@ export default function Layout({children}) {
     //auto remove notification
 
     const layout = (
-        <div className={"layout"}><SideBar navItems={navItems} />
+        <div className={"layout"}><SideBar navItems={navItems}  notices={notificationList}/>
             <div className={"layout-main"}>
                 {children}
             </div>

@@ -11,6 +11,8 @@ import {API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOMESSAGGES} from "../src/graphql/queries";
 import { subscribeToNewMessage} from "../src/graphql/subscriptions"
 
+import {Avatar } from "@mui/material";
+
 
 export default function SideBar(props) {
     //data for notify box
@@ -38,9 +40,7 @@ export default function SideBar(props) {
         setSubscribe(prev=> sub)
    },[]) 
 
-   useEffect(()=>{
-       
-   },[notifications])
+
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
         {
@@ -70,29 +70,37 @@ export default function SideBar(props) {
 
     //handle NotifyBox toggle
     const [isNotifyBoxOpen, setIsNotifyBoxOpen] = useState(false)
+    const [unreadNotificationCount, setUnreadNotificationCount] = useState(0)
 
     function notifyBoxToggle() {
         setIsNotifyBoxOpen(!isNotifyBoxOpen);
     }
-    const [notifications, setNotifications] = useState([])
-    let unreadNotificationCount =()=> notifications.filter(unread => unread.unreadCount >0 ).length || 0;
+    useEffect(()=>{
+        console.log(notifications,"notice store")
+        setUnreadNotificationCount(notifications.length)
+    },[notifications])
+
+    const [notifications, setNotifications] = useState(props.notices.map(e=>{return {...e,unread:true}}))
+    // let unreadNotificationCount =()=> notifications.filter(msg => {return msg.unread } ).length || 0;
     // useEffect( async ()=>{
     //     const data = await getMesssages()
     //     if(data!=-1&& data!= undefined){setNotifications(data)}else{setNotifications([])}
-    // } , [])
+    // } , [])d
 
     //when click the notification, set unreadCount to 0
      function handleReadNotification (target) {
-             const newList = notifications.map((item) =>{
-                if (item.id === target) {
-                   return {
-                       ...item,
-                       unreadCount: 0,
-                   };
-               }
-               return item;
-             });
-        setNotifications(newList);
+         setNotifications(notifications.filter(item=>{return item.id !== target}));
+         setUnreadNotificationCount(notifications.filter(item=>{return item.id !== target}).length)
+        //      const newList = notifications.map((item) =>{
+        //         if (item.id === target) {
+        //            return {
+        //                ...item,
+        //                unread: false,
+        //            };
+        //        }
+        //        return item;
+        //      });
+        // setNotifications(newList);
     }
 
     function isActiveURL(url){
@@ -110,6 +118,7 @@ export default function SideBar(props) {
         useLayoutEffect(() => {
             function updateSize() {
               setSize({width, height});
+              
             }
             if(window) {  
                 updateSize();
@@ -127,6 +136,10 @@ export default function SideBar(props) {
       },[size])
 
 
+      useEffect(()=>{
+          console.log(props.notices,"notice sync")
+          setNotifications(props.notices)
+      },[])
     return (
         <div className={(isCollapse ? "collapseLayout" :null)} >
             <div className={"layout-sidebar "}>
@@ -294,8 +307,8 @@ export default function SideBar(props) {
                                                 <path id="Shape" d="M5.664,13.818a2.829,2.829,0,0,1-2.733-2.044H.708A.7.7,0,0,1,0,11.082V9.7A2.087,2.087,0,0,1,1.416,7.743V5.54a4.173,4.173,0,0,1,3.54-4.093V.693a.708.708,0,0,1,1.416,0v.755A4.175,4.175,0,0,1,9.913,5.54v2.2A2.086,2.086,0,0,1,11.328,9.7v1.385a.7.7,0,0,1-.708.693H8.4A2.828,2.828,0,0,1,5.664,13.818ZM4.447,11.774a1.417,1.417,0,0,0,2.436,0ZM2.124,9a.7.7,0,0,0-.708.693v.693h8.5V9.7A.7.7,0,0,0,9.2,9Zm3.54-6.233A2.8,2.8,0,0,0,2.832,5.54V7.618H8.5V5.54A2.8,2.8,0,0,0,5.664,2.771Z" transform="translate(2.832 1.341)" fill="currentColor"/>
                                             </g>
                                         </svg>
-                                    <span className="side-item-name">Notifications</span>
-                                    {unreadNotificationCount>0? <Pill color="red">{unreadNotificationCount}</Pill>:null}
+                                    <span className="side-item-name" style={{margin:"0 5px 0 0"}}>Notifications</span>
+                                    {unreadNotificationCount>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount}</Avatar> :null}
                                 </div>
                             </span>
                             {isNotifyBoxOpen ? (

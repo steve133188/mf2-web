@@ -202,14 +202,14 @@ export default function Live_chat() {
         // console.log("result : " , result)
         setIsMedia(true)
         if(filetype.includes("image")){
-            setFilePrevier({name:file.name,size:file.size,type:"image",path:path})
+            newFunction(file, path);
             const result = await mediaInstance.putImg(file , filetype)
            setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
             
         }
         if(filetype.includes("video")){
-            setFilePrevier({name:file.name,size:file.size,type:"video",path:path})
+            setFilePrevier({name:file.name,size:file.size,type:"VIDEO",path:path})
             const result = await mediaInstance.putVideo(file , filetype)
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "VIDEO"})
@@ -222,10 +222,10 @@ export default function Live_chat() {
             setTypedMsg({...typedMsg ,message_type: "AUDIO"})
         }
         if(filetype.includes("document")){
-            setFilePrevier({name:file.name,size:file.size,type:"document",path:path})
+            setFilePrevier({name:file.name,size:file.size,type:"FILE",path:path})
             const result = await mediaInstance.putDoc(file , filetype)
             setMediaUrl(result)
-            setTypedMsg({...typedMsg ,message_type: "document"})
+            setTypedMsg({...typedMsg ,message_type: "FILE"})
         }
 
     }
@@ -314,6 +314,10 @@ export default function Live_chat() {
     const messagesEndRef = useRef()
     const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
     useEffect(()=>{scrollToBottom(),[chatroomMsg]})
+    function newFunction(file, path) {
+        setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path });
+    }
+
     ///////
 
     async function handleChatRoom(chatroom){
@@ -815,7 +819,7 @@ export default function Live_chat() {
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                     {/* <div>{filePreview.name} </div> */}
                                        
-                                            {filePreview.type=="image"? <div style={{display:"flex"}}>
+                                            {filePreview.type=="IMAGE"? <div style={{display:"flex"}}>
                                                                             <div>
                                                                                     <div>{filePreview.type}</div>
                                                                                     <div>{filePreview.size/1000}kb</div>
@@ -824,7 +828,7 @@ export default function Live_chat() {
                                                                                     <img src={filePreview.path} style={{width:"100px",height:"100px", margin:"0 15px"}}/>
                                                                                 </div>
                                                                         </div>:""}
-                                            {filePreview.type=="video"?<div style={{display:"flex"}}>
+                                            {filePreview.type=="VIDEO"?<div style={{display:"flex"}}>
                                                                             <div>
                                                                                     <div style={{fontSize:"18px"}}>{filePreview.type}</div>
                                                                                 <div>{filePreview.name}</div>
@@ -854,7 +858,7 @@ export default function Live_chat() {
                                                                             <VoiceMsg size={20} />
                                                                             </div>
                                                                         </div>:""}
-                                            {filePreview.type=="document"?<div style={{display:"flex",background: "#D0E9FF 0% 0% no-repeat padding-box",borderRadius:" 10px",padding:"1rem"}}>
+                                            {filePreview.type=="FILE"?<div style={{display:"flex",background: "#D0E9FF 0% 0% no-repeat padding-box",borderRadius:" 10px",padding:"1rem"}}>
                                                                             <div>
                                                                                     <div>{filePreview.type}</div>
                                                                                     <div>{filePreview.size/1000}kb</div>
