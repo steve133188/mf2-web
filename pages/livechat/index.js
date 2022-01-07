@@ -15,7 +15,12 @@ import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import {createMF2TCOCHATROOM, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
-import {subscribeToChatroom, subscribeToChatroomUpdate, subscribeToNewMessage} from "../../src/graphql/subscriptions"
+import {
+    subscribeToChatroom,
+    subscribeToChatroomUpdate,
+    subscribeToNewChatroom,
+    subscribeToNewMessage,
+} from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
 import QuickReply from "../../components/livechat/quickReply/quickreply";
@@ -165,8 +170,13 @@ export default function Live_chat() {
                         }).catch(error => console.log(error))
                 })
                 console.log(chatroom)
+
+                const pin = chatroom.filter(chat=>chat.is_pin==true)
+                const unpin = chatroom.filter(chat=>chat.is_pin==false)
+
                 setChatrooms(chatroom)
-                setFilteredData(chatroom)
+                setFilteredData(unpin)
+                setPinChat(pin)
             })
             .catch(error => console.log(error))
         // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
@@ -233,6 +243,8 @@ export default function Live_chat() {
         setChatUser(result.data)
     }
     const [contacts, setContacts] = useState([]);
+
+
 
     // const windowUrl = window.location.search;
     // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
@@ -481,6 +493,16 @@ export default function Live_chat() {
             await getAllChatrooms()
             await getStickers()
             subChatrooms()
+            await API.graphql(graphqlOperation(subscribeToNewChatroom))
+                .subscribe({
+                    next: async (room)=>{
+                        const newroom= room.value.data.subscribeToNewChatroom
+                        // let updatedPost = [ ...chatroomMsg,newMessage ]
+                        setFilteredData(prev=>[ newroom,...prev ])
+                        console.log("new message: " , newroom)
+                        // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
+                    }
+                })
             // await getChatroomMessage()
             // TODO need to implete receiver id to sub input
         }
@@ -501,6 +523,19 @@ export default function Live_chat() {
                 }
             })
         setSubscribe(prev=> sub)
+
+    }
+    const handleSubNew = async ()=>{
+        const sub =await API.graphql(graphqlOperation(subscribeToNewChatroom ))
+            .subscribe({
+                next: async (room)=>{
+                    const newroom= room.value.data.subscribeToNewChatroom
+                    // let updatedPost = [ ...chatroomMsg,newMessage ]
+                    setFilteredData(prev=>[ newroom,...prev ])
+                    console.log("new message: " , newroom)
+                    // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
+                }
+            })
 
     }
     useEffect(async ()=>{

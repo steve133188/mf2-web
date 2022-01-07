@@ -11,6 +11,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import NotificationAlert from "../components/custom/noti";
+import {API, graphqlOperation} from "aws-amplify";
+import {subscribeToChatroom, subscribeToChatroomUpdate, subscribeToNewMessage} from "../src/graphql/subscriptions";
 
 
 
@@ -21,7 +23,8 @@ export default function Layout({children}) {
     const router = useRouter()
     const {user , logout} = useContext(GlobalContext)
     const u = user.user
-    const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    const [notificationList,setNotificationList]= useState([])
 
 
 
@@ -43,9 +46,22 @@ export default function Layout({children}) {
 
     const unAuth = (<div className={"unauth"}>{children}</div>)
 
-    useEffect(()=>{
+    useEffect(async ()=>{
         if(user.token != null){
             setIsAuth(true)
+            const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
+                .subscribe({
+                    next: async (chat) => {
+                        console.log("update chat " ,chat)
+                        const no ={
+                            type:"newMsg",
+                            channel:chat.channel || "Whatsapp",
+                            content:chat.body,
+                            sender:chat.name
+                        }
+                        setNotificationList(prev=>[...prev,no])
+                    }
+                })
         }else {
             setIsAuth(false)
         }
