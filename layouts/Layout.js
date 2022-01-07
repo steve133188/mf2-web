@@ -3,7 +3,6 @@ import {useRouter} from "next/router";
 import {useEffect, useContext, useState,useLayoutEffect} from "react";
 import {GlobalContext} from "../context/GlobalContext"
 import SideBar from "./SideBar";
-import {MultipleSelectPlaceholder, SingleSelect, SingleSelect2} from "../components/Select";
 import * as React from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
