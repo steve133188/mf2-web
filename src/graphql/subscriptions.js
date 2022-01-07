@@ -2,32 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const subscribeToChatroom = /* GraphQL */ `
-  subscription SubscribeToChatroom($room_id: Int!) {
-    subscribeToChatroom(room_id: $room_id) {
-      room_id
-      timestamp
-      sender
-      recipient
-      body
-      is_media
-      channel
-      link
-      media_url
-      from_me
-      message_type
-      message_id
-      hasQuotedMsg
-      quote
-      is_forwarded
-      v_card
-      read
-      sign_name
-    }
-  }
-`;
-export const subscribeToNewMessage = /* GraphQL */ `
-  subscription SubscribeToNewMessage($recipient: String!) {
-    subscribeToNewMessage(recipient: $recipient) {
+  subscription SubscribeToChatroom($room_id: Int, $from_me: Boolean) {
+    subscribeToChatroom(room_id: $room_id, from_me: $from_me) {
       room_id
       timestamp
       sender
@@ -52,6 +28,21 @@ export const subscribeToNewMessage = /* GraphQL */ `
 export const subscribeToChatroomUpdate = /* GraphQL */ `
   subscription SubscribeToChatroomUpdate($user_id: Int!, $is_pin: Boolean) {
     subscribeToChatroomUpdate(user_id: $user_id, is_pin: $is_pin) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      unread
+      user_id
+      avatar
+    }
+  }
+`;
+export const subscribeToNewChatroom = /* GraphQL */ `
+  subscription SubscribeToNewChatroom($user_id: Int) {
+    subscribeToNewChatroom(user_id: $user_id) {
       channel
       customer_id
       is_pin

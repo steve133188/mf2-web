@@ -3,7 +3,6 @@ import {useRouter} from "next/router";
 import {useEffect, useContext, useState,useLayoutEffect} from "react";
 import {GlobalContext} from "../context/GlobalContext"
 import SideBar from "./SideBar";
-import {MultipleSelectPlaceholder, SingleSelect, SingleSelect2} from "../components/Select";
 import * as React from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -11,6 +10,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import NotificationAlert from "../components/custom/noti";
+import {API, graphqlOperation} from "aws-amplify";
+import {subscribeToChatroom, subscribeToChatroomUpdate} from "../src/graphql/subscriptions";
 
 
 
@@ -21,10 +22,28 @@ export default function Layout({children}) {
     const router = useRouter()
     const {user , logout} = useContext(GlobalContext)
     const u = user.user
-    const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    const [notificationList,setNotificationList]= useState([])
+    const [notiSub , setNotiSub] = useState()
 
-
-
+    const sub = async ()=>{
+        if(notiSub) notiSub.unsubscribe()
+        console.log("subscribe notification start")
+        const s = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
+            .subscribe({
+                next: async (chat) => {
+                    console.log("update chat " ,chat)
+                    const no ={
+                        type:"newMsg",
+                        channel:chat.channel || "Whatsapp",
+                        content:chat.body,
+                        sender:chat.name
+                    }
+                    setNotificationList(prev=>[...prev,no])
+                }
+            })
+        setNotiSub(prev=>s)
+    }
     //auto remove notification
 
     const layout = (
@@ -43,11 +62,13 @@ export default function Layout({children}) {
 
     const unAuth = (<div className={"unauth"}>{children}</div>)
 
-    useEffect(()=>{
+    useEffect(async ()=>{
         if(user.token != null){
             setIsAuth(true)
+            await sub()
         }else {
             setIsAuth(false)
+            sub
         }
         console.log("is auth :" , isAuth)
     },[user])

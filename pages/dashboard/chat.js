@@ -158,22 +158,17 @@ export default function Chat() {
             return () => { isMounted = false };
     },[dayState])
 
-    useEffect(() => {
+    useEffect(()=>{
         let isMounted = true;
-        setTimeout(function() { //Start the timer
-            setIsLoading(false);
-        }.bind(this), 100)
         return () => { isMounted = false };
-    },[]);
-
-
+    },[])
     // tags.map(item=>{ const data = []
     //                 data.push(item)
     //                 data.push
     // })
     return (
         <div className="dashboard-layout">
-            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloaderFadeOut"}/>)}
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
 
             <div className="navbarPurple">
                 <div className={"left"}>

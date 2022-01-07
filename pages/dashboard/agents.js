@@ -20,8 +20,10 @@ import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 import {GlobalContext} from "../../context/GlobalContext";
+import Loading from "../../components/Loading";
 
 export default function Agents() {
+    const [isLoading, setIsLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
 
@@ -85,6 +87,11 @@ export default function Agents() {
         let data = await fetchDefault();
         setDash(data)
         
+        if(isLoading){
+            setTimeout(function() { //Start the timer
+                setIsLoading(false);
+            }.bind(this), 100)
+        }
     },[])
     useEffect(async ()=>{
         if (dash.agents_no.length == 0) {
@@ -185,11 +192,13 @@ export default function Agents() {
             setSelectedPeriod(dayState.from.toLocaleDateString()+" - "+dayState.to.toLocaleDateString())}
 
             return () => { isMounted = false };
+            
     },[dayState])
 
     return (
         <div className="dashboard-layout">
             <div className="navbarPurple">
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
 
                 <div className={"left"}>
                     <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>

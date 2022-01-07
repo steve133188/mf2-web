@@ -9,7 +9,7 @@ import {GlobalContext} from "../context/GlobalContext";
 import NavItem from "../components/SideItem";
 import {API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOMESSAGGES} from "../src/graphql/queries";
-import { subscribeToNewMessage} from "../src/graphql/subscriptions"
+import {subscribeToChatroom, subscribeToNewMessage} from "../src/graphql/subscriptions"
 
 import {Avatar } from "@mui/material";
 
@@ -25,22 +25,21 @@ export default function SideBar(props) {
         return result.data.listMF2TCOMESSAGGES.items
     }
     const [subscribe, setSubscribe] = useState(null)
-   useEffect(()=>{
+   useEffect(async ()=>{
     // getMesssages()
-        
-        const sub = API.graphql(graphqlOperation(subscribeToNewMessage ,{recipient:user.user_id} ))
-            .subscribe({
-                next: async (chatmessage)=>{
-                    const newMessage = chatmessage.value.data.subscribeToNewMessage
-                    // let updatedPost = [ ...chatroomMsg,newMessage ]
-                    setNotifications(notifications=>[...notifications ,newMessage ])
-                    console.log("new message to me: " , newMessage)
-                }
-            })
+
+       const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
+           .subscribe({
+               next: async (chat) => {
+                   console.log("update chat " ,chat)
+               }
+           })
         setSubscribe(prev=> sub)
-   },[]) 
+   },[])
 
+   useEffect(()=>{
 
+   },[notifications])
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
         {
@@ -106,11 +105,11 @@ export default function SideBar(props) {
     function isActiveURL(url){
         const n = router.pathname
         return n.includes(url)
-        
+
     }
     const [width, setWidth] = useState(window.innerWidth);
     const [height, setHeight] = useState(window.innerHeight);
-  
+
     const [size, setSize] = useState([0, 0]);
 
 
@@ -120,7 +119,7 @@ export default function SideBar(props) {
               setSize({width, height});
               
             }
-            if(window) {  
+            if(window) {
                 updateSize();
                 window.addEventListener('resize', updateSize);
                 return () => window.removeEventListener('resize', updateSize);
@@ -279,11 +278,11 @@ export default function SideBar(props) {
                         <div  className="sidebarToggle" onClick={toggleCollapse}> {/*not need to use callback ()=>toggleCollapse() to spend memory if no params in func and  */}
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="47" viewBox="0 0 21 47"  >
                             <g id="Group_6687" data-name="Group 6687" transform="translate(-93 -129)">
-                                <path id="Rectangle_4378" data-name="Rectangle 4378" d="M10,0H21a0,0,0,0,1,0,0V47a0,0,0,0,1,0,0H10A10,10,0,0,1,0,37V10A10,10,0,0,1,10,0Z" transform="translate(93 129)" 
+                                <path id="Rectangle_4378" data-name="Rectangle 4378" d="M10,0H21a0,0,0,0,1,0,0V47a0,0,0,0,1,0,0H10A10,10,0,0,1,0,37V10A10,10,0,0,1,10,0Z" transform="translate(93 129)"
                                     fill="#d0e9ff" />
                                 <g id="expand_more-24px" transform={isCollapse?"translate(97 160) rotate(270)":"translate(112.645 144.355) rotate(90)"}>
                                 <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z" fill="none" opacity="0.87"/>
-                                <path id="Path_3109" data-name="Path 3109" d="M6.423.2,3.789,2.832,1.156.2A.677.677,0,0,0,.2,1.156L3.314,4.271a.676.676,0,0,0,.957,0L7.387,1.156a.676.676,0,0,0,0-.957A.691.691,0,0,0,6.423.2Z" transform="translate(4.353 5.91)" 
+                                <path id="Path_3109" data-name="Path 3109" d="M6.423.2,3.789,2.832,1.156.2A.677.677,0,0,0,.2,1.156L3.314,4.271a.676.676,0,0,0,.957,0L7.387,1.156a.676.676,0,0,0,0-.957A.691.691,0,0,0,6.423.2Z" transform="translate(4.353 5.91)"
                                     fill="#2198fa"/>
                                 </g>
                             </g>
@@ -293,7 +292,7 @@ export default function SideBar(props) {
                 </div>
                 <div className="sidebar-bottom">
 
-                
+
                     <div className={"side_bottom"}>
                         {/*<div className={isNotifyBoxOpen? "side-item notify_activate":"side-item"} >*/}
 
@@ -327,7 +326,7 @@ export default function SideBar(props) {
                         <div className={router.pathname == "/setting" ? "active-side-item" : "side-item"}>
                             <Link href={"/setting"}>
                                 <div className={router.pathname == "/setting" ? "active nav-item" : "nav-item"}>
-                                
+
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             className="bi bi-person" viewBox="0 0 16 16">
                                         <g id="cog" transform="translate(0 -0.102)"  >

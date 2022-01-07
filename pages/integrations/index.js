@@ -12,9 +12,10 @@ import ConnectWeChat from "../../components/integrations/connect_wechat";
 import ConnectFacebookMessager from "../../components/integrations/connect_facebook";
 import { GlobalContext } from "../../context/GlobalContext";
 import ConnectTempMessager from "../../components/integrations/connect_channels_temp";
+import Loading from "../../components/Loading";
 
 export default function Integrations() {
-
+    const [isLoading, setIsLoading] = useState(true);
     const channelList = [
         {name:"WhatsApp",channelID:"Whatsapp",connectState:false,token:""},
         {name:"WhatsApp Business API",channelID:"WhatsappB",connectState:false,token:""},
@@ -63,12 +64,18 @@ export default function Integrations() {
     useEffect(()=>{
         if(user.token){
          
-           myChannel();
+            myChannel();
+            if(isLoading){
+                setTimeout(function() { //Start the timer
+                    setIsLoading(false);
+                }.bind(this), 100)
+            }
         }
     },[])
 
     useEffect(()=>{
         if( activeChannel.length>0 ){ setShowMe(!showMe) };
+        
         },[activeChannel])
 
     const [value, setValue] = useState(""); 
@@ -124,6 +131,7 @@ export default function Integrations() {
 
     return (
         <div className="integrations-layout">
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
                 <div className="container-fluid cardChannelGroupContainer">
                     <div className="cardChannelGroup">
                         <h1 >My Channels</h1>

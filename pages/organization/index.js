@@ -23,6 +23,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import {styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import Loading from "../../components/Loading";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -60,6 +61,7 @@ export default function Organization() {
     const [users, setUsers] = useState([]);
     const [org, set_org] = useState([]);
     const [filteredData , setFilteredData] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
 
     const [curr_org , set_curr_org] = useState({})
     const [useUser , setUseUser] = useState()
@@ -120,6 +122,11 @@ export default function Organization() {
             await fetchRootORG()
             await fetchUsers()
         }
+        if(isLoading){
+            setTimeout(function() { //Start the timer
+                setIsLoading(false);
+            }.bind(this), 100)
+        }
 
 
     },[]);
@@ -142,7 +149,9 @@ export default function Organization() {
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedUsers(prev=>currentContacts.map(c => c.phone));
+        setSelectedUsers([])
+        //toString() is needed for comparison
+        setSelectedUsers(prev=>currentContacts.map(c => c.phone.toString()));
         if (selectAll) {
             setSelectedUsers([]);
         }
@@ -222,6 +231,7 @@ export default function Organization() {
     }
     return (
         <div className="organization-layout">
+            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
             <ORGSidebar orgData={org} selection={curr_org} setSelection={displayTeam}/>
             <div className="rightContent">
                 {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
@@ -231,7 +241,7 @@ export default function Organization() {
                 <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam} data={org}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
                 <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers} reload={  async () => {  await fetchRootORG(),   await fetchUsers() }} clear={()=>{ setSelectedUsers([])}} />
-                <DeleteDivisionForm show={isDelete} toggle={toggleDelete}  reload={fetchRootORG}/>
+                <DeleteDivisionForm show={isDelete} toggle={toggleDelete} org={org}  reload={fetchRootORG}/>
                 {/* <MF_Modal show={isDelete} toggle={toggleDelete}>
                     <div className={"modal_form"}>
                         <div className={"modal_title"} style={{textAlign:"center",margin:"20px"}}>
@@ -318,7 +328,7 @@ export default function Organization() {
                                 <TableCell>
                                     <div className="newCheckboxContainer">
                                         {isSelectRow ? <label className="newCheckboxLabel">
-                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedUsers.includes(el))} onClick={toggleSelectAll} />
+                                            <input type="checkbox" name="checkbox" checked={result.every(el=>selectedUsers.includes(el.toString()))} onClick={toggleSelectAll} />
                                         </label> : null}
                                     </div>
                                 </TableCell>
@@ -347,8 +357,11 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.phone} value={data.username} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
-                                                </label> : null}
+                                                    <input type="checkbox" id={data.phone} value={data.username} name="checkbox" 
+                                                        /*toString() is need. it can only compare to same type*/ 
+                                                        checked={selectedUsers.includes(data.phone.toString())}
+                                                        onClick={isSelectRow?toggleSelect:null} />
+                                                </label>: null}
                                             </div>
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}} >

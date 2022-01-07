@@ -34,7 +34,7 @@ const style ={
     height:"2rem"
 }
 
-export default function CreateTeamForm({show, toggle}){
+export default function CreateTeamForm({show, toggle,data}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
     const [rootDivision , setRootDivision] = useState([])
@@ -46,10 +46,8 @@ export default function CreateTeamForm({show, toggle}){
         setParent(e.target.value)
     }
     useEffect(    async () => {
-        const data = await orgInstance.getAllORG()
-        console.log(data,"org data")
         setRootDivision(getTree(data))
-    },[]);
+    },[data]);
     //recursive function to return a tree as an array
     const getTree =  (data) => {
         let tree = [];
