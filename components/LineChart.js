@@ -170,7 +170,7 @@ export function MultipleLineChart({children,...props}) {
 }
 
 export function MultipleBarChart({children,...props}) {
-    const {title, active, delivered, unhandled,agents, min1, min2, min3, yaxis,h} = props;
+    const {title, active, delivered, unhandled,agents, min1, min2, min3, yaxis,show,h} = props;
     const [state, setState] = useState({
 
         series: [{
@@ -250,7 +250,7 @@ export function MultipleBarChart({children,...props}) {
                 }
             })
         },[
-            props.data
+            show
         ])
 
 
