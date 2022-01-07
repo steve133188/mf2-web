@@ -233,6 +233,21 @@ export const createMF2TCOCUSTOMER = /* GraphQL */ `
   mutation CreateMF2TCOCUSTOMER($input: CreateMF2TCOCUSTOMERInput!) {
     createMF2TCOCUSTOMER(input: $input) {
       customer_id
+      address
+      agents_id
+      birthday
+      channels
+      country
+      country_code
+      created_at
+      customer_name
+      email
+      first_name
+      gender
+      last_name
+      phone
+      tags_id
+      team_id
     }
   }
 `;
@@ -240,6 +255,21 @@ export const updateMF2TCOCUSTOMER = /* GraphQL */ `
   mutation UpdateMF2TCOCUSTOMER($input: UpdateMF2TCOCUSTOMERInput!) {
     updateMF2TCOCUSTOMER(input: $input) {
       customer_id
+      address
+      agents_id
+      birthday
+      channels
+      country
+      country_code
+      created_at
+      customer_name
+      email
+      first_name
+      gender
+      last_name
+      phone
+      tags_id
+      team_id
     }
   }
 `;
@@ -247,6 +277,21 @@ export const deleteMF2TCOCUSTOMER = /* GraphQL */ `
   mutation DeleteMF2TCOCUSTOMER($input: DeleteMF2TCOCUSTOMERInput!) {
     deleteMF2TCOCUSTOMER(input: $input) {
       customer_id
+      address
+      agents_id
+      birthday
+      channels
+      country
+      country_code
+      created_at
+      customer_name
+      email
+      first_name
+      gender
+      last_name
+      phone
+      tags_id
+      team_id
     }
   }
 `;
@@ -304,6 +349,36 @@ export const deleteNotesTable = /* GraphQL */ `
       message
       user_id
       signed_name
+    }
+  }
+`;
+export const createMF2TCOTAG = /* GraphQL */ `
+  mutation CreateMF2TCOTAG($input: CreateMF2TCOTAGInput!) {
+    createMF2TCOTAG(input: $input) {
+      tag_id
+      tag_name
+      create_at
+      update_at
+    }
+  }
+`;
+export const updateMF2TCOTAG = /* GraphQL */ `
+  mutation UpdateMF2TCOTAG($input: UpdateMF2TCOTAGInput!) {
+    updateMF2TCOTAG(input: $input) {
+      tag_id
+      tag_name
+      create_at
+      update_at
+    }
+  }
+`;
+export const deleteMF2TCOTAG = /* GraphQL */ `
+  mutation DeleteMF2TCOTAG($input: DeleteMF2TCOTAGInput!) {
+    deleteMF2TCOTAG(input: $input) {
+      tag_id
+      tag_name
+      create_at
+      update_at
     }
   }
 `;

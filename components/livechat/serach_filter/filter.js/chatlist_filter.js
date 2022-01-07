@@ -71,7 +71,7 @@ const channelData = [
 
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
-        setSelectedUsers([...selectedUsers, id]);
+        setSelectedUsers(prev=>[...selectedUsers, id]);
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
@@ -80,7 +80,7 @@ const channelData = [
     };
     const toggleSelectDivision = e => {
         const { checked ,id} = e.target;
-        setSelectedDivision([...selectedDivision, id]);
+        setSelectedDivision(prev=>[...selectedDivision, id]);
         if (!checked) {
             setSelectedDivision(selectedDivision.filter(item => item !== id));
         }
@@ -89,7 +89,7 @@ const channelData = [
     };
     const toggleSelectTeams = e => {
         const { checked ,id} = e.target;
-        setSelectedTeams([...selectedTeams, id]);
+        setSelectedTeams(prev=>[...selectedTeams, id]);
         if (!checked) {
             setSelectedTeams(selectedTeams.filter(item => item !== id));
         }
@@ -98,7 +98,7 @@ const channelData = [
     };
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
-        setSelectedTags([...selectedTags, id]);
+        setSelectedTags(prev=>[...selectedTags, id]);
         if (!checked) {
             setSelectedTags(selectedTags.filter(item => item !== id));
         }
@@ -107,7 +107,7 @@ const channelData = [
     };
     const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
-        setSelectedChannels([...selectedChannels, id]);
+        setSelectedChannels(prev=>[...selectedChannels, id]);
         if (!checked) {
             setSelectedChannels(selectedChannels.filter(item => item !== id));
         }
@@ -116,7 +116,8 @@ const channelData = [
     };
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;
-        setSelectedChannels(["all","Whatsapp","WABA","Wechat","Messager"]);
+        // setSelectedChannels(["all","Whatsapp","WABA","Wechat","Messager"]);
+        setSelectedChannels(["Whatsapp","WABA","Wechat","Messager"]);
         if (!checked) {
             setSelectedChannels([]);
         }
@@ -233,32 +234,32 @@ const channelData = [
                     </div>
                 </div>
 
-                {/* <div className={"filter_box_agents"}  >Division
-                    <div className={"agentBroad"} >
+                {/*<div className={"filter_box_agents"}  >Division*/}
+                {/*    <div className={"agentBroad"} >*/}
 
-                        <div className={"filter_title"} onClick={()=>{setDBar(!dBarOpen)}}>Choose Division</div>
-                        <div className={"agentSearchArea"}  style={dBarOpen?{display:"block"}:{display:"none"}}>
+                {/*        <div className={"filter_title"} onClick={()=>{setDBar(!dBarOpen)}}>Choose Division</div>*/}
+                {/*        <div className={"agentSearchArea"}  style={dBarOpen?{display:"block"}:{display:"none"}}>*/}
 
 
-                            <div className={"channelList"} >
+                {/*            <div className={"channelList"} >*/}
 
-                                {division.map((team)=>{
-                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
-                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
+                {/*                {division.map((team)=>{*/}
+                {/*                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>*/}
+                {/*                        <div className={"left"} style={{display:"flex" ,gap:10}}>*/}
 
-                                            <div className={"name"}>{team.name}</div>
-                                        </div>
-                                        <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedDivision.includes(team.name)} onClick={toggleSelectDivision} onChange={()=>{}}/>
-                                            </label>
-                                        </div>
-                                    </li>) })
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-                {/* <div className={"filter_box_agents"}  >Team
+                {/*                            <div className={"name"}>{team.name}</div>*/}
+                {/*                        </div>*/}
+                {/*                        <div className="newCheckboxContainer right">*/}
+                {/*                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedDivision.includes(team.name)} onClick={toggleSelectDivision} onChange={()=>{}}/>*/}
+                {/*                            </label>*/}
+                {/*                        </div>*/}
+                {/*                    </li>) })*/}
+                {/*                }*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                <div className={"filter_box_agents"}  >Team
                     <div className={"agentBroad"} >
 
                         <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
@@ -287,7 +288,7 @@ const channelData = [
                         </div>
                     </div>
 
-                </div> */}
+                </div>
 
 
 

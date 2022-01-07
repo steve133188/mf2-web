@@ -468,11 +468,11 @@
 
             }
             .chatroom_contacts_cardname{
-              display:"flex";
-              white-space:"nowrap";
-              max-height:"100%";
-              justify-content:"flex-start";
-              gap:4;
+              display:flex;
+              white-space:nowrap;
+              max-height:100%;
+              justify-content:flex-start;
+              gap:.5rem;
             }
           }
           .chatroom_time{
@@ -1201,6 +1201,8 @@
       // padding-left: 5%;
       // padding-top: 1.5%;
       // margin-left: 0 10px;
+      position: absolute;
+      transform: translate(50%,50%);
       font: normal normal 600 15px Manrope;
       color: #4E4E4E;
       .team{
@@ -1216,6 +1218,10 @@
         padding: 3px 12px;
 
       }
+
+    }
+    .custom_badge{
+      margin-right: 1rem;
     }
     .chatroom_time{
         position: absolute;
@@ -1224,6 +1230,7 @@
     }
 
     }
+
   .chatroom_li.active{
     background: #F8F9FB 0% 0% no-repeat padding-box;
     opacity: 1;

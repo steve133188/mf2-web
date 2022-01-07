@@ -251,6 +251,21 @@ export const onCreateMF2TCOCUSTOMER = /* GraphQL */ `
   subscription OnCreateMF2TCOCUSTOMER($customer_id: Int) {
     onCreateMF2TCOCUSTOMER(customer_id: $customer_id) {
       customer_id
+      address
+      agents_id
+      birthday
+      channels
+      country
+      country_code
+      created_at
+      customer_name
+      email
+      first_name
+      gender
+      last_name
+      phone
+      tags_id
+      team_id
     }
   }
 `;
@@ -258,6 +273,21 @@ export const onUpdateMF2TCOCUSTOMER = /* GraphQL */ `
   subscription OnUpdateMF2TCOCUSTOMER($customer_id: Int) {
     onUpdateMF2TCOCUSTOMER(customer_id: $customer_id) {
       customer_id
+      address
+      agents_id
+      birthday
+      channels
+      country
+      country_code
+      created_at
+      customer_name
+      email
+      first_name
+      gender
+      last_name
+      phone
+      tags_id
+      team_id
     }
   }
 `;
@@ -265,6 +295,21 @@ export const onDeleteMF2TCOCUSTOMER = /* GraphQL */ `
   subscription OnDeleteMF2TCOCUSTOMER($customer_id: Int) {
     onDeleteMF2TCOCUSTOMER(customer_id: $customer_id) {
       customer_id
+      address
+      agents_id
+      birthday
+      channels
+      country
+      country_code
+      created_at
+      customer_name
+      email
+      first_name
+      gender
+      last_name
+      phone
+      tags_id
+      team_id
     }
   }
 `;
@@ -334,6 +379,66 @@ export const onDeleteNotesTable = /* GraphQL */ `
       message
       user_id
       signed_name
+    }
+  }
+`;
+export const onCreateMF2TCOTAG = /* GraphQL */ `
+  subscription OnCreateMF2TCOTAG(
+    $tag_id: Int
+    $tag_name: String
+    $create_at: Int
+    $update_at: Int
+  ) {
+    onCreateMF2TCOTAG(
+      tag_id: $tag_id
+      tag_name: $tag_name
+      create_at: $create_at
+      update_at: $update_at
+    ) {
+      tag_id
+      tag_name
+      create_at
+      update_at
+    }
+  }
+`;
+export const onUpdateMF2TCOTAG = /* GraphQL */ `
+  subscription OnUpdateMF2TCOTAG(
+    $tag_id: Int
+    $tag_name: String
+    $create_at: Int
+    $update_at: Int
+  ) {
+    onUpdateMF2TCOTAG(
+      tag_id: $tag_id
+      tag_name: $tag_name
+      create_at: $create_at
+      update_at: $update_at
+    ) {
+      tag_id
+      tag_name
+      create_at
+      update_at
+    }
+  }
+`;
+export const onDeleteMF2TCOTAG = /* GraphQL */ `
+  subscription OnDeleteMF2TCOTAG(
+    $tag_id: Int
+    $tag_name: String
+    $create_at: Int
+    $update_at: Int
+  ) {
+    onDeleteMF2TCOTAG(
+      tag_id: $tag_id
+      tag_name: $tag_name
+      create_at: $create_at
+      update_at: $update_at
+    ) {
+      tag_id
+      tag_name
+      create_at
+      update_at
     }
   }
 `;

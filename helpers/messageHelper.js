@@ -46,7 +46,7 @@ export default function WhatsappFetcher(){
 
         switch (data.channel){
             case "WABA" :
-                if(data.message_type=="documet")data.message_type="FILE"
+                if(data.message_type=="document")data.message_type="FILE"
                 let obj={channelId:"5e4367dd3c660d5d5e541176" , recipientId :data.phone , type:data.message_type.toUpperCase() ,text:data.message , url:data.media_url}
                 console.log(`send data :`  ,obj)
                  await this.WABAInstance.post("/send-message" ,obj )
