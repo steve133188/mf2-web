@@ -97,7 +97,9 @@ export default function Live_chat() {
     const [mediaUrl , setMediaUrl] = useState('')
     const [isMedia , setIsMedia ] = useState(false)
 
+    const gqlFilter = async ()=>{
 
+    }
     const getOwnPinChatList = async ()=>{
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
         const res = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {filter:{user_id: {eq:user_id} , is_pin: {eq:true}} ,limit:1000}))
@@ -289,9 +291,11 @@ export default function Live_chat() {
     async function handleChatRoom(chatroom){
         if(chatroom == selectedChat) return ;
         setChatroomMsg([])
-        await getCustomerbyID(chatroom.customer_id)
         setSelectedChat(chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
+        if(typeof chatroom.customer_id !=="number") return
+        await getCustomerbyID(chatroom.customer_id)
+
         console.log("selected Chat" , selectedChat)
         console.log("typed message" , typedMsg)
     }
@@ -373,10 +377,14 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
-        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
-        console.log("data :" , data)
         setTypedMsg({...typedMsg , message: ""})
+        if(isMedia){
+            setIsMedia(false)
+            setFilePrevier({})
+        }
+        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         setIsExpand(false)
+        console.log("data :" , data)
         setChatButtonOn("")
     }
 
@@ -482,10 +490,11 @@ export default function Live_chat() {
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         // console.log("filter",filter)
 
-        const channelFiltered = chatroomsInfo.filter(data=>{
+        const channelFiltered = chatrooms.filter(data=>{
             if(selectedChannels.length ==0){
                 return data
             }
+            console.log(selectedChannels)
             return selectedChannels.includes(data.channel)
         })
 
@@ -494,14 +503,14 @@ export default function Live_chat() {
 
                 return data
             }
-            return  data.agents.some(el=>selectedUsers.includes(el.username))
+            return  data.agents.every(el=>selectedUsers.includes(el.username))
         })
 
         const tagFiltered = agentFiltered.filter(data=>{
             if(selectedTags.length ==0){
                 return data
             }
-            return data.tags.some(el=>selectedTags.includes(el.tag_name))
+            return data.tags.every(el=>selectedTags.includes(el.tag_name))
         })
 
 
@@ -683,7 +692,7 @@ export default function Live_chat() {
                         {filteredData.map((d , index)=>{
 
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
-                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
 
                         })}
                     </ul>
