@@ -210,7 +210,7 @@ const channelData = [
                                             <div className={"name"}>{user.username}</div>
                                         </div>
                                         <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={selectedUsers.includes(user.user_id)} onClick={toggleSelectUsers} onChange={()=>{}}/>
                                             </label>
                                         </div>
                                     </li>) })
@@ -219,7 +219,7 @@ const channelData = [
                         </div>
                     </div>
                     <div className={"taglList"}>
-                        {selectedUsers.map((user,index)=>{
+                        {selectedUsers.length!==0&&selectedUsers.map((user,index)=>{
                                 return(
                                     <div key={index} className={"tag"} style={{display:"flex" ,gap:10}}>
                                         <Tooltip  className={""} title={user} placement="top-start">
@@ -279,7 +279,7 @@ const channelData = [
                                             <div className={"name"}>{team.name}</div>
                                         </div>
                                         <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name)} onClick={toggleSelectTeams} onChange={()=>{}}/>
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.org_id} name="checkbox" checked={selectedTeams.includes(team.org_id)} onClick={toggleSelectTeams} onChange={()=>{}}/>
                                             </label>
                                         </div>
                                     </li>) })

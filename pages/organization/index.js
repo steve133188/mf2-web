@@ -114,13 +114,13 @@ export default function Organization() {
         set_org(data)
     }
     useEffect(    async () => {
-        set_curr_org({}) 
+        set_curr_org({})
         if(user.token)
         {
             await fetchRootORG()
             await fetchUsers()
         }
-        
+
 
     },[]);
     useEffect(    async () => {
@@ -134,19 +134,18 @@ export default function Organization() {
     },[curr_org]);
 
     const toggleSelect = e => {
-        const { checked ,value} = e.target;
-        setSelectedUsers([...selectedUsers, value]);
+        const { checked ,id} = e.target;
+        setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== value));
+            setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedUsers(currentContacts.map(c => c.phone));
+        setSelectedUsers(prev=>currentContacts.map(c => c.phone));
         if (selectAll) {
             setSelectedUsers([]);
         }
-
     };
     const handleSelectDelete =e=>{
         setDeleteOrg(e.target.value)
@@ -214,10 +213,10 @@ export default function Organization() {
     const handleChangeName=e=>{
         setEditedName(e.target.value)
         console.log(e.target.value,"edited name")
-        
+
     }
     const comfirmTeamNameEdit = async()=>{
-        await orgInstance.updateOrgName(curr_org.org_id,editedName) 
+        await orgInstance.updateOrgName(curr_org.org_id,editedName)
         setisEditNameActive(false)
         window.location.reload(false);
     }
@@ -287,7 +286,7 @@ export default function Organization() {
                             {isEditNameActive?(
                                 <input type="text" className="nameEdit" onChange={handleChangeName} placeholder={`${curr_org.name}`}></input>
                             ):
-                            (curr_org.name || "All")} 
+                            (curr_org.name || "All")}
                             {"(" +currentContacts.length+")"}
                         </div>
                         {isEditNameActive?(
@@ -302,10 +301,10 @@ export default function Organization() {
                                 <EditPenSVG size={18} />
                             </div>
                         )}
-                        
-                            
-                        
-                        
+
+
+
+
                     </SelectSession>
                 <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
                     <Table
@@ -348,7 +347,7 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.username} value={data.phone} name="checkbox" checked={selectedUsers.includes(data.phone.toString())} onClick={isSelectRow?toggleSelect:null} />
+                                                    <input type="checkbox" id={data.phone} value={data.username} name="checkbox" checked={selectedUsers.includes(data.phone)} onClick={isSelectRow?toggleSelect:null} />
                                                 </label> : null}
                                             </div>
                                         </TableCell>
