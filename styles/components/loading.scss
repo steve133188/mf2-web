@@ -6,8 +6,11 @@
   height: 100%;
   width: 100%;
   display: flex;
+  background-color: #ffffff;
+  background-image: url('../../public/Circle-Loading.svg') ;
   align-items: center;
-
+background-position: center;
+  background-repeat: no-repeat;
 }
 .preloaderFadeOut {
   visibility: hidden;
@@ -15,11 +18,3 @@
   transition: visibility 0s 300ms, opacity 300ms linear;
 }
 
-.loader{
-  z-index: 99999;
-  width: 100%;
-  height: 100%;
-  background: url('../../public/Circle-Loading.svg'), #ffffff;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
