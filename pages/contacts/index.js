@@ -70,7 +70,7 @@ export default function Contacts() {
     const [isCreate , setIsCreate] = useState(false)
     const [deleteRole,setDeleteRole] = useState("")
 
-    
+
     const advanceFilter =()=>{
         setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         console.log("filter",filter)
@@ -82,19 +82,12 @@ export default function Contacts() {
             return data.agents.some(el=>selectedUsers.includes(el.username))
         })
         console.log("agent:",agentFiltered)
+        console.log("selected Tags" , selectedTags)
         const tagFiltered = agentFiltered.filter(data=>{
-            const dataTags = data.tags.map(el=>el.tag_name)
-            let ans =false
-            if(selectedTags.length ==0){
-                return false
-            }
-            for(let i=0;i<selectedTags.length;i++){
-                if(dataTags.includes(selectedTags[i])){
-                    ans=true
-                }else return false
-            }
-            
-            return ans;
+           if(selectedTags.length==0){
+               return data
+           }
+           return data.tags.some(el=>selectedTags.includes(el.tag_name))
             }
             /*
             ================
@@ -362,7 +355,7 @@ export default function Contacts() {
             await fetchContacts()
         setSelectedUsers([])
         setSelectedContacts([])
-    
+
     }
     useEffect(()=>{
         advanceFilter()

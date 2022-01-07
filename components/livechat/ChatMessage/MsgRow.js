@@ -14,7 +14,6 @@ const captionJson = JSON.stringify(imageCaption)
 
 export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,...props}){
 
-
     const { user }  = useContext(GlobalContext)
 
     const [isImageOpen,setImageOpen] = useState(false)
@@ -95,7 +94,8 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
 
                 {/*{msg.sender&&msg.from_me&&<div className={"msg_timestamp"}>+{msg.sender.slice(0,3)} {msg.sender.slice(3)}__{new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString()} </div>}*/}
                 {msg.sender&&msg.from_me&&<div className={"msg_timestamp"}>{user.user.username}&ensp; {new Date(parseInt(msg.timestamp*1000)).toDateString('en-US', { hour: '2-digit', minute: '2-digit' })} &ensp; {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} </div>}
-                {msg.sender&&!msg.from_me&&<div className={"msg_timestamp"}>{props.c.filter(e=>{return parseInt(msg.sender)==e.customer_id?true:false})[0].customer_name} &ensp;  {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} </div>}
+                {/*{msg.sender&&!msg.from_me&&<div className={"msg_timestamp"}>{props.c.filter(e=>{return parseInt(msg.sender)==e.customer_id?true:false})[0].name} &ensp;  {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} </div>}*/}
+                {msg.sender&&!msg.from_me&&<div className={"msg_timestamp"}> &ensp;  {new Date(parseInt(msg.timestamp*1000)).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} </div>}
             </div>
         </div>
     )
