@@ -240,13 +240,13 @@ export default function DashBroadFilter(props){
     return(
          <div><div className={"filter_title"}>Filter</div>
 
-                <div className={"filter_box_channel"}  >
+                {props.auth==1?<div className={"filter_box_channel"}  >
                     <div className={"channelList"}>
                         Channel<br/>
                         <ChannelListItem name={"All Channels"} value={"All"} id={"All"} key={"All"} checked={selectedChannels.includes("All")} onclick={toggleSelectAllChannels } />
                         {channels.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
                     </div>
-                </div>
+                </div>:""}
                 {/* {props.auth==2?<FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>:""} */}
                 
                 {props.auth==2?<div className={"filter_box_agents"}  >Agent
@@ -307,7 +307,7 @@ export default function DashBroadFilter(props){
 
                 <div className="confirm_btn_set">
 
-                    <button className={"confirmButton"} style={{margin:" 0 10px"}} onClick={props.click}  color="neutral">Confirm</button>
+                    <button className={"confirmButton"} style={{margin:" 0 10px"}} onClick={props.confirm}  color="neutral">Confirm</button>
                     <button className={"cancelButton"} onClick={clearFilter} >Cancel</button>
                 </div>
          </div>

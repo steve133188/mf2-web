@@ -36,11 +36,13 @@ export default function Chat() {
     const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
-    const [dash  , setDash ] = useState({all_contacts :[] , active_contacts:[] , total_msg_sent:[] , total_msg_rev:[] , new_added_contacts:[] , avg_resp_time :[] ,
-        communication_hours :[] , tags:[],
-        ChannelContact: [{ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0}]})
-    const [selectedData,setselectedDate] =useState([])
+    const [dash  , setDash ] = useState({all_contacts :[] , active_contacts:[] , total_msg_sent:[] , 
+        total_msg_rev:[] , new_added_contacts:[] , avg_resp_time :[] ,communication_hours :[] , tags:[],
+        ChannelContact: [{ChannelName: "", ChannelTotalContact: 0},
+        {ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0},
+        {ChannelName: "", ChannelTotalContact: 0}]})
 
+    const [selectedData,setselectedDate] =useState([])
 
 
     const handleClickAway = () => {
@@ -339,19 +341,19 @@ export default function Chat() {
 
 
                                 </div>
-                                <div style={{width:"400px",overflow:"scroll",height:"50px"}}>
+                                {/* <div style={{width:"400px",overflow:"scroll",height:"50px"}}>
 
-                                </div>
+                                </div> */}
 
                                 <div className={"session_content"}>
                                     <div className={"session_content_tag"}>
 
                                         <TableContainer
-                                            sx={{minWidth: 600 ,}}
+                                            sx={{minWidth: 450 ,}}
                                             className={"table_container"}
                                         >
                                             <Table
-                                                sx={{minWidth: 650 }}
+                                                sx={{minWidth: 450 }}
                                                 aria-labelledby="tableTitle"
                                                 size={'medium'}
                                                 stickyHeader={true}
@@ -378,22 +380,25 @@ export default function Chat() {
                                                                 // checked={selectedUsers.includes(data.phone)}
 
                                                             >
-                                                                <TableCell style={{width: "20%",}}>
+                                                                <TableCell style={{width: "35%",}}>
 
                                                                     <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>
                                                                 </TableCell>
-                                                                <TableCell align="left" style={{width: "20%",}}>
+                                                                <TableCell align="left" style={{width: "50%",}}>
                                                                     <span >{item.total}</span>
                                                                 </TableCell>
+                                                                <TableCell align="left" style={{width: "50%",}}>
 
-                                                                {selectedData&&selectedData.map(item=>{return  <
+                                                                </TableCell>
+
+                                                                {/* {selectedData&&selectedData.map(item=>{return  <
                                                                     TableCell align="left" style={{width: "auto",}}>
                                                                     {item.tag_name}
                                                                 </TableCell>})}
 
                                                                 <TableCell align="left" style={{width: "auto",}}>
 
-                                                                </TableCell>
+                                                                </TableCell> */}
                                                                 {/*<TableCell align="right">*/}
                                                                 {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
                                                                 {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
