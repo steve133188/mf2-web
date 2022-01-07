@@ -99,11 +99,10 @@ export default function Live_chat() {
     const [unread,setUnread] = useState(false)
     const [unassigned,setUnassigned] = useState(false)
     const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const [start,setStart] = useState(false)
-    const [chatroomStart,setChatroomStart] = useState(false)
     const [pinChat , setPinChat] = useState([])
     const [mediaUrl , setMediaUrl] = useState('')
     const [isMedia , setIsMedia ] = useState(false)
+    const [totalUnread, setTotalUnread] = useState({count:0})
 
     const gqlFilter = async ()=>{
 
@@ -141,10 +140,12 @@ export default function Live_chat() {
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
             .then(async res =>{
+                
                 const chatroom = res.data.listMF2TCOCHATROOMS.items
                 console.log("loop chatroom start" , chatroom)
                     chatroom.forEach( chat=>{
                     chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false} ,}}))
+               
                         .then(async msg=>{
                             return msg.data.listMF2TCOMESSAGGES.items.length
                         }).catch(error => console.log(error))
@@ -158,7 +159,7 @@ export default function Live_chat() {
         await getOwnPinChatList()
         setChatrooms(result)
         setFilteredData(result)
-
+        
     }
     const getAllChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
@@ -173,7 +174,7 @@ export default function Live_chat() {
                         }).catch(error => console.log(error))
                 })
                 console.log(chatroom)
-
+                console.log(totalUnread,"TOTALTOTAL")
                 const pin = chatroom.filter(chat=>chat.is_pin==true)
                 const unpin = chatroom.filter(chat=>chat.is_pin==false)
 
@@ -182,6 +183,7 @@ export default function Live_chat() {
                 setPinChat(pin)
             })
             .catch(error => console.log(error))
+
         // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
         //     .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
         // console.log(myData,"afterSort")
@@ -268,6 +270,7 @@ export default function Live_chat() {
 
     useEffect(()=>{
         setReplyData(replyTemplateList)
+        console.log("total unread",totalUnread)
     },[])
 
     const fetchContacts = async () =>{
@@ -348,6 +351,8 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
         console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
+        console.log(totalUnread,"dafsdfsdfsdf dsf")
+        
     }
 
     const toggleReply = () =>{
@@ -438,7 +443,9 @@ export default function Live_chat() {
     const ReferechHandle=async()=>{
         await getChatrooms();
         await getChatroomMessage ();
+        console.log("total unread",totalUnread)
     }
+
     const wrapperRef1 = useRef();
     const wrapperRef2 = useRef();
     const wrapperRef3 = useRef();
@@ -514,11 +521,18 @@ export default function Live_chat() {
                         // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                     }
                 })
+                
             // await getChatroomMessage()
+
             // TODO need to implete receiver id to sub input
         }
     },[]);
 
+    useEffect(()=>{
+
+        chatrooms.map(e=>{console.log();setTotalUnread({...totalUnread,count:(totalUnread.count+ e.unread)})})
+        console.log(totalUnread)
+    },[chatrooms])
     const handleSub = async (chatroom)=>{
 
         if(subscribe)subscribe.unsubscribe()

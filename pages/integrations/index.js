@@ -82,10 +82,10 @@ export default function Integrations() {
     const handelSumbit = () =>{
         console.log("send button")
         console.log(value)
-        if(value=="whatsapp"){setWhatsappFetch(!whatsappFetch);}
-        if(value=="whatsappB"){setWhatsappBFetch(!whatsappBFetch)}
-        if(value=="wechat"){setWechatFetch(!wechatFetch)}
-        if(value=="messager"){setMessagerFetch(!messagerFetch)}
+        if(value=="Whatsapp"){setWhatsappFetch(!whatsappFetch);}
+        if(value=="WhatsappB"){setWhatsappBFetch(!whatsappBFetch)}
+        if(value=="Wechat"){setWechatFetch(!wechatFetch)}
+        if(value=="Messager"){setMessagerFetch(!messagerFetch)}
         if(value=="line"){setLineFetch(!lineFetch)}
         if(value=="signal"){setSignalFetch(!signalFetch)}
         if(value=="telegram"){setTelegramFetch(!telegramFetch)}
