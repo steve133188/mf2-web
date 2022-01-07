@@ -111,7 +111,6 @@ export default function Integrations() {
     }   
   
     const wrapperRef = useRef();
-
     const handleClickOutside = (event) => {
         if (
             wrapperRef.current &&
@@ -159,17 +158,17 @@ export default function Integrations() {
                             {activeChannel.length>0?activeChannel[0].name:""}
                         </div>
                         <div>
-                           {activeChannel.length>0 && activeChannel[0].channelID=="whatsapp" ?<button id={activeChannel[0].channelID}  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
+                           {activeChannel.length>0 && activeChannel[0].channelID=="Whatsapp" ?<button id={activeChannel[0].channelID}  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
                         </div>
 
                     </div>
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
                          <TabContext value={value}  >
 
-                                <TabPanel value="whatsapp" ><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
-                                <TabPanel value="whatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
-                                <TabPanel value="wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
-                                <TabPanel value="messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
+                                <TabPanel value="Whatsapp" ><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
+                                <TabPanel value="WhatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
+                                <TabPanel value="Wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
+                                <TabPanel value="Messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
                                 <TabPanel value="line" ><ConnectTempMessager fetchdata={lineFetch} /></TabPanel>
                                 <TabPanel value="signal" ><ConnectTempMessager fetchdata={signalFetch} /></TabPanel>
                                 <TabPanel value="telegram" ><ConnectTempMessager fetchdata={telegramFetch} /></TabPanel>

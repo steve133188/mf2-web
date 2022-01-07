@@ -102,7 +102,7 @@ export default function Live_chat() {
     const [pinChat , setPinChat] = useState([])
     const [mediaUrl , setMediaUrl] = useState('')
     const [isMedia , setIsMedia ] = useState(false)
-    const [totalUnread, setTotalUnread] = useState({count:0})
+    const [totalUnread, setTotalUnread] = useState(0)
 
     const gqlFilter = async ()=>{
 
@@ -528,11 +528,6 @@ export default function Live_chat() {
         }
     },[]);
 
-    useEffect(()=>{
-
-        chatrooms.map(e=>{console.log();setTotalUnread({...totalUnread,count:(totalUnread.count+ e.unread)})})
-        console.log(totalUnread)
-    },[chatrooms])
     const handleSub = async (chatroom)=>{
 
         if(subscribe)subscribe.unsubscribe()
@@ -563,6 +558,12 @@ export default function Live_chat() {
             })
 
     }
+
+    useEffect(()=>{
+
+        chatrooms.map(e=>{return setTotalUnread(totalUnread+e.unread)})
+        console.log(totalUnread)
+    },[chatrooms])
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
         await handleSub(selectedChat)
