@@ -239,7 +239,7 @@ export default function Organization() {
                 <CreateTeamForm show={isCreateTeamShow} toggle={toggleNewTeam} data={org}/>
                 <AddAgentForm show={isAddAgentShow} toggle={toggleAddAgent}/>
                 <SwitchAgentForm show={isMoveAgentShow} toggle={toggleMoveAgent} selectedUsers={selectedUsers} reload={  async () => {  await fetchRootORG(),   await fetchUsers() }} clear={()=>{ setSelectedUsers([])}} />
-                <DeleteDivisionForm show={isDelete} toggle={toggleDelete}  reload={fetchRootORG}/>
+                <DeleteDivisionForm show={isDelete} toggle={toggleDelete} org={org}  reload={fetchRootORG}/>
                 {/* <MF_Modal show={isDelete} toggle={toggleDelete}>
                     <div className={"modal_form"}>
                         <div className={"modal_title"} style={{textAlign:"center",margin:"20px"}}>
