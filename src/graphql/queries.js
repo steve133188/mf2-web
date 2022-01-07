@@ -285,6 +285,21 @@ export const getMF2TCOCUSTOMER = /* GraphQL */ `
   query GetMF2TCOCUSTOMER($customer_id: Int!) {
     getMF2TCOCUSTOMER(customer_id: $customer_id) {
       customer_id
+      address
+      agents_id
+      birthday
+      channels
+      country
+      country_code
+      created_at
+      customer_name
+      email
+      first_name
+      gender
+      last_name
+      phone
+      tags_id
+      team_id
     }
   }
 `;
@@ -297,6 +312,21 @@ export const listMF2TCOCUSTOMERS = /* GraphQL */ `
     listMF2TCOCUSTOMERS(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         customer_id
+        address
+        agents_id
+        birthday
+        channels
+        country
+        country_code
+        created_at
+        customer_name
+        email
+        first_name
+        gender
+        last_name
+        phone
+        tags_id
+        team_id
       }
       nextToken
     }
@@ -326,6 +356,33 @@ export const listNotesTables = /* GraphQL */ `
         message
         user_id
         signed_name
+      }
+      nextToken
+    }
+  }
+`;
+export const getMF2TCOTAG = /* GraphQL */ `
+  query GetMF2TCOTAG($tag_id: Int!) {
+    getMF2TCOTAG(tag_id: $tag_id) {
+      tag_id
+      tag_name
+      create_at
+      update_at
+    }
+  }
+`;
+export const listMF2TCOTAGS = /* GraphQL */ `
+  query ListMF2TCOTAGS(
+    $filter: TableMF2TCOTAGFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMF2TCOTAGS(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        tag_id
+        tag_name
+        create_at
+        update_at
       }
       nextToken
     }

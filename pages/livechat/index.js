@@ -14,7 +14,7 @@ import Newchatroom from "../../components/livechat/newchatroomPanel";
 import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
-import { createMF2TCOCHATROOM} from "../../src/graphql/mutations"
+import {createMF2TCOCHATROOM, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import {subscribeToChatroom, subscribeToChatroomUpdate, subscribeToNewMessage} from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
@@ -130,22 +130,46 @@ export default function Live_chat() {
     const getChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
-        console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
+            .then(async res =>{
+                const chatroom = res.data.listMF2TCOCHATROOMS.items
+                console.log("loop chatroom start" , chatroom)
+                    chatroom.forEach( chat=>{
+                    chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false}}}))
+                        .then(async msg=>{
+                            return msg.data.listMF2TCOMESSAGGES.items.length
+                        }).catch(error => console.log(error))
+                })
+                return chatroom
+            })
+            .catch(error => console.log(error))
+        console.log("get chatrooms" ,result)
         // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
         // .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
         await getOwnPinChatList()
-        setChatrooms(result.data.listMF2TCOCHATROOMS.items)
-        setFilteredData(result.data.listMF2TCOCHATROOMS.items)
+        setChatrooms(result)
+        setFilteredData(result)
 
     }
     const getAllChatrooms = async ()=>{
+        const user_id = parseInt(user.user.user_id.toString().slice(3) )
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
-        console.log("get chatrooms" ,result.data.listMF2TCOCHATROOMS.items)
+            .then(async res =>{
+                let chatroom = res.data.listMF2TCOCHATROOMS.items
+                console.log("loop chatroom start" , chatroom)
+                 chatroom.forEach(async chat=>{
+                    await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false}}}))
+                        .then(async msg=>{
+                            chat.unread = msg.data.listMF2TCOMESSAGGES.items.length
+                        }).catch(error => console.log(error))
+                })
+                console.log(chatroom)
+                setChatrooms(chatroom)
+                setFilteredData(chatroom)
+            })
+            .catch(error => console.log(error))
         // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
         //     .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
         // console.log(myData,"afterSort")
-        setChatrooms(result.data.listMF2TCOCHATROOMS.items)
-        setFilteredData(result.data.listMF2TCOCHATROOMS.items)
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -329,38 +353,6 @@ export default function Live_chat() {
         setChatButtonOn("");
         setIsExpand(false)
     }
-    const sendImg =async (media_url)=>{
-        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"image" , is_media:true,channel:selectedChat.channel}
-        const res = await messageInstance.sendMessage(data)
-        console.log("result : " ,res)
-        console.log("media_url : " ,media_url)
-        setChatButtonOn("");
-        setIsExpand(false)
-    }
-
-    const sendDocument = async (media_url,size) =>{
-        const body = JSON.stringify({msg:"",size:size})
-        const data = {media_url:media_url , body:body, phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"document" , is_media:true ,channel:selectedChat.channel}
-        console.log(data,"get body")
-        // const res = await messageInstance.sendMessage(data)
-        setChatButtonOn("");
-        setIsExpand(false)
-    }
-
-    const sendVoice = async (media_url) =>{
-        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"ptt" , is_media:true , channel:selectedChat.channel}
-        const res = await messageInstance.sendMessage(data)
-        console.log("result : " ,res)
-        setChatButtonOn("");
-        setIsExpand(false)
-    }
-
-    const sendVideo = async(media_url )=>{
-        const data = {media_url:media_url , body:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"video" , is_media:true ,channel:selectedChat.channel}
-        const res = await messageInstance.sendMessage(data)
-        setChatButtonOn("");
-        setIsExpand(false)
-    }
     const onEnterPress = async (e) => {
         if(e.keyCode == 13 && e.ctrlKey == false) {
           e.preventDefault();
@@ -484,22 +476,6 @@ export default function Live_chat() {
 
     },[selectedChat])
 
-
-    // useEffect(()=>{
-    //     if(typeof (window) !== undefined){
-    //         if(!chatroomStart){  setChatroomStart(true)}
-    //         let new1=[]
-    //         chatrooms&&chatrooms.map(chat=>{
-    //             const cc = contacts.filter(c=>{return c.customer_id==chat.customer_id});
-    //             if(!cc[0]){return new1.push[chat]}
-    //             return new1.push({...chat, agents:cc[0].agents??[],agentsOrgan:cc[0].organization,tags:cc[0].tags,})
-    //         })
-    //         const myChat =new1.filter(r=>{return r.user_id==user.user.user_id})
-    //         setFilteredData(new1)
-    //         setChatroomsInfo(new1)
-    //     }
-    //
-    // },[])
 
 
     const advanceFilter =()=>{
@@ -634,7 +610,6 @@ export default function Live_chat() {
         if(audioFile){
             var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
         const result = await mediaInstance.putVoice(file)
-        await sendVoice(result)
         console.log(result,"audioFile")}
     }
     return (
