@@ -141,7 +141,7 @@ export default function Live_chat() {
                 const chatroom = res.data.listMF2TCOCHATROOMS.items
                 console.log("loop chatroom start" , chatroom)
                     chatroom.forEach( chat=>{
-                    chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false}}}))
+                    chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false} ,}}))
                         .then(async msg=>{
                             return msg.data.listMF2TCOMESSAGGES.items.length
                         }).catch(error => console.log(error))
@@ -164,7 +164,7 @@ export default function Live_chat() {
                 let chatroom = res.data.listMF2TCOCHATROOMS.items
                 console.log("loop chatroom start" , chatroom)
                  chatroom.forEach(async chat=>{
-                    await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false}}}))
+                    await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false} , channel:{eq:selectedChat.channel}}}))
                         .then(async msg=>{
                             chat.unread = msg.data.listMF2TCOMESSAGGES.items.length
                         }).catch(error => console.log(error))
@@ -338,7 +338,7 @@ export default function Live_chat() {
     }
 
     const getChatroomMessage = async()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id}}}))
+        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
         console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
     }

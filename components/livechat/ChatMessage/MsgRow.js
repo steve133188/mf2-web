@@ -32,7 +32,9 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                         {props.replyMsg==defaultId? <Reply confirmReply={confirmReply} />:""}
                                         <img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/>
                                     </div>);
-            case "image":   return <div id={defaultId} onClick={replyclick} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
+            case "image":
+            case "IMAGE":
+                return <div id={defaultId} onClick={replyclick} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
             case "imageCaption":
                 return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                         {/* {console.log(JSON.parse(captionJson).url)} */}

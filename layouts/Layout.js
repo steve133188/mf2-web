@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import NotificationAlert from "../components/custom/noti";
 import {API, graphqlOperation} from "aws-amplify";
-import {subscribeToChatroom, subscribeToChatroomUpdate, subscribeToNewMessage} from "../src/graphql/subscriptions";
+import {subscribeToChatroom, subscribeToChatroomUpdate} from "../src/graphql/subscriptions";
 
 
 
@@ -69,6 +69,7 @@ export default function Layout({children}) {
             await sub()
         }else {
             setIsAuth(false)
+            sub
         }
         console.log("is auth :" , isAuth)
     },[user])
