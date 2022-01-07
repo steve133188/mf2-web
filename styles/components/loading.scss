@@ -2,33 +2,24 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 99999;
+  z-index: 999;
   height: 100%;
   width: 100%;
-  background-color: #fff;
   display: flex;
   align-items: center;
 
 }
 .preloaderFadeOut {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 99999;
-  height: 100%;
-  width: 100%;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s 300ms, opacity 300ms linear;
 }
 
 .loader{
-  margin-top:-5em;
-  padding: 5em;
+  z-index: 99999;
   width: 100%;
-  border-radius: 50%;
+  height: 100%;
+  background: url('../../Circle-Loading.svg'), #ffffff;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
