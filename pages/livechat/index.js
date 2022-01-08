@@ -103,7 +103,7 @@ export default function Live_chat() {
         const [pinChat , setPinChat] = useState([])
         const [mediaUrl , setMediaUrl] = useState('')
         const [isMedia , setIsMedia ] = useState(false)
-        const [lastMsgFromClient , setLastMsgFromClient] = useState([])
+        const [lastMsgFromClient , setLastMsgFromClient] = useState("")
     const gqlFilter = async ()=>{
 
     }
@@ -325,7 +325,7 @@ export default function Live_chat() {
 
     async function handleChatRoom(chatroom){
         if(chatroom == selectedChat) return ;
-        if(chatroom.channel !== "WABA") setLastMsgFromClient([])
+        if(chatroom.channel !== "WABA") setLastMsgFromClient("")
         setChatroomMsg([])
         setSelectedChat(chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
@@ -340,7 +340,18 @@ export default function Live_chat() {
     const getChatroomMessage = async()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}})).then(res=>{
             setChatroomMsg(prev=>[...res.data.listMF2TCOMESSAGGES.items])
-            console.log("getChatroomMessage",chatroomMsg)
+            if(res.data.listMF2TCOMESSAGGES.items.length!==0){
+                let nofromme = res.data.listMF2TCOMESSAGGES.items.filter(msg=>{
+                    return msg.from_me ==false
+                })
+                if(nofromme.length==0) return
+                console.log("no from me :", nofromme)
+                nofromme = nofromme.pop()
+                setLastMsgFromClient(prev=>nofromme.timestamp)
+                console.log("last msg time : ",  lastMsgFromClient)
+                console.log("getChatroomMessage",chatroomMsg)
+            }
+
         }).catch(err=>console.log(err))
 
 
@@ -771,7 +782,7 @@ export default function Live_chat() {
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                                     </div>
-                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!=-1? <div className="chatroom_name"><CountDownTimer dayString={new Date()}/></div>:""}
+                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!==""&&chatroomMsg.length!==0? <div className="chatroom_name"><CountDownTimer dayString={lastMsgFromClient }/></div>:""}
                                     {/*{selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(parseInt(chatroomMsg[0].timestamp)).toISOString()}/></div>:""}*/}
                                 </div>
 

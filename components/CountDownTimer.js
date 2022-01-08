@@ -3,8 +3,11 @@ import React, { useState, useEffect } from 'react'
 // pass dayString to this component. it will start count 24hour from dayString
 // dayString is a string like date.toIsoString()
 export default function CountDownTimer ({dayString}) {
+
+    let lastTime = new Date(parseInt(dayString)*1000)
+    lastTime= lastTime.setDate(lastTime.getDate()+1)
     //add 24 hour
-    const endTime = new Date( new Date(dayString).getTime() +60 *60*24*1000);
+    const endTime = new Date( lastTime);
     //function calculate the time difference between now and the end time and return it as a string
     function getTimeRemaining(endTime) {
         const total = Date.parse(endTime) - Date.parse(new Date());
@@ -18,11 +21,9 @@ export default function CountDownTimer ({dayString}) {
         return "00:00:00";
     }
 
-    const [timeLeft, setTimeLeft] = useState(getTimeRemaining(endTime)); 
+    const [timeLeft, setTimeLeft] = useState(getTimeRemaining(endTime));
     useEffect(() => {
-        setTimeout(() => {
-          setTimeLeft(getTimeRemaining(endTime));
-        }, 1000);
+        setTimeLeft(getTimeRemaining(endTime));
     });
 
     return(
