@@ -50,7 +50,7 @@ export default function Live_chat() {
 
 
 
-        
+
         const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
@@ -65,7 +65,7 @@ export default function Live_chat() {
         const [subscribe,setSubscribe] = useState()
         const [subscribePin,setSubscribePin] = useState()
         const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-        
+
         const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
         const [replyData ,setReplyData] = useState([])
         const [replyMsg, setReplyMsg] = useState("")
@@ -103,7 +103,7 @@ export default function Live_chat() {
         const [pinChat , setPinChat] = useState([])
         const [mediaUrl , setMediaUrl] = useState('')
         const [isMedia , setIsMedia ] = useState(false)
-
+        const [lastMsgFromClient , setLastMsgFromClient] = useState({})
     const gqlFilter = async ()=>{
 
     }
@@ -140,16 +140,16 @@ export default function Live_chat() {
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
             .then(async res =>{
-                
+
                 const chatroom = res.data.listMF2TCOCHATROOMS.items
-                console.log("loop chatroom start" , chatroom)
-                    chatroom.forEach( chat=>{
-                    chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false} ,}}))
-               
-                        .then(async msg=>{
-                            return msg.data.listMF2TCOMESSAGGES.items.length
-                        }).catch(error => console.log(error))
-                })
+                // console.log("loop chatroom start" , chatroom)
+                //     chatroom.forEach( chat=>{
+                //     chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false} ,}}))
+                //
+                //         .then(async msg=>{
+                //             return msg.data.listMF2TCOMESSAGGES.items.length
+                //         }).catch(error => console.log(error))
+                // })
                 return chatroom
             })
             .catch(error => console.log(error))
@@ -159,7 +159,7 @@ export default function Live_chat() {
         await getOwnPinChatList()
         setChatrooms(result)
         setFilteredData(result)
-        
+
     }
     const getAllChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
@@ -208,7 +208,10 @@ export default function Live_chat() {
         e.preventDefault()
         const file = e.target.files[0]
         console.log(URL.createObjectURL(file))
+        console.log("file mine type1:"  , file.type)
+
         const filetype =  messageInstance.mediaTypeHandler(file)
+        console.log("file type 2" , filetype)
         const path =URL.createObjectURL(file)
         console.log("FileType~~~",filetype)
         // console.log("result : " , result)
@@ -218,7 +221,7 @@ export default function Live_chat() {
             const result = await mediaInstance.putImg(file , filetype)
            setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
-            
+
         }
         if(filetype.includes("video")){
             setFilePrevier({name:file.name,size:file.size,type:"VIDEO",path:path})
@@ -332,7 +335,6 @@ export default function Live_chat() {
     function newFunction(file, path) {
         setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path });
     }
-
     ///////
 
     async function handleChatRoom(chatroom){
@@ -351,7 +353,7 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
         console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
-        
+
     }
 
     const toggleReply = () =>{
@@ -376,8 +378,8 @@ export default function Live_chat() {
         // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
     }
-    fileAttach()
-        }
+        fileAttach()
+    }
     const toggleQuickReply = () =>{
         setChatButtonOn(ChatButtonOn=="m4"?"":"m4");
         setIsExpand(isExpand&&ChatButtonOn=="m4"?false:true);
@@ -498,7 +500,7 @@ export default function Live_chat() {
             await getAllChatrooms()
             await getStickers()
             subChatrooms()
-            await API.graphql(graphqlOperation(subscribeToNewChatroom))
+            await API.graphql(graphqlOperation(subscribeToNewChatroom , {}))
                 .subscribe({
                     next: async (room)=>{
                         const newroom= room.value.data.subscribeToNewChatroom
@@ -508,7 +510,7 @@ export default function Live_chat() {
                         // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                     }
                 })
-                
+
             // await getChatroomMessage()
 
             // TODO need to implete receiver id to sub input
@@ -801,16 +803,18 @@ export default function Live_chat() {
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                                     </div>
-                                    {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
-                                    {selectedChat.channel=="whatsappBusinessAPI"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""}
+                                    {selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(
+
+                                    ).toISOString()}/></div>:""}
+                                    {/*{selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(parseInt(chatroomMsg[0].timestamp)).toISOString()}/></div>:""}*/}
                                 </div>
 
                                 {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
-                                {selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(
+                                {/*{selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(*/}
 
-                                    // chatroomMsg.map
+                                {/*    // chatroomMsg.map*/}
 
-                                ).toISOString()}/></div>:""}
+                                {/*).toISOString()}/></div>:""}*/}
                         </div>
                             <div className={"chatroom_top_btn_gp"}>
                                 <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} >
@@ -851,7 +855,7 @@ export default function Live_chat() {
                                 <div style={{display:(ChatButtonOn=="m3"?"flex":"none"), padding:"1.5rem 1rem" }} onClick={toggleReply }>
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                     {/* <div>{filePreview.name} </div> */}
-                                       
+
                                             {filePreview.type=="IMAGE"? <div style={{display:"flex"}}>
                                                                             <div>
                                                                                     <div>{filePreview.type}</div>
@@ -867,7 +871,7 @@ export default function Live_chat() {
                                                                                 <div>{filePreview.name}</div>
                                                                                     <div>{filePreview.size/1000}kb</div>
                                                                             </div>
-                                                                                <div> 
+                                                                                <div>
                                                                                 <div style={{display:"flex",alignItems:"center",margin:"0 15px"}}>
                                                                                     <Player   className={"videoBox"} playsInline fluid={false} width={150} muted={true}>
                                                                                     <BigPlayButton position="center" />
@@ -907,8 +911,8 @@ export default function Live_chat() {
                                                                                 </div>
                                                                         </div>:""}
 
-                                        
-                                   
+
+
                                 </div>
                             }
                             <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >

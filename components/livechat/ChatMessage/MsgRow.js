@@ -34,6 +34,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                     </div>);
 
             case "IMAGE":
+            case "image":
                 return <div id={defaultId} onClick={replyclick} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
             case "imageCaption":
                 return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
@@ -45,18 +46,22 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                     <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
                                 </div>
 
-            case "VIDEO":   return <div id={defaultId} onClick={replyclick} className={"msg_type_video"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
+            case "VIDEO":
+            case "video":
+                return <div id={defaultId} onClick={replyclick} className={"msg_type_video"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                     {/* <iframe allowFullScreen className={"videoBox"} src={msg.body}  /> */}
                     <Player   className={"videoBox"} playsInline fluid={false} width={360} muted={true}>
                         <BigPlayButton position="center" />
                                     <source  id={defaultId} onClick={replyclick} src={msg.media_url}   type="video/mp4"/>
                     </Player>
                     </div>
-            case "ptt":   return <div id={defaultId} onClick={replyclick} className={"msg_type_voice "  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
+            case "ptt":
+            case "voice" :
+                return <div id={defaultId} onClick={replyclick} className={"msg_type_voice "  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                                             <audio id={defaultId} onClick={replyclick}  className={"voice_detail"} controls src={msg.media_url} ></audio>
-
-                        </div>;
+                                </div>;
             case "FILE":
+            case "document":
                 return  <div id={defaultId} onClick={replyclick}  className={"msg_type_attachment"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
                             <div className={"attachmentBox"}>
                                 <svg xmlns="http://www.w3.org/2000/svg"  width="35" height="35" viewBox="0 0 35 35" >

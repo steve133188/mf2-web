@@ -15,32 +15,32 @@ function mediaHelper(){
 
     this.putSticker = async (file , filetype)=>{
         console.log(file,"sticker is on the way")
-        const result = await Storage.put(`stickers/${file.name}` , file , {contentType: filetype})
+        const result = await Storage.put(`stickers/${Date.now()}.${filetype}` , file , {contentType: filetype})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
     this.putVoice = async (file , filetype)=>{
-        const result = await Storage.put(`voice/${file.name}` , file, {contentType: filetype} )
+        const result = await Storage.put(`voice/${Date.now()}.${filetype}` , file, {contentType: filetype} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
     this.putImg = async (file , filetype)=>{
-        const result = await Storage.put(`image/${file.name}` , file, {contentType: filetype} )
+        const result = await Storage.put(`image/${Date.now()}.${filetype}` , file, {contentType: filetype} )
         console.log("result : " , result)
         return this.objUrl(result.key)
 
     }
 
     this.putVideo = async (file , filetype)=>{
-        const result = await Storage.put(`video/${file.name}` , file , {contentType: filetype})
+        const result = await Storage.put(`video/${Date.now()}.${filetype}` , file , {contentType: filetype})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
     this.putDoc = async (file , filetype)=>{
-        const result = await Storage.put(`documents/${file.name}` , file, {contentType: filetype} )
+        const result = await Storage.put(`documents/${Date.now()}.${filetype}` , file, {contentType: filetype} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
