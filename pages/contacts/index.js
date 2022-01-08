@@ -71,8 +71,7 @@ export default function Contacts() {
     const [deleteRole,setDeleteRole] = useState("")
 
 
-    const advanceFilter =()=>{
-        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
+    const advanceFilter =()=>{        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         console.log("filter",filter)
         console.log("filter",contacts)
         const agentFiltered = contacts.filter(data=>{
@@ -81,8 +80,7 @@ export default function Contacts() {
             }
             return data.agents.some(el=>selectedUsers.includes(el.username))
         })
-        console.log("agent:",agentFiltered)
-        console.log("selected Tags" , selectedTags)
+        
         const tagFiltered = agentFiltered.filter(data=>{
            if(selectedTags.length==0){
                return data
@@ -96,11 +94,7 @@ export default function Contacts() {
             return data.tags.some(el=>selectedTags.includes(el.tag_name))
             */
         )
-        console.log(selectedTags)
-        console.log("tagFiltered:",tagFiltered)
-
         const channelFiltered = tagFiltered.filter(data=>{
-            console.log(data,"filterdata")
             if(selectedChannel.length ==0){
                 return data
             }
@@ -198,13 +192,12 @@ export default function Contacts() {
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        console.log(id,"selected customer")
-        console.log(selectedContacts,"selected customer")
+        
         setSelectedContacts(selectedContacts=>[...selectedContacts, id]);
         if (!checked) {
             setSelectedContacts(selectedContacts=>selectedContacts.filter(item => item !== id));
         }
-        console.log(selectedContacts)
+        console.log(selectedContacts, "TMP selceted contacts")
     };
     const toggleSelectChannel = e => {
         const { checked ,id} = e.target;
@@ -216,7 +209,7 @@ export default function Contacts() {
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.customer_id));
+        setSelectedContacts(currentContacts.map(c => c.customer_id.toString()));
         if (selectAll) {
             setSelectedContacts([]);
         }
@@ -246,7 +239,6 @@ export default function Contacts() {
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
-        console.log(selectedUsers)
     };
     function userSearchFilter(keyword , data ,callback ){
         if(keyword.includes(":")){
@@ -333,15 +325,17 @@ export default function Contacts() {
                 items.push(c)
             })
         }
-        const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        const deleteItems = {data:items}
-        console.log("remove contact id",deleteItems)
-        const res =await axios.delete(url ,{ headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-            data:deleteItems})
-        if (res.status == 200) {
+        const res = contactInstance.deleteContacts(items)
+        // const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
+        // const deleteItems = {data:items}
+        // console.log("remove contact id",deleteItems)
+        // const res =await axios.delete(url ,{ headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${localStorage.getItem("token")}`
+        //     },
+        //     data:deleteItems})
+        if (res == 200) {
+            alert("Delete Success")
             await fetchContacts()
             setSelectedContacts([])
         }
@@ -388,7 +382,7 @@ export default function Contacts() {
                   d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
         </svg>
     )
-
+    
     const toggleSelectAllChannels = (e) => {
         const { checked ,id} = e.target;
         setSelectedChannel(["all","Whatsapp","WABA","Wechat","Messager"]);
@@ -507,7 +501,8 @@ export default function Contacts() {
 
 
                     <div className={"select_session_btn"}>
-                        <CSVLink data={contacts} filename={"contact.csv"} >{editSVG}</CSVLink>
+                        {/* <button onClick={()=>{console.log(contacts.filter(d => selectedContacts.includes(d.customer_id.toString())).map(d => d.agents=d.agents.user_name))}}>click me</button> */}
+                        <CSVLink data={contacts.filter(d => selectedContacts.includes(d.customer_id.toString()))} filename={"contact.csv"} >{editSVG}</CSVLink>
                     </div>
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
@@ -531,7 +526,7 @@ export default function Contacts() {
                         </li>)
                     })}
                 </MF_Select>
-                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team":selectedTeams }  submit={advanceFilter}  customeDropdown={true}>
+                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team:Not Asignned":selectedTeams }  submit={advanceFilter}  customeDropdown={true}>
                     <li onClick={()=> {
                         setSelectedTeams("");
                         advanceFilter()
@@ -593,7 +588,7 @@ export default function Contacts() {
                             <TableCell>
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el))} onClick={toggleSelectAll} />
+                                        <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll} />
                                     </label> : null}
                                 </div>
                             </TableCell>
@@ -611,7 +606,7 @@ export default function Contacts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                        {filteredData.length!=0 && currentContacts.map( (data ,index) => {
                             return( <TableRow
                                     key={index}
                                     hover
@@ -642,7 +637,8 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>
-                                        <div>{data.team.org_id!=0?data.team.org_name:"not Assigned"}</div>
+                                        {/* <div>{data.team.org_id!=0?data.team.org_name:"not Assigned"}</div> */}
+                                       
                                         {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>
 
