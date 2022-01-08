@@ -82,10 +82,10 @@ export default function Integrations() {
     const handelSumbit = () =>{
         console.log("send button")
         console.log(value)
-        if(value=="whatsapp"){setWhatsappFetch(!whatsappFetch);}
-        if(value=="whatsappB"){setWhatsappBFetch(!whatsappBFetch)}
-        if(value=="wechat"){setWechatFetch(!wechatFetch)}
-        if(value=="messager"){setMessagerFetch(!messagerFetch)}
+        if(value=="Whatsapp"){setWhatsappFetch(!whatsappFetch);}
+        if(value=="WhatsappB"){setWhatsappBFetch(!whatsappBFetch)}
+        if(value=="Wechat"){setWechatFetch(!wechatFetch)}
+        if(value=="Messager"){setMessagerFetch(!messagerFetch)}
         if(value=="line"){setLineFetch(!lineFetch)}
         if(value=="signal"){setSignalFetch(!signalFetch)}
         if(value=="telegram"){setTelegramFetch(!telegramFetch)}
@@ -111,7 +111,6 @@ export default function Integrations() {
     }   
   
     const wrapperRef = useRef();
-
     const handleClickOutside = (event) => {
         if (
             wrapperRef.current &&
@@ -159,17 +158,17 @@ export default function Integrations() {
                             {activeChannel.length>0?activeChannel[0].name:""}
                         </div>
                         <div>
-                           {activeChannel.length>0 && activeChannel[0].channelID=="whatsapp" ?<button id={activeChannel[0].channelID}  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
+                           {activeChannel.length>0 && activeChannel[0].channelID=="Whatsapp" ?<button id={activeChannel[0].channelID}  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
                         </div>
 
                     </div>
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
                          <TabContext value={value}  >
 
-                                <TabPanel value="whatsapp" ><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
-                                <TabPanel value="whatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
-                                <TabPanel value="wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
-                                <TabPanel value="messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
+                                <TabPanel value="Whatsapp" ><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
+                                <TabPanel value="WhatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
+                                <TabPanel value="Wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
+                                <TabPanel value="Messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
                                 <TabPanel value="line" ><ConnectTempMessager fetchdata={lineFetch} /></TabPanel>
                                 <TabPanel value="signal" ><ConnectTempMessager fetchdata={signalFetch} /></TabPanel>
                                 <TabPanel value="telegram" ><ConnectTempMessager fetchdata={telegramFetch} /></TabPanel>

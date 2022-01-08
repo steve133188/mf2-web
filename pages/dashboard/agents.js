@@ -78,7 +78,7 @@ export default function Agents() {
     const fetchDefault = async ()=>{
         let end = new window.Date().getTime() / 1000
         let start = end - 3600 * 48
-        console.log(start,end)
+        console.log(start,end,"default")
         const data = await dashboardInstance.getAgentDefaultData(start ,end)
         return data
         
@@ -100,8 +100,11 @@ export default function Agents() {
             setDash(data)
             setFilteredData(data.Agent)
         } else {
-            const data = await dashboardInstance.getAgentDefaultData(Date.parse(dayState.from)/1000 ,Date.parse(dayState.to)/1000)
-            console.log(data)
+            const dataIN = Date.parse(dayState.from)/1000
+            const dataEND = Date.parse(dayState.to)/1000
+            console.log("date form fetch dashbroad data",dataIN,dataEND)
+            const data = await dashboardInstance.getAgentRangeData(dataIN,dataEND)
+            console.log("fetch data by range",data)
             // setDash(data)
             
             setFilteredData(dash.Agent)

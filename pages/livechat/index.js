@@ -29,6 +29,9 @@ import CountDownTimer from "../../components/CountDownTimer";
 import NotificationList from "../../components/NotificationList";
 import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
 import { getURL } from "next/dist/shared/lib/utils";
+import { padding } from "@mui/system";
+import BigPlayButton from "video-react/lib/components/BigPlayButton";
+import Player from "video-react/lib/components/Player";
 
 
 export default function Live_chat() {
@@ -47,60 +50,59 @@ export default function Live_chat() {
 
 
 
-    const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
-    const [replyData ,setReplyData] = useState([])
+        
+        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
+        const [chatrooms , setChatrooms] = useState([])
+        const [chatroomMsg , setChatroomMsg]  = useState([])
+        const [attachment , setAttachment ] = useState([])
+        const [selectedChat , setSelectedChat] = useState({})
+        const [chatSearch, setSearch] = useState(false)
+        const [isRobotOn , setIsRobotOn] = useState(false)
+        const [chatboxSearch, setChatBoxSearch] = useState("")
+        const [isExpand , setIsExpand] = useState(false)
+        const [isEmojiOn,setEmojiOn] = useState(false)
+        const [ChatButtonOn,setChatButtonOn] = useState(false)
+        const [subscribe,setSubscribe] = useState()
+        const [subscribePin,setSubscribePin] = useState()
+        const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
+        
+        const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
+        const [replyData ,setReplyData] = useState([])
+        const [replyMsg, setReplyMsg] = useState("")
+        const [quotaMsg,setQuotaMsg] = useState({})
+        const [reply,setReply] =useState(false)
 
+        const [searchResult, setSearchResult] = useState([])
+        const [typedMsg , setTypedMsg] = useState({
+            channel:"whatsapp",
+            phone:"",
+            message:"",
+            message_type:"text"
+        })
+        const [chatroomsSub , setChatroomsSub] = useState()
+        const [replybox,setReplybox] = useState("")
+        const [users ,setUsers] =useState([])
+        const [teams ,setTeams] =useState([])
+        const [tags ,setTags] =useState([])
+        const [selectedTags ,setSelectedTags] =useState([])
+        const [selectedUsers ,setSelectedUsers] =useState([])
+        const [chatUser , setChatUser] = useState({})
+        const [selectedTeams ,setSelectedTeams] =useState([])
+        const [selectedChannels ,setSelectedChannels] =useState([]);
+        const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
+        const [chatroomsInfo, setChatroomsInfo] = useState([])
+        const [filteredTags ,setFilteredTags] =useState([])
+        const [filteredUsers ,setFilteredUsers] =useState([])
+        const [filteredData , setFilteredData] = useState([])
 
-    const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
-    const [chatrooms , setChatrooms] = useState([])
-    const [chatroomMsg , setChatroomMsg]  = useState([])
-    const [attachment , setAttachment ] = useState([])
-    const [selectedChat , setSelectedChat] = useState({})
-    const [chatSearch, setSearch] = useState(false)
-    const [isRobotOn , setIsRobotOn] = useState(false)
-    const [chatboxSearch, setChatBoxSearch] = useState("")
-    const [isExpand , setIsExpand] = useState(false)
-    const [isEmojiOn,setEmojiOn] = useState(false)
-    const [ChatButtonOn,setChatButtonOn] = useState(false)
-    const [subscribe,setSubscribe] = useState()
-    const [subscribePin,setSubscribePin] = useState()
-    const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-    const [replyMsg, setReplyMsg] = useState("")
-    const [quotaMsg,setQuotaMsg] = useState({})
-    const [reply,setReply] =useState(false)
-
-    const [searchResult, setSearchResult] = useState([])
-    const [typedMsg , setTypedMsg] = useState({
-        channel:"whatsapp",
-        phone:"",
-        message:"",
-        message_type:"text"
-    })
-    const [chatroomsSub , setChatroomsSub] = useState()
-    const [replybox,setReplybox] = useState("")
-    const [users ,setUsers] =useState([])
-    const [teams ,setTeams] =useState([])
-    const [tags ,setTags] =useState([])
-    const [selectedTags ,setSelectedTags] =useState([])
-    const [selectedUsers ,setSelectedUsers] =useState([])
-    const [chatUser , setChatUser] = useState({})
-    const [selectedTeams ,setSelectedTeams] =useState([])
-    const [selectedChannels ,setSelectedChannels] =useState([]);
-    const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
-    const [chatroomsInfo, setChatroomsInfo] = useState([])
-    const [filteredTags ,setFilteredTags] =useState([])
-    const [filteredUsers ,setFilteredUsers] =useState([])
-    const [filteredData , setFilteredData] = useState([])
-
-    const [isShow , setIsShow] =useState(false)
-    const [unread,setUnread] = useState(false)
-    const [unassigned,setUnassigned] = useState(false)
-    const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const [start,setStart] = useState(false)
-    const [chatroomStart,setChatroomStart] = useState(false)
-    const [pinChat , setPinChat] = useState([])
-    const [mediaUrl , setMediaUrl] = useState('')
-    const [isMedia , setIsMedia ] = useState(false)
+        const [isShow , setIsShow] =useState(false)
+        const [totalUnread, setTotalUnread] = useState(0)
+        const [unread,setUnread] = useState(false)
+        const [unassigned,setUnassigned] = useState(false)
+        const [isFilterOpen , setIsFilterOpen] = useState(false)
+        const [pinChat , setPinChat] = useState([])
+        const [mediaUrl , setMediaUrl] = useState('')
+        const [isMedia , setIsMedia ] = useState(false)
 
     const gqlFilter = async ()=>{
 
@@ -138,10 +140,12 @@ export default function Live_chat() {
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
             .then(async res =>{
+                
                 const chatroom = res.data.listMF2TCOCHATROOMS.items
                 console.log("loop chatroom start" , chatroom)
                     chatroom.forEach( chat=>{
                     chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false} ,}}))
+               
                         .then(async msg=>{
                             return msg.data.listMF2TCOMESSAGGES.items.length
                         }).catch(error => console.log(error))
@@ -155,7 +159,7 @@ export default function Live_chat() {
         await getOwnPinChatList()
         setChatrooms(result)
         setFilteredData(result)
-
+        
     }
     const getAllChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
@@ -170,15 +174,20 @@ export default function Live_chat() {
                         }).catch(error => console.log(error))
                 })
                 console.log(chatroom)
-
+                console.log(totalUnread,"TOTALTOTAL")
                 const pin = chatroom.filter(chat=>chat.is_pin==true)
                 const unpin = chatroom.filter(chat=>chat.is_pin==false)
-
+                const totalNum = chatroom.reduce((ori,next)=>{
+                    return ori+next.unread;},0
+                )
+                console.log(totalNum,"number test")
+                setTotalUnread(totalNum)
                 setChatrooms(chatroom)
                 setFilteredData(unpin)
                 setPinChat(pin)
             })
             .catch(error => console.log(error))
+
         // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
         //     .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
         // console.log(myData,"afterSort")
@@ -192,35 +201,31 @@ export default function Live_chat() {
         console.log("imgKeys : " , imageKeys)
         setAttachment(imageKeys)
     }
+
     const [filePreview,setFilePrevier] = useState({name:"",size:0,type:""})
-    // useEffect(()=>{
-    //
-    //     console.log(filePreview,"filepreview")
-    //
-    // },[filePreview])
+
     const upload = async (e) =>{
         e.preventDefault()
         const file = e.target.files[0]
-        console.log(file.mozFullPath,"file data console")
         console.log(URL.createObjectURL(file))
-        // console.log()
-
         const filetype =  messageInstance.mediaTypeHandler(file)
         const path =URL.createObjectURL(file)
         console.log("FileType~~~",filetype)
         // console.log("result : " , result)
         setIsMedia(true)
         if(filetype.includes("image")){
-            setFilePrevier({name:file.name,size:file.size,type:"image",path:path})
+            newFunction(file, path);
             const result = await mediaInstance.putImg(file , filetype)
            setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
+            
         }
         if(filetype.includes("video")){
-            setFilePrevier({name:file.name,size:file.size,type:"video",path:path})
+            setFilePrevier({name:file.name,size:file.size,type:"VIDEO",path:path})
             const result = await mediaInstance.putVideo(file , filetype)
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "VIDEO"})
+            // sendMessageToClient()
         }
         if(filetype.includes("audio")){
             setFilePrevier({name:file.name,size:file.size,type:"AUDIO",path:path})
@@ -229,10 +234,10 @@ export default function Live_chat() {
             setTypedMsg({...typedMsg ,message_type: "AUDIO"})
         }
         if(filetype.includes("document")){
-            setFilePrevier({name:file.name,size:file.size,type:"document",path:path})
+            setFilePrevier({name:file.name,size:file.size,type:"FILE",path:path})
             const result = await mediaInstance.putDoc(file , filetype)
             setMediaUrl(result)
-            setTypedMsg({...typedMsg ,message_type: "document"})
+            setTypedMsg({...typedMsg ,message_type: "FILE"})
         }
 
     }
@@ -265,6 +270,7 @@ export default function Live_chat() {
 
     useEffect(()=>{
         setReplyData(replyTemplateList)
+        console.log("total unread",totalUnread)
     },[])
 
     const fetchContacts = async () =>{
@@ -323,6 +329,10 @@ export default function Live_chat() {
     const messagesEndRef = useRef()
     const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
     useEffect(()=>{scrollToBottom(),[chatroomMsg]})
+    function newFunction(file, path) {
+        setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path });
+    }
+
     ///////
 
     async function handleChatRoom(chatroom){
@@ -341,6 +351,7 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
         console.log("getChatroomMessage",result.data.listMF2TCOMESSAGGES.items)
         setChatroomMsg(result.data.listMF2TCOMESSAGGES.items)
+        
     }
 
     const toggleReply = () =>{
@@ -357,14 +368,16 @@ export default function Live_chat() {
         setIsExpand(false);
     }
     const toggleFile= e =>{
-        setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
+        if(filePreview.size<100){
+            setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
         setIsExpand(false);
-        fileAttach()
         setIsExpand(isExpand&&ChatButtonOn=="m3"?false:true);
         // setAttachment(e.target.files[0])
         // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
     }
+    fileAttach()
+        }
     const toggleQuickReply = () =>{
         setChatButtonOn(ChatButtonOn=="m4"?"":"m4");
         setIsExpand(isExpand&&ChatButtonOn=="m4"?false:true);
@@ -417,10 +430,11 @@ export default function Live_chat() {
         setTypedMsg({...typedMsg , message: ""})
         if(isMedia){
             setIsMedia(false)
-            setFilePrevier({})
+            // setFilePrevier({})
+            setFilePrevier({name:"",size:0,type:""})
         }
-        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         setIsExpand(false)
+        const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         console.log("data :" , data)
         setChatButtonOn("")
     }
@@ -428,29 +442,20 @@ export default function Live_chat() {
     const ReferechHandle=async()=>{
         await getChatrooms();
         await getChatroomMessage ();
-    }
-    const wrapperRef1 = useRef();
-    const wrapperRef2 = useRef();
-    const wrapperRef3 = useRef();
 
+    }
+
+    const wrapperRef1 = useRef();
 
     const handleClickOutside = (event) => {
 
         if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
             setChatButtonOn("");
             setIsExpand(false);
-            if (wrapperRef2.current &&!wrapperRef2.current.contains(event.target.node)){
-                if (wrapperRef3.current &&!wrapperRef3.current.contains(event.target.node)){
-
-                    setChatButtonOn("");
-                    setIsExpand(false);
-                }
-
-            }
-
-        }
-
+            setFilePrevier({name:"",size:0,type:""})
+          }
     };
+
     const replyClick=click=>{
         console.log(click,"done donedone")
         setReplyMsg(click)
@@ -503,7 +508,9 @@ export default function Live_chat() {
                         // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                     }
                 })
+                
             // await getChatroomMessage()
+
             // TODO need to implete receiver id to sub input
         }
     },[]);
@@ -538,6 +545,8 @@ export default function Live_chat() {
             })
 
     }
+
+
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
         await handleSub(selectedChat)
@@ -838,15 +847,69 @@ export default function Live_chat() {
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                             </div>
                             }
-                            {filePreview&&
-                            <div style={{display:(ChatButtonOn=="m3"?"flex":"none")}} onClick={toggleReply }>
-                                {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
-                                {/* <div>{filePreview.name} </div> */}
-                                <div>{filePreview.type}file </div>
-                                <div>
-                                    <img src={filePreview.path} style={{width:"80px",height:"80px"}}/><div>{filePreview.size/1000}kb</div>
+                            {filePreview.size > 100 &&
+                                <div style={{display:(ChatButtonOn=="m3"?"flex":"none"), padding:"1.5rem 1rem" }} onClick={toggleReply }>
+                                    {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
+                                    {/* <div>{filePreview.name} </div> */}
+                                       
+                                            {filePreview.type=="IMAGE"? <div style={{display:"flex"}}>
+                                                                            <div>
+                                                                                    <div>{filePreview.type}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                                <div>
+                                                                                    <img src={filePreview.path} style={{width:"100px",height:"100px", margin:"0 15px"}}/>
+                                                                                </div>
+                                                                        </div>:""}
+                                            {filePreview.type=="VIDEO"?<div style={{display:"flex"}}>
+                                                                            <div>
+                                                                                    <div style={{fontSize:"18px"}}>{filePreview.type}</div>
+                                                                                <div>{filePreview.name}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                                <div> 
+                                                                                <div style={{display:"flex",alignItems:"center",margin:"0 15px"}}>
+                                                                                    <Player   className={"videoBox"} playsInline fluid={false} width={150} muted={true}>
+                                                                                    <BigPlayButton position="center" />
+                                                                                                <source  id={filePreview.name} src={filePreview.path}  onClick={e=>e.preventDefault} type="video/mp4" />
+                                                                                </Player>
+                                                                                        {/* <svg xmlns="http://www.w3.org/2000/svg"  width="35" height="35" viewBox="0 0 35 35" >
+                                                                                            <g id="Mask_Group_62" data-name="Mask Group 62" transform="translate(-2746 -1111)" >
+                                                                                                <rect id="Background-2" data-name="Background" width="35" height="35" transform="translate(2746 1111)" fill="none"/>
+                                                                                                <path id="Path_34405" data-name="Path 34405" d="M973.181,507.951h0a1.148,1.148,0,0,0-1.1,1.1v14.067a5.318,5.318,0,0,1-4.667,5.362c-.175.017-.348.026-.519.026a5.141,5.141,0,0,1-5.13-4.651,4.806,4.806,0,0,1-.028-.52V506.919a3.306,3.306,0,0,1,2.849-3.349,3.222,3.222,0,0,1,.333-.017,3.168,3.168,0,0,1,3.156,2.846,2.922,2.922,0,0,1,.017.338v13.951a1.189,1.189,0,0,1-1.222,1.144h0a1.19,1.19,0,0,1-1.145-1.14V509.048a1.144,1.144,0,0,0-1.182-1.1h0a1.146,1.146,0,0,0-1.1,1.1v11.438a3.6,3.6,0,0,0,3.1,3.644,3.468,3.468,0,0,0,3.81-3.09c.012-.12.017-.242.017-.364V506.956a5.607,5.607,0,0,0-4.927-5.656c-.18-.017-.359-.026-.536-.026a5.436,5.436,0,0,0-5.429,4.93c-.016.174-.023.348-.025.523v16.3a7.655,7.655,0,0,0,6.723,7.737c.247.025.493.036.735.036a7.431,7.431,0,0,0,7.416-6.736c.023-.241.035-.484.035-.728V509.048A1.144,1.144,0,0,0,973.181,507.951Z" transform="translate(1796.697 612.626)" className={"attachmentPinLogo"} fill="#2198fa"/>
+                                                                                            </g>
+                                                                                        </svg> */}
+                                                                                </div>
+                                                                                </div>
+                                                                        </div>:""}
+                                            {filePreview.type=="AUDIO"?<div style={{display:"flex",background: "#D0E9FF 0% 0% no-repeat padding-box",borderRadius:" 10px",padding:"1rem"}}>
+                                                                            <div>
+                                                                                    <div>{filePreview.type}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                            <div  style={{margin:"0 15px",fill:"#2198fa"}}>
+                                                                            <VoiceMsg size={20} />
+                                                                            </div>
+                                                                        </div>:""}
+                                            {filePreview.type=="FILE"?<div style={{display:"flex",background: "#D0E9FF 0% 0% no-repeat padding-box",borderRadius:" 10px",padding:"1rem"}}>
+                                                                            <div>
+                                                                                    <div>{filePreview.type}</div>
+                                                                                    <div>{filePreview.size/1000}kb</div>
+                                                                            </div>
+                                                                                <div style={{display:"flex",alignItems:"center"}}>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"  width="35" height="35" viewBox="0 0 35 35" >
+                                                                                            <g id="Mask_Group_62" data-name="Mask Group 62" transform="translate(-2746 -1111)" >
+                                                                                                <rect id="Background-2" data-name="Background" width="35" height="35" transform="translate(2746 1111)" fill="none"/>
+                                                                                                <path id="Path_34405" data-name="Path 34405" d="M973.181,507.951h0a1.148,1.148,0,0,0-1.1,1.1v14.067a5.318,5.318,0,0,1-4.667,5.362c-.175.017-.348.026-.519.026a5.141,5.141,0,0,1-5.13-4.651,4.806,4.806,0,0,1-.028-.52V506.919a3.306,3.306,0,0,1,2.849-3.349,3.222,3.222,0,0,1,.333-.017,3.168,3.168,0,0,1,3.156,2.846,2.922,2.922,0,0,1,.017.338v13.951a1.189,1.189,0,0,1-1.222,1.144h0a1.19,1.19,0,0,1-1.145-1.14V509.048a1.144,1.144,0,0,0-1.182-1.1h0a1.146,1.146,0,0,0-1.1,1.1v11.438a3.6,3.6,0,0,0,3.1,3.644,3.468,3.468,0,0,0,3.81-3.09c.012-.12.017-.242.017-.364V506.956a5.607,5.607,0,0,0-4.927-5.656c-.18-.017-.359-.026-.536-.026a5.436,5.436,0,0,0-5.429,4.93c-.016.174-.023.348-.025.523v16.3a7.655,7.655,0,0,0,6.723,7.737c.247.025.493.036.735.036a7.431,7.431,0,0,0,7.416-6.736c.023-.241.035-.484.035-.728V509.048A1.144,1.144,0,0,0,973.181,507.951Z" transform="translate(1796.697 612.626)" className={"attachmentPinLogo"} fill="#2198fa"/>
+                                                                                            </g>
+                                                                                        </svg>
+                                                                                    <div>{filePreview.name}</div>
+                                                                                </div>
+                                                                        </div>:""}
+
+                                        
+                                   
                                 </div>
-                            </div>
                             }
                             <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
