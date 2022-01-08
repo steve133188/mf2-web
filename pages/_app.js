@@ -15,15 +15,7 @@ import awsmobile from "../src/aws-exports";
 Amplify.configure(awsmobile)
 
 function MyApp({ Component, pageProps }) {
-    // const client = new Client({
-    //     uri: "https://ogvqtslekzfhba4lqua3khxqlm.appsync-api.ap-east-1.amazonaws.com/graphql",
-    //     region:"ap-east-1",
-    //     auth:{
-    //         type:"API_KEY",
-    //         apiKey:"da2-ou5n2avhtfh2rjf37sf6upozkm"
-    //     }
-    // })
-    const [connected, setConnected] = useState(false);
+
   return(
       <>
       <Head>

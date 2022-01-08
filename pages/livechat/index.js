@@ -154,8 +154,6 @@ export default function Live_chat() {
             })
             .catch(error => console.log(error))
         console.log("get chatrooms" ,result)
-        // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
-        // .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
         await getOwnPinChatList()
         setChatrooms(result)
         setFilteredData(result)
@@ -187,10 +185,6 @@ export default function Live_chat() {
                 setPinChat(pin)
             })
             .catch(error => console.log(error))
-
-        // const myData = [].concat(result.data.listMF2TCOCHATROOMS.items)
-        //     .sort((a, b) => a.is_pin == b.is_pin ? 0: b.is_pin? 1 : -1);
-        // console.log(myData,"afterSort")
     }
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
@@ -252,16 +246,6 @@ export default function Live_chat() {
     }
     const [contacts, setContacts] = useState([]);
 
-
-
-    // const windowUrl = window.location.search;
-    // const params = new URLSearchParams("https://cn.webmota.com/comic/chapter/yidengjiading-erciyuandongman/0_66.html");
-    // // params['id']
-    // const rul_id = params.get('id');
-    // const rul_name = params.get('name');
-    // const rul_type = params.get('type');
-    // console.log(rul_id, rul_name, rul_type)
-    // console.log(params)
 
     const handleTypedMsg = e =>{
         const {name , value} = e.target
@@ -331,7 +315,9 @@ export default function Live_chat() {
     //////Chatroom End Point
     const messagesEndRef = useRef()
     const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
-    useEffect(()=>{scrollToBottom(),[chatroomMsg]})
+    useEffect(()=>{
+        scrollToBottom()}
+        ,[chatroomMsg])
     function newFunction(file, path) {
         setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path });
     }
