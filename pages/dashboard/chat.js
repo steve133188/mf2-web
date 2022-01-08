@@ -24,7 +24,7 @@ import searchFilter from "../../helpers/searchFilter";
 import dashboardFetcher from "../../helpers/dashboardHelpers";
 
 export default function Chat() {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const [filteredAgents , setFilteredAgents] = useState([])
@@ -36,7 +36,7 @@ export default function Chat() {
     const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
-    const [dash  , setDash ] = useState({all_contacts :[] , active_contacts:[] , total_msg_sent:[] , 
+    const [dash  , setDash ] = useState({all_contacts :[] , active_contacts:[] , total_msg_sent:[] ,
         total_msg_rev:[] , new_added_contacts:[] , avg_resp_time :[] ,communication_hours :[] , tags:[],
         ChannelContact: [{ChannelName: "", ChannelTotalContact: 0},
         {ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0},
@@ -93,6 +93,7 @@ export default function Chat() {
         setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>parseInt(tag.tag_id)==el)}));
         // setSelectedTags([])
     }
+
 
     // const toggleSelectAgents = e => {
     //     const { checked ,id} = e.target;
@@ -300,7 +301,7 @@ export default function Chat() {
                             <div className={"half_session block_session"}>
                                 <div className={"top_row"} style={{justifyContent:"space-around",width:"40%"}}>
 
-{/* 
+{/*
                                     <span className={"title"}>Tags  {`${tags.length}`}</span>
 
                                     <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{

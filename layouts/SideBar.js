@@ -51,13 +51,13 @@ export default function SideBar(props) {
    useEffect(async ()=>{
     // getMesssages()
 
-       const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
-           .subscribe({
-               next: async (chat) => {
-                   console.log("update chat " ,chat)
-               }
-           })
-        setSubscribe(prev=> sub)
+       // const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
+       //     .subscribe({
+       //         next: async (chat) => {
+       //             console.log("update chat " ,chat)
+       //         }
+       //     })
+       //  setSubscribe(prev=> sub)
         await getAllChatrooms()
    },[])
 
@@ -145,7 +145,7 @@ export default function SideBar(props) {
         useLayoutEffect(() => {
             function updateSize() {
               setSize({width, height});
-              
+
             }
             if(window) {
                 updateSize();
@@ -335,7 +335,7 @@ export default function SideBar(props) {
                                             </g>
                                         </svg>
                                     <span className="side-item-name" style={{margin:"0 5px 0 0"}}>Notifications</span>
-                                    {totalUnread>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount+totalUnread}</Avatar> 
+                                    {totalUnread>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount+totalUnread}</Avatar>
                                     : unreadNotificationCount>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount}</Avatar>: "" }
                                 </div>
                             </span>
@@ -345,14 +345,14 @@ export default function SideBar(props) {
                                         <div className="notify_box_title" >Notification</div>
                                         <div className="notification_content">
                                                 <div className="notification_title" style={{display:"flex",justifyContent:"space-evenly",padding:"5%"}}>
-                                                    <b className="notification_from">Unread Message :</b> 
+                                                    <b className="notification_from">Unread Message :</b>
                                                     <Avatar  className={"text-cente"}  sx={{width:24, height:24 ,fontSize:15 ,backgroundColor:"#D0E9FF",color:"#2198FA"}} >{totalUnread} </Avatar>
                                                     {/* <div className="notification_detail"> {"total number"} </div> */}
                                                 </div>
                                                 {/* <div className="notification_time"> {notification.receive_time} </div> */}
                                             </div>
                                         <div className="notify_box_list">
-                                          
+
                                             {(notifications.length>-1)&&notifications.map((d , index )=>{
                                                 return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
                                             })}

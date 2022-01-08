@@ -1,4 +1,5 @@
  import {Storage , API , graphqlOperation} from "aws-amplify";
+ import path from 'path';
 
 
 function mediaHelper(){
@@ -13,34 +14,39 @@ function mediaHelper(){
         return mediaKey
     }
 
-    this.putSticker = async (file , filetype)=>{
+    this.putSticker = async (file)=>{
+        const mine =path.extname(file.name)
         console.log(file,"sticker is on the way")
-        const result = await Storage.put(`stickers/${Date.now()}.${filetype}` , file , {contentType: filetype})
+        const result = await Storage.put(`stickers/${Date.now()}.${mine}` , file , {contentType: file.type})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putVoice = async (file , filetype)=>{
-        const result = await Storage.put(`voice/${Date.now()}.${filetype}` , file, {contentType: filetype} )
+    this.putVoice = async (file )=>{
+        const mine =path.extname(file.name)
+        const result = await Storage.put(`voice/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putImg = async (file , filetype)=>{
-        const result = await Storage.put(`image/${Date.now()}.${filetype}` , file, {contentType: filetype} )
+    this.putImg = async (file )=>{
+        const mine =path.extname(file.name)
+        const result = await Storage.put(`image/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
 
     }
 
-    this.putVideo = async (file , filetype)=>{
-        const result = await Storage.put(`video/${Date.now()}.${filetype}` , file , {contentType: filetype})
+    this.putVideo = async (file )=>{
+        const mine =path.extname(file.name)
+        const result = await Storage.put(`video/${Date.now()}.${mine}` , file , {contentType: file.type})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putDoc = async (file , filetype)=>{
-        const result = await Storage.put(`documents/${Date.now()}.${filetype}` , file, {contentType: filetype} )
+    this.putDoc = async (file )=>{
+        const mine =path.extname(file.name)
+        const result = await Storage.put(`documents/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }

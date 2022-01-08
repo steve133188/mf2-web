@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const getMessage = /* GraphQL */ `
-  query GetMessage($room_id: Int!) {
-    getMessage(room_id: $room_id) {
+  query GetMessage($message_id: String!) {
+    getMessage(message_id: $message_id) {
       room_id
       timestamp
       sender
@@ -22,6 +22,7 @@ export const getMessage = /* GraphQL */ `
       v_card
       read
       sign_name
+      status
     }
   }
 `;
@@ -47,14 +48,15 @@ export const allMessage = /* GraphQL */ `
         v_card
         read
         sign_name
+        status
       }
       nextToken
     }
   }
 `;
 export const getMF2TCOMESSAGGE = /* GraphQL */ `
-  query GetMF2TCOMESSAGGE($room_id: Int!, $timestamp: String!) {
-    getMF2TCOMESSAGGE(room_id: $room_id, timestamp: $timestamp) {
+  query GetMF2TCOMESSAGGE($messsage_id: String) {
+    getMF2TCOMESSAGGE(messsage_id: $messsage_id) {
       room_id
       timestamp
       sender
@@ -73,6 +75,7 @@ export const getMF2TCOMESSAGGE = /* GraphQL */ `
       v_card
       read
       sign_name
+      status
     }
   }
 `;
@@ -102,6 +105,7 @@ export const listMF2TCOMESSAGGES = /* GraphQL */ `
         v_card
         read
         sign_name
+        status
       }
       nextToken
     }
@@ -383,6 +387,43 @@ export const listMF2TCOTAGS = /* GraphQL */ `
         tag_name
         create_at
         update_at
+      }
+      nextToken
+    }
+  }
+`;
+export const getActivity = /* GraphQL */ `
+  query GetActivity($timestamp: String!) {
+    getActivity(timestamp: $timestamp) {
+      timestamp
+      payload
+      action
+      type
+      user_id
+      customer_id
+      status
+      is_sys
+      team_id
+    }
+  }
+`;
+export const listActivities = /* GraphQL */ `
+  query ListActivities(
+    $filter: TableActivityFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listActivities(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        timestamp
+        payload
+        action
+        type
+        user_id
+        customer_id
+        status
+        is_sys
+        team_id
       }
       nextToken
     }

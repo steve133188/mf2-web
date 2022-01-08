@@ -22,6 +22,7 @@ export const createMF2TCOMESSAGGE = /* GraphQL */ `
       v_card
       read
       sign_name
+      status
     }
   }
 `;
@@ -46,6 +47,7 @@ export const updateMF2TCOMESSAGGE = /* GraphQL */ `
       v_card
       read
       sign_name
+      status
     }
   }
 `;
@@ -70,6 +72,7 @@ export const deleteMF2TCOMESSAGGE = /* GraphQL */ `
       v_card
       read
       sign_name
+      status
     }
   }
 `;
@@ -316,6 +319,7 @@ export const createMF2TCOMESSAGEBYLAMBDA = /* GraphQL */ `
       v_card
       read
       sign_name
+      status
     }
   }
 `;
@@ -379,6 +383,51 @@ export const deleteMF2TCOTAG = /* GraphQL */ `
       tag_name
       create_at
       update_at
+    }
+  }
+`;
+export const createActivity = /* GraphQL */ `
+  mutation CreateActivity($input: CreateActivityInput!) {
+    createActivity(input: $input) {
+      timestamp
+      payload
+      action
+      type
+      user_id
+      customer_id
+      status
+      is_sys
+      team_id
+    }
+  }
+`;
+export const updateActivity = /* GraphQL */ `
+  mutation UpdateActivity($input: UpdateActivityInput!) {
+    updateActivity(input: $input) {
+      timestamp
+      payload
+      action
+      type
+      user_id
+      customer_id
+      status
+      is_sys
+      team_id
+    }
+  }
+`;
+export const deleteActivity = /* GraphQL */ `
+  mutation DeleteActivity($input: DeleteActivityInput!) {
+    deleteActivity(input: $input) {
+      timestamp
+      payload
+      action
+      type
+      user_id
+      customer_id
+      status
+      is_sys
+      team_id
     }
   }
 `;

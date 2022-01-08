@@ -68,7 +68,7 @@ export default function Layout({children}) {
             await sub()
         }else {
             setIsAuth(false)
-            sub
+            // sub
         }
         console.log("is auth :" , isAuth)
     },[user])

@@ -23,7 +23,7 @@ import {GlobalContext} from "../../context/GlobalContext";
 import Loading from "../../components/Loading";
 
 export default function Agents() {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
 
@@ -60,7 +60,7 @@ export default function Agents() {
     const default_cols = ["Name","Role","Status","All Contacts","Newly Added Contacts",
     "Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts",
     "Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
-   
+
     const rolename =["user_name",
     "user_role_name",
     "user_status",
@@ -81,12 +81,12 @@ export default function Agents() {
         console.log(start,end,"default")
         const data = await dashboardInstance.getAgentDefaultData(start ,end)
         return data
-        
+
     }
     useEffect(async()=>{
         let data = await fetchDefault();
         setDash(data)
-        
+
         if(isLoading){
             setTimeout(function() { //Start the timer
                 setIsLoading(false);
@@ -106,31 +106,31 @@ export default function Agents() {
             const data = await dashboardInstance.getAgentRangeData(dataIN,dataEND)
             console.log("fetch data by range",data)
             // setDash(data)
-            
+
             setFilteredData(dash.Agent)
         }
         console.log("dashboard = ",dash)
         console.log("dashboard dayState = ",dayState)
-        
-    },[dayState.to])
-    
-    
+
+    },[]) // remove the dependency to prevent the crash from api error
+
+
     useEffect(async()=>{
-        console.log(dash,"determin time ") 
+        console.log(dash,"determin time ")
         setShow(!show)
-    },[filteredData])
-    
+    },[])// remove the dependency to prevent the crash from api error
+
     const periodFilter = () =>{
         console.log("filter period : "+selectedPeriod)
         // dayState <<<timestamp for comparing range
     }
-    
+
     const handleDayClick=(day) => {
         const range = DateUtils.addDayToRange(day, dayState);
         console.log(range)
         console.log(Date.parse(range.from)/1000,"try")
         setDayState(range);
-    } 
+    }
     const handleClickAway = () => {
         setOpen(false);
     };
@@ -144,7 +144,7 @@ export default function Agents() {
         }
         // props.agents(e)
         console.log(selectedAgents ,"slescted")
-    
+
     }; const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
         setSelectedChannels([...selectedChannels, id]);
@@ -153,7 +153,7 @@ export default function Agents() {
         }
         // props.agents(e)
         console.log(selectedChannels ,"slescted")
-    
+
     }; const toggleSelectTeams = e => {
         const { checked ,id} = e.target;
         setSelectedTeams([...selectedTeams, id]);
@@ -164,7 +164,7 @@ export default function Agents() {
         console.log(selectedTeams ,"slescted")
     };
     const renderAgents=() => {
-        
+
         return selectedAgents!=-1&&selectedAgents.map((tag)=>{
             return<Pill key={tag} color="lightPurple">{tag}</Pill>
         })
@@ -192,8 +192,8 @@ export default function Agents() {
             setSelectedPeriod(dayState.from.toLocaleDateString()+" - "+dayState.to.toLocaleDateString())}
 
             return () => { isMounted = false };
-            
-    },[dayState])
+
+    },[])// remove the dependency to prevent the crash from api error
 
     return (
         <div className="dashboard-layout">
@@ -247,9 +247,9 @@ export default function Agents() {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         {renderAgents()}
-                </div>    
+                </div>
                 <div className={"right"}>
                     {/* <div style={{position:"relative"}}>
                         <div >
@@ -271,12 +271,12 @@ export default function Agents() {
                             <div className={"right"}>
 
                             <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> 
-                                            <input type="checkbox" 
-                                                    id={12} 
-                                                    name="checkbox" 
-                                                    checked={false} 
-                                                    // onClick={props.onclick} 
+                                            <label className="newCheckboxLabel">
+                                            <input type="checkbox"
+                                                    id={12}
+                                                    name="checkbox"
+                                                    checked={false}
+                                                    // onClick={props.onclick}
                                                     />
                                             </label>
                                         </div>
@@ -316,7 +316,7 @@ export default function Agents() {
                                                                         agents={dash.chart.user_name}
                                                                         min1={"12"} min2={12} min3={12} show={show}/></div>
                 </div>
-                
+
                 <div className="dashboardRow" style={{display:"flex",flexDirection:"column"}}>
                         <TableContainer
                         sx={{minWidth: "800px" , minHeight:"250px"}}
@@ -354,7 +354,7 @@ export default function Agents() {
                                                 textAlign: "center",
                                                 borderBottom: "1px #e0e0e0 solid"
                                             }}>
-                                               
+
                                             </TableCell>
                                             <TableCell align="left">
                                                 <span >{data[rolename[0]]}</span></TableCell>
