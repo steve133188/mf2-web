@@ -15,7 +15,7 @@ function mediaHelper(){
     }
 
     this.putSticker = async (file)=>{
-        const mine =path.extname(file.name)
+        const mine =file.name.slice(-4).replace('.','')
         console.log(file,"sticker is on the way")
         const result = await Storage.put(`stickers/${Date.now()}.${mine}` , file , {contentType: file.type})
         console.log("result : " , result)
@@ -23,14 +23,16 @@ function mediaHelper(){
     }
 
     this.putVoice = async (file )=>{
-        const mine =path.extname(file.name)
+        const mine =file.name.slice(-4).replace('.','')
+
         const result = await Storage.put(`voice/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
     this.putImg = async (file )=>{
-        const mine =path.extname(file.name)
+        const mine =file.name.slice(-4).replace('.','')
+
         const result = await Storage.put(`image/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
@@ -38,14 +40,16 @@ function mediaHelper(){
     }
 
     this.putVideo = async (file )=>{
-        const mine =path.extname(file.name)
+        const mine =file.name.slice(-4).replace('.','')
+
         const result = await Storage.put(`video/${Date.now()}.${mine}` , file , {contentType: file.type})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
     this.putDoc = async (file )=>{
-        const mine =path.extname(file.name)
+        const mine =file.name.slice(-4).replace('.','')
+
         const result = await Storage.put(`documents/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
