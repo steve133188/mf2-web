@@ -606,7 +606,7 @@ export default function Contacts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length!=0 && currentContacts.map( (data ,index) => {
+                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
                             return( <TableRow
                                     key={index}
                                     hover
@@ -637,8 +637,7 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>
-                                        {/* <div>{data.team.org_id!=0?data.team.org_name:"not Assigned"}</div> */}
-                                       
+                                        <div>{data.team.org_id!=0?data.team.org_name:"not Assigned"}</div>
                                         {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>
 
