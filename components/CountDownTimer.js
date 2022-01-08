@@ -23,7 +23,10 @@ export default function CountDownTimer ({dayString}) {
 
     const [timeLeft, setTimeLeft] = useState(getTimeRemaining(endTime));
     useEffect(() => {
-        setTimeLeft(getTimeRemaining(endTime));
+        setInterval(()=>{
+            setTimeLeft(getTimeRemaining(endTime));
+
+        },1000)
     });
 
     return(
