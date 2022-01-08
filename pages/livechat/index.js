@@ -329,8 +329,9 @@ export default function Live_chat() {
         setChatroomMsg([])
         setSelectedChat(chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
-        if(typeof chatroom.customer_id !=="number") return
+        if (selectedChat.unread>0)await updateChatroomUnread(chatroom);
         await getCustomerbyID(chatroom.customer_id)
+        if(typeof chatroom.customer_id !=="number") return
 
         console.log("selected Chat" , selectedChat)
         console.log("typed message" , typedMsg)
@@ -637,7 +638,33 @@ export default function Live_chat() {
         }
 
     }
+    const updateChatroomUnread = async (chat)=>{
+        console.log("update chatroom start")
+        return  await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:{user_id:parseInt(chat.user_id ) , room_id:parseInt(chat.room_id) , unread:0 } }))
+            .then(res =>{
+                const data = res.data.updateMF2TCOCHATROOM
+                const oldFilter = filteredData.filter(d=> d.room_id != data.room_id)
 
+                if(data.is_pin){
+                    const oldFilter = filteredData.filter(d=> d.room_id != data.room_id)
+                    const newPinChat = pinChat.filter(d=>d.room_id != data.room_id)
+                    console.log("oldFilter : " , oldFilter)
+                    console.log("newPinChat : " , newPinChat)
+                    // const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
+                    if(!data.is_pin){
+                        setFilteredData(filteredData=> [data, ...oldFilter ])
+                        setPinChat(chatrooms=>[ ...newPinChat ])
+                    }else{
+
+                        setFilteredData(filteredData=> [...oldFilter])
+                        setPinChat(chatrooms=>[data , ...newPinChat])
+                    }
+                }
+
+            }).catch(err=>{
+                console.log(err)
+            })
+    }
     //record and send audio
     const getAudioFile = async (audioFile) => {
         console.log("calling getAudioFile")
