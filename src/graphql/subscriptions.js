@@ -56,6 +56,36 @@ export const subscribeToNewChatroom = /* GraphQL */ `
     }
   }
 `;
+export const multipleSubscribe = /* GraphQL */ `
+  subscription MultipleSubscribe($user_id: Int) {
+    multipleSubscribe(user_id: $user_id) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      unread
+      user_id
+      avatar
+    }
+  }
+`;
+export const allChatSubscribe = /* GraphQL */ `
+  subscription AllChatSubscribe {
+    AllChatSubscribe {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      unread
+      user_id
+      avatar
+    }
+  }
+`;
 export const onUpdateWhatsapp_node = /* GraphQL */ `
   subscription OnUpdateWhatsapp_node(
     $node_index: Int

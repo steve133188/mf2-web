@@ -17,49 +17,49 @@ import {Avatar } from "@mui/material";
 export default function SideBar(props) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
-    const { user} = useContext(GlobalContext)
+    const { user ,subInstance} = useContext(GlobalContext)
     const [totalUnread, setTotalUnread] = useState(0)
-
+    const [notiSub , setNotiSub] = useState()
     const getMesssages = async ()=>{
         const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES))
         console.log(result.data.listMF2TCOMESSAGGES.items)
         return result.data.listMF2TCOMESSAGGES.items
     }
-    const getAllChatrooms = async ()=>{
-
-        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
-            .then(async res =>{
-                let chatroom = res.data.listMF2TCOCHATROOMS.items
-                 chatroom.forEach(async chat=>{
-                    await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false} }}))
-                        .then(async msg=>{
-                            chat.unread = msg.data.listMF2TCOMESSAGGES.items.length
-                        }).catch(error => console.log(error))
-                })
-
-                const totalNum = chatroom.reduce((ori,next)=>{
-                    return ori+next.unread;},0
-                )
-                console.log(totalNum,"number test")
-                setTotalUnread(totalNum)
-
-            })
-            .catch(error => console.log(error))
-    }
+    // const getAllChatrooms = async ()=>{
+    //
+    //     const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
+    //         .then(async res =>{
+    //             let chatroom = res.data.listMF2TCOCHATROOMS.items
+    //              chatroom.forEach(async chat=>{
+    //                 await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false} }}))
+    //                     .then(async msg=>{
+    //                         chat.unread = msg.data.listMF2TCOMESSAGGES.items.length
+    //                     }).catch(error => console.log(error))
+    //             })
+    //
+    //             const totalNum = chatroom.reduce((ori,next)=>{
+    //                 return ori+next.unread;},0
+    //             )
+    //             console.log(totalNum,"number test")
+    //             setTotalUnread(totalNum)
+    //
+    //         })
+    //         .catch(error => console.log(error))
+    // }
 
     const [subscribe, setSubscribe] = useState(null)
-   useEffect(async ()=>{
-    // getMesssages()
-
-       // const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
-       //     .subscribe({
-       //         next: async (chat) => {
-       //             console.log("update chat " ,chat)
-       //         }
-       //     })
-       //  setSubscribe(prev=> sub)
-        await getAllChatrooms()
-   },[])
+   // useEffect(async ()=>{
+   //  // getMesssages()
+   //
+   //     // const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
+   //     //     .subscribe({
+   //     //         next: async (chat) => {
+   //     //             console.log("update chat " ,chat)
+   //     //         }
+   //     //     })
+   //     //  setSubscribe(prev=> sub)
+   //      await getAllChatrooms()
+   // },[])
 
 //    useEffect(()=>{
 
@@ -90,7 +90,16 @@ export default function SideBar(props) {
     function toggleCollapse() {
         setIsCollapse(!isCollapse);
     }
+    const sub = async (userId)=>{
+        let uid = null
 
+        if(userId)  uid = parseInt(userId.toString().slice(3))
+
+        if(notiSub) notiSub.unsubscribe()
+        console.log("subscribe notification start")
+         await subInstance.allChatSub()
+        setNotiSub(prev=>subInstance.instance)
+    }
     //handle NotifyBox toggle
     const [isNotifyBoxOpen, setIsNotifyBoxOpen] = useState(false)
     const [unreadNotificationCount, setUnreadNotificationCount] = useState(0)
@@ -163,7 +172,8 @@ export default function SideBar(props) {
       },[size])
 
 
-      useEffect(()=>{
+      useEffect(async ()=>{
+          await sub()
           console.log(props.notices,"notice sync")
           setNotifications(props.notices)
       },[])

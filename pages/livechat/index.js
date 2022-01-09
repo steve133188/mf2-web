@@ -229,7 +229,7 @@ export default function Live_chat() {
             const result = await mediaInstance.putDoc(file , filetype)
             setFilePrevier({name:file.name,size:file.size,type:"FILE",path:path})
             setMediaUrl(result)
-            setTypedMsg({...typedMsg ,message_type: "FILE" , message: file.name})
+            setTypedMsg({...typedMsg ,message_type: "FILE" , message:file.name })
         }
 
     }
