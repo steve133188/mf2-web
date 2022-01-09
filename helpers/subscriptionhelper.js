@@ -6,15 +6,7 @@ export default  function subscriptionHelper(){
 
     this.instance;
 
-    // this.sub = async (label , callback)=>{
-    //     const s =await API.graphql(graphqlOperation(label))
-    //         .subscribe({
-    //             next: async (newData)=>{
-    //                callback(newData)
-    //             }
-    //         })
-    //     return s
-    // }
+    this.store = []
 
     this.multipleChatSub =async (userId)=>{
         // console.log(`userID:${userId} type:${typeof userId}`)
@@ -27,15 +19,26 @@ export default  function subscriptionHelper(){
 
         return s
     }
-    this.allChatSub =async ()=>{
+
+    this.pushNotificationsToList= (state , setState)=>{
+        setState(state=>[...this.store])
+    }
+
+    this.push=(list)=>{
+        if(this.store!==-1){
+            list.push(this.store[-1])
+        }
+    }
+    this.allChatSub =async function (){
         if(this.instance) this.instance.unsubscribe()
-        // console.log(`userID:${userId} type:${typeof userId}`) d
-        const s =await API.graphql(graphqlOperation(allChatSubscribe ))
-            .subscribe({
-                next: async (newData)=>{
-                    console.log("received new data" ,newData)
-                }
-            })
+        const s =await API.graphql(graphqlOperation(allChatSubscribe )).subscribe({
+            next: newData=>{
+                console.log("received new data" ,newData)
+                this.store.push( newData.value.data.AllChatSubscribe)
+                // console.log(this.store)
+            }
+        })
+
         this.instance = s
         return this.instance
     }

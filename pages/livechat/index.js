@@ -48,7 +48,7 @@ export default function Live_chat() {
 
         ]
 
-        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
+        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper ,subInstance} = useContext(GlobalContext)
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
         const [attachment , setAttachment ] = useState([])
@@ -112,24 +112,24 @@ export default function Live_chat() {
         })
             .catch(err=>alert(err))
     }
-    // const subChatrooms=  ()=>{
-    //     let user_id= parseInt(user.user.user_id.toString().slice(3))
-    //     if(chatroomsSub) chatroomsSub.unsubscribe()
-    //     const sub = API.graphql(graphqlOperation(subscribeToChatroomUpdate, {user_id: user_id ,is_pin:false}))
-    //         .subscribe({
-    //             next: async (chat) => {
-    //                 console.log("update chat " ,chat)
-    //                 // const newChat = chat.value.data.subscribeToChatroomUpdate
-    //                 // const filter = chatrooms.filter(c=>c.room_id!=newChat.room_id)
-    //                 // setChatrooms(chatroomMsg => [newChat,...filter])
-    //                 // setFilteredData(prev=>[newChat,...filter])
-    //                 // console.log("new message: ", newChat)
-    //             }
-    //         })
-    //     console.log("subscribe chatrooms start : " , sub)
-    //     setChatroomsSub(prev=>sub)
-    //
-    // }
+    const subChatrooms=  ()=>{
+        let user_id= parseInt(user.user.user_id.toString().slice(3))
+        if(chatroomsSub) chatroomsSub.unsubscribe()
+        const sub = API.graphql(graphqlOperation(subscribeToChatroomUpdate, {user_id: user_id ,is_pin:false}))
+            .subscribe({
+                next: async (chat) => {
+                    console.log("update chat " ,chat)
+                    const newChat = chat.value.data.subscribeToChatroomUpdate
+                    const filter = chatrooms.filter(c=>c.room_id!=newChat.room_id)
+                    setChatrooms(chatroomMsg => [newChat,...filter])
+                    setFilteredData(prev=>[newChat,...filter])
+                    console.log("new message: ", newChat)
+                }
+            })
+        console.log("subscribe chatrooms start : " , sub)
+        setChatroomsSub(prev=>sub)
+
+    }
 
     const getChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString().slice(3) )
@@ -446,7 +446,7 @@ export default function Live_chat() {
     }
 
     const wrapperRef1 = useRef();
-    
+
     const handleClickOutside = (event) => {
 
         if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
@@ -499,7 +499,8 @@ export default function Live_chat() {
             // await getChatrooms()
             await getAllChatrooms()
             await getStickers()
-            // subChatrooms()
+            console.log("notifiaction constant : " , )
+            await subChatrooms()
             // await API.graphql(graphqlOperation(subscribeToNewChatroom , {}))
             //     .subscribe({
             //         next: async (room)=>{
@@ -800,7 +801,7 @@ export default function Live_chat() {
                             </div>
                             }
                             { ChatButtonOn=="m3"?
-                                <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem" }} 
+                                <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem" }}
                                 // onClick={toggleReply }
                                 >
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}

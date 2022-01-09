@@ -17,16 +17,9 @@ import {Avatar } from "@mui/material";
 export default function SideBar(props) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
-    const { user ,subInstance} = useContext(GlobalContext)
-    const [totalUnread, setTotalUnread] = useState(0)
+    const { user ,subInstance } = useContext(GlobalContext)
     const [notiSub , setNotiSub] = useState()
-    const getMesssages = async ()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES))
-        console.log(result.data.listMF2TCOMESSAGGES.items)
-        return result.data.listMF2TCOMESSAGGES.items
-    }
-
-    const [subscribe, setSubscribe] = useState(null)
+    const {store} =  subInstance
 
 
 //    useEffect(()=>{
@@ -58,16 +51,7 @@ export default function SideBar(props) {
     function toggleCollapse() {
         setIsCollapse(!isCollapse);
     }
-    const sub = async (userId)=>{
-        let uid = null
 
-        if(userId)  uid = parseInt(userId.toString().slice(3))
-
-        if(notiSub) notiSub.unsubscribe()
-        console.log("subscribe notification start")
-         await subInstance.allChatSub()
-        setNotiSub(prev=>subInstance.instance)
-    }
     //handle NotifyBox toggle
     const [isNotifyBoxOpen, setIsNotifyBoxOpen] = useState(false)
     const [unreadNotificationCount, setUnreadNotificationCount] = useState(0)
@@ -76,41 +60,14 @@ export default function SideBar(props) {
         setIsNotifyBoxOpen(!isNotifyBoxOpen);
     }
     useEffect(()=>{
-        console.log(notifications,"notice store")
-        setUnreadNotificationCount(notifications.length)
-    },[notifications])
+        console.log("update store " , store)
+    },[store])
 
-    const [notifications, setNotifications] = useState([])
-    const [totalNotices,setTotalNotices] = useState(0)
-    const getNoticesNumber =(num)=>{
-        setTotalNotices(num)
-    }
-    // let unreadNotificationCount =()=> notifications.filter(msg => {return msg.unread } ).length || 0;
-    // useEffect( async ()=>{
-    //     const data = await getMesssages()
-    //     if(data!=-1&& data!= undefined){setNotifications(data)}else{setNotifications([])}
-    // } , [])d
 
     //when click the notification, set unreadCount to 0
-     function handleReadNotification (target) {
-         setNotifications(notifications.filter(item=>{return item.id !== target}));
-         setUnreadNotificationCount(notifications.filter(item=>{return item.id !== target}).length)
-        //      const newList = notifications.map((item) =>{
-        //         if (item.id === target) {
-        //            return {
-        //                ...item,
-        //                unread: false,
-        //            };
-        //        }
-        //        return item;
-        //      });
-        // setNotifications(newList);
-    }
-
     function isActiveURL(url){
         const n = router.pathname
         return n.includes(url)
-
     }
     const [width, setWidth] = useState(window.innerWidth);
     const [height, setHeight] = useState(window.innerHeight);
@@ -134,16 +91,12 @@ export default function SideBar(props) {
 
 
     useEffect(()=>{
-
           size.width<1500?setIsCollapse(true):setIsCollapse(false)
         //   useWindowSize()
       },[size])
 
 
       useEffect(async ()=>{
-          await sub()
-          console.log(props.notices,"notice sync")
-          setNotifications(props.notices)
       },[])
     return (
         <div className={(isCollapse ? "collapseLayout" :null)} >
@@ -172,16 +125,6 @@ export default function SideBar(props) {
                                 } onClick={e => {
                                     setIsDashOpen(!isDashOpen)
                                 }}>
-                                {/*{ isCollapse? (*/}
-                                    {/*    <>*/}
-                                    {/*        <Link href={"/dashboard/chat"}>*/}
-                                    {/*            <DashboardSVG size="16"/>*/}
-                                    {/*        </Link>*/}
-                                    {/*    </>*/}
-                                    {/*    ) : (*/}
-                                    {/*        <DashboardSVG size="16"/>)*/}
-                                    {/*}*/}
-
 
                                     <DashboardSVG size="16"/>
 
@@ -224,9 +167,6 @@ export default function SideBar(props) {
                                         </div>
                                     </Link>
                                 </>) : null}
-
-
-
                         </div>)}
                         <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")} />
                         <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>
@@ -275,8 +215,8 @@ export default function SideBar(props) {
                                             </g>
                                         </svg>
                                     <span className="side-item-name" style={{margin:"0 5px 0 0"}}>Notifications</span>
-                                    {totalUnread>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount+totalUnread}</Avatar>
-                                    : unreadNotificationCount>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{unreadNotificationCount}</Avatar>: "" }
+                                    {store.length &&store.length>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{store.length}</Avatar>
+                                    : store.length>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{store.length}</Avatar>: "" }
                                 </div>
                             </span>
                             {isNotifyBoxOpen ? (
@@ -284,16 +224,16 @@ export default function SideBar(props) {
                                     <div className="notify_box">
                                         <div className="notify_box_title" >Notification</div>
                                         <div className="notification_content">
-                                                <div className="notification_title" style={{display:"flex",justifyContent:"space-evenly",padding:"5%"}}>
-                                                    <b className="notification_from">Unread Message :</b>
-                                                    <Avatar  className={"text-cente"}  sx={{width:24, height:24 ,fontSize:15 ,backgroundColor:"#D0E9FF",color:"#2198FA"}} >{totalUnread} </Avatar>
+                                                {/*<div className="notification_title" style={{display:"flex",justifyContent:"space-evenly",padding:"5%"}}>*/}
+                                                    {/*<b className="notification_from">Unread Message :</b>*/}
+                                                    {/*<Avatar  className={"text-cente"}  sx={{width:24, height:24 ,fontSize:15 ,backgroundColor:"#D0E9FF",color:"#2198FA"}} >{totalUnread} </Avatar>*/}
                                                     {/* <div className="notification_detail"> {"total number"} </div> */}
-                                                </div>
+                                                {/*</div>*/}
                                                 {/* <div className="notification_time"> {notification.receive_time} </div> */}
                                             </div>
                                         <div className="notify_box_list">
 
-                                            {(notifications.length>-1)&&notifications.map((d , index )=>{
+                                            {(subInstance.store.length>-1)&&subInstance.store.map((d , index )=>{
                                                 return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
                                             })}
                                         </div>
@@ -304,7 +244,6 @@ export default function SideBar(props) {
                         <div className={router.pathname == "/setting" ? "active-side-item" : "side-item"}>
                             <Link href={"/setting"}>
                                 <div className={router.pathname == "/setting" ? "active nav-item" : "nav-item"}>
-
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             className="bi bi-person" viewBox="0 0 16 16">
                                         <g id="cog" transform="translate(0 -0.102)"  >
