@@ -20,30 +20,36 @@ export default function Layout({children}) {
     const [userSelect , setUserSelect] = useState("")
     const [isAuth , setIsAuth] = useState(false)
     const router = useRouter()
-    const {user , logout} = useContext(GlobalContext)
+    const {user , logout , subInstance } = useContext(GlobalContext)
     const u = user.user
     // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
     const [notificationList,setNotificationList]= useState([])
     const [notiSub , setNotiSub] = useState()
 
-    const sub = async ()=>{
-        if(notiSub) notiSub.unsubscribe()
-        console.log("subscribe notification start")
-        const s = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
-            .subscribe({
-                next: async (chat) => {
-                    console.log("update chat " ,chat)
-                    const no ={
-                        type:"newMsg",
-                        channel:chat.channel || "Whatsapp",
-                        content:chat.body,
-                        sender:chat.name
-                    }
-                    setNotificationList(prev=>[...prev,no])
-                }
-            })
-        setNotiSub(prev=>s)
-    }
+    // const sub = async ()=>{
+    //     if(notiSub) notiSub.unsubscribe()
+    //     console.log("subscribe notification start")
+    //     const s = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
+    //         .subscribe({
+    //             next: async (chat) => {
+    //                 console.log("update chat " ,chat)
+    //                 const no ={
+    //                     type:"newMsg",
+    //                     channel:chat.channel || "Whatsapp",
+    //                     content:chat.body,
+    //                     sender:chat.name
+    //                 }
+    //                 setNotificationList(prev=>[...prev,no])
+    //             }
+    //         })
+    //     setNotiSub(prev=>s)
+    // }
+    // const sub = async (userId)=>{
+    //     if(notiSub) notiSub.unsubscribe()
+    //     console.log("subscribe notification start")
+    //     const s = await subInstance.multipleChatSub(userId)
+    //     setNotiSub(prev=>s)
+    // }
     //auto remove notification
 
     const layout = (
@@ -62,10 +68,10 @@ export default function Layout({children}) {
 
     const unAuth = (<div className={"unauth"}>{children}</div>)
 
-    useEffect(async ()=>{
+    useEffect( ()=>{
         if(user.token != null){
             setIsAuth(true)
-            await sub()
+
         }else {
             setIsAuth(false)
             // sub

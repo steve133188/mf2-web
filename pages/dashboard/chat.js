@@ -24,7 +24,7 @@ import searchFilter from "../../helpers/searchFilter";
 import dashboardFetcher from "../../helpers/dashboardHelpers";
 
 export default function Chat() {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const [filteredAgents , setFilteredAgents] = useState([])
@@ -94,7 +94,6 @@ export default function Chat() {
         // setSelectedTags([])
     }
 
-
     // const toggleSelectAgents = e => {
     //     const { checked ,id} = e.target;
     //     setSelectedAgents([...selectedAgents, id]);
@@ -118,7 +117,7 @@ export default function Chat() {
     }
     const fetchDefault = async ()=>{
         let end = new window.Date().getTime() / 1000
-        let start = end - 3600 * 48
+        let start = end - 3600 * 24*7
         const data = await dashboardInstance.getLiveChatDefaultData(start ,end)
         return data
 

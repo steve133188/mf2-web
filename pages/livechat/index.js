@@ -236,7 +236,7 @@ export default function Live_chat() {
             const result = await mediaInstance.putDoc(file , filetype)
             setFilePrevier({name:file.name,size:file.size,type:"FILE",path:path})
             setMediaUrl(result)
-            setTypedMsg({...typedMsg ,message_type: "FILE"})
+            setTypedMsg({...typedMsg ,message_type: "FILE" , message:file.name })
         }
 
     }
@@ -664,7 +664,6 @@ export default function Live_chat() {
 
                     setFilteredData(filteredData=> [data,...oldFilter])
                 }
-
             }).catch(err=>{
                 console.log(err)
             })
@@ -702,19 +701,6 @@ export default function Live_chat() {
                                     {/* <Livechat/> */}
                                         </div>
                                 </div>
-                {/* <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
-                                <div className={"group_icon"} ></div>
-                                <Team_Select  show={isShow} head={"All Team"} top_head={selectedTeams==""?"All Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
-                                    <li onClick={()=> {
-                                        setSelectedTeams("");
-                                        advanceFilter()
-                                    }}>All Team</li>
-
-                                    {teamdata.map((team)=>{
-                                        return(<li  id={team.name} key={team.id} onClick={(e)=>{setSelectedTeams(e.target.id);advanceFilter();}}> {team.name}</li>)
-                                    })}
-                                </Team_Select>
-                            </button> */}
                         </div>
                         <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
                                         <div className={"filter_icon"}></div>

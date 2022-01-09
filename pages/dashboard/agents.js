@@ -23,7 +23,7 @@ import {GlobalContext} from "../../context/GlobalContext";
 import Loading from "../../components/Loading";
 
 export default function Agents() {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
 
@@ -77,7 +77,7 @@ export default function Agents() {
 ]
     const fetchDefault = async ()=>{
         let end = new window.Date().getTime() / 1000
-        let start = end - 3600 * 48
+        let start = end - 3600 * 24 * 7
         console.log(start,end,"default")
         const data = await dashboardInstance.getAgentDefaultData(start ,end)
         return data
@@ -112,13 +112,13 @@ export default function Agents() {
         console.log("dashboard = ",dash)
         console.log("dashboard dayState = ",dayState)
 
-    },[]) // remove the dependency to prevent the crash from api error
+    },[dayState.to])
 
 
     useEffect(async()=>{
         console.log(dash,"determin time ")
         setShow(!show)
-    },[])// remove the dependency to prevent the crash from api error
+    },[filteredData])
 
     const periodFilter = () =>{
         console.log("filter period : "+selectedPeriod)
@@ -193,7 +193,7 @@ export default function Agents() {
 
             return () => { isMounted = false };
 
-    },[])// remove the dependency to prevent the crash from api error
+    },[dayState])
 
     return (
         <div className="dashboard-layout">
