@@ -299,7 +299,7 @@ export default function Chat() {
                     <div className="dashboardColumn">
                         <div className="tableSet">
                             <div className={"half_session block_session"}>
-                                <div className={"top_row"} style={{justifyContent:"space-around",width:"40%"}}>
+                                <div className={"top_row"}>
 
 {/*
                                     <span className={"title"}>Tags  {`${tags.length}`}</span>
@@ -316,7 +316,7 @@ export default function Chat() {
                                         })}
                                     </MF_Select> */}
 
-                            <span className={"title"} style={{display:"flex",alignItems:"center"}}>Tags : {`${tags.length}`}</span>
+                            <span className={"title"} style={{display:"flex",alignItems:"center",margin:"5%"}}>Tags : {`${tags.length}`}</span>
 
                         <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px"}}>
                 <MF_Select top_head={"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
