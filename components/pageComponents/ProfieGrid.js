@@ -9,25 +9,43 @@ import { NoteButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/chat_sv
 import Profile from "../profile";
 import EditProfileForm from "./EditProfileForm";
 import { GlobalContext } from "../../context/GlobalContext";
+import {API, graphqlOperation} from "aws-amplify";
+import {listNotesTables} from "../../src/graphql/queries";
+import {createNotesTable} from "../../src/graphql/mutations";
 
 export default function ProfileGrid({data}){
-    const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
+    // const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
     const [notes,setNotes] = useState([])
-    const {contactInstance } = useContext(GlobalContext)
+    const {contactInstance , user} = useContext(GlobalContext)
 
     const [writenote,setWritenote] = useState("")
     const [useContact , setUseContact] = useState()
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [assingedContacts, setAssingedContacts] = useState([])
     const router = useRouter()
-    useEffect(()=>{
-        setNotes(notesData)
-        console.log("user data",data)
-    },[])
+    // useEffect(()=>{
+    //     setNotes(notesData)
+    //     console.log("user data",data)
+    // },[])
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) setUseContact(key);
         if(isEditProfileShow) await fetchContacts();
         setIsEditProfileShow(!isEditProfileShow)
+    }
+
+    const fetchNotes = async (data)=>{
+        console.log(data)
+        const res = API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} }})).then(res=>{
+            setNotes(prev=>res.data.listNotesTables.items)
+        }).catch(err=>console.log(err))
+        console.log("fetch notes" ,notes)
+    }
+
+    const dropNote = async (input)=>{
+        const res = API.graphql(graphqlOperation(createNotesTable , {input:input})).then(res=>{
+            setNotes(prev=>[...prev , res.data.createNotesTable])
+            console.log("create Note success")
+        }).catch(err=>console.log(err))
     }
     const fetchContacts = async () =>{
         const contactsdata = await contactInstance.getAllContacts()
@@ -43,8 +61,25 @@ export default function ProfileGrid({data}){
         const n = router.pathname
         return n.includes("/livechat")
     }
+    const submitNote = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (writenote == ""){
+            alert("Please enter the valid note")
+            return
+        }
+        const input = {
+            customer_id:  parseInt(data.customer_id.toString().slice(3)) ,
+            message:writenote ,
+            user_id :parseInt(user.user.user_id.toString().slice(3)),
+            timestamp:  (Date.now()/1000).toString() ,
+            signed_name:user.user.username} ;
+        await dropNote(input)  ;
+        setWritenote("")
+    }
     const [log , setLog]  = useState([])
-    useEffect(()=>{
+    useEffect(async ()=>{
+        await fetchNotes(data.customer_id)
     //    fetch log by customer_id
     //    fetch assignee by customer_id
     //    fetch team by customer_id
@@ -129,7 +164,7 @@ export default function ProfileGrid({data}){
                                             {data.chan}
 </div>
                                             </div>
-                                   
+
                                     <div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >
                                         {`+${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)}`}1
                                         </div>
@@ -159,14 +194,14 @@ export default function ProfileGrid({data}){
                                             <div className={"message_pad"}>
                                                 <div className={"left nameTag"}>
                                                                 {/* <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:50 , height:50 ,fontSize:20}} /> */}
-                                                        <Tooltip key={note.id} className={""} title={note.wroteBy} placement="top-start">
-                                                            <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:35 , height:35 ,fontSize:14,padding:"0rem"}} >{note.wroteBy.substring(0,2).toUpperCase()}</Avatar>
+                                                        <Tooltip key={note.timestamp} className={""} title={note.signed_name} placement="top-start">
+                                                            <Avatar  className={"mf_bg_warning mf_color_warning tag "}  sx={{width:35 , height:35 ,fontSize:14,padding:"0rem"}} >{note.signed_name.substring(0,2).toUpperCase()}</Avatar>
                                                         </Tooltip>
                                                 </div>
                                                 <div className={"right"}>
                                                     <div className={"listitem name "}>
-                                                        <div className={"left"}>{note.content}</div>
-                                                        <div className={"right"}>{note.date}</div>
+                                                        <div className={"left"}>{note.message}</div>
+                                                        <div className={"right"}>{new Date(note.timestamp*1000).toLocaleDateString()}</div>
                                                         {/* <div className={"message"} style={{display:"flex"}}></div> */}
                                                     </div>
                                                 </div>
@@ -177,8 +212,9 @@ export default function ProfileGrid({data}){
                             })}
                     </div>
                     <div className={"message_pad_write"}>
-                        <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} placeholder={"Start typing to log activities..."}></input>
-                        <div className={"log_button"} onClick={()=>{setWritenote(notes.push({id:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>
+                        <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} value={writenote} placeholder={"Start typing to log activities..."}></input>
+                        <div className={"log_button"} onClick={async(e)=>{await submitNote(e)}}>
+                        {/*<div className={"log_button"} onClick={()=>{setWritenote(notes.push({id:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>*/}
                             Log
                         </div>
                             {/* <NoteButtonSVG /> */}

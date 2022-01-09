@@ -167,7 +167,7 @@ export default function ContantDetail({ data, ...props }) {
             customer_id:  parseInt(data.customer_id.slice(3)) ,
             message:writenote ,
             user_id :parseInt(user.user.user_id.toString().slice(3)),
-            timestamp:  Date.now().toString() ,
+            timestamp:  (Date.now()/1000).toString() ,
             signed_name:user.user.username} ;
         await dropNote(input)  ;
         setWritenote("")
