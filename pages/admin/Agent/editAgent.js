@@ -24,7 +24,7 @@ export default function EditAgent(props){
         team_id:0,
         channels:"",
         authority:{},
-        chat_access:{Whatsapp:1 , WABA : 1, Messager:1 , Wechat:1 }
+
     })  
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
@@ -44,10 +44,10 @@ export default function EditAgent(props){
     const [selectedRole , setSelectedRole] = useState({})
 
     const [authChannel,setAuthChannel] = useState({
-        messager: "",
-        waba: "",
-        wechat: "",
-        whatsapp: "",})
+        messager: false,
+        waba: false,
+        wechat: false,
+        whatsapp: false,})
     const submit = async (phone)=>{
         const data = {...agent,
             username:userCredential.username,
@@ -73,7 +73,7 @@ export default function EditAgent(props){
         // console.log(agent,"i am Agent")
         setAgent(data)
         setUserCredential(data)
-        setAuthChannel(data.chat_access)
+        setAuthChannel([data.authority.whatsapp,data.authority.wechat,data.authority.waba,data.authority.messager])
         setSelectedTeam(data.team)
 
     }
@@ -117,12 +117,12 @@ export default function EditAgent(props){
         
         setAuthChannel({
             ...authChannel,
-            [name]:"all"
+            [name]:true
         }  )
         if(!checked){
             setAuthChannel({
                 ...authChannel,
-                [name]:"assign"
+                [name]:false
             }  )
         }
         console.log(authChannel)
@@ -134,12 +134,12 @@ export default function EditAgent(props){
         
         setAuthChannel({
             ...authChannel,
-            [name]:"assign"
+            [name]:false
         }  )
             if(!checked){
                 setAuthChannel({
                     ...authChannel,
-                    [name]:"all"
+                    [name]:true
                 }  )
             }
         }
@@ -216,7 +216,7 @@ export default function EditAgent(props){
                 </div>
                 </div>
             </div>
-            <div className={"add_user_session"}>
+            {/* <div className={"add_user_session"}>
                 <div className={"chat_access_right"}>
                     <span className={"session_label"}>Chat Access Right</span>
                     <div className={"chat_access_right_form"}>
@@ -227,7 +227,7 @@ export default function EditAgent(props){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name={item.channelID} value={"all"} id={item.value}  checked={authChannel[item.channelID]=="all"}  onChange={handleChannelSelect}  />
+                                            <input type="checkbox" name={item.channelID} value={"all"} id={item.value}  checked={authChannel[item.channelID]==true}  onChange={handleChannelSelect}  />
                                         </label>
                                     </div>
                                     <span>All Chats</span>
@@ -235,7 +235,7 @@ export default function EditAgent(props){
                                 <div className={"access_option"}>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" name={item.channelID} value={"assign"} id={item.value} checked={authChannel[item.channelID]=="assign"} onChange={handleChannelAssSelect} />
+                                            <input type="checkbox" name={item.channelID} value={"assign"} id={item.value} checked={authChannel[item.channelID]==false} onChange={handleChannelAssSelect} />
                                         </label>
                                     </div>
                                     <span>Assigned</span>
@@ -245,7 +245,7 @@ export default function EditAgent(props){
                         })}
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className={"submit_row"}>
                 <button  onClick={async ()=> {
                     await submit(agent.phone);router.back()

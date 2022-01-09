@@ -179,7 +179,7 @@ export default function AddContact() {
                                         return(<li key={tag.tag_id}><Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                                             <div className="newCheckboxContainer">
                                                 <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag)} onClick={(e)=>toggleSelectTags(e , tag)} />
+                                            <input type="checkbox" id={tag.tag_id} name="checkbox" value={tag.tag} checked={selectedTags.includes(tag)} onClick={(e)=>toggleSelectTags(e , tag)} />
                                         </label> </div></li>)
                                     })}
                                 </Mf_circle_btn>
@@ -211,7 +211,7 @@ export default function AddContact() {
                                             <div className={"name"}>{user.username}</div>
                                             </div>
                                             <div className="newCheckboxContainer">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user)} onClick={(e)=>toggleSelectUsers(e , user)} />
+                                            <label className="newCheckboxLabel"> <inpu value={user.user_id} type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user)} onClick={(e)=>toggleSelectUsers(e , user)} />
                                             </label>
                                                 </div>
                                         </li>)

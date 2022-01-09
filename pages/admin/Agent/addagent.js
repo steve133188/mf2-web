@@ -20,10 +20,6 @@ export default function AddAgent(){
         channels:"",
         authority:{},
         country_code:852,
-        chat_access: [
-            {whatsapp:""
-            }
-        ],
     })
 
     const [teams , setTeams] = useState([])
@@ -58,7 +54,7 @@ export default function AddAgent(){
             // role_name:selectedRole.role_name,
             role_id:selectedRole.role_id,
             country_code:parseInt(userCredential.country_code),
-            chat_access:authChannel,
+            // chat_access:authChannel,
         }
         console.log("payload",data)
         const res = await userInstance.createUser(data )
@@ -180,7 +176,7 @@ export default function AddAgent(){
                 </MF_Select>
                 </div>
             </div>
-            <div className={"add_user_session"}>
+            {/* <div className={"add_user_session"}>
                 <div className={"chat_access_right"}>
                     <span className={"session_label"}>Chat Access Right</span>
                     <div className={"chat_access_right_form"}>
@@ -209,7 +205,7 @@ export default function AddAgent(){
                         })}
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className={"submit_row"}>
             <button  onClick={async ()=> {
                     await submit()

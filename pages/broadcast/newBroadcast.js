@@ -177,7 +177,7 @@ export default function AddBroadcast() {
                                         return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
                                             <div className="newCheckboxContainer">
                                                 <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
+                                            <input type="checkbox" id={tag.tag} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
                                         </label> </div></li>)
                                     })}
                                 </Mf_circle_btn>
@@ -209,7 +209,7 @@ export default function AddBroadcast() {
                                             <div className={"name"}>{user.username}</div>
                                             </div>
                                             <div className="newCheckboxContainer">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                            <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
                                             </label>
                                                 </div>
                                         </li>)

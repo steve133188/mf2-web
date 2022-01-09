@@ -124,7 +124,7 @@ export default function Contacts() {
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
                 return (
-                    <Tooltip key={index} className={""} title={agent.username} placement="top-start">
+                    <Tooltip key={index} className={""} title={agent.user_id} placement="top-start">
                         <Avatar className={"mf_bg_warning mf_color_warning text-center 123"} sx={{
                             width: 22,
                             height: 22,
@@ -519,7 +519,7 @@ export default function Contacts() {
                                 <div className={"name"}>{user.username}</div>
                             </div>
                             <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
                                 </label>
                             </div>
                         </li>)
@@ -551,7 +551,7 @@ export default function Contacts() {
                         {tag.name}</div>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
+                                    <input type="checkbox" id={tag.value} value={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -562,7 +562,7 @@ export default function Contacts() {
                         return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag_name} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
+                                    <input type="checkbox" id={tag.tag_name} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -587,7 +587,7 @@ export default function Contacts() {
                             <TableCell>
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll} />
+                                        <input type="checkbox" value={"all"} name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll} />
                                     </label> : null}
                                 </div>
                             </TableCell>
@@ -665,7 +665,7 @@ export default function Contacts() {
 
                                             {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
-                                                    <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
+                                                    <Tooltip key={index} className={""} title={agent.username?agent.username:"a"} placement="top-start">
                                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )

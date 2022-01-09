@@ -260,7 +260,7 @@ export default function ContantDetail({ data, ...props }) {
                             {filteredTags.map((tag, index) => {
 
                                 return (<li key={index}>
-                                    <Pill onClick={null} key={index} color="vip">{tag.tag_name}</Pill>
+                                    <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
                                             <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />

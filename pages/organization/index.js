@@ -131,6 +131,7 @@ export default function Organization() {
 
     },[]);
     useEffect(    async () => {
+        console.log(curr_org,"curr_org")
         if(user.token&&!curr_org.name){
             await fetchUsers()
         }else if(user.token&&curr_org.name=="Not Assigned"){
@@ -140,6 +141,9 @@ export default function Organization() {
         }
     },[curr_org]);
 
+    useEffect(()=>{
+        console.log(selectedUsers)
+    },[selectedUsers])
     const toggleSelect = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
@@ -207,7 +211,7 @@ export default function Organization() {
         setIsDelete(!isDelete)
     }
 
-    const default_cols = [ 'Name' ,'Role', 'Email','Phone' ,'No. of Assigned Contacts']
+    const default_cols = [ 'Name' ,'Team','Role', 'Email','Phone' ,'No. of Assigned Contacts']
     const [isSelectRow, setSelectRow] = useState( false);
 
     function toggleSelectRow() {
@@ -366,6 +370,9 @@ export default function Organization() {
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}} >
                                             <span >{data.username}</span>
+                                        </TableCell>
+                                        <TableCell align="left" style={{padding: ".9rem 1rem"}}>
+                                            {data.team.name}
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.role_name}

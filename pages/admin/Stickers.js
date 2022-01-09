@@ -19,7 +19,7 @@ import DeletePad from "../../components/DeletePannel";
 
 export default function Stickers() {
 
-    const {mediaInstance, userInstance ,user , roleInstance} = useContext(GlobalContext)
+    const {mediaInstance, userInstance ,user , tagInstance} = useContext(GlobalContext)
 
     const [roles, setRoles] = useState([]);
     const [stickers, setStickerList] = useState([]);

@@ -26,6 +26,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
     }
     const defaultId=msg.room_id+msg.timestamp
     const messageType = (msg)=>{
+        // console.log(defaultId,"defaultId defaultId",msg.room_id,"sadasdsad",msg.timestamp)
         switch(msg.message_type){
             case "replyMsg":   return <div id={"reply"+defaultId} className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}>  {props.replyMsg==defaultId? <Reply confirmReply={confirmReply} />:""}<img id={defaultId} onClick={replyclick}  className={"imageBox"} src={msg.media_url}/></div> ;
             case "sticker": return (<div className={"msg_type_sticker" +( props.replyMsg==defaultId?" replyActive":"")}>

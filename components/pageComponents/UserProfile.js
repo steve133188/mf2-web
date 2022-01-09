@@ -77,7 +77,7 @@ export default function UserProfileGrid({data}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{ data.phone}
+                <span className={"info_content"}><span >+{data.country_code} {data.phone}</span>
                 {/* +${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)} */}
                 </span>
             </div>
