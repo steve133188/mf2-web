@@ -18,7 +18,7 @@ export default function SideBar(props) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
     const { user ,subInstance } = useContext(GlobalContext)
-    const [notiSub , setNotiSub] = useState()
+    const [notification , setNotification] = useState()
     const {store} =  subInstance
 
 
@@ -60,8 +60,8 @@ export default function SideBar(props) {
         setIsNotifyBoxOpen(!isNotifyBoxOpen);
     }
     useEffect(()=>{
-        console.log("update store " , store)
-    },[store])
+        setNotification(...props.notices)
+    },[notification])
 
 
     //when click the notification, set unreadCount to 0
@@ -96,8 +96,6 @@ export default function SideBar(props) {
       },[size])
 
 
-      useEffect(async ()=>{
-      },[])
     return (
         <div className={(isCollapse ? "collapseLayout" :null)} >
             <div className={"layout-sidebar "}>

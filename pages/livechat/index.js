@@ -16,8 +16,10 @@ import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import {createMF2TCOCHATROOM, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import {
+    multipleSubscribe,
     subscribeToChatroom,
     subscribeToChatroomUpdate,
+    allChatSubscribe,
     subscribeToNewChatroom,
     subscribeToNewMessage,
 } from "../../src/graphql/subscriptions"
@@ -105,7 +107,7 @@ export default function Live_chat() {
 
     }
     const getOwnPinChatList = async ()=>{
-        const user_id = parseInt(user.user.user_id.toString().slice(3) )
+        const user_id = user.user.user_id
         const res = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {filter:{user_id: {eq:user_id} , is_pin: {eq:true}} ,limit:1000}))
             .then(response=>{
             setPinChat(prev=>response.data.listMF2TCOCHATROOMS.items)
@@ -113,13 +115,13 @@ export default function Live_chat() {
             .catch(err=>alert(err))
     }
     const subChatrooms=  ()=>{
-        let user_id= parseInt(user.user.user_id.toString().slice(3))
+        let user_id= user.user.user_id
         if(chatroomsSub) chatroomsSub.unsubscribe()
-        const sub = API.graphql(graphqlOperation(subscribeToChatroomUpdate, {user_id: user_id ,is_pin:false}))
+        const sub = API.graphql(graphqlOperation(allChatSubscribe))
             .subscribe({
                 next: async (chat) => {
                     console.log("update chat " ,chat)
-                    const newChat = chat.value.data.subscribeToChatroomUpdate
+                    const newChat = chat.value.data.AllChatSubscribe
                     const filter = chatrooms.filter(c=>c.room_id!=newChat.room_id)
                     setChatrooms(chatroomMsg => [newChat,...filter])
                     setFilteredData(prev=>[newChat,...filter])
@@ -500,7 +502,6 @@ export default function Live_chat() {
             // await getChatrooms()
             await getAllChatrooms()
             await getStickers()
-            console.log("notifiaction constant : " , )
             await subChatrooms()
             // await API.graphql(graphqlOperation(subscribeToNewChatroom , {}))
             //     .subscribe({

@@ -18,15 +18,16 @@ export default function Newchatroom({ setFilteredData ,...props}){
             is_pin: false,
             name: data.first_name + data.last_name,
             phone: data.customer_id,
-            room_id:parseInt(data.phone.toString().slice(3)) ,
+            room_id:data.customer_id ,
             unread:0 ,
-            user_id:  parseInt(user.user.phone.toString().slice(3)),
+            user_id: user.user.user_id,
         }
         const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input})).then(
             res=>{
+                console.log(res)
                 setFilteredData(prev=>[res.data.createMF2TCOCHATROOM , ...prev])
             }
-        )
+        ).catch(err => alert("The user given chatroom was duplicated or something went wrong"))
     }
     return(
         <>
@@ -60,7 +61,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
                                 {/* {<img src={`/channel_SVG/${contact.channels!=null?contact.channels:"Whatsapp"}.svg`} alt="Channel icon" width={20} height={20} style={{margin:"0 5px"}} />} */}
                                </div>
 
-                                <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>
+                                <div className={"team"}>+{contact.country_code} {contact.phone}</div>
                             </div>
                                 <img src="/openChat.svg" style={{width:"30px",opacity:".8"}} />
                             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}

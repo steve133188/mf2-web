@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import NotificationAlert from "../components/custom/noti";
 import {API, graphqlOperation} from "aws-amplify";
-import {subscribeToChatroom, subscribeToChatroomUpdate} from "../src/graphql/subscriptions";
+import {onCreateActivity, subscribeToChatroom, subscribeToChatroomUpdate} from "../src/graphql/subscriptions";
 
 
 
@@ -20,17 +20,22 @@ export default function Layout({children}) {
     const [userSelect , setUserSelect ] = useState("")
     const [isAuth , setIsAuth] = useState(false)
     const router = useRouter()
-    const {user , logout , subInstance , setNotificationList ,notificationList } = useContext(GlobalContext)
+    const {user , logout , subInstance} = useContext(GlobalContext)
     const u = user.user
-    // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
     const [showNotificationList,setShowNotificationList]= useState([])
     const [notiSub , setNotiSub] = useState()
 
     const sub = async ()=>{
         if(notiSub) notiSub.unsubscribe()
-        console.log("subscribe notification start")
-        await subInstance.allChatSub()
-        setNotiSub(prev=>subInstance.instance)
+        const s =await API.graphql(graphqlOperation(onCreateActivity  )).subscribe({
+            next: newData=>{
+                console.log("received activity" ,newData)
+                setShowNotificationList(prev=>[newData.value.data , ...prev] )
+                // console.log(this.store)
+            }
+        })
+        setNotiSub(s)
     }
 
     const layout = (
@@ -46,24 +51,17 @@ export default function Layout({children}) {
         </div>
     )
 
-
     const unAuth = (<div className={"unauth"}>{children}</div>)
 
     useEffect( async ()=>{
         if(user.token != null){
             setIsAuth(true)
             await sub()
-
-
         }else {
             setIsAuth(false)
         }
         console.log("is auth :" , isAuth)
     },[user])
-
-    useEffect( ()=>{
-       if(notificationList)setShowNotificationList(prev=>[...notificationList[-1]])
-    },[notificationList])
 
     return (
         isAuth ? layout : unAuth
