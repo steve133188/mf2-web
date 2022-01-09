@@ -117,7 +117,7 @@ const channelData = [
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;
         // setSelectedChannels(["all","Whatsapp","WABA","Wechat","Messager"]);
-        setSelectedChannels(["Whatsapp","WABA","Wechat","Messager"]);
+        setSelectedChannels(["all","Whatsapp","WABA","Wechat","Messager"]);
         if (!checked) {
             setSelectedChannels([]);
         }
@@ -210,7 +210,7 @@ const channelData = [
                                             <div className={"name"}>{user.username}</div>
                                         </div>
                                         <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={selectedUsers.includes(user.user_id)} onClick={toggleSelectUsers} onChange={()=>{}}/>
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
                                             </label>
                                         </div>
                                     </li>) })
@@ -264,12 +264,9 @@ const channelData = [
 
                         <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
                         <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
-                                <div className={"search_bar"}>
+                                {/* <div className={"search_bar"}>
                                 <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
-                            </div>
-
-
-
+                            </div> */}
                             <div className={"channelList"} >
 
                                 {teams.map((team)=>{
@@ -279,7 +276,7 @@ const channelData = [
                                             <div className={"name"}>{team.name}</div>
                                         </div>
                                         <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.org_id} name="checkbox" checked={selectedTeams.includes(team.org_id)} onClick={toggleSelectTeams} onChange={()=>{}}/>
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.org_id} name="checkbox" checked={selectedTeams.includes(team.org_id.toString())} onClick={toggleSelectTeams} onChange={()=>{}}/>
                                             </label>
                                         </div>
                                     </li>) })

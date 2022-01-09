@@ -714,10 +714,19 @@
       flex-direction: column;
       justify-content: space-between;
       &.expand{
-        height: 25vh;
+        height: 20vh;
         max-height: 25rem;
-        min-height: 23rem;
-        // max-width: ;
+        min-height: 20rem;
+
+        
+      }
+      .attachment_box{
+        background: #D0E9FF 0% 0% no-repeat padding-box;
+        width: 100%;
+        padding: 1.2rem 0.9rem;
+        border-radius: 10px;
+
+        
       }
       .chatroom_textField{
         border: none;

@@ -48,15 +48,15 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                 </div>
                 }
                 return <div id={defaultId}  className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId}   className={"imageBox"} src={msg.media_url}/></div> ;
-            case "imageCaption":
-                return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
-                        {/* {console.log(JSON.parse(captionJson).url)} */}
-                                {/* JSON.parse({msg.body}) */}
-                                {/* // <div value={msg.timestamp}  className={"msg_type_imageCaption"}> */}
-                                    <img className={"bigImageBox"} src={JSON.parse(captionJson).url}  onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/>
-                                    <img id={defaultId} className={"imageBox"} src={JSON.parse(captionJson).url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
-                                    <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
-                                </div>
+            // case "imageCaption":
+            //     return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
+            //             {/* {console.log(JSON.parse(captionJson).url)} */}
+            //                     {/* JSON.parse({msg.body}) */}
+            //                     {/* // <div value={msg.timestamp}  className={"msg_type_imageCaption"}> */}
+            //                         <img className={"bigImageBox"} src={JSON.parse(captionJson).url}  onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/>
+            //                         <img id={defaultId} className={"imageBox"} src={JSON.parse(captionJson).url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
+            //                         <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{JSON.parse(captionJson).message}</div>
+            //                     </div>
 
             case "VIDEO":
             case "video":
