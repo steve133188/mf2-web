@@ -27,7 +27,7 @@ export default function QuickReply(props) {
                     textColor="primary"
                     indicatorColor="primary"
                     variant="scrollable"
-                    scrollButtons="off"
+                    scrollButtons={false}
                     ref={props.ref}
                     // scrollButtons="auto"
                     visibleScrollbar

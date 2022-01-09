@@ -1,14 +1,15 @@
 import Avatar from "@mui/material/Avatar";
 import {API, graphqlOperation} from "aws-amplify";
 import {createMF2TCOCHATROOM} from "../../src/graphql/mutations";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import { Tooltip } from "@mui/material";
 
 
 export default function Newchatroom({ setFilteredData ,...props}){
     const {user} = useContext(GlobalContext)
-
+    useEffect(()=>{console.log(props, "chatrooms details ")}
+    ,[props])
     const createChatroom = async (data)=>{
         console.log(user)
         const input = {
@@ -56,7 +57,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
 
                                 <div>{contact.customer_name&&contact.customer_name!=""?contact.customer_name:"Unknown"}</div>
                                 {/* <div className={"team"}>{contact.channel}</div> */}
-                                {<img src={`/channel_SVG/${contact.channels!=null?contact.channels[0].slice(0).toUpperCase()+contact.channels[0].slice(1):"Whatsapp"}.svg`} alt="Channel icon" width={20} height={20} style={{margin:"0 5px"}} />}
+                                {/* {<img src={`/channel_SVG/${contact.channels!=null?contact.channels:"Whatsapp"}.svg`} alt="Channel icon" width={20} height={20} style={{margin:"0 5px"}} />} */}
                                </div>
 
                                 <div className={"team"}>+{contact.customer_id.toString().slice(0,3)} {contact.phone.toString().slice(3)}</div>

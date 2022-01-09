@@ -190,11 +190,17 @@ export default function Live_chat() {
         console.log("imgKeys : " , imageKeys)
         setAttachment(imageKeys)
     }
-
-    const [filePreview,setFilePrevier] = useState({name:"",size:0,type:""})
-
+    const filePreviewOldState = {name:"",size:0,type:""}
+    const [filePreview,setFilePrevier] = useState(filePreviewOldState)
+    useEffect(()=>{
+        if(ChatButtonOn!="m3") setFilePrevier(filePreviewOldState)
+    },[ChatButtonOn])
+    useEffect(()=>{
+        console.log(filePreview,"file attachment show")
+    },[filePreview])
     const upload = async (e) =>{
         e.preventDefault()
+        if(!e.target.files[0]){return}
         const file = e.target.files[0]
         console.log(URL.createObjectURL(file))
         console.log("file mine type1:"  , file.type)
@@ -202,12 +208,13 @@ export default function Live_chat() {
         const filetype =  messageInstance.mediaTypeHandler(file)
         console.log("file type 2" , filetype)
         const path =URL.createObjectURL(file)
-        console.log("FileType~~~",filetype)
         // console.log("result : " , result)
         setIsMedia(true)
+        setIsExpand(true);
+        setChatButtonOn("m3");
         if(filetype.includes("image")){
             const result = await mediaInstance.putImg(file , filetype)
-            setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path });
+            setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path,time:new Date() });
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
 
@@ -362,14 +369,14 @@ export default function Live_chat() {
         setIsExpand(false);
     }
     const toggleFile= e =>{
-        if(filePreview.size<100){
+        if(filePreview.size<2||!filePreview){
             setChatButtonOn(ChatButtonOn=="m3"?"":"m3");
-        setIsExpand(false);
-        setIsExpand(isExpand&&ChatButtonOn=="m3"?false:true);
+            setIsExpand(false);
+        // setIsExpand(isExpand&&ChatButtonOn=="m3"?false:true);
         // setAttachment(e.target.files[0])
         // console.log(e.target.files[0],"togglefile")
         // setAttachment(e.target.files[0].name)
-    }
+        }
         fileAttach()
     }
     const toggleQuickReply = () =>{
@@ -424,8 +431,7 @@ export default function Live_chat() {
         setTypedMsg({...typedMsg , message: ""})
         if(isMedia){
             setIsMedia(false)
-            // setFilePrevier({})
-            setFilePrevier({name:"",size:0,type:""})
+            setFilePrevier(filePreviewOldState)
         }
         setIsExpand(false)
         const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
@@ -440,13 +446,14 @@ export default function Live_chat() {
     }
 
     const wrapperRef1 = useRef();
-
+    
     const handleClickOutside = (event) => {
 
         if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
             setChatButtonOn("");
             setIsExpand(false);
-            setFilePrevier({name:"",size:0,type:""})
+            filePreview.size>0?setFilePrevier(filePreviewOldState):""
+            console.log(attachFile.current.target)
           }
     };
 
@@ -792,8 +799,10 @@ export default function Live_chat() {
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                             </div>
                             }
-                            {filePreview.size > 100 &&
-                                <div style={{display:(ChatButtonOn=="m3"?"flex":"none"), padding:"1.5rem 1rem" }} onClick={toggleReply }>
+                            { ChatButtonOn=="m3"?
+                                <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem" }} 
+                                // onClick={toggleReply }
+                                >
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                     {/* <div>{filePreview.name} </div> */}
 
@@ -854,7 +863,7 @@ export default function Live_chat() {
 
 
 
-                                </div>
+                                </div>:""
                             }
                             <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
@@ -879,11 +888,9 @@ export default function Live_chat() {
 
                                     </div>
 
-                                    <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={toggleFile }
-                                        // style={isEmojiOn?{fill:"#2198FA"}:{fill:"#8b8b8b"}}
-                                    >
+                                    <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={toggleFile }>
                                         {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
-                                        <input type="file" name="fileAttach" ref={attachFile} onChange={upload} onClick={toggleFile}></input>
+                                        <input type="file" name="fileAttach" ref={attachFile} onChange={upload} ></input>
                                         <Mask_Group_3/>
                                     </div>
                                     <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply} ><Mask_Group_4/></div>

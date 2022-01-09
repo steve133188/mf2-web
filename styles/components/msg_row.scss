@@ -168,7 +168,7 @@ audio{
     
       width: 40%;
       max-width: 420px;
-      min-width: 300px;
+      min-width: 375px;
       height: auto;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       background: #D0E9FF 0% 0% no-repeat padding-box;
@@ -462,11 +462,11 @@ audio{
   }
   .msg_type_video{
     
-      width: 40%;
+      width: 40%;   
       max-width: 420px;
-      min-width: 300px;
+      min-width: 375px;
       height: 40%;
-    max-height: min-content;
+      max-height: min-content;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       background: #D0E9FF 0% 0% no-repeat padding-box;
       margin-left: 0;
