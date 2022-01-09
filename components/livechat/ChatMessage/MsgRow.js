@@ -36,6 +36,17 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
 
             case "IMAGE":
             case "image":
+                if(msg.body.length>0){
+                    return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}
+                        {/* {console.log(JSON.parse(captionJson).url)} */}
+                                {/* JSON.parse({msg.body}) */}
+                                {/* // <div value={msg.timestamp}  className={"msg_type_imageCaption"}> */}
+                                    {/* <img className={"bigImageBox"} src={msg.media_url} onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/> */}
+                                    <img id={defaultId}   className={"imageBox"} src={msg.media_url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
+                                    <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>
+                                    <div className={"imageMessage"} style={{background: "white 0% 0% no-repeat padding-box",borderRadius:"10px"}}>{msg.body}</div></div>
+                                </div>
+                }
                 return <div id={defaultId}  className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId}   className={"imageBox"} src={msg.media_url}/></div> ;
             case "imageCaption":
                 return <div id={defaultId} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}

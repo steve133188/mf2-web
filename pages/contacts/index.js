@@ -57,7 +57,7 @@ export default function Contacts() {
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
-    const [selectedTeams ,setSelectedTeams] =useState("")
+    const [selectedTeams ,setSelectedTeams] =useState([{name:"All"}])
     const [selectedChannel ,setSelectedChannel] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
@@ -108,7 +108,7 @@ export default function Contacts() {
             if(selectedTeams.length ==0){
                 return data
             }
-            return selectedTeams==data.team.name
+            return selectedTeams[0].id==data.team.org_id
             // return data.team==selectedTeams.id
         })
         console.log("teamFiltered:",teamFiltered)
@@ -434,7 +434,7 @@ export default function Contacts() {
                                     setCurrentPage(1)
                                 })
                             }}
-                            placeholder={"Search"}
+                            placeholder={"Search Name"}
                         />
                     </div>
                 </div>
@@ -525,14 +525,14 @@ export default function Contacts() {
                         </li>)
                     })}
                 </MF_Select>
-                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team:Not Asignned":selectedTeams }  submit={advanceFilter}  customeDropdown={true}>
+                <MF_Select head={"Team"} top_head={selectedTeams.length ==0?"All":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={true}>
                     <li onClick={()=> {
-                        setSelectedTeams("");
+                        setSelectedTeams([]);
                         advanceFilter()
                     }}>All</li>
-                    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams("") }}> No Assigned</li>
+                    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }}> No Assigned</li>
                     {teams.map((team , index)=>{
-                        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams(team.name) }}> {team.name}</li>)
+                        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams([{name:team.name,id:team.org_ig}]) }}> {team.name}</li>)
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >

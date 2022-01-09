@@ -350,6 +350,7 @@ export default function Live_chat() {
                 console.log("last msg time : ",  lastMsgFromClient)
                 console.log("getChatroomMessage",chatroomMsg)
             }
+
         }).catch(err=>console.log(err))
 
 
@@ -435,7 +436,7 @@ export default function Live_chat() {
         }
         setIsExpand(false)
         const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
-        console.log("data :" , data)
+        console.log("data sent out :" , data)
         setChatButtonOn("")
     }
 
@@ -459,7 +460,7 @@ export default function Live_chat() {
 
     const replyClick=click=>{
         console.log(click,"done donedone")
-        setReplyMsg(click)
+        // setReplyMsg(click)
         const quotaMsg = chatroomMsg.filter(e=>{return click==(e.room_id+e.timestamp)})
         // const m={...quotaMsg[0],message_type:"replyMsg"}
         const m={...quotaMsg[0]}
