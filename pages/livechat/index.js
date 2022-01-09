@@ -446,13 +446,14 @@ export default function Live_chat() {
     }
 
     const wrapperRef1 = useRef();
-
+    
     const handleClickOutside = (event) => {
 
         if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
             setChatButtonOn("");
             setIsExpand(false);
             filePreview.size>0?setFilePrevier(filePreviewOldState):""
+            console.log(attachFile.current.target)
           }
     };
 
