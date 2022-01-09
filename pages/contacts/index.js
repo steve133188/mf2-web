@@ -334,11 +334,10 @@ export default function Contacts() {
         //         'Authorization': `Bearer ${localStorage.getItem("token")}`
         //     },
         //     data:deleteItems})
-        if (res == 200) {
-            alert("Delete Success")
-            await fetchContacts()
-            setSelectedContacts([])
-        }
+        console.log(res)
+        await fetchContacts()
+        setSelectedContacts([])
+
     }
     const default_cols = [ 'Name' ,'Team', 'Channels','Tags' ,'Assignee']
     const [isSelectRow, setSelectRow] = useState( false);

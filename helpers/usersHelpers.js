@@ -55,7 +55,7 @@ export default function usersFetcher(token){
 
         })
 
-       
+
         if(res == 200)return 200
         if(res == 201)return 201
     }
@@ -105,7 +105,7 @@ export default function usersFetcher(token){
         return (await instance.fetcher.put(`/users` , data )).statusText
     }
     instance.updateUserTeamIdById = async (user_id , team_id) =>{
-        return (await instance.fetcher.put(`user/team` ,{user_id , team_id})).statusText
+        return (await instance.fetcher.put(`/user/team` ,{user_id , team_id})).statusText
     }
 
     instance.updateUserTeam = async (old_id , new_id) =>{
