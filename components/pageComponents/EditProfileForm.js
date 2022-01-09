@@ -181,7 +181,7 @@ export default function EditProfileForm({data , toggle}){
                                 return(<li key={tag.tag_id+index}><Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag_id} name="checkbox" checked={isContainTags(tag)} onClick={(e)=>toggleSelectTags(e , tag)} onChange={()=>{}}/>
+                                            <input type="checkbox" id={tag.tag_id} value={tag.tag} name="checkbox" checked={isContainTags(tag)} onClick={(e)=>toggleSelectTags(e , tag)} onChange={()=>{}}/>
                                         </label> </div></li>)
                             })}
                         </Mf_circle_btn>
@@ -213,7 +213,7 @@ export default function EditProfileForm({data , toggle}){
                                         <div className={"name"}>{user.username}</div>
                                     </div>
                                     <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={isContainUser(user)} onClick={(e)=>toggleSelectUsers(e, user)} onChange={()=>{}} />
+                                        <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.user_id} name="checkbox" checked={isContainUser(user)} onClick={(e)=>toggleSelectUsers(e, user)} onChange={()=>{}} />
                                         </label>
                                     </div>
                                 </li>)

@@ -57,7 +57,7 @@ export default function Contacts() {
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
-    const [selectedTeams ,setSelectedTeams] =useState("")
+    const [selectedTeams ,setSelectedTeams] =useState([{name:"All"}])
     const [selectedChannel ,setSelectedChannel] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
@@ -108,7 +108,7 @@ export default function Contacts() {
             if(selectedTeams.length ==0){
                 return data
             }
-            return selectedTeams==data.team.name
+            return selectedTeams[0].id==data.team.org_id
             // return data.team==selectedTeams.id
         })
         console.log("teamFiltered:",teamFiltered)
@@ -124,7 +124,7 @@ export default function Contacts() {
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
                 return (
-                    <Tooltip key={index} className={""} title={agent.username} placement="top-start">
+                    <Tooltip key={index} className={""} title={agent.user_id} placement="top-start">
                         <Avatar className={"mf_bg_warning mf_color_warning text-center 123"} sx={{
                             width: 22,
                             height: 22,
@@ -434,7 +434,7 @@ export default function Contacts() {
                                     setCurrentPage(1)
                                 })
                             }}
-                            placeholder={"Search"}
+                            placeholder={"Search Name"}
                         />
                     </div>
                 </div>
@@ -519,20 +519,20 @@ export default function Contacts() {
                                 <div className={"name"}>{user.username}</div>
                             </div>
                             <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
                                 </label>
                             </div>
                         </li>)
                     })}
                 </MF_Select>
-                <MF_Select head={"Team"} top_head={selectedTeams==""?"Team:Not Asignned":selectedTeams }  submit={advanceFilter}  customeDropdown={true}>
+                <MF_Select head={"Team"} top_head={selectedTeams.length ==0?"All":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={true}>
                     <li onClick={()=> {
-                        setSelectedTeams("");
+                        setSelectedTeams([]);
                         advanceFilter()
                     }}>All</li>
-                    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams("") }}> No Assigned</li>
+                    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }}> No Assigned</li>
                     {teams.map((team , index)=>{
-                        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams(team.name) }}> {team.name}</li>)
+                        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams([{name:team.name,id:team.org_ig}]) }}> {team.name}</li>)
                     })}
                 </MF_Select>
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
@@ -551,7 +551,7 @@ export default function Contacts() {
                         {tag.name}</div>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
+                                    <input type="checkbox" id={tag.value} value={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -562,7 +562,7 @@ export default function Contacts() {
                         return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag_name} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
+                                    <input type="checkbox" id={tag.tag_name} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
                                 </label> </div></li>)
                     })}
                 </MF_Select>
@@ -587,7 +587,7 @@ export default function Contacts() {
                             <TableCell>
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
-                                        <input type="checkbox" name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll} />
+                                        <input type="checkbox" value={"all"} name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll} />
                                     </label> : null}
                                 </div>
                             </TableCell>
@@ -665,7 +665,7 @@ export default function Contacts() {
 
                                             {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
                                                 return(
-                                                    <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
+                                                    <Tooltip key={index} className={""} title={agent.username?agent.username:"a"} placement="top-start">
                                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                                     </Tooltip>
                                                 )

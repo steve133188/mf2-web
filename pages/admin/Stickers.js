@@ -19,7 +19,7 @@ import DeletePad from "../../components/DeletePannel";
 
 export default function Stickers() {
 
-    const {mediaInstance, userInstance ,user , roleInstance} = useContext(GlobalContext)
+    const {mediaInstance, userInstance ,user , } = useContext(GlobalContext)
 
     const [roles, setRoles] = useState([]);
     const [stickers, setStickerList] = useState([]);
@@ -38,6 +38,7 @@ export default function Stickers() {
     const indexOfFirstTodo = indexOfLastTodo - 5;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isSelectRow, setIsSelectRow] = useState( false);
+    const [folder,setFolder] = useState([])
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
     const getStickers = async ()=>{
@@ -96,12 +97,12 @@ export default function Stickers() {
     };
     const toggleSelectAll = e => {
         // setSelectAll(!selectAll);
-        const {check,id} = e.target
+        const {checked,id} = e.target
         console.log(id)
-        setSelectedContacts(id);
+        setFilter(filter=>[...filter,id])
         // setSelectedContacts(currentContacts.map(c => c.id));
-        if (selectAll) {
-            setSelectedContacts([]);
+        if (!checked) {
+            setFilter(filter.filter(item=>item !== id))
         }
         console.log(selectedContacts)
     };
@@ -113,7 +114,7 @@ console.log("hihi")
         // setDeleteTag(item)
     }
     const sumbitDelete=async ()=>{
-        const res = await tagInstance.deleteContent(data.name,selectedReply[0].id,selectedReply[0].body)
+        const res = await mediaInstance.delete(data.name,selectedReply[0].id,selectedReply[0].body)
         // console.log
     }
     
@@ -219,7 +220,7 @@ console.log("hihi")
 
                                                         <div className="newCheckboxContainer">
                                                             {isSelectRow ? <label className="newCheckboxLabel">
-                                                                <input type="checkbox" name="checkbox" id={data.value} checked={selectedContacts.includes(data.value)} onClick={toggleSelectAll} />
+                                                                <input type="checkbox" name="checkbox" id={index} checked={selectedContacts.includes(index)} onClick={toggleSelectAll} />
                                                             </label> : null}
                                                         </div>
                                                         <div  style={{margin:"1rem "}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(12)}

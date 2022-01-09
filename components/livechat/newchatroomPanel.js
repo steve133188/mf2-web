@@ -8,8 +8,8 @@ import { Tooltip } from "@mui/material";
 
 export default function Newchatroom({ setFilteredData ,...props}){
     const {user} = useContext(GlobalContext)
-    useEffect(()=>{console.log(props, "chatrooms details ")}
-    ,[props])
+    // useEffect(()=>{console.log(props, "chatrooms details ")}
+    // ,[props])
     const createChatroom = async (data)=>{
         console.log(user)
         const input = {

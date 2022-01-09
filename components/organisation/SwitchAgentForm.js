@@ -57,7 +57,7 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clea
         for (let i=0;i<selectedUsers.length;i++){
             const user_phone = selectedUsers[i]
             const team_id = selectedTeam.org_id
-            console.log(user_phone,team_id)
+            console.log(user_phone,team_id,"transferinf user team")
             const res = await userInstance.updateUserTeamIdById(parseInt(user_phone) ,parseInt(team_id))
             console.log(res)
             clear()
