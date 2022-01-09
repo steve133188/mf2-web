@@ -80,13 +80,13 @@ export default function Contacts() {
             }
             return data.agents.some(el=>selectedUsers.includes(el.username))
         })
-        
+
         const tagFiltered = agentFiltered.filter(data=>{
            if(selectedTags.length==0){
                return data
            }
            return data.tags.some(el=>selectedTags.includes(el.tag_name))
-            }
+        }
             /*
             ================
             return OR condition
@@ -192,7 +192,7 @@ export default function Contacts() {
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        
+
         setSelectedContacts(selectedContacts=>[...selectedContacts, id]);
         if (!checked) {
             setSelectedContacts(selectedContacts=>selectedContacts.filter(item => item !== id));
@@ -382,7 +382,7 @@ export default function Contacts() {
                   d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
         </svg>
     )
-    
+
     const toggleSelectAllChannels = (e) => {
         const { checked ,id} = e.target;
         setSelectedChannel(["all","Whatsapp","WABA","Wechat","Messager"]);

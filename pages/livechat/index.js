@@ -48,9 +48,6 @@ export default function Live_chat() {
 
         ]
 
-
-
-
         const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper} = useContext(GlobalContext)
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
@@ -115,8 +112,6 @@ export default function Live_chat() {
         })
             .catch(err=>alert(err))
     }
-
-
     // const subChatrooms=  ()=>{
     //     let user_id= parseInt(user.user.user_id.toString().slice(3))
     //     if(chatroomsSub) chatroomsSub.unsubscribe()
@@ -211,28 +206,28 @@ export default function Live_chat() {
         // console.log("result : " , result)
         setIsMedia(true)
         if(filetype.includes("image")){
-            newFunction(file, path);
             const result = await mediaInstance.putImg(file , filetype)
-           setMediaUrl(result)
+            setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path });
+            setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
 
         }
         if(filetype.includes("video")){
-            setFilePrevier({name:file.name,size:file.size,type:"VIDEO",path:path})
             const result = await mediaInstance.putVideo(file , filetype)
+            setFilePrevier({name:file.name,size:file.size,type:"VIDEO",path:path})
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "VIDEO"})
             // sendMessageToClient()
         }
         if(filetype.includes("audio")){
-            setFilePrevier({name:file.name,size:file.size,type:"AUDIO",path:path})
             const result = await mediaInstance.putVoice(file , filetype)
+            setFilePrevier({name:file.name,size:file.size,type:"AUDIO",path:path})
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "AUDIO"})
         }
         if(filetype.includes("document")){
-            setFilePrevier({name:file.name,size:file.size,type:"FILE",path:path})
             const result = await mediaInstance.putDoc(file , filetype)
+            setFilePrevier({name:file.name,size:file.size,type:"FILE",path:path})
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "FILE"})
         }
@@ -318,9 +313,7 @@ export default function Live_chat() {
     useEffect(()=>{
         scrollToBottom()}
         ,[chatroomMsg])
-    function newFunction(file, path) {
-        setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path });
-    }
+
     ///////
 
     async function handleChatRoom(chatroom){
@@ -329,10 +322,9 @@ export default function Live_chat() {
         setChatroomMsg([])
         setSelectedChat(chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
-        if (selectedChat.unread>0)await updateChatroomUnread(chatroom);
+        if (selectedChat.unread!==0)await updateChatroomUnread(chatroom);
         await getCustomerbyID(chatroom.customer_id)
         if(typeof chatroom.customer_id !=="number") return
-
         console.log("selected Chat" , selectedChat)
         console.log("typed message" , typedMsg)
     }
@@ -351,7 +343,6 @@ export default function Live_chat() {
                 console.log("last msg time : ",  lastMsgFromClient)
                 console.log("getChatroomMessage",chatroomMsg)
             }
-
         }).catch(err=>console.log(err))
 
 
@@ -654,22 +645,17 @@ export default function Live_chat() {
         return  await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:{user_id:parseInt(chat.user_id ) , room_id:parseInt(chat.room_id) , unread:0 } }))
             .then(res =>{
                 const data = res.data.updateMF2TCOCHATROOM
-                const oldFilter = filteredData.filter(d=> d.room_id != data.room_id)
-
-                if(data.is_pin){
+                console.log("handle unread "  , data)
+                if(data.is_pin && data.length>0){
+                    // const newPinChat = pinChat.filter(d=>d.room_id != data.room_id)
+                    // console.log("newPinChat : " , newPinChat)
+                    const update = pinChat.map(d=>update.room_id === d.room_id || d)
+                    setPinChat(chatrooms=>[...update ])
+                }else{
                     const oldFilter = filteredData.filter(d=> d.room_id != data.room_id)
-                    const newPinChat = pinChat.filter(d=>d.room_id != data.room_id)
                     console.log("oldFilter : " , oldFilter)
-                    console.log("newPinChat : " , newPinChat)
-                    // const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
-                    if(!data.is_pin){
-                        setFilteredData(filteredData=> [data, ...oldFilter ])
-                        setPinChat(chatrooms=>[ ...newPinChat ])
-                    }else{
 
-                        setFilteredData(filteredData=> [...oldFilter])
-                        setPinChat(chatrooms=>[data , ...newPinChat])
-                    }
+                    setFilteredData(filteredData=> [data,...oldFilter])
                 }
 
             }).catch(err=>{
@@ -701,7 +687,7 @@ export default function Live_chat() {
                                                 console.log(e.target.value ,"searching chatlist")
                                                 searchFilter(e.target.value , chatrooms,(new_data)=>{
                                                     setFilteredData(new_data);
-                                                      console.log(new_data,"after searching");
+                                                    console.log(new_data,"after searching");
                                                 })
                                             }}
                                             placeholder={"Search"}
@@ -709,7 +695,6 @@ export default function Live_chat() {
                                     {/* <Livechat/> */}
                                         </div>
                                 </div>
-
                 {/* <button className={"select_group"} onClick={()=>{setIsShow(!isShow);console.log(isShow)}}>
                                 <div className={"group_icon"} ></div>
                                 <Team_Select  show={isShow} head={"All Team"} top_head={selectedTeams==""?"All Team":selectedTeams}  submit={advanceFilter}  customeDropdown={true}>
@@ -723,8 +708,6 @@ export default function Live_chat() {
                                     })}
                                 </Team_Select>
                             </button> */}
-
-
                         </div>
                         <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
                                         <div className={"filter_icon"}></div>
@@ -751,7 +734,7 @@ export default function Live_chat() {
                             return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
 
                         })}
-                        {filteredData.map((d , index)=>{
+                        {filteredData.sort((first , second)=>{return second.unread-first.unread}).map((d , index)=>{
 
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
                             return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
@@ -765,8 +748,6 @@ export default function Live_chat() {
                     <>
                         <div className={"chatroom_top"}>
                             <div className={"chatroom_top_info"}>
-
-
                                 {/*{selectedChat!==-1 && (*/}
                                 {/*    <>*/}
                                 {/*    <Avatar src={selectedChat.avatar|| null} alt="icon"/>*/}
@@ -778,7 +759,6 @@ export default function Live_chat() {
                                 {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
                                 <Avatar src={ null} alt="icon" />
                                 <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
-
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                                     </div>
@@ -800,9 +780,7 @@ export default function Live_chat() {
                                         {/* <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input> */}
                                         <input type="text" className={"search_area"} onChange={search} placeholder={"Search"}></input>
                                         <div className={"search_icon"}></div>
-
                                     </div>
-
                                 </div>
                                 <div className={"chatroom_top_btn chatroom_top_btn_refresh"} onClick={ReferechHandle}><RefreshBTN/></div>
                                 <div className={"chatroom_top_btn chatbot_switch"}>
@@ -815,7 +793,6 @@ export default function Live_chat() {
                             className={"chatroom_records"}>
                             {chatroomMsg.map((r , i)=>{
                                 return (
-
                                     <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
                                 )
                             })}
@@ -923,8 +900,7 @@ export default function Live_chat() {
                                         <input type="file" name="fileAttach" ref={attachFile} onChange={upload} onClick={toggleFile}></input>
                                         <Mask_Group_3/>
                                     </div>
-                                    <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply}
-                                    ><Mask_Group_4/></div>
+                                    <div className={"template_btn" +(ChatButtonOn=="m4"?" active":"") } onClick={toggleQuickReply} ><Mask_Group_4/></div>
                                     {/* <div className={"payment_btn"+(ChatButtonOn=="m5"?" active":"") } onClick={toggleM5}
                                     ><Mask_Group_5/></div> */}
                                 </div>
