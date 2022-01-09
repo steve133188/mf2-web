@@ -19,7 +19,7 @@ export const GlobalContext = createContext({})
 export const GlobalContextProvider = ({children}) =>{
     const [user , setUser] = useState({user:{ },token:null,})
     const [errors , setErrors] = useState("")
-    const [chats , setChats] = useState([])
+    const [notification , setNotification] = useState([])
     const [contacts , setContacts] = useState([] )
     const [message , setMessage] = useState([])
     const router = useRouter()
@@ -97,6 +97,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance , subInstance}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance , subInstance , notification ,setNotification}}>{children}</GlobalContext.Provider>
     )
 }

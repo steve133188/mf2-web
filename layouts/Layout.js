@@ -20,10 +20,10 @@ export default function Layout({children}) {
     const [userSelect , setUserSelect] = useState("")
     const [isAuth , setIsAuth] = useState(false)
     const router = useRouter()
-    const {user , logout , subInstance } = useContext(GlobalContext)
+    const {user , logout , setNotificationList ,notificationList } = useContext(GlobalContext)
     const u = user.user
     // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
-    const [notificationList,setNotificationList]= useState([])
+    const [showNotificationList,setShowNotificationList]= useState([])
     const [notiSub , setNotiSub] = useState()
 
     // const sub = async ()=>{
@@ -59,7 +59,7 @@ export default function Layout({children}) {
             </div>
             <div className={"notification-container"}>
                 {/* eslint-disable-next-line react/jsx-key */}
-                {notificationList.map((li,i)=> <NotificationAlert  key={i} notification={li}  setNotificationList={setNotificationList}/>)}
+                {notificationList&&notificationList.map((li,i)=> <NotificationAlert  key={i} notification={li}  setNotificationList={setNotificationList}/>)}
 
             </div>
         </div>
@@ -74,10 +74,13 @@ export default function Layout({children}) {
 
         }else {
             setIsAuth(false)
-            // sub
         }
         console.log("is auth :" , isAuth)
     },[user])
+
+    useEffect( ()=>{
+       if(notificationList)setShowNotificationList(prev=>[...notificationList[-1]])
+    },[notificationList])
 
     return (
         isAuth ? layout : unAuth
