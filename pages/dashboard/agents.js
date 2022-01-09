@@ -81,7 +81,6 @@ export default function Agents() {
         console.log(start,end,"default")
         const data = await dashboardInstance.getAgentDefaultData(start ,end)
         return data
-
     }
     useEffect(async()=>{
         let data = await fetchDefault();
@@ -289,11 +288,11 @@ export default function Agents() {
             </div>
             <div className="lineCardGroupSet">
                 <div className="lineCardGroup1">
-                    <LineChartCard chart={true} img={false} title={"Agents"} data = {dash.agents_no}/>
-                    <LineChartCard chart={true} img={false} title={"Connected"} data = {dash.connected}/>
-                    <LineChartCard chart={true} img={false} title={"Disconnected"} data = {dash.disconnected}/>
-                    <LineChartCard chart={true} img={false} title={"All Contacts"} data = {dash.all_contacts}/>
-                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data = {dash.new_added_contacts}/>
+                    <LineChartCard chart={true} img={false} title={"Agents"} data={dash.agents_no}/>
+                    <LineChartCard chart={true} img={false} title={"Connected"} data={dash.connected}/>
+                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={dash.disconnected}/>
+                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={dash.all_contacts}/>
+                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={dash.new_added_contacts}/>
                     <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/>
                 </div>
                 <div className="lineCardGroup2">
@@ -309,12 +308,12 @@ export default function Agents() {
             </div>
             <div className="chartGroup">
                 <div className="dashboardRow">
-                    <div className="dashboardBarColumn"><MultipleBarChart title={"Months"} yaxis={"Contacts"} h={"650px"}
+                    <div className="dashboardBarColumn"><MultipleBarChart title={"Agents"} yaxis={"Contacts"} h={"650px"}
                                                                         active={dash.chart.active}
                                                                         unhandled={dash.chart.unhandled}
                                                                         delivered={dash.chart.delivered}
                                                                         agents={dash.chart.user_name}
-                                                                        min1={"12"} min2={12} min3={12} show={show}/></div>
+                                                                        min1={12} min2={12} min3={12} show={show}/></div>
                 </div>
 
                 <div className="dashboardRow" style={{display:"flex",flexDirection:"column"}}>

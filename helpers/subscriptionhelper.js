@@ -28,11 +28,12 @@ export default  function subscriptionHelper(){
         return s
     }
     this.allChatSub =async ()=>{
+        if(this.instance) this.instance.unsubscribe()
         // console.log(`userID:${userId} type:${typeof userId}`) d
         const s =await API.graphql(graphqlOperation(allChatSubscribe ))
             .subscribe({
                 next: async (newData)=>{
-                    console.log("received new data" ,newData.value.data.allChatSubscribe)
+                    console.log("received new data" ,newData)
                 }
             })
         this.instance = s

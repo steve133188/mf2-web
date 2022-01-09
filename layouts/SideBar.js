@@ -25,41 +25,9 @@ export default function SideBar(props) {
         console.log(result.data.listMF2TCOMESSAGGES.items)
         return result.data.listMF2TCOMESSAGGES.items
     }
-    // const getAllChatrooms = async ()=>{
-    //
-    //     const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
-    //         .then(async res =>{
-    //             let chatroom = res.data.listMF2TCOCHATROOMS.items
-    //              chatroom.forEach(async chat=>{
-    //                 await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false} }}))
-    //                     .then(async msg=>{
-    //                         chat.unread = msg.data.listMF2TCOMESSAGGES.items.length
-    //                     }).catch(error => console.log(error))
-    //             })
-    //
-    //             const totalNum = chatroom.reduce((ori,next)=>{
-    //                 return ori+next.unread;},0
-    //             )
-    //             console.log(totalNum,"number test")
-    //             setTotalUnread(totalNum)
-    //
-    //         })
-    //         .catch(error => console.log(error))
-    // }
 
     const [subscribe, setSubscribe] = useState(null)
-   // useEffect(async ()=>{
-   //  // getMesssages()
-   //
-   //     // const sub = await API.graphql(graphqlOperation(subscribeToChatroom) ,{from_me:false})
-   //     //     .subscribe({
-   //     //         next: async (chat) => {
-   //     //             console.log("update chat " ,chat)
-   //     //         }
-   //     //     })
-   //     //  setSubscribe(prev=> sub)
-   //      await getAllChatrooms()
-   // },[])
+
 
 //    useEffect(()=>{
 
@@ -112,7 +80,7 @@ export default function SideBar(props) {
         setUnreadNotificationCount(notifications.length)
     },[notifications])
 
-    const [notifications, setNotifications] = useState(props.notices.map(e=>{return {...e,unread:true}}))
+    const [notifications, setNotifications] = useState([])
     const [totalNotices,setTotalNotices] = useState(0)
     const getNoticesNumber =(num)=>{
         setTotalNotices(num)
@@ -267,44 +235,6 @@ export default function SideBar(props) {
                         <NavItem url={"/products"} name={"Products"} icon={(<ProductsSVG size="16"/>)} active={isActiveURL("/products")}/>
                         <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="16"/>)} active={isActiveURL("/organization")}/>
                         <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="16"/>)} active={isActiveURL("/admin")}/>
-                        {/*<div className={router.pathname == "/broadcast" ? "active-side-item" : "side-item "}>*/}
-                        {/*    <Link href={"/broadcast"}>*/}
-                        {/*        <div className={router.pathname == "/broadcast" ? "active nav-item" : "nav-item "}>*/}
-                        {/*            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
-                        {/*                 className="bi bi-broadcast-pin" viewBox="0 0 16 16">*/}
-                        {/*                <path*/}
-                        {/*                    d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM6 8a2 2 0 1 1 2.5 1.937V15.5a.5.5 0 0 1-1 0V9.937A2 2 0 0 1 6 8z"/>*/}
-                        {/*            </svg>*/}
-                        {/*            <span className="side-item-name">Broadcast</span>*/}
-                        {/*        </div>*/}
-                        {/*    </Link>*/}
-                        {/*</div>*/}
-                        {/*<div className={router.pathname == "/flowbuilder" ? "active-side-item" : "side-item "}>*/}
-                        {/*    <Link href={"/flowbuilder"}>*/}
-                        {/*        <div className={router.pathname == "/flowbuilder" ? "active nav-item" : "nav-item "}>*/}
-                        {/*            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
-                        {/*                 className="bi bi-bar-chart-steps" viewBox="0 0 16 16">*/}
-                        {/*                <path*/}
-                        {/*                    d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>*/}
-                        {/*            </svg>*/}
-                        {/*            <span className="side-item-name">Flow Builder</span>*/}
-                        {/*        </div>*/}
-                        {/*    </Link>*/}
-                        {/*</div>*/}
-
-
-                        {/*<div className={router.pathname == "/products" ? "active-side-item" : "side-item "}>*/}
-                        {/*    <Link href={"/products"}>*/}
-                        {/*        <div className={router.pathname == "/products" ? "active nav-item" : "nav-item "}>*/}
-                        {/*            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
-                        {/*                 className="bi bi-shop" viewBox="0 0 16 16">*/}
-                        {/*                <path*/}
-                        {/*                    d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>*/}
-                        {/*            </svg>*/}
-                        {/*            <span className="side-item-name">Product Catalogue</span>*/}
-                        {/*        </div>*/}
-                        {/*    </Link>*/}
-                        {/*</div>*/}
 
 
                         {/*{navItems.map((i,index)=>{*/}
