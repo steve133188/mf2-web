@@ -17,14 +17,22 @@ import {Avatar } from "@mui/material";
 export default function SideBar(props  ) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
-    const { user ,subInstance } = useContext(GlobalContext)
+    const { user ,subInstance,roleInstance } = useContext(GlobalContext)
 
 
+    const [userAuth,setUserAuth] = useState({})
 
+   useEffect(async()=>{
 
-//    useEffect(()=>{
+    const data = await roleInstance.getAllRoles()
+    // console.log(data.filter(e=>e.role_id==user.user.role_id)[0].authority,"jhihihi")
+    setUserAuth(data.filter(e=>e.role_id==user.user.role_id)[0].authority)
+   },[])
 
-//    },[notifications])
+   useEffect(()=>{
+    console.log(userAuth)
+   },[userAuth])
+
     const {  logout } = useContext(GlobalContext);
     const sample_data = [
         {
@@ -161,13 +169,13 @@ export default function SideBar(props  ) {
                                     </Link>
                                 </>) : null}
                         </div>)}
-                        <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")} />
-                        <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>
+                        {userAuth&&userAuth.livechat? <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")} />:""}
+                        {userAuth&&userAuth.contact? <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>:""}
                         {/* <NavItem url={"/broadcast"} name={"Broadcast"} icon={(<BroadcastSVG size="16"/>)} active={isActiveURL("/broadcast")}/> */}
-                        <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="16"/>)} active={isActiveURL("/integrations")}/>
+                       {userAuth&&userAuth.integrations?  <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="16"/>)} active={isActiveURL("/integrations")}/>:""}
                         {/* <NavItem url={"/products"} name={"Products"} icon={(<ProductsSVG size="16"/>)} active={isActiveURL("/products")}/> */}
-                        <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="16"/>)} active={isActiveURL("/organization")}/>
-                        <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="16"/>)} active={isActiveURL("/admin")}/>
+                        {userAuth&&userAuth.organization? <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="16"/>)} active={isActiveURL("/organization")}/>:""}
+                        {userAuth&&userAuth.admin? <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="16"/>)} active={isActiveURL("/admin")}/>:""}
 
 
                         {/*{navItems.map((i,index)=>{*/}

@@ -28,6 +28,7 @@ export default function roleFetcher(token){
         return (await instance.fetcher.get(`/roles-name`)).data
     }
     instance.createRole = async (data)=>{
+        console.log(data,"cetsafagtole")
         return (await instance.fetcher.post(`/role` ,data)).statusText
     }
     instance.updateRole = async (data)=>{
