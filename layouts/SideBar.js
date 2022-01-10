@@ -14,12 +14,12 @@ import {subscribeToChatroom, subscribeToNewMessage} from "../src/graphql/subscri
 import {Avatar } from "@mui/material";
 
 
-export default function SideBar(props) {
+export default function SideBar(props  ) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
     const { user ,subInstance } = useContext(GlobalContext)
-    const [notification , setNotification] = useState()
-    const {store} =  subInstance
+
+
 
 
 //    useEffect(()=>{
@@ -59,11 +59,6 @@ export default function SideBar(props) {
     function notifyBoxToggle() {
         setIsNotifyBoxOpen(!isNotifyBoxOpen);
     }
-    useEffect(()=>{
-        setNotification(...props.notices)
-        console.log(user,"auth testing")
-    },[notification])
-
 
     //when click the notification, set unreadCount to 0
     function isActiveURL(url){
@@ -213,8 +208,8 @@ export default function SideBar(props) {
                                             </g>
                                         </svg>
                                     <span className="side-item-name" style={{margin:"0 5px 0 0"}}>Notifications</span>
-                                    {store.length &&store.length>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{store.length}</Avatar>
-                                    : store.length>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{store.length}</Avatar>: "" }
+                                    {props.notices.length &&props.notices.length>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{props.notices.length}</Avatar>
+                                    : props.notices.length>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{props.notices.length}</Avatar>: "" }
                                 </div>
                             </span>
                             {isNotifyBoxOpen ? (
@@ -231,7 +226,7 @@ export default function SideBar(props) {
                                             </div>
                                         <div className="notify_box_list">
 
-                                            {(subInstance.store.length>-1)&&subInstance.store.map((d , index )=>{
+                                            {(props.notices.length>0)&&props.notices.map((d , index )=>{
                                                 return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
                                             })}
                                         </div>

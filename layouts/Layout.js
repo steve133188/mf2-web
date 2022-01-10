@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import NotificationAlert from "../components/custom/noti";
 import {API, graphqlOperation} from "aws-amplify";
-import {onCreateActivity, subscribeToChatroom, subscribeToChatroomUpdate} from "../src/graphql/subscriptions";
+import {eventListenr, subscribeToChatroom, subscribeToChatroomUpdate} from "../src/graphql/subscriptions";
 
 
 
@@ -29,11 +29,14 @@ export default function Layout({children}) {
 
     const sub = async ()=>{
         if(notiSub) notiSub.unsubscribe()
-        const s =await API.graphql(graphqlOperation(onCreateActivity )).subscribe({
+        const s =await API.graphql(graphqlOperation(eventListenr )).subscribe({
             next: newData=>{
-                setNotificationList(prev=>[newData.value.data.onCreateActivity ,...notificationList ])
-                console.log("received activity" ,newData)
-                setShowNotificationList(prev=>[newData.value.data.onCreateActivity , ...prev] )
+                console.log(newData)
+                if(newData.value.data.eventListenr.action == "RECEIVED_MESSAGE"){
+                    setNotificationList(prev=>[newData.value.data.eventListenr ,...prev ])
+                    console.log("received activity" ,notificationList)
+                    setShowNotificationList(prev=>[newData.value.data.eventListenr , ...prev] )
+                }
                 // console.log(this.store)
             }
         })
@@ -47,7 +50,7 @@ export default function Layout({children}) {
             </div>
             <div className={"notification-container"}>
                 {/* eslint-disable-next-line react/jsx-key */}
-                {notificationList&&notificationList.map((li,i)=> <NotificationAlert  key={i} notification={li}  setNotificationList={setNotificationList}/>)}
+                {showNotificationList&&showNotificationList.map((li,i)=> <NotificationAlert  key={i} notification={li}  setNotificationList={setShowNotificationList}/>)}
 
             </div>
         </div>
@@ -64,6 +67,10 @@ export default function Layout({children}) {
         }
         console.log("is auth :" , isAuth)
     },[user])
+
+    useEffect(()=>{
+
+    } , [])
 
     return (
         isAuth ? layout : unAuth
