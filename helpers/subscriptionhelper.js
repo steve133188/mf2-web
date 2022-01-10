@@ -1,5 +1,5 @@
 import {API, graphqlOperation} from "aws-amplify";
-import { allChatSubscribe, multipleSubscribe} from "../src/graphql/subscriptions";
+import {allChatSubscribe, multipleSubscribe, onCreateActivity} from "../src/graphql/subscriptions";
 
 
 export default  function subscriptionHelper(){
@@ -32,6 +32,19 @@ export default  function subscriptionHelper(){
     this.allChatSub =async function (){
         if(this.instance) this.instance.unsubscribe()
         const s =await API.graphql(graphqlOperation(allChatSubscribe )).subscribe({
+            next: newData=>{
+                console.log("received new data" ,newData)
+                this.store.push( newData.value.data.AllChatSubscribe)
+                // console.log(this.store)
+            }
+        })
+
+        this.instance = s
+        return this.instance
+    }
+    this.notificationSub = async function(){
+        if(this.instance) this.instance.unsubscribe()
+        const s =await API.graphql(graphqlOperation(onCreateActivity , {action:"RECEIVED_MESSAGE" } )).subscribe({
             next: newData=>{
                 console.log("received new data" ,newData)
                 this.store.push( newData.value.data.AllChatSubscribe)
