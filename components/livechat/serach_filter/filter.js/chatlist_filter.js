@@ -85,16 +85,17 @@ const channelData = [
             setSelectedDivision(selectedDivision.filter(item => item !== id));
         }
         // props.team(e)
-        console.log(selectedTeams)
+        // console.log(selectedTeams)
     };
     const toggleSelectTeams = e => {
+        // console.log(e,"electaedTeams in filter")
         const { checked ,id} = e.target;
         setSelectedTeams(prev=>[...selectedTeams, id]);
         if (!checked) {
             setSelectedTeams(selectedTeams.filter(item => item !== id));
         }
-        // props.team(e)
-        console.log(selectedTeams)
+        props.team(e)
+        // console.log(selectedTeams,"electaedTeams in filter")
     };
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;

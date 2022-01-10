@@ -43,8 +43,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                                 {/* // <div value={msg.timestamp}  className={"msg_type_imageCaption"}> */}
                                     {/* <img className={"bigImageBox"} src={msg.media_url} onClick={()=>{setImageOpen(!isImageOpen)}} style={isImageOpen?{ display:'block'}:{display:'none'}}/> */}
                                     <img id={defaultId}   className={"imageBox"} src={msg.media_url} onClick={()=>{setImageOpen(!isImageOpen)}}/>
-                                    <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>
-                                    <div className={"imageMessage"} style={{background: "white 0% 0% no-repeat padding-box",borderRadius:"10px"}}>{msg.body}</div></div>
+                                    <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{msg.body}</div>
                                 </div>
                 }
                 return <div id={defaultId}  className={"msg_type_image"  +( props.replyMsg==defaultId?" replyActive":"")}> {props.replyMsg==defaultId?<Reply confirmReply={confirmReply} />:""}<img id={defaultId}   className={"imageBox"} src={msg.media_url}/></div> ;
@@ -66,6 +65,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
                         <BigPlayButton position="center" />
                                     <source  id={defaultId}  src={msg.media_url}   type="video/mp4"/>
                     </Player>
+                    <div id={defaultId} onClick={replyclick}  className={"imageMessage"}>{msg.body}</div>
                     </div>
             case "ptt":
             case "voice" :

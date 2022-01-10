@@ -349,24 +349,22 @@ export default function Live_chat() {
     }
 
     const teamFilter =(agents , filter , chats )=>{
-        const gp= agents.filter(d=>filter.includes(d.team_id))
-        console.log("teamF" , gp)
-            gp.map(g=>g.user_id)
-        return chats.filter(ch=>gp.includes(ch.user_id))
+        const gp= agents.filter(d=>{console.log(d);return filter.includes(d.team_id.toString())})
+        gp.map(g=>g.user_id)
+        return chats.filter(ch=>gp.map(g=>g.user_id).includes(ch.user_id))
     }
     const agentfilter =(agents , filter , chats)=>{
+        console.log(agents , filter , chats)
         const gp= agents.filter(d=>filter.includes(d.username))
-        console.log("AgentF" , gp)
         gp.map(g=>g.user_id)
-        return chats.filter(ch=>gp.includes(ch.user_id))
+        return chats.filter(ch=>gp.map(g=>g.user_id).includes(ch.user_id))
     }
     const tagFilter =(agents , filter , chats)=>{
 
-        console.log("TagF" , agents , filter , chats)
         const gp= agents.filter(a=>a.tags.filter(d=>{return filter.includes(d.tag_name)}).length>0)
         console.log("TagF" , gp)
-        gp.map(g=>g.user_id)
-        return chats.filter(ch=>gp.includes(parseInt(ch.customer_id)))
+
+        return chats.filter(ch=>gp.map(g=>g.customer_id).includes(parseInt(ch.customer_id)))
     }
     const messagesSearchRef = useRef()
     const scrollToMSG = () => {messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})}
@@ -381,6 +379,22 @@ export default function Live_chat() {
 
     ///////
 
+    useEffect(()=>{
+        console.log(selectedTeams,"electaer")
+
+    },[selectedTeams])
+    async function handleChatRoom(chatroom){
+        if(chatroom == selectedChat) return ;
+        if(chatroom.channel !== "WABA") setLastMsgFromClient("")
+        setChatroomMsg([])
+        setSelectedChat(chatroom)
+        setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
+        if (selectedChat.unread!==0)await updateChatroomUnread(chatroom);
+        await getCustomerbyID(chatroom.customer_id)
+        if(typeof chatroom.customer_id !=="number") return
+        console.log("selected Chat" , selectedChat)
+        console.log("typed message" , typedMsg)
+    }
 
 
     const toggleReply = () =>{
@@ -566,7 +580,8 @@ export default function Live_chat() {
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         let newData = [...chatrooms]
-        console.log("user" , users)
+        console.log("user in adva f" , users)
+
 
         if(selectedTeams.length>0) newData = teamFilter(users , selectedTeams , newData);
         if(selectedUsers.length>0) newData = agentfilter(users , selectedUsers , newData);
@@ -610,6 +625,16 @@ export default function Live_chat() {
             setSelectedTags(selectedTags.filter(item => item !== id));
         }
         console.log(selectedTags)
+    };
+    const toggleSelectTeams = e => {
+        const { checked ,id} = e.target;
+
+        console.log(e.target.id,id,"electaedTeams in filter")
+        setSelectedTeams([...selectedTeams, id]);
+        if (!checked) {
+            setSelectedTeams(selectedTeams.filter(item => item !== id));
+        }
+        console.log(selectedTeams,"selectedTeam")
     };
     const clear=()=>{
         setSelectedUsers([])
@@ -702,7 +727,7 @@ export default function Live_chat() {
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
                              {/*<ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}*/}
                              {/*agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} /> */}
-                            <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}
+                            <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} cancel={clear}
                              agents={toggleSelectUsers}  />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
