@@ -389,7 +389,7 @@ export default function Live_chat() {
         setChatroomMsg([])
         setSelectedChat(chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
-        if (selectedChat.unread!==0)await updateChatroomUnread(chatroom);
+        if (chatroom.unread!==0)await updateChatroomUnread(chatroom);
         await getCustomerbyID(chatroom.customer_id)
         if(typeof chatroom.customer_id !=="number") return
         console.log("selected Chat" , selectedChat)
@@ -469,6 +469,7 @@ export default function Live_chat() {
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
+        if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
         const data = {message:typedMsg.message , phone :selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
         setTypedMsg({...typedMsg , message: ""})
         if(isMedia){

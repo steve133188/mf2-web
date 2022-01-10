@@ -147,10 +147,10 @@ export default function ProfileGrid({data}){
                             {/*</AvatarGroup>*/}
                         </div>
                     </div>
-                    <div className={"half_session block_session"}>
-                        <div className={"top_row"}><span className={"title"}>Team</span></div>
-                        <div className={"session_content"}>{data.team?data.team.org_name:"Not yet assigned."}</div>
-                    </div>
+                    {/*<div className={"half_session block_session"}>*/}
+                    {/*    <div className={"top_row"}><span className={"title"}>Team</span></div>*/}
+                    {/*    <div className={"session_content"}>{data.team?data.team.org_name:"Not yet assigned."}</div>*/}
+                    {/*</div>*/}
                 </div>
                 <div className={"block_session grid_box block"}>
                     <div className={"half_session block_session"}>
@@ -166,7 +166,7 @@ export default function ProfileGrid({data}){
                                             </div>
 
                                     <div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >
-                                        {`+${data.phone.toString().slice(0,3)} ${data.phone.toString().slice(3)}`}1
+
                                         </div>
                                 </div>)
                             })}

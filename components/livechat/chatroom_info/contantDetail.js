@@ -59,7 +59,7 @@ export default function ContantDetail({ data, ...props }) {
     }, []);
     useEffect(async () => {
         if (!start) { return setStart(true) }
-        if (data && user.token) { await fetchContact(data.customer_id);await fetchNotes(parseInt(data.customer_id.slice(3)))
+        if (data && user.token) { await fetchContact(data.customer_id);await fetchNotes(parseInt(data.room_id))
         }
         if (data.customer_id == null) setDisable(true)
         else
