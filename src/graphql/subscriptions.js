@@ -27,7 +27,7 @@ export const subscribeToChatroom = /* GraphQL */ `
   }
 `;
 export const subscribeToChatroomUpdate = /* GraphQL */ `
-  subscription SubscribeToChatroomUpdate($user_id: Int!, $is_pin: Boolean) {
+  subscription SubscribeToChatroomUpdate($user_id: Int, $is_pin: Boolean) {
     subscribeToChatroomUpdate(user_id: $user_id, is_pin: $is_pin) {
       channel
       customer_id
@@ -57,8 +57,8 @@ export const subscribeToNewChatroom = /* GraphQL */ `
   }
 `;
 export const multipleSubscribe = /* GraphQL */ `
-  subscription MultipleSubscribe($user_id: Int) {
-    multipleSubscribe(user_id: $user_id) {
+  subscription MultipleSubscribe($unread: Int) {
+    multipleSubscribe(unread: $unread) {
       channel
       customer_id
       is_pin

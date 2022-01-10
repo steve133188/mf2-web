@@ -16,12 +16,8 @@ import {Storage , API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import {createMF2TCOCHATROOM, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import {
-    multipleSubscribe,
     subscribeToChatroom,
-    subscribeToChatroomUpdate,
     allChatSubscribe,
-    subscribeToNewChatroom,
-    subscribeToNewMessage,
 } from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
@@ -64,7 +60,7 @@ export default function Live_chat() {
         const [subscribe,setSubscribe] = useState()
         const [subscribePin,setSubscribePin] = useState()
         const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-
+        const [isUpdating , setIsUpdating] = useState(false)
         const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
         const [replyData ,setReplyData] = useState([])
         const [replyMsg, setReplyMsg] = useState("")
@@ -119,22 +115,91 @@ export default function Live_chat() {
         if(chatroomsSub) chatroomsSub.unsubscribe()
         const sub = API.graphql(graphqlOperation(allChatSubscribe))
             .subscribe({
-                next: async (chat) => {
+                next:  (chat) => {
+                    // await getAllChatrooms()
+
                     console.log("update chat " ,chat)
+                    // await getAllChatrooms()
                     const newChat = chat.value.data.AllChatSubscribe
-                    const filter = chatrooms.filter(c=>c.room_id!=newChat.room_id)
-                    setChatrooms(chatroomMsg => [newChat,...filter])
-                    setFilteredData(prev=>[newChat,...filter])
-                    console.log("new message: ", newChat)
+                    const filterChat = chatrooms.filter(c=> {
+                        return c.name !== newChat.name && !c.is_pin
+                    })
+                    setFilteredData(prev=>[newChat , ...filteredData])
+                    // console.log("subchatrooms filteredData :" , filteredData)
+                    // console.log("subchatrooms filterchat :" , filterChat)
+                    // const filterPin = chatrooms.filter(c=> {
+                    //     return  c.name !== newChat.name && c.is_pin
+                    // })
+                    // console.log("subchatrooms pinChat :" , pinChat)
+                    // console.log("subchatrooms filterPin :" , filterPin)
+
+                    //
+
+                    // console.log("new message: ", newChat)
                 }
             })
         console.log("subscribe chatrooms start : " , sub)
         setChatroomsSub(prev=>sub)
 
     }
+    const updateChatroomUnread = async (chat)=>{
+        console.log("update chatroom start")
+        return  await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:{user_id:parseInt(chat.user_id ) , room_id:parseInt(chat.room_id) , unread:0 } }))
+            .then(res =>{
+                const data = res.data.updateMF2TCOCHATROOM
+                console.log("handle unread "  , data)
+                chat.unread == 0
+                // const filter = chatrooms.filter(c=>c.name!==data.name)
+
+                // if(data.is_pin){
+                //     // const newPinChat = pinChat.filter(d=>d.room_id != data.room_id)
+                //     // console.log("newPinChat : " , newPinChat)
+                //     const oldFilter = pinChat.filter(d=> d.room_id != data.room_id)
+                //     setPinChat(chatrooms=>[data, ...oldFilter ])
+                // }else{
+                //     const oldFilter = filteredData.filter(d=> d.room_id != data.room_id)
+                //     console.log("oldFilter : " , oldFilter)
+                //     setFilteredData(filteredData=> [data,...oldFilter])
+                // }
+            }).catch(err=>{
+                console.log(err)
+
+            })
+    }
+    async function handleChatRoom(chatroom){
+        if(chatroom.room_id == selectedChat.room_id && chatroom.user_id == chatroom.user_id) return
+        if(chatroom.channel !== "WABA")setLastMsgFromClient("")
+        if (selectedChat.unread!==0 && chatroom.name == selectedChat.name )await updateChatroomUnread(chatroom);
+        setChatroomMsg([])
+        setSelectedChat(chatroom)
+        setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
+        await getCustomerbyID(chatroom.customer_id)
+        if(typeof chatroom.customer_id !=="number") return
+        console.log("selected Chat" , selectedChat)
+        console.log("typed message" , typedMsg)
+    }
+
+    const getChatroomMessage = async()=>{
+        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
+            .then(res=>{
+                setChatroomMsg(prev=>[...res.data.listMF2TCOMESSAGGES.items])
+                if(res.data.listMF2TCOMESSAGGES.items.length!==0){
+                    let nofromme = res.data.listMF2TCOMESSAGGES.items.filter(msg=>{
+                        return msg.from_me ==false
+                    })
+                    if(nofromme.length==0) return
+                    console.log("no from me :", nofromme)
+                    nofromme = nofromme.pop()
+                    setLastMsgFromClient(prev=>nofromme.timestamp)
+                    console.log("last msg time : ",  lastMsgFromClient)
+                    console.log("getChatroomMessage",chatroomMsg)
+                }
+
+            }).catch(err=>console.log(err))
+    }
 
     const getChatrooms = async ()=>{
-        const user_id = parseInt(user.user.user_id.toString().slice(3) )
+        const user_id = parseInt(user.user.user_id.toString() )
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
             .then(async res =>{
 
@@ -157,29 +222,18 @@ export default function Live_chat() {
 
     }
     const getAllChatrooms = async ()=>{
-        const user_id = parseInt(user.user.user_id.toString().slice(3) )
+        const user_id = parseInt(user.user.user_id.toString() )
         const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
             .then(async res =>{
                 let chatroom = res.data.listMF2TCOCHATROOMS.items
                 console.log("loop chatroom start" , chatroom)
-                //  chatroom.forEach(async chat=>{
-                //     await API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id}  , read:{eq:false} , channel:{eq:selectedChat.channel}}}))
-                //         .then(async msg=>{
-                //             chat.unread = msg.data.listMF2TCOMESSAGGES.items.length
-                //         }).catch(error => console.log(error))
-                // })
                 console.log(chatroom)
                 // console.log(totalUnread,"TOTALTOTAL")
-                const pin = chatroom.filter(chat=>chat.is_pin==true)
-                const unpin = chatroom.filter(chat=>chat.is_pin==false)
-                // const totalNum = chatroom.reduce((ori,next)=>{
-                //     return ori+next.unread;},0
-                // )
-                // console.log(totalNum,"number test")
-                // setTotalUnread(totalNum)
+                // const pin = chatroom.filter(chat=>chat.is_pin==true)
+                // const unpin = chatroom.filter(chat=>chat.is_pin==false)
                 setChatrooms(chatroom)
-                setFilteredData(unpin)
-                setPinChat(pin)
+                setFilteredData(chatroom)
+                // setPinChat(pin)
             })
             .catch(error => console.log(error))
     }
@@ -327,38 +381,7 @@ export default function Live_chat() {
 
     ///////
 
-    async function handleChatRoom(chatroom){
-        if(chatroom == selectedChat) return ;
-        if(chatroom.channel !== "WABA") setLastMsgFromClient("")
-        setChatroomMsg([])
-        setSelectedChat(chatroom)
-        setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
-        if (selectedChat.unread!==0)await updateChatroomUnread(chatroom);
-        await getCustomerbyID(chatroom.customer_id)
-        if(typeof chatroom.customer_id !=="number") return
-        console.log("selected Chat" , selectedChat)
-        console.log("typed message" , typedMsg)
-    }
 
-    const getChatroomMessage = async()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}})).then(res=>{
-            setChatroomMsg(prev=>[...res.data.listMF2TCOMESSAGGES.items])
-            if(res.data.listMF2TCOMESSAGGES.items.length!==0){
-                let nofromme = res.data.listMF2TCOMESSAGGES.items.filter(msg=>{
-                    return msg.from_me ==false
-                })
-                if(nofromme.length==0) return
-                console.log("no from me :", nofromme)
-                nofromme = nofromme.pop()
-                setLastMsgFromClient(prev=>nofromme.timestamp)
-                console.log("last msg time : ",  lastMsgFromClient)
-                console.log("getChatroomMessage",chatroomMsg)
-            }
-
-        }).catch(err=>console.log(err))
-
-
-    }
 
     const toggleReply = () =>{
         setChatButtonOn(ChatButtonOn=="mr");
@@ -432,7 +455,7 @@ export default function Live_chat() {
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
-        const data = {message:typedMsg.message , phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
+        const data = {message:typedMsg.message , phone :selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
         setTypedMsg({...typedMsg , message: ""})
         if(isMedia){
             setIsMedia(false)
@@ -466,7 +489,6 @@ export default function Live_chat() {
         console.log(click,"done donedone")
         // setReplyMsg(click)
         const quotaMsg = chatroomMsg.filter(e=>{return click==(e.room_id+e.timestamp)})
-        // const m={...quotaMsg[0],message_type:"replyMsg"}
         const m={...quotaMsg[0]}
         console.log(m,"message get")
         setQuotaMsg(m)
@@ -505,25 +527,14 @@ export default function Live_chat() {
             await getAllChatrooms()
             await getStickers()
             await subChatrooms()
-            // await API.graphql(graphqlOperation(subscribeToNewChatroom , {}))
-            //     .subscribe({
-            //         next: async (room)=>{
-            //             const newroom= room.value.data.subscribeToNewChatroom
-            //             // let updatedPost = [ ...chatroomMsg,newMessage ]
-            //             setFilteredData(prev=>[ newroom,...prev ])
-            //             console.log("new message: " , newroom)
-            //             // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
-            //         }
-            //     })
 
-            // await getChatroomMessage()
+
 
             // TODO need to implete receiver id to sub input
         }
     },[]);
 
     const handleSub = async (chatroom)=>{
-
         if(subscribe)subscribe.unsubscribe()
         const sub =await API.graphql(graphqlOperation(subscribeToChatroom ,{room_id:parseInt(chatroom.room_id) ,channel:selectedChat.channel } ))
             .subscribe({
@@ -537,19 +548,6 @@ export default function Live_chat() {
                 }
             })
         setSubscribe(prev=> sub)
-
-    }
-    const handleSubNew = async ()=>{
-        const sub =await API.graphql(graphqlOperation(subscribeToNewChatroom ))
-            .subscribe({
-                next: async (room)=>{
-                    const newroom= room.value.data.subscribeToNewChatroom
-                    // let updatedPost = [ ...chatroomMsg,newMessage ]
-                    setFilteredData(prev=>[ newroom,...prev ])
-                    console.log("new message: " , newroom)
-                    // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
-                }
-            })
 
     }
 
@@ -589,6 +587,7 @@ export default function Live_chat() {
         setUnassigned(!unassigned)
         advanceFilter();
     }
+
     const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
         setSelectedChannels([...selectedChannels, id.toLowerCase()]);
@@ -623,13 +622,15 @@ export default function Live_chat() {
         clear()
         await getChatrooms()
     }
-    const updateChatroomPin = async (input)=>{await chatHelper.toggleIsPin(input ,(newData)=>{
-        const oldFilter = filteredData.filter(d=> d.room_id != newData.room_id)
-        const newPinChat = pinChat.filter(d=>d.room_id != newData.room_id)
+    const updateChatroomPin = async (input)=>{
+        await chatHelper.toggleIsPin(input ,(newData)=>{
+            // setIsUpdating(true)
+        const oldFilter = filteredData.filter(d=> d.name !== newData.name)
+        const newPinChat = pinChat.filter(d=>d.name !== newData.name)
         console.log("oldFilter : " , oldFilter)
         console.log("newPinChat : " , newPinChat)
         // const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
-        if(newData.is_pin){
+        if(newData.is_pin ){
             setFilteredData(filteredData=> [...oldFilter])
             setPinChat(chatrooms=>[newData , ...newPinChat])
         }else{
@@ -653,27 +654,7 @@ export default function Live_chat() {
         }
 
     }
-    const updateChatroomUnread = async (chat)=>{
-        console.log("update chatroom start")
-        return  await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:{user_id:parseInt(chat.user_id ) , room_id:parseInt(chat.room_id) , unread:0 } }))
-            .then(res =>{
-                const data = res.data.updateMF2TCOCHATROOM
-                console.log("handle unread "  , data)
-                if(data.is_pin && data.length>0){
-                    // const newPinChat = pinChat.filter(d=>d.room_id != data.room_id)
-                    // console.log("newPinChat : " , newPinChat)
-                    const update = pinChat.map(d=>update.room_id === d.room_id || d)
-                    setPinChat(chatrooms=>[...update ])
-                }else{
-                    const oldFilter = filteredData.filter(d=> d.room_id != data.room_id)
-                    console.log("oldFilter : " , oldFilter)
 
-                    setFilteredData(filteredData=> [data,...oldFilter])
-                }
-            }).catch(err=>{
-                console.log(err)
-            })
-    }
     //record and send audio
     const getAudioFile = async (audioFile) => {
         console.log("calling getAudioFile")
@@ -728,12 +709,12 @@ export default function Live_chat() {
                                     <Newchatroom contacts={contacts} setFilteredData={setFilteredData}/>
                         </div>
                     <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
-                        {pinChat!=-1&&pinChat.map((d , index)=>{
-                            // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
-                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
+                        {/*{pinChat.length!==0&&pinChat.map((d , index)=>{*/}
+                        {/*    // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
+                        {/*    return ( <ChatroomList  chatroom={d} key={d.room_id} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
 
-                        })}
-                        {filteredData.sort((first , second)=>{return second.unread-first.unread}).map((d , index)=>{
+                        {/*})}*/}
+                        {filteredData.length!==0&&filteredData.sort((first , second)=>{return second.unread-first.unread}).map((d , index)=>{
 
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
                             return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
@@ -806,7 +787,7 @@ export default function Live_chat() {
                             </div>
                             }
                             { ChatButtonOn=="m3"?
-                                <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem 0" }} 
+                                <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem 0" }}
                                 // onClick={toggleReply }
                                 >
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}

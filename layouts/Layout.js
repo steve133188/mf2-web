@@ -22,7 +22,8 @@ export default function Layout({children}) {
     const router = useRouter()
     const {user , logout , subInstance} = useContext(GlobalContext)
     const u = user.user
-    const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    const [notificationList,setNotificationList]= useState([])
     const [showNotificationList,setShowNotificationList]= useState([])
     const [notiSub , setNotiSub] = useState()
 

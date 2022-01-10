@@ -176,7 +176,7 @@ const channelData = [
                             <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} />
                             </label>
                         </div>
-                        ChatBot
+                        ChatBot Off
                     </div>
                 </div>
                 <div className={"filter_box_channel"}  >
