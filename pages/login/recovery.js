@@ -41,10 +41,11 @@ export default function Recovery() {
         })
         if (res.status ==200 || res.status == 201) {
             setIsSubmit(true)
-        }else{
-            setError(true)
+        }else if(res.status==400){
             alert("Can't reset password now.")
-        }
+                return setEmailType("This is not a valid E-mail address." ) ;
+            }
+        
 
     }
 
@@ -82,7 +83,7 @@ export default function Recovery() {
                     <div className={"welcomeMessage"}>
                         {/*{errors?<h4 className={"red-text"}>{errors}</h4>:null}*/}
                         {/*<h4 className={"title_text"}>Log In</h4>*/}
-                        <h4 className={"login_title"}>Forget Password</h4>
+                        <h4 className={"login_title"}  style={{ font:" normal normal normal 28px/22px Manrope"}} >Forget Password</h4>
                         <p className={"login_message"} >Enter the email address associated with <br/>your account and we’ll send you a link <br/> to reset your password.</p>
 
                     </div>
@@ -111,10 +112,10 @@ export default function Recovery() {
                     </div>
                             <div className={"submit_row"} style={{display:"flex",alignItem:"flex-start",flexDirection:"column",height:"70px"}}>
                                 <button className={"send_button align-self-center"} disabled={!validateForm()} type={'submit'} >
-                                    <p className={"bottomName"}style={ {color: "#FFF"}} >Request Reset</p>
 
+                                    <p className={"bottomName"}style={ {color: "#FFF"}} >Request Reset</p>
                                 </button>
-                                    <BackToLogin name={"Cancel"} onclick={backToLogin}/>
+                                    <BackToLogin style={{marginTop:"-25px"}} name={"Cancel"} onclick={backToLogin}/>
                             </div>
                     </form> 
                 </div>
