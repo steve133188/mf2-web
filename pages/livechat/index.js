@@ -934,7 +934,7 @@ export default function Live_chat() {
                                 </div>
 
                                 <div className={"right_btn_gp"}>
-                                    <VoiceRecorder returnVoiceMessage={getAudioFile} />
+                                    {/*<VoiceRecorder returnVoiceMessage={getAudioFile} />*/}
                                     <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                                 </div>
                             </div>
