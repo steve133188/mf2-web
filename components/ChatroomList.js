@@ -24,7 +24,7 @@ import {Skeleton ,Avatar , Badge} from "@mui/material";
 
         return(
             <div className={"chatroom_li "+(chose&&chose.room_id==chatroom.room_id&&chose.user_id == chatroom.user_id?"activeRoom":"")} onClick={props.onClick}>
-                <div className={"starred"}  onClick={toggleChatPin} > {isLoading?(<Skeleton/>):(chatroom.is_pin?<StarSVG/> : <NoStarSVG/>)}</div>
+                {/*<div className={"starred"}  onClick={toggleChatPin} > {isLoading?(<Skeleton/>):(chatroom.is_pin?<StarSVG/> : <NoStarSVG/>)}</div>*/}
                 <div className={"chatroom_icon"}>
                 {isLoading?(<Skeleton variant="circle" width={40} height={40} />):
                     (<Tooltip key={chatroom.name} className={""} title={chatroom.name} placement="top-start">

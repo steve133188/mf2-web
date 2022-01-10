@@ -1,126 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createMF2TCOMESSAGGE = /* GraphQL */ `
-  mutation CreateMF2TCOMESSAGGE($input: CreateMF2TCOMESSAGGEInput!) {
-    createMF2TCOMESSAGGE(input: $input) {
-      room_id
-      timestamp
-      sender
-      recipient
-      body
-      is_media
-      channel
-      link
-      media_url
-      from_me
-      message_type
-      message_id
-      hasQuotedMsg
-      quote
-      is_forwarded
-      v_card
-      read
-      sign_name
-      status
-    }
-  }
-`;
-export const updateMF2TCOMESSAGGE = /* GraphQL */ `
-  mutation UpdateMF2TCOMESSAGGE($input: UpdateMF2TCOMESSAGGEInput!) {
-    updateMF2TCOMESSAGGE(input: $input) {
-      room_id
-      timestamp
-      sender
-      recipient
-      body
-      is_media
-      channel
-      link
-      media_url
-      from_me
-      message_type
-      message_id
-      hasQuotedMsg
-      quote
-      is_forwarded
-      v_card
-      read
-      sign_name
-      status
-    }
-  }
-`;
-export const deleteMF2TCOMESSAGGE = /* GraphQL */ `
-  mutation DeleteMF2TCOMESSAGGE($input: DeleteMF2TCOMESSAGGEInput!) {
-    deleteMF2TCOMESSAGGE(input: $input) {
-      room_id
-      timestamp
-      sender
-      recipient
-      body
-      is_media
-      channel
-      link
-      media_url
-      from_me
-      message_type
-      message_id
-      hasQuotedMsg
-      quote
-      is_forwarded
-      v_card
-      read
-      sign_name
-      status
-    }
-  }
-`;
-export const createMF2TCOCHATROOM = /* GraphQL */ `
-  mutation CreateMF2TCOCHATROOM($input: CreateMF2TCOCHATROOMInput!) {
-    createMF2TCOCHATROOM(input: $input) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      unread
-      user_id
-      avatar
-    }
-  }
-`;
-export const updateMF2TCOCHATROOM = /* GraphQL */ `
-  mutation UpdateMF2TCOCHATROOM($input: UpdateMF2TCOCHATROOMInput!) {
-    updateMF2TCOCHATROOM(input: $input) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      unread
-      user_id
-      avatar
-    }
-  }
-`;
-export const deleteMF2TCOCHATROOM = /* GraphQL */ `
-  mutation DeleteMF2TCOCHATROOM($input: DeleteMF2TCOCHATROOMInput!) {
-    deleteMF2TCOCHATROOM(input: $input) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      unread
-      user_id
-      avatar
-    }
-  }
-`;
 export const createMF2ChannelInfo = /* GraphQL */ `
   mutation CreateMF2ChannelInfo($input: CreateMF2ChannelInfoInput!) {
     createMF2ChannelInfo(input: $input) {
@@ -298,31 +178,6 @@ export const deleteMF2TCOCUSTOMER = /* GraphQL */ `
     }
   }
 `;
-export const createMF2TCOMESSAGEBYLAMBDA = /* GraphQL */ `
-  mutation CreateMF2TCOMESSAGEBYLAMBDA($input: CreateMF2TCOMESSAGGEInput!) {
-    createMF2TCOMESSAGEBYLAMBDA(input: $input) {
-      room_id
-      timestamp
-      sender
-      recipient
-      body
-      is_media
-      channel
-      link
-      media_url
-      from_me
-      message_type
-      message_id
-      hasQuotedMsg
-      quote
-      is_forwarded
-      v_card
-      read
-      sign_name
-      status
-    }
-  }
-`;
 export const createNotesTable = /* GraphQL */ `
   mutation CreateNotesTable($input: CreateNotesTableInput!) {
     createNotesTable(input: $input) {
@@ -428,6 +283,132 @@ export const deleteActivity = /* GraphQL */ `
       status
       is_sys
       team_id
+    }
+  }
+`;
+export const createChatroom = /* GraphQL */ `
+  mutation CreateChatroom($input: CreateChatroomInput!) {
+    createChatroom(input: $input) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const updateChatroom = /* GraphQL */ `
+  mutation UpdateChatroom($input: UpdateChatroomInput!) {
+    updateChatroom(input: $input) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const deleteChatroom = /* GraphQL */ `
+  mutation DeleteChatroom($input: DeleteChatroomInput!) {
+    deleteChatroom(input: $input) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const createMessage = /* GraphQL */ `
+  mutation CreateMessage($input: CreateMessageInput!) {
+    createMessage(input: $input) {
+      room_id
+      timestamp
+      sender
+      recipient
+      body
+      is_media
+      channel
+      link
+      media_url
+      from_me
+      message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
+      status
+    }
+  }
+`;
+export const updateMessage = /* GraphQL */ `
+  mutation UpdateMessage($input: UpdateMessageInput!) {
+    updateMessage(input: $input) {
+      room_id
+      timestamp
+      sender
+      recipient
+      body
+      is_media
+      channel
+      link
+      media_url
+      from_me
+      message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
+      status
+    }
+  }
+`;
+export const deleteMessage = /* GraphQL */ `
+  mutation DeleteMessage($input: DeleteMessageInput!) {
+    deleteMessage(input: $input) {
+      room_id
+      timestamp
+      sender
+      recipient
+      body
+      is_media
+      channel
+      link
+      media_url
+      from_me
+      message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
+      status
     }
   }
 `;

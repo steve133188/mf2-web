@@ -13,11 +13,11 @@ import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "../../components/livechat/newchatroomPanel";
 import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
-import {listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
-import {createMF2TCOCHATROOM, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
+import {listChatrooms, listMessages, listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
+import {createChatroom, updateChatroom, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import {
-    subscribeToChatroom,
-    allChatSubscribe,
+    subscribeChatroom,
+    suballChatrooms,
 } from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
@@ -104,9 +104,9 @@ export default function Live_chat() {
     }
     const getOwnPinChatList = async ()=>{
         const user_id = user.user.user_id
-        const res = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {filter:{user_id: {eq:user_id} , is_pin: {eq:true}} ,limit:1000}))
+        const res = await API.graphql(graphqlOperation(listChatrooms , {filter:{user_id: {eq:user_id} , is_pin: {eq:true}} ,limit:1000}))
             .then(response=>{
-            setPinChat(prev=>response.data.listMF2TCOCHATROOMS.items)
+            setPinChat(prev=>response.data.listChatrooms.items)
         })
             .catch(err=>alert(err))
     }
@@ -114,10 +114,10 @@ export default function Live_chat() {
         let user_id= user.user.user_id
         if(chatroomsSub) chatroomsSub.unsubscribe()
         console.log("subscribe all start")
-        const sub = API.graphql(graphqlOperation(allChatSubscribe))
+        const sub = API.graphql(graphqlOperation(suballChatrooms))
             .subscribe({
                 next: async (chat) => {
-                    const newChat = chat.value.data.AllChatSubscribe
+                    const newChat = chat.value.data.suballChatrooms
                     if (selectedChat.name == newChat.name &&newChat.unread !=0) await updateChatroomUnread(newChat)
                     await getAllChatrooms()
 
@@ -149,9 +149,9 @@ export default function Live_chat() {
     }
     const updateChatroomUnread = async (chat)=>{
         console.log("update chatroom start")
-        return  await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:{user_id:chat.user_id  , room_id:chat.room_id , unread:0 } }))
+        return  await API.graphql(graphqlOperation(updateChatroom , {input:{user_id:chat.user_id  , room_id:chat.room_id , unread:0 } }))
             .then(res =>{
-                const data = res.data.updateMF2TCOCHATROOM
+                const data = res.data.updateChatroom
                 console.log("handle unread "  , data)
 
                 // const filter = chatrooms.filter(c=>c.name!==data.name)
@@ -185,11 +185,11 @@ export default function Live_chat() {
     }
 
     const getChatroomMessage = async()=>{
-        const result = await API.graphql(graphqlOperation(listMF2TCOMESSAGGES,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
+        const result = await API.graphql(graphqlOperation(listMessages,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
             .then(res=>{
-                setChatroomMsg(prev=>[...res.data.listMF2TCOMESSAGGES.items])
+                setChatroomMsg(prev=>[...res.data.listMessages.items])
                 if(res.data.listMF2TCOMESSAGGES.items.length!==0){
-                    let nofromme = res.data.listMF2TCOMESSAGGES.items.filter(msg=>{
+                    let nofromme = res.data.listMessages.items.filter(msg=>{
                         return msg.from_me ==false
                     })
                     if(nofromme.length==0) return
@@ -205,10 +205,10 @@ export default function Live_chat() {
 
     const getChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString() )
-        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
+        const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
             .then(async res =>{
 
-                const chatroom = res.data.listMF2TCOCHATROOMS.items
+                const chatroom = res.data.listChatrooms.items
                 // console.log("loop chatroom start" , chatroom)
                 //     chatroom.forEach( chat=>{
                 //     chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false} ,}}))
@@ -227,9 +227,9 @@ export default function Live_chat() {
     }
     const getAllChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString() )
-        const result = await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
+        const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000}))
             .then(async res =>{
-                let chatroom = res.data.listMF2TCOCHATROOMS.items
+                let chatroom = res.data.listChatrooms.items
                 console.log("loop chatroom start" , chatroom)
                 console.log(chatroom)
                 // console.log(totalUnread,"TOTALTOTAL")
@@ -556,7 +556,7 @@ export default function Live_chat() {
 
     const handleSub = async (chatroom)=>{
         if(subscribe)subscribe.unsubscribe()
-        const sub =await API.graphql(graphqlOperation(subscribeToChatroom ,{room_id:parseInt(chatroom.room_id) ,channel:selectedChat.channel } ))
+        const sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:chatroom.room_id ,channel:selectedChat.channel } ))
             .subscribe({
                 next: async (chatmessage)=>{
                     const newMessage = chatmessage.value.data.subscribeToChatroom

@@ -1,9 +1,27 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const subscribeToChatroom = /* GraphQL */ `
-  subscription SubscribeToChatroom($room_id: Int, $channel: String) {
-    subscribeToChatroom(room_id: $room_id, channel: $channel) {
+export const suballChatrooms = /* GraphQL */ `
+  subscription SuballChatrooms {
+    suballChatrooms {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const subscribeChatroom = /* GraphQL */ `
+  subscription SubscribeChatroom($room_id: String, $channel: String) {
+    subscribeChatroom(room_id: $room_id, channel: $channel) {
       room_id
       timestamp
       sender
@@ -21,68 +39,7 @@ export const subscribeToChatroom = /* GraphQL */ `
       is_forwarded
       v_card
       read
-      sign_name
       status
-    }
-  }
-`;
-export const subscribeToChatroomUpdate = /* GraphQL */ `
-  subscription SubscribeToChatroomUpdate($user_id: Int, $is_pin: Boolean) {
-    subscribeToChatroomUpdate(user_id: $user_id, is_pin: $is_pin) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      unread
-      user_id
-      avatar
-    }
-  }
-`;
-export const subscribeToNewChatroom = /* GraphQL */ `
-  subscription SubscribeToNewChatroom($user_id: Int) {
-    subscribeToNewChatroom(user_id: $user_id) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      unread
-      user_id
-      avatar
-    }
-  }
-`;
-export const multipleSubscribe = /* GraphQL */ `
-  subscription MultipleSubscribe($unread: Int) {
-    multipleSubscribe(unread: $unread) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      unread
-      user_id
-      avatar
-    }
-  }
-`;
-export const allChatSubscribe = /* GraphQL */ `
-  subscription AllChatSubscribe {
-    AllChatSubscribe {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      unread
-      user_id
-      avatar
     }
   }
 `;
@@ -223,6 +180,204 @@ export const eventListenr = /* GraphQL */ `
       status
       is_sys
       team_id
+    }
+  }
+`;
+export const onCreateChatroom = /* GraphQL */ `
+  subscription OnCreateChatroom(
+    $channel: String
+    $customer_id: Int
+    $is_pin: Boolean
+    $name: String
+    $phone: String
+  ) {
+    onCreateChatroom(
+      channel: $channel
+      customer_id: $customer_id
+      is_pin: $is_pin
+      name: $name
+      phone: $phone
+    ) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const onUpdateChatroom = /* GraphQL */ `
+  subscription OnUpdateChatroom(
+    $channel: String
+    $customer_id: Int
+    $is_pin: Boolean
+    $name: String
+    $phone: String
+  ) {
+    onUpdateChatroom(
+      channel: $channel
+      customer_id: $customer_id
+      is_pin: $is_pin
+      name: $name
+      phone: $phone
+    ) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const onDeleteChatroom = /* GraphQL */ `
+  subscription OnDeleteChatroom(
+    $channel: String
+    $customer_id: Int
+    $is_pin: Boolean
+    $name: String
+    $phone: String
+  ) {
+    onDeleteChatroom(
+      channel: $channel
+      customer_id: $customer_id
+      is_pin: $is_pin
+      name: $name
+      phone: $phone
+    ) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const onCreateMessage = /* GraphQL */ `
+  subscription OnCreateMessage(
+    $room_id: String
+    $timestamp: Int
+    $sender: String
+    $recipient: String
+    $body: String
+  ) {
+    onCreateMessage(
+      room_id: $room_id
+      timestamp: $timestamp
+      sender: $sender
+      recipient: $recipient
+      body: $body
+    ) {
+      room_id
+      timestamp
+      sender
+      recipient
+      body
+      is_media
+      channel
+      link
+      media_url
+      from_me
+      message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
+      status
+    }
+  }
+`;
+export const onUpdateMessage = /* GraphQL */ `
+  subscription OnUpdateMessage(
+    $room_id: String
+    $timestamp: String
+    $sender: String
+    $recipient: String
+    $body: String
+  ) {
+    onUpdateMessage(
+      room_id: $room_id
+      timestamp: $timestamp
+      sender: $sender
+      recipient: $recipient
+      body: $body
+    ) {
+      room_id
+      timestamp
+      sender
+      recipient
+      body
+      is_media
+      channel
+      link
+      media_url
+      from_me
+      message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
+      status
+    }
+  }
+`;
+export const onDeleteMessage = /* GraphQL */ `
+  subscription OnDeleteMessage(
+    $room_id: String
+    $timestamp: String
+    $sender: String
+    $recipient: String
+    $body: String
+  ) {
+    onDeleteMessage(
+      room_id: $room_id
+      timestamp: $timestamp
+      sender: $sender
+      recipient: $recipient
+      body: $body
+    ) {
+      room_id
+      timestamp
+      sender
+      recipient
+      body
+      is_media
+      channel
+      link
+      media_url
+      from_me
+      message_type
+      message_id
+      hasQuotedMsg
+      quote
+      is_forwarded
+      v_card
+      read
+      status
     }
   }
 `;

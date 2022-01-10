@@ -12,7 +12,6 @@ import ChatHelper from "../helpers/chatHelper";
 import tagFetcher from "../helpers/tagHelpers";
 import roleFetcher from "../helpers/roleHelpers";
 import dashboardFetcher from "../helpers/dashboardHelpers";
-import subscriptionHelper from "../helpers/subscriptionhelper";
 
 export const GlobalContext = createContext({})
 
@@ -33,7 +32,7 @@ export const GlobalContextProvider = ({children}) =>{
     const messageInstance =new WhatsappFetcher()
     const chatHelper =new ChatHelper()
     const dashboardInstance = dashboardFetcher(user.token)
-    const subInstance = new subscriptionHelper()
+
     useEffect(()=>{
         setUser({
             user:JSON.parse(window.localStorage.getItem("user")) || {},
@@ -97,6 +96,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance , subInstance , notification ,setNotification}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance  }}>{children}</GlobalContext.Provider>
     )
 }

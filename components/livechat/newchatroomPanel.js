@@ -1,6 +1,6 @@
 import Avatar from "@mui/material/Avatar";
 import {API, graphqlOperation} from "aws-amplify";
-import {createMF2TCOCHATROOM} from "../../src/graphql/mutations";
+import {createChatroom} from "../../src/graphql/mutations";
 import {useContext, useEffect} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import { Tooltip } from "@mui/material";
@@ -10,24 +10,27 @@ export default function Newchatroom({ setFilteredData ,...props}){
     const {user} = useContext(GlobalContext)
     // useEffect(()=>{console.log(props, "chatrooms details ")}
     // ,[props])
-    const createChatroom = async (data)=>{
+    const createChatroomAction = async (data)=>{
         console.log(user)
         const input = {
             channel:"Whatsapp",
-            customer_id:data.customer_id,
+            customer_id:parseInt(data.customer_id),
             is_pin: false,
             name: data.first_name + data.last_name,
             phone:data.country_code+data.phone,
-            room_id:data.customer_id ,
+            room_id: `${data.customer_id}-${user.user.user_id}` ,
             unread:0 ,
             user_id: user.user.user_id,
         }
-        const result = await API.graphql(graphqlOperation(createMF2TCOCHATROOM, {input})).then(
+        const result = await API.graphql(graphqlOperation(createChatroom, {input})).then(
             res=>{
                 console.log(res)
-                setFilteredData(prev=>[res.data.createMF2TCOCHATROOM , ...prev])
+                setFilteredData(prev=>[res.data.createChatroom , ...prev])
             }
-        ).catch(err => alert("The user given chatroom was duplicated or something went wrong"))
+        ).catch(err => {
+            alert("The user given chatroom was duplicated or something went wrong");
+            console.log(err);
+        })
     }
     return(
         <>
@@ -44,7 +47,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
             <div className="contactList" >
                 {props.contacts.map((contact, index)=>{
                     return(
-                        <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroom(contact)}} >
+                        <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroomAction(contact)}} >
 
                             <div className={"chatroom_icon"}>
 
