@@ -379,9 +379,9 @@ export default function Agents() {
             </div>
             <div className="lineCardGroupSet">
                 <div className="lineCardGroup1">
-                    <LineChartCard chart={true} img={false} title={"Agents"} data={[7]}/>
-                    <LineChartCard chart={true} img={false} title={"Connected"} data={[7]}/>
-                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[0]}/>
+                    <LineChartCard chart={true} img={false} title={"Agents"} data={[tempData.length]}/>
+                    <LineChartCard chart={true} img={false} title={"Connected"} data={[tempData.filter(e=>{return e[2]=="Connected"}).length]}/>
+                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[tempData.filter(e=>e[2]=="Disconnected").length]}/>
                     <LineChartCard chart={true} img={false} title={"All Contacts"} data={[15]}/>
                     <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={[7]}/>
                     <AverageDailyCard data = {[AverDailyOnlineTime*60]}/>
