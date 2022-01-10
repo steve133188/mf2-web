@@ -706,9 +706,21 @@ export default function Live_chat() {
     const getAudioFile = async (audioFile) => {
         console.log("calling getAudioFile")
         if(audioFile){
+            console.log(audioFile,"dfasdfd")
+            const path =URL.createObjectURL(audioFile)
+            setIsMedia(true)
+            setIsExpand(true);
+
+        setChatButtonOn("m3");
             var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
         const result = await mediaInstance.putVoice(file)
+        setMediaUrl(result)
+        setFilePrevier({name:audioFile.name,size:audioFile.size,type:"AUDIO",path:path})
+        setTypedMsg({...typedMsg ,message_type: "AUDIO"})
         console.log(result,"audioFile")}
+
+
+
     }
     return (
         <div className="live_chat_layout">
