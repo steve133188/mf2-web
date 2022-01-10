@@ -61,7 +61,7 @@ import {Skeleton ,Avatar , Badge} from "@mui/material";
                     {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
                 </div>
                 <div style={{width:"50%",display:"flex",justifyContent:"flex-end",alignItems:"flex-end"}}>
-                    {selectedChat.name != chatroom.name && <Avatar className={"mf_bg_primary mf_color_white text-cente"}
+                    {selectedChat.name != chatroom.name && <Avatar className={" mf_color_white text-cente"}
                                                                    sx={{
                                                                        width: 23,
                                                                        height: 23,

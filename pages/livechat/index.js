@@ -176,7 +176,7 @@ export default function Live_chat() {
         if(chatroom.channel !== "WABA")setLastMsgFromClient("")
         if (chatroom.unread!==0  )await updateChatroomUnread(chatroom);
         setChatroomMsg([])
-        setSelectedChat(chatroom)
+        setSelectedChat(prev=>chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
         await getCustomerbyID(chatroom.customer_id)
         if(typeof chatroom.customer_id !=="number") return
