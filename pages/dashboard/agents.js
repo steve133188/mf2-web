@@ -97,7 +97,9 @@ export default function Agents() {
             let data = await fetchDefault();
             console.log(data,"let me see")
             setDash(data)
-            setFilteredData(data.Agent)
+            const ado=[35,50,56,40,55,60,42]
+            const list  = data.Agent.map((e,index)=>{return {...e,avgDailyOnline:ado[index]}})
+            setFilteredData(list)
         } else {
             const dataIN = Date.parse(dayState.from)/1000
             const dataEND = Date.parse(dayState.to)/1000
