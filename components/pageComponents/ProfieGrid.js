@@ -13,7 +13,7 @@ import {API, graphqlOperation} from "aws-amplify";
 import {listNotesTables} from "../../src/graphql/queries";
 import {createNotesTable} from "../../src/graphql/mutations";
 
-export default function ProfileGrid({data}){
+export default function ProfileGrid({data,toggle}){
     // const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
     const [notes,setNotes] = useState([])
     const {contactInstance , user} = useContext(GlobalContext)
@@ -85,7 +85,7 @@ export default function ProfileGrid({data}){
     //    fetch team by customer_id
     },[])
     return(<div className={"profile_grid"}>
-        {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
+        {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggle}/></Profile>):null}
         <div className={"info_col grid_box"}>
             <span className={"dot"} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} >. . .</span>
             <div className={"ava_block"} style={{margin:"30px 0"}}>

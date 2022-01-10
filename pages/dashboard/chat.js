@@ -78,9 +78,11 @@ export default function Chat() {
     };
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
-        setTags(data)
+        const totallist  = [3,2,3,4,1,5,8]
+
+        setTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
         console.log(data,"tagsss")
-        setFilteredTags(data)
+        setFilteredTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
 
     }
     const renderTags=() => {
