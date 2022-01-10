@@ -339,7 +339,7 @@ export default function Contacts() {
         setSelectedContacts([])
 
     }
-    const default_cols = [ 'Name' ,'Team', 'Channels','Tags' ,'Assignee']
+    const default_cols = [ 'Name' , 'Channels','Tags' ,'Assignee']
     const [isSelectRow, setSelectRow] = useState( false);
 
     function toggleSelectRow() {
@@ -451,11 +451,6 @@ export default function Contacts() {
             {/* drag and drop end*/}
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
-
-
-
-
-
                     <div className={"select_session_btn"}>
                         {/* <Mf_icon_dropdownform svg={tagSVG}>
 
@@ -506,7 +501,6 @@ export default function Contacts() {
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
             >
-
                 <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                     setFilteredUsers(new_data)
                 })}}>
@@ -525,16 +519,16 @@ export default function Contacts() {
                         </li>)
                     })}
                 </MF_Select>
-                <MF_Select head={"Team"} top_head={selectedTeams.length ==0?"All":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={true}>
-                    <li onClick={()=> {
-                        setSelectedTeams([]);
-                        advanceFilter()
-                    }}>All</li>
-                    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }}> No Assigned</li>
-                    {teams.map((team , index)=>{
-                        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams([{name:team.name,id:team.org_ig}]) }}> {team.name}</li>)
-                    })}
-                </MF_Select>
+                {/*<MF_Select head={"Team"} top_head={selectedTeams.length ==0?"All":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={true}>*/}
+                {/*    <li onClick={()=> {*/}
+                {/*        setSelectedTeams([]);*/}
+                {/*        advanceFilter()*/}
+                {/*    }}>All</li>*/}
+                {/*    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }}> No Assigned</li>*/}
+                {/*    {teams.map((team , index)=>{*/}
+                {/*        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams([{name:team.name,id:team.org_ig}]) }}> {team.name}</li>)*/}
+                {/*    })}*/}
+                {/*</MF_Select>*/}
                 <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
                             <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>
                                 <img key={"all"} width={18} height={18} src={`/channel_SVG/All.svg`}  alt="" style={{maring:"0 3px"}}/>
@@ -635,10 +629,10 @@ export default function Contacts() {
                                             <span style={{marginLeft: "11px"}}>{data.customer_name}</span>
                                         </div>
                                     </TableCell>
-                                    <TableCell align="left" sx={{width:"7%"}}>
-                                        <div>{data.team.org_id!=0?data.team.org_name:"No Assigned"}</div>
-                                        {/* <Pill color="teamA"></Pill> */}
-                                    </TableCell>
+                                    {/*<TableCell align="left" sx={{width:"7%"}}>*/}
+                                    {/*    <div>{data.team.org_id!=0?data.team.org_name:"No Assigned"}</div>*/}
+                                    {/*    /!* <Pill color="teamA"></Pill> *!/*/}
+                                    {/*</TableCell>*/}
 
                                     <TableCell align="left">
                                         { data.channels == null?  "":data.channels!=null && data.channels.map((chan , index)=>{
