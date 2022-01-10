@@ -59,7 +59,11 @@ export default function Recorder({ returnVoiceMessage }) {
     }
 
     let [startRecording, stopRecording] = useRecorder();
-    
+    let [isRecording,setIsRecording] = useState(false);
+    const rec=()=>{setIsRecording(isRecording)}
+    useEffect(()=>{
+        isRecording?startRecording:stopRecording
+    },[isRecording])
 
     const [buttonColor, setButtonColor] = new useState("");
 
@@ -67,7 +71,7 @@ export default function Recorder({ returnVoiceMessage }) {
     return (
         <>
             {/* <audio src={audioFile} controls /> */}
-            <div className={"voice_btn"} onMouseDown={startRecording} style={{ backgroundColor: `${buttonColor}` }} onMouseUp={stopRecording}>
+            <div className={"voice_btn"} onMouseDown={rec} style={{ backgroundColor: `${buttonColor}` }} onMouseUp={rec}>
                 <VoiceMsg size={12} />
             </div>
         </>

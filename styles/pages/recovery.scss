@@ -83,7 +83,8 @@ flex-direction: column;
       justify-content: center;
       align-items: flex-start;
       width: 100%;
-      min-height: 20%;
+      // min-height: 10%;
+      max-height: 80px;
       
       .send_button{
         display: flex;
