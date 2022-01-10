@@ -6,7 +6,7 @@ import {Skeleton ,Avatar , Badge} from "@mui/material";
 
 
 
-    export default function ChatroomList({chatroom,togglePin,chose, ...props}){
+    export default function ChatroomList({chatroom,togglePin,selectedChat,chose, ...props}){
         const [isLoading, SetIsLoading] = useState(false);
 
         async function toggleChatPin (e){
@@ -47,12 +47,12 @@ import {Skeleton ,Avatar , Badge} from "@mui/material";
                     <div className={"name_row"} style={{display:"flex",height:"50%",justifyContent:"flex-start"}}>
                         {isLoading?( <h1 style={{width:"100%"}}> <Skeleton/> </h1> ):(
                         <div style={{display:"flex",whiteSpace:"nowrap",maxHeight:"100%",justifyContent:"flex-start",gap:4,width:"fit-content"}}>
-                            {chatroom.name??`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}
+                            {chatroom.name??`+${chatroom.country_code} ${chatroom.phone}`}
                         </div>)}
 
                         <img src={`/channel_SVG/${chatroom.channel}.svg`} alt="Channel icon" width={20} height={20}  />
                     </div>
-                    <div style={{display:"flex",height:"50%",opacity:0}}>    {`+${chatroom.phone.slice(0,3)} ${chatroom.phone.slice(3)}`}  </div>
+                    <div style={{display:"flex",height:"50%",opacity:0}}>    {`+${chatroom.country_code} ${chatroom.phone}`}  </div>
 
 
 
@@ -61,7 +61,16 @@ import {Skeleton ,Avatar , Badge} from "@mui/material";
                     {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
                 </div>
                 <div style={{width:"50%",display:"flex",justifyContent:"flex-end",alignItems:"flex-end"}}>
-                     <Avatar  className={"mf_bg_primary mf_color_white text-cente"} sx={{width:23 , height:23 ,fontSize:13 ,color:"#D0E9FF",backgroundColor:"#2198fa",marginRight:"20px",opacity:chatroom.unread==0?0:chatroom.unread==null?0:1}} >{chatroom.unread}</Avatar>
+                    {selectedChat.name != chatroom.name && <Avatar className={"mf_bg_primary mf_color_white text-cente"}
+                                                                   sx={{
+                                                                       width: 23,
+                                                                       height: 23,
+                                                                       fontSize: 13,
+                                                                       color: "#D0E9FF",
+                                                                       backgroundColor: "#2198fa",
+                                                                       marginRight: "20px",
+                                                                       opacity: chatroom.unread == 0 ? 0 : chatroom.unread == null ? 0 : 1
+                                                                   }}>{chatroom.unread}</Avatar>}
                     </div>
                 {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}
                 {/*<div className={"pin"}></div>*/}
