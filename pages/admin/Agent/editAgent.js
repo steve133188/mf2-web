@@ -248,9 +248,9 @@ export default function EditAgent(props){
             </div> */}
             <div className={"submit_row"}>
                 <button  onClick={async ()=> {
-                    await submit(agent.phone);router.back()
+                    await submit(agent.phone); props.toggle(); await props.reload()
                 }} className={"save_btn"}>Confirm</button>
-                <button className={"cancel_btn"} onClick={()=>{router.back()}}>Cancel</button>
+                <button className={"cancel_btn"} onClick={ props.toggle}>Cancel</button>
             </div>
         </div>
     )

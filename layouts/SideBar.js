@@ -168,9 +168,9 @@ export default function SideBar(props) {
                         </div>)}
                         <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")} />
                         <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>
-                        <NavItem url={"/broadcast"} name={"Broadcast"} icon={(<BroadcastSVG size="16"/>)} active={isActiveURL("/broadcast")}/>
+                        {/* <NavItem url={"/broadcast"} name={"Broadcast"} icon={(<BroadcastSVG size="16"/>)} active={isActiveURL("/broadcast")}/> */}
                         <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="16"/>)} active={isActiveURL("/integrations")}/>
-                        <NavItem url={"/products"} name={"Products"} icon={(<ProductsSVG size="16"/>)} active={isActiveURL("/products")}/>
+                        {/* <NavItem url={"/products"} name={"Products"} icon={(<ProductsSVG size="16"/>)} active={isActiveURL("/products")}/> */}
                         <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="16"/>)} active={isActiveURL("/organization")}/>
                         <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="16"/>)} active={isActiveURL("/admin")}/>
 

@@ -120,6 +120,7 @@ export default function EditProfileForm({data , toggle}){
     const country_code = parseInt(editContact.country_code)
         const name =` ${editContact.first_name} ${editContact.last_name}`
         const data = {...editContact,customer_name:name ,phone:phone,country_code,  tags_id:tagslist , agents_id:userslist}
+        delete data.channels
         console.log(data,"edit data")
         const res = await contactInstance.updateContact (data)
             console.log(res)

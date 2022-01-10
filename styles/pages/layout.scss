@@ -48,11 +48,12 @@
     color: #2198FA;
   }
   .nav-items{
+    min-height: 280px;
     max-height: 450px;
     justify-content: space-between;
     display:flex;
     flex-direction: column;
-    height: 35vh;
+    height: 22vh;
   }
   .nav-item {
     padding: 0.6rem;

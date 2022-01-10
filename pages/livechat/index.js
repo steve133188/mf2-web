@@ -579,10 +579,14 @@ export default function Live_chat() {
     },[selectedChat])
 
     const unassignFilter = (contact ,chats)=>{
+        console.log(contact)
         const data = contact.filter(c=>c.agents.length==0)
-        return chats.filter(chat=>data.includes(chat))
+        console.log(data,"unassign")
+        return chats.filter(chat=>{console.log(chat);return data.includes(parseInt(chat.user_id))})
     }
-
+    useEffect(()=>{
+        console.log(selectedChannels)
+    },[selectedChannels])
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         let newData = [...chatrooms]
@@ -618,9 +622,9 @@ export default function Live_chat() {
 
     const toggleSelectChannels = e => {
         const { checked ,id} = e.target;
-        setSelectedChannels([...selectedChannels, id.toLowerCase()]);
+        setSelectedChannels([...selectedChannels, id]);
         if (!checked) {
-            setSelectedChannels(selectedChannels.filter(item => item !== id.toLowerCase()));
+            setSelectedChannels(selectedChannels.filter(item => item !== id));
         }
     };
     const toggleSelectUsers = e => {
@@ -929,7 +933,7 @@ export default function Live_chat() {
                                 </div>
 
                                 <div className={"right_btn_gp"}>
-                                    {/* <VoiceRecorder returnVoiceMessage={getAudioFile}/> */}
+                                    <VoiceRecorder returnVoiceMessage={getAudioFile} />
                                     <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                                 </div>
                             </div>
