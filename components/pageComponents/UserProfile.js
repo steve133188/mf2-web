@@ -18,6 +18,7 @@ export default function UserProfileGrid({data}){
     const [log , setLog]  = useState([])
     const [assingedContacts, setAssingedContacts] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
+    const [isReload,setReload] = useState(false)
 
 
     console.log(data)
@@ -56,12 +57,17 @@ export default function UserProfileGrid({data}){
         if(isEditProfileShow) ;
         setIsEditProfileShow(!isEditProfileShow)
     }
-
+    const reload = async( )=>{
+        await fetchContacts();
+    }
+    useEffect( async ()=>{
+        await fetchContacts();
+    },[isReload])
     const default_cols = ["Customer ID","Name","Phone No.","Channel",""]
 
 
     return(<div className={"user_profile_grid"}>
-         {isEditProfileShow?  ( <Profile handleClose={toggleEditProfile}><EditAgent data={data.phone} toggle={toggleEditProfile}/></Profile>):null}
+         {isEditProfileShow?  ( <Profile handleClose={toggleEditProfile}><EditAgent data={data.phone} toggle={toggleEditProfile} reload={reload} /></Profile>):null}
 
         <div className={"info_col grid_box"}>
             <span className={"dot"} onClick={toggleEdit } >...</span>

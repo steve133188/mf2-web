@@ -90,6 +90,11 @@ export default function Index() {
             }.bind(this), 100)
         }
     },[selectedTeam]);
+
+    const reload = async () =>{
+        await fetchUsers();
+
+    }
     const toggleSelect = e => {
         const { checked ,id} = e.target;
         console.log(id)
@@ -162,7 +167,7 @@ export default function Index() {
             <InnerSidebar/>
             <div className="rightContent">  
                 {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
-                {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile}/></Profile>):null}
+                {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile} reload={reload} /></Profile>):null}
                 <MF_Modal show={isDelete} toggle={toggleDelete}>
                 <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}> 
                         <div className={"modal_title"} style={{textAlign:"center"}}>
