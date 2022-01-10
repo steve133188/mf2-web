@@ -774,10 +774,8 @@ export default function Live_chat() {
                         {/*sort((first , second)=>{return second.unread-first.unread}).*/}
                         {/*})}*/}
                         {filteredData.length!==0&&filteredData.map((d , index)=>{
-
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
                             return ( <ChatroomList  chatroom={d} selectedChat={selectedChat} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
-
                         })}
                     </ul>
                 </div>
