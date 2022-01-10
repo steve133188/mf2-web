@@ -29,10 +29,11 @@ export default function Layout({children}) {
 
     const sub = async ()=>{
         if(notiSub) notiSub.unsubscribe()
-        const s =await API.graphql(graphqlOperation(onCreateActivity  )).subscribe({
+        const s =await API.graphql(graphqlOperation(onCreateActivity )).subscribe({
             next: newData=>{
+                setNotificationList(prev=>[newData.value.data.onCreateActivity ,...notificationList ])
                 console.log("received activity" ,newData)
-                setShowNotificationList(prev=>[newData.value.data , ...prev] )
+                setShowNotificationList(prev=>[newData.value.data.onCreateActivity , ...prev] )
                 // console.log(this.store)
             }
         })

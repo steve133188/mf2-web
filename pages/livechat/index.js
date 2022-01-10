@@ -113,18 +113,23 @@ export default function Live_chat() {
     const subChatrooms=  ()=>{
         let user_id= user.user.user_id
         if(chatroomsSub) chatroomsSub.unsubscribe()
+        console.log("subscribe all start")
         const sub = API.graphql(graphqlOperation(allChatSubscribe))
             .subscribe({
-                next:  (chat) => {
-                    // await getAllChatrooms()
-
-                    console.log("update chat " ,chat)
-                    // await getAllChatrooms()
+                next: async (chat) => {
                     const newChat = chat.value.data.AllChatSubscribe
-                    const filterChat = chatrooms.filter(c=> {
-                        return c.name !== newChat.name && !c.is_pin
-                    })
-                    setFilteredData(prev=>[newChat , ...filteredData])
+                    if (selectedChat.name == newChat.name &&newChat.unread !=0) await updateChatroomUnread(newChat)
+                    await getAllChatrooms()
+
+                    // await getAllChatrooms()
+                    // const newChat = chat.value.data.AllChatSubscribe
+                    // console.log("update chat " ,newChat)
+                    // const buffer = [...chatrooms]
+                    // const filterChat = buffer.filter(c=> {
+                    //     return c.name !== newChat.name
+                    // })
+                    // console.log(filterChat)
+                    // setFilteredData([newChat , ...filterChat])
                     // console.log("subchatrooms filteredData :" , filteredData)
                     // console.log("subchatrooms filterchat :" , filterChat)
                     // const filterPin = chatrooms.filter(c=> {
@@ -144,11 +149,11 @@ export default function Live_chat() {
     }
     const updateChatroomUnread = async (chat)=>{
         console.log("update chatroom start")
-        return  await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:{user_id:parseInt(chat.user_id ) , room_id:parseInt(chat.room_id) , unread:0 } }))
+        return  await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:{user_id:chat.user_id  , room_id:chat.room_id , unread:0 } }))
             .then(res =>{
                 const data = res.data.updateMF2TCOCHATROOM
                 console.log("handle unread "  , data)
-                chat.unread == 0
+
                 // const filter = chatrooms.filter(c=>c.name!==data.name)
 
                 // if(data.is_pin){
@@ -167,9 +172,9 @@ export default function Live_chat() {
             })
     }
     async function handleChatRoom(chatroom){
-        if(chatroom.room_id == selectedChat.room_id && chatroom.user_id == chatroom.user_id) return
+        if(chatroom.name == selectedChat.name) return
         if(chatroom.channel !== "WABA")setLastMsgFromClient("")
-        if (selectedChat.unread!==0 && chatroom.name == selectedChat.name )await updateChatroomUnread(chatroom);
+        if (chatroom.unread!==0  )await updateChatroomUnread(chatroom);
         setChatroomMsg([])
         setSelectedChat(chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
@@ -219,7 +224,6 @@ export default function Live_chat() {
         await getOwnPinChatList()
         setChatrooms(result)
         setFilteredData(result)
-
     }
     const getAllChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString() )
@@ -357,14 +361,14 @@ export default function Live_chat() {
         console.log(agents , filter , chats, "agent filter testing ")
         const gp= agents.filter(d=>filter.includes(d.username))
         gp.map(g=>g.user_id)
-        
+
         return chats.filter(ch=>{console.log("gp  testing",gp.map(g=>g.user_id).includes(ch.user_id));return gp.map(g=>g.user_id).includes(ch.user_id);})
     }
     const tagFilter =(agents , filter , chats)=>{
 
         const gp= agents.filter(a=>a.tags.filter(d=>{return filter.includes(d.tag_name)}).length>0)
         console.log("TagF" , gp)
-        
+
         return chats.filter(ch=>{return gp.map(g=>g.customer_id).includes(parseInt(ch.customer_id))})
     }
     const messagesSearchRef = useRef()
@@ -384,18 +388,18 @@ export default function Live_chat() {
         console.log(selectedTeams,"electaer")
 
     },[selectedTeams])
-    async function handleChatRoom(chatroom){
-        if(chatroom == selectedChat) return ;
-        if(chatroom.channel !== "WABA") setLastMsgFromClient("")
-        setChatroomMsg([])
-        setSelectedChat(chatroom)
-        setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
-        if (chatroom.unread!==0)await updateChatroomUnread(chatroom);
-        await getCustomerbyID(chatroom.customer_id)
-        if(typeof chatroom.customer_id !=="number") return
-        console.log("selected Chat" , selectedChat)
-        console.log("typed message" , typedMsg)
-    }
+    // async function handleChatRoom(chatroom){
+    //     if(chatroom == selectedChat) return ;
+    //     if(chatroom.channel !== "WABA") setLastMsgFromClient("")
+    //     setChatroomMsg([])
+    //     setSelectedChat(chatroom)
+    //     setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
+    //     if (chatroom.unread!==0)await updateChatroomUnread(chatroom);
+    //     await getCustomerbyID(chatroom.customer_id)
+    //     if(typeof chatroom.customer_id !=="number") return
+    //     console.log("selected Chat" , selectedChat)
+    //     console.log("typed message" , typedMsg)
+    // }
 
 
     const toggleReply = () =>{
@@ -656,6 +660,11 @@ export default function Live_chat() {
         setSelectedTeams([])
             // advanceFilter()
     }
+    useEffect(async ()=>{
+        if(selectedChat.unread>0){
+            await updateChatroomUnread(selectedChat)
+        }
+    },[selectedChat])
     const refreshChatrooms = async ()=>{
         clear()
         await getChatrooms()
@@ -750,12 +759,12 @@ export default function Live_chat() {
                         {/*{pinChat.length!==0&&pinChat.map((d , index)=>{*/}
                         {/*    // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
                         {/*    return ( <ChatroomList  chatroom={d} key={d.room_id} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
-
+                        {/*sort((first , second)=>{return second.unread-first.unread}).*/}
                         {/*})}*/}
-                        {filteredData.length!==0&&filteredData.sort((first , second)=>{return second.unread-first.unread}).map((d , index)=>{
+                        {filteredData.length!==0&&filteredData.map((d , index)=>{
 
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
-                            return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
+                            return ( <ChatroomList  chatroom={d} selectedChat={selectedChat} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
 
                         })}
                     </ul>

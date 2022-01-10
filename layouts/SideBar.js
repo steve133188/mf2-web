@@ -80,7 +80,6 @@ export default function SideBar(props) {
         useLayoutEffect(() => {
             function updateSize() {
               setSize({width, height});
-
             }
             if(window) {
                 updateSize();
