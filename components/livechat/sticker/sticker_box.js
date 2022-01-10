@@ -41,7 +41,7 @@ export default function StickerBox({data , stickerSend ,ref }){
                 </Tabs>
             </Box>
             {/* <TabPanel> */}
-            <div className={"stickers_box"} style={{display:"flex",flexWrap:"wrap",width:"100%",overflow:"auto",maxHeight:"184px",minHeight:"87px",objectFit:"contain"}}                                    >
+            <div className={"stickers_box"} style={{display:"flex",flexWrap:"wrap",width:"100%",overflow:"auto",maxHeight:"130px",minHeight:"87px",objectFit:"contain"}}                                    >
 
                     {data.files&&filtered.map((item,index)=>(
                       <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"3px"}} onClick={stickerSend} />

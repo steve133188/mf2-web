@@ -61,6 +61,7 @@ export default function SideBar(props) {
     }
     useEffect(()=>{
         console.log("update store " , store)
+        console.log("user Auth " , user)
     },[store])
 
 

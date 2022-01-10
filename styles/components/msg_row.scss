@@ -153,7 +153,7 @@ audio{
     opacity: 1;
     padding: 0.5rem 1rem 1rem; 
     border-radius: 10px;
-    background: #D0E9FF 0% 0% no-repeat padding-box;
+    // background: #D0E9FF 0% 0% no-repeat padding-box;
 
 
     }
@@ -178,8 +178,10 @@ audio{
       background: #D0E9FF 0% 0% no-repeat padding-box;
       margin-left: auto;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      text-align: left;
+      text-align: center;
+      align-items: center;
       font: normal normal normal 1rem Manrope;
       letter-spacing: 0.08px;
       border-radius: 10px;
@@ -191,6 +193,21 @@ audio{
       min-width: 200px;
       height: auto;
     } 
+    .imageMessage{
+
+      width: 100%;
+      margin-left: auto;
+      text-align: left;
+      font: normal normal normal 1rem Manrope;
+      letter-spacing: 0.08px;
+      color: #4E4E4E;
+      opacity: 1;
+      padding: .7rem 1rem; 
+      border-radius: 10px;
+      // background: #D0E9FF 0% 0% no-repeat padding-box;
+  
+  
+      }
   }
   .msg_type_attachment{
     height: 87px;
@@ -447,16 +464,19 @@ audio{
     border-radius: 10px;
     padding: 0.5rem 0.5rem; 
   } 
-    .imageMessage{
-      margin-left: auto;
+  .imageMessage{
+
+    width: 100%;
+    margin-left: auto;
     text-align: left;
     font: normal normal normal 1rem Manrope;
     letter-spacing: 0.08px;
     color: #4E4E4E;
     opacity: 1;
-    padding: 0.5rem 1rem 1rem; 
+    padding: .7rem 1rem; 
     border-radius: 10px;
-    background: #D0E9FF 0% 0% no-repeat padding-box;
+    // background: #D0E9FF 0% 0% no-repeat padding-box;
+
 
     }
     .bigImageBox{
@@ -469,17 +489,20 @@ audio{
   }
   .msg_type_video{
     
-      width: 40%;   
+     
+      width: 40%;
       max-width: 420px;
       min-width: 375px;
-      height: 40%;
+      height: auto;
       max-height: min-content;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       background: #D0E9FF 0% 0% no-repeat padding-box;
       margin-left: 0;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      text-align: left;
+      text-align: center;
+      align-items: center;
       font: normal normal normal 1rem Manrope;
       letter-spacing: 0.08px;
       border-radius: 10px;
@@ -491,6 +514,21 @@ audio{
         min-width: 200px;
         height: auto;
       }
+      .imageMessage{
+       
+      width: 100%;
+      margin-left: auto;
+      text-align: left;
+      font: normal normal normal 1rem Manrope;
+      letter-spacing: 0.08px;
+      color: #4E4E4E;
+      opacity: 1;
+      padding: .7rem 1rem; 
+      border-radius: 10px;
+      // background: #D0E9FF 0% 0% no-repeat padding-box;
+  
+    
+        }
   }
 
   .msg_type_voice{

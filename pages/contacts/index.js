@@ -626,17 +626,17 @@ export default function Contacts() {
 
                                         </div>
                                     </TableCell>
-                                    <TableCell align="left">
+                                    <TableCell align="left" sx={{width:"8%"}}>
                                         <span >{data.customer_id}</span>
                                     </TableCell>
-                                    <TableCell align="left">
+                                    <TableCell align="left" sx={{width:"14%"}}>
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
                                             <Avatar alt={data.username} sx={{width:27 , height:27}} src={data.img_url||""}/>
                                             <span style={{marginLeft: "11px"}}>{data.customer_name}</span>
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"7%"}}>
-                                        <div>{data.team.org_id!=0?data.team.org_name:"not Assigned"}</div>
+                                        <div>{data.team.org_id!=0?data.team.org_name:"No Assigned"}</div>
                                         {/* <Pill color="teamA"></Pill> */}
                                     </TableCell>
 
