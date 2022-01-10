@@ -20,7 +20,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
             phone:data.country_code+data.phone,
             room_id: `${data.customer_id}-${user.user.user_id}` ,
             unread:0 ,
-            user_id: user.user.user_id,
+            user_id: parseInt(user.user.user_id),
         }
         const result = await API.graphql(graphqlOperation(createChatroom, {input})).then(
             res=>{
