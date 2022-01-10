@@ -88,7 +88,7 @@ export default function Recovery() {
 
                     </div>
                
-                    <div className={"text_box mf_icon_input_block "} style={{width:"370px",height:"50px"}}>
+                    <div className={"text_box mf_icon_input_block "} style={{width:"400px",height:"50px"}}>
                         <div className={"text_row mf_icon_input_block mf_input_shadow input_margin input_margin"}>
 
                             <div className={"mf_inside_icon mf_email_icon"} > </div>
@@ -101,7 +101,7 @@ export default function Recovery() {
                                     setError(false)
                                 }}
                                 placeholder={"Email"}
-                                style={{ font:" normal normal normal 16px/22px Manrope",fontSize:"1vw"}}
+                                style={{ font:" normal normal normal 16px/22px Manrope",fontSize:"1vw" ,display:"flex",alignItems:"center"}}
                                 // className={invalid}
                             />
                         </div>

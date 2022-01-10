@@ -50,7 +50,7 @@ export default function LoginPanel(){
                                         value={credential.email}
                                         onChange={(e)=>{setCredential({...credential, ['email']: e.target.value})}}
                                         placeholder={"Email"}
-                                        style={{ border :(credential.email.length>0? "1px solid #2385FC":""),fontSize:"1vw"}}
+                                        style={{ border :(credential.email.length>0? "1px solid #2385FC":""),fontSize:"1.2rem",display:"flex",alignItems:"center"}}
                                         // style={ {fontSize:"1vw"}}
                                         // className={invalid}
 
@@ -66,7 +66,7 @@ export default function LoginPanel(){
                                         value={credential.password}
                                         onChange={(e)=>{setCredential({...credential, ['password']: e.target.value})}}
                                         placeholder={"Password"}
-                                        style={ credential.password.length>0?{border: "1px solid #2385FC",fontSize:"1vw"}:{fontSize:"1vw"}}
+                                        style={{ border :(credential.email.length>0? "1px solid #2385FC":""),fontSize:"1.2rem",display:"flex",alignItems:"center"}}
                                         // style={ {fontSize:"1vw"}}
                                         // className={invalid}
                                     />
