@@ -17,7 +17,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
             customer_id:data.customer_id,
             is_pin: false,
             name: data.first_name + data.last_name,
-            phone: data.customer_id,
+            phone:data.country_code+data.phone,
             room_id:data.customer_id ,
             unread:0 ,
             user_id: user.user.user_id,

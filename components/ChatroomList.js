@@ -18,6 +18,7 @@ import {Skeleton ,Avatar , Badge} from "@mui/material";
                 user_id:chatroom.user_id,
                 is_pin:!chatroom.is_pin
             }
+            console.log(chatroom.name)
             await togglePin(ispin_input)
         }
 
