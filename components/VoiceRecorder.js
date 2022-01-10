@@ -70,8 +70,8 @@ export default function Recorder({ returnVoiceMessage }) {
 
     return (
         <>
-            {/* <audio src={audioFile} controls /> */}
-            <div className={"voice_btn"} onMouseDown={rec} style={{ backgroundColor: `${buttonColor}` }} onMouseUp={rec}>
+            <audio src={audioFile} controls />
+            <div className={"voice_btn"} onClick={rec} style={{ backgroundColor: `${buttonColor}` }} >
                 <VoiceMsg size={12} />
             </div>
         </>
