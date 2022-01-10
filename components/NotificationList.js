@@ -20,7 +20,6 @@ export default function NotificationList({notification , ...props}){
             <div className={"notify_icon"}>
                  <Avatar src={""} alt={"notification.notify_from"} style={{marginLeft:"1rem"}} />
                 {/*{notification.type=="disconnect"?<img style={{borderRadius:0}} src={`/channel_SVG/${notification.type}.svg`} />:<img src={`/channel_SVG/${notification.type}.svg`}/>}*/}
-
             </div>
 
             <div className="notification_content">

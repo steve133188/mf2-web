@@ -225,7 +225,6 @@ export default function SideBar(props  ) {
                                                 {/* <div className="notification_time"> {notification.receive_time} </div> */}
                                             </div>
                                         <div className="notify_box_list">
-
                                             {(props.notices.length>0)&&props.notices.map((d , index )=>{
                                                 return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} onClick={()=>{handleReadNotification(d.id)}}/>)
                                             })}

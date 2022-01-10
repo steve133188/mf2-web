@@ -705,10 +705,11 @@ export default function Live_chat() {
     //record and send audio
     const getAudioFile = async (audioFile) => {
         console.log("calling getAudioFile")
-        if(audioFile){
+        if(audioFile!== undefined){
             var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
         const result = await mediaInstance.putVoice(file)
-        console.log(result,"audioFile")}
+        console.log(result,"audioFile")
+        }
     }
     return (
         <div className="live_chat_layout">
