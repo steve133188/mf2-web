@@ -567,7 +567,7 @@ export default function Contacts() {
                 <button onClick={clearFilter} className={"mf_bg_light_blue mf_color_blue"} style={{margin:"0 1rem",padding:"0",minWidth:"8rem",maxWidth:"102rem",maxHeight:"50px"}}> Clear Filter </button>
             </SelectSession>
             <TableContainer
-                sx={{minWidth: 750 , minHeight:"60vh"}}
+                sx={{minWidth: 750 , minHeight:"500px",maxHeight:"900px",height:"40vh"}}
                 className={"table_container"}
             >
                 <Table
