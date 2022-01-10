@@ -44,7 +44,7 @@ export default function StickerBox({data , stickerSend ,ref }){
             <div className={"stickers_box"} style={{display:"flex",flexWrap:"wrap",width:"100%",overflow:"auto",maxHeight:"130px",minHeight:"87px",objectFit:"contain"}}                                    >
 
                     {data.files&&filtered.map((item,index)=>(
-                      <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"3px"}} onClick={stickerSend} />
+                      <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"3px",cursor:"pointer"}} onClick={stickerSend} />
                       ))}
                       </div>
                  {/* {item.sticker.map((item,index)=>(

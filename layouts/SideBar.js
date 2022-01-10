@@ -61,6 +61,7 @@ export default function SideBar(props) {
     }
     useEffect(()=>{
         setNotification(...props.notices)
+        console.log(user,"auth testing")
     },[notification])
 
 
