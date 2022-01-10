@@ -12,13 +12,12 @@ export default function ChatroomInfo ({data}){
     const [start,setStart]= useState(false)
     const {contactInstance } = useContext(GlobalContext)
      const [tabActive,setTabAcive] = useState("info")
-    const [useContact , setUseContact] = useState(data)
+    const [useContact , setUseContact] = useState({})
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
-    const handelEditContact = ()=>{
-
+    const handelEditContact = async ()=>{
         if(data.name.length>0){
             setIsEditProfileShow(!isEditProfileShow)
-            toggleEditProfile(data)
+            await toggleEditProfile(data)
         }
     }
     const toggleEditProfile =async (key) =>{
@@ -29,25 +28,29 @@ export default function ChatroomInfo ({data}){
     const fetchContacts = async (cid) =>{
         const data = await contactInstance.getContactById(cid)
         // console.log("etchContacts chatroomINfo",data)
-        setUseContact(data)
-        return data
+        setUseContact(prev=>data)
+        // return data
         // setFilteredData(data)
     }
     // useEffect(()=>{
     //     console.log("chat info info info ",typeof(data.phone))
     // },[data])
+
     useEffect(async()=>{
-        if(!start){return setStart(true)}
+        if(data.customer_id){
+            await fetchContacts(data.customer_id)
+        }
+
+        // if(!start){return setStart(true)}
         // console.log("ChatroomInf",data)
 
-        const res = await fetchContacts(data.customer_id)
         // console.log("chatroomINfo",res)
-        return
-    },[data])
+    },[])
 
     return (
     <div className={"chatroom_info"}>
-        {data.room_id&& <>
+        {/*{data.room_id? */}
+            <div style={{display:(data.room_id?"block":"none")}}>
             <div className={"editContact_chatroom"}>
                 <div className={"editContact_chatroom"}>
 
@@ -65,7 +68,6 @@ export default function ChatroomInfo ({data}){
                     </div>
                     {/* <div className={"contact_detail_team"}> Team</div> */}
                 </div>
-
                 {/* <div className={"config"} onClick={handelEditContact}> ... </div> */}
             </div>
 
@@ -80,7 +82,8 @@ export default function ChatroomInfo ({data}){
                     <ContantDetail data={data} tab={tabActive} />
                 </div>
             </div>
-        </> }
+        </div>
+            {/*// :null }*/}
 
     </div>
     )
