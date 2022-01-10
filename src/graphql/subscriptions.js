@@ -211,3 +211,18 @@ export const onUpdateActivity = /* GraphQL */ `
     }
   }
 `;
+export const eventListenr = /* GraphQL */ `
+  subscription EventListenr {
+    eventListenr {
+      timestamp
+      payload
+      action
+      type
+      user_id
+      customer_id
+      status
+      is_sys
+      team_id
+    }
+  }
+`;

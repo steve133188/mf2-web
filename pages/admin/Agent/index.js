@@ -1,27 +1,18 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import {GlobalContext} from "../../../context/GlobalContext";
 import Link from 'next/link';
-import {ImportDropzone} from '../../../components/ImportContact.js'
-import axios from "axios";
-import styles from "../../../styles/Contacts.module.css";
 import SelectSession from "../../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import {Pill} from "../../../components/Pill";
+
 import MF_Select from "../../../components/MF_Select";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import Profile from "../../../components/profile";
-import ProfileGrid from "../../../components/pageComponents/ProfieGrid";
-import EditProfileForm from "../../../components/pageComponents/EditProfileForm";
-import { Tooltip } from '@mui/material';
-import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../../components/mf_dropdown_select";
+
 import searchUsernameFilter from "../../../helpers/searchUsernameFilter";
 import {InnerSidebar} from "../../../components/InnerSidebar";
 import * as React from "react";
@@ -41,7 +32,6 @@ export default function Index() {
     const [roles, setRoles] = useState([]);
     const [filteredData , setFilteredData] = useState([])
 
-    const [filter , setFilter] = useState("")
 
     const [users, setUsers] = useState([]);
     const [useUser , setUseUser] = useState()
@@ -89,7 +79,7 @@ export default function Index() {
                 setIsLoading(false);
             }.bind(this), 100)
         }
-    },[selectedTeam]);
+    },[]);
 
     const reload = async () =>{
         await fetchUsers();
@@ -122,9 +112,7 @@ export default function Index() {
         }
 
     }
-    // useEffect(()=>{
-    //     setFilteredData(filteredData.filter(e=>e.team_id==selectedTeam.org_id))
-    // },[selectedTeam])
+
     const [deleteRolename,setDeleteRole] = useState({})
     const toggleDelete = (id,name)=>{
 
@@ -143,10 +131,7 @@ export default function Index() {
         await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
-
-
-        if(!isEditProfileShow) 
-        // setUseUser(key);
+        if(!isEditProfileShow)
         if(isEditProfileShow) await fetchUsers();
         setIsEditProfileShow(!isEditProfileShow)
     }
@@ -165,14 +150,14 @@ export default function Index() {
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
 
             <InnerSidebar/>
-            <div className="rightContent">  
+            <div className="rightContent">
                 {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
                 {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile} reload={reload} /></Profile>):null}
                 <MF_Modal show={isDelete} toggle={toggleDelete}>
-                <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}> 
+                <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}>
                         <div className={"modal_title"} style={{textAlign:"center"}}>
                             <span>Delete This {deleteRolename.name}?</span>
-                        </div> 
+                        </div>
                         <div className={"btn_row"}>
                             <button onClick={submitDelete }>Confirm</button>
                             <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>

@@ -78,7 +78,7 @@ export const GlobalContextProvider = ({children}) =>{
             })
         console.log(user)
         console.log(res)
-        if(res ==200) {
+        if(res ==200 ) {
             await router.push("/dashboard/chat")
             router.reload()
 
