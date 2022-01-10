@@ -302,13 +302,13 @@ export default function Agents() {
                     <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/> */}
                 </div>
                 <div className="lineCardGroup2">
-                    <ChangingPercentageCard title={"Total Assigned Contacts"} data1={[15]}/>
-                    <ChangingPercentageCard title={"Active Contacts"} data1={[10]} />
-                    <ChangingPercentageCard title={"Delivered Contacts"} data1={[3]} />
-                    <ChangingPercentageCard title={"Unhandled Contacts"} data1={2} />
-                    <ChangingPercentageCard title={"Total Messages Received"} data1={[8]} />
-                    <ChangingPercentageCard title={"Total Messages Sent"} data1={[88]} />
-                    <ChangingPercentageCard title={"Average Response Time"} data1={[38]} />
+                    <ChangingPercentageCard title={"Total Assigned Contacts"} data2={[15]} data1={[5]}/>
+                    <ChangingPercentageCard title={"Active Contacts"} data2={[10]} data1={[5]}/>
+                    <ChangingPercentageCard title={"Delivered Contacts"} data2={[3]} data1={[5]}/>
+                    <ChangingPercentageCard title={"Unhandled Contacts"} data2={2} data1={[5]}/>
+                    <ChangingPercentageCard title={"Total Messages Received"} data2={[8]} data1={[5]}/>
+                    <ChangingPercentageCard title={"Total Messages Sent"} data2={[88]} data1={[5]}/>
+                    <ChangingPercentageCard title={"Average Response Time"} data2={[38]} data1={[5]}/>
                     <ChangingPercentageCard title={"Average First Response Time"} data1={48} data2={38} />
                 </div>
             </div>
