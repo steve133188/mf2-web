@@ -288,30 +288,36 @@ export default function Agents() {
             </div>
             <div className="lineCardGroupSet">
                 <div className="lineCardGroup1">
-                    <LineChartCard chart={true} img={false} title={"Agents"} data={dash.agents_no}/>
+                    <LineChartCard chart={true} img={false} title={"Agents"} data={[7]}/>
+                    <LineChartCard chart={true} img={false} title={"Connected"} data={[7]}/>
+                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[0 ]}/>
+                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={[15]}/>
+                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={[15]}/>
+                    <AverageDailyCard data = {[368*60]}/>
+                    {/* <LineChartCard chart={true} img={false} title={"Agents"} data={dash.agents_no}/>
                     <LineChartCard chart={true} img={false} title={"Connected"} data={dash.connected}/>
                     <LineChartCard chart={true} img={false} title={"Disconnected"} data={dash.disconnected}/>
                     <LineChartCard chart={true} img={false} title={"All Contacts"} data={dash.all_contacts}/>
                     <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={dash.new_added_contacts}/>
-                    <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/>
+                    <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/> */}
                 </div>
                 <div className="lineCardGroup2">
-                    <ChangingPercentageCard title={"Total Assigned Contacts"} data1={dash.total_assigned_contacts[0]} data2={dash.total_assigned_contacts[1]}/>
-                    <ChangingPercentageCard title={"Active Contacts"} data1={dash.total_active_contacts[0]} data2={dash.total_active_contacts[1]} />
-                    <ChangingPercentageCard title={"Delivered Contacts"} data1={dash.total_delivered_contacts[0]} data2={dash.total_delivered_contacts[1]} />
-                    <ChangingPercentageCard title={"Unhandled Contacts"} data1={dash.total_unhandled_contact[0]} data2={dash.total_unhandled_contact[1]} />
-                    <ChangingPercentageCard title={"Total Messages Received"} data1={dash.total_msg_rev[0]} data2={dash.total_msg_rev[1]} />
-                    <ChangingPercentageCard title={"Total Messages Sent"} data1={dash.total_msg_sent[0]} data2={dash.total_msg_sent[1]} />
-                    <ChangingPercentageCard title={"Average Response Time"} data1={dash.avg_resp_time[0]} data2={dash.avg_resp_time[1]} />
-                    <ChangingPercentageCard title={"Average First Response Time"} data1={dash.avg_total_first_resp_time[0]} data2={dash.avg_total_first_resp_time[1]} />
+                    <ChangingPercentageCard title={"Total Assigned Contacts"} data1={[15]}/>
+                    <ChangingPercentageCard title={"Active Contacts"} data1={[10]} />
+                    <ChangingPercentageCard title={"Delivered Contacts"} data1={[3]} />
+                    <ChangingPercentageCard title={"Unhandled Contacts"} data1={2} />
+                    <ChangingPercentageCard title={"Total Messages Received"} data1={[8]} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} data1={[88]} />
+                    <ChangingPercentageCard title={"Average Response Time"} data1={[38]} />
+                    <ChangingPercentageCard title={"Average First Response Time"} data1={48} data2={38} />
                 </div>
             </div>
             <div className="chartGroup">
                 <div className="dashboardRow">
                     <div className="dashboardBarColumn"><MultipleBarChart title={"Agents"} yaxis={"Contacts"} h={"650px"}
-                                                                        active={dash.chart.active}
-                                                                        unhandled={dash.chart.unhandled}
-                                                                        delivered={dash.chart.delivered}
+                                                                        active={[5,1,5,1,1,5,5]}
+                                                                        unhandled={[5,8,1,2,1,0,2]}
+                                                                        delivered={[3,2,3,6,1,8,3]}
                                                                         agents={dash.chart.user_name}
                                                                         min1={12} min2={12} min3={12} show={show}/></div>
                 </div>

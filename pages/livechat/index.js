@@ -715,7 +715,7 @@ export default function Live_chat() {
             var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
         const result = await mediaInstance.putVoice(file)
         setMediaUrl(result)
-        setFilePrevier({name:audioFile.name,size:audioFile.size,type:"AUDIO",path:path})
+        setFilePrevier({name:(new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_")),size:audioFile.size,type:"AUDIO",path:path})
         setTypedMsg({...typedMsg ,message_type: "AUDIO"})
         console.log(result,"audioFile")}
 
@@ -945,7 +945,7 @@ export default function Live_chat() {
                                 </div>
 
                                 <div className={"right_btn_gp"}>
-                                    <VoiceRecorder returnVoiceMessage={getAudioFile} />
+                                    {/* <VoiceRecorder returnVoiceMessage={getAudioFile} /> */}
                                     <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                                 </div>
                             </div>

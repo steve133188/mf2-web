@@ -412,7 +412,7 @@ export default function Contacts() {
                     {/* <NotificationContainer/> */}
 
             {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
-            {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact} /></Profile>):null}
+            {isProfileShow?           ( <Profile handleClose={toggleProfile}><ProfileGrid data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}

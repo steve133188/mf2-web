@@ -148,7 +148,8 @@ export function LineChartCard({children,...props}) {
 export function ChangingPercentageCard({children,...props}) {
     const {title, data1, data2} = props;
     let classnamee=  "changingPercentagePos"
-    let changing = ((data2 - data1) / data2 * 100).toFixed(2) + "%"
+    // let changing = ((data2 - data1) / data2 * 100).toFixed(2) + "%"
+    let changing = data1 + "%"
 
     if(changing.charAt(0)=='-') {
         classnamee = "changingPercentageNeg";
