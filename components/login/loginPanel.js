@@ -39,7 +39,7 @@ export default function LoginPanel(){
 
                 <div className={"login-form"}>
                     <form action="" >
-                        <div className={"text_box mf_icon_input_block "}>
+                        <div className={"text_box mf_icon_input_block "} style={{width:"350px",height:"50px"}}>
                             <div className={"text_row mf_icon_input_block mf_input_shadow"}>
                                 {/*<span className={""}>Email or Password invalid</span>*/}
                                 {/*<label className={"searchSVG emailSVG"}>*/}
@@ -50,14 +50,14 @@ export default function LoginPanel(){
                                         value={credential.email}
                                         onChange={(e)=>{setCredential({...credential, ['email']: e.target.value})}}
                                         placeholder={"Email"}
-                                        style={ credential.email.length>0?{border: "1px solid #2385FC",fontSize:"1vw"}:{fontSize:"1vw"}}
+                                        style={{ border :(credential.email.length>0? "1px solid #2385FC":""),fontSize:"1vw"}}
                                         // style={ {fontSize:"1vw"}}
                                         // className={invalid}
 
                                     />
                                     </div>
                             </div>
-                        <div className={"text_box mf_icon_input_block "}>
+                        <div className={"text_box mf_icon_input_block "} style={{width:"350px",height:"50px"}}>
                             <div className={"text_row mf_icon_input_block mf_input_shadow input_margin"}>
                                 <div className={"mf_inside_icon mf_pwd_icon"} > </div>
                                     <input

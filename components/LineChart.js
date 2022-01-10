@@ -172,62 +172,62 @@ export function MultipleLineChart({children,...props}) {
 export function MultipleBarChart({children,...props}) {
     const {title, active, delivered, unhandled,agents, min1, min2, min3, yaxis,show,h} = props;
     const [state, setState] = useState({
-        // options: {
-            chart: {
-                type: 'bar',
-                height: {h},
-                stacked: true,
-                toolbar: {
-                    show: true
-                },
-                zoom: {
-                    enabled: true
-                }
-            },
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    legend: {
-                        position: 'bottom',
-                        offsetX: -10,
-                        offsetY: 0
+        series: [{
+        name: 'Unhandled Contacts',
+        data: unhandled
+    }, {
+        name: 'Delivered Contacts',
+        data: delivered
+    }, {
+        name: 'Active Contacts',
+        data: active
+    }],
+            options: {
+                chart: {
+                    type: 'bar',
+                    height: {h},
+                    stacked: true,
+                    toolbar: {
+                        show: true
+                    },
+                    zoom: {
+                        enabled: true
                     }
-                }
-            }],
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    borderRadius: 10,
-                    columnWidth: '100%',
                 },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom',
+                            offsetX: -10,
+                            offsetY: 0
+                        }
+                    }
+                }],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        borderRadius: 10,
+                        // columnWidth: '100%',
+                    },
+                },
+                xaxis: {
+                    type: 'string',
+                    categories: agents,
+                },
+                legend: {
+                    position: 'bottom',
+                    offsetY: 0
+                },
+                fill: {
+                    // opacity: 1,
+                    // colors: ["#2198FA","#6279EC", '#34C38F']
+                },
+                
             },
-            xaxis: {
-                type: 'string',
-                categories: agents,
-            },
-            legend: {
-                position: 'right',
-                offsetY: 100
-            },
-            fill: {
-                opacity: 1,
-                colors: ["#2198FA","#6279EC", '#34C38F']
-            },
-            series: [{
-                name: 'Unhandled Contacts',
-                data: unhandled
-            }, {
-                name: 'Delivered Contacts',
-                data: delivered
-            }, {
-                name: 'Active Contacts',
-                data: active
-            }]
-        // },
+         })
 
-
-        })
-
+         
         useEffect(()=>{
             console.log("props",active)
             console.log("props",props)
@@ -241,13 +241,10 @@ export function MultipleBarChart({children,...props}) {
                 }, {
                     name: 'Active Contacts',
                     data: active
-                }],
-                options: {
-                    xaxis: {
-                        type: 'string',
-                        categories: agents,
-                    },
-                }
+                }], 
+                
+                backgroundColors: ["#2198FA","#6279EC", '#34C38F']
+
             })
         },[
             show
@@ -258,7 +255,7 @@ export function MultipleBarChart({children,...props}) {
 
             return (
             <div id="chart">
-                <ReactApexChart options={state.options} series={state.series} type="bar" height={h} />
+                <ReactApexChart options={state.options} series={state.series} type={"bar"}  />
                 </div>
                 )
 }

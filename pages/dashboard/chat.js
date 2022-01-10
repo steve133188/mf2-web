@@ -85,6 +85,13 @@ export default function Chat() {
         setFilteredTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
 
     }
+    const fetchContacts = async () =>{
+        const data = await contactInstance.getAllContacts()
+
+        console.log(data,"contactssss")
+        setContacts(data)
+
+    }
     const renderTags=() => {
         return selectedTags!=-1&&selectedTags.map((tag)=>{
             return<Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
@@ -132,9 +139,25 @@ export default function Chat() {
             setIsLoading(!isLoading)
         }
         await getTags();
+        await fetchContacts();
         console.log("dashboard = ",dash)
 
     },[dash])
+
+    useEffect(()=>{
+        const tagsTotal = []
+        tags.map(e=>contacts.map(c=>{ 
+           
+            const values=c.tags.map(t=>{
+                if(t.tag_name == e.tag_name ){
+                    // const data ={e.tag_name:+=1}
+                    console.log("1")
+                return tagsTotal.push()
+            }
+            })}))
+        console.log(tagsTotal,"tags total volume")
+    },[contacts])
+
 
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
@@ -319,12 +342,12 @@ export default function Chat() {
 
                             <span className={"title"} style={{display:"flex",alignItems:"center",margin:"5%"}}>Tags : {`${tags.length}`}</span>
 
-                        <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px"}}>
+                        <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px" ,height:"45px"}}>
                 <MF_Select top_head={"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                     setFilteredTags(new_data)
                 })}} >
                     {filteredTags.map((tag,index)=>{
-                        console.log(tag)
+                        // console.log(tag)
                         return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">

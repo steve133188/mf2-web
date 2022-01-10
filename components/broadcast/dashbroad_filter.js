@@ -248,7 +248,33 @@ export default function DashBroadFilter(props){
                     </div>
                 </div>:""}
                 {/* {props.auth==2?<FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>:""} */}
-                
+                {props.auth==2?<div className={"filter_box_agents"}  >Team
+                    <div className={"agentBroad"} >
+
+                        <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
+                        <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
+                                {/* <div className={"search_bar"}>
+                                <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
+                            </div> */}
+                            <div className={"channelList"} >
+
+                                {teams.map((team)=>{
+                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
+                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
+
+                                            <div className={"name"}>{team.name}</div>
+                                        </div>
+                                        <div className="newCheckboxContainer right">
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.org_id} name="checkbox" checked={selectedTeams.includes(team.org_id.toString())} onClick={toggleSelectTeams} onChange={()=>{}}/>
+                                            </label>
+                                        </div>
+                                    </li>) })
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>:""}
                 {props.auth==2?<div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
@@ -289,6 +315,9 @@ export default function DashBroadFilter(props){
                             })}
                     </div>
                 </div>:""}
+
+
+
                 {/* <div className={"filter_box_tag"}  >
                      <div className={"channelList"}>
                         <div className={"filter_title"}>Tag</div>

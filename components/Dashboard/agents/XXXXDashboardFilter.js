@@ -1,7 +1,7 @@
 
-import {CancelButton, NormalButton2} from "../../../components/Button";
-import {LabelSelect2} from "../../../components/Select";
-import {Pill} from "../../../components/Pill";
+import {CancelButton, NormalButton2} from "../../Button";
+import {LabelSelect2} from "../../Select";
+import {Pill} from "../../Pill";
 
 export default function DashboardFilter(props){
 

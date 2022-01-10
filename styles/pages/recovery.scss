@@ -31,14 +31,14 @@
     position: relative;
     display: flex;
     // flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     flex-direction: column;
     box-shadow: 0px 7px 20px #00000017;
     background-color: #fff;
     border-radius: 40px;
     box-sizing: border-box;
-    max-height: 732px;
-    max-width: 720px;
+    max-height: 640px;
+    max-width: 632px;
     min-height: 500px;
     width: 37.5vw;
     min-width: 600px;
@@ -48,7 +48,7 @@
 
     .logo_container{
       display: flex;
-      min-height: 15%;
+      min-height: 8%;
       width: 100%;
       margin-bottom: 5%;
     
@@ -118,7 +118,7 @@ flex-direction: column;
         font: normal normal 800 1.2rem/62px Manrope;
         letter-spacing: 0px;
         color: #2198FA;
-        margin-bottom: 5%;
+        // margin-bottom: 5%;
       }
     }
       .login_message{
