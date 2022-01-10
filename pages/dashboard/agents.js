@@ -57,15 +57,16 @@ export default function Agents() {
     let result = currentContacts.map(d=>d.id)
 
 
-    const default_cols = ["Name","Role","Status","All Contacts","Newly Added Contacts",
+    const default_cols = ["Name","Role","Status",
+    // ,"All Contacts","Newly Added Contacts",
     "Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts",
     "Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
 
     const rolename =["user_name",
     "user_role_name",
     "user_status",
-    "all_contacts",
-    "new_added_contacts",
+    // "all_contacts",
+    // "new_added_contacts",
     "avgDailyOnline",
     "assigned_contacts",
     "active_contacts",
@@ -75,6 +76,93 @@ export default function Agents() {
     "avg_resp_time",
     "first_resp_time",
 ]
+
+    const [handelList,setHandelList] = useState([])
+    const [deilverList,setDeliverList] = useState([])
+    const [unhandelList,setUnhandelList] = useState([])
+    const [agentsList,setAgentsList] = useState([])
+
+
+
+
+    const tempData=[
+        ["Marry Tse","DM",'Connected',35,15,10,3,2,27,5,7],
+        ["Wiva Wei","Maneger",'Connected',50,10,7,1,2,8,7,7],
+        ["Sabrina","Maneger",'Connected',56,10,5,5,0,5,15,20],
+        ["Steve Chak",'Agent','Connected',40,7,7,0,0,14,3.5,2],
+        ["Philip Tam",'Agent','Connected',55,5,5,0,0,9,3,4],
+        ["Alex",'Agent','Connected',60,6,4,0,2,6,8.6,15],
+        ["Jason Fung",'Agent','Connected',42,8,3,3,2,9,7,7],
+        ["Ben Cheng",'Agent','Disconnected',0,0,0,0,0,0,0,0],
+        // ["Golden",'Agent','Disconnected',0,0,0,0,0,0,0,0],
+        // ["Amy",'Agent','Disconnected',0,0,0,0,0,0,0,0],
+
+    ]
+
+    const AverDailyOnlineTime = tempData.map(a=>a[3]).reduce((org,cur)=>{
+        return org+cur
+    })
+
+    
+    const AssignedContacts= tempData.map(a=>a[4]).reduce((org,cur)=>{
+        return org+cur
+    })
+    const ActiveContacts= tempData.map(a=>a[5]).reduce((org,cur)=>{
+        return org+cur
+    })
+    const DeliveredContact= tempData.map(a=>a[6]).reduce((org,cur)=>{
+        return org+cur
+    })
+    const UnhandeledContact= tempData.map(a=>a[7]).reduce((org,cur)=>{
+        return org+cur
+    })
+    // const TotalMessagesReceived= tempData.map(a=>a[8]).reduce((org,cur)=>{
+    //     return org+cur
+    // })
+    const TotalMessagesSent= tempData.map(a=>a[8]).reduce((org,cur)=>{
+        return org+cur
+    })
+    const AverageResponseTime= tempData.map(a=>a[9]).reduce((org,cur)=>{
+        return org+cur
+    })
+    const AverageFirstResponse= tempData.map(a=>a[10]).reduce((org,cur)=>{
+        return org+cur
+    })
+
+
+    useEffect(()=>{
+
+        setFilteredData(tempData)
+    },[])
+
+    useEffect(()=>{
+        setHandelList(filteredData.map(h=>h[5]),"handeled")
+        setDeliverList(filteredData.map(d=>d[6]))
+        setUnhandelList(filteredData.map(u=>u[7]),"unhandeled")
+        setAgentsList(filteredData.map(n=>n[0]),"unhandeled")
+    console.log(agentsList,"agadsfads");
+
+    },[filteredData])
+
+    const filterHandel =()=>{
+
+        // setFilteredData(tempData)
+        const data = tempData.filter(f=>{return  (selectedAgents.filter(el=>{return el == f[0]})==f[0])})
+        console.log(data,"after data")
+        setFilteredData(data)
+    }
+    useEffect(()=>{
+
+        selectedAgents.length>0? filterHandel():selectedAgents.length=0? setFilteredData(tempData):""
+        
+    },[selectedAgents])
+
+    const clear = ()=>{
+        setSelectedAgents([])
+    }
+
+
+
     const fetchDefault = async ()=>{
         let end = new window.Date().getTime() / 1000
         let start = end - 3600 * 24 * 7
@@ -99,7 +187,7 @@ export default function Agents() {
             setDash(data)
             const ado=[35,50,56,40,55,60,42]
             const list  = data.Agent.map((e,index)=>{return {...e,avgDailyOnline:ado[index]}})
-            setFilteredData(list)
+            // setFilteredData(list)
         } else {
             const dataIN = Date.parse(dayState.from)/1000
             const dataEND = Date.parse(dayState.to)/1000
@@ -108,7 +196,7 @@ export default function Agents() {
             console.log("fetch data by range",data)
             // setDash(data)
 
-            setFilteredData(dash.Agent)
+            // setFilteredData(dash.Agent)
         }
         console.log("dashboard = ",dash)
         console.log("dashboard dayState = ",dayState)
@@ -179,6 +267,7 @@ export default function Agents() {
         setSelectedAgents([])
         setSelectedChannels([])
         setSelectedTeams([])
+        setFilteredData(tempData)
 
     }
     useEffect(()=>{
@@ -292,10 +381,10 @@ export default function Agents() {
                 <div className="lineCardGroup1">
                     <LineChartCard chart={true} img={false} title={"Agents"} data={[7]}/>
                     <LineChartCard chart={true} img={false} title={"Connected"} data={[7]}/>
-                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[0 ]}/>
+                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[0]}/>
                     <LineChartCard chart={true} img={false} title={"All Contacts"} data={[15]}/>
-                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={[15]}/>
-                    <AverageDailyCard data = {[368*60]}/>
+                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={[7]}/>
+                    <AverageDailyCard data = {[AverDailyOnlineTime*60]}/>
                     {/* <LineChartCard chart={true} img={false} title={"Agents"} data={dash.agents_no}/>
                     <LineChartCard chart={true} img={false} title={"Connected"} data={dash.connected}/>
                     <LineChartCard chart={true} img={false} title={"Disconnected"} data={dash.disconnected}/>
@@ -304,23 +393,24 @@ export default function Agents() {
                     <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/> */}
                 </div>
                 <div className="lineCardGroup2">
-                    <ChangingPercentageCard title={"Total Assigned Contacts"} data2={[15]} data1={[5]}/>
-                    <ChangingPercentageCard title={"Active Contacts"} data2={[10]} data1={[5]}/>
-                    <ChangingPercentageCard title={"Delivered Contacts"} data2={[3]} data1={[5]}/>
-                    <ChangingPercentageCard title={"Unhandled Contacts"} data2={2} data1={[5]}/>
-                    <ChangingPercentageCard title={"Total Messages Received"} data2={[8]} data1={[5]}/>
-                    <ChangingPercentageCard title={"Total Messages Sent"} data2={[88]} data1={[5]}/>
-                    <ChangingPercentageCard title={"Average Response Time"} data2={[38]} data1={[5]}/>
-                    <ChangingPercentageCard title={"Average First Response Time"} data1={48} data2={38} />
+                    <ChangingPercentageCard title={"Total Assigned Contacts"} data2={AssignedContacts} data1={[5]}/>
+                    <ChangingPercentageCard title={"Active Contacts"} data2={ActiveContacts} data1={[5]}/>
+                    <ChangingPercentageCard title={"Delivered Contacts"} data2={DeliveredContact} data1={[5]}/>
+                    <ChangingPercentageCard title={"Unhandled Contacts"} data2={UnhandeledContact} data1={[5]}/>
+                    <ChangingPercentageCard title={"Total Messages Received"} data2={[70]} data1={[5]}/>
+                    <ChangingPercentageCard title={"Total Messages Sent"} data2={TotalMessagesSent} data1={[5]}/>
+                    <ChangingPercentageCard title={"Average Response Time"} data2={AverageResponseTime} data1={[5]}/>
+                    <ChangingPercentageCard title={"Average First Response Time"} data1={AverageFirstResponse} data2={38} />
                 </div>
             </div>
             <div className="chartGroup">
-                <div className="dashboardRow">
-                    <div className="dashboardBarColumn"><MultipleBarChart title={"Agents"} yaxis={"Contacts"} h={"650px"}
-                                                                        active={[5,1,5,1,1,5,5]}
-                                                                        unhandled={[5,8,1,2,1,0,2]}
-                                                                        delivered={[3,2,3,6,1,8,3]}
-                                                                        agents={dash.chart.user_name}
+                <div className="dashboardRow" style={{maxWidth:"1500px",width:"70w",display:"flex",justifyContent:"center",minHeight:"400px",margin:"0 auto"}}  >
+                    <div className="dashboardBarColumn" >
+                        <MultipleBarChart title={"Agents"} yaxis={"Contacts"} h={"750px"}
+                                                                        active={handelList}
+                                                                        unhandled={unhandelList}
+                                                                        delivered={deilverList}
+                                                                        agents={agentsList}
                                                                         min1={12} min2={12} min3={12} show={show}/></div>
                 </div>
 
@@ -364,6 +454,28 @@ export default function Agents() {
 
                                             </TableCell>
                                             <TableCell align="left">
+                                                <span >{data[0]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[1]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[2]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[3]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[4]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[5]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[6]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[7]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[8]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[9]}</span></TableCell>
+                                            <TableCell align="left">
+                                                <span >{data[10]}</span></TableCell>
+                                            {/* <TableCell align="left">
                                                 <span >{data[rolename[0]]}</span></TableCell>
                                             <TableCell align="left">
                                                 <span >{data[rolename[1]]}</span></TableCell>
@@ -384,12 +496,12 @@ export default function Agents() {
                                             <TableCell align="left">
                                                 <span >{data[rolename[9]]}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[rolename[10]]}</span></TableCell>
-                                            <TableCell align="left">
+                                                <span >{data[rolename[10]]}</span></TableCell> */}
+                                            {/* <TableCell align="left">
                                                 <span >{data[rolename[11]]}</span></TableCell>
                                             <TableCell align="left">
                                                 <span >{data[rolename[12]]}</span></TableCell>
-                                            <TableCell align="left"></TableCell>
+                                            <TableCell align="left"></TableCell> */}
 
                                         </TableRow>
                                     )

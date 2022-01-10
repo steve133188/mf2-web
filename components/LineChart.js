@@ -170,22 +170,28 @@ export function MultipleLineChart({children,...props}) {
 }
 
 export function MultipleBarChart({children,...props}) {
+
     const {title, active, delivered, unhandled,agents, min1, min2, min3, yaxis,show,h} = props;
+
+    useEffect(()=>{
+        console.log(agents,"in chart")
+    },[agents])
     const [state, setState] = useState({
         series: [{
-        name: 'Unhandled Contacts',
-        data: unhandled
-    }, {
-        name: 'Delivered Contacts',
-        data: delivered
-    }, {
-        name: 'Active Contacts',
-        data: active
+            name: 'Active Contacts',
+            data: active
+        }, {
+            name: 'Delivered Contacts',
+            data: delivered
+        }, {
+            name: 'Unhandled Contacts',
+            data: unhandled
     }],
             options: {
                 chart: {
                     type: 'bar',
                     height: {h},
+
                     stacked: true,
                     toolbar: {
                         show: true
@@ -208,12 +214,26 @@ export function MultipleBarChart({children,...props}) {
                     bar: {
                         horizontal: false,
                         borderRadius: 10,
-                        // columnWidth: '100%',
+                        columnWidth: '50%',
                     },
                 },
                 xaxis: {
-                    type: 'string',
                     categories: agents,
+                    labels: {
+
+                        offsetX: 0,
+                        offsetY:0,
+                        style: {
+                          fontSize: "16px",
+                          colors: "#828282",
+                          fontFamily: "Calibri Regular",
+                          fontWeight: 400,
+                          cssClass: "apexcharts-xaxis-label"
+                        }
+                      },
+                    type: 'string',
+
+
                 },
                 legend: {
                     position: 'bottom',
@@ -233,17 +253,19 @@ export function MultipleBarChart({children,...props}) {
             console.log("props",props)
             setState({...state,
                 series: [{
-                    name: 'Unhandled Contacts',
-                    data: unhandled
+                    name: 'Active Contacts',
+                    data: active
                 }, {
                     name: 'Delivered Contacts',
                     data: delivered
                 }, {
-                    name: 'Active Contacts',
-                    data: active
+                    name: 'Unhandled Contacts',
+                    data: unhandled
                 }], 
-                
-                backgroundColors: ["#2198FA","#6279EC", '#34C38F']
+                xaxis: {
+                    categories: agents,
+                },
+
 
             })
         },[

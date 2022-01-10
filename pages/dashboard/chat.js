@@ -325,36 +325,22 @@ export default function Chat() {
                             <div className={"half_session block_session"}>
                                 <div className={"top_row"}>
 
-{/*
-                                    <span className={"title"}>Tags  {`${tags.length}`}</span>
 
-                                    <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                                        setFilteredTags(new_data)
-                                    })}} >
-                                        {filteredTags.map((tag)=>{
-                                            return(<li key={tag.tag_id}><Pill size="30px" key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
-                                                <div className="newCheckboxContainer">
-                                                    <label className="newCheckboxLabel">
-                                                        <input type="checkbox" id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} />
-                                                    </label> </div></li>)
-                                        })}
-                                    </MF_Select> */}
+                    <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px" ,height:"45px",marginRight:"25%"}}>
+                        <MF_Select top_head={`Tags : ${tags.length}`} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                            setFilteredTags(new_data)
+                        })}} ><div>
 
-                            <span className={"title"} style={{display:"flex",alignItems:"center",margin:"5%"}}>Tags : {`${tags.length}`}</span>
-
-                        <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px" ,height:"45px"}}>
-                <MF_Select top_head={"Tags"} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                    setFilteredTags(new_data)
-                })}} >
-                    {filteredTags.map((tag,index)=>{
-                        // console.log(tag)
-                        return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>
-                            <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
-                                    <input type="checkbox" value={tag.tag_id} id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
-                                </label> </div></li>)
-                    })}
-                </MF_Select>
+                            {filteredTags.map((tag,index)=>{
+                                // console.log(tag)
+                                return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>
+                                    <div className="newCheckboxContainer">
+                                        <label className="newCheckboxLabel">
+                                            <input type="checkbox" value={tag.tag_id} id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
+                                        </label> </div></li>)
+                            })}
+                        </div>
+                        </MF_Select>
 
 
                     </div>
