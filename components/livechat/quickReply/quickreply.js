@@ -29,8 +29,9 @@ export default function QuickReply(props) {
                     variant="scrollable"
                     scrollButtons={false}
                     ref={props.ref}
-                    // scrollButtons="auto"
                     visibleScrollbar
+                    sx={{minHeight:"10px"}}
+                    // scrollButtons="auto"
                 >
                     {props.data.map((item,index)=>(<Tab label={item.name} key={index} value={`${item.id}`} />))}
 
