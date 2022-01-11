@@ -13,10 +13,14 @@ import AddIcon from "@mui/icons-material/Add";
 import {GlobalContext} from "../../context/GlobalContext";
 import Mf_circle_btn from "../mf_circle_btn";
 import {route} from "next/dist/server/router";
+import {API ,graphqlOperation} from "aws-amplify";
+import {updateChatroom} from "../../src/graphql/mutations";
+import {listChatrooms} from "../../src/graphql/queries";
 
 export default function EditProfileForm({data , toggle}){
     const router = useRouter()
     const [editContact , setEditContact] = useState(data)
+    const [origin , setOrigin] = useState(data)
     const [users ,setUsers] =useState([])
     const [tags ,setTags] =useState([])
     const [selectedTags ,setSelectedTags] =useState([])
@@ -24,6 +28,7 @@ export default function EditProfileForm({data , toggle}){
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
     const {userInstance ,tagInstance,contactInstance, user} = useContext(GlobalContext)
+
 
 
     const getTags = async ()=>{
@@ -120,14 +125,33 @@ export default function EditProfileForm({data , toggle}){
     const phone = parseInt(editContact.phone)
     const country_code = parseInt(editContact.country_code)
         const name =` ${editContact.first_name} ${editContact.last_name}`
-        const data = {...editContact,customer_name:name ,phone:phone,country_code,  tags_id:tagslist , agents_id:userslist}
-        delete data.channels
+        const data = {...editContact,customer_name:name ,phone:phone,country_code,  tags_id:tagslist , agents_id:userslist }
         console.log(data,"edit data")
         const res = await contactInstance.updateContact (data)
-            console.log(res)
+        console.log(res)
+        if(origin.customer_name !== name){
+            for (const ch of editContact.channels) {
+                const chatroom = await API.graphql(graphqlOperation(listChatrooms , {filter:{customer_id:{eq:editContact.customer_id.toString()} , channel:{eq:ch} } , limit:1000}))
+                    .then(res=>{
+                        return res.data.listChatrooms.items[0]
+                    }).catch(err=>alert("the customer chatroom not found"))
+                const setChatroom = await API.graphql(graphqlOperation(updateChatroom , {
+                    input: {
+                        room_id: chatroom.room_id,
+                        channel: chatroom.channel,
+                        name: name
+                    }
+                }))
+                    .then(res=> res).catch(err=> {  alert("update customer chatroom info fail");
+                console.log(err)
+            })
+            }
+        }
 
+        if(res == 200 ){
+            router.reload()
+        }
 
-            if(res == 200 ){toggle(data)}
     }
     function cancel(e){
         e.preventDefault()
