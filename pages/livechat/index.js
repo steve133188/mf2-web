@@ -553,10 +553,6 @@ export default function Live_chat() {
             await getAllChatrooms()
             await getStickers()
             await subChatrooms()
-
-
-
-            // TODO need to implete receiver id to sub input
         }
     },[]);
 
@@ -708,6 +704,8 @@ export default function Live_chat() {
 
     }
 
+
+
     //record and send audio
     const getAudioFile = async (audioFile) => {
         console.log("calling getAudioFile")
@@ -779,7 +777,7 @@ export default function Live_chat() {
                         {/*    return ( <ChatroomList  chatroom={d} key={d.room_id} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
                         {/*sort((first , second)=>{return second.unread-first.unread}).*/}
                         {/*})}*/}
-                        {filteredData.length!==0&&filteredData.map((d , index)=>{
+                        {filteredData.length!==0&&filteredData.sort(function (a,b){return b.unread-a.unread}).map((d , index)=>{
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
                             return ( <ChatroomList  chatroom={d} selectedChat={selectedChat} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
                         })}
