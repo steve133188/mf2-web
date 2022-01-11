@@ -286,60 +286,6 @@ export const deleteActivity = /* GraphQL */ `
     }
   }
 `;
-export const createChatroom = /* GraphQL */ `
-  mutation CreateChatroom($input: CreateChatroomInput!) {
-    createChatroom(input: $input) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
-export const updateChatroom = /* GraphQL */ `
-  mutation UpdateChatroom($input: UpdateChatroomInput!) {
-    updateChatroom(input: $input) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
-export const deleteChatroom = /* GraphQL */ `
-  mutation DeleteChatroom($input: DeleteChatroomInput!) {
-    deleteChatroom(input: $input) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
 export const createMessage = /* GraphQL */ `
   mutation CreateMessage($input: CreateMessageInput!) {
     createMessage(input: $input) {
@@ -409,6 +355,60 @@ export const deleteMessage = /* GraphQL */ `
       v_card
       read
       status
+    }
+  }
+`;
+export const createChatroom = /* GraphQL */ `
+  mutation CreateChatroom($input: CreateChatroomInput!) {
+    createChatroom(input: $input) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const updateChatroom = /* GraphQL */ `
+  mutation UpdateChatroom($input: UpdateChatroomInput!) {
+    updateChatroom(input: $input) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const deleteChatroom = /* GraphQL */ `
+  mutation DeleteChatroom($input: DeleteChatroomInput!) {
+    deleteChatroom(input: $input) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
     }
   }
 `;

@@ -32,7 +32,7 @@ export default function Layout({children}) {
         const s =await API.graphql(graphqlOperation(eventListenr )).subscribe({
             next: newData=>{
                 console.log(newData)
-                if(newData.value.data.eventListenr.action == "RECEIVED_MESSAGE"){
+                if(newData.value.data.eventListenr.action == "RECEIVED_MESSAGE"||newData.value.data.eventListenr.action == "CREATED_MESSAGE"){
                     setNotificationList(prev=>[newData.value.data.eventListenr ,...prev ])
                     console.log("received activity" ,notificationList)
                     setShowNotificationList(prev=>[newData.value.data.eventListenr , ...prev] )

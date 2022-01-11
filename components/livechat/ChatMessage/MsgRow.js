@@ -36,7 +36,7 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,.
 
             case "IMAGE":
             case "image":
-                if(msg.body.length>0){
+                if(msg.body ){
                     return <div id={msg.room_id} onClick={replyclick} className={"msg_type_imageCaption"  +( props.replyMsg==msg.room_id?" replyActive":"")}> {props.replyMsg==msg.room_id?<Reply confirmReply={confirmReply} />:""}
                         {/* {console.log(JSON.parse(captionJson).url)} */}
                                 {/* JSON.parse({msg.body}) */}

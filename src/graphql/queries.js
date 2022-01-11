@@ -282,78 +282,6 @@ export const listActivities = /* GraphQL */ `
     }
   }
 `;
-export const getChatroom = /* GraphQL */ `
-  query GetChatroom($channel: String!, $room_id: String!) {
-    getChatroom(channel: $channel, room_id: $room_id) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
-export const listChatrooms = /* GraphQL */ `
-  query ListChatrooms(
-    $filter: TableChatroomFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listChatrooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        channel
-        customer_id
-        is_pin
-        name
-        phone
-        room_id
-        country_code
-        unread
-        user_id
-        avatar
-        last_msg_time
-        bot_on
-      }
-      nextToken
-    }
-  }
-`;
-export const queryChatroomsByChannelCustomerIdIndex = /* GraphQL */ `
-  query QueryChatroomsByChannelCustomerIdIndex(
-    $channel: String!
-    $first: Int
-    $after: String
-  ) {
-    queryChatroomsByChannelCustomerIdIndex(
-      channel: $channel
-      first: $first
-      after: $after
-    ) {
-      items {
-        channel
-        customer_id
-        is_pin
-        name
-        phone
-        room_id
-        country_code
-        unread
-        user_id
-        avatar
-        last_msg_time
-        bot_on
-      }
-      nextToken
-    }
-  }
-`;
 export const getMessage = /* GraphQL */ `
   query GetMessage($room_id: String!, $timestamp: String!) {
     getMessage(room_id: $room_id, timestamp: $timestamp) {
@@ -404,6 +332,49 @@ export const listMessages = /* GraphQL */ `
         v_card
         read
         status
+      }
+      nextToken
+    }
+  }
+`;
+export const getChatroom = /* GraphQL */ `
+  query GetChatroom($channel: String!, $room_id: String!) {
+    getChatroom(channel: $channel, room_id: $room_id) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const listChatrooms = /* GraphQL */ `
+  query ListChatrooms(
+    $filter: TableChatroomFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listChatrooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        channel
+        customer_id
+        is_pin
+        name
+        phone
+        room_id
+        country_code
+        unread
+        user_id
+        avatar
+        last_msg_time
+        bot_on
       }
       nextToken
     }

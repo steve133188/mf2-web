@@ -17,7 +17,7 @@ import {listChatrooms, listMessages, listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} f
 import {createChatroom, updateChatroom, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import {
     subscribeChatroom,
-    suballChatrooms,
+    suballChatroom,
 } from "../../src/graphql/subscriptions"
 import Avatar from "@mui/material/Avatar";
 import StickerBox from "../../components/livechat/sticker/sticker_box";
@@ -114,10 +114,11 @@ export default function Live_chat() {
         let user_id= user.user.user_id
         if(chatroomsSub) chatroomsSub.unsubscribe()
         console.log("subscribe all start")
-        const sub = API.graphql(graphqlOperation(suballChatrooms))
+        const sub = API.graphql(graphqlOperation(suballChatroom))
             .subscribe({
                 next: async (chat) => {
-                    const newChat = chat.value.data.suballChatrooms
+                    console.log("new message" , chat)
+                    const newChat = chat.value.data.suballChatroom
                     if (selectedChat.name == newChat.name &&newChat.unread !=0) await updateChatroomUnread(newChat)
                     await getAllChatrooms()
 
@@ -149,7 +150,7 @@ export default function Live_chat() {
     }
     const updateChatroomUnread = async (chat)=>{
         console.log("update chatroom start")
-        return  await API.graphql(graphqlOperation(updateChatroom , {input:{user_id:chat.user_id  , room_id:chat.room_id , unread:0 } }))
+        return  await API.graphql(graphqlOperation(updateChatroom , {input:{user_id:chat.user_id  , room_id:chat.room_id , unread:0 , channel:chat.channel } }))
             .then(res =>{
                 const data = res.data.updateChatroom
                 console.log("handle unread "  , data)
@@ -188,7 +189,7 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listMessages,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
             .then(res=>{
                 setChatroomMsg(prev=>[...res.data.listMessages.items])
-                if(res.data.listMF2TCOMESSAGGES.items.length!==0){
+                if(res.data.listMessages.items.length!==0){
                     let nofromme = res.data.listMessages.items.filter(msg=>{
                         return msg.from_me ==false
                     })
