@@ -483,9 +483,9 @@ export default function Live_chat() {
             setFilePrevier(filePreviewOldState)
         }
         setIsExpand(false)
+        setChatButtonOn("")
         const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         console.log("data sent out :" , data)
-        setChatButtonOn("")
     }
 
     const ReferechHandle=async()=>{
@@ -918,7 +918,7 @@ export default function Live_chat() {
                             <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                             <Picker  onSelect={(emoji)=> {
-                                setTypedMsg({...typedMsg,message: typedMsg.message+emoji.native})
+                                setTypedMsg({...typedMsg,message: typedMsg.message+" "+emoji.native+" "})
                             }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
                             <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
                                 <StickerBox data={stickerData} stickerSend={stickerSend}  />

@@ -5,13 +5,19 @@ import { VoiceMsg } from "../public/livechat/MF_LiveChat_Landing/chat_svg";
 
 
 export default function Recorder({ returnVoiceMessage }) {
+
+      async function requestRecorder() {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        return new MediaRecorder(stream, { mimeType : 'audio/wav ' });
+    }
+
     const useRecorder = () => {
         const [audioFile, setAudioFile] = useState(null);
         const [audioURL, setAudioURL] = useState("");
         const [isRecording, setIsRecording] = useState(false);
         const [recorder, setRecorder] = useState(null);
 
-        useEffect(() => {
+        useEffect( async() => {
             // Lazily obtain recorder first time we're recording.
             if (recorder === null) {
                 if (isRecording) {
@@ -57,11 +63,7 @@ export default function Recorder({ returnVoiceMessage }) {
         return [ audioURL, isRecording,startRecording, stopRecording];
     };
 
-    async function requestRecorder() {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        return new MediaRecorder(stream, { 'mimeType' : 'audio/wav ' });
-    }
-
+  
 
     
 

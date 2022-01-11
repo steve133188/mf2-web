@@ -114,6 +114,7 @@ export default function Organization() {
     const fetchRootORG = async () =>{
         const data = await orgInstance.getAllORG()
         set_org(data)
+        console.log("org data",data)
     }
     useEffect(    async () => {
         set_curr_org({})
@@ -301,7 +302,7 @@ export default function Organization() {
                                 <input type="text" className="nameEdit" onChange={handleChangeName} placeholder={`${curr_org.name}`}></input>
                             ):
                             (curr_org.name || "All")}
-                            {"(" +currentContacts.length+")"}
+                            {"(" +filteredData.length+")"}
                         </div>
                         {isEditNameActive?(
                         <>
@@ -320,7 +321,7 @@ export default function Organization() {
 
 
                     </SelectSession>
-                <TableContainer sx={{minWidth: 750 , minHeight: "60vh" }} className={"table_container"} >
+                <TableContainer sx={{minWidth: 750 , minHeight: "60vh",maxHeight:"1000px" }} className={"table_container"} >
                     <Table
                         sx={{minWidth: 750 }}
                         aria-labelledby="tableTitle"

@@ -35,7 +35,7 @@ export default function usersFetcher(token){
             token:localStorage.getItem("token")
         });
         console.log(user)
-        if(res.status == 200) router.push("/dashboard/livechat")
+        if(res.status == 200) router.push("/dashboard/chat")
     }
     instance.createUser = async (credentials)=>{
         const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users"
