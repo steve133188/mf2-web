@@ -279,45 +279,13 @@ export default function Contacts() {
     }
 
     const removeContact = async (id)=>{
-
         const res =await contactInstance.deleteContact (id)
-
         setDeleteID("")
-        // const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        // const deleteItems = {data:[id]}
-        // const res =await axios.delete(url ,{ headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem("token")}`
-        //     },
-        // data: deleteItems})
-        // if (res.status == 200) {
             console.log(id)
             console.log(res)
             await fetchContacts()
-        //     setSelectedContacts([])
-        // }
-        // setSelectedTags([])
     }
-    const addManyTags = async ()=>{
-        // let items =[]
-        // if(addedTags!=-1){
-        //     addedTags.forEach((c)=>{
-        //         items.push(c)
-        //     })
-        // }
-        // const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        // const addItems = {data:items}
-        // console.log("remove contact id",addedTagsItems)
-        // const res =await axios.update(url ,{ headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem("token")}`
-        //     },
-        //     data:addItems})
-        // if (res.status == 200) {
-        //     await fetchContacts()
-        //     setSelectedContacts([])
-        // }
-    }
+
     const removeManyContact = async ()=>{
         let items =[]
         if(selectedContacts!=-1){
@@ -326,14 +294,6 @@ export default function Contacts() {
             })
         }
         const res = contactInstance.deleteContacts(items)
-        // const url = "https://mf-api-customer-nccrp.ondigitalocean.app/api/customers/id"
-        // const deleteItems = {data:items}
-        // console.log("remove contact id",deleteItems)
-        // const res =await axios.delete(url ,{ headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem("token")}`
-        //     },
-        //     data:deleteItems})
         console.log(res)
         await fetchContacts()
         setSelectedContacts([])
@@ -494,9 +454,9 @@ export default function Contacts() {
                 </div>):null}
             >
             <div className="top_bar">
-                    
+
                 <div className="top_bar_left" >
-                   
+
                     <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agents"} head={"Agents"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                         setFilteredUsers(new_data)
                     })}}>
@@ -517,7 +477,7 @@ export default function Contacts() {
                     </MF_Select>
                     <MF_Select head={"Teams"} top_head={selectedTeams.length ==0?"Teams":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
                        <li onClick={()=> {
-                        
+
                            setSelectedTeams([]);
                            advanceFilter()
                        }}

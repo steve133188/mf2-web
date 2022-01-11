@@ -12,12 +12,14 @@ import ChatHelper from "../helpers/chatHelper";
 import tagFetcher from "../helpers/tagHelpers";
 import roleFetcher from "../helpers/roleHelpers";
 import dashboardFetcher from "../helpers/dashboardHelpers";
+import ChatStore from "../store/store";
 
 export const GlobalContext = createContext({})
 
 export const GlobalContextProvider = ({children}) =>{
     const [user , setUser] = useState({user:{ },token:null,})
     const [errors , setErrors] = useState("")
+    const [selectedChat , setSelectedChat] = useState({})
     const [notification , setNotification] = useState([])
     const [contacts , setContacts] = useState([] )
     const [message , setMessage] = useState([])
@@ -96,6 +98,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance  }}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance ,selectedChat , setSelectedChat  }}>{children}</GlobalContext.Provider>
     )
 }

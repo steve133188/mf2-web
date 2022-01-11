@@ -19,14 +19,11 @@ export default function ProfileGrid({data,toggle}){
     const {contactInstance , user} = useContext(GlobalContext)
 
     const [writenote,setWritenote] = useState("")
-    const [useContact , setUseContact] = useState()
+    const [useContact , setUseContact] = useState(data)
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [assingedContacts, setAssingedContacts] = useState([])
     const router = useRouter()
-    // useEffect(()=>{
-    //     setNotes(notesData)
-    //     console.log("user data",data)
-    // },[])
+
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) setUseContact(key);
         if(isEditProfileShow) await fetchContacts();
@@ -49,14 +46,12 @@ export default function ProfileGrid({data,toggle}){
     }
     const fetchContacts = async () =>{
         const contactsdata = await contactInstance.getAllContacts()
-
         console.log(contactsdata,"contactssss")
         const assigned = contactsdata.filter(c=>c.agents.includes(data.username))
         console.log(assigned,"contactssss")
-
         setAssingedContacts(assigned)
-        // setFilteredData(data)
     }
+
     const toggleChat = ()=>{
         const n = router.pathname
         return n.includes("/livechat")
@@ -77,51 +72,49 @@ export default function ProfileGrid({data,toggle}){
         await dropNote(input)  ;
         setWritenote("")
     }
-    const [log , setLog]  = useState([])
+
     useEffect(async ()=>{
         await fetchNotes(data.customer_id)
-    //    fetch log by customer_id
-    //    fetch assignee by customer_id
-    //    fetch team by customer_id
     },[])
     return(<div className={"profile_grid"}>
-        {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggle}/></Profile>):null}
+        {isEditProfileShow&&useContact?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggle}/></Profile>):null}
         <div className={"info_col grid_box"}>
             <span className={"dot"} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} >. . .</span>
             <div className={"ava_block"} style={{margin:"30px 0"}}>
-                <Avatar className={"ava"} src={data.img_url} alt="profile pic"/>
-                <span className={"title"}>{data.first_name + " " + data.last_name}</span>
-                <Link href="/livechat" id={data.customer_id}><button className={"chat_btn"} onClick={toggleChat}>chat</button></Link>
+                {/*<Avatar className={"ava"} src={data.img_url} alt="profile pic"/>*/}
+                <Avatar className={"ava"} src={""} alt="profile pic"/>
+                <span className={"title"}>{useContact.customer_name}</span>
+                <Link href="/livechat" id={useContact.customer_id}><button className={"chat_btn"} onClick={toggleChat}>chat</button></Link>
             </div>
             <div className="info_box">
 
             <div className={"info_row"}>
                 <span className={"info_label"}>CustomerID</span>
-                <span className={"info_content"}>{data.customer_id}</span>
+                <span className={"info_content"}>{useContact.customer_id}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Phone Number</span>
-                <span className={"info_content"}>{`+${data.country_code} ${data.phone}`}</span>
+                <span className={"info_content"}>{`+${useContact.country_code} ${useContact.phone}`}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
-                <span className={"info_content"}>{data.email}</span>
+                <span className={"info_content"}>{useContact.email}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Birthday</span>
-                <span className={"info_content"}>{data.birthday}</span>
+                <span className={"info_content"}>{useContact.birthday}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Gender</span>
-                <span className={"info_content"}>{data.gender}</span>
+                <span className={"info_content"}>{useContact.gender}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Address</span>
-                <span className={"info_content"}>{data.address}</span>
+                <span className={"info_content"}>{useContact.address}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Created Date</span>
-                <span className={"info_content"}>{new Date(data.created_at*1000).toLocaleDateString('en-US')}</span>
+                <span className={"info_content"}>{new Date(useContact.created_at*1000).toLocaleDateString('en-US')}</span>
             </div>
             {/* <div className={"info_row"}>
                 <span className={"info_label"}>Contact Owner</span>
@@ -136,7 +129,7 @@ export default function ProfileGrid({data,toggle}){
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
                         <div className={"session_content"}>
                             {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
-                                {data.agents!=null &&data.agents.map((agent , index)=>{
+                                {useContact.agents!=null &&useContact.agents.map((agent , index)=>{
                                     console.log(agent,"contact file agents")
                                     return(
                                         <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
@@ -156,12 +149,12 @@ export default function ProfileGrid({data,toggle}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
-                            { data.channels!=null && data.channels.map((chan , index)=>{console.log(chan,"chan1111");
+                            { useContact.channels!=null && useContact.channels.map((chan , index)=>{console.log(chan,"chan1111");
                                 return(<div className={'channel_row'} key={index}>
                                     <div className={"channel_row_lf"}>
                                             <div>
                                         <   img key={index} width="40px" height="40px"   style={{ margin:"15px 3px",textAlign:"center"}}   src={`/channel_SVG/${chan}.svg`} alt=""/>
-                                            {data.chan}
+                                            {useContact.chan}
 </div>
                                             </div>
 
@@ -176,7 +169,7 @@ export default function ProfileGrid({data,toggle}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Tags</span></div>
                         <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
-                            {data.tags.map((tag , index)=>{
+                            {useContact.tags.map((tag , index)=>{
                                 return( <Pill key={index} color="lightBlue">{tag.tag_name}</Pill>)
                             })}
                         </div>
