@@ -447,7 +447,7 @@ export default function Live_chat() {
     }
     const stickerSend =  async e=>{
         e.preventDefault();
-        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:"sticker",channel:selectedChat.channel}
+        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"sticker",channel:selectedChat.channel}
         console.log("sticker payload" , data);
         const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
@@ -475,7 +475,7 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
-        const data = {message:typedMsg.message , phone :selectedChat.phone ,chatroom_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
+        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
         setTypedMsg({...typedMsg , message: ""})
         if(isMedia){
             setIsMedia(false)
