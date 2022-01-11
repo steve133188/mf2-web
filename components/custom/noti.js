@@ -1,9 +1,13 @@
 import Avatar from "@mui/material/Avatar";
 import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
+import {API, graphqlOperation} from "aws-amplify";
+import {listChatrooms} from "../../src/graphql/queries";
+import {useRouter} from "next/router";
 
 export default function NotificationAlert({notification ,notificationList ,setNotificationList }){
-    const {contactInstance} = useContext(GlobalContext)
+    const {contactInstance , setSelectedChat} = useContext(GlobalContext)
+    const router = useRouter()
     const autoDeleteTime=10000
     const [contact , setContact] =useState({})
     useEffect(() => {
@@ -18,14 +22,27 @@ export default function NotificationAlert({notification ,notificationList ,setNo
         const cus = await contactInstance.getContactById(parseInt(notification.customer_id))
         setContact(cus)
     },[])
+
+    const handleSelectChat = async ()=>{
+        const chat = await API.graphql(graphqlOperation(listChatrooms , {filter:{customer_id:{eq:notification.customer_id}} , limit:1000}))
+            .then(res=>{
+                console.log("res:",res)
+                return res.data.listChatrooms.items[0]
+            }).catch(err=>{
+                alert(err)
+            })
+        setSelectedChat(prev=>chat)
+        router.push("/livechat")
+    }
     return(
-        <div className="msg_noti_popup" style={{display:"flex" }}>
+
+        <div className="msg_noti_popup" style={{display:"flex" }} onClick={handleSelectChat}>
             <div className="popleft">
                 <div className="pop_matter">
 
                     {notification.type=="disconnect"?<img src={`/channel_SVG/disconnect.svg`} style={{borderRadius:0}} />:""}
                     {/*{notification.type=="MESSAGE"?<img src={`/channel_SVG/${notification.channel}.svg`}  style={{width:"40px",height:"40px"}} />:""}*/}
-                    {notification.type=="MESSAGE"?<img src={`/channel_SVG/Whatsapp.svg`}  style={{width:"40px",height:"40px"}} />:""}
+                    {notification.type=="MESSAGE"?<img src={`/channel_SVG/WABA.svg`}  style={{width:"40px",height:"40px"}} />:""}
                 </div>
                 <div className="pop_content">
                     {notification.type=="disconnect"?
@@ -40,7 +57,7 @@ export default function NotificationAlert({notification ,notificationList ,setNo
                             {`${ contact.customer_name }`}
                         </div>
                         :""}
-                    <div className="pop_half"> {notification.content??"New message coming"}</div>
+                    <div className="pop_half"> {notification.content?? ` ${contact.customer_name} send you a new message `}</div>
                 </div>
             </div>
 

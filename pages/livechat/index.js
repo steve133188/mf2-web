@@ -46,11 +46,11 @@ export default function Live_chat() {
 
         ]
 
-        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper ,mf2chat} = useContext(GlobalContext)
+        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper ,mf2chat ,selectedChat , setSelectedChat} = useContext(GlobalContext)
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
         const [attachment , setAttachment ] = useState([])
-        const [selectedChat , setSelectedChat] = useState({})
+        // const [selectedChat , setSelectedChat] = useState({})
         const [chatSearch, setSearch] = useState(false)
         const [isRobotOn , setIsRobotOn] = useState(false)
         const [chatboxSearch, setChatBoxSearch] = useState("")
@@ -119,7 +119,7 @@ export default function Live_chat() {
                 next: async (chat) => {
                     console.log("new message" , chat)
                     const newChat = chat.value.data.suballChatroom
-                    if (selectedChat.name == newChat.name &&newChat.unread !=0) await updateChatroomUnread(newChat)
+                    if (selectedChat == newChat.name &&newChat.unread !=0) await updateChatroomUnread(newChat)
                     await getAllChatrooms()
                 }
             })
@@ -143,7 +143,9 @@ export default function Live_chat() {
         if(chatroom.channel !== "WABA")setLastMsgFromClient("")
         if (chatroom.unread!==0  )await updateChatroomUnread(chatroom);
         setChatroomMsg([])
-        setSelectedChat(prev=>chatroom)
+        setSelectedChat(chatroom)
+        console.log(selectedChat)
+        // setSelectedChat(prev=>chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
         await getCustomerbyID(chatroom.customer_id)
         if(typeof chatroom.customer_id !=="number") return
@@ -212,8 +214,9 @@ export default function Live_chat() {
         console.log(filePreview,"file attachment show")
     },[filePreview])
     useEffect(()=>{
-        if(mf2chat.store.room_id)setSelectedChat(prev=>mf2chat.store)
-
+        // if(selectedChat.room_id)setSelectedChat(prev=>selectedChat)
+        // if(selectedChat.room_id)mf2chat.setChat(selectedChat)
+        console.log("mf2chat store : " ,selectedChat)
     },[mf2chat])
     const upload = async (e) =>{
         e.preventDefault()
@@ -276,6 +279,7 @@ export default function Live_chat() {
 
     useEffect(()=>{
         setReplyData(replyTemplateList)
+        console.log("init mf2chat" , selectedChat)
         // console.log("total unread",totalUnread)
     },[])
 
@@ -336,7 +340,10 @@ export default function Live_chat() {
     const messagesEndRef = useRef()
     const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
     useEffect(()=>{
-        scrollToBottom()}
+        setTimeout(()=>{
+            scrollToBottom()
+        },500)
+        }
         ,[chatroomMsg])
 
     ///////
@@ -477,7 +484,6 @@ export default function Live_chat() {
         setReply(!reply)
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsExpand(isExpand&&ChatButtonOn=="mr"?false:true);
-
     }
 
     useEffect(()=>{
@@ -530,7 +536,9 @@ export default function Live_chat() {
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
-                    scrollToBottom()
+                    setTimeout(()=>{
+                        scrollToBottom()
+                    },1000)
                     console.log("new message: " , newMessage)
                     // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                 }
@@ -558,9 +566,6 @@ export default function Live_chat() {
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         let newData = [...chatrooms]
-        console.log("user in adva f" , users)
-
-
         if(selectedTeams.length>0) newData = teamFilter(users , selectedTeams , newData);
         if(selectedUsers.length>0) newData = agentfilter(users , selectedUsers , newData);
         if(selectedTags.length>0)  newData = tagFilter(contacts , selectedTags , newData);
