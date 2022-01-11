@@ -38,7 +38,20 @@ export default function Recovery() {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin' : '*'
             },
-        })
+        }) .then(response => {
+            console.log(response,"respone")
+            console.log(response.status,"respone")
+            if(response.status != 200){
+                return  
+            } return response
+            }).catch(err=>{
+                console.log(err,"err");
+                alert("This email is wrong.")
+                setEmailType("Invaild email, please try again.")
+                return err
+            })
+
+        console.log(res,"res check")
         if (res.status ==200 || res.status == 201) {
             setIsSubmit(true)
         }else if(res.status==400){
@@ -101,7 +114,7 @@ export default function Recovery() {
                                     setError(false)
                                 }}
                                 placeholder={"Email"}
-                                style={{ font:" normal normal normal 16px/22px Manrope",fontSize:"1vw" ,display:"flex",alignItems:"center"}}
+                                style={{ font:" normal normal normal 13px/22px Manrope" ,display:"flex",alignItems:"center"}}
                                 // className={invalid}
                             />
                         </div>

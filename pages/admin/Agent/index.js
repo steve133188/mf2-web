@@ -25,7 +25,7 @@ import Loading from "../../../components/Loading";
 export default function Index() {
     const [isLoading, setIsLoading] = useState(true);
 
-    const {adminInstance , userInstance, orgInstance,user} = useContext(GlobalContext)
+    const {adminInstance ,contactInstance, userInstance, orgInstance,user} = useContext(GlobalContext)
     const [selectedUsers , setSelectedUsers] = useState([])
 
     const searchRef = useRef(null)
@@ -125,10 +125,16 @@ export default function Index() {
         deleteRole(deleteRolename);
         setIsDelete(!isDelete)
     }
-    const deleteRole = async (role)=>{
-        const res = await userInstance.deleteUserById (role.id)
-        console.log(res,"delete User")
-        await fetchUsers()
+    const deleteRole = async (agent)=>{
+        console.log(agent ,"agent to delete")
+        const cd = await contactInstance.getContactsByUsers (agent.id)
+        cd.map(async e=>{   
+            console.log(e,"delete User")
+            const res = await contactInstance.deleteCustomerAgent (e.customer_id,[agent.id])
+            console.log(res,"delete User")
+        })
+        // const res = await userInstance.deleteUserById (agent.id)
+        // await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow)

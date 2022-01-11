@@ -32,7 +32,7 @@ export default function contactsFetcher(token){
     }
 
      instance.getContactsByUsers = async (data)=>{
-        return (await instance.fetcher.post("/customers/agent",data)).data
+        return (await instance.fetcher.get(`/customers/agent?agent=${data}`,data)).data
     }
 
      instance.getContactsByTags = async (data)=>{
