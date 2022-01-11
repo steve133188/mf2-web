@@ -131,7 +131,6 @@ export default function Agents() {
 
 
     useEffect(()=>{
-
         setFilteredData(tempData)
     },[])
 
@@ -173,7 +172,7 @@ export default function Agents() {
     useEffect(async()=>{
         let data = await fetchDefault();
         setDash(data)
-
+        
         if(isLoading){
             setTimeout(function() { //Start the timer
                 setIsLoading(false);
@@ -333,7 +332,7 @@ export default function Agents() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter click={dashClear } confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } teams={toggleSelectTeams} />
+                                                <DashBroadFilter cancelClick={dashClear} confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } teams={toggleSelectTeams} />
                                     </div>
                                 </div>
                             </div>

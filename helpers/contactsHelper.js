@@ -53,11 +53,11 @@ export default function contactsFetcher(token){
         return (await instance.fetcher.get(`/customers/team/${team_id}`)).data
     }
 
-     instance.getContactsByNoTeam = async ()=>{
+    instance.getContactsByNoTeam = async ()=>{
         return (await instance.fetcher.get(`/team`)).data
     }
 
-     instance.updateContactTags = async(customer_id,tag_id) =>{
+    instance.updateContactTags = async(customer_id,tag_id) =>{
         return (await instance.fetcher.put("/customer/add-tag",{customer_id,tag_id})).status
     }
     instance.deleteCustomerTag = async(customer_id,tag_id) =>{

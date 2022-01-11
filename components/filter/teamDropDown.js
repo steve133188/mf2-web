@@ -6,7 +6,6 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Checkbox from '@mui/material/Checkbox';
 import { Tooltip } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
 import { GlobalContext } from "../../context/GlobalContext";
@@ -14,45 +13,41 @@ import { GlobalContext } from "../../context/GlobalContext";
 export default function DropDown ({teamData,setSelection}) {
 
 
-    const Division=[
-        {id:1,teams:[{id:1,name:"A"},{id:2,name:"B"}]},
-        {id:2,teams:[{id:1,name:"A"},{id:2,name:"B"}]},
-    ]
-    const AgentsList =[
-        {id:1,name:"Johr hor",team:"A"},
-        {id:2,name:"Daivd drr",team:"A"},
-        {id:3,name:"Nest orange",team:"B"},
-        {id:4,name:"Flask Bug",team:"C"},
-        ]
-
-
+        const getUsers = async()=>{
+          const res = await userInstance.getAllUser()
+         setLevelTwoData(res)
+        }
         const fetchTeamAgents = async (id) =>{
           // console.log(id)
           const res = await userInstance.getUsersByTeamId(id)
-          // console.log(res)
+          console.log(res)
+
+        //  setLevelTwoData(res)
         }
 
     const { userInstance } = useContext(GlobalContext);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState([]);
     const [levelOneData, setLevelOneData] = useState([]);
     const [levelTwoData, setLevelTwoData] = useState([]);
 
-    useEffect(()=>{
+    const [selectedUsers ,setSelectedUsers] =useState([]);
+    const [selectedTeams ,setSelectedTeams] =useState([])
+
+    useEffect(async()=>{
       setLevelOneData(teamData)
-      setLevelTwoData(AgentsList)
+      await getUsers()
+      // setLevelTwoData(AgentsList)
         // console.log(teamData)
     },[teamData])
 
-    const handleClick = (name,id) => {
-      fetchTeamAgents(id)
-        if(name==open){setOpen("")}
-        else{
-            setOpen(name);
-            setSelection({name,id})
-            console.log(name,"team name")
-        }
+    const handleClick = async (name,id) => {
+      console.log(name,id)
+      // await fetchTeamAgents(id)
+      setOpen(prev=>[...open,name]);
+        if(open.includes(name)){setOpen(open.filter(e=>e!==name))}
+
     };
-    
+   
     const [checked, setChecked] = useState([0]);
     const handleToggle = (value) => () => {
       const currentIndex = checked.indexOf(value);
@@ -66,7 +61,29 @@ export default function DropDown ({teamData,setSelection}) {
   
       setChecked(newChecked);
     };
-
+    const toggleSelectUsers = e => {
+      const { checked ,id} = e.target;
+      setSelectedUsers(prev=>[...selectedUsers, id]);
+      if (!checked) {
+          setSelectedUsers(selectedUsers.filter(item => item !== id));
+      }
+      // props.agents(e)
+      console.log(selectedUsers)
+  };
+  const toggleSelectTeams = e => {
+    // console.log(e,"electaedTeams in filter")
+    const { checked ,id} = e.target;
+    setSelectedTeams(prev=>[...selectedTeams, id]);
+    console.log(levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)}),"dsafdasfadfdasfs")
+    const list = levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
+    setSelectedUsers(list.map(e=>e.user_id.toString()))
+    if (!checked) {
+        setSelectedTeams(selectedTeams.filter(item => item !== id));
+        setSelectedUsers([])
+    }
+    // props.team(e)
+    // console.log(selectedTeams,"electaedTeams in filter")
+};
     return (
         <List
           sx={{ width: '90%', maxWidth: 360, bgcolor: 'transparent' }}
@@ -75,32 +92,36 @@ export default function DropDown ({teamData,setSelection}) {
         >
 
           {levelOneData.map((team,index)=>{return<div key={index}>
-          <ListItemButton onClick={()=>handleClick(team.name,team.id)} id={team.id} >
+            <div style={{display:"flex",padding:"0 16px 0 0 "}}>
+
+          <ListItemButton onClick={()=>{handleClick(team.name,team.org_id);}} id={team.org_id}  >
             <ListItemText primary={team.name} />
-            {open==team.name ? <ExpandLess /> : <ExpandMore />}
+            {open.includes(team.name) ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-            <Collapse in={open==team.name} timeout="auto" unmountOnExit>
+            <div className="newCheckboxContainer right">
+                                        <label className="newCheckboxLabel"> 
+                                        <input type="checkbox" id={team.org_id} name="checkbox" 
+                                         checked={selectedTeams.includes(team.org_id.toString())} onClick={toggleSelectTeams} onChange={()=>{}}
+                                          />
+                                        </label>
+                                    </div>
+</div>
+            <Collapse in={open.includes(team.name)} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {levelTwoData.filter(agent=>agent.team==team.name).map((agent,i)=>{
-                       const labelId = `checkbox-list-label-${agent.id}`;
+                    {levelTwoData.filter(agent=>agent.team_id==team.org_id).map((agent,i)=>{
+                       const labelId = `checkbox-list-label-${agent.user_id}`;
                         // console.log("agent"+agent)
-                        return ( <ListItemButton key={i} sx={{ pl: 4 }} onClick={handleToggle(agent.id)} dense>
-                                     <Tooltip key={agent.name} className={""} title={agent.name} placement="top-start">
-                                            <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginRight:"10px"}} >{agent.name.substring(0,2).toUpperCase()}</Avatar>
+                        return ( <ListItemButton key={i} sx={{ pl: 4 }} onClick={handleToggle(agent.user_id)} dense>
+                                     <Tooltip key={agent.username} className={""} title={agent.username} placement="top-start">
+                                            <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginRight:"10px"}} >{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
-                                    <ListItemText primary={agent.name} />
-                                    {/* <Checkbox
-                                        edge="start"
-                                        checked={checked.indexOf(agent.id) !== -1}
-                                        tabIndex={-1}
-                                        disableRipple
-                                        sx={{color:"#e5e7ec"}}
-                                        inputProps={{ 'aria-labelledby': labelId }}
-                                      /> */}
+                                    <ListItemText primary={agent.username} />
+                        
                                        <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={agent.id} name="checkbox" 
-                                        checked={checked.indexOf(agent.id) !== -1}
-                                        // checked={selectedAgents.includes(agent.id)} onClick={toggleSelectAgents} 
+                                        <label className="newCheckboxLabel"> 
+                                        <input type="checkbox" id={agent.user_id} name="checkbox" 
+                                        // checked={checked.indexOf(agent.user_id) !== -1}
+                                        checked={selectedUsers.includes(agent.user_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}
                                         />
                                         </label>
                                     </div>

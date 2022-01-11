@@ -149,7 +149,7 @@ export default function DashBroadFilter(props){
     };
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;
-        setSelectedChannels(["all","whatsapp","WABA","wechat","messager"]);
+        setSelectedChannels(["All","Whatsapp","WABA","Wechat","Messager"]);
         if (!checked) {
             setSelectedChannels([]);
         }
@@ -165,7 +165,7 @@ export default function DashBroadFilter(props){
         // console.log(selectedChannels)
     };
     const clearFilter=()=>{
-        props.click()
+        props.cancelClick()
         setSelectedTeams([])
         setSelectedChannels([])
         setSelectedDivision([])

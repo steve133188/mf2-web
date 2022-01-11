@@ -35,7 +35,7 @@ import Player from "video-react/lib/components/Player";
 export default function Live_chat() {
 
     const replyTemplateList = [
-            {id:0,name:<img src={`/channel_SVG/WABA.svg`}/>,set:[{name:"感謝你與Tiffany & Co. 香港WhatsApp官方帳戶聯繫上! ",content:"感謝你與Tiffany & Co. 香港WhatsApp官方帳戶聯繫上! "},{name:"我們希望可以時刻為您提供最新的品牌資訊及更全面的顧客服務。",content:"我們希望可以時刻為您提供最新的品牌資訊及更全面的顧客服務。"}]},
+            {id:0,name:<img src={`/channel_SVG/WABA.svg`}/>,set:[{name:"感謝你與Tiffany & Co. 香港WhatsApp官方帳戶聯繫上!",content:"感謝你與Tiffany & Co. 香港WhatsApp官方帳戶聯繫上!"},{name:"我們希望可以時刻為您提供最新的品牌資訊及更全面的顧客服務。",content:"我們希望可以時刻為您提供最新的品牌資訊及更全面的顧客服務。"}]},
             {id:1,name:"Greating",set:[{name:"Morning",content:"Morning"}]},
             {id:4,name:"Questioning",set:[{name:"What can i help you?",content:"What can i help you?"},{name:"Follow up",content:"Follow up"}]},
             {id:2,name:"Merry Chrismax",set:[{name:"Merry Christmas! I hope you receive one blessing after another this coming year!",content:"Merry Christmas! I hope you receive one blessing after another this coming year!"}
@@ -499,12 +499,22 @@ export default function Live_chat() {
         console.log("stickers data" , stickerData)
 
     }
+
+    const fetchHandle = async() => {
+        await fetchContacts()
+        await getTags()
+        await getUsers()
+        await getTeams()
+
+    }
+
     useEffect(    async () => {
         if(user.token!=null) {
-            await fetchContacts()
-            await getTags()
-            await getUsers()
-            await getTeams()
+            // await fetchContacts()
+            // await getTags()
+            // await getUsers()
+            // await getTeams()
+            await fetchHandle()
             // await getChatrooms()
             await getAllChatrooms()
             await getStickers()
@@ -708,7 +718,7 @@ export default function Live_chat() {
                                         </div>
                                 </div>
                         </div>
-                        <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={()=>setIsFilterOpen(!isFilterOpen)}>
+                        <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={async()=>{ setIsFilterOpen(!isFilterOpen);!isFilterOpen?await fetchHandle():"" ;}}>
                                         <div className={"filter_icon"}></div>
                             </div>
                             <div className={"add_button"} onClick={()=>{setChatButtonOn("")}}  style={{display:ChatButtonOn=="m0"?"block":"none"}}>
@@ -721,7 +731,7 @@ export default function Live_chat() {
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
                              {/*<ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}*/}
                              {/*agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} /> */}
-                            <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} cancel={clear} unread={unreadHandle}
+                            <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} clear={clear} unread={unreadHandle}
                              agents={toggleSelectUsers} unassigned={unassigneHandle} />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
