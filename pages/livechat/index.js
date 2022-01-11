@@ -527,7 +527,7 @@ export default function Live_chat() {
     useEffect(()=>{
         console.log(quotaMsg)
     },[quotaMsg])
-    
+
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
         return () => {
@@ -563,10 +563,6 @@ export default function Live_chat() {
             await getAllChatrooms()
             await getStickers()
             await subChatrooms()
-
-
-
-            // TODO need to implete receiver id to sub input
         }
     },[]);
 
@@ -718,6 +714,8 @@ export default function Live_chat() {
 
     }
 
+
+
     //record and send audio
     const getAudioFile = async (audioFile) => {
         console.log("calling getAudioFile")
@@ -789,7 +787,7 @@ export default function Live_chat() {
                         {/*    return ( <ChatroomList  chatroom={d} key={d.room_id} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
                         {/*sort((first , second)=>{return second.unread-first.unread}).*/}
                         {/*})}*/}
-                        {filteredData.length!==0&&filteredData.map((d , index)=>{
+                        {filteredData.length!==0&&filteredData.sort(function (a,b){return b.unread-a.unread}).map((d , index)=>{
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
                             return ( <ChatroomList  chatroom={d} selectedChat={selectedChat} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
                         })}
@@ -801,15 +799,6 @@ export default function Live_chat() {
                     <>
                         <div className={"chatroom_top"}>
                             <div className={"chatroom_top_info"}>
-                                {/*{selectedChat!==-1 && (*/}
-                                {/*    <>*/}
-                                {/*    <Avatar src={selectedChat.avatar|| null} alt="icon"/>*/}
-                                {/*        <div className={"chatroom_name"}>{selectedChat.customer_name|| null}</div>*/}
-                                {/*    <div className={"chatroom_channel"}>{selectedChat.channel|| null}</div>*/}
-                                {/*    </>*/}
-                                {/*    )}*/}
-
-                                {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
                                 <Avatar src={ null} alt="icon" />
                                 <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}

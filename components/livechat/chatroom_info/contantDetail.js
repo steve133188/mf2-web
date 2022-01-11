@@ -59,7 +59,7 @@ export default function ContantDetail({ data, ...props }) {
     }, []);
     useEffect(async () => {
         if (!start) { return setStart(true) }
-        if (data && user.token) { await fetchContact(data.customer_id);await fetchNotes(parseInt(data.room_id))
+        if (data && user.token) { await fetchContact(data.customer_id);await fetchNotes(data.customer_id)
         }
         if (data.customer_id == null) setDisable(true)
         else
@@ -130,7 +130,7 @@ export default function ContantDetail({ data, ...props }) {
     }, [unread])
     const fetchNotes = async (data)=>{
         console.log(data)
-        const res = API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} }})).then(res=>{
+        const res = API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} } , limit:1000})).then(res=>{
             setNotes(prev=>res.data.listNotesTables.items)
         }).catch(err=>console.log(err))
         console.log("fetch notes" ,res)
@@ -164,9 +164,9 @@ export default function ContantDetail({ data, ...props }) {
         e.preventDefault();
         e.stopPropagation();
         const input = {
-            customer_id:  parseInt(data.customer_id.slice(3)) ,
+            customer_id:  data.customer_id ,
             message:writenote ,
-            user_id :parseInt(user.user.user_id.toString().slice(3)),
+            user_id :user.user.user_id,
             timestamp:  (Date.now()/1000).toString() ,
             signed_name:user.user.username} ;
         await dropNote(input)  ;
@@ -191,14 +191,12 @@ export default function ContantDetail({ data, ...props }) {
                     {/*)))}*/}
                 </div>
                 <div className={"valueList"} style={{}}>
-
                     <div className={"values"}>{contact.phone}</div>
                     <div className={"values"}>{contact.email}</div>
                     <div className={"values"}>{contact.birthday}</div>
                     <div className={"values"}>{contact.address}</div>
                     <div className={"values"}>{contact.country}</div>
                     <div className={"values"}>{new Date(contact.created_at*1000).toLocaleDateString('en-US')}</div>
-
                 </div>
             </div>
             <div style={{ width: "110%", height: "1px", backgroundColor: "#d3d3d3", marginBottom: ".5rem", marginLeft: "-10px" }}></div>
@@ -211,11 +209,8 @@ export default function ContantDetail({ data, ...props }) {
 
 
                     <Mf_circle_btn isDisable={disable} switchs={() => { setUnAssigned(!unassigned) }} handleChange={(e) => {
-
                             const new_data = alluser.filter(i => i.username.toLowerCase().includes(e.target.value.toLowerCase()))
                             setFilteredUsers(new_data)
-
-
                     }} >
 
                         {filteredUsers && filteredUsers.map((user,index) => {
