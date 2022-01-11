@@ -1,24 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const suballChatrooms = /* GraphQL */ `
-  subscription SuballChatrooms {
-    suballChatrooms {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
 export const subscribeChatroom = /* GraphQL */ `
   subscription SubscribeChatroom($room_id: String, $channel: String) {
     subscribeChatroom(room_id: $room_id, channel: $channel) {
@@ -40,6 +22,24 @@ export const subscribeChatroom = /* GraphQL */ `
       v_card
       read
       status
+    }
+  }
+`;
+export const suballChatroom = /* GraphQL */ `
+  subscription SuballChatroom {
+    suballChatroom {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
     }
   }
 `;
@@ -183,96 +183,6 @@ export const eventListenr = /* GraphQL */ `
     }
   }
 `;
-export const onCreateChatroom = /* GraphQL */ `
-  subscription OnCreateChatroom(
-    $channel: String
-    $customer_id: Int
-    $is_pin: Boolean
-    $name: String
-    $phone: String
-  ) {
-    onCreateChatroom(
-      channel: $channel
-      customer_id: $customer_id
-      is_pin: $is_pin
-      name: $name
-      phone: $phone
-    ) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
-export const onUpdateChatroom = /* GraphQL */ `
-  subscription OnUpdateChatroom(
-    $channel: String
-    $customer_id: Int
-    $is_pin: Boolean
-    $name: String
-    $phone: String
-  ) {
-    onUpdateChatroom(
-      channel: $channel
-      customer_id: $customer_id
-      is_pin: $is_pin
-      name: $name
-      phone: $phone
-    ) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
-export const onDeleteChatroom = /* GraphQL */ `
-  subscription OnDeleteChatroom(
-    $channel: String
-    $customer_id: Int
-    $is_pin: Boolean
-    $name: String
-    $phone: String
-  ) {
-    onDeleteChatroom(
-      channel: $channel
-      customer_id: $customer_id
-      is_pin: $is_pin
-      name: $name
-      phone: $phone
-    ) {
-      channel
-      customer_id
-      is_pin
-      name
-      phone
-      room_id
-      country_code
-      unread
-      user_id
-      avatar
-      last_msg_time
-      bot_on
-    }
-  }
-`;
 export const onCreateMessage = /* GraphQL */ `
   subscription OnCreateMessage(
     $room_id: String
@@ -378,6 +288,96 @@ export const onDeleteMessage = /* GraphQL */ `
       v_card
       read
       status
+    }
+  }
+`;
+export const onCreateChatroom = /* GraphQL */ `
+  subscription OnCreateChatroom(
+    $channel: String
+    $customer_id: Int
+    $is_pin: Boolean
+    $name: String
+    $phone: String
+  ) {
+    onCreateChatroom(
+      channel: $channel
+      customer_id: $customer_id
+      is_pin: $is_pin
+      name: $name
+      phone: $phone
+    ) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const onUpdateChatroom = /* GraphQL */ `
+  subscription OnUpdateChatroom(
+    $channel: String
+    $customer_id: Int
+    $is_pin: Boolean
+    $name: String
+    $phone: String
+  ) {
+    onUpdateChatroom(
+      channel: $channel
+      customer_id: $customer_id
+      is_pin: $is_pin
+      name: $name
+      phone: $phone
+    ) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+    }
+  }
+`;
+export const onDeleteChatroom = /* GraphQL */ `
+  subscription OnDeleteChatroom(
+    $channel: String
+    $customer_id: Int
+    $is_pin: Boolean
+    $name: String
+    $phone: String
+  ) {
+    onDeleteChatroom(
+      channel: $channel
+      customer_id: $customer_id
+      is_pin: $is_pin
+      name: $name
+      phone: $phone
+    ) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
     }
   }
 `;
