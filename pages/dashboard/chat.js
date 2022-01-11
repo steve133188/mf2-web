@@ -240,7 +240,7 @@ export default function Chat() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                         <div className={"chatlist_filter_box"} >
-                                                    <DashBroadFilter click={()=>setIsFilterOpen(!isFilterOpen)} auth={1} />
+                                                    <DashBroadFilter cancelClick={()=>setIsFilterOpen(!isFilterOpen)} confirm={()=>setIsFilterOpen(!isFilterOpen)} auth={1} />
                                         </div>
 
                                     </div>

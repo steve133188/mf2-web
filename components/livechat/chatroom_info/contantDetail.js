@@ -259,7 +259,7 @@ export default function ContantDetail({ data, ...props }) {
 
                             {filteredTags.map((tag, index) => {
 
-                                return (<li key={index}>
+                                return (<li key={index+index}>
                                     <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
@@ -304,7 +304,7 @@ export default function ContantDetail({ data, ...props }) {
                         <div key={note.note_id}>
                             <div className={"message_pad"}>
                                 <div className={"left nameTag"}>
-                                    <Tooltip key={note.note_id} className={""} title={note.signed_name} placement="top-start">
+                                    <Tooltip key={note.note_id+"key"} className={""} title={note.signed_name} placement="top-start">
                                         <Avatar className={"mf_bg_warning mf_color_warning tag "} sx={{ width: 50, height: 50, fontSize: 20, padding: "0rem" }} >{note.signed_name.slice(0,2).toUpperCase()}</Avatar>
                                     </Tooltip>
                                 </div>

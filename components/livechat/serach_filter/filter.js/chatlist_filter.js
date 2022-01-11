@@ -5,6 +5,7 @@ import { useContext, useEffect,useState } from "react";
 import { GlobalContext } from "../../../../context/GlobalContext";
 import { Tooltip ,Avatar ,AvatarGroup } from "@mui/material";
 import { Pill } from "../../../Pill";
+import DivisionDropDown from "../../../filter/divisionDropDown" ;
 
 export default function ChatlistFilter( {...props}){
 
@@ -128,9 +129,15 @@ const channelData = [
         props.click();
         props.confirm();
     }
+    const handelClear = ()=>{
+        props.clear();
+        setSelectedUsers([])
+        setSelectedChannels([])
+        setSelectedTags([])
+    }
     const handelCancel = ()=>{
         props.click();
-        props.cancel();
+        props.clear();
         setSelectedUsers([])
         setSelectedChannels([])
         setSelectedTags([])
@@ -153,7 +160,7 @@ const channelData = [
     }
 
     return(
-         <div className={""} style={{width:"92%",height: "90%",maxHeight: "97vh"}}><div className={"filter_title"}>Filter</div>
+         <div className={""} style={{width:"92%",height: "90%",maxHeight: "97vh"}}><div className={"filter_title"} style={{display:"flex",justifyContent:"space-between" }}><div>Filter</div> <div style={{ cursor:"pointer",width:"50px",backgroundColor:"#DEF0FF",color:"#2198FA",textAlign:"center",borderRadius:"10px" }} onClick={handelClear} >Clear</div></div>
                 <div className={"filter_box_status"}  >
                     <div className={"status_box"}>
                         <div className="newCheckboxContainer">
@@ -190,7 +197,8 @@ const channelData = [
 
 
                         {/* <DropDown data={"teamsList"}/> */}
- <div className={"filter_box_agents"}  >Agent
+                            {/* <DivisionDropDown data={division}  /> */}
+                <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
                         <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
@@ -198,7 +206,6 @@ const channelData = [
                                 <div className={"search_bar"}>
                                 <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                             </div>
-                            {/* <DivisionDropDown data={Division}  /> */}
 
 
                             <div className={"channelList"} >

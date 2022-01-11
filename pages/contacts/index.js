@@ -509,7 +509,7 @@ export default function Contacts() {
                                     <div className={"name"}>{user.username}</div>
                                 </div>
                                 <div className="newCheckboxContainer">
-                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
                                     </label>
                                 </div>
                             </li>)
@@ -535,7 +535,7 @@ export default function Contacts() {
                                     </div>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                        <input type="checkbox" key={"all"}  id={"all"} value={"all"} name="checkbox" checked={selectedChannel.includes("all")} onClick={toggleSelectAllChannels} />
+                                        <input type="checkbox" key={"all"}  id={"all"} value={"all"} name="checkbox" checked={selectedChannel.includes("all")} onClick={toggleSelectAllChannels} onChange={()=>{}} />
                                         </label>
                                     </div>
                                 </li>
@@ -544,7 +544,7 @@ export default function Contacts() {
                             {tag.name}</div>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" id={tag.value} value={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
+                                        <input type="checkbox" id={tag.value} value={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel}  onChange={()=>{}}/>
                                     </label> </div></li>)
                         })}
                     </MF_Select>
@@ -555,7 +555,7 @@ export default function Contacts() {
                             return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" id={tag.tag_name} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
+                                        <input type="checkbox" id={tag.tag_name} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} onChange={()=>{}} />
                                     </label> </div></li>)
                         })}
                     </MF_Select>
@@ -584,7 +584,7 @@ export default function Contacts() {
                             <TableCell>
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
-                                        <input type="checkbox" value={"all"} name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll} />
+                                        <input type="checkbox" value={"all"} name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll}  onChange={()=>{}} />
                                     </label> : null}
                                 </div>
                             </TableCell>
@@ -618,7 +618,7 @@ export default function Contacts() {
                                     }}>
                                         <div className="newCheckboxContainer">
                                             {isSelectRow ? <label className="newCheckboxLabel">
-                                                <input type="checkbox" id={data.customer_id} name="checkbox" checked={selectedContacts.includes(data.customer_id.toString())} onClick={isSelectRow?toggleSelect:null} />
+                                                <input type="checkbox" value={index} id={data.customer_id} name="checkbox" checked={selectedContacts.includes(data.customer_id.toString())} onClick={isSelectRow?toggleSelect:null}  onChange={()=>{}} />
                                             </label> : null}
 
                                         </div>

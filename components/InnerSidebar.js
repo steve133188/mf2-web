@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {useRouter} from "next/router";
 import {GlobalContext} from "../context/GlobalContext";
 import {Skeleton} from "@mui/material";
-import DivisionDropDown from "./filter/divisionDropDown";
+
 
 export function ORGSidebar({orgData, selection ,setSelection}) {
 
@@ -43,7 +43,7 @@ export function ORGSidebar({orgData, selection ,setSelection}) {
     )
     return (
         <nav className="blueMenu">
-        {/* <DivisionDropDown data={data} setSelection={setSelection} /> */}
+
 
             {isLoading ?ske: <ul className="blueMenuGroup">
                 <li className={"blueMenuLink "+(selection.name? null:"active")} onClick={()=>handleClick({})}>All</li>

@@ -219,10 +219,17 @@
         justify-content: center;
         flex-direction: column;
         .channelList{
-          padding: 3%;
+          // padding: 3%;
+          min-height: 150px;
+          max-height: 30vh;
+          overflow: auto;
+     
           .channelListitem{
             margin:2px 1rem;
-            font: normal normal normal w00 0.9REM Manrope
+            font: normal normal normal w00 0.9REM Manrope;
+            .name{
+              width: 80%;
+            }
           }
         }
         .search_bar{  
@@ -283,7 +290,7 @@
             justify-content: flex-start;
             align-items: center;
             text-align: left;
-            width: 55%;
+            width: 100%;
             height: 20px;
             padding: 5px;
           }
