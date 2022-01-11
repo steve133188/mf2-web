@@ -159,7 +159,7 @@ export default function SideBar(props  ) {
                                     <Link href={"/dashboard/chat"}>
                                         <div
                                             className={isActiveURL("/dashboard/chat") ? "active_text nav-item sub-nav-item" : "nav-item sub-nav-item"}><span className="side-item-name">Live Chat</span>
-                                         <NavItem url={"/livechat"} />
+                                         {/* <NavItem url={"/livechat"} /> */}
                                         </div>
                                     </Link>
                                     <Link href={"/dashboard/agents"}>

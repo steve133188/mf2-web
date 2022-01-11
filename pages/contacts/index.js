@@ -486,15 +486,7 @@ export default function Contacts() {
 
                             </div> */}
                         </div>
-
-
-
-
-
-
-
-
-                    <div className={"select_session_btn"}>
+                 <div className={"select_session_btn"}>
                         {/* <button onClick={()=>{console.log(contacts.filter(d => selectedContacts.includes(d.customer_id.toString())).map(d => d.agents=d.agents.user_name))}}>click me</button> */}
                         <CSVLink data={contacts.filter(d => selectedContacts.includes(d.customer_id.toString()))} filename={"contact.csv"} >{editSVG}</CSVLink>
                     </div>

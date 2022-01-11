@@ -133,8 +133,8 @@ export default function Index() {
             const res = await contactInstance.deleteCustomerAgent (e.customer_id,[agent.id])
             console.log(res,"delete User")
         })
-        // const res = await userInstance.deleteUserById (agent.id)
-        // await fetchUsers()
+        const res = await userInstance.deleteUserById (agent.id)
+        await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow)

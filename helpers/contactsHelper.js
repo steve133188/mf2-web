@@ -70,7 +70,7 @@ export default function contactsFetcher(token){
         return (await instance.fetcher.put("/customer/del-agent",{customer_id,agents_id})).status
     }
 
-     instance.updateContact = async (data)=>{
+    instance.updateContact = async (data)=>{
          console.log(data,"update contacts")
         return (await instance.fetcher.put("/customer",data)).status
     }
@@ -89,15 +89,18 @@ export default function contactsFetcher(token){
         return (await instance.fetcher.put("/customer/del-customer-tag",data)).status
     }
 
-     instance.createContactsByExcel = async (data) =>{
+    instance.createContactsByExcel = async (data) =>{
         return (await instance.fetcher.post("/addMany",data)).status
     }
 
-     instance.addTeamToContact = async (data)=>{
+    instance.addTeamToContact = async (data)=>{
         return (await instance.fetcher.put("/customers/add-teams",data)).status
     }
-    instance.deleteOrUpdateTeamToContact = async (data)=>{
-        return (await instance.fetcher.put("/customers/teams",data)).status
+    // instance.deleteOrUpdateTeamToContact = async (data)=>{
+    //     return (await instance.fetcher.put("/customers/teams",data)).status
+    // }
+    instance.UpdateTeamToContact = async (data)=>{
+        return (await instance.fetcher.put("/customer/team",data)).status
     }
 
      instance.deleteContact = async (data)=>{
