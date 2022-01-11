@@ -10,13 +10,13 @@ import Profile from "../profile";
 import EditProfileForm from "./EditProfileForm";
 import { GlobalContext } from "../../context/GlobalContext";
 import {API, graphqlOperation} from "aws-amplify";
-import {listNotesTables} from "../../src/graphql/queries";
+import {listChatrooms, listNotesTables} from "../../src/graphql/queries";
 import {createNotesTable} from "../../src/graphql/mutations";
 
 export default function ProfileGrid({data,toggle}){
     // const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
     const [notes,setNotes] = useState([])
-    const {contactInstance , user} = useContext(GlobalContext)
+    const {contactInstance , user , setSelectedChat} = useContext(GlobalContext)
 
     const [writenote,setWritenote] = useState("")
     const [useContact , setUseContact] = useState(data)
@@ -52,9 +52,22 @@ export default function ProfileGrid({data,toggle}){
         setAssingedContacts(assigned)
     }
 
-    const toggleChat = ()=>{
-        const n = router.pathname
-        return n.includes("/livechat")
+    const toggleChat =async ()=>{
+        if(data.channels&&data.channels.length>0){
+            const chat = await API.graphql(graphqlOperation(listChatrooms , {filter:{customer_id:{eq:data.customer_id}} , limit:1000}))
+                .then(res=>{
+                    console.log("res:",res)
+                    return res.data.listChatrooms.items[0]
+                }).catch(err=>{
+                    alert(err)
+                })
+            setSelectedChat(prev=>chat)
+            const n = router.pathname
+            return n.includes("/livechat")
+        }else{
+            alert("The contact have not any channel added")
+        }
+
     }
     const submitNote = async (e) => {
         e.preventDefault();

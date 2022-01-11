@@ -331,7 +331,6 @@ export default function Live_chat() {
 
         const gp= agents.filter(a=>a.tags.filter(d=>{return filter.includes(d.tag_name)}).length>0)
         console.log("TagF" , gp)
-
         return chats.filter(ch=>{return gp.map(g=>g.customer_id).includes(parseInt(ch.customer_id))})
     }
     const messagesSearchRef = useRef()
@@ -413,7 +412,7 @@ export default function Live_chat() {
     }
     const stickerSend =  async e=>{
         e.preventDefault();
-        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"sticker",channel:selectedChat.channel}
+        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"sticker",channel:selectedChat.channel,sign_name:user.user.username}
         console.log("sticker payload" , data);
         const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
@@ -441,13 +440,13 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
-        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia}
+        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia ,sign_name:user.user.username}
         setTypedMsg({...typedMsg , message: ""})
         if(isMedia){
             setIsMedia(false)
             setFilePrevier(filePreviewOldState)
             setMediaUrl("")
-            
+
         }
         setTypedMsg({channel:"",phone:"",message:"",message_type:"text"})
         setIsExpand(false)
@@ -751,7 +750,7 @@ export default function Live_chat() {
                         {/*    return ( <ChatroomList  chatroom={d} key={d.room_id} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
                         {/*sort((first , second)=>{return second.unread-first.unread}).*/}
                         {/*})}*/}
-                        {filteredData.length!==0&&filteredData.sort(function (a,b){return b.unread-a.unread}).map((d , index)=>{
+                        {filteredData.length!==0&&filteredData.sort(function (a,b){return parseInt(b.last_msg_time)- parseInt(a.last_msg_time)}).map((d , index)=>{
                             // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
                             return ( <ChatroomList  chatroom={d} selectedChat={selectedChat} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
                         })}

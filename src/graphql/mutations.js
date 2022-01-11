@@ -307,6 +307,7 @@ export const createMessage = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;
@@ -331,6 +332,7 @@ export const updateMessage = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;
@@ -355,6 +357,7 @@ export const deleteMessage = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;

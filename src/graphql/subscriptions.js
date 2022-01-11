@@ -22,6 +22,7 @@ export const subscribeChatroom = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;
@@ -216,6 +217,7 @@ export const onCreateMessage = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;
@@ -252,6 +254,7 @@ export const onUpdateMessage = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;
@@ -288,6 +291,7 @@ export const onDeleteMessage = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;
