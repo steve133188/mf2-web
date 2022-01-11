@@ -527,7 +527,7 @@ export default function Live_chat() {
     useEffect(()=>{
         console.log(quotaMsg)
     },[quotaMsg])
-    
+
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
         return () => {
@@ -791,15 +791,6 @@ export default function Live_chat() {
                     <>
                         <div className={"chatroom_top"}>
                             <div className={"chatroom_top_info"}>
-                                {/*{selectedChat!==-1 && (*/}
-                                {/*    <>*/}
-                                {/*    <Avatar src={selectedChat.avatar|| null} alt="icon"/>*/}
-                                {/*        <div className={"chatroom_name"}>{selectedChat.customer_name|| null}</div>*/}
-                                {/*    <div className={"chatroom_channel"}>{selectedChat.channel|| null}</div>*/}
-                                {/*    </>*/}
-                                {/*    )}*/}
-
-                                {/*<img src="https://p0.pikrepo.com/preview/876/531/orange-tabby-cat-sitting-on-green-grasses-selective-focus-photo.jpg" alt="icon"/>*/}
                                 <Avatar src={ null} alt="icon" />
                                 <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}

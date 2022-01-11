@@ -4,7 +4,7 @@ import {GlobalContext} from "../../context/GlobalContext";
 
 export default function NotificationAlert({notification ,notificationList ,setNotificationList }){
     const {contactInstance} = useContext(GlobalContext)
-    const autoDeleteTime=5000
+    const autoDeleteTime=10000
     const [contact , setContact] =useState({})
     useEffect(() => {
         const interval = setInterval(() => {

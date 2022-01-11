@@ -13,10 +13,10 @@ export default function Newchatroom({ setFilteredData ,...props}){
     const createChatroomAction = async (data)=>{
         console.log(user)
         const input = {
-            channel:"Whatsapp",
+            channel:"WABA",
             customer_id:parseInt(data.customer_id),
             is_pin: false,
-            name: data.first_name + data.last_name,
+            name: data.customer_name,
             phone:data.country_code+data.phone,
             room_id: `${data.customer_id}-${user.user.user_id}` ,
             unread:0 ,
