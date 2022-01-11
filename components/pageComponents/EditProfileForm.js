@@ -12,9 +12,10 @@ import {IconButton} from "../Button";
 import AddIcon from "@mui/icons-material/Add";
 import {GlobalContext} from "../../context/GlobalContext";
 import Mf_circle_btn from "../mf_circle_btn";
+import {route} from "next/dist/server/router";
 
 export default function EditProfileForm({data , toggle}){
-
+    const router = useRouter()
     const [editContact , setEditContact] = useState(data)
     const [users ,setUsers] =useState([])
     const [tags ,setTags] =useState([])
@@ -113,7 +114,7 @@ export default function EditProfileForm({data , toggle}){
     async function handleSubmit (e){
         // e.preventDefault()
     console.log(editContact)
-    
+
     const tagslist=selectedTags.map(e=>e.tag_id)
     const userslist=selectedUsers.map(e=>e.user_id)
     const phone = parseInt(editContact.phone)
@@ -125,12 +126,12 @@ export default function EditProfileForm({data , toggle}){
         const res = await contactInstance.updateContact (data)
             console.log(res)
 
-            
-            if(res == 200 ){toggle()}
+
+            if(res == 200 ){toggle(data)}
     }
     function cancel(e){
         e.preventDefault()
-        toggle()
+        router.reload()
         // router.back()
     }
     return (

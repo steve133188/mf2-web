@@ -46,7 +46,7 @@ export default function Live_chat() {
 
         ]
 
-        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper ,subInstance} = useContext(GlobalContext)
+        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper ,mf2chat} = useContext(GlobalContext)
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
         const [attachment , setAttachment ] = useState([])
@@ -121,27 +121,6 @@ export default function Live_chat() {
                     const newChat = chat.value.data.suballChatroom
                     if (selectedChat.name == newChat.name &&newChat.unread !=0) await updateChatroomUnread(newChat)
                     await getAllChatrooms()
-
-                    // await getAllChatrooms()
-                    // const newChat = chat.value.data.AllChatSubscribe
-                    // console.log("update chat " ,newChat)
-                    // const buffer = [...chatrooms]
-                    // const filterChat = buffer.filter(c=> {
-                    //     return c.name !== newChat.name
-                    // })
-                    // console.log(filterChat)
-                    // setFilteredData([newChat , ...filterChat])
-                    // console.log("subchatrooms filteredData :" , filteredData)
-                    // console.log("subchatrooms filterchat :" , filterChat)
-                    // const filterPin = chatrooms.filter(c=> {
-                    //     return  c.name !== newChat.name && c.is_pin
-                    // })
-                    // console.log("subchatrooms pinChat :" , pinChat)
-                    // console.log("subchatrooms filterPin :" , filterPin)
-
-                    //
-
-                    // console.log("new message: ", newChat)
                 }
             })
         console.log("subscribe chatrooms start : " , sub)
@@ -154,19 +133,6 @@ export default function Live_chat() {
             .then(res =>{
                 const data = res.data.updateChatroom
                 console.log("handle unread "  , data)
-
-                // const filter = chatrooms.filter(c=>c.name!==data.name)
-
-                // if(data.is_pin){
-                //     // const newPinChat = pinChat.filter(d=>d.room_id != data.room_id)
-                //     // console.log("newPinChat : " , newPinChat)
-                //     const oldFilter = pinChat.filter(d=> d.room_id != data.room_id)
-                //     setPinChat(chatrooms=>[data, ...oldFilter ])
-                // }else{
-                //     const oldFilter = filteredData.filter(d=> d.room_id != data.room_id)
-                //     console.log("oldFilter : " , oldFilter)
-                //     setFilteredData(filteredData=> [data,...oldFilter])
-                // }
             }).catch(err=>{
                 console.log(err)
 
@@ -208,16 +174,7 @@ export default function Live_chat() {
         const user_id = parseInt(user.user.user_id.toString() )
         const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
             .then(async res =>{
-
                 const chatroom = res.data.listChatrooms.items
-                // console.log("loop chatroom start" , chatroom)
-                //     chatroom.forEach( chat=>{
-                //     chat.unread=  API.graphql(graphqlOperation(listMF2TCOMESSAGGES , {limit:1000 , filter:{room_id: {eq:chat.room_id} , user_id:{eq:user_id} , read:{eq:false} ,}}))
-                //
-                //         .then(async msg=>{
-                //             return msg.data.listMF2TCOMESSAGGES.items.length
-                //         }).catch(error => console.log(error))
-                // })
                 return chatroom
             })
             .catch(error => console.log(error))
@@ -231,11 +188,6 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000}))
             .then(async res =>{
                 let chatroom = res.data.listChatrooms.items
-                console.log("loop chatroom start" , chatroom)
-                console.log(chatroom)
-                // console.log(totalUnread,"TOTALTOTAL")
-                // const pin = chatroom.filter(chat=>chat.is_pin==true)
-                // const unpin = chatroom.filter(chat=>chat.is_pin==false)
                 setChatrooms(chatroom)
                 setFilteredData(chatroom)
                 // setPinChat(pin)
@@ -259,6 +211,10 @@ export default function Live_chat() {
     useEffect(()=>{
         console.log(filePreview,"file attachment show")
     },[filePreview])
+    useEffect(()=>{
+        if(mf2chat.store.room_id)setSelectedChat(prev=>mf2chat.store)
+
+    },[mf2chat])
     const upload = async (e) =>{
         e.preventDefault()
         if(!e.target.files[0]){return}
