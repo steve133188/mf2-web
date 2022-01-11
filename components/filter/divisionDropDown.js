@@ -51,24 +51,40 @@ export default function DivisionDropDown ({data,setSelection}) {
 
     return (
         <List
-          sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent' }}
+          sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent' ,display:"flex",flexDirection:"column",justifyContent:"flex-start", }}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
         {levelOneData.map((division,index)=>{ return <div key={index}>
-            <ListItemButton onClick={()=>handleClick(division.name,division.org_id)} id={division.id} >
+        <div style={{display:"flex",padding:"0 16px 0 0 "}}>
+
+            <ListItemButton onClick={()=>handleClick(division.name,division.org_id)} id={division.org_id} >
                  <ListItemText primary={division.name} />
                       {open.includes(division.name) ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
+                      <div className="newCheckboxContainer right">
+                                        <label className="newCheckboxLabel"> 
+                                        <input type="checkbox" id={division.org_id} name="checkbox" 
+                                        // checked={selectedUsers.includes(division.org_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}
+                                        />
+                                        </label>
+                                    </div>
+                                </div>
+
             <Collapse in={open.includes(division.name)} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding sx={{display:"flex",justifyContent:"flex-end"}}>
+                <List component="div" disablePadding sx={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-end" }}>
                     {/* loop */}
                     <DropDown teamData={levelTwoData.filter(t=>t.parent_id==division.org_id)} setSelection={setSelection} />
                  </List>
+
             </Collapse>
 
                  </div>
         })}
+        <div style={{display:"flex",justifyContent:"flex-end",}}>
+
+        <DropDown teamData={levelTwoData.filter(t=>t.parent_id==0)} setSelection={setSelection} sx={{ width: '100%',}}/>
+        </div>
         </List>
 
         // <List
