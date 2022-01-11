@@ -1,6 +1,6 @@
 export default function Reply({confirmReply,msg_id,}){
     const Al = () =>{
-        confirmReply
+        confirmReply()
         console.log("alalalal")
     }
 

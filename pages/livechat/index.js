@@ -521,8 +521,13 @@ export default function Live_chat() {
         setReply(!reply)
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsExpand(isExpand&&ChatButtonOn=="mr"?false:true);
+
     }
 
+    useEffect(()=>{
+        console.log(quotaMsg)
+    },[quotaMsg])
+    
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
         return () => {
@@ -844,13 +849,22 @@ export default function Live_chat() {
                                 <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
                             </div>
                             }
-                            { ChatButtonOn=="m3"?
+                            { ChatButtonOn=="m3"||ChatButtonOn=="mr"?
                                 <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem 0" }}
                                 // onClick={toggleReply }
                                 >
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                     {/* <div>{filePreview.name} </div> */}
 
+                                            {true? <div style={{display:"flex"}} className="attachment_box">
+                                                                                <div>
+
+                                                                                </div>
+                                                                            <div>
+                                                                                    <div>{quotaMsg.body}</div>
+                                                                                    {/* <div>{filePreview.size/1000}kb</div> */}
+                                                                            </div>
+                                                                        </div>:""}
                                             {filePreview.type=="IMAGE"? <div style={{display:"flex"}} className="attachment_box">
                                                                                 <div>
                                                                                     <img src={filePreview.path} style={{width:"100px",height:"100px", margin:"0 15px"}}/>
