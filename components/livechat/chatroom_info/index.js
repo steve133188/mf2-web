@@ -64,7 +64,7 @@ export default function ChatroomInfo ({data}){
                     <div className={"contact_detail_name"}>{data.name}</div>
                     <div className={"contact_detail_channel"}>
                         {data.channel?(<img src={`/channel_SVG/${data.channel}.svg`} style={{width:"20px",margin:"0 "}}></img>):""}
-                        {data.phone?<div>+{data.phone.substring(0,3)} {data.phone.substring(3)}</div>:""}
+                        {data.phone?<div> {data.phone}</div>:""}
                     </div>
                     {/* <div className={"contact_detail_team"}> Team</div> */}
                 </div>
