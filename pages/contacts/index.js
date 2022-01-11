@@ -108,10 +108,10 @@ export default function Contacts() {
             if(selectedTeams.length ==0){
                 return data
             }
-            return selectedTeams[0].id==data.team.org_id
+            if(selectedTeams[0].id==0) return data.agents.length==0
+            return data.agents.some(el=>{return el.team_id==selectedTeams[0].id})
             // return data.team==selectedTeams.id
         })
-        console.log("teamFiltered:",teamFiltered)
         setFilteredData([...teamFiltered])
     }
     const channels = [
@@ -501,70 +501,78 @@ export default function Contacts() {
                     <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
                 </div>):null}
             >
-                <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
-                    setFilteredUsers(new_data)
-                })}}>
-                    {filteredUsers.map((user , index)=>{
-                        return(<li key={index}>
-                            <div style={{display:"flex" ,gap:10}}>
-                                <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
-                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
-                                </Tooltip>
-                                <div className={"name"}>{user.username}</div>
-                            </div>
-                            <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
-                                </label>
-                            </div>
-                        </li>)
-                    })}
-                </MF_Select>
-                {/*<MF_Select head={"Team"} top_head={selectedTeams.length ==0?"All":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={true}>*/}
-                {/*    <li onClick={()=> {*/}
-                {/*        setSelectedTeams([]);*/}
-                {/*        advanceFilter()*/}
-                {/*    }}>All</li>*/}
-                {/*    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }}> No Assigned</li>*/}
-                {/*    {teams.map((team , index)=>{*/}
-                {/*        return(<li id={team.org_id}  key={index} onClick={(e)=>{setSelectedTeams([{name:team.name,id:team.org_ig}]) }}> {team.name}</li>)*/}
-                {/*    })}*/}
-                {/*</MF_Select>*/}
-                <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
-                            <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>
-                                <img key={"all"} width={18} height={18} src={`/channel_SVG/All.svg`}  alt="" style={{maring:"0 3px"}}/>
-                                 All Channels
-                                 </div>
+            <div className="top_bar">
+                    
+                <div className="top_bar_left" >
+                   
+                    <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
+                        setFilteredUsers(new_data)
+                    })}}>
+                        {filteredUsers.map((user , index)=>{
+                            return(<li key={index}>
+                                <div style={{display:"flex" ,gap:10}}>
+                                    <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
+                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                                    </Tooltip>
+                                    <div className={"name"}>{user.username}</div>
+                                </div>
+                                <div className="newCheckboxContainer">
+                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} />
+                                    </label>
+                                </div>
+                            </li>)
+                        })}
+                    </MF_Select>
+                    <MF_Select head={"Team"} top_head={selectedTeams.length ==0?"All":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={true}>
+                       <li onClick={()=> {
+                           setSelectedTeams([]);
+                           advanceFilter()
+                       }}>All</li>
+                       <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }}> No Assigned</li>
+                       {teams.map((team , index)=>{
+                           return(<li id={team.org_id}  key={index} onClick={(e)=>{console.log("teams check",team);setSelectedTeams([{name:team.name,id:team.org_id}]) }}> {team.name}</li>)
+                       })}
+                    </MF_Select>
+                    <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
+                                <li key={"all"}> <div style={{display:"flex",alignItems:"center" }}>
+                                    <img key={"all"} width={18} height={18} src={`/channel_SVG/All.svg`}  alt="" style={{maring:"0 3px"}}/>
+                                    All Channels
+                                    </div>
+                                    <div className="newCheckboxContainer">
+                                        <label className="newCheckboxLabel">
+                                        <input type="checkbox" key={"all"}  id={"all"} value={"all"} name="checkbox" checked={selectedChannel.includes("all")} onClick={toggleSelectAllChannels} />
+                                        </label>
+                                    </div>
+                                </li>
+                        {filteredChannel.map((tag , index)=>{
+                            return(<li key={index}><div>  <img key={"id"} width="20px" height="20px" src={`/channel_SVG/${tag.channelID}.svg`}  alt=""/>
+                            {tag.name}</div>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                      <input type="checkbox" key={"all"}  id={"all"} value={"all"} name="checkbox" checked={selectedChannel.includes("all")} onClick={toggleSelectAllChannels} />
-                                     </label>
-                                </div>
-                            </li>
-                    {filteredChannel.map((tag , index)=>{
-                        return(<li key={index}><div>  <img key={"id"} width="20px" height="20px" src={`/channel_SVG/${tag.channelID}.svg`}  alt=""/>
-                        {tag.name}</div>
-                            <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.value} value={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
-                                </label> </div></li>)
-                    })}
-                </MF_Select>
-                <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
-                    setFilteredTags(new_data)
-                })}} >
-                    {filteredTags.map((tag , index)=>{
-                        return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
-                            <div className="newCheckboxContainer">
-                                <label className="newCheckboxLabel">
-                                    <input type="checkbox" id={tag.tag_name} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
-                                </label> </div></li>)
-                    })}
-                </MF_Select>
-                {/*<MF_Select head={"Channel"}  >*/}
-                {/*    /!*    waiting to fetch the channels*!/*/}
-                {/*</MF_Select>*/}
+                                        <input type="checkbox" id={tag.value} value={tag.value} name="checkbox" checked={selectedChannel.includes(tag.value)} onClick={toggleSelectChannel} />
+                                    </label> </div></li>)
+                        })}
+                    </MF_Select>
+                    <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
+                        setFilteredTags(new_data)
+                    })}} >
+                        {filteredTags.map((tag , index)=>{
+                            return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
+                                <div className="newCheckboxContainer">
+                                    <label className="newCheckboxLabel">
+                                        <input type="checkbox" id={tag.tag_name} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} />
+                                    </label> </div></li>)
+                        })}
+                    </MF_Select>
 
-                <button onClick={clearFilter} className={"mf_bg_light_blue mf_color_blue"} style={{margin:"0 1rem",padding:"0",minWidth:"8rem",maxWidth:"102rem",maxHeight:"50px"}}> Clear Filter </button>
+
+                    <button onClick={clearFilter} className={"mf_bg_light_blue mf_color_blue"} style={{margin:"0 1rem",padding:"0",minWidth:"8rem",maxWidth:"102rem",maxHeight:"50px"}}> Clear Filter </button>
+                </div>
+                    <div className="top_bar_right">
+                        <div style={{ selfAlign:"right" }}> Search : {filteredData.length} </div>
+                    </div>
+                </div>
+
             </SelectSession>
             <TableContainer
                 sx={{minWidth: 750 , minHeight:"500px",maxHeight:"900px",height:"40vh"}}
