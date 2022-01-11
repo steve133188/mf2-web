@@ -254,13 +254,13 @@ export default function Contacts() {
     }
     function tagSearchFilter(keyword , data ,callback ){
         if(keyword.includes(":")){
-            console.log("trigger regex search")
         }
         const newData = data.filter(d=> {
             if(keyword.trim() == ""){
                 return data
             }
-            return d.tag.toLowerCase().includes(keyword)
+            // console.log(d, "trigger regex search")
+            return d.tag_name.toLowerCase().includes(keyword)
         })
         callback(newData)
     }
@@ -505,7 +505,7 @@ export default function Contacts() {
                     
                 <div className="top_bar_left" >
                    
-                    <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agent"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
+                    <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agents"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                         setFilteredUsers(new_data)
                     })}}>
                         {filteredUsers.map((user , index)=>{
@@ -523,14 +523,17 @@ export default function Contacts() {
                             </li>)
                         })}
                     </MF_Select>
-                    <MF_Select head={"Team"} top_head={selectedTeams.length ==0?"All":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={true}>
+                    <MF_Select head={"Team"} top_head={selectedTeams.length ==0?"Team":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
                        <li onClick={()=> {
+                        
                            setSelectedTeams([]);
                            advanceFilter()
-                       }}>All</li>
-                       <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }}> No Assigned</li>
+                       }}
+                       style={{cursor:"pointer",width:"200px",liststyle:" inside"}}
+                       >All</li>
+                       <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }} style={{cursor:"pointer",liststyle:" inside"}}> No Assigned</li>
                        {teams.map((team , index)=>{
-                           return(<li id={team.org_id}  key={index} onClick={(e)=>{console.log("teams check",team);setSelectedTeams([{name:team.name,id:team.org_id}]) }}> {team.name}</li>)
+                           return(<li id={team.org_id}  key={index} style={{cursor:"pointer",liststyle:" inside"}} onClick={(e)=>{console.log("teams check",team);setSelectedTeams([{name:team.name,id:team.org_id}]) }}> {team.name}</li>)
                        })}
                     </MF_Select>
                     <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >
@@ -553,7 +556,7 @@ export default function Contacts() {
                                     </label> </div></li>)
                         })}
                     </MF_Select>
-                    <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , users,(new_data)=>{
+                    <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                         setFilteredTags(new_data)
                     })}} >
                         {filteredTags.map((tag , index)=>{
