@@ -40,6 +40,15 @@ export default function DropDown ({teamData,setSelection,...props}) {
         // console.log(teamData)
     },[teamData])
 
+    const clear = () =>{
+      setSelectedUsers([]);
+      setSelectedTeams([]);
+      setOpen([])
+    }
+    useEffect(()=>{
+      clear();
+    },[props.isclear])
+
     const handleClick = async (name,id) => {
       console.log(name,id)
       // await fetchTeamAgents(id)

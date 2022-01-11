@@ -313,18 +313,16 @@ export default function Live_chat() {
         return chats.filter(chat=>chat.channel=="WABA")
     }
 
-    const teamFilter =(agents , filter , chats )=>{
-        const gp= agents.filter(d=>{console.log(d);return filter.includes(d.team_id.toString())})
-        gp.map(g=>g.user_id)
-        return chats.filter(ch=>{return gp.map(g=>g.user_id).includes(ch.user_id)})
+    const teamFilter =(agents , filter ,contact, chats)=>{
+        console.log(agents,filter,"testetsetset")
+        const gps= agents.filter(d=>{console.log(d);return filter.includes(d.team_id.toString())})
+        const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
+        return chats.filter(ch=>{console.log("gp  testing");return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const agentfilter =(agents , filter ,contact, chats)=>{
         console.log(agents , filter , contact, "agent filter testing ")
         const gps= agents.filter(d=>filter.includes( d.user_id.toString() ))
-
-        console.log(gps,'contactsfsadfadsfas')
         const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
-        console.log(gp,'contactsfsadfadsfas')
         return chats.filter(ch=>{console.log("gp  testing");return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const tagFilter =(agents , filter , chats)=>{
@@ -571,7 +569,7 @@ export default function Live_chat() {
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         let newData = [...chatrooms]
-        if(selectedTeams.length>0) newData = teamFilter(users , selectedTeams , newData);
+        if(selectedTeams.length>0) newData = teamFilter(users , selectedTeams ,contacts, newData);
         if(selectedUsers.length>0) newData = agentfilter(users , selectedUsers ,contacts, newData);
         if(selectedTags.length>0)  newData = tagFilter(contacts , selectedTags , newData);
         if(selectedChannels.includes("Whatsapp"))newData = whatsappFilter(newData);
@@ -631,12 +629,15 @@ export default function Live_chat() {
         }
         console.log(selectedTeams,"selectedTeam")
     };
+    const [isClear,setClear] = useState(false)
     const clear=()=>{
         setSelectedUsers([])
         setSelectedChannels([])
         setSelectedTags([])
         setSelectedTeams([])
             advanceFilter()
+            setClear(!isClear)
+
     }
     useEffect(async ()=>{
         if(selectedChat.unread>0){
@@ -740,7 +741,7 @@ export default function Live_chat() {
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} clear={clear} unread={unreadHandle}
-                             agents={toggleSelectUsers} unassigned={unassigneHandle} />
+                             agents={toggleSelectUsers} unassigned={unassigneHandle}  isclear={isClear} />
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} setFilteredData={setFilteredData}/>
