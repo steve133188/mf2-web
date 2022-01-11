@@ -194,10 +194,12 @@ const channelData = [
                         {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>
+<div>Agents
 
-                            {/* <DivisionDropDown data={division} division={"divisionSelect"} team={"teamSelect"} agents={"agentsSelect"}/> */}
+                            <DivisionDropDown data={division} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} />
+</div>      
 
-                <div className={"filter_box_agents"}  >Agent
+                {/* <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
                         <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
@@ -239,7 +241,7 @@ const channelData = [
                                 )
                             })}
                     </div>
-                </div>
+                </div> */}
 
                 {/*<div className={"filter_box_agents"}  >Division*/}
                 {/*    <div className={"agentBroad"} >*/}
@@ -266,14 +268,14 @@ const channelData = [
                 {/*        </div>*/}
                 {/*    </div>*/}
                 {/*</div>*/}
-                <div className={"filter_box_agents"}  >Team
+                {/* <div className={"filter_box_agents"}  >Team
                     <div className={"agentBroad"} >
 
                         <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
                         <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
-                                {/* <div className={"search_bar"}>
+                                <div className={"search_bar"}>
                                 <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
-                            </div> */}
+                            </div>
                             <div className={"channelList"} >
 
                                 {teams.map((team)=>{
@@ -292,7 +294,7 @@ const channelData = [
                         </div>
                     </div>
 
-                </div>
+                </div> */}
 
 
 

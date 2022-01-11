@@ -10,7 +10,7 @@ import { Tooltip } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
 import { GlobalContext } from "../../context/GlobalContext";
 
-export default function DropDown ({teamData,setSelection}) {
+export default function DropDown ({teamData,setSelection,...props}) {
 
 
         const getUsers = async()=>{
@@ -67,22 +67,24 @@ export default function DropDown ({teamData,setSelection}) {
       if (!checked) {
           setSelectedUsers(selectedUsers.filter(item => item !== id));
       }
-      // props.agents(e)
+      props.agents(e)
       console.log(selectedUsers)
   };
   const toggleSelectTeams = e => {
     // console.log(e,"electaedTeams in filter")
     const { checked ,id} = e.target;
     setSelectedTeams(prev=>[...selectedTeams, id]);
-    console.log(levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)}),"dsafdasfadfdasfs")
+    // console.log(levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)}),"dsafdasfadfdasfs")
     const list = levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
     setSelectedUsers(list.map(e=>e.user_id.toString()))
     if (!checked) {
         setSelectedTeams(selectedTeams.filter(item => item !== id));
         setSelectedUsers([])
     }
-    // props.team(e)
-    // console.log(selectedTeams,"electaedTeams in filter")
+
+    props.team(e)
+    console.log(selectedTeams,"electaedTeams in filter")
+    
 };
     return (
         <List
@@ -96,15 +98,15 @@ export default function DropDown ({teamData,setSelection}) {
 
           <ListItemButton onClick={()=>{handleClick(team.name,team.org_id);}} id={team.org_id}  >
             <ListItemText primary={team.name} />
-            {open.includes(team.name) ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
             <div className="newCheckboxContainer right">
                                         <label className="newCheckboxLabel"> 
                                         <input type="checkbox" id={team.org_id} name="checkbox" 
-                                         checked={selectedTeams.includes(team.org_id.toString())} onClick={toggleSelectTeams} onChange={()=>{}}
+                                         checked={selectedTeams.includes(team.org_id.toString())} onClick={(e)=>{e.stopPropagation();toggleSelectTeams(e)}} onChange={()=>{}}
                                           />
                                         </label>
                                     </div>
+            {open.includes(team.name) ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
 </div>
             <Collapse in={open.includes(team.name)} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>

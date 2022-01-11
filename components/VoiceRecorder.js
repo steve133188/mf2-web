@@ -8,7 +8,7 @@ export default function Recorder({ returnVoiceMessage }) {
 
       async function requestRecorder() {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        return new MediaRecorder(stream, { mimeType : 'audio/wav ' });
+        return new MediaRecorder(stream, { mimeType : 'audio/mpeg-3 ' });
     }
 
     const useRecorder = () => {

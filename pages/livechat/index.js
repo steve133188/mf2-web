@@ -358,12 +358,14 @@ export default function Live_chat() {
         gp.map(g=>g.user_id)
         return chats.filter(ch=>{return gp.map(g=>g.user_id).includes(ch.user_id)})
     }
-    const agentfilter =(agents , filter , chats)=>{
-        console.log(agents , filter , chats, "agent filter testing ")
-        const gp= agents.filter(d=>filter.includes(d.username))
-        gp.map(g=>g.user_id)
+    const agentfilter =(agents , filter ,contact, chats)=>{
+        console.log(agents , filter , contact, "agent filter testing ")
+        const gps= agents.filter(d=>filter.includes( d.user_id.toString() ))
 
-        return chats.filter(ch=>{console.log("gp  testing",gp.map(g=>g.user_id).includes(ch.user_id));return gp.map(g=>g.user_id).includes(ch.user_id);})
+        console.log(gps,'contactsfsadfadsfas')
+        const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
+        console.log(gp,'contactsfsadfadsfas')
+        return chats.filter(ch=>{console.log("gp  testing");return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const tagFilter =(agents , filter , chats)=>{
 
@@ -481,7 +483,10 @@ export default function Live_chat() {
         if(isMedia){
             setIsMedia(false)
             setFilePrevier(filePreviewOldState)
+            setMediaUrl("")
+            
         }
+        setTypedMsg({channel:"",phone:"",message:"",message_type:"text"})
         setIsExpand(false)
         setChatButtonOn("")
         const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
@@ -502,7 +507,7 @@ export default function Live_chat() {
             setChatButtonOn("");
             setIsExpand(false);
             filePreview.size>0?setFilePrevier(filePreviewOldState):""
-            console.log(attachFile.current.target)
+            // console.log(attachFile.current.target)
           }
     };
 
@@ -603,10 +608,11 @@ export default function Live_chat() {
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         let newData = [...chatrooms]
         console.log("user in adva f" , users)
+        console.log(selectedUsers)
 
 
         if(selectedTeams.length>0) newData = teamFilter(users , selectedTeams , newData);
-        if(selectedUsers.length>0) newData = agentfilter(users , selectedUsers , newData);
+        if(selectedUsers.length>0) newData = agentfilter(users , selectedUsers ,contacts, newData);
         if(selectedTags.length>0)  newData = tagFilter(contacts , selectedTags , newData);
         if(selectedChannels.includes("Whatsapp"))newData = whatsappFilter(newData);
         if(selectedChannels.includes("WABA"))newData=WABAFilter(newData);
@@ -670,7 +676,7 @@ export default function Live_chat() {
         setSelectedChannels([])
         setSelectedTags([])
         setSelectedTeams([])
-            // advanceFilter()
+            advanceFilter()
     }
     useEffect(async ()=>{
         if(selectedChat.unread>0){
@@ -773,8 +779,6 @@ export default function Live_chat() {
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                             {/*<ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} confirm={advanceFilter} cancel={clear}*/}
-                             {/*agents={toggleSelectUsers} unread={unreadHandle} unassigned={unassigneHandle} /> */}
                             <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} clear={clear} unread={unreadHandle}
                              agents={toggleSelectUsers} unassigned={unassigneHandle} />
                         </div>
@@ -855,7 +859,7 @@ export default function Live_chat() {
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                     {/* <div>{filePreview.name} </div> */}
 
-                                            {true? <div style={{display:"flex"}} className="attachment_box">
+                                            {ChatButtonOn=="mr"? <div style={{display:"flex"}} className="attachment_box">
                                                                                 <div>
 
                                                                                 </div>
@@ -957,7 +961,7 @@ export default function Live_chat() {
                                 </div>
 
                                 <div className={"right_btn_gp"}>
-                                    {/*<VoiceRecorder returnVoiceMessage={getAudioFile} />*/}
+                                    {/* <VoiceRecorder returnVoiceMessage={getAudioFile} /> */}
                                     <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
                                 </div>
                             </div>

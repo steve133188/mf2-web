@@ -10,7 +10,7 @@ import DropDown from './teamDropDown';
 import { GlobalContext } from '../../context/GlobalContext';
 
 
-export default function DivisionDropDown ({data,setSelection}) {
+export default function DivisionDropDown ({data,setSelection,...props}) {
 
 
 
@@ -60,21 +60,22 @@ export default function DivisionDropDown ({data,setSelection}) {
 
             <ListItemButton onClick={()=>handleClick(division.name,division.org_id)} id={division.org_id} >
                  <ListItemText primary={division.name} />
-                      {open.includes(division.name) ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-                      <div className="newCheckboxContainer right">
+                      {/* <div className="newCheckboxContainer right">
                                         <label className="newCheckboxLabel"> 
                                         <input type="checkbox" id={division.org_id} name="checkbox" 
-                                        // checked={selectedUsers.includes(division.org_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}
+                                        checked={selectedUsers.includes(division.org_id.toString())} 
+                                        onClick={(e)=>{e.stopPropagation();toggleSelectUsers(e)}} onChange={()=>{}}
                                         />
                                         </label>
-                                    </div>
-                                </div>
+                                    </div> */}
+                                        {open.includes(division.name) ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+            </div>
 
             <Collapse in={open.includes(division.name)} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding sx={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-end" }}>
                     {/* loop */}
-                    <DropDown teamData={levelTwoData.filter(t=>t.parent_id==division.org_id)} setSelection={setSelection} />
+                    <DropDown teamData={levelTwoData.filter(t=>t.parent_id==division.org_id)} team={props.team} agents={props.agents} />
                  </List>
 
             </Collapse>
@@ -83,7 +84,7 @@ export default function DivisionDropDown ({data,setSelection}) {
         })}
         <div style={{display:"flex",justifyContent:"flex-end",}}>
 
-        <DropDown teamData={levelTwoData.filter(t=>t.parent_id==0)} setSelection={setSelection} sx={{ width: '100%',}}/>
+        <DropDown teamData={levelTwoData.filter(t=>t.parent_id==0)} setSelection={setSelection}  team={props.team}  agents={props.agents} sx={{ width: '100%',}}/>
         </div>
         </List>
 
