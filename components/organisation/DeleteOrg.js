@@ -66,16 +66,30 @@ export default function DeleteDivisionForm({show, toggle,reload ,org}){
         if(div===" "&&team!==" "){
             console.log(team,"teamID")
             const userList = await userInstance.getUsersByTeamId(team)
-            userList.map(async e=>{
+            userList.map(async (e)=>{
                 const status = await userInstance.updateUserTeamIdById(e.user_id,0)
                 console.log(status,"get Team")
             })
             const status = await orgInstance.deleteOrgById(team)
         }else{
             
-            console.log(div)
-            // const status = await orgInstance.deleteOrgById(div)
-            // console.log(status,"delete Division")
+            console.log(div,"div number")
+            const dSelect = await orgInstance.getOrgById(div)
+            if(dSelect[0].children){
+                dSelect[0].children.map(async (c)=>{
+                    console.log(c.org_id)
+                    const userList = await userInstance.getUsersByTeamId(c.org_id)
+                    console.log(userList,"user many")
+                    userList.length>0&&userList.map(async (e)=>{
+                        const status = await userInstance.updateUserTeamIdById(e.user_id,0)
+                        console.log(e,"clean")
+                    })
+                    
+                })
+            }
+
+            const status = await orgInstance.deleteOrgById(div)
+            console.log(status,"delete Division")
         }
         
         toggle()

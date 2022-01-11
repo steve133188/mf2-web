@@ -57,7 +57,7 @@ export default function Contacts() {
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
-    const [selectedTeams ,setSelectedTeams] =useState([{name:"All"}])
+    const [selectedTeams ,setSelectedTeams] =useState([])
     const [selectedChannel ,setSelectedChannel] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
@@ -497,7 +497,7 @@ export default function Contacts() {
                     
                 <div className="top_bar_left" >
                    
-                    <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agents"} head={"Agent"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
+                    <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agents"} head={"Agents"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                         setFilteredUsers(new_data)
                     })}}>
                         {filteredUsers.map((user , index)=>{
@@ -515,7 +515,7 @@ export default function Contacts() {
                             </li>)
                         })}
                     </MF_Select>
-                    <MF_Select head={"Team"} top_head={selectedTeams.length ==0?"Team":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
+                    <MF_Select head={"Teams"} top_head={selectedTeams.length ==0?"Teams":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
                        <li onClick={()=> {
                         
                            setSelectedTeams([]);
@@ -564,7 +564,7 @@ export default function Contacts() {
                     <button onClick={clearFilter} className={"mf_bg_light_blue mf_color_blue"} style={{margin:"0 1rem",padding:"0",minWidth:"8rem",maxWidth:"102rem",maxHeight:"50px"}}> Clear Filter </button>
                 </div>
                     <div className="top_bar_right">
-                        <div style={{ selfAlign:"right" }}> Search : {filteredData.length} </div>
+                        <div style={{ selfAlign:"right" }}> Total Contacts : {filteredData.length} </div>
                     </div>
                 </div>
 
