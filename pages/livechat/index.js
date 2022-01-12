@@ -158,13 +158,13 @@ export default function Live_chat() {
             .then(res=>{
                 setChatroomMsg(prev=>[...res.data.listMessages.items])
                 if(res.data.listMessages.items.length!==0){
-                    let nofromme = res.data.listMessages.items.filter(msg=>{
+                    let notFromMe = res.data.listMessages.items.filter(msg=>{
                         return msg.from_me ==false
                     })
-                    if(nofromme.length==0) return
-                    console.log("no from me :", nofromme)
-                    nofromme = nofromme.pop()
-                    setLastMsgFromClient(prev=>nofromme.timestamp)
+                    if(notFromMe.length==0) return
+                    console.log("no from me :", notFromMe)
+                    notFromMe = notFromMe.pop()
+                    setLastMsgFromClient(prev=>notFromMe.timestamp)
                     console.log("last msg time : ",  lastMsgFromClient)
                     console.log("getChatroomMessage",chatroomMsg)
                 }
@@ -520,15 +520,15 @@ export default function Live_chat() {
 
     useEffect(    async () => {
         if(user.token!=null) {
+            await getAllChatrooms()
+            await subChatrooms()
             // await fetchContacts()
             // await getTags()
             // await getUsers()
             // await getTeams()
             await fetchHandle()
             // await getChatrooms()
-            await getAllChatrooms()
             await getStickers()
-            await subChatrooms()
         }
     },[]);
 
@@ -540,6 +540,7 @@ export default function Live_chat() {
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
+                    if(!newMessage.from_me)setLastMsgFromClient(prev=>newMessage.timestamp)
                     setTimeout(()=>{
                         scrollToBottom()
                     },1000)
@@ -550,7 +551,6 @@ export default function Live_chat() {
         setSubscribe(prev=> sub)
 
     }
-
 
     useEffect(async ()=>{
         if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
@@ -691,14 +691,12 @@ export default function Live_chat() {
             setIsExpand(true);
 
         setChatButtonOn("m3");
-            var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
+        var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
         const result = await mediaInstance.putVoice(file)
         setMediaUrl(result)
         setFilePrevier({name:(new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_")),size:audioFile.size,type:"AUDIO",path:path})
         setTypedMsg({...typedMsg ,message_type: "AUDIO"})
         console.log(result,"audioFile")}
-
-
 
     }
     return (

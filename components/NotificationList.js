@@ -26,7 +26,7 @@ export default function NotificationList({notification , ...props}){
                 alert(err)
             })
         setSelectedChat(prev=>chat)
-        router.push("/livechat")
+        if(router.pathname!=='/livechat')router.push("/livechat")
     }
     return(
 

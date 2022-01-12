@@ -8,16 +8,18 @@ import {useRouter} from "next/router";
 export default function NotificationAlert({notification ,notificationList ,setNotificationList }){
     const {contactInstance , setSelectedChat} = useContext(GlobalContext)
     const router = useRouter()
-    const autoDeleteTime=10000
+    const autoDeleteTime=5000
     const [contact , setContact] =useState({})
     useEffect(() => {
         const interval = setInterval(() => {
-                setNotificationList(prevState => prevState.filter(li =>li !=notification))
+                // setNotificationList(prevState => prevState.filter(li =>li !=notification))
+                setNotificationList(prevState => prevState.filter(li =>li.timestamp !=notification.timestamp))
+                // if(notificationList.length==1) setNotificationList([])
         }, autoDeleteTime);
         return () => {
             clearInterval(interval);
         }
-    }, []);
+    }, [notificationList]);
     useEffect(async ()=>{
         const cus = await contactInstance.getContactById(parseInt(notification.customer_id))
         setContact(cus)
@@ -28,11 +30,13 @@ export default function NotificationAlert({notification ,notificationList ,setNo
             .then(res=>{
                 console.log("res:",res)
                 return res.data.listChatrooms.items[0]
+
             }).catch(err=>{
                 alert(err)
             })
         setSelectedChat(prev=>chat)
-        router.push("/livechat")
+        setNotificationList(prevState => prevState.filter(li =>li.timestamp !=notification.timestamp))
+        if(router.pathname!="/livechat")router.push("/livechat")
     }
     return(
 
