@@ -303,6 +303,7 @@ export const getMessage = /* GraphQL */ `
       v_card
       read
       status
+      sign_name
     }
   }
 `;
@@ -332,6 +333,7 @@ export const listMessages = /* GraphQL */ `
         v_card
         read
         status
+        sign_name
       }
       nextToken
     }
