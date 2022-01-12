@@ -24,24 +24,30 @@ export default function Newchatroom({ setFilteredData ,...props}){
             unread:0 ,
             user_id: parseInt(user.user.user_id),
         }
-        const check= await API.graphql(graphqlOperation(getChatroom , {channel: "WABA" , room_id:`${data.customer_id}` })).then(async response=>{
-            if(response.data){
-                setSelectedChat(response.data.getChatroom)
-                return
-            }
-        }).catch(async error=>{
-            console.log(error)
-            const result = await API.graphql(graphqlOperation(createChatroom, {input})).then(
-                res=>{
-                    console.log(res)
+        // const check= await API.graphql(graphqlOperation(getChatroom , {channel: "WABA" , room_id:`${data.customer_id}` })).then(async response=>{
+        //     if(response.data){
+        //         setSelectedChat(response.data.getChatroom)
+        //         return
+        //     }
+        // }).catch(async error=>{
+        //     console.log(error)
+        //    alert("Something went wrong")
+        // })
+        const result = await API.graphql(graphqlOperation(createChatroom, {input})).then(
+            res=>{
+                console.log(res)
+                if(res.data.createChatroom){
                     setFilteredData(prev=>[res.data.createChatroom , ...prev])
+                    setSelectedChat(res.data.createChatroom)
+                    return
                 }
-            ).catch(err => {
-                alert("The user given chatroom was duplicated or something went wrong");
-                console.log(err);
-            })
-        })
 
+            }
+        ).catch(err => {
+            alert("The user given chatroom was duplicated or something went wrong");
+            console.log(err);
+            return
+        })
 
     }
     return(
