@@ -32,6 +32,7 @@ import DeletePad from "../../components/DeletePannel";
 import {CSVLink, CSVDownload} from 'react-csv';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import DivisionDropDown from "../../components/filter/divisionDropDown";
 
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
@@ -54,6 +55,8 @@ export default function Contacts() {
     const [users ,setUsers] =useState([])
     const [tags ,setTags] =useState([])
     const [teams ,setTeams] =useState([])
+
+    const [division ,setDivision] =useState([]);
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
@@ -72,8 +75,8 @@ export default function Contacts() {
 
 
     const advanceFilter =()=>{        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
-        console.log("filter",filter)
-        console.log("filter",contacts)
+        // console.log("filter",filter)
+        // console.log("filter",contacts)
         const agentFiltered = contacts.filter(data=>{
             if(selectedUsers.length==0){
                 return data
@@ -124,7 +127,7 @@ export default function Contacts() {
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
                 return (
-                    <Tooltip key={index} className={""} title={agent.user_id} placement="top-start">
+                    <Tooltip key={index} className={""} title={agent} placement="top-start">
                         <Avatar className={"mf_bg_warning mf_color_warning text-center 123"} sx={{
                             width: 22,
                             height: 22,
@@ -162,6 +165,10 @@ export default function Contacts() {
         console.log(data,"TEAM INFO")
         setTeams(data)
     }
+    const getDivision = async () =>{
+        const data = await orgInstance.getAllORG ()
+        setDivision(data.filter(e=>{return e.type=="division"}))
+    }
     const getChannels = async ()=>{
         // const data = await orgInstance.getOrgTeams()
         setFilteredChannel(channels)
@@ -180,6 +187,7 @@ export default function Contacts() {
             await getUsers()
             await getTeams()
             await getChannels ()
+            await getDivision()
         }
         setSelectedUsers([])
         setSelectedContacts([])
@@ -238,6 +246,14 @@ export default function Contacts() {
         setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
+        }
+    };
+    const toggleSelectTeams = e => {
+        // console.log(e,"electaedTeams in filter")
+        const { checked ,id} = e.target;
+        setSelectedTeams(prev=>[...selectedTeams, id]);
+        if (!checked) {
+            setSelectedTeams(selectedTeams.filter(item => item !== id));
         }
     };
     function userSearchFilter(keyword , data ,callback ){
@@ -460,32 +476,37 @@ export default function Contacts() {
                     <MF_Select top_head={selectedUsers.length!=0? renderUsers():"Agents"} head={"Agents"} submit={advanceFilter}handleChange={(e)=>{userSearchFilter(e.target.value , users,(new_data)=>{
                         setFilteredUsers(new_data)
                     })}}>
-                        {filteredUsers.map((user , index)=>{
-                            return(<li key={index}>
-                                <div style={{display:"flex" ,gap:10}}>
-                                    <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
-                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
-                                    </Tooltip>
-                                    <div className={"name"}>{user.username}</div>
-                                </div>
-                                <div className="newCheckboxContainer">
-                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
-                                    </label>
-                                </div>
-                            </li>)
-                        })}
-                    </MF_Select>
-                    <MF_Select head={"Teams"} top_head={selectedTeams.length ==0?"Teams":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
-                       <li onClick={()=> {
+                        <div>Agents
 
-                           setSelectedTeams([]);
-                           advanceFilter()
-                       }}
-                       style={{cursor:"pointer",width:"200px",liststyle:" inside"}}
-                       >All</li>
-                       <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }} style={{cursor:"pointer",liststyle:" inside"}}> No Assigned</li>
-                       {teams.map((team , index)=>{
-                           return(<li id={team.org_id}  key={index} style={{cursor:"pointer",liststyle:" inside"}} onClick={(e)=>{console.log("teams check",team);setSelectedTeams([{name:team.name,id:team.org_id}]) }}> {team.name}</li>)
+                        <DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectUsers} clear={ ()=>{}} isclear={()=>{}} />
+                        </div>      
+
+                       {filteredUsers.map((user , index)=>{
+                    //         return(<li key={index}>
+                    //             <div style={{display:"flex" ,gap:10}}>
+                    //                 <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
+                    //                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                    //                 </Tooltip>
+                    //                 <div className={"name"}>{user.username}</div>
+                    //             </div>
+                    //             <div className="newCheckboxContainer">
+                    //                 <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
+                    //                 </label>
+                    //             </div>
+                    //         </li>)
+                    //     })}
+                    // </MF_Select>
+                    // <MF_Select head={"Teams"} top_head={selectedTeams.length ==0?"Teams":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
+                    //    <li onClick={()=> {
+
+                    //        setSelectedTeams([]);
+                    //        advanceFilter()
+                    //    }}
+                    //    style={{cursor:"pointer",width:"200px",liststyle:" inside"}}
+                    //    >All</li>
+                    //    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }} style={{cursor:"pointer",liststyle:" inside"}}> No Assigned</li>
+                    //    {teams.map((team , index)=>{
+                    //        return(<li id={team.org_id}  key={index} style={{cursor:"pointer",liststyle:" inside"}} onClick={(e)=>{console.log("teams check",team);setSelectedTeams([{name:team.name,id:team.org_id}]) }}> {team.name}</li>)
                        })}
                     </MF_Select>
                     <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >

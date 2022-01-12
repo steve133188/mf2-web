@@ -116,6 +116,13 @@ export default function EditProfileForm({data , toggle}){
             ["name"]:editContact.first_name+editContact.last_name
         });
     }
+    function cusNametoFirstName (name){
+        setEditContact({
+            ...editContact,
+
+            ["first_name"]:editContact.customer_name
+        });
+    }
     async function handleSubmit (e){
         // e.preventDefault()
     console.log(editContact)
@@ -166,7 +173,7 @@ export default function EditProfileForm({data , toggle}){
                         Edit Contact
                     </div>
                     <div className={"ss_row"}>
-                        <MF_Input title="First Name*" name={"first_name"} value={editContact.first_name} onChange={handleChange}/>
+                        <MF_Input title="First Name*" name={"first_name"} value={editContact.first_name?editContact.first_name:cusNametoFirstName(editContact.first_name)} onChange={handleChange}/>
                         <MF_Input title="Last Name*" name={"last_name"} value={editContact.last_name} onChange={handleChange}/>
 
                     </div>

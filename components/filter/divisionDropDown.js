@@ -50,7 +50,7 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
     },[levelOneData])
 
     useEffect(()=>{
-        setOpen([])
+        // setOpen([])
     },[props.clear])
 
 

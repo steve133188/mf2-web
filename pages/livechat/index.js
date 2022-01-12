@@ -30,6 +30,8 @@ import { getURL } from "next/dist/shared/lib/utils";
 import { padding } from "@mui/system";
 import BigPlayButton from "video-react/lib/components/BigPlayButton";
 import Player from "video-react/lib/components/Player";
+import Profile from "../../components/profile";
+import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 
 
 export default function Live_chat() {
@@ -76,6 +78,7 @@ export default function Live_chat() {
         })
         const [chatroomsSub , setChatroomsSub] = useState()
         const [replybox,setReplybox] = useState("")
+    const [isEditProfileShow , setIsEditProfileShow] = useState(false)
         const [users ,setUsers] =useState([])
         const [teams ,setTeams] =useState([])
         const [tags ,setTags] =useState([])
@@ -264,7 +267,7 @@ export default function Live_chat() {
         console.log(id,"chatroom selected")
         const result = await contactInstance.getContactById(id)
         console.log(result)
-        setChatUser(result.data)
+        setChatUser(result)
     }
     const [contacts, setContacts] = useState([]);
 
@@ -644,6 +647,11 @@ export default function Live_chat() {
             await updateChatroomUnread(selectedChat)
         }
     },[selectedChat])
+    const toggleEditProfile =async (key) =>{
+        if(!isEditProfileShow) ;
+        if(isEditProfileShow) ;
+        setIsEditProfileShow(!isEditProfileShow)
+    }
     const refreshChatrooms = async ()=>{
         clear()
         await getChatrooms()
@@ -705,6 +713,10 @@ export default function Live_chat() {
     }
     return (
         <div className="live_chat_layout">
+            <div style={{position:"absolute",backgroundColor:isEditProfileShow? "white":"",width:isEditProfileShow?"100vw":"0",height:"100%",    zIndex: 136}}>
+
+            {isEditProfileShow?  (<Profile handleClose={toggleEditProfile}><EditProfileForm data={chatUser } toggle={toggleEditProfile}/></Profile>):null}
+            </div>
             <div className={"chat_list"}>
                 <div className={"chatlist_ss"} style={{}}>
                     <div  className={"chatlist_ss_filter"}>
@@ -841,7 +853,7 @@ export default function Live_chat() {
                                             {filePreview.type=="VIDEO"?<div style={{display:"flex"}} className="attachment_box">
                                                                                 <div>
                                                                                     <div style={{display:"flex",alignItems:"center",margin:"0 15px"}}>
-                                                                                        <Player   className={"videoBox"} playsInline fluid={false} width={150} muted={true}>
+                                                                                        <Player   className={"videoBox"} playsInline fluid={false} width={150} height={100} muted={true}>
                                                                                         <BigPlayButton position="center" />
                                                                                                     <source  id={filePreview.name} src={filePreview.path}  onClick={e=>e.preventDefault} type="video/mp4" />
                                                                                     </Player>
@@ -929,7 +941,7 @@ export default function Live_chat() {
                         </div></> : <div className={"center_text"}> Select a conversation </div>}
 
             </div>
-            <ChatroomInfo data={selectedChat}/>
+            <ChatroomInfo data={selectedChat} click={toggleEditProfile }/>
         </div>
     )
 }
