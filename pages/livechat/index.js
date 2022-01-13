@@ -333,16 +333,16 @@ export default function Live_chat() {
     }
 
     const teamFilter =(agents , filter ,contact, chats)=>{
-        console.log(agents,filter,"testetsetset")
-        const gps= agents.filter(d=>{console.log(d);return filter.includes(d.team_id.toString())})
+        // console.log(agents,filter,"testetsetset")
+        const gps= agents.filter(d=>{;return filter.includes(d.team_id.toString())})
         const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
-        return chats.filter(ch=>{console.log("gp  testing");return gp.map(g=>g.customer_id).includes(ch.customer_id);})
+        return chats.filter(ch=>{;return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const agentfilter =(agents , filter ,contact, chats)=>{
         console.log(agents , filter , contact, "agent filter testing ")
         const gps= agents.filter(d=>filter.includes( d.user_id.toString() ))
         const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
-        return chats.filter(ch=>{console.log("gp  testing");return gp.map(g=>g.customer_id).includes(ch.customer_id);})
+        return chats.filter(ch=>{;return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const tagFilter =(agents , filter , chats)=>{
 
@@ -367,7 +367,7 @@ export default function Live_chat() {
     ///////
 
     useEffect(()=>{
-        console.log(selectedTeams,"electaer")
+        console.log(selectedTeams,"selectedTeams change")
 
     },[selectedTeams])
     // async function handleChatRoom(chatroom){
@@ -660,10 +660,16 @@ export default function Live_chat() {
         setSelectedChannels([])
         setSelectedTags([])
         setSelectedTeams([])
-            advanceFilter()
-            setClear(!isClear)
+        setClear(true)
+        advanceFilter()
 
     }
+    useEffect(()=>{
+
+        isClear?setClear(false):""
+    },[isClear])
+
+
     useEffect(async ()=>{
         if(selectedChat.unread>0){
             await updateChatroomUnread(selectedChat)
@@ -851,6 +857,7 @@ export default function Live_chat() {
                                                                                 <div>{quotaMsg.from_me?quotaMsg.sign_name:chatUser.customer_name}</div>
                                                                                     <div>{quotaMsg.body}</div>
                                                                                     {quotaMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
+                                                                                    {quotaMsg.message_type=="file"||"document"?<img src={"/livechat/attach.svg"}/>:""}
                                                                                     {quotaMsg.message_type=="video"?"Video":""}
                                                                             </div>
                                                                             <div className="media_div">

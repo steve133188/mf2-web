@@ -133,17 +133,18 @@ const channelData = [
         props.confirm();
     }
     const handelClear = ()=>{
-        props.clear();
+        console.log(props.isclear,"chatfileter is clear")
         setSelectedUsers([])
         setSelectedChannels([])
         setSelectedTags([])
+        props.clear();
     }
     const handelCancel = ()=>{
         props.click();
-        props.clear();
         setSelectedUsers([])
         setSelectedChannels([])
         setSelectedTags([])
+        props.clear();
     }
 
     const renderUsers = ()=>{
@@ -163,7 +164,8 @@ const channelData = [
     }
 
     return(
-         <div className={""} style={{width:"92%",height: "100%",maxHeight: "97vh"}}><div className={"filter_title"} style={{display:"flex",justifyContent:"space-between" }}><div>Filter</div> <div style={{padding:"0 0.5rem", cursor:"pointer",width:"50px",backgroundColor:"#DEF0FF",color:"#2198FA",textAlign:"center",borderRadius:"10px" }} onClick={handelClear} >Clear</div></div>
+         <div className={""} style={{width:"92%",height: "100%",maxHeight: "97vh"}}><div className={"filter_title"} style={{display:"flex",justifyContent:"space-between" }}><div>Filter</div> 
+         <div style={{padding:"0 0.5rem", cursor:"pointer",width:"50px",backgroundColor:"#DEF0FF",color:"#2198FA",textAlign:"center",borderRadius:"10px" }} onClick={handelClear} >Clear</div></div>
                 <div className={"filter_box_status"}  >
                     <div className={"status_box"}>
                         <div className="newCheckboxContainer">

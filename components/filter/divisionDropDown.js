@@ -49,9 +49,10 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
     //     console.log(levelTwoData)
     // },[levelOneData])
 
-    // useEffect(()=>{
-    //     // setOpen([])
-    // },[props.clear])
+    useEffect(()=>{
+
+      // props.isclear? setOpen([]):""
+    },[props.clear])
 
 
     return (
@@ -80,7 +81,7 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
             <Collapse in={open.includes(division.name)} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding sx={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-end" }}>
                     {/* loop */}
-                    <DropDown teamData={levelTwoData&&levelTwoData.filter(t=>t.parent_id==division.org_id)} team={props.team} isclear={props.isclear} agents={props.agents} />
+                    <DropDown teamData={levelTwoData&&levelTwoData.filter(t=>t.parent_id==division.org_id)} team={props.team} isclear={props.isclear} clear={props.clear} agents={props.agents} />
                  </List>
 
             </Collapse>
@@ -89,7 +90,7 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
         })}
         <div style={{display:"flex",justifyContent:"flex-end",}}>
 
-        <DropDown teamData={levelTwoData&&levelTwoData.filter(t=>t.parent_id==0)} setSelection={setSelection}  team={props.team} isclear={props.isclear}  agents={props.agents} sx={{ width: '100%',}}/>
+        <DropDown teamData={levelTwoData&&levelTwoData.filter(t=>t.parent_id==0)} setSelection={setSelection}  team={props.team} isclear={props.isclear} clear={props.clear} agents={props.agents} sx={{ width: '100%',}}/>
         </div>
         </List>
 
