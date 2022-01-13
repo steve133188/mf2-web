@@ -11,32 +11,46 @@ export default function tagFetcher(token){
             'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
             'Access-Control-Allow-Credentials' : true,
         },
-        timeout:5000,
+        timeout:10000,
         baseURL:"https://36lmnhe0e8.execute-api.ap-southeast-1.amazonaws.com/prod/api/admin"
     })
     instance.getAllTags = async ()=>{
-        return (await instance.fetcher.get(`/tags`)).data
+        const d =await instance.fetcher.get(`/tags`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getTagByName = async (data)=>{
-        return (await instance.fetcher.get(`/tag/id/${data}`)).data
+
+        const d =await instance.fetcher.get(`/tag/id/${data}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getTagById = async (tag_id)=>{
-        return (await instance.fetcher.get(`/tag/id/${tag_id}`)).data
+
+        const d =await instance.fetcher.get(`/tag/id/${tag_id}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getTagList = async ()=>{
-        return (await instance.fetcher.get(`/taglist`)).data
+
+        const d =await instance.fetcher.get(`/taglist`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.addTag = async (data) =>{
-        return(await instance.fetcher.post(`/tag`,data)).statusText
+        const d =await instance.fetcher.post(`/tag`,data).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.updateTag = async (data)=>{
-        return (await instance.fetcher.put(`/tag`,data)).statusText
+
+        const d =await instance.fetcher.put(`/tag`,data).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.deleteTag = async (id)=>{
-        return (await instance.fetcher.delete(`/tag/id/${id}`)).statusText
+
+        const d =await instance.fetcher.delete(`/tag/id/${id}`).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.deleteManyTag = async (id)=>{
-        return (await instance.fetcher.delete(`/tags` , data)).statusText
+
+        const d =await instance.fetcher.delete(`/tags` , data).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     return instance
 }

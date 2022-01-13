@@ -4,7 +4,7 @@ export default function usersFetcher(token){
     const instance ={}
     instance.token = token
     instance.fetcher= axios.create({
-        timeout:5000,
+        timeout:10000,
         headers:{
             'Content-Type': 'application/json',
             'Authorization':`Bearer ${instance.token}`,
@@ -61,35 +61,53 @@ export default function usersFetcher(token){
     }
 
     instance.getAllUser = async ()=>{
-        return (await instance.fetcher.get(`/users/all`)).data
+
+        const d =await instance.fetcher.get(`/users/all`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getUserByName = async (name)=>{
-        return (await instance.fetcher.get(`/api/users/name/${name}`)).data
+
+        const d =await instance.fetcher.get(`/api/users/name/${name}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getUserById = async (id)=>{
-        return (await instance.fetcher.get(`/users/${id}`)).data
+
+        const d =await instance.fetcher.get(`/users/${id}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getUserByEmail = async (email)=>{
-        return (await instance.fetcher.get(`/email/${email}`)).data
+
+        const d =await instance.fetcher.get(`/email/${email}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     instance.getUserByPhone = async (phone)=>{
-        return (await instance.fetcher.get(`/phone/${phone}`)).data
+
+        const d =await instance.fetcher.get(`/phone/${phone}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     instance.getUserNameList = async ()=>{
-        return (await instance.fetcher.get(`/userlist`)).data
+
+        const d =await instance.fetcher.get(`/userlist`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     instance.getUserByNoTeam = async ()=>{
-        return (await instance.fetcher.get(`/team`)).data
+
+        const d =await instance.fetcher.get(`/team`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getUserByRoleId = async ({role_id})=>{
-        return (await instance.fetcher.get(`/users/role/{role_id}`)).data
+
+        const d =await instance.fetcher.get(`/users/role/{role_id}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     instance.getUsersByTeamId = async (team_id)=>{
-        return (await instance.fetcher.get(`/users/team/${team_id}`)).data
+
+        const d =await instance.fetcher.get(`/users/team/${team_id}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     // instance.createUser = async (data)=>{
@@ -98,44 +116,67 @@ export default function usersFetcher(token){
 
 
     instance.createManyUser = async (data)=>{
-        return (await instance.fetcher.post(`/addMany` ,data)).statusText
+
+        const d =await instance.fetcher.post(`/addMany` ,data).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
 
     instance.updateUser = async (data)=>{
-        return (await instance.fetcher.put(`/users` , data )).statusText
+
+        const d =await instance.fetcher.put(`/users` , data ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.updateUserTeamIdById = async (user_id , team_id) =>{
-        return (await instance.fetcher.put(`/user/team` ,{user_id , team_id})).statusText
+
+        const d =await instance.fetcher.put(`/user/team` ,{user_id , team_id}).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
 
     instance.updateUserTeam = async (old_id , new_id) =>{
-        return (await instance.fetcher.put(`/users/team` ,{old_id , new_id})).statusText
+
+        const d =await instance.fetcher.put(`/users/team` ,{old_id , new_id}).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
 
     instance.deleteUserTeam = async (team_id)=>{
-        return (await instance.fetcher.put(`/delete-user-team/${team_id}` )).statusText
+
+        const d =await instance.fetcher.put(`/delete-user-team/${team_id}` ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.updateUserPwd = async (data)=>{
-        return (await instance.fetcher.put(`/users/change-password` , data )).statusText
+
+        const d =await instance.fetcher.put(`/users/change-password` , data ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.updateUserChannel = async (user_id , channels)=>{
-        return (await instance.fetcher.put(`/user/add-channels` , {user_id , channels} )).statusText
+
+        const d =await instance.fetcher.put(`/user/add-channels` , {user_id , channels} ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.editUserChannel = async (user_id , channels)=>{
-        return (await instance.fetcher.put(`/user/edit-channels` , {user_id , channels} )).statusText
+
+        const d =await instance.fetcher.put(`/user/edit-channels` , {user_id , channels} ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.updateUserRole = async (user_id , role_id)=>{
-        return (await instance.fetcher.put(`/users/role` , {user_id , role_id} )).statusText
+
+        const d =await instance.fetcher.put(`/users/role` , {user_id , role_id} ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.removeUserChannel = async (user_id , channels)=>{
-        return (await instance.fetcher.put(`/user/del-channels` , {user_id , channels} )).statusText
+
+        const d =await instance.fetcher.put(`/user/del-channels` , {user_id , channels} ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.deleteUserById = async(id) =>{
-        return (await instance.fetcher.delete(`/user/${id}`  )).statusText
+
+        const d =await instance.fetcher.delete(`/user/${id}`  ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
 
     instance.changeUserPassword = async (email , old_password, new_password) =>{
-        return(await instance.fetcher.put(`/change-password` ,{email , old_password ,new_password})).status
+        const d =await instance.fetcher.put(`/change-password` ,{email , old_password ,new_password}).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     return instance
 }
