@@ -26,6 +26,11 @@ export default function Layout({children}) {
     const [notificationList,setNotificationList]= useState([])
     const [showNotificationList,setShowNotificationList]= useState([])
     const [notiSub , setNotiSub] = useState()
+    const [unread , setUnread] = useState(0)
+
+    const handleCount = () =>{
+        setUnread(0)
+    }
 
     const sub = async ()=>{
         if(notiSub) notiSub.unsubscribe()
@@ -33,6 +38,7 @@ export default function Layout({children}) {
             next: newData=>{
                 console.log(newData)
                 if(newData.value.data.eventListenr.action == "RECEIVED_MESSAGE"){
+                    setUnread(unread=>unread+1)
                     setNotificationList(prev=>[newData.value.data.eventListenr ,...prev ])
                     console.log("received activity" ,notificationList)
                     setShowNotificationList(prev=>[newData.value.data.eventListenr , ...prev] )
@@ -44,7 +50,7 @@ export default function Layout({children}) {
     }
 
     const layout = (
-        <div className={"layout"}><SideBar navItems={navItems}  notices={notificationList}/>
+        <div className={"layout"}><SideBar navItems={navItems}  notices={notificationList} unread={unread} handleCount={handleCount} setNotificationList={setNotificationList}/>
             <div className={"layout-main"}>
                 {children}
             </div>

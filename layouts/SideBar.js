@@ -14,11 +14,10 @@ import {subscribeToChatroom, subscribeToNewMessage} from "../src/graphql/subscri
 import {Avatar } from "@mui/material";
 
 
-export default function SideBar(props  ) {
+export default function SideBar({setNotificationList,...props}  ) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
     const { user ,subInstance,roleInstance } = useContext(GlobalContext)
-
 
     const [userAuth,setUserAuth] = useState({})
 
@@ -65,6 +64,7 @@ export default function SideBar(props  ) {
     const [unreadNotificationCount, setUnreadNotificationCount] = useState(0)
 
     function notifyBoxToggle() {
+        props.handleCount()
         setIsNotifyBoxOpen(!isNotifyBoxOpen);
     }
 
@@ -216,8 +216,8 @@ export default function SideBar(props  ) {
                                             </g>
                                         </svg>
                                     <span className="side-item-name" style={{margin:"0 5px 0 0"}}>Notifications</span>
-                                    {props.notices.length &&props.notices.length>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{props.notices.length}</Avatar>
-                                    : props.notices.length>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{props.notices.length}</Avatar>: "" }
+                                    {props.notices.length &&props.unread>0?<Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{props.unread}</Avatar>
+                                    : props.unread>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{props.notices.length}</Avatar>: "" }
                                 </div>
                             </span>
                             {isNotifyBoxOpen ? (
@@ -234,7 +234,7 @@ export default function SideBar(props  ) {
                                             </div>
                                         <div className="notify_box_list">
                                             {(props.notices.length>0)&&props.notices.map((d , index )=>{
-                                                return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} />)
+                                                return(<NotificationList setNotificationList={setNotificationList} notification={d} key={index} className={+(index==0&&"active")} />)
                                             })}
                                         </div>
                                     </div>

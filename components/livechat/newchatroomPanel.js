@@ -4,10 +4,11 @@ import {createChatroom} from "../../src/graphql/mutations";
 import {useContext, useEffect} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import { Tooltip } from "@mui/material";
+import {getChatroom} from "../../src/graphql/queries";
 
 
 export default function Newchatroom({ setFilteredData ,...props}){
-    const {user} = useContext(GlobalContext)
+    const {user , setSelectedChat} = useContext(GlobalContext)
     // useEffect(()=>{console.log(props, "chatrooms details ")}
     // ,[props])
     const createChatroomAction = async (data)=>{
@@ -19,18 +20,34 @@ export default function Newchatroom({ setFilteredData ,...props}){
             name: data.customer_name,
             phone:`${data.country_code}${data.phone}`,
             room_id: `${data.customer_id}` ,
+            country_code:data.country_code,
             unread:0 ,
             user_id: parseInt(user.user.user_id),
         }
+        // const check= await API.graphql(graphqlOperation(getChatroom , {channel: "WABA" , room_id:`${data.customer_id}` })).then(async response=>{
+        //     if(response.data){
+        //         setSelectedChat(response.data.getChatroom)
+        //         return
+        //     }
+        // }).catch(async error=>{
+        //     console.log(error)
+        //    alert("Something went wrong")
+        // })
         const result = await API.graphql(graphqlOperation(createChatroom, {input})).then(
             res=>{
                 console.log(res)
-                setFilteredData(prev=>[res.data.createChatroom , ...prev])
+                if(res.data.createChatroom){
+                    setFilteredData(prev=>[res.data.createChatroom , ...prev])
+                    setSelectedChat(res.data.createChatroom)
+                    return
+                }
             }
         ).catch(err => {
             alert("The user given chatroom was duplicated or something went wrong");
             console.log(err);
+            return
         })
+
     }
     return(
         <>

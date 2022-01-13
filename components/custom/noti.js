@@ -2,37 +2,42 @@ import Avatar from "@mui/material/Avatar";
 import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import {API, graphqlOperation} from "aws-amplify";
-import {listChatrooms} from "../../src/graphql/queries";
+import {getChatroom, listChatrooms} from "../../src/graphql/queries";
 import {useRouter} from "next/router";
 
 export default function NotificationAlert({notification ,notificationList ,setNotificationList }){
     const {contactInstance , setSelectedChat} = useContext(GlobalContext)
     const router = useRouter()
-    const autoDeleteTime=10000
+    const autoDeleteTime=5000
     const [contact , setContact] =useState({})
     useEffect(() => {
         const interval = setInterval(() => {
-                setNotificationList(prevState => prevState.filter(li =>li !=notification))
+                // setNotificationList(prevState => prevState.filter(li =>li !=notification))
+                setNotificationList(prevState => prevState.filter(li =>li.timestamp !=notification.timestamp))
+                // if(notificationList.length==1) setNotificationList([])
         }, autoDeleteTime);
         return () => {
             clearInterval(interval);
         }
-    }, []);
+    }, [notificationList]);
     useEffect(async ()=>{
         const cus = await contactInstance.getContactById(parseInt(notification.customer_id))
         setContact(cus)
     },[])
 
     const handleSelectChat = async ()=>{
-        const chat = await API.graphql(graphqlOperation(listChatrooms , {filter:{customer_id:{eq:notification.customer_id}} , limit:1000}))
+        console.log("notification data:", notification)
+        const chat = await API.graphql(graphqlOperation(getChatroom , {room_id:notification.customer_id.toString() , channel:notification.payload}))
             .then(res=>{
                 console.log("res:",res)
-                return res.data.listChatrooms.items[0]
+                return res.data.getChatroom
+
             }).catch(err=>{
                 alert(err)
             })
         setSelectedChat(prev=>chat)
-        router.push("/livechat")
+        setNotificationList(prevState => prevState.filter(li =>li.timestamp !=notification.timestamp))
+        if(router.pathname!="/livechat")router.push("/livechat")
     }
     return(
 
