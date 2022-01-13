@@ -62,7 +62,7 @@ export default function NotificationAlert({notification ,notificationList ,setNo
                             {`${ contact&&contact.customer_name }`}
                         </div>
                         :""}
-                    <div className="pop_half"> {notification.content?? ` ${contact.customer_name} send you a new message `}</div>
+                    <div className="pop_half"> {notification.content?? ` ${contact&&contact.customer_name} send you a new message `}</div>
                 </div>
             </div>
 
