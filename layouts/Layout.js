@@ -50,7 +50,7 @@ export default function Layout({children}) {
     }
 
     const layout = (
-        <div className={"layout"}><SideBar navItems={navItems}  notices={notificationList} unread={unread} handleCount={handleCount}/>
+        <div className={"layout"}><SideBar navItems={navItems}  notices={notificationList} unread={unread} handleCount={handleCount} setNotificationList={setNotificationList}/>
             <div className={"layout-main"}>
                 {children}
             </div>

@@ -30,6 +30,7 @@ import { getURL } from "next/dist/shared/lib/utils";
 import { padding } from "@mui/system";
 import BigPlayButton from "video-react/lib/components/BigPlayButton";
 import Player from "video-react/lib/components/Player";
+import {useRouter} from "next/router";
 
 
 export default function Live_chat() {
@@ -45,7 +46,7 @@ export default function Live_chat() {
             {id:3,name:"Happy new year",set:[{name:"恭賀新春!",content:"恭賀新春!"},{name:"心想事成!",content:"心想事成!"},{name:"身體健康",content:"身體健康!"}]},
 
         ]
-
+        const router = useRouter()
         const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper ,mf2chat ,selectedChat , setSelectedChat} = useContext(GlobalContext)
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
@@ -119,7 +120,6 @@ export default function Live_chat() {
                 next: async (chat) => {
                     console.log("new message" , chat)
                     const newChat = chat.value.data.suballChatroom
-                    if (selectedChat == newChat.name &&newChat.unread !=0) await updateChatroomUnread(newChat)
                     await getAllChatrooms()
                 }
             })
@@ -130,8 +130,15 @@ export default function Live_chat() {
     const updateChatroomUnread = async (chat)=>{
         console.log("update chatroom start")
         return  await API.graphql(graphqlOperation(updateChatroom , {input:{user_id:chat.user_id  , room_id:chat.room_id , unread:0 , channel:chat.channel } }))
-            .then(res =>{
+            .then(async res =>{
                 const data = res.data.updateChatroom
+                const index = filteredData.findIndex(d=>d.room_id==chat.room_id)
+
+                if (index!==-1&&index!==0){
+                    const start = filteredData.slice(0,index)
+                    const end = filteredData.slice(index+1)
+                    setFilteredData(prev=>[start ,prev[index] , end ])
+                }
                 console.log("handle unread "  , data)
             }).catch(err=>{
                 console.log(err)
@@ -141,7 +148,7 @@ export default function Live_chat() {
     async function handleChatRoom(chatroom){
         if(chatroom.name == selectedChat.name) return
         if(chatroom.channel !== "WABA")setLastMsgFromClient("")
-        if (chatroom.unread!==0  )await updateChatroomUnread(chatroom);
+        if (chatroom.unread>0  )await updateChatroomUnread(chatroom);
         setChatroomMsg([])
         setSelectedChat(chatroom)
         console.log(selectedChat)
@@ -526,7 +533,7 @@ export default function Live_chat() {
             // await getTags()
             // await getUsers()
             // await getTeams()
-            await fetchHandle()
+            // await fetchHandle()
             // await getChatrooms()
             await getStickers()
         }
@@ -537,13 +544,14 @@ export default function Live_chat() {
         const sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:chatroom.room_id ,channel:selectedChat.channel } ))
             .subscribe({
                 next: async (chatmessage)=>{
+                    if(router.pathname == "/livechat") await updateChatroomUnread(chatroom)
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     if(!newMessage.from_me)setLastMsgFromClient(prev=>newMessage.timestamp)
                     setTimeout(()=>{
                         scrollToBottom()
-                    },1000)
+                    },500)
                     console.log("new message: " , newMessage)
                     // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                 }

@@ -14,7 +14,7 @@ import {subscribeToChatroom, subscribeToNewMessage} from "../src/graphql/subscri
 import {Avatar } from "@mui/material";
 
 
-export default function SideBar(props  ) {
+export default function SideBar({setNotificationList,...props}  ) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
     const { user ,subInstance,roleInstance } = useContext(GlobalContext)
@@ -234,7 +234,7 @@ export default function SideBar(props  ) {
                                             </div>
                                         <div className="notify_box_list">
                                             {(props.notices.length>0)&&props.notices.map((d , index )=>{
-                                                return(<NotificationList notification={d} key={index} className={+(index==0&&"active")} />)
+                                                return(<NotificationList setNotificationList={setNotificationList} notification={d} key={index} className={+(index==0&&"active")} />)
                                             })}
                                         </div>
                                     </div>

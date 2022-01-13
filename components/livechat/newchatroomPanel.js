@@ -41,7 +41,6 @@ export default function Newchatroom({ setFilteredData ,...props}){
                     setSelectedChat(res.data.createChatroom)
                     return
                 }
-
             }
         ).catch(err => {
             alert("The user given chatroom was duplicated or something went wrong");

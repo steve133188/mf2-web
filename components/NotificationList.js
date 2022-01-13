@@ -6,7 +6,7 @@ import {API, graphqlOperation} from "aws-amplify";
 import {listChatrooms} from "../src/graphql/queries";
 import {useRouter} from "next/router";
 
-export default function NotificationList({notification , ...props}){
+export default function NotificationList({notification , setNotificationList , ...props}){
     const router = useRouter()
     const {contactInstance , setSelectedChat } = useContext(GlobalContext)
     const [customer , setCustomer ] = useState({})
@@ -25,6 +25,7 @@ export default function NotificationList({notification , ...props}){
             }).catch(err=>{
                 alert(err)
             })
+        setNotificationList(prevState => prevState.filter(li =>li.timestamp !=notification.timestamp))
         setSelectedChat(prev=>chat)
         if(router.pathname!=='/livechat')router.push("/livechat")
     }
