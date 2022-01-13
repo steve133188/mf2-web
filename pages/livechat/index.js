@@ -176,7 +176,7 @@ export default function Live_chat() {
                     console.log("no from me :", notFromMe)
                     notFromMe = notFromMe.pop()
                     console.log(" not from me last msg time : ",  notFromMe.timestamp)
-                    setLastMsgFromClient(prev=>notFromMe.timestamp)
+                    setLastMsgFromClient(notFromMe.timestamp)
                     console.log("last msg time : ",  lastMsgFromClient,)
                     console.log("getChatroomMessage",chatroomMsg)
                 }
@@ -225,14 +225,14 @@ export default function Live_chat() {
     useEffect(()=>{
         console.log(filePreview,"file attachment show")
     },[filePreview])
+    const [trigger,setTrigger] =useState(false)
     useEffect(()=>{
         console.log(lastMsgFromClient,"lastMsgFromClient instanly")
-        setTimerString(lastMsgFromClient)
+        setTrigger(!trigger)
     },[lastMsgFromClient])
-    const [timerString,setTimerString] =useState(lastMsgFromClient)
-    useEffect(()=>{
-        console.log(timerString,"try new input instanly")
-    },[timerString])
+    // useEffect(()=>{
+    //     console.log(timerString,"try new input instanly")
+    // },[timerString])
     useEffect(()=>{
         // if(selectedChat.room_id)setSelectedChat(prev=>selectedChat)
         // if(selectedChat.room_id)mf2chat.setChat(selectedChat)
@@ -796,7 +796,7 @@ export default function Live_chat() {
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                                     </div>
-                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!==""&&chatroomMsg.length!==0? <div className="chatroom_name"><CountDownTimer dayString={timerString}/></div>:""}
+                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!==""&&chatroomMsg.length!==0? <div className="chatroom_name"><CountDownTimer dayString={lastMsgFromClient} trigger={trigger}/></div>:""}
                                     {/*{selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(parseInt(chatroomMsg[0].timestamp)).toISOString()}/></div>:""}*/}
                                 </div>
 
