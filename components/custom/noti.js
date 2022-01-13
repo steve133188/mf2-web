@@ -6,24 +6,20 @@ import {getChatroom, listChatrooms} from "../../src/graphql/queries";
 import {useRouter} from "next/router";
 
 export default function NotificationAlert({notification ,notificationList ,setNotificationList }){
-    const {contactInstance , setSelectedChat} = useContext(GlobalContext)
+    const { setSelectedChat} = useContext(GlobalContext)
     const router = useRouter()
     const autoDeleteTime=5000
-    const [contact , setContact] =useState({})
     useEffect(() => {
         const interval = setInterval(() => {
-                // setNotificationList(prevState => prevState.filter(li =>li !=notification))
-                setNotificationList(prevState => prevState.filter(li =>li.timestamp !=notification.timestamp))
+                setNotificationList(prevState => prevState.filter(li =>li !=notification))
+                // setNotificationList(prevState => prevState.filter(li =>li.timestamp !=notification.timestamp))
+                // setNotificationList(prevState => prevState.pop())
                 // if(notificationList.length==1) setNotificationList([])
         }, autoDeleteTime);
         return () => {
             clearInterval(interval);
         }
     }, [notificationList]);
-    useEffect(async ()=>{
-        const cus = await contactInstance.getContactById(parseInt(notification.customer_id))
-        setContact(cus)
-    },[])
 
     const handleSelectChat = async ()=>{
         console.log("notification data:", notification)
@@ -59,10 +55,10 @@ export default function NotificationAlert({notification ,notificationList ,setNo
                     {notification.type=="MESSAGE"?
                         <div className="pop_half">
                             <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
-                            {`${ contact&&contact.customer_name }`}
+                            {`${ notification&&notification.customer_name }`}
                         </div>
                         :""}
-                    <div className="pop_half"> {notification.content?? ` ${contact&&contact.customer_name} send you a new message `}</div>
+                    <div className="pop_half"> {notification.content?? ` ${notification&&notification.customer_name} send you a new message `}</div>
                 </div>
             </div>
 

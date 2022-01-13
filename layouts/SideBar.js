@@ -14,7 +14,7 @@ import {subscribeToChatroom, subscribeToNewMessage} from "../src/graphql/subscri
 import {Avatar } from "@mui/material";
 
 
-export default function SideBar({setNotificationList,...props}  ) {
+export default function SideBar({setNotificationList , openNoteList , toggleNoteList,...props}  ) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
     const { user ,subInstance,roleInstance } = useContext(GlobalContext)
@@ -58,16 +58,6 @@ export default function SideBar({setNotificationList,...props}  ) {
     function toggleCollapse() {
         setIsCollapse(!isCollapse);
     }
-
-    //handle NotifyBox toggle
-    const [isNotifyBoxOpen, setIsNotifyBoxOpen] = useState(false)
-    const [unreadNotificationCount, setUnreadNotificationCount] = useState(0)
-
-    function notifyBoxToggle() {
-        props.handleCount()
-        setIsNotifyBoxOpen(!isNotifyBoxOpen);
-    }
-
     //when click the notification, set unreadCount to 0
     function isActiveURL(url){
         const n = router.pathname
@@ -203,11 +193,11 @@ export default function SideBar({setNotificationList,...props}  ) {
 
 
                     <div className={"side_bottom"}>
-                        {/*<div className={isNotifyBoxOpen? "side-item notify_activate":"side-item"} >*/}
+                        {/*<div className={openNoteList? "side-item notify_activate":"side-item"} >*/}
 
-                        <div className={isNotifyBoxOpen? "active-side-item ":"side-item"} >
-                            <span onClick={notifyBoxToggle}>
-                                <div className={isNotifyBoxOpen?"active nav-item":"nav-item "}>
+                        <div className={openNoteList? "active-side-item ":"side-item"} >
+                            <span onClick={toggleNoteList}>
+                                <div className={openNoteList?"active nav-item":"nav-item "}>
 
                                         <svg xmlns="http://www.w3.org/2000/svg"  width="16.8" height="16.8"  fill="currentColor"
                                             className="bi bi-person" viewBox="0 0 16 16">
@@ -220,7 +210,7 @@ export default function SideBar({setNotificationList,...props}  ) {
                                     : props.unread>0? <Avatar  className={"text-cente"}  sx={{width:20 , height:20 ,fontSize:13 ,backgroundColor:"#FC736A"}}  >{props.notices.length}</Avatar>: "" }
                                 </div>
                             </span>
-                            {isNotifyBoxOpen ? (
+                            {openNoteList ? (
                                 <div className="notification_activate">
                                     <div className="notify_box">
                                         <div className="notify_box_title" >Notification</div>
