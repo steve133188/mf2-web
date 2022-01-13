@@ -53,7 +53,6 @@ export default function Live_chat() {
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
         const [attachment , setAttachment ] = useState([])
-        // const [selectedChat , setSelectedChat] = useState({})
         const [chatSearch, setSearch] = useState(false)
         const [isRobotOn , setIsRobotOn] = useState(false)
         const [chatboxSearch, setChatBoxSearch] = useState("")

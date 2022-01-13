@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react'
 // pass dayString to this component. it will start count 24hour from dayString
 // dayString is a string like date.toIsoString()
 export default function CountDownTimer ({dayString}) {
+    const [timeString,setTimeString] = useState(dayString)
     const [timeLeft, setTimeLeft] = useState();
-    let lastTime = new Date(parseInt(dayString)*1000)
+    let lastTime = new Date(parseInt(timeString)*1000)
     lastTime= lastTime.setDate(lastTime.getDate()+1)
     //add 24 hour
     const endTime = new Date( lastTime);
@@ -30,7 +31,7 @@ export default function CountDownTimer ({dayString}) {
         setInterval(()=> {
             setTimeLeft(prev=>getTimeRemaining(endTime))
         },1000)
-    },[dayString]);
+    },[timeString]);
 
     return(
        <div className={"confirmationBox"}>
