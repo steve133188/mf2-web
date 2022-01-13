@@ -49,6 +49,9 @@ export default function CreateDivisionForm({show, toggle,reload }){
     //       setRootDivision(data.filter(data=>{return data.type=="division"}))
     //       console.log(data,"newDivision fetch ")
     //   },[])
+    const clearData =()=>{
+        setName("")
+    }
     const submit = async ()=>{
         console.log("Parent ",parent)
         const newDivision = {name:name,type:"division"}
@@ -56,6 +59,7 @@ export default function CreateDivisionForm({show, toggle,reload }){
         const status = await orgInstance.createOrg(newDivision)
         console.log(status,"create Division")
         toggle()
+        clearData ()
         reload()
     }
    
@@ -85,7 +89,7 @@ export default function CreateDivisionForm({show, toggle,reload }){
                 </div> */}
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
-                    <button className={"cancel_btn"} onClick={toggle}>Cancel</button>
+                    <button className={"cancel_btn"} onClick={()=>{toggle();clearData ();}}>Cancel</button>
                 </div>
             </div>
         </MF_Modal>

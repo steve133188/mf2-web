@@ -59,10 +59,15 @@ export default function CreateTeamForm({show, toggle,data}){
         }
         return tree;
     };
+    const clearData=()=>{
+        setName("")
+        setParent({})
+    }
     const submit = async ()=>{
         const status = await orgInstance.createOrg({type:"team" ,name,parent_id:parent.org_id})
         console.log(status,"create team")
         console.log(parent,",parent_id:parent")
+        clearData()
         toggle()
     }
     return(
@@ -90,7 +95,7 @@ export default function CreateTeamForm({show, toggle,data}){
                 </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
-                    <button className={"cancel_btn"} onClick={toggle}>Cancel</button>
+                    <button className={"cancel_btn"} onClick={()=>{toggle();clearData();}}>Cancel</button>
                 </div>
             </div>
         </MF_Modal>

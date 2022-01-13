@@ -44,54 +44,51 @@ export default function DeleteDivisionForm({show, toggle,reload ,org}){
     }
     const handleSelectTeam =e=>{
         setTeam(e.target.value)
-        setDiv(" ")
+        // setDiv(" ")
     }
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const teams = []
     const[teamlist,setTeamlist]=useState([])
     
-    const fetchOrg = async () => {
-        
-        setTeamlist(await orgInstance.getOrgTeams())
-
+    const fetchOrg = async (div) => {
+        if(div=="") return "Please Select A Division"
+        const allTeam = await orgInstance.getOrgTeams()
+    //    console.log( allTeam.filter(t=>t.parent_id==div ),"team by divivxion")
+        setTeamlist(allTeam.filter(t=>t.parent_id==div ))
     }
+
+    useEffect( ()=>{
+        fetchOrg(div )
+
+
+      },[div ])
     useEffect( ()=>{
         fetchOrg()
+
         setRootDivision(getDivisionTree(org))
       },[org])
+      const clearData=()=>{
+        setDiv("")
+        setTeam("")
+      }
     const submit = async (e)=>{
         e.preventDefault()
         // const newDivision = {type:"division"}
         // console.log(newDivision)
-        if(div===" "&&team!==" "){
-            // console.log(team,"teamID")
-            // const userList = await userInstance.getUsersByTeamId(team)
-            // userList.map(async (e)=>{
-            //     const status = await userInstance.updateUserTeamIdById(e.user_id,0)
-            //     console.log(status,"get Team")
-            // })
+        if(div!==" "&&team!==" "){
             const status = await orgInstance.deleteOrgById(team)
-        }else{
-            
-            // console.log(div,"div number")
-            // const dSelect = await orgInstance.getOrgById(div)
-            // if(dSelect[0].children){
-            //     dSelect[0].children.map(async (c)=>{
-            //         console.log(c.org_id)
-            //         const userList = await userInstance.getUsersByTeamId(c.org_id)
-            //         console.log(userList,"user many")
-            //         userList.length>0&&userList.map(async (e)=>{
-            //             const status = await userInstance.updateUserTeamIdById(e.user_id,0)
-            //             console.log(e,"clean")
-            //         })
-                    
-            //     })
-            // }
-
+            console.log(status,"delete Division team")
+        }else if((div!==" "&&team===" "))
+        {
             const status = await orgInstance.deleteOrgById(div)
             console.log(status,"delete Division")
+        }else
+        {
+            
+            const status = await orgInstance.deleteOrgById(team)
+            console.log(status,"delete team")
         }
-        
+        clearData()
         toggle()
         reload()
     }
@@ -148,7 +145,7 @@ export default function DeleteDivisionForm({show, toggle,reload ,org}){
                 </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
-                    <button className={"cancel_btn"} onClick={toggle}>Cancel</button>
+                    <button className={"cancel_btn"} onClick={()=>{clearData();toggle()}}>Cancel</button>
                 </div>
             </div>
         </MF_Modal>
