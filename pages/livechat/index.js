@@ -165,11 +165,20 @@ export default function Live_chat() {
         console.log("typed message" , typedMsg)
     }
 
-    const getChatroomMessage = async()=>{
-        const result = await API.graphql(graphqlOperation(listMessages,{limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel}}}))
-            .then(res=>{
-                setChatroomMsg(prev=>[...res.data.listMessages.items])
-                if(res.data.listMessages.items.length!==0){
+    const getChatroomMessage = async(nextToken)=>{
+            let condition ={limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel} }}
+        if(nextToken)condition.nextToken = nextToken
+        console.log("conditions : " ,condition)
+        const result = await API.graphql(graphqlOperation(listMessages,condition))
+            .then(async res=>{
+                setChatroomMsg(prev=>[...prev,...res.data.listMessages.items])
+                console.log("res:" ,res.data.listMessages)
+                if(res.data.listMessages.nextToken ){
+                    console.log("has nextToken", res.data.listMessages.nextToken)
+                    await getChatroomMessage(res.data.listMessages.nextToken)
+                }
+                if(res.data.listMessages.items!==-1){
+
                     let notFromMe = res.data.listMessages.items.filter(msg=>{
                         return msg.from_me ==false
                     })
@@ -181,6 +190,7 @@ export default function Live_chat() {
                     console.log("last msg time : ",  lastMsgFromClient,)
                     console.log("getChatroomMessage",chatroomMsg)
                 }
+
 
             }).catch(err=>console.log(err))
     }
@@ -577,7 +587,7 @@ export default function Live_chat() {
     }
 
     useEffect(async ()=>{
-        if(selectedChat)  await getChatroomMessage(selectedChat.room_id) ;
+        if(selectedChat)  await getChatroomMessage() ;
         await handleSub(selectedChat)
 
     },[selectedChat])
@@ -842,7 +852,7 @@ export default function Live_chat() {
 
                         <div className={"chatroom_input_field "+(isExpand?"expand":"")+(isReply?"replyArea":"")} ref={wrapperRef1} >
                             {quotaMsg&&
-                            <div style={{display:(ChatButtonOn=="mr"?"flex":"none"), height:"45%",padding:"1rem 1.5rem 0" }} 
+                            <div style={{display:(ChatButtonOn=="mr"?"flex":"none"), height:"45%",padding:"1rem 1.5rem 0" }}
                             // onClick={toggleReply }
                             >
                                 {/* <MsgRow msg={quotaMsg}/> */}
@@ -855,7 +865,7 @@ export default function Live_chat() {
                                                                             </div>
                                                                             <div className="media_div">
                                                                                     {quotaMsg.message_type=="image"?<img src={quotaMsg.media_url}/>:""}
-                                                                                    {quotaMsg.message_type=="video"?<Player    className={"videoBox"} playsInline fluid={false} width={100} muted={true}>      
+                                                                                    {quotaMsg.message_type=="video"?<Player    className={"videoBox"} playsInline fluid={false} width={100} muted={true}>
                                                                                     <source  src={quotaMsg.media_url}   type="video/mp4"/></Player>:""}
                                                                                     {/* <div>{filePreview.size/1000}kb</div> */}
                                                                             </div>
@@ -863,7 +873,7 @@ export default function Live_chat() {
                             </div>
                             }
 
-                                                                        
+
                             { ChatButtonOn=="m3"?
                                 <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem 0" }}
                                 // onClick={toggleReply }
@@ -871,7 +881,7 @@ export default function Live_chat() {
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                     {/* <div>{filePreview.name} </div> */}
 
-                                           
+
                                             {filePreview.type=="IMAGE"? <div style={{display:"flex"}} className="attachment_box">
                                                                                 <div>
                                                                                     <img src={filePreview.path} style={{width:"100px",height:"100px", margin:"0 15px"}}/>

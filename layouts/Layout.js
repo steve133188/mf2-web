@@ -17,6 +17,7 @@ import {eventListenr, subscribeToChatroom, subscribeToChatroomUpdate} from "../s
 
 
 export default function Layout({children}) {
+
     const [userSelect , setUserSelect ] = useState("")
     const [isAuth , setIsAuth] = useState(false)
     const router = useRouter()
@@ -27,14 +28,16 @@ export default function Layout({children}) {
     const [showNotificationList,setShowNotificationList]= useState([])
     const [notiSub , setNotiSub] = useState()
     const [unread , setUnread] = useState(0)
-
+    const [notiOpen , setNotiOpen] = useState(false)
     const handleCount = () =>{
         setUnread(0)
     }
 
+
+
     const sub = async ()=>{
         if(notiSub) notiSub.unsubscribe()
-        const s =await API.graphql(graphqlOperation(eventListenr )).subscribe({
+        const s =await API.graphql(graphqlOperation(eventListenr ,{action:"RECEIVED_MESSAGE"})).subscribe({
             next: newData=>{
                 console.log(newData)
                 if(newData.value.data.eventListenr.action == "RECEIVED_MESSAGE"){
@@ -56,7 +59,19 @@ export default function Layout({children}) {
             </div>
             <div className={"notification-container"}  style={{padding:showNotificationList.length>0?"auto":"1px"}}  >
                 {/* eslint-disable-next-line react/jsx-key */}
-                {showNotificationList&&showNotificationList.map((li,i)=> <NotificationAlert  key={i} notification={li}  setNotificationList={setShowNotificationList}/>)}
+                {unread<5?showNotificationList&&showNotificationList.map((li,i)=> <NotificationAlert  key={i} notification={li}  setNotificationList={setShowNotificationList}/>):<div className="msg_noti_popup" style={{display:"flex" }} onClick={null}>
+                    <div className="popleft">
+                        <div className="pop_matter">
+                        </div>
+                        <div className="pop_content">
+                                <div className="pop_half">
+                                    <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
+                                </div>
+
+                            <div className="pop_half"> {` You have received ${unread} new message`}</div>
+                        </div>
+                    </div>
+                </div>}
 
             </div>
         </div>
