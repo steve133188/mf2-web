@@ -15,28 +15,33 @@ export default function roleFetcher(token){
         baseURL:"https://8a516swpa8.execute-api.ap-southeast-1.amazonaws.com/prod/api/admin"
     })
     instance.getAllRoles = async ()=>{
-        return (await instance.fetcher.get(`/roles`)).data
+        const d =await instance.fetcher.get(`/roles`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getRoleByName = async  (role_name)=>{
-        return (await instance.fetcher.get(`/role/name/${role_name}`)).data
+        const d =await instance.fetcher.get(`/role/name/${role_name}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getRoleById = async  (id)=>{
-        return (await instance.fetcher.get(`/role/id/${id}`)).data
+        const d =await instance.fetcher.get(`/role/id/${id}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     instance.getRolesName = async ()=>{
-        return (await instance.fetcher.get(`/roles-name`)).data
+        const d =await instance.fetcher.get(`/roles-name`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.createRole = async (data)=>{
-        console.log(data,"cetsafagtole")
-        return (await instance.fetcher.post(`/role` ,data)).statusText
+        const d =await instance.fetcher.post(`/role` ,data).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.updateRole = async (data)=>{
-        console.log(data,"update role")
-        return (await instance.fetcher.put(`/role`,data)).statusText
+        const d =await instance.fetcher.put(`/role`,data).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     instance.deleteRole = async (role_id)=>{
-        return (await instance.fetcher.delete(`/role/id/${role_id}`)).statusText
+        const d =await instance.fetcher.delete(`/role/id/${role_id}`).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
 
     return instance

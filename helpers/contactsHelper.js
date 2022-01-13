@@ -10,107 +10,140 @@ import axios from "axios"
 //             baseURL:"https://mf-api-customer-nccrp.ondigitalocean.app/api/customers"},
 //         )
 //     }
-export default function contactsFetcher(token){
-    const instance={}
+export default function contactsFetcher(token) {
+    const instance = {}
     instance.token = token
-    instance.fetcher= axios.create( {
-        headers:{
-            'Content-Type': 'application/json',
-            'Authorization':`Bearer ${instance.token}`,
-            'Access-Control-Allow-Origin' : '*',
-            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-            'Access-Control-Allow-Credentials' : true,
+    instance.fetcher = axios.create({
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${instance.token}`,
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                'Access-Control-Allow-Credentials': true,
+            },
+            timeout: 10000,
+            baseURL: "https://46bgula199.execute-api.ap-southeast-1.amazonaws.com/prod"
         },
-        timeout:5000,
-        baseURL:"https://46bgula199.execute-api.ap-southeast-1.amazonaws.com/prod"},
     )
-     instance.getAllContacts = async ()=>{
-        return (await instance.fetcher.get("/customers")).data
+    instance.getAllContacts = async () => {
+        const d = await instance.fetcher.get("/customers").then(res => res.data).catch(err => console.log(err))
+        return d
     }
-     instance.createContact = async (data)=>{
-        return (await instance.fetcher.post("/customer",data)).statusText
-    }
-
-     instance.getContactsByUsers = async (data)=>{
-        return (await instance.fetcher.get(`/customers/agent?agent=${data}`,data)).data
+    instance.createContact = async (data) => {
+        const d = await instance.fetcher.post("/customer", data).then(res => res.data).catch(err => console.log(err))
+        return d
     }
 
-     instance.getContactsByTags = async (data)=>{
-        return (await instance.fetcher.post("/customers/tag",data)).data
-    }
-     instance.getContactsByChannels = async (data)=>{
-        return (await instance.fetcher.post("/customers/channel",data)).data
+    instance.getContactsByUsers = async (data) => {
+        const d = await instance.fetcher.get(`/customers/agent?agent=${data}`, data).then(res => res.data).catch(err => console.log(err))
+        return d
     }
 
-     instance.getContactByName = async (name)=>{
-        return (await instance.fetcher.get(`/name/${name}`)).data
+    instance.getContactsByTags = async (data) => {
+        const d = await instance.fetcher.post("/customers/tag", data).then(res => res.data).catch(err => console.log(err))
+        return d
+    }
+    instance.getContactsByChannels = async (data) => {
+        const d = await instance.fetcher.post("/customers/channel", data).then(res => res.data).catch(err => console.log(err))
+        return d
     }
 
-     instance.getContactById = async (id)=>{
-        return (await instance.fetcher.get(`/customer/${id}`)).data
-    }
-     instance.getContactsByTeamId = async (team_id)=>{
-        return (await instance.fetcher.get(`/customers/team/${team_id}`)).data
+    instance.getContactByName = async (name) => {
+        const d = await instance.fetcher.get(`/name/${name}`).then(res => res.data).catch(err => console.log(err))
+        return d
     }
 
-    instance.getContactsByNoTeam = async ()=>{
-        return (await instance.fetcher.get(`/team`)).data
+    instance.getContactById = async (id) => {
+        const d = await instance.fetcher.get(`/customer/${id}`).then(res => res.data).catch(err => console.log(err))
+        return d
+    }
+    instance.getContactsByTeamId = async (team_id) => {
+        const d = await instance.fetcher.get(`/customers/team/${team_id}`).then(res => res.data).catch(err => console.log(err))
+        return d
     }
 
-    instance.updateContactTags = async(customer_id,tag_id) =>{
-        return (await instance.fetcher.put("/customer/add-tag",{customer_id,tag_id})).status
-    }
-    instance.deleteCustomerTag = async(customer_id,tag_id) =>{
-        return (await instance.fetcher.put("/customer/del-tag",{customer_id,tag_id})).status
-    }
-    instance.updateContactAgent = async(customer_id,agents_id) =>{
-        return (await instance.fetcher.put("/customer/add-agent",{customer_id,agents_id})).status
-    }
-    instance.deleteCustomerAgent = async(customer_id,agents_id) =>{
-        return (await instance.fetcher.put("/customer/del-agent",{customer_id,agents_id})).status
+    instance.getContactsByNoTeam = async () => {
+        const d = await instance.fetcher.get(`/team`).then(res => res.data).catch(err => console.log(err))
+        return d
     }
 
-    instance.updateContact = async (data)=>{
-         console.log(data,"update contacts")
-        return (await instance.fetcher.put("/customer",data)).status
+    instance.updateContactTags = async (customer_id, tag_id) => {
+        const d = await instance.fetcher.put("/customer/add-tag", {
+            customer_id,
+            tag_id
+        }).then(res => res.status).catch(err => console.log(err))
+        return d
+    }
+    instance.deleteCustomerTag = async (customer_id, tag_id) => {
+        const d = await instance.fetcher.put("/customer/del-tag", {
+            customer_id,
+            tag_id
+        }).then(res => res.status).catch(err => console.log(err))
+        return d
+    }
+    instance.updateContactAgent = async (customer_id, agents_id) => {
+        const d = await instance.fetcher.put("/customer/add-agent", {
+            customer_id,
+            agents_id
+        }).then(res => res.status).catch(err => console.log(err))
+        return d
+    }
+    instance.deleteCustomerAgent = async (customer_id, agents_id) => {
+        const d = await instance.fetcher.put("/customer/del-agent", {
+            customer_id,
+            agents_id
+        }).then(res => res.status).catch(err => console.log(err))
+        return d
     }
 
-     instance.updateContacts = async (data)=>{
-        return (await instance.fetcher.put("/many",data)).status
+    instance.updateContact = async (data) => {
+        const d = await instance.fetcher.put("/customer", data).then(res => res.status).catch(err => console.log(err))
+        return d
     }
-    instance.updateTagsToAllCustomers = async (data)=>{
-        return (await instance.fetcher.put("/customers/edit-tags")).status
-    }
-     instance.deleteAllContactTag = async(data)=>{
-        return (await instance.fetcher.put(`/customers/del-tags/${data}`,data)).status
-    }
+        instance.updateContacts = async (data) => {
+            const d = await instance.fetcher.put("/many", data).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
+        instance.updateTagsToAllCustomers = async (data) => {
+            const d = await instance.fetcher.put("/customers/edit-tags").then(res => res.status).catch(err => console.log(err))
+            return d
+        }
+        instance.deleteAllContactTag = async (data) => {
+            const d = await instance.fetcher.put(`/customers/del-tags/${data}`, data).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
 
-     instance.deleteContactTags = async(data)=>{
-        return (await instance.fetcher.put("/customer/del-customer-tag",data)).status
-    }
+        instance.deleteContactTags = async (data) => {
+            const d = await instance.fetcher.put("/customer/del-customer-tag", data).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
 
-    instance.createContactsByExcel = async (data) =>{
-        return (await instance.fetcher.post("/addMany",data)).status
-    }
+        instance.createContactsByExcel = async (data) => {
+            const d = await instance.fetcher.post("/addMany", data).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
 
-    instance.addTeamToContact = async (data)=>{
-        return (await instance.fetcher.put("/customers/add-teams",data)).status
-    }
-    // instance.deleteOrUpdateTeamToContact = async (data)=>{
-    //     return (await instance.fetcher.put("/customers/teams",data)).status
-    // }
-    instance.UpdateTeamToContact = async (data)=>{
-        return (await instance.fetcher.put("/customer/team",data)).status
-    }
+        instance.addTeamToContact = async (data) => {
+            const d = await instance.fetcher.put("/customers/add-teams", data).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
+        // instance.deleteOrUpdateTeamToContact = async (data)=>{
+        //     return (await instance.fetcher.put("/customers/teams",data)).status
+        // }
+        instance.UpdateTeamToContact = async (data) => {
+            const d = await instance.fetcher.put("/customer/team", data).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
 
-     instance.deleteContact = async (data)=>{
-         console.log(data,"Deleted")
-        return (await instance.fetcher.delete(`/customer/${data}`, {data:data})).status
-    }
-     instance.deleteContacts = async (data)=>{
-        return (await instance.fetcher.delete("/customers", {data:data})).status
-    }
-    return instance
+        instance.deleteContact = async (data) => {
+            const d = await instance.fetcher.delete(`/customer/${data}`, {data: data}).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
+        instance.deleteContacts = async (data) => {
+            const d = await instance.fetcher.delete("/customers", {data: data}).then(res => res.status).catch(err => console.log(err))
+            return d
+        }
+
+        return instance
+
 }
-
-

@@ -15,17 +15,21 @@ export default function orgFetcher(token){
         baseURL:"https://3ori2m47yh.execute-api.ap-southeast-1.amazonaws.com/prod"
     })
     instance.getAllORG = async () =>{
-        return (await instance.fetcher.get("/orgs")).data
+        const d = await instance.fetcher.get("/orgs").then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getAllRootORG = async ()=>{
-        return (await instance.fetcher.get("/root")).data
+        const d = await instance.fetcher.get("/root").then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     instance.getOrgById = async (org_id)=>{
-        return (await instance.fetcher.get(`/org/${org_id}`)).data
+        const d = await instance.fetcher.get(`/org/${org_id}`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
     instance.getOrgTeams = async ()=>{
-        return (await instance.fetcher.get(`/org/team`)).data
+        const d = await instance.fetcher.get(`/org/team`).then(res=>res.data).catch(err=>console.log(err))
+        return d
     }
 
     // instance.getOrgsByParentId = async (parent_id)=>{
@@ -37,15 +41,18 @@ export default function orgFetcher(token){
     // }
 
     instance.createOrg = async  (data)=>{
-        return (await instance.fetcher.post(`/org` ,data)).status
+        const d = await instance.fetcher.post(`/org` ,data).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
 
     instance.updateOrgName = async (org_id , name)=>{
-        return (await instance.fetcher.put(`/org` ,{org_id , name})).status
+        const d = await instance.fetcher.put(`/org` ,{org_id , name}).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
 
     instance.deleteOrgById = async (org_id)=>{
-        return (await instance.fetcher.delete(`/org/${org_id}` )).status
+        const d = await instance.fetcher.delete(`/org/${org_id}` ).then(res=>res.status).catch(err=>console.log(err))
+        return d
     }
     return instance
 }
