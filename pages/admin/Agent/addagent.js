@@ -148,7 +148,7 @@ export default function AddAgent(){
                 </div>
                 <div className="form_row"> 
                     <MF_Input name={"country_code"} value={userCredential.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
-                    <MF_Input name={"phone"} value={userCredential.phone} onChange={handleChange} title="Phone"/>
+                    <MF_Input name={"phone"} value={userCredential.phone} onChange={handleChange} title="Phone" />
                 </div>
             </div>
             <div className={"add_user_session"}>

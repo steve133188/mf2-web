@@ -179,7 +179,7 @@ export default function EditProfileForm({data , toggle}){
                     </div>
                     <div className={"ss_row"}>
                     <MF_Input name={"country_code"} value={editContact.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
-                        <MF_Input title="Phone*" name={"phone"} value={editContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}/>
+                        <MF_Input title="Phone*" name={"phone"} value={editContact.phone} placeholder={"e.g. 852XXXXXXXX"} onChange={handleChange}  style={{width:"160px"}}/>
                         <MF_Input title="Email" name={"email"} value={editContact.email} onChange={handleChange}/>
                     </div>
                     <div className={"ss_row"}>

@@ -142,7 +142,7 @@ export default function ProfileGrid({data,toggle}){
 
 
     return(<div className={"profile_grid"}>
-        {isEditProfileShow&&useContact?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggle}/></Profile>):null}
+        {isEditProfileShow&&useContact?           ( <Profile handleClose={(e)=>{e.preventDefault();toggleEditProfile()}}><EditProfileForm data={useContact} toggle={toggle}/></Profile>):null}
         <div className={"info_col grid_box"}>
             <button className={"dot "} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} style={{margin:"10px 5px 0 0"}} > Edit</button>
             <div className={"ava_block"} style={{margin:"30px 0"}}>
@@ -220,7 +220,7 @@ export default function ProfileGrid({data,toggle}){
                                             <div>
                                         <   img key={index} width="40px" height="40px"   style={{ margin:"15px 3px",textAlign:"center"}}   src={`/channel_SVG/${chan}.svg`} alt=""/>
                                             {useContact.chan}
-</div>
+                                    </div>
                                             </div>
 
                                     <div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >
@@ -233,7 +233,7 @@ export default function ProfileGrid({data,toggle}){
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Tags</span></div>
-                        <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", marginTop:"18px"}} >
+                        <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "98%", height: "8vw", marginTop:"18px"}} >
 
                                     <Mf_circle_btn isDisable={disable} switchs={() => { setUnread(!unread) }} handleChange={(e) => {
                                     console.log(alltags,"alltags")
@@ -256,21 +256,21 @@ export default function ProfileGrid({data,toggle}){
                                     </Mf_circle_btn>
 
 
-                                    <div style={{paddingTop:"3px"}} >
+                                    <div style={{paddingTop:"3px", width:"100%"}} >
                                     {selectedTags != -1 && selectedTags.map((tag, index) => {
                                         return <Pill key={index} color="vip">{tag.tag_name}</Pill>
                                     })}
 
                                     </div>
                         </div>
-                            <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
+                            {/* <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
                                 {useContact.tags.map((tag , index)=>{
                                     return( <Pill key={index} color="lightBlue">{tag.tag_name}</Pill>)
                                     })}
-                                </div>
-                            </div>
-                        </div>
+                                </div> */}
                     </div>
+                </div>
+            </div>
                 <div className={"log_input half_session grid_box"}>
                 <div className={"block_session"} style={{justifyContent: 'space-between'}}>
                     <div className={"top_row"}><span className={"title"}>Activity Log</span></div>
