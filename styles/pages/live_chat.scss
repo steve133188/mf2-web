@@ -718,17 +718,20 @@
         height: 22vh;
         max-height: 275rem;
         min-height: 20rem;
+        
+      }
+      &.replyArea{
 
-
+        min-height: 15rem;
+        max-height: none;
       }
       .attachment_box{
         background: #D0E9FF 0% 0% no-repeat padding-box;
         width: 100%;
         padding: 1.2rem 0.9rem;
         border-radius: 10px;
-
-
       }
+
       .chatroom_textField{
         border: none;
         resize: none;

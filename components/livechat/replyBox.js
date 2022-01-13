@@ -1,5 +1,6 @@
 export default function Reply({confirmReply,msg_id,}){
-    const Al = () =>{
+    const Al = (e) =>{
+        e.stopPropagation();
         confirmReply()
         console.log("alalalal")
     }
@@ -7,7 +8,7 @@ export default function Reply({confirmReply,msg_id,}){
     return(
         <div className="reply_pop_content">
        
-            <div className="pop_half" onClick={Al} value={"r"}> 
+            <div className="pop_half" onClick={(e)=>{Al(e)}} value={"r"}> 
                 Reply 
                 <img src="/livechat/icon-reply.svg" /> 
             </div>

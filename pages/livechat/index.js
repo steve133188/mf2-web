@@ -57,6 +57,7 @@ export default function Live_chat() {
         const [isRobotOn , setIsRobotOn] = useState(false)
         const [chatboxSearch, setChatBoxSearch] = useState("")
         const [isExpand , setIsExpand] = useState(false)
+        const [isReply , setIsReply] = useState(false)
         const [isEmojiOn,setEmojiOn] = useState(false)
         const [ChatButtonOn,setChatButtonOn] = useState(false)
         const [subscribe,setSubscribe] = useState()
@@ -257,14 +258,12 @@ export default function Live_chat() {
             setFilePrevier({ name: file.name, size: file.size, type: "IMAGE", path: path,time:new Date() });
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE"})
-
         }
         if(filetype.includes("video")){
             const result = await mediaInstance.putVideo(file , filetype)
             setFilePrevier({name:file.name,size:file.size,type:"VIDEO",path:path})
             setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "VIDEO"})
-            // sendMessageToClient()
         }
         if(filetype.includes("audio")){
             const result = await mediaInstance.putVoice(file , filetype)
@@ -447,10 +446,7 @@ export default function Live_chat() {
         if(e.keyCode == 13 && e.ctrlKey == true) {
             e.preventDefault();
             e.target.innerHTML+="/n"
-            // setTypedMsg({
-            //     ...typedMsg,
-            //     message: typedMsg.message+="/n"
-            // })
+
         }
       }
 
@@ -458,8 +454,11 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
-        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia ,sign_name:user.user.username}
+        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia ,sign_name:user.user.username,hasQuotedMsg:quotaMsg.hasQuotedMsg,quota:quotaMsg.message_id}
         setTypedMsg({...typedMsg , message: ""})
+        // if(quotaMsg){
+        //     setQuotaMsg({})
+        // }
         if(isMedia){
             setIsMedia(false)
             setFilePrevier(filePreviewOldState)
@@ -468,6 +467,7 @@ export default function Live_chat() {
         }
         setTypedMsg({channel:"",phone:"",message:"",message_type:"text"})
         setIsExpand(false)
+        setIsReply(false)
         setChatButtonOn("")
         const res = await messageInstance.sendMessage(data).catch(error => console.log(error))
         console.log("data sent out :" , data)
@@ -486,6 +486,7 @@ export default function Live_chat() {
         if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
             setChatButtonOn("");
             setIsExpand(false);
+            setIsReply(false);
             filePreview.size>0?setFilePrevier(filePreviewOldState):""
             // console.log(attachFile.current.target)
           }
@@ -493,9 +494,10 @@ export default function Live_chat() {
 
     const replyClick=click=>{
         console.log(click,"done donedone")
-        // setReplyMsg(click)
-        const quotaMsg = chatroomMsg.filter(e=>{return click==(e.room_id+e.timestamp)})
-        const m={...quotaMsg[0]}
+        setReplyMsg(click)
+        const quotaMsg = chatroomMsg.filter(e=>{return click==(e.timestamp)})
+        const m={...quotaMsg[0],hasQuotedMsg:true,quote:quotaMsg[0].message_id}
+        console.log(quotaMsg[0])
         console.log(m,"message get")
         setQuotaMsg(m)
         !m?setQuotaMsg({}):""
@@ -504,13 +506,16 @@ export default function Live_chat() {
 
     const confirmReply=()=>{
         setReply(!reply)
+        setReplyMsg("")
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
-        setIsExpand(isExpand&&ChatButtonOn=="mr"?false:true);
+        setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
+
+        setTypedMsg({...typedMsg ,message_type: "text",media_url:quotaMsg.media_url,is_media:true})
     }
 
-    useEffect(()=>{
-        console.log(quotaMsg)
-    },[quotaMsg])
+    // useEffect(()=>{
+    //     console.log(quotaMsg)
+    // },[quotaMsg])
 
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
@@ -827,35 +832,46 @@ export default function Live_chat() {
                             className={"chatroom_records"}>
                             {chatroomMsg.map((r , i)=>{
                                 return (
-                                    <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i} d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
+                                    <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i}
+                                     d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
                                 )
                             })}
 
                             <div ref={messagesEndRef}> </div>
                         </div>
 
-                        <div className={"chatroom_input_field "+(isExpand?"expand":"")} ref={wrapperRef1} >
+                        <div className={"chatroom_input_field "+(isExpand?"expand":"")+(isReply?"replyArea":"")} ref={wrapperRef1} >
                             {quotaMsg&&
-                            <div style={{display:(ChatButtonOn=="mr"?"flex":"none")}} onClick={toggleReply }>
-                                <MsgRow msg={quotaMsg} d={filteredUsers} c={contacts}/>
+                            <div style={{display:(ChatButtonOn=="mr"?"flex":"none"), height:"45%",padding:"1rem 1.5rem 0" }} 
+                            // onClick={toggleReply }
+                            >
+                                {/* <MsgRow msg={quotaMsg}/> */}
+                                <div style={{}} className="reply_box">
+                                                                            <div>
+                                                                                <div>{quotaMsg.from_me?quotaMsg.sign_name:chatUser.customer_name}</div>
+                                                                                    <div>{quotaMsg.body}</div>
+                                                                                    {quotaMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
+                                                                                    {quotaMsg.message_type=="video"?"Video":""}
+                                                                            </div>
+                                                                            <div className="media_div">
+                                                                                    {quotaMsg.message_type=="image"?<img src={quotaMsg.media_url}/>:""}
+                                                                                    {quotaMsg.message_type=="video"?<Player    className={"videoBox"} playsInline fluid={false} width={100} muted={true}>      
+                                                                                    <source  src={quotaMsg.media_url}   type="video/mp4"/></Player>:""}
+                                                                                    {/* <div>{filePreview.size/1000}kb</div> */}
+                                                                            </div>
+                                                                        </div>
                             </div>
                             }
-                            { ChatButtonOn=="m3"||ChatButtonOn=="mr"?
+
+                                                                        
+                            { ChatButtonOn=="m3"?
                                 <div style={{display:(filePreview.size >= 1 ?"flex":"none"), padding:"1.5rem 1rem 0" }}
                                 // onClick={toggleReply }
                                 >
                                     {/* <div style={{backgroundColor:"blue",width:"100%",height:"100px"}}></div> */}
                                     {/* <div>{filePreview.name} </div> */}
 
-                                            {ChatButtonOn=="mr"? <div style={{display:"flex"}} className="attachment_box">
-                                                                                <div>
-
-                                                                                </div>
-                                                                            <div>
-                                                                                    <div>{quotaMsg.body}</div>
-                                                                                    {/* <div>{filePreview.size/1000}kb</div> */}
-                                                                            </div>
-                                                                        </div>:""}
+                                           
                                             {filePreview.type=="IMAGE"? <div style={{display:"flex"}} className="attachment_box">
                                                                                 <div>
                                                                                     <img src={filePreview.path} style={{width:"100px",height:"100px", margin:"0 15px"}}/>

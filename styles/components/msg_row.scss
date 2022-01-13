@@ -1,35 +1,30 @@
 
 @import '~video-react/styles/scss/video-react';
 
+.reply_box{
+  width: 100%;
+  padding: 0rem 0.9rem;
+  // border-radius: 10px;
+  border-left: 3px solid#2198FA;;
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  .media_div{
 
-
-.replyActive{
-  box-shadow: -5px 10px 10px #0000001A;
-  position: relative;
-}
-.reply_pop_content{
-  position: absolute;
-  width: 110px;
-  left:-120px;
-  top:0;
-  box-shadow: 0px 3px 6px #00000029;
-  background: #FFFFFF 0% 0% no-repeat;
-  border-radius: 10px;
-  .pop_half{
-    padding: 3px 15px;
-    height: 50%;
-
-    display: flex;
-    justify-content: space-between;
-      &:hover{
-
-    background: #2198FA 0% 0% no-repeat;
-    border-radius: 10px;
-    color:#FFF
+    width: fit-content;
+    height: 100%;
+    max-height: 150px;
+    img{
+      // height:fit-content;
+      object-fit:contain;
+      height: 100%;
     }
-}
+  }
+
 
 }
+
 .msg_row{
   position: relative;
   padding: 0.75rem;
@@ -66,6 +61,35 @@ audio{
   height: 100%;
   margin-left: auto;
   // text-align: right;
+
+  .reply_pop_content{
+    position: absolute;
+    width: 110px;
+    left:-120px;
+    top:0;
+    box-shadow: 0px 3px 6px #00000029;
+    background: #FFFFFF 0% 0% no-repeat;
+    border-radius: 10px;
+    .pop_half{
+      padding: 3px 15px;
+      height: 50%;
+  
+      display: flex;
+      justify-content: space-between;
+        &:hover{
+  
+      background: #2198FA 0% 0% no-repeat;
+      border-radius: 10px;
+      color:#FFF
+      }
+      
+    }
+  
+  }
+.replyActive{
+  box-shadow: -5px 10px 10px #0000001A;
+  position: relative;
+}
   .msg_body{
     max-width: 60%;
     width: fit-content;
@@ -387,7 +411,35 @@ audio{
 .msg_from_other{
   height: 100%;
   margin-left: 0;
+  .replyActive{
+    box-shadow: -5px 10px 10px #0000001A;
+    position: relative;
+  }
 
+.reply_pop_content{
+  position: absolute;
+  width: 110px;
+  right:-120px;
+  top:0;
+  box-shadow: 0px 3px 6px #00000029;
+  background: #FFFFFF 0% 0% no-repeat;
+  border-radius: 10px;
+  .pop_half{
+    padding: 3px 15px;
+    height: 50%;
+
+    display: flex;
+    justify-content: space-between;
+      &:hover{
+
+    background: #2198FA 0% 0% no-repeat;
+    border-radius: 10px;
+    color:#FFF
+    }
+    
+  }
+
+}
   .msg_body{
     max-width: 60%;
     width: fit-content;

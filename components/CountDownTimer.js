@@ -13,7 +13,7 @@ export default function CountDownTimer ({dayString,trigger}) {
         const lastTime= Time.setDate(Time.getDate()+1)
         
         setEndTime(new Date( lastTime))
-    },dayString)
+    },[dayString])
     // const endTime = new Date( lastTime)
     //function calculate the time difference between now and the end time and return it as a string
     function getTimeRemaining(endTime) {
