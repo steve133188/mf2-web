@@ -10,6 +10,7 @@ import { Pill } from "../Pill";
 import { AvatarGroup } from "@mui/material";
 import { getThemeProps } from "@mui/system";
 import FilterDropDown from "./filterDropDown";
+import DivisionDropDown from "../filter/divisionDropDown";
 
 
 export default function DashBroadFilter(props){
@@ -92,7 +93,7 @@ export default function DashBroadFilter(props){
                     setFilteredAgents(data)
                 }
                 const getDivision = async ()=>{
-                    const data = await orgInstance.getOrgTeams()
+                    const data = await orgInstance.getAllORG ()
                     console.log("DDDDD")
                     console.log(data)
                     setDivision(data)
@@ -248,7 +249,8 @@ export default function DashBroadFilter(props){
                     </div>
                 </div>:""}
                 {/* {props.auth==2?<FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>:""} */}
-                {props.auth==2?<div className={"filter_box_agents"}  >Team
+                {props.auth==2?<DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectAgents} clear={ ()=>{}} isclear={clearFilter} />:"" }
+                {props.auth==3?<div className={"filter_box_agents"}  >Team
                     <div className={"agentBroad"} >
 
                         <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
@@ -275,7 +277,7 @@ export default function DashBroadFilter(props){
                     </div>
 
                 </div>:""}
-                {props.auth==2?<div className={"filter_box_agents"}  >Agent
+                {props.auth==3?<div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
 
                     <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>

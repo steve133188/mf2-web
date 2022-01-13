@@ -40,6 +40,15 @@ export default function DropDown ({teamData,setSelection,...props}) {
         // console.log(teamData)
     },[teamData])
 
+    const clear = () =>{
+      setSelectedUsers([]);
+      setSelectedTeams([]);
+      // setOpen([])
+    }
+    // useEffect(()=>{
+    //   clear();
+    // },[props.isclear])
+
     const handleClick = async (name,id) => {
       console.log(name,id)
       // await fetchTeamAgents(id)
@@ -49,21 +58,21 @@ export default function DropDown ({teamData,setSelection,...props}) {
     };
    
     const [checked, setChecked] = useState([0]);
-    const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
+    // const handleToggle = (value) => () => {
+    //   const currentIndex = checked.indexOf(value);
+    //   const newChecked = [...checked];
   
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
+    //   if (currentIndex === -1) {
+    //     newChecked.push(value);
+    //   } else {
+    //     newChecked.splice(currentIndex, 1);
+    //   }
   
-      setChecked(newChecked);
-    };
+    //   setChecked(newChecked);
+    // };
     const toggleSelectUsers = e => {
       const { checked ,id} = e.target;
-      setSelectedUsers(prev=>[...selectedUsers, id]);
+      setSelectedUsers([...selectedUsers, id]);
       if (!checked) {
           setSelectedUsers(selectedUsers.filter(item => item !== id));
       }
@@ -73,7 +82,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
   const toggleSelectTeams = e => {
     // console.log(e,"electaedTeams in filter")
     const { checked ,id} = e.target;
-    setSelectedTeams(prev=>[...selectedTeams, id]);
+    setSelectedTeams([...selectedTeams, id]);
     // console.log(levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)}),"dsafdasfadfdasfs")
     const list = levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
     setSelectedUsers(list.map(e=>e.user_id.toString()))
@@ -113,7 +122,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
                     {levelTwoData.filter(agent=>agent.team_id==team.org_id).map((agent,i)=>{
                        const labelId = `checkbox-list-label-${agent.user_id}`;
                         // console.log("agent"+agent)
-                        return ( <ListItemButton key={i} sx={{ pl: 4 }} onClick={handleToggle(agent.user_id)} dense>
+                        return ( <ListItemButton key={i} sx={{ pl: 4 }} dense>
                                      <Tooltip key={agent.username} className={""} title={agent.username} placement="top-start">
                                             <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginRight:"10px"}} >{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>

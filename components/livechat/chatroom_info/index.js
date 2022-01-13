@@ -7,7 +7,7 @@ import EditProfileForm from "../../pageComponents/EditProfileForm";
 import { GlobalContext } from "../../../context/GlobalContext";
 
 
-export default function ChatroomInfo ({data}){
+export default function ChatroomInfo ({data,...props}){
 
     const [start,setStart]= useState(false)
     const {contactInstance } = useContext(GlobalContext)
@@ -15,7 +15,7 @@ export default function ChatroomInfo ({data}){
     const [useContact , setUseContact] = useState({})
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const handelEditContact = async ()=>{
-        if(data.name.length>0){
+        if(data.name){
             setIsEditProfileShow(!isEditProfileShow)
             await toggleEditProfile(data)
         }
@@ -37,6 +37,7 @@ export default function ChatroomInfo ({data}){
     // },[data])
 
     useEffect(async()=>{
+        console.log(data,"chatroom contact")
         if(data.customer_id){
             await fetchContacts(data.customer_id)
         }
@@ -68,7 +69,8 @@ export default function ChatroomInfo ({data}){
                     </div>
                     {/* <div className={"contact_detail_team"}> Team</div> */}
                 </div>
-                {/* <div className={"config"} onClick={handelEditContact}> ... </div> */}
+                <div className={"config"} onClick={props.click} style={{font:"normal normal bold 16px/22px Manrope" , marginLeft:"5px"}}> . . . </div>
+                {/* <div className={"config"} onClick={handelEditContact} style={{font:"normal normal bold 16px/22px Manrope"}}> . . . </div> */}
             </div>
 
             <div className={"tabs_field"}>

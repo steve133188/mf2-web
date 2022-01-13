@@ -92,7 +92,7 @@ export default function ProfileGrid({data,toggle}){
     return(<div className={"profile_grid"}>
         {isEditProfileShow&&useContact?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggle}/></Profile>):null}
         <div className={"info_col grid_box"}>
-            <span className={"dot"} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} >. . .</span>
+            <button className={"dot "} onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}} style={{margin:"10px 5px 0 0"}} > Edit</button>
             <div className={"ava_block"} style={{margin:"30px 0"}}>
                 {/*<Avatar className={"ava"} src={data.img_url} alt="profile pic"/>*/}
                 <Avatar className={"ava"} src={""} alt="profile pic"/>

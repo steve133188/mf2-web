@@ -196,8 +196,8 @@ const channelData = [
                 </div>
 <div>Agents
 
-                            <DivisionDropDown data={division} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} />
-</div>
+                            <DivisionDropDown data={division} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} isclear={props.isclear} />
+</div>      
 
                 {/* <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >
