@@ -32,6 +32,7 @@ import BigPlayButton from "video-react/lib/components/BigPlayButton";
 import Player from "video-react/lib/components/Player";
 import Profile from "../../components/profile";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
+import {useRouter} from "next/router";
 
 
 export default function Live_chat() {
