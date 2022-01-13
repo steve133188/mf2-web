@@ -28,8 +28,8 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
 
     useEffect(async()=>{
         
-        setLevelOneData(data&&data.filter(data=>{return data.type=="division"}))
-        setLevelTwoData(data&&data.filter(data=>{return data.type=="team"}))
+        setLevelOneData(data.filter(data=>{return data.type=="division"}))
+        // setLevelTwoData(data.filter(data=>{return data.type=="team"}))
         await getTeam();
 
         // setLevelTwoData(props.data.teams)
@@ -43,15 +43,15 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
         console.log(open)
   
       };
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        console.log(levelOneData)
-        console.log(levelTwoData)
-    },[levelOneData])
+    //     console.log(levelOneData)
+    //     console.log(levelTwoData)
+    // },[levelOneData])
 
-    useEffect(()=>{
-        // setOpen([])
-    },[props.clear])
+    // useEffect(()=>{
+    //     // setOpen([])
+    // },[props.clear])
 
 
     return (

@@ -39,6 +39,8 @@ const channelData = [
                     setTags(data)
                     setFilteredTags(data)
 
+                    console.log("chatlist filter  tagss  refresh")
+
                 }
                 const getUsers = async ()=>{
                     const data = await userInstance.getAllUser()
@@ -52,6 +54,7 @@ const channelData = [
                 const getDivision = async () =>{
                     const data = await orgInstance.getAllORG ()
                     setDivision(data)
+                    console.log("chatlist filter refresh",data)
                 }
                 // const fetchContacts = async () =>{
                 //     const data = await contactInstance.getAllContacts()
@@ -194,10 +197,10 @@ const channelData = [
                         {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>
-<div>Agents
+                <div>Agents
 
-                            <DivisionDropDown data={division&&division.filter(e=>{return e.type=="division"})} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} isclear={props.isclear} />
-</div>      
+                            <DivisionDropDown data={division} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} isclear={props.isclear} />
+                </div>      
 
                 {/* <div className={"filter_box_agents"}  >Agent
                     <div className={"agentBroad"} >

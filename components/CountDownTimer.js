@@ -31,6 +31,7 @@ export default function CountDownTimer ({dayString}) {
         setInterval(()=> {
             setTimeLeft(prev=>getTimeRemaining(endTime))
         },1000)
+        console.log("timer,build")
     },[timeString]);
 
     return(

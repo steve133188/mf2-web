@@ -150,10 +150,12 @@ export default function Live_chat() {
     async function handleChatRoom(chatroom){
         if(chatroom.name == selectedChat.name) return
         if(chatroom.channel !== "WABA")setLastMsgFromClient("")
+        console.log(chatroom, "while select")
         if (chatroom.unread>0  )await updateChatroomUnread(chatroom);
         setChatroomMsg([])
         setSelectedChat(chatroom)
-        console.log(selectedChat)
+        // setLastMsgFromClient(chatroom.last_msg_time)
+        console.log(selectedChat,"chat check")
         // setSelectedChat(prev=>chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
         await getCustomerbyID(chatroom.customer_id)
@@ -173,8 +175,9 @@ export default function Live_chat() {
                     if(notFromMe.length==0) return
                     console.log("no from me :", notFromMe)
                     notFromMe = notFromMe.pop()
+                    console.log(" not from me last msg time : ",  notFromMe.timestamp)
                     setLastMsgFromClient(prev=>notFromMe.timestamp)
-                    console.log("last msg time : ",  lastMsgFromClient)
+                    console.log("last msg time : ",  lastMsgFromClient,)
                     console.log("getChatroomMessage",chatroomMsg)
                 }
 
@@ -224,7 +227,12 @@ export default function Live_chat() {
     },[filePreview])
     useEffect(()=>{
         console.log(lastMsgFromClient,"lastMsgFromClient instanly")
+        setTimerString(lastMsgFromClient)
     },[lastMsgFromClient])
+    const [timerString,setTimerString] =useState(lastMsgFromClient)
+    useEffect(()=>{
+        console.log(timerString,"try new input instanly")
+    },[timerString])
     useEffect(()=>{
         // if(selectedChat.room_id)setSelectedChat(prev=>selectedChat)
         // if(selectedChat.room_id)mf2chat.setChat(selectedChat)
@@ -275,7 +283,7 @@ export default function Live_chat() {
     const getCustomerbyID = async (id)=>{
         console.log(id,"chatroom selected")
         const result = await contactInstance.getContactById(id)
-        console.log(result)
+        console.log(result,"chatroom selected result")
         setChatUser(result)
     }
     const [contacts, setContacts] = useState([]);
@@ -551,7 +559,7 @@ export default function Live_chat() {
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
-                    if(!newMessage.from_me)setLastMsgFromClient(prev=>newMessage.timestamp)
+                    if(!newMessage.from_me)setLastMsgFromClient(newMessage.timestamp)
                     setTimeout(()=>{
                         scrollToBottom()
                     },500)
@@ -759,8 +767,8 @@ export default function Live_chat() {
                             </div>
                     </div>
                         <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                            <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} clear={clear} unread={unreadHandle}
-                             agents={toggleSelectUsers} unassigned={unassigneHandle}  isclear={isClear} />
+                           {isFilterOpen? <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} clear={clear} unread={unreadHandle}
+                             agents={toggleSelectUsers} unassigned={unassigneHandle}  isclear={isClear} />:""}
                         </div>
                         <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
                                     <Newchatroom contacts={contacts} setFilteredData={setFilteredData}/>
@@ -788,7 +796,7 @@ export default function Live_chat() {
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                                     </div>
-                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!==""&&chatroomMsg.length!==0? <div className="chatroom_name"><CountDownTimer dayString={lastMsgFromClient }/></div>:""}
+                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!==""&&chatroomMsg.length!==0? <div className="chatroom_name"><CountDownTimer dayString={timerString}/></div>:""}
                                     {/*{selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(parseInt(chatroomMsg[0].timestamp)).toISOString()}/></div>:""}*/}
                                 </div>
 
