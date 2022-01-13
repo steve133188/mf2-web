@@ -69,7 +69,7 @@ export default function ChatroomInfo ({data,...props}){
                     </div>
                     {/* <div className={"contact_detail_team"}> Team</div> */}
                 </div>
-                <div className={"config"} onClick={props.click} style={{font:"normal normal bold 16px/22px Manrope" , marginLeft:"5px"}}> . . . </div>
+                <div ><p className={"config"} onClick={props.click} style={{font:"normal normal bold 16px/22px Manrope" , marginLeft:"5px",width:"21px",alignSelf:"start",padding:0 }} > . . .</p> </div>
                 {/* <div className={"config"} onClick={handelEditContact} style={{font:"normal normal bold 16px/22px Manrope"}}> . . . </div> */}
             </div>
 

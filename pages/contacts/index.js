@@ -478,35 +478,35 @@ export default function Contacts() {
                     })}}>
                         <div>Agents
 
-                        <DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectUsers} clear={ ()=>{}} isclear={()=>{}} />
+                        {/* <DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectUsers} clear={ ()=>{}} isclear={()=>{}} /> */}
                         </div>      
 
                        {filteredUsers.map((user , index)=>{
-                    //         return(<li key={index}>
-                    //             <div style={{display:"flex" ,gap:10}}>
-                    //                 <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
-                    //                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
-                    //                 </Tooltip>
-                    //                 <div className={"name"}>{user.username}</div>
-                    //             </div>
-                    //             <div className="newCheckboxContainer">
-                    //                 <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
-                    //                 </label>
-                    //             </div>
-                    //         </li>)
-                    //     })}
-                    // </MF_Select>
-                    // <MF_Select head={"Teams"} top_head={selectedTeams.length ==0?"Teams":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
-                    //    <li onClick={()=> {
+                            return(<li key={index}>
+                                <div style={{display:"flex" ,gap:10}}>
+                                    <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
+                                        <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:23 , height:23 ,fontSize:12}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                                    </Tooltip>
+                                    <div className={"name"}>{user.username}</div>
+                                </div>
+                                <div className="newCheckboxContainer">
+                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
+                                    </label>
+                                </div>
+                            </li>)
+                        })}
+                    </MF_Select>
+                    <MF_Select head={"Teams"} top_head={selectedTeams.length ==0?"Teams":selectedTeams[0].name }  submit={advanceFilter}  customeDropdown={"oneChoice"}>
+                       <li onClick={()=> {
 
-                    //        setSelectedTeams([]);
-                    //        advanceFilter()
-                    //    }}
-                    //    style={{cursor:"pointer",width:"200px",liststyle:" inside"}}
-                    //    >All</li>
-                    //    <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }} style={{cursor:"pointer",liststyle:" inside"}}> No Assigned</li>
-                    //    {teams.map((team , index)=>{
-                    //        return(<li id={team.org_id}  key={index} style={{cursor:"pointer",liststyle:" inside"}} onClick={(e)=>{console.log("teams check",team);setSelectedTeams([{name:team.name,id:team.org_id}]) }}> {team.name}</li>)
+                           setSelectedTeams([]);
+                           advanceFilter()
+                       }}
+                       style={{cursor:"pointer",width:"200px",liststyle:" inside"}}
+                       >All</li>
+                       <li id={"noassign"}  key={"na"} onClick={(e)=>{setSelectedTeams([{name:"No Assigned",id:0}]) }} style={{cursor:"pointer",liststyle:" inside"}}> No Assigned</li>
+                       {teams.map((team , index)=>{
+                           return(<li id={team.org_id}  key={index} style={{cursor:"pointer",liststyle:" inside"}} onClick={(e)=>{console.log("teams check",team);setSelectedTeams([{name:team.name,id:team.org_id}]) }}> {team.name}</li>)
                        })}
                     </MF_Select>
                     <MF_Select top_head={selectedChannel.length!=0? renderChannels() :"Channels"} submit={advanceFilter} head={"Channels"} >

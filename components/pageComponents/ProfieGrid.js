@@ -5,6 +5,7 @@ import {Tooltip} from "@mui/material";
 import {AvatarGroup} from "@mui/lab";
 import Link from 'next/link';
 import { useRouter } from "next/router";
+import Mf_circle_btn from "../mf_circle_btn";
 import { NoteButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import Profile from "../profile";
 import EditProfileForm from "./EditProfileForm";
@@ -15,11 +16,15 @@ import {createNotesTable} from "../../src/graphql/mutations";
 
 export default function ProfileGrid({data,toggle}){
     // const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
+    const {contactInstance , user ,tagInstance, setSelectedChat} = useContext(GlobalContext)
+    
     const [notes,setNotes] = useState([])
-    const {contactInstance , user , setSelectedChat} = useContext(GlobalContext)
-
+    const [disable, setDisable] = useState(false)
+    const [unread, setUnread] = useState(false)
     const [writenote,setWritenote] = useState("")
     const [useContact , setUseContact] = useState(data)
+    const [selectedTags, setSelectedTags] = useState(data.tags)
+    const [filteredTags, setFilteredTags] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [assingedContacts, setAssingedContacts] = useState([])
     const router = useRouter()
@@ -51,7 +56,47 @@ export default function ProfileGrid({data,toggle}){
         console.log(assigned,"contactssss")
         setAssingedContacts(assigned)
     }
+    const getTags = async () => {
+        const data = await tagInstance.getAllTags()
+        setFilteredTags(data)
+        // setAlltags(data)
+    }
+    const isContainTags = (id) => {
+        if (selectedTags != null) {
+            return selectedTags.some(selectedtag => selectedtag.tag_id === id)
+        } else return false
+    }
+    const toggleSelectTags = async e => {
+        const { checked, id } = e.target;
+        const tag = await tagInstance.getTagById(parseInt(id))
+        // get all selectedtags.tag_id
+        setSelectedTags([...selectedTags, tag]);
+        // const uploadTags = {
+        //     tag_id: tag.tag_id,
+        //     tag_name: tag.tag_name,
+        //     update_at: parseInt(tag.update_at),
+        //     create_at: parseInt(tag.create_at)
 
+        // }
+        if (!checked) {
+            setSelectedTags(selectedTags.filter(item =>  item.tag_id != parseInt(id) ));
+
+            console.log(useContact.customer_id, tag.tag_id)
+            const res = await contactInstance.deleteCustomerTag(useContact.customer_id, [tag.tag_id])
+        }else{
+
+            const res = await contactInstance.updateContactTags(useContact.customer_id, [tag.tag_id])
+            console.log(res)
+        }
+        fetchAfterModify(useContact.customer_id)
+    };
+    const fetchAfterModify= async(cid)=>{
+        const data = await contactInstance.getContactById(cid)
+        setUseContact(data)
+        const { tags} = data
+        setSelectedTags(tags)
+        // setSelectedUsers(agents)
+    }
     const toggleChat =async ()=>{
         if(data.channels&&data.channels.length>0){
             const chat = await API.graphql(graphqlOperation(listChatrooms , {filter:{customer_id:{eq:data.customer_id}} , limit:1000}))
@@ -88,7 +133,14 @@ export default function ProfileGrid({data,toggle}){
 
     useEffect(async ()=>{
         await fetchNotes(data.customer_id)
+        await getTags()
+        if (data.customer_id == null) setDisable(true)
+        else
+            setDisable(false)
+            console.log(useContact,"data check")
     },[])
+
+
     return(<div className={"profile_grid"}>
         {isEditProfileShow&&useContact?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggle}/></Profile>):null}
         <div className={"info_col grid_box"}>
@@ -181,15 +233,45 @@ export default function ProfileGrid({data,toggle}){
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Tags</span></div>
-                        <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
-                            {useContact.tags.map((tag , index)=>{
-                                return( <Pill key={index} color="lightBlue">{tag.tag_name}</Pill>)
-                            })}
+                        <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", marginTop:"18px"}} >
+
+                                    <Mf_circle_btn isDisable={disable} switchs={() => { setUnread(!unread) }} handleChange={(e) => {
+                                    console.log(alltags,"alltags")
+                                    //    const new_data = alltags.filter(i => i.tag_name.toLowerCase().includes(e.target.value.toLowerCase()))
+                                    //    setFilteredTags(new_data)
+                                    }}>
+
+                                        {filteredTags.map((tag, index) => {
+
+                                            return (<li key={index+index}>
+                                                <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>
+                                                <div className="newCheckboxContainer">
+                                                    <label className="newCheckboxLabel">
+                                                        <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />
+                                                    </label>
+                                                </div>
+                                            </li>)
+                                        })}
+
+                                    </Mf_circle_btn>
+
+
+                                    <div style={{paddingTop:"3px"}} >
+                                    {selectedTags != -1 && selectedTags.map((tag, index) => {
+                                        return <Pill key={index} color="vip">{tag.tag_name}</Pill>
+                                    })}
+
+                                    </div>
+                        </div>
+                            <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
+                                {useContact.tags.map((tag , index)=>{
+                                    return( <Pill key={index} color="lightBlue">{tag.tag_name}</Pill>)
+                                    })}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className={"log_input half_session grid_box"}>
+                <div className={"log_input half_session grid_box"}>
                 <div className={"block_session"} style={{justifyContent: 'space-between'}}>
                     <div className={"top_row"}><span className={"title"}>Activity Log</span></div>
 
