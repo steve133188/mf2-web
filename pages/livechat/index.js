@@ -223,6 +223,9 @@ export default function Live_chat() {
         console.log(filePreview,"file attachment show")
     },[filePreview])
     useEffect(()=>{
+        console.log(lastMsgFromClient,"lastMsgFromClient instanly")
+    },[lastMsgFromClient])
+    useEffect(()=>{
         // if(selectedChat.room_id)setSelectedChat(prev=>selectedChat)
         // if(selectedChat.room_id)mf2chat.setChat(selectedChat)
         console.log("mf2chat store : " ,selectedChat)

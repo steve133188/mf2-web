@@ -51,7 +51,7 @@ const channelData = [
                 }
                 const getDivision = async () =>{
                     const data = await orgInstance.getAllORG ()
-                    setDivision(data.filter(e=>{return e.type=="division"}))
+                    setDivision(data)
                 }
                 // const fetchContacts = async () =>{
                 //     const data = await contactInstance.getAllContacts()
@@ -196,7 +196,7 @@ const channelData = [
                 </div>
 <div>Agents
 
-                            <DivisionDropDown data={division} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} isclear={props.isclear} />
+                            <DivisionDropDown data={division&&division.filter(e=>{return e.type=="division"})} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} isclear={props.isclear} />
 </div>      
 
                 {/* <div className={"filter_box_agents"}  >Agent

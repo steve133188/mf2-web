@@ -59,7 +59,7 @@ export default function NotificationAlert({notification ,notificationList ,setNo
                     {notification.type=="MESSAGE"?
                         <div className="pop_half">
                             <Avatar className={"text-center"}  src={ null} sx={{width:20 , height:20 ,fontSize:12,marginRight:"5px"}} alt="icon" />
-                            {`${ contact.customer_name }`}
+                            {`${ contact&&contact.customer_name }`}
                         </div>
                         :""}
                     <div className="pop_half"> {notification.content?? ` ${contact.customer_name} send you a new message `}</div>

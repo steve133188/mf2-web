@@ -28,8 +28,8 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
 
     useEffect(async()=>{
         
-        setLevelOneData(data.filter(data=>{return data.type=="division"}))
-        setLevelTwoData(data.filter(data=>{return data.type=="team"}))
+        setLevelOneData(data&&data.filter(data=>{return data.type=="division"}))
+        setLevelTwoData(data&&data.filter(data=>{return data.type=="team"}))
         await getTeam();
 
         // setLevelTwoData(props.data.teams)
@@ -60,7 +60,7 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-        {levelOneData.map((division,index)=>{ return <div key={index}>
+        {levelOneData&&levelOneData.map((division,index)=>{ return <div key={index}>
         <div style={{display:"flex",padding:"0 16px 0 0 "}}>
 
             <ListItemButton onClick={()=>handleClick(division.name,division.org_id)} id={division.org_id} >
@@ -80,7 +80,7 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
             <Collapse in={open.includes(division.name)} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding sx={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-end" }}>
                     {/* loop */}
-                    <DropDown teamData={levelTwoData.filter(t=>t.parent_id==division.org_id)} team={props.team} isclear={props.isclear} agents={props.agents} />
+                    <DropDown teamData={levelTwoData&&levelTwoData.filter(t=>t.parent_id==division.org_id)} team={props.team} isclear={props.isclear} agents={props.agents} />
                  </List>
 
             </Collapse>
@@ -89,7 +89,7 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
         })}
         <div style={{display:"flex",justifyContent:"flex-end",}}>
 
-        <DropDown teamData={levelTwoData.filter(t=>t.parent_id==0)} setSelection={setSelection}  team={props.team} isclear={props.isclear}  agents={props.agents} sx={{ width: '100%',}}/>
+        <DropDown teamData={levelTwoData&&levelTwoData.filter(t=>t.parent_id==0)} setSelection={setSelection}  team={props.team} isclear={props.isclear}  agents={props.agents} sx={{ width: '100%',}}/>
         </div>
         </List>
 

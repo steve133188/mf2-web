@@ -84,7 +84,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
     const { checked ,id} = e.target;
     setSelectedTeams([...selectedTeams, id]);
     // console.log(levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)}),"dsafdasfadfdasfs")
-    const list = levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
+    const list = levelTwoData&&levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
     setSelectedUsers(list.map(e=>e.user_id.toString()))
     if (!checked) {
         setSelectedTeams(selectedTeams.filter(item => item !== id));
@@ -102,7 +102,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
           aria-labelledby="nested-list-subheader"
         >
 
-          {levelOneData.map((team,index)=>{return<div key={index}>
+          {levelOneData&&levelOneData.map((team,index)=>{return<div key={index}>
             <div style={{display:"flex",padding:"0 16px 0 0 "}}>
 
           <ListItemButton onClick={()=>{handleClick(team.name,team.org_id);}} id={team.org_id}  >
@@ -119,7 +119,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
 </div>
             <Collapse in={open.includes(team.name)} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {levelTwoData.filter(agent=>agent.team_id==team.org_id).map((agent,i)=>{
+                    {levelTwoData&&levelTwoData.filter(agent=>agent.team_id==team.org_id).map((agent,i)=>{
                        const labelId = `checkbox-list-label-${agent.user_id}`;
                         // console.log("agent"+agent)
                         return ( <ListItemButton key={i} sx={{ pl: 4 }} dense>
