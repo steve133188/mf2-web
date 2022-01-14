@@ -463,9 +463,12 @@ export default function Live_chat() {
         }
       }
     const searchBy =()=>{
+    //    e.preventDefault();
 
-
-            document.dispatchEvent(new KeyboardEvent('keydown',{keyCode:70,keyCode:91}))
+            document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:70}))
+            document.dispatchEvent(new KeyboardEvent("keydown",{ metaKey: true }))
+            console.log("1")
+            // document.dispatchEvent(new KeyboardEvent('keydown',{keyCode:91}))
 
 
     }
@@ -524,6 +527,14 @@ export default function Live_chat() {
         !m?setQuotaMsg({}):""
         if(click==replyMsg){setReplyMsg("")}
     }
+    const confirmReply=()=>{
+        setReply(!reply)
+        setReplyMsg("")
+        setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
+        setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
+
+        setTypedMsg({...typedMsg ,message_type: "text",media_url:quoteMsg.media_url,is_media:true})
+    }
     const confirmForward = ()=>{
         setIsForward(!isForward)
         setReplyMsg("")
@@ -578,14 +589,6 @@ export default function Live_chat() {
 
     }
 
-    const confirmReply=()=>{
-        setReply(!reply)
-        setReplyMsg("")
-        setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
-        setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
-
-        setTypedMsg({...typedMsg ,message_type: "text",media_url:quoteMsg.media_url,is_media:true})
-    }
 
 
     // useEffect(()=>{
@@ -594,6 +597,7 @@ export default function Live_chat() {
 
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
+        
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
         };
