@@ -33,6 +33,9 @@ import Player from "video-react/lib/components/Player";
 import Profile from "../../components/profile";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import {useRouter} from "next/router";
+import Forward from "../../components/livechat/forward";
+import {  Tooltip } from "@mui/material";
+import { forward } from "video-react/lib/actions/player";
 
 
 export default function Live_chat() {
@@ -85,6 +88,7 @@ export default function Live_chat() {
         const [tags ,setTags] =useState([])
         const [selectedTags ,setSelectedTags] =useState([])
         const [selectedUsers ,setSelectedUsers] =useState([])
+        const [selectedContacts ,setSelectedContacts] =useState([])
         const [chatUser , setChatUser] = useState({})
         const [selectedTeams ,setSelectedTeams] =useState([])
         const [selectedChannels ,setSelectedChannels] =useState([]);
@@ -93,6 +97,7 @@ export default function Live_chat() {
         const [filteredTags ,setFilteredTags] =useState([])
         const [filteredUsers ,setFilteredUsers] =useState([])
         const [filteredData , setFilteredData] = useState([])
+        const [filteredContacts , setFilteredContacts] = useState([])
 
         const [isShow , setIsShow] =useState(false)
         // const [totalUnread, setTotalUnread] = useState(0)
@@ -103,6 +108,7 @@ export default function Live_chat() {
         const [mediaUrl , setMediaUrl] = useState('')
         const [isMedia , setIsMedia ] = useState(false)
         const [lastMsgFromClient , setLastMsgFromClient] = useState("")
+        const [isForward,setIsForward] = useState(false)
     const gqlFilter = async ()=>{
 
     }
@@ -314,8 +320,9 @@ export default function Live_chat() {
 
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
-        console.log(data,"contact")
+        console.log(data,"contact fetch at start")
         setContacts(data)
+        setFilteredContacts(data)
     }
 
     const getUsers = async ()=>{
@@ -448,15 +455,11 @@ export default function Live_chat() {
         setIsExpand(false)
     }
     const onEnterPress = async (e) => {
-        if(e.keyCode == 13 && e.ctrlKey == false) {
+        // if(e.keyCode == 13 && e.shiftKey == true) {}
+            if(e.keyCode == 13 && !e.shiftKey) {
           e.preventDefault();
           // console.log("enter press")
           await sendMessageToClient(e)
-        }
-        if(e.keyCode == 13 && e.ctrlKey == true) {
-            e.preventDefault();
-            e.target.innerHTML+="/n"
-
         }
       }
 
@@ -504,7 +507,7 @@ export default function Live_chat() {
 
     const replyClick=click=>{
         console.log(click,"done donedone")
-        setReplyMsg(click)
+        // setReplyMsg(click)
         const quotaMsg = chatroomMsg.filter(e=>{return click==(e.timestamp)})
         const m={...quotaMsg[0],hasQuotedMsg:true,quote:quotaMsg[0].message_id}
         console.log(quotaMsg[0])
@@ -513,7 +516,12 @@ export default function Live_chat() {
         !m?setQuotaMsg({}):""
         if(click==replyMsg){setReplyMsg("")}
     }
+    const confirmForward = ()=>{
+        setIsForward(!isForward)
+        console.log("Forward")
+        setReplyMsg("")
 
+    }
     const confirmReply=()=>{
         setReply(!reply)
         setReplyMsg("")
@@ -522,6 +530,7 @@ export default function Live_chat() {
 
         setTypedMsg({...typedMsg ,message_type: "text",media_url:quotaMsg.media_url,is_media:true})
     }
+
 
     // useEffect(()=>{
     //     console.log(quotaMsg)
@@ -555,7 +564,7 @@ export default function Live_chat() {
         if(user.token!=null) {
             await getAllChatrooms()
             await subChatrooms()
-            // await fetchContacts()
+            await fetchContacts()
             // await getTags()
             // await getUsers()
             // await getTeams()
@@ -599,8 +608,8 @@ export default function Live_chat() {
         return chats.filter(chat=>{console.log(chat);return data.includes(parseInt(chat.user_id))})
     }
     useEffect(()=>{
-        console.log(selectedChannels)
-    },[selectedChannels])
+        console.log(selectedContacts)
+    },[selectedContacts])
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         let newData = [...chatrooms]
@@ -656,7 +665,7 @@ export default function Live_chat() {
     };
     const toggleSelectTeams = e => {
         const { checked ,id} = e.target;
-
+        
         console.log(e.target.id,id,"electaedTeams in filter")
         setSelectedTeams([...selectedTeams, id]);
         if (!checked) {
@@ -664,6 +673,21 @@ export default function Live_chat() {
         }
         console.log(selectedTeams,"selectedTeam")
     };
+    const toggleSelectContacts = e => {
+        const { checked ,id} = e.target;
+        setSelectedContacts([...selectedContacts, id]);
+        if (!checked) {
+            setSelectedContacts(selectedContacts.filter(item => item !== id));
+        }
+        console.log(selectedContacts)
+    };
+    const isContainContact = (id) => {
+        
+        if (selectedContacts) {
+            return selectedContacts.some(e => e == id.toString())
+        }
+        else { return false }
+    }
     const [isClear,setClear] = useState(false)
     const clear=()=>{
         setSelectedUsers([])
@@ -849,7 +873,7 @@ export default function Live_chat() {
                             {chatroomMsg.map((r , i)=>{
                                 return (
                                     <MsgRow isSearch={searchResult?(searchResult.some(result => result.timestamp==r.timestamp )&&searchResult.length >0 ):""}msg={r} key={i}
-                                     d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmReply={confirmReply} />
+                                     d={filteredUsers}  c={contacts} replyMsg={replyMsg} replyHandle={replyClick} confirmForward={confirmForward} confirmReply={confirmReply} />
                                 )
                             })}
 
@@ -857,6 +881,30 @@ export default function Live_chat() {
                         </div>
 
                         <div className={"chatroom_input_field "+(isExpand?"expand":"")+(isReply?"replyArea":"")} ref={wrapperRef1} >
+                            <Forward open={isForward} ref={()=>{ setIsForward(false)}} switchs={() => { setIsForward(!forward) }} style={{position:"absolute",top:"-55vh",left:"10vw",padding:"3%",maxHeight: "40vh"}} handleChange={(e) => {
+                            const new_data = contacts.filter(i => i.customer_name.toLowerCase().includes(e.target.value.toLowerCase()))
+                            setFilteredContacts(new_data)
+                    }} >
+                                <div >
+
+                                {filteredContacts.map((user,index) => {
+                                    // console.log(user,"for forward list")
+                                    return (<li key={user.customer_name}>
+                                <div style={{ display: "flex", gap: 10 }}>
+                                    <Tooltip key={user.customer_name+index} className={""} title={user.customer_name} placement="top-start">
+                                        <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{ width: 25, height: 25, fontSize: 14 }} >{user.customer_name.substring(0, 2).toUpperCase()}</Avatar>
+                                    </Tooltip>
+                                    <div className={"name"} style={{width :"250px"}}>{user.customer_name}</div>
+                                </div>
+                                <div className="newCheckboxContainer">
+
+                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.customer_id} id={user.customer_id} name="checkbox" onClick={toggleSelectContacts} checked={isContainContact(user.customer_id)} onChange={() => { }} />
+                                    </label>
+                                </div>
+                            </li>)
+                        })}
+                        </div>
+                            </Forward>
                             {quotaMsg&&
                             <div style={{display:(ChatButtonOn=="mr"?"flex":"none"), height:"45%",padding:"1rem 1.5rem 0" }}
                             // onClick={toggleReply }
@@ -865,9 +913,9 @@ export default function Live_chat() {
                                 <div style={{}} className="reply_box">
                                                                             <div>
                                                                                 <div>{quotaMsg.from_me?quotaMsg.sign_name:chatUser.customer_name}</div>
-                                                                                    <div>{quotaMsg.body}</div>
+                                                                                    <div>{quotaMsg.message_type=="document"?<img src={"/livechat/attach.svg"}/>:""}{quotaMsg.body}</div>
                                                                                     {quotaMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
-                                                                                    {quotaMsg.message_type=="file"||"document"?<img src={"/livechat/attach.svg"}/>:""}
+                                                                                    
                                                                                     {quotaMsg.message_type=="video"?"Video":""}
                                                                             </div>
                                                                             <div className="media_div">

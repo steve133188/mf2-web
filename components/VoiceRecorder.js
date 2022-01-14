@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { VoiceMsg } from "../public/livechat/MF_LiveChat_Landing/chat_svg";
 
-
+import {Recorder as jsRecorder} from 'recorder-js';
 
 
 export default function Recorder({ returnVoiceMessage }) {
 
       async function requestRecorder() {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        return new MediaRecorder(stream, { mimeType : 'audio/mpeg-3 ' });
+        return new MediaRecorder(stream,   { type : 'audio/ogg; codecs=opus' });
     }
 
     const useRecorder = () => {
@@ -59,6 +59,10 @@ export default function Recorder({ returnVoiceMessage }) {
                 returnVoiceMessage(audioFile);
             }
         };
+        function download() {
+            jsRecorder.download(audioFile, 'my-audio-file'); // downloads a .wav file
+          }
+
 
         return [ audioURL, isRecording,startRecording, stopRecording];
     };
@@ -80,6 +84,8 @@ export default function Recorder({ returnVoiceMessage }) {
 
         isRec?startRecording():stopRecording();
     }
+
+
     return (
         <>
             {/* <audio src={audioURL} controls /> */}
