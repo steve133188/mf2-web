@@ -29,7 +29,7 @@ export default function Stickers() {
     const [isLoading, setIsLoading] = useState(false);   
      const [isDelete , setIsDelete] = useState(false)
      const [selectedReply , setSelectedReply] = useState([])
-    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
+    // const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
@@ -98,24 +98,32 @@ export default function Stickers() {
     const toggleSelectAll = e => {
         // setSelectAll(!selectAll);
         const {checked,id} = e.target
-        console.log(id)
-        setFilter(filter=>[...filter,id])
+        console.log(e.target)
+        setSelectedContacts([...selectedContacts,id])
+
         // setSelectedContacts(currentContacts.map(c => c.id));
         if (!checked) {
-            setFilter(filter.filter(item=>item !== id))
+            setSelectedContacts(selectedContacts.filter(e=>e==!id))
         }
         console.log(selectedContacts)
     };
 
     const toggleDelete = (item)=>{
-console.log("hihi")
+        console.log("hihi")
+        console.log(item)
+        console.log("selectedContacts",selectedContacts)
         setSelectedReply(selectedContacts)
         setIsDelete(!isDelete)
         // setDeleteTag(item)
     }
     const sumbitDelete=async ()=>{
-        const res = await mediaInstance.delete(data.name,selectedReply[0].id,selectedReply[0].body)
-        // console.log
+        selectedReply.map(async e =>{
+            
+            const res = await mediaInstance.removeSticker(e)
+            console.log(res,"res")
+            }
+        )
+        await getStickers()
     }
     
     const toggleSelectRow = ()=>{
@@ -138,7 +146,7 @@ console.log("hihi")
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <div className="rightContent">
-                                <DeletePad show={isDelete}  reload={()=>console.log(data)} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Sticker"}/>
+                                <DeletePad show={isDelete}  reload={()=>console.log("")} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Sticker"}/>
                 <div className="sticker_box">
                     <div className={"search_session"}>
                         <div className="search">
@@ -201,7 +209,7 @@ console.log("hihi")
                                 </TableRow> */}
                             </TableHead>
                             <TableBody>
-                                { filteredData.length!=0 && currentContacts.map((data ,index) =>{ console.log(filteredData,"filter data") ;return(
+                                { filteredData.length!=0 && currentContacts.map((data ,index) =>{ console.log(filteredData,"filter data");console.log(data,"folder name") ;return(
 
                                      <TableRow
                                      className={"stickers_box"}
@@ -220,7 +228,7 @@ console.log("hihi")
 
                                                         <div className="newCheckboxContainer">
                                                             {isSelectRow ? <label className="newCheckboxLabel">
-                                                                <input type="checkbox" name="checkbox" id={index} checked={selectedContacts.includes(index)} onClick={toggleSelectAll} />
+                                                                <input type="checkbox" name="checkbox" id={data} checked={selectedContacts.includes(data)} onClick={toggleSelectAll} />
                                                             </label> : null}
                                                         </div>
                                                         <div  style={{margin:"1rem "}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(12)}
@@ -234,7 +242,7 @@ console.log("hihi")
                                             > 
 
                                                 {stickerData.filter(s=>{return s.key.includes(data)}).map((item , index)=>{
-                                                    console.log(data)
+
                                                     return(
                                                             <div key={index} style={{position:"relative"}}>
                                                                 <img src={item.url} key={index} style={{width:"80px",height:"80px",margin:"2px 4px"}} />

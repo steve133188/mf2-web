@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 // pass dayString to this component. it will start count 24hour from dayString
 // dayString is a string like date.toIsoString()
-export default function CountDownTimer ({dayString,trigger}) {
+export default function CountDownTimer ({dayString,timeCount}) {
     const [timeString,setTimeString] = useState(dayString)
     const [timeLeft, setTimeLeft] = useState("");
     const [endTime,setEndTime] =useState()
@@ -11,12 +11,14 @@ export default function CountDownTimer ({dayString,trigger}) {
     useEffect(()=>{
         const Time = (parseInt(dayString)+86400)*1000
         const lastTime= Time -  Date.parse(new Date())
+        if(lastTime>0) timeCount(true)
         setEndTime( lastTime  )
+
     },[dayString])
     
     useEffect(()=>{
 
-        if(!endTime||endTime<0) return setTimeLeft("00:00:00");
+        if(!endTime||endTime<0) {timeCount(false);setTimeLeft("00:00:00");return }
         
                 const timerInt = setInterval(()=> {
                     setEndTime(endTime-1000)

@@ -699,6 +699,7 @@
     }
     .chatroom_records{
       // max-height: 87%;
+      min-width:500px;
       overflow: auto;
       flex-grow: 1;
     }

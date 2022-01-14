@@ -18,7 +18,7 @@ export default function StickerBox({data , stickerSend ,ref }){
     })
     return(
 
-          <TabContext value={"sticker"} sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'auto'}} >
+          <TabContext value={"sticker"}  sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'auto'}} >
             <Box component="div" 
                     visibleScrollbar={true}
                     ref={ref}

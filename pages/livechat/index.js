@@ -81,8 +81,8 @@ export default function Live_chat() {
             message_type:"text"
         })
         const [chatroomsSub , setChatroomsSub] = useState()
-        const [replybox,setReplybox] = useState("")
-    const [isEditProfileShow , setIsEditProfileShow] = useState(false)
+
+        const [isEditProfileShow , setIsEditProfileShow] = useState(false)
         const [users ,setUsers] =useState([])
         const [teams ,setTeams] =useState([])
         const [tags ,setTags] =useState([])
@@ -99,7 +99,10 @@ export default function Live_chat() {
         const [filteredData , setFilteredData] = useState([])
         const [filteredContacts , setFilteredContacts] = useState([])
 
-        const [isShow , setIsShow] =useState(false)
+        const [isWABAStart , setWABA] =useState(false)
+        useEffect(()=>{
+            console.log(isWABAStart,"check state")
+        },[isWABAStart])
         // const [totalUnread, setTotalUnread] = useState(0)
         const [unread,setUnread] = useState(false)
         const [unassigned,setUnassigned] = useState(false)
@@ -242,11 +245,7 @@ export default function Live_chat() {
     useEffect(()=>{
         console.log(filePreview,"file attachment show")
     },[filePreview])
-    const [trigger,setTrigger] =useState(false)
-    useEffect(()=>{
-        console.log(lastMsgFromClient,"lastMsgFromClient instanly")
-        setTrigger(!trigger)
-    },[lastMsgFromClient])
+
     // useEffect(()=>{
     //     console.log(timerString,"try new input instanly")
     // },[timerString])
@@ -446,11 +445,13 @@ export default function Live_chat() {
     }
     const stickerSend =  async e=>{
         e.preventDefault();
-        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"sticker",channel:selectedChat.channel,sign_name:user.user.username}
+
+        console.log(e.target,"sticker")
+        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"image",channel:selectedChat.channel,sign_name:user.user.username}
         console.log("sticker payload" , data);
         const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
-        console.log(res)
+        // console.log(res)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -898,16 +899,8 @@ export default function Live_chat() {
                                     <div className={"chatroom_name"} style={{fontSize:"18px"}}>{selectedChat.name}
                                         <div className={"chatroom_channel"}>{selectedChat.channel?<img src={`/channel_SVG/${selectedChat.channel}.svg`} />:""}</div>
                                     </div>
-                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!==""&&chatroomMsg.length!==0? <div className="chatroom_name"><CountDownTimer dayString={lastMsgFromClient} trigger={trigger}/></div>:""}
-                                    {/*{selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(parseInt(chatroomMsg[0].timestamp)).toISOString()}/></div>:""}*/}
+                                    {selectedChat.channel=="WABA"&&lastMsgFromClient!==""&&chatroomMsg.length!==0? <div className="chatroom_name"><CountDownTimer dayString={lastMsgFromClient} timeCount={setWABA}/></div>:"" }
                                 </div>
-
-                                {/* {selectedChat.channel=="whatsapp"? <div className="chatroom_name"><CountDownTimer dayString={new Date().toISOString()}/></div>:""} */}
-                                {/*{selectedChat.channel=="WABA"? <div className="chatroom_name"><CountDownTimer dayString={new Date(*/}
-
-                                {/*    // chatroomMsg.map*/}
-
-                                {/*).toISOString()}/></div>:""}*/}
                         </div>
                             <div className={"chatroom_top_btn_gp"}>
                                 <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} >
@@ -1054,12 +1047,12 @@ export default function Live_chat() {
 
                                 </div>:""
                             }
-                            <textarea   onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                            <textarea  disabled={!isWABAStart} onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                             <Picker  onSelect={(emoji)=> {
                                 setTypedMsg({...typedMsg,message: typedMsg.message+" "+emoji.native+" "})
                             }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
-                            <div style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
+                            <div  disabled={!isWABAStart} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
                                 <StickerBox data={stickerData} stickerSend={stickerSend}  />
                             </div>
                             <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} >
@@ -1068,7 +1061,7 @@ export default function Live_chat() {
 
                             <div className={"chatroom_input_btn_gp"}>
                                 <div className={"left_btn_gp"}>
-                                    <div className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={toggleSticker }
+                                    <div  className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={toggleSticker }
                                     ><MaskGroup1/></div>
                                     <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={ toggleEmoji }
                                         // style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
@@ -1089,7 +1082,7 @@ export default function Live_chat() {
 
                                 <div className={"right_btn_gp"}>
                                     {/* <VoiceRecorder returnVoiceMessage={getAudioFile} /> */}
-                                    <div className={"send_btn"} onClick={sendMessageToClient}><SendButton/></div>
+                                    <div className={"send_btn"} onClick={sendMessageToClient} ><SendButton/></div>
                                 </div>
                             </div>
                         </div></> : <div className={"center_text"}> Select a conversation </div>}

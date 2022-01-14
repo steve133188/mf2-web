@@ -95,9 +95,8 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,c
                                             <Embed   url={msg.body} />
                                             </div>
                                         <div  id={msg.timestamp} onClick={replyclick} value={msg.timestamp} className={"msg_type_url" +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
-                                            <p>
                                                 <a  href={msg.body} >{msg.body} </a>
-                                                </p>
+
                                         </div>
                                     </div>
                                 </div>;
