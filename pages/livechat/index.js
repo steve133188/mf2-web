@@ -528,7 +528,9 @@ export default function Live_chat() {
     const confirmForward = ()=>{
         setIsForward(!isForward)
         console.log("Forward")
+        // setTypedMsg({...typedMsg ,message_type: "text",media_url:quotaMsg.media_url,is_media:true})
         setReplyMsg("")
+        
 
     }
     const confirmReply=()=>{
@@ -894,7 +896,7 @@ export default function Live_chat() {
                             <Forward open={isForward} ref={()=>{ setIsForward(false)}} switchs={() => { setIsForward(!forward) }} style={{position:"absolute",top:"-55vh",left:"10vw",padding:"3%",maxHeight: "40vh"}} handleChange={(e) => {
                             const new_data = contacts.filter(i => i.customer_name.toLowerCase().includes(e.target.value.toLowerCase()))
                             setFilteredContacts(new_data)
-                    }} >
+                         }} >
                                 <div >
 
                                 {filteredContacts.map((user,index) => {
