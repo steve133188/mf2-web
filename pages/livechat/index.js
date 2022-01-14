@@ -120,7 +120,7 @@ export default function Live_chat() {
         })
             .catch(err=>alert(err))
     }
-    const subChatrooms=  ()=>{
+    const subChatrooms= async ()=>{
         let user_id= user.user.user_id
         if(chatroomsSub) chatroomsSub.unsubscribe()
         console.log("subscribe all start")
@@ -462,7 +462,13 @@ export default function Live_chat() {
           await sendMessageToClient(e)
         }
       }
+    const searchBy =()=>{
 
+
+            document.dispatchEvent(new KeyboardEvent('keydown',{keyCode:70,keyCode:91}))
+
+
+    }
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
@@ -487,8 +493,11 @@ export default function Live_chat() {
     }
 
     const ReferechHandle=async()=>{
-        await getChatrooms();
+        console.log("refershing")
+        await getAllChatrooms();
         await getChatroomMessage ();
+            // await subChatrooms()
+
 
     }
 
@@ -854,7 +863,8 @@ export default function Live_chat() {
                         </div>
                             <div className={"chatroom_top_btn_gp"}>
                                 <div className={"chatroom_top_btn chatroom_top_btn_research " +( chatSearch?"research_active":"")} >
-                                    <ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/>
+                                    <ResearchBTN onclick={searchBy}/>
+                                    {/* <ResearchBTN onclick={()=>{setSearch(!chatSearch)}}/> */}
                                     <div className={"search_bar"} style={{display:chatSearch?"flex":"none"}}>
                                         {/* <input type="text" className={"search_area"} onChange={(e)=>setChatBoxSearch(e.target.value)} placeholder={"Search"}></input> */}
                                         <input type="text" className={"search_area"} onChange={search} placeholder={"Search"}></input>
