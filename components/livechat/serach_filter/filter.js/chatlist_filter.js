@@ -199,9 +199,37 @@ const channelData = [
                         {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
                     </div>
                 </div>
-                <div>Agents
+                <div >Agents 
+                    <div style={{backgroundColor:"#F8F9FB"}}>
 
-                            <DivisionDropDown data={division} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} isclear={props.isclear} />
+                        <div style={{padding:'15px 15px 0',font:"16px",display:"flex" ,width:"100%",justifyContent:"space-between"}} onClick={()=>{setAgentBar(!agentBarOpen)}} > 
+                            <div className={"filter_title"} >Choose Agent</div>
+                            <div style={{margin:'0 15px 0 0'}}> { !agentBarOpen? (
+                                                <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                    height="24" viewBox="0 0 16.291 16.291"
+                                                    style={{ transform: "rotate(180deg)" }}>
+                                                    <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z" fill="none"
+                                                        opacity="0.87" />
+                                                    <path id="Path_3109" data-name="Path 3109"
+                                                        d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"
+                                                        transform="translate(-2.065 -3.087) rotate" fill="currentColor" />
+                                                </svg>) : (
+                                                <svg id="expand_more-24px" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                    height="24" viewBox="0 0 16.291 16.291">
+                                                    <path id="Path_3108" data-name="Path 3108" d="M16.291,16.291H0V0H16.291Z"
+                                                        fill="none" opacity="0.87" />
+                                                    <path id="Path_3109" data-name="Path 3109"
+                                                        d="M12.841,9.2,10.207,11.83,7.573,9.2a.677.677,0,1,0-.957.957l3.116,3.116a.676.676,0,0,0,.957,0L13.8,10.153a.676.676,0,0,0,0-.957A.691.691,0,0,0,12.841,9.2Z"
+                                                        transform="translate(-2.065 -3.087)" fill="currentColor" />
+                                                </svg>)}</div>
+
+                            </div>
+
+                        <div className={"agentSearchArea"}  style={agentBarOpen?{display:"block"}:{display:"none"}}>
+
+                                <DivisionDropDown data={division} division={"divisionSelect"} team={props.team} agents={props.agents} clear={ props.clear} isclear={props.isclear} />
+                        </div>
+                    </div>
                 </div>      
 
                 {/* <div className={"filter_box_agents"}  >Agent

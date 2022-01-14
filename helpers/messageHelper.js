@@ -46,7 +46,7 @@ export default function WhatsappFetcher(){
 
         switch (data.channel){
             case "WABA" :
-                let obj={channelId:"5e4367dd3c660d5d5e541176" , recipientId :data.phone , type:data.message_type.toUpperCase() ,text:data.message , url:data.media_url , sign_name:data.sign_name}
+                let obj={channelId:"5e4367dd3c660d5d5e541176" , recipientId :data.phone , type:data.message_type.toUpperCase() ,text:data.message , url:data.media_url , sign_name:data.sign_name, hasQuotedMsg:data.hasQuotedMsg, is_forwarded:data.is_forwarded, quote:data.quote,quote_from:data.sender}
                 if(data.message_type=="document"){
                     obj.type="FILE"
                 }

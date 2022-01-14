@@ -73,7 +73,7 @@ export default function DivisionDropDown ({data,setSelection,...props}) {
                                         onClick={(e)=>{e.stopPropagation();toggleSelectUsers(e)}} onChange={()=>{}}
                                         />
                                         </label>
-                                    </div> */}
+                             </div> */}
                                         {open.includes(division.name) ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
             </div>

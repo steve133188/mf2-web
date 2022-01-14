@@ -465,8 +465,8 @@ export default function Live_chat() {
     const searchBy =()=>{
     //    e.preventDefault();
 
-            document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:70}))
-            document.dispatchEvent(new KeyboardEvent("keydown",{ metaKey: true }))
+            // document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:70,which:70}))
+            // document.dispatchEvent(new KeyboardEvent("keydown",{ metaKey: true ,which:90}))
             console.log("1")
             // document.dispatchEvent(new KeyboardEvent('keydown',{keyCode:91}))
 
@@ -476,11 +476,11 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
-        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia ,sign_name:user.user.username,hasQuotedMsg:quoteMsg.hasQuotedMsg,quote:quoteMsg.message_id}
+        const data = {...typedMsg,message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url:typedMsg.media_url ,is_media: typedMsg.is_media ,sign_name:user.user.username,hasQuotedMsg:quoteMsg.hasQuotedMsg,quote:quoteMsg.message_id,quote_from:quoteMsg.sender}
         setTypedMsg({...typedMsg , message: ""})
-        // if(quoteMsg){
-        //     setQuotaMsg({})
-        // }
+        if(quoteMsg){
+            setQuotaMsg({})
+        }
         if(isMedia){
             setIsMedia(false)
             setFilePrevier(filePreviewOldState)
@@ -521,7 +521,7 @@ export default function Live_chat() {
         console.log(click,"done donedone")
         setReplyMsg(click)
         const quoteMsg = chatroomMsg.filter(e=>{return click==(e.timestamp)})
-        const m={...quoteMsg[0],hasQuotedMsg:true,quote:quoteMsg[0].message_id}
+        const m={...quoteMsg[0],hasQuotedMsg:true,quote:quoteMsg[0].message_id,quote_from:quoteMsg.sender}
         console.log(quoteMsg[0],"raw data to quote")
         setQuotaMsg(m)
         !m?setQuotaMsg({}):""
@@ -533,7 +533,7 @@ export default function Live_chat() {
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
 
-        setTypedMsg({...typedMsg ,message_type: "text",media_url:quoteMsg.media_url,is_media:true})
+        setTypedMsg({...typedMsg ,message_type: "text",media_url:quoteMsg.media_url,is_media:true,sign_name:quoteMsg.sign_name})
     }
     const confirmForward = ()=>{
         setIsForward(!isForward)
@@ -545,14 +545,11 @@ export default function Live_chat() {
     }
 
     const handleForward =async()=>{
-            console.log(quoteMsg,"check quoteMsg")
                 
             const data = {...quoteMsg,message:quoteMsg.body,message_type:quoteMsg.message_type,channel:selectedChat.channel ,media_url:quoteMsg.media_url ,is_media: quoteMsg.is_media ,is_forwarded:true,quote:quoteMsg.message_id,hasQuotedMsg:false}
                     
             selectedContacts.map(async e=>{
-                console.log(e)
                 const recipients = contacts.filter(c=>parseInt(e)==c.customer_id)
-                // console.log(recipients,"reciopaefdsa")
                 if(recipients[0].channels[0]&&recipients[0].channels[0]=="WABA") {  
                     const senddata = {...data,room_id:e,recipient:e,phone:recipients[0].country_code.toString()+recipients[0].phone.toString()} 
                 console.log("data to be send out", senddata)
@@ -583,9 +580,9 @@ export default function Live_chat() {
             setChatButtonOn("")
             setReplyMsg("")
             // console.log("data sent out :" , data)
-            // clearForward();
 
-        // clearForward();
+
+        clearForward();
 
     }
 

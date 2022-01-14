@@ -99,7 +99,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
 };
     return (
         <List
-          sx={{ width: '90%', maxWidth: 360, bgcolor: 'transparent' }}
+          sx={{ width: '95%', maxWidth: 360, bgcolor: 'transparent',paddingTop:"0",paddingBottom:"0"}}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
@@ -107,7 +107,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
           {levelOneData&&levelOneData.map((team,index)=>{return<div key={index}>
             <div style={{display:"flex",padding:"0 16px 0 0 "}}>
 
-          <ListItemButton onClick={()=>{handleClick(team.name,team.org_id);}} id={team.org_id}  >
+          <ListItemButton onClick={()=>{handleClick(team.name,team.org_id);}} id={team.org_id}  sx={{padding:"0 1rem "}} >
             <ListItemText primary={team.name} />
             <div className="newCheckboxContainer right">
                                         <label className="newCheckboxLabel"> 
