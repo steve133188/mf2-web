@@ -94,6 +94,13 @@ function mediaHelper(){
         }
         return {files, folders}
     }
+    this.removeSticker= async (fileName)=>{
+        const path = `"storage/stickers/All/${fileName}`
+        const remove = await Storage.remove(path).then(res=>console.log(res)).catch(err=> {
+            alert(`${fileName} not found!`)
+            console.log(err)
+        })
+    }
 }
 
 export default mediaHelper

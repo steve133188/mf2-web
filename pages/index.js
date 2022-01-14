@@ -19,6 +19,7 @@ export default function Home() {
                 <title>MatrixForce 2.0</title>
                 <meta name="description" content="The best social commerce solution"/>
                 <link rel="icon" href="/MS_logo-square (1)"/>
+                <link rel="manifest" href="/manifest.json" />
                 <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
             </Head>
             <main>
