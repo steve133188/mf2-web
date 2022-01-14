@@ -317,8 +317,8 @@ audio{
 
   .url_body{
     min-height: 30px;
-    width: 40%;
-    max-width: 360px;
+    width: fit-content;
+    max-width: 450px;
     min-width: 250px;
     background: #D0E9FF 0% 0% no-repeat padding-box;
     margin-left: auto;
@@ -344,7 +344,7 @@ audio{
     }
     .msg_type_url{
       height: 50px;
-      width: 95%;
+      // width: fit-content;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       text-align: left;
       text-decoration: underline;
@@ -357,6 +357,7 @@ audio{
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+
     }
   }
 
@@ -754,8 +755,8 @@ audio{
   }
   .url_body{
     min-height: 30px;
-    width: 40%;
-    max-width: 360px;
+    width: fit-content;
+    max-width: 450px;
     min-width: 250px;
     background: white 0% 0% no-repeat padding-box;
     margin-left: 0;
@@ -772,7 +773,7 @@ audio{
 
   
     .url_detail{
-      width: 100%;
+      // width: fit-content;
       min-height: 60px;
       height: fit-content;
       background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -780,10 +781,12 @@ audio{
 
       padding: 0.5rem 0.8rem;  
       opacity: 1;
+    }.url_box{
+      
     }
     .msg_type_url{
       height: 50px;
-      width: 95%;
+      // width: fit-content;
       background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
       text-align: left;
       text-decoration: underline;
@@ -796,6 +799,8 @@ audio{
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+
+
     }
   }
   .msg_type_sticker{
