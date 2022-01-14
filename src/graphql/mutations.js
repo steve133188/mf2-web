@@ -253,6 +253,8 @@ export const createActivity = /* GraphQL */ `
       status
       is_sys
       team_id
+      producer
+      consumer
     }
   }
 `;
@@ -268,6 +270,8 @@ export const updateActivity = /* GraphQL */ `
       status
       is_sys
       team_id
+      producer
+      consumer
     }
   }
 `;
@@ -283,6 +287,8 @@ export const deleteActivity = /* GraphQL */ `
       status
       is_sys
       team_id
+      producer
+      consumer
     }
   }
 `;
@@ -308,6 +314,7 @@ export const createMessage = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;
@@ -333,6 +340,7 @@ export const updateMessage = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;
@@ -358,6 +366,7 @@ export const deleteMessage = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;

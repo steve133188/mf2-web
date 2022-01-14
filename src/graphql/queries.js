@@ -257,6 +257,8 @@ export const getActivity = /* GraphQL */ `
       status
       is_sys
       team_id
+      producer
+      consumer
     }
   }
 `;
@@ -277,6 +279,8 @@ export const listActivities = /* GraphQL */ `
         status
         is_sys
         team_id
+        producer
+        consumer
       }
       nextToken
     }
@@ -304,6 +308,7 @@ export const getMessage = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;
@@ -334,6 +339,7 @@ export const listMessages = /* GraphQL */ `
         read
         status
         sign_name
+        quote_from
       }
       nextToken
     }

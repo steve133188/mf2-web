@@ -23,6 +23,7 @@ export const subscribeChatroom = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;
@@ -139,6 +140,8 @@ export const onCreateActivity = /* GraphQL */ `
       status
       is_sys
       team_id
+      producer
+      consumer
     }
   }
 `;
@@ -166,6 +169,8 @@ export const onUpdateActivity = /* GraphQL */ `
       status
       is_sys
       team_id
+      producer
+      consumer
     }
   }
 `;
@@ -181,6 +186,8 @@ export const eventListenr = /* GraphQL */ `
       status
       is_sys
       team_id
+      producer
+      consumer
     }
   }
 `;
@@ -218,6 +225,7 @@ export const onCreateMessage = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;
@@ -255,6 +263,7 @@ export const onUpdateMessage = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;
@@ -292,6 +301,7 @@ export const onDeleteMessage = /* GraphQL */ `
       read
       status
       sign_name
+      quote_from
     }
   }
 `;
