@@ -17,7 +17,7 @@ import {createNotesTable} from "../../src/graphql/mutations";
 export default function ProfileGrid({data,toggle}){
     // const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
     const {contactInstance , user ,tagInstance, setSelectedChat} = useContext(GlobalContext)
-    
+
     const [notes,setNotes] = useState([])
     const [disable, setDisable] = useState(false)
     const [unread, setUnread] = useState(false)
@@ -122,9 +122,9 @@ export default function ProfileGrid({data,toggle}){
             return
         }
         const input = {
-            customer_id:  parseInt(data.customer_id.toString().slice(3)) ,
+            customer_id:  data.customer_id,
             message:writenote ,
-            user_id :parseInt(user.user.user_id.toString().slice(3)),
+            user_id :user.user.user_id,
             timestamp:  (Date.now()/1000).toString() ,
             signed_name:user.user.username} ;
         await dropNote(input)  ;

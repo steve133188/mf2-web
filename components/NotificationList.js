@@ -8,15 +8,9 @@ import {useRouter} from "next/router";
 
 export default function NotificationList({notification , setNotificationList , ...props}){
     const router = useRouter()
-    const {contactInstance , setSelectedChat } = useContext(GlobalContext)
-    const [customer , setCustomer ] = useState({})
+    const { setSelectedChat } = useContext(GlobalContext)
 //when click the notification, set unreadCount to 0
-    useEffect(async ()=>{
 
-       const res = await contactInstance.getContactById(parseInt(notification.customer_id))
-        setCustomer(res)
-
-    },[])
     const handleSelectChat = async ()=>{
         const chat = await API.graphql(graphqlOperation(listChatrooms , {filter:{customer_id:{eq:notification.customer_id}} , limit:1000}))
             .then(res=>{
@@ -39,10 +33,10 @@ export default function NotificationList({notification , setNotificationList , .
 
             <div className="notification_content">
                 <div className="notification_title">
-                <img src={`/channel_SVG/${"WABA"}.svg`}/> <b className="notification_from">{customer.customer_name}</b>
+                <img src={`/channel_SVG/${"WABA"}.svg`}/> <b className="notification_from">{notification.customer_name}</b>
                     {/* {notification.type} */}
                 </div>
-                <div className="notification_detail"> { ` ${customer.customer_name} send you a new message `} </div>
+                <div className="notification_detail"> { ` ${notification.customer_name} send you a new message `} </div>
                 {/* <div className="notification_time"> {notification.receive_time} </div> */}
             </div>
             {/* <div className="notification_content">

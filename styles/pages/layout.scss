@@ -103,9 +103,10 @@
   //height: 5vh;
   cursor: pointer;
   &:hover, &:focus  {
-    transform: translate(-2.5px, 0);
-    transition: all 250ms ease-in-out;
+    //transform: translate(-2.5px, 0);
+    //transition: all 250ms ease-in-out;
     color: #2198FA;
+
   }
 }
 .notification_activate .nav-item{
@@ -183,11 +184,11 @@
   text-align: center;
   border: none;
   align-items: center;
-
+  z-index: 1000;
   .notify_box{
     display: flex;
     flex-direction: column;
-    z-index: 100;
+    z-index: 1000;
     position: absolute;
     justify-content: center;
     left: 100%;
@@ -367,7 +368,7 @@
 
     .side-item-name{
       display: none;
-    } 
+    }
     .side-item{
       display: flex;
       justify-content: center;
