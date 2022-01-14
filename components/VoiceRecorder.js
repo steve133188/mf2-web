@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { VoiceMsg } from "../public/livechat/MF_LiveChat_Landing/chat_svg";
 
-import {Recorder as jsRecorder} from 'recorder-js';
+// import {Recorder as jsRecorder} from 'recorder-js';
 
 
 export default function Recorder({ returnVoiceMessage }) {
@@ -59,9 +59,9 @@ export default function Recorder({ returnVoiceMessage }) {
                 returnVoiceMessage(audioFile);
             }
         };
-        function download() {
-            jsRecorder.download(audioFile, 'my-audio-file'); // downloads a .wav file
-          }
+        // function download() {
+        //     jsRecorder.download(audioFile, 'my-audio-file'); // downloads a .wav file
+        //   }
 
 
         return [ audioURL, isRecording,startRecording, stopRecording];
