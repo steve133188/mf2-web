@@ -5,13 +5,13 @@ export default function ChannelListItem(  props){
 // console.log(props)
 
     return(<>
-        <div className={"channelListitem"}>
+        <div className={"channelListitem"} style={{padding:0}}>
                         <div className={"left"}>
                         <img className={"serachSVG"} src={`/channel_SVG/${props.value}.svg`} />
                         <div style={{margin:"0 5px", minWidth:"180px"}}> {props.name}</div>
                         </div>
-                        <div className={"right"}>
-                        <div className="newCheckboxContainer right">
+                        <div className={"right"} style={{width:"24",height:"24"}}>
+                        <div className="newCheckboxContainer right" style={{width:"24",height:"24"}}>
                                         <label className="newCheckboxLabel"> 
                                         <input type="checkbox" 
                                                 id={props.value} 

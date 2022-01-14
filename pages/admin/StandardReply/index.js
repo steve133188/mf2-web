@@ -35,7 +35,7 @@ import Loading from "../../../components/Loading";
 export default function StandardReply() {
     const [isLoading, setIsLoading] = useState(true);
 
-    const {adminInstance, userInstance , user} = useContext(GlobalContext)
+    const {adminInstance, userInstance , user,replyInstance} = useContext(GlobalContext)
     const [standardReply, setStandardReply] = useState([]);
     const [filteredData , setFilteredData] = useState([])
     const [agents ,setAgents] =useState([]);
@@ -62,7 +62,7 @@ export default function StandardReply() {
 
    
     const fetchStandardReply = async () =>{
-        const data = await adminInstance.getAllStandardReply()
+        const data = await replyInstance.getStandardReplyAll()
         console.log("getAllStandardReply",data)
         setStandardReply(data)
         setFilteredData(data)
@@ -104,9 +104,13 @@ export default function StandardReply() {
         // setSelectedTag({id,tag})
 
     }
+    const toggleCancel=()=>{
+        setIsDelete(!isDelete)
+        setSelectedReply([]);
+    }
     const toggleDelete = (data)=>{
         console.log(data,"asdfasdf")
-        setSelectedReply([data])
+        data&&setSelectedReply(data)
         setIsDelete(!isDelete)
         setDeleteTag(data)
     }
@@ -114,9 +118,14 @@ export default function StandardReply() {
     const submitDelete = async() =>{
         setIsDelete(!isDelete)
         console.log("ddddddddddd",selectedReply)
-        const file = await adminInstance.getContentByFolderName(selectedReply[0].name)
-        // const data = await tagInstance.deleteContent()
-        console.log("DeleteStandardReply",file)
+
+        selectedReply.map(async e=> {
+                console.log(e,"loop")
+                const file =await replyInstance.deleteReplyByID(selectedReply)
+            console.log("DeleteStandardReply",file)
+        })
+        
+        fetchStandardReply();
         // console.log("DeleteStandardReply",data)
         setSelectedReply([]);
 
@@ -145,14 +154,14 @@ export default function StandardReply() {
     
     useEffect(    async () => {
         if(user.token) {
+            await getAgents ();
             await fetchStandardReply();
-             await getAgents ();
             }
 
     },[]);
 
 
-    const default_cols = ['Folder' , 'Channel' ,'Team',""]
+    const default_cols = ['Folder' , 'Channel' ,'Assignee',"No. of Replies",""]
 
 
     return (
@@ -162,7 +171,7 @@ export default function StandardReply() {
                 {isProfileShow?   ( <Profile handleClose={toggleProfile}><ReplyFolder data={useFolder} reload={fetchStandardReply }/></Profile>):null}
 
                 <CreateReplyFolder  show={isCreate} reload={fetchStandardReply} toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
-                <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleDelete } submit={submitDelete} data={selectedReply} title={"Folders"}/>
+                <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleCancel } submit={submitDelete} data={selectedReply} title={"Folders"}/>
                 <EditReplyFolder show={isEdit} toggle={toggleEdit} data={editData} reload={fetchStandardReply}  />
                 <div className={"search_session"}>
                     <div className="search">
@@ -224,7 +233,7 @@ export default function StandardReply() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredData.length!=0 && currentReply.map((data ,index) => {
+                            {filteredData&&filteredData.length!=0 && currentReply.map((data ,index) => {
                                 return( <TableRow
                                         key={index}
                                         hover
@@ -250,13 +259,17 @@ export default function StandardReply() {
                                         </TableCell>
 
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                        {data.channel?data.channel.map((item, index)=>{;
+                                        {data.channels?data.channels.map((item, index)=>{;
                                             return <span key={index} ><Image src={`/channel_SVG/${item}.svg`} alt="Channel icon" width={22} height={22}  />
                                             </span>}):""}
 
                                         </TableCell>
+                                        <TableCell align="left" sx={{width:"35%"}}>
+                                            <span key={"team"+index} >{data.variables}</span>
+
+                                        </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
-                                            <span key={"team"+index} >{data.team}</span>
+                                            <span key={"no"+index} >{data.body.length}</span>
 
                                         </TableCell>
 
@@ -276,7 +289,7 @@ export default function StandardReply() {
 
                                         <TableCell key={"button"+index} align="right" >
                                             <span className={"right_icon_btn"} onClick={(e)=>{e.stopPropagation();toggleEdit(data)}} ><EditSVG/></span>
-                                            <span className={"right_icon_btn"} onClick={(e)=>{console.log(data,"raw data");e.stopPropagation();toggleDelete(data)}} ><DeleteSVG/></span>
+                                            {/* <span className={"right_icon_btn"} onClick={(e)=>{console.log(data,"raw data");e.stopPropagation();toggleDelete(data)}} ><DeleteSVG/></span> */}
                                        </TableCell>
                                     </TableRow>
                                 )

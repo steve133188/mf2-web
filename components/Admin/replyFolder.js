@@ -20,7 +20,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 
 export default function ReplyFolder({data,reload}) {
 
-    const {adminInstance, userInstance , user} = useContext(GlobalContext)
+    const {replyInstance , user} = useContext(GlobalContext)
     const [filteredData , setFilteredData] = useState([])
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedReply , setSelectedReply] = useState([])
@@ -58,23 +58,27 @@ export default function ReplyFolder({data,reload}) {
     const toggleCreate = ()=>{
         setIsCreate(!isCreate)
     }
-    const toggleEdit = (id,tag)=>{
+    const toggleEdit = (body,index)=>{
         setIsEdit(!isEdit)
-        // setSelectedTag({id,tag})
+        setSelectedTag({id,tag})
         console.log(selectedTag,"tagtagtag")
     }
-    const toggleDelete = (item)=>{
+    const toggleDelete = (bodyname)=>{
 
-        setSelectedReply([item])
+        setSelectedReply([bodyname])
         setIsDelete(!isDelete)
         // setDeleteTag(item)
     }
     const sumbitDelete=async ()=>{
-        const res = await tagInstance.deleteContent(data.name,selectedReply[0].id,selectedReply[0].body)
-        // console.log
+        const newbody=data.body.filter(e=>e!=selectedReply[0])
+        console.log(newbody)
+        const dataupload = {...data,body:newbody}
+        const res = await replyInstance.updateOneStandardReply(dataupload )
+        console.log(res)
+        reload();
     }
     useEffect(()=>{
-        setFilteredData(data.content)
+        setFilteredData(data.body)
         console.log(data)
     },[])
 
@@ -145,18 +149,18 @@ export default function ReplyFolder({data,reload}) {
                                         hover
                                         role="checkbox"
                                         name={index}
-                                        checked={selectedReply.includes(data.id)}
+                                        checked={selectedReply.includes(data)}
                                         // onClick={isSelectRow?toggleSelect:(e)=>{toggleProfile(data)}}
                                     >
 
                                         <TableCell align="left">
-                                            <span key={"name"+index}>{data.body}</span>
+                                            <span key={"name"+index}>{data}</span>
                                         </TableCell>
 
 
 
                                         <TableCell key={"button"+index} align="right">
-                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data.id,data.name)}><EditSVG/></span>
+                                            <span className={"right_icon_btn"} onClick={()=>toggleEdit(data,index)}><EditSVG/></span>
                                             <span className={"right_icon_btn"} onClick={()=>toggleDelete(data)}><DeleteSVG/></span>
                                        </TableCell>
                                     </TableRow>

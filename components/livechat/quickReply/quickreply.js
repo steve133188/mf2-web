@@ -3,16 +3,31 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { GlobalContext } from '../../../context/GlobalContext';
 
 export default function QuickReply(props) {
 
+    const {user,replyInstance} = useContext(GlobalContext)
+    const [standardReply, setStandardReply] = useState([]);
     const [value, setValue] = useState("1");
+  
+    const fetchStandardReply = async () =>{
+        const data = await replyInstance.getStandardReplyAll()
+        console.log("getAllStandardReply",data)
+        setStandardReply(data)
+        // setFilteredData(data)
 
+    }
     const handleChange = (event, newValue) => {
       setValue(`${newValue}`);
     }
+    useEffect(    async () => {
+        if(user.token) {
+            await fetchStandardReply();
+            }
 
+    },[]);
     return(
         < div className="reply_template_box">
              <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'normal',overflow:'scroll'}}  >
@@ -33,18 +48,20 @@ export default function QuickReply(props) {
                     sx={{minHeight:"10px"}}
                     // scrollButtons="auto"
                 >
-                    {props.data.map((item,index)=>(<Tab label={item.name} key={index} value={`${item.id}`} />))}
+                    {standardReply.map((item,index)=>(<Tab label={item.name=="WABA"?<img src={`/channel_SVG/WABA.svg`}/>:item.name} key={index} value={`${item.id}`} />))}
 
 
                 </Tabs>
             </Box>
-                    {props.data.map((item,index)=>(
-                    <TabPanel value={`${item.id}`} key={index} sx={{padding:"0 1rem"}}>
-                        <div className={'qreply_box'} style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem"}}>{item.set.map((item,index)=>(
+                    {standardReply.map((item,index)=>(
+                        
+                    <TabPanel value={value} key={index} sx={{padding:"0 1rem"}}>
+                        <div className={'qreply_box'} style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem"}}>
+                            {item.body.map((item,index)=>(
                             <div key={index} style={{margin:" 3px"}}>
-                                <div className={'nameTag'} id={item.id} content={item.content} onClick={props.onclick}>
-                                    {item.name}
-                                <div hidden={true}>{item.content}</div>
+                                <div className={'nameTag'} id={item} onClick={props.onclick}>
+                                    {item}
+                                <div hidden={true}>{item}</div>
                                 </div>
                             <div >
                             {/* {item.content } */}

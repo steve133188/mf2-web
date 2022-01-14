@@ -42,7 +42,7 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
     const [roleName , setRoleName] = useState("")
     const [authority , setAuthority] = useState({
         assignee: null,
-        channel: [],
+        channels: [],
         content: [],
         id: "",
         name: "",
@@ -52,7 +52,7 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
     const [filteredUsers ,setFilteredUsers] =useState([]);
     const [selectedUsers ,setSelectedUsers] =useState([]);
 
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {contactInstance , userInstance ,replyInstance,orgInstance, user} = useContext(GlobalContext)
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
@@ -71,12 +71,15 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
             await getUsers()
         }
         setSelectedUsers([])
+       
     },[]);
 
     useEffect(()=>{
         if(!show)return
         show?console.log(data,"data in"):"";
         setAuthority(data)
+
+        setSelectedChannels(data.channels)
     },[show])
 
     const [selectedChannels ,setSelectedChannels] =useState([]);
@@ -90,7 +93,7 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
     };
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;
-        setSelectedChannels(["all","whatsapp","whatsappB","wechat","messager"]);
+        setSelectedChannels(["All","Whatsapp","WABA","Wechat","Messager"]);
         if (!checked) {
             setSelectedChannels([]);
         }
@@ -118,11 +121,14 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
     }
     const submit = async ()=>{
         console.log({...authority})
-
-        // const res = await adminInstance.updateStandardReply(authority);
+        console.log(selectedChannels)
+        
+        const dataupload = {...data,channels:selectedChannels,variables:[...data.variables,selectedUsers]}
+        console.log(dataupload)
+        // const res = await replyInstance.updateOneStandardReply(dataupload )
 
         
-        console.log(res)
+        // console.log(res)
         reload()
         toggle()
     }
@@ -146,7 +152,7 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
                 <div className={"access_right"} style={{display:"flex",justifyContent:'center',alignItems:"center"}}>
 
 
-                    <ChannelsDropList toggleChannels={toggleSelectChannels} toggleAll={toggleSelectAllChannels} />                            
+                    <ChannelsDropList data={selectedChannels} toggleChannels={toggleSelectChannels} toggleAll={toggleSelectAllChannels} />                            
                 </div>
                 <div className="inputField">
                     <span>Assign to</span>

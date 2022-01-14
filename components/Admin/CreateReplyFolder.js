@@ -8,6 +8,7 @@ import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
 import { Avatar, Tooltip } from "@mui/material";
 import { createRouteLoader } from "next/dist/client/route-loader";
+import ChannelsDropList from "../droplist/ChannelsList";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -36,29 +37,46 @@ const style ={
     height:"2rem"
 }
 
-export default function CreateReplyFolder({show, toggle,filteredAgents,selectedAgents,toggleSelectAgents,check}){
+export default function CreateReplyFolder({show, toggle,filteredAgents,selectedAgents,toggleSelectAgents,check,reload}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
+    const [selectedChannels ,setSelectedChannels] =useState([]);
     const [rootDivision , setRootDivision] = useState([])
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {replyInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
 
     const handleChange = e=>{
         setName(e.target.value)
     }
     const handleSelect =e=>{
         setParent(e.target.value)
-    }
+    }  
+    const toggleSelectChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels([...selectedChannels, id]);
+        if (!checked) {
+            setSelectedChannels(selectedChannels.filter(item => item !== id));
+        }
+        console.log(selectedChannels)
+    };
+    const toggleSelectAllChannels = e => {
+        const { checked ,id} = e.target;
+        setSelectedChannels(["All","Whatsapp","WABA","Wechat","Messager"]);
+        if (!checked) {
+            setSelectedChannels([]);
+        }
+    };
     useEffect(async ()=>{
     //   const data = await orgInstance.getAllRootORG()
     //     setRootDivision(data.filter(data=>{return data.type=="division"}))
     },[])
     const submit = async ()=>{
-        const data = {assignee: selectedAgents, name:name, team: ""}
-        const status = await adminInstance.createStandardReply( data)
+        const data = {name,variables:[],channels:selectedChannels}
+        const status = await replyInstance.addOneStandardReply( data)
         console.log(data,"create reply")
-        console.log(status,"create reply")
+        // console.log(status,"create reply")
         toggle()
         createRouteLoader()
+        reload();
 
     }
     return(
@@ -70,22 +88,32 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
                 <MF_Input  title={"Folder Name"} value={name} onChange={handleChange}> </MF_Input>
                 <div className="inputField">
                     <span>Teams</span>
-                    <Select
+                    {/* <Select
                     
                         sx={style}
                         value={parent}
                         onChange={handleSelect}
                         label={"Select Division"}
                         input={<BootstrapInput />}
-                    >
-                       <div className={"filter_box_agents"}  >
+                    > */}
+      <div className="inputField">
+                        <span>Channels</span>
+                    </div>
+                <div className={"access_right"} style={{display:"flex",justifyContent:'center',alignItems:"center"}}>
+
+
+                    <ChannelsDropList data={selectedChannels} toggleChannels={toggleSelectChannels} toggleAll={toggleSelectAllChannels} />                            
+                </div>
+                <div className="inputField"></div>
+                        
+                       {/* <div className={"filter_box_agents"}  >
                     <div className={"agentBroad"} >
 
                     <div className={"filter_title"} onClick={toggle}> </div>
                     <div className={"agentSearchArea"}  style={show?{display:"block"}:{display:"none"}}>
-                         {/* <div className={"search_bar"}>    
+                         <div className={"search_bar"}>    
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
-                        </div>  */}
+                        </div> 
                     
                         <div className={"channelList"} >
                             {filteredAgents.filter(users=>users.username.includes("")).map((user)=>{
@@ -119,7 +147,7 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
 
                                     )
                                 })}
-                        </div>
+                        </div> */}
                 </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>

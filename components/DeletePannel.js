@@ -28,7 +28,8 @@ export default function DeletePad({show, toggle,reload,data,submit,title}){
 
     const confirm = async ()=>{
         submit&&submit()
-        reload()
+        console.log(data)
+        reload();
         toggle()
     }
     return(

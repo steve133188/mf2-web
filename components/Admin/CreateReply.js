@@ -9,6 +9,7 @@ import {GlobalContext} from "../../context/GlobalContext";
 import { Avatar, Tooltip } from "@mui/material";
 import { createRouteLoader } from "next/dist/client/route-loader";
 import { ImportDropzone } from "../ImportContact";
+import { useRouter } from "next/router";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -39,10 +40,10 @@ const style ={
 
 export default function CreateReply({show, toggle,data,check,reload}){
     const [name , setName] = useState("")
-    const [body , setBody] = useState({})
+    const [newbody , setBody] = useState({})
     const [rootDivision , setRootDivision] = useState([])
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
-
+    const {replyInstance, user} = useContext(GlobalContext)
+    const router = useRouter()
     const handleChange = e=>{
         setName(e.target.value)
     }
@@ -50,18 +51,19 @@ export default function CreateReply({show, toggle,data,check,reload}){
         setParent(e.target.value)
     }
     useEffect(async ()=>{
-        // console.log(body)
+        console.log(newbody)
         // console.log(data)
 
-    },[body])
+    },[newbody])
     const submit = async ()=>{
-        const dataupload = {name:data.name,body:body}
+        console.log(data)
+        const dataupload = {...data,body:[...data.body,newbody]}
         console.log(dataupload,"create reply")
-        const status = await adminInstance.addContentToFolder( data.name,body)
+        const status = await replyInstance.updateOneStandardReply ( dataupload)
     console.log(status,"create reply")
-        toggle()
-        reload()
-
+    reload();
+    toggle();
+    router.push("/admin/StandardReply")
     }
     return(
         <MF_Modal show={show} toggle={toggle}>
