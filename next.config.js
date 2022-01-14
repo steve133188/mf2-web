@@ -5,10 +5,18 @@ module.exports = {
 const path = require('path')
 const withSass = require('@zeit/next-sass');
 module.exports = withSass({
-
-
   cssModules: true
 })
+
+const withPWA = require('next-pwa')
+
+module.exports = withPWA({
+  pwa: {
+    dest: 'public'
+  }
+})
+
+
 module.exports = {
   /* Add Your Scss File Folder Path Here */
   sassOptions: {
