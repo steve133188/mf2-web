@@ -70,7 +70,7 @@ export default function Live_chat() {
         const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
         const [replyData ,setReplyData] = useState([])
         const [replyMsg, setReplyMsg] = useState("")
-        const [quotaMsg,setQuotaMsg] = useState({})
+        const [quoteMsg,setQuotaMsg] = useState({})
         const [reply,setReply] =useState(false)
 
         const [searchResult, setSearchResult] = useState([])
@@ -473,9 +473,9 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
-        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia ,sign_name:user.user.username,hasQuotedMsg:quotaMsg.hasQuotedMsg,quota:quotaMsg.message_id}
+        const data = {message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url: mediaUrl ,is_media: isMedia ,sign_name:user.user.username,hasQuotedMsg:quoteMsg.hasQuotedMsg,quote:quoteMsg.message_id}
         setTypedMsg({...typedMsg , message: ""})
-        // if(quotaMsg){
+        // if(quoteMsg){
         //     setQuotaMsg({})
         // }
         if(isMedia){
@@ -516,36 +516,81 @@ export default function Live_chat() {
 
     const replyClick=click=>{
         console.log(click,"done donedone")
-        // setReplyMsg(click)
-        const quotaMsg = chatroomMsg.filter(e=>{return click==(e.timestamp)})
-        const m={...quotaMsg[0],hasQuotedMsg:true,quote:quotaMsg[0].message_id}
-        console.log(quotaMsg[0])
-        console.log(m,"message get")
+        setReplyMsg(click)
+        const quoteMsg = chatroomMsg.filter(e=>{return click==(e.timestamp)})
+        const m={...quoteMsg[0],hasQuotedMsg:true,quote:quoteMsg[0].message_id}
+        console.log(quoteMsg[0],"raw data to quote")
         setQuotaMsg(m)
         !m?setQuotaMsg({}):""
         if(click==replyMsg){setReplyMsg("")}
     }
     const confirmForward = ()=>{
         setIsForward(!isForward)
-        console.log("Forward")
-        // setTypedMsg({...typedMsg ,message_type: "text",media_url:quotaMsg.media_url,is_media:true})
         setReplyMsg("")
-        
 
     }
+    const clearForward = ()=>{
+        setSelectedContacts([])
+    }
+
+    const handleForward =async()=>{
+            console.log(quoteMsg,"check quoteMsg")
+                
+            const data = {...quoteMsg,message:quoteMsg.body,message_type:quoteMsg.message_type,channel:selectedChat.channel ,media_url:quoteMsg.media_url ,is_media: quoteMsg.is_media ,is_forwarded:true,quote:quoteMsg.message_id,hasQuotedMsg:false}
+                    
+            selectedContacts.map(async e=>{
+                console.log(e)
+                const recipients = contacts.filter(c=>parseInt(e)==c.customer_id)
+                // console.log(recipients,"reciopaefdsa")
+                if(recipients[0].channels[0]&&recipients[0].channels[0]=="WABA") {  
+                    const senddata = {...data,room_id:e,recipient:e,phone:recipients[0].country_code.toString()+recipients[0].phone.toString()} 
+                console.log("data to be send out", senddata)
+                
+                const res = await messageInstance.sendMessage(senddata).catch(error => console.log(error))
+                ;return }
+                if(recipients[0].channels[0]&&recipients[0].channels[0]=="") {  
+                    const senddata = {...data,room_id:e+"-"+user.user.user_id,recipient:e} 
+                console.log("data to be send out", senddata)
+                
+                const res = await messageInstance.sendMessage(senddata).catch(error => console.log(error))
+                ;return }
+                
+            })
+            setTypedMsg({...typedMsg , message: ""})
+            if(quoteMsg){
+                setQuotaMsg({})
+            }
+            if(isMedia){
+                setIsMedia(false)
+                setFilePrevier(filePreviewOldState)
+                setMediaUrl("")
+
+            }
+            setTypedMsg({channel:"",phone:"",message:"",message_type:"text"})
+            setIsExpand(false)
+            setIsReply(false)
+            setChatButtonOn("")
+            setReplyMsg("")
+            // console.log("data sent out :" , data)
+            // clearForward();
+
+        // clearForward();
+
+    }
+
     const confirmReply=()=>{
         setReply(!reply)
         setReplyMsg("")
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
 
-        setTypedMsg({...typedMsg ,message_type: "text",media_url:quotaMsg.media_url,is_media:true})
+        setTypedMsg({...typedMsg ,message_type: "text",media_url:quoteMsg.media_url,is_media:true})
     }
 
 
     // useEffect(()=>{
-    //     console.log(quotaMsg)
-    // },[quotaMsg])
+    //     console.log(quoteMsg)
+    // },[quoteMsg])
 
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
@@ -893,7 +938,7 @@ export default function Live_chat() {
                         </div>
 
                         <div className={"chatroom_input_field "+(isExpand?"expand":"")+(isReply?"replyArea":"")} ref={wrapperRef1} >
-                            <Forward open={isForward} ref={()=>{ setIsForward(false)}} switchs={() => { setIsForward(!forward) }} style={{position:"absolute",top:"-55vh",left:"10vw",padding:"3%",maxHeight: "40vh"}} handleChange={(e) => {
+                            <Forward open={isForward}  switchs={() => { setIsForward(!forward) }} confirm={handleForward} clear={clearForward} style={{position:"absolute",top:"-55vh",left:"10vw",padding:"3%",maxHeight: "40vh"}} handleChange={(e) => {
                             const new_data = contacts.filter(i => i.customer_name.toLowerCase().includes(e.target.value.toLowerCase()))
                             setFilteredContacts(new_data)
                          }} >
@@ -917,23 +962,23 @@ export default function Live_chat() {
                         })}
                         </div>
                             </Forward>
-                            {quotaMsg&&
+                            {quoteMsg&&
                             <div style={{display:(ChatButtonOn=="mr"?"flex":"none"), height:"45%",padding:"1rem 1.5rem 0" }}
                             // onClick={toggleReply }
                             >
-                                {/* <MsgRow msg={quotaMsg}/> */}
+                                {/* <MsgRow msg={quoteMsg}/> */}
                                 <div style={{}} className="reply_box">
                                                                             <div>
-                                                                                <div>{quotaMsg.from_me?quotaMsg.sign_name:chatUser.customer_name}</div>
-                                                                                    <div>{quotaMsg.message_type=="document"?<img src={"/livechat/attach.svg"}/>:""}{quotaMsg.body}</div>
-                                                                                    {quotaMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
+                                                                                <div>{quoteMsg.from_me?quoteMsg.sign_name:chatUser.customer_name}</div>
+                                                                                    <div>{quoteMsg.message_type=="document"?<img src={"/livechat/attach.svg"}/>:""}{quoteMsg.body}</div>
+                                                                                    {quoteMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
                                                                                     
-                                                                                    {quotaMsg.message_type=="video"?"Video":""}
+                                                                                    {quoteMsg.message_type=="video"?"Video":""}
                                                                             </div>
                                                                             <div className="media_div">
-                                                                                    {quotaMsg.message_type=="image"?<img src={quotaMsg.media_url}/>:""}
-                                                                                    {quotaMsg.message_type=="video"?<Player    className={"videoBox"} playsInline fluid={false} width={100} muted={true}>
-                                                                                    <source  src={quotaMsg.media_url}   type="video/mp4"/></Player>:""}
+                                                                                    {quoteMsg.message_type=="image"?<img src={quoteMsg.media_url}/>:""}
+                                                                                    {quoteMsg.message_type=="video"?<Player    className={"videoBox"} playsInline fluid={false} width={100} muted={true}>
+                                                                                    <source  src={quoteMsg.media_url}   type="video/mp4"/></Player>:""}
                                                                                     {/* <div>{filePreview.size/1000}kb</div> */}
                                                                             </div>
                                                                         </div>

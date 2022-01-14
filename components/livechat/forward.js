@@ -2,8 +2,9 @@ import {useEffect, useRef, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import * as React from "react";
 import QuickReply from "./quickReply/quickreply";
+import { flexbox } from "@mui/system";
 
-export default function Forward({open,children ,value="",isDisable, handleChange = null , customButton = null,svg,switchs,style,ref,...props}){
+export default function Forward({open,children ,value="",isDisable, handleChange = null , customButton = null,svg,switchs,style,confirm,clear,...props}){
     
 const [searchValue,setSearch]=useState("")
         const [isShow , setIsShow] =useState(false)
@@ -33,6 +34,14 @@ const [searchValue,setSearch]=useState("")
             };
         },[])
         
+        const confirmForward=()=>{
+            confirm();
+            switchs()
+        }
+        const clearForward =()=>{
+            clear();
+            switchs();
+;        }
     
         return(
             <>
@@ -47,7 +56,6 @@ const [searchValue,setSearch]=useState("")
                     <div className={"top_row" } style={{display:"flex",justifyContent:"space-between"}}>
 
                     <div style={{font:"normal normal bold 16px/22px Manrope",padding:"3%"}}>Forward</div>
-                    <button onClick={switchs}>Confirm</button>
                     </div>
                         <div className="search mf_dropdown_search">
                             <div className="mf_icon_input_block  mf_search_input">
@@ -58,6 +66,11 @@ const [searchValue,setSearch]=useState("")
                         <div className={"mf_circle_dropdown_content"} style={{height:"fit-content",maxHeight:"600px"}}>
                             {children}
                         </div>
+                <div className={"right"} style={{ display:"flex",alignItems:"center",justifyContent:"flex-end",margin:"5% 0 2%"}} >
+
+                    <button onClick={confirmForward}>Confirm</button>
+                    <button onClick={clearForward} className={"mf_bg_light_grey mf_color_text"}>Cancel</button>
+                </div>
                     </div>  }
     
                 </div>
