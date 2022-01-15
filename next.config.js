@@ -4,29 +4,22 @@ module.exports = {
 
 const path = require('path')
 const withSass = require('@zeit/next-sass');
-module.exports = withSass({
-  cssModules: true
-})
+// module.exports = withSass({
+//   cssModules: true,
+//   sassOptions: {
+//     includePaths: [path.join(__dirname, 'styles')],
+//   },
+// })
 
 const withPWA = require('next-pwa')
 
 module.exports = withPWA({
-  reactStrictMode: true,
   pwa: {
-    dest: 'public',
-    disabled:process.env.NODE_ENV ==='development'
-
-  }
-})
-
-
-module.exports = {
-  /* Add Your Scss File Folder Path Here */
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
+    dest: "public",
+    register: true,
+    skipWaiting: true,
   },
-}
-module.exports = {
+  reactStrictMode: true,
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
@@ -39,4 +32,16 @@ module.exports = {
     }
     return config;
   },
-};
+});
+
+
+// module.exports = {
+//
+//   webpack5: true,
+//   webpack: (config, { isServer }) => {
+//     if(!isServer){
+//       config.resolve.fallback = { fs: false ,crypto:false , stream: false , path :false};
+//     }
+//     return config;
+//   },
+// };

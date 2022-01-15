@@ -1,7 +1,7 @@
 .login_layout{
     display: flex;
     background: blue 0% 0% no-repeat padding-box;
-    background: url("../public/Mask Group 82.svg") no-repeat ;
+    background: url("../public/others/Mask Group 82.svg") no-repeat ;
     background-position: center;
     background-size: cover;
     opacity: 1;

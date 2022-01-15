@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+/public/sw.js
+/public/workbox-1846d813.js
 # testing
 /coverage
 
