@@ -447,7 +447,7 @@ export default function Live_chat() {
         e.preventDefault();
 
         console.log(e.target,"sticker")
-        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"image",channel:selectedChat.channel,sign_name:user.user.username}
+        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"image",channel:selectedChat.channel,sign_name:user.user.username }
         console.log("sticker payload" , data);
         const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
@@ -477,7 +477,7 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
-        const data = {...typedMsg,message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url:typedMsg.media_url ,is_media: typedMsg.is_media ,sign_name:user.user.username,hasQuotedMsg:quoteMsg.hasQuotedMsg,quote:quoteMsg.message_id,quote_from:quoteMsg.sender}
+        const data = {...typedMsg,message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url:mediaUrl ,is_media: isMedia ,sign_name:user.user.username,hasQuotedMsg:quoteMsg.hasQuotedMsg,quote:quoteMsg.message_id,quote_from:quoteMsg.sender}
         setTypedMsg({...typedMsg , message: ""})
         if(quoteMsg){
             setQuotaMsg({})
@@ -546,24 +546,24 @@ export default function Live_chat() {
     }
 
     const handleForward =async()=>{
-                
+
             const data = {...quoteMsg,message:quoteMsg.body,message_type:quoteMsg.message_type,channel:selectedChat.channel ,media_url:quoteMsg.media_url ,is_media: quoteMsg.is_media ,is_forwarded:true,quote:quoteMsg.message_id,hasQuotedMsg:false}
-                    
+
             selectedContacts.map(async e=>{
                 const recipients = contacts.filter(c=>parseInt(e)==c.customer_id)
-                if(recipients[0].channels[0]&&recipients[0].channels[0]=="WABA") {  
-                    const senddata = {...data,room_id:e,recipient:e,phone:recipients[0].country_code.toString()+recipients[0].phone.toString()} 
+                if(recipients[0].channels[0]&&recipients[0].channels[0]=="WABA") {
+                    const senddata = {...data,room_id:e,recipient:e,phone:recipients[0].country_code.toString()+recipients[0].phone.toString()}
                 console.log("data to be send out", senddata)
-                
+
                 const res = await messageInstance.sendMessage(senddata).catch(error => console.log(error))
                 ;return }
-                if(recipients[0].channels[0]&&recipients[0].channels[0]=="") {  
-                    const senddata = {...data,room_id:e+"-"+user.user.user_id,recipient:e} 
+                if(recipients[0].channels[0]&&recipients[0].channels[0]=="") {
+                    const senddata = {...data,room_id:e+"-"+user.user.user_id,recipient:e}
                 console.log("data to be send out", senddata)
-                
+
                 const res = await messageInstance.sendMessage(senddata).catch(error => console.log(error))
                 ;return }
-                
+
             })
             setTypedMsg({...typedMsg , message: ""})
             if(quoteMsg){
@@ -595,7 +595,7 @@ export default function Live_chat() {
 
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
-        
+
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
         };
@@ -723,7 +723,7 @@ export default function Live_chat() {
     };
     const toggleSelectTeams = e => {
         const { checked ,id} = e.target;
-        
+
         console.log(e.target.id,id,"electaedTeams in filter")
         setSelectedTeams([...selectedTeams, id]);
         if (!checked) {
@@ -740,7 +740,7 @@ export default function Live_chat() {
         console.log(selectedContacts)
     };
     const isContainContact = (id) => {
-        
+
         if (selectedContacts) {
             return selectedContacts.some(e => e == id.toString())
         }
@@ -966,7 +966,7 @@ export default function Live_chat() {
                                                                                 <div>{quoteMsg.from_me?quoteMsg.sign_name:chatUser.customer_name}</div>
                                                                                     <div>{quoteMsg.message_type=="document"?<img src={"/livechat/attach.svg"}/>:""}{quoteMsg.body}</div>
                                                                                     {quoteMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
-                                                                                    
+
                                                                                     {quoteMsg.message_type=="video"?"Video":""}
                                                                             </div>
                                                                             <div className="media_div">
@@ -1047,12 +1047,12 @@ export default function Live_chat() {
 
                                 </div>:""
                             }
-                            <textarea  disabled={!isWABAStart} onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                            <textarea  disabled={!isWABAStart&&selectedChat.channel=="WABA"} onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                             <Picker  onSelect={(emoji)=> {
                                 setTypedMsg({...typedMsg,message: typedMsg.message+" "+emoji.native+" "})
                             }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
-                            <div  disabled={!isWABAStart} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
+                            <div  disabled={!isWABAStart&&selectedChat.channel=="WABA"} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
                                 <StickerBox data={stickerData} stickerSend={stickerSend}  />
                             </div>
                             <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} >

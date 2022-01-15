@@ -72,7 +72,8 @@ export const GlobalContextProvider = ({children}) =>{
                 contactInstance.token = user.token
                 tagInstance.token = user.token
                 roleInstance.token = user.token
-                messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
+                // messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
+                messageInstance.setWhatsappURL("https://localhost:8001")
                 return response.status
             }).catch(err=>{
                 console.log(err)

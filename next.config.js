@@ -8,16 +8,16 @@ module.exports = withSass({
   cssModules: true
 })
 
-const withPWA = require('next-pwa')
-
-module.exports = withPWA({
-  reactStrictMode: true,
-  pwa: {
-    dest: 'public',
-    disabled:process.env.NODE_ENV ==='development'
-
-  }
-})
+// const withPWA = require('next-pwa')
+//
+// module.exports = withPWA({
+//   reactStrictMode: true,
+//   pwa: {
+//     dest: 'public',
+//     disabled:process.env.NODE_ENV ==='development'
+//
+//   }
+// })
 
 
 module.exports = {

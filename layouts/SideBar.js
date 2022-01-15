@@ -103,7 +103,7 @@ export default function SideBar({setNotificationList , openNoteList , toggleNote
                                 <div className={isActiveURL("/dashboard") ? "active-side-item" : "side-item "}>
                                     <span onClick={dropDownArrowToggle}>
                                         {/* parent path cannot approach func isActiveURL()*/}
-                                        <div className={router.pathname.includes("/dashboard")? "active nav-item" : "nav-item "}>
+                                        <div className={isActiveURL("/dashboard")? "active nav-item" : "nav-item "}>
                                             <DashboardSVG size="16"/>
                                             <span className="side-item-name">Dashboard </span>
                                         </div>
@@ -112,7 +112,7 @@ export default function SideBar({setNotificationList , openNoteList , toggleNote
                             </Link>) : (<div className={isActiveURL("/dashboard") ? "active-side-item" : "side-item "}>
                             <span onClick={dropDownArrowToggle}>
                                 {/* parent path cannot approach func isActiveURL()*/}
-                                <div className={router.pathname.includes("/dashboard")? "active nav-item" : "nav-item "
+                                <div className={isActiveURL("/dashboard")? "active nav-item" : "nav-item "
                                 } onClick={e => {
                                     setIsDashOpen(!isDashOpen)
                                 }}>
