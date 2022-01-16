@@ -26,7 +26,6 @@ import dashboardFetcher from "../../helpers/dashboardHelpers";
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
     const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
-
     const [filteredAgents , setFilteredAgents] = useState([])
     const [selectedAgents , setSelectedAgents] = useState([])
     const [filteredTags , setFilteredTags] = useState([])
@@ -36,11 +35,24 @@ export default function Chat() {
     const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
-    const [dash  , setDash ] = useState({all_contacts :[] , active_contacts:[] , total_msg_sent:[] ,
-        total_msg_rev:[] , new_added_contacts:[] , avg_resp_time :[] ,communication_hours :[] , tags:[],
-        ChannelContact: [{ChannelName: "", ChannelTotalContact: 0},
-        {ChannelName: "", ChannelTotalContact: 0},{ChannelName: "", ChannelTotalContact: 0},
-        {ChannelName: "", ChannelTotalContact: 0}]})
+    const [dash  , setDash ] = useState(
+        {
+            all_contacts :[0] ,
+            active_contacts:[0] ,
+            total_msg_sent:[0] ,
+            total_msg_rev:[0] ,
+            new_added_contacts:[0] ,
+            avg_resp_time :[0] ,
+            communication_hours :[0] ,
+            tags:[0],
+            ChannelContact: [
+                {ChannelName: "", ChannelTotalContact: 0},
+                {ChannelName: "", ChannelTotalContact: 0},
+                {ChannelName: "", ChannelTotalContact: 0},
+                {ChannelName: "", ChannelTotalContact: 0}
+            ]
+        }
+        )
 
     const [selectedData,setselectedDate] =useState([])
 
@@ -133,11 +145,12 @@ export default function Chat() {
     }
 
     useEffect(async ()=>{
-        if (isLoading ) {
-            let data = await fetchDefault();
-            setDash(data)
-            setIsLoading(!isLoading)
-        }
+        // if (isLoading ) {
+        //     let data = await fetchDefault();
+        //     setDash(data)
+        //     setIsLoading(!isLoading)
+        // }
+        setIsLoading(false)
         await getTags();
         await fetchContacts();
         console.log("dashboard = ",dash)
@@ -146,8 +159,8 @@ export default function Chat() {
 
     useEffect(()=>{
         const tagsTotal = []
-        tags.map(e=>contacts.map(c=>{ 
-           
+        tags.map(e=>contacts.map(c=>{
+
             const values=c.tags.map(t=>{
                 if(t.tag_name == e.tag_name ){
                     // const data ={e.tag_name:+=1}
@@ -158,13 +171,12 @@ export default function Chat() {
         console.log(tagsTotal,"tags total volume")
     },[contacts])
 
+    // name:"WhastApp",value:"All",channelID:"All",id:0},
 
-    const channelData = [
-        // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1, number : dash.ChannelContact[0].ChannelTotalContact},
-                {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2, number : dash.ChannelContact[1].ChannelTotalContact},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3, number : dash.ChannelContact[2].ChannelTotalContact},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4, number : dash.ChannelContact[3].ChannelTotalContact}];
+    const channelData = [{name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1, number : 0},
+                {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2, number : 0},
+                {name:"Messager",value:"Messager",channelID:"Messager",id:3, number : 0},
+                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4, number :0}];
     const [channels, setChannelData] = useState([] )
     // useEffect(()=>{
     //     setChannelData(channelData)

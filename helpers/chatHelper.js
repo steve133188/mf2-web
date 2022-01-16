@@ -1,6 +1,6 @@
 import {API, graphqlOperation} from "aws-amplify";
-import {updateMF2TCOCHATROOM} from "../src/graphql/mutations";
-import {listMF2TCOCHATROOMS} from "../src/graphql/queries";
+import {updateChatroom} from "../src/graphql/mutations";
+import {listChatrooms} from "../src/graphql/queries";
 
 export default function ChatHelper(){
 
@@ -23,16 +23,16 @@ export default function ChatHelper(){
     }
 
     this.getAllChatrooms = async ()=>{
-        return await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000}))
+        return await API.graphql(graphqlOperation(listChatrooms , {limit:1000}))
     }
 
     this.getFilteredChatrooms = async (filterType)=>{
-        if (filterType == "OWNPIN")return  await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:this.ownedPinChatFilter}))
-        if (filterType == "OWN")return  await API.graphql(graphqlOperation(listMF2TCOCHATROOMS , {limit:1000 , filter:this.ownedChatFilter}))
+        if (filterType == "OWNPIN")return  await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , filter:this.ownedPinChatFilter}))
+        if (filterType == "OWN")return  await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , filter:this.ownedChatFilter}))
     }
 
     this.toggleIsPin = async (input , callback)=>{
-        const res =await API.graphql(graphqlOperation(updateMF2TCOCHATROOM , {input:input}))
-        callback(res.data.updateMF2TCOCHATROOM)
+        const res =await API.graphql(graphqlOperation(updateChatroom , {input:input}))
+        callback(res.data.updateChatroom)
     }
 }
