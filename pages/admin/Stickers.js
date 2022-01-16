@@ -41,6 +41,7 @@ export default function Stickers() {
     const [folder,setFolder] = useState([])
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
+    
     const getStickers = async ()=>{
         const {folders , files} = await mediaInstance.getStickers()
         const arrfolders = []

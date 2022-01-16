@@ -38,7 +38,7 @@ const style ={
     height:"2rem"
 }
 
-export default function CreateReply({show, toggle,data,check,reload}){
+export default function CreateReply({show, toggle,data,rawData,check,reload,onclose}){
     const [name , setName] = useState("")
     const [newbody , setBody] = useState({})
     const [rootDivision , setRootDivision] = useState([])
@@ -57,10 +57,11 @@ export default function CreateReply({show, toggle,data,check,reload}){
     },[newbody])
     const submit = async ()=>{
         console.log(data)
-        const dataupload = {...data,body:[...data.body,newbody]}
+        const dataupload = {...rawData,body:[...data,newbody]}
         console.log(dataupload,"create reply")
         const status = await replyInstance.updateOneStandardReply ( dataupload)
     console.log(status,"create reply")
+    onclose();
     reload();
     toggle();
     router.push("/admin/StandardReply")

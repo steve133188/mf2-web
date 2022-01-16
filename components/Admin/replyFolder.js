@@ -57,6 +57,13 @@ export default function ReplyFolder({data,reload}) {
     }
     const toggleCreate = ()=>{
         setIsCreate(!isCreate)
+        // setFilteredData(data.body)
+    }
+    const fetchBody =async ()=>{
+
+        const body = await replyInstance.getStandardReplyById(data.id)
+        setFilteredData(body.body)
+
     }
     const toggleEdit = (body,index)=>{
         setIsEdit(!isEdit)
@@ -70,16 +77,17 @@ export default function ReplyFolder({data,reload}) {
         // setDeleteTag(item)
     }
     const sumbitDelete=async ()=>{
-        const newbody=data.body.filter(e=>e!=selectedReply[0])
+        const newbody=filteredData.filter(e=>e!=selectedReply[0])
         console.log(newbody)
         const dataupload = {...data,body:newbody}
         const res = await replyInstance.updateOneStandardReply(dataupload )
         console.log(res)
         reload();
+        fetchBody ();
     }
     useEffect(()=>{
         setFilteredData(data.body)
-        console.log(data)
+        console.log(data,"inside folder")
     },[])
 
     const default_cols = ['Message Content' ,""]
@@ -87,8 +95,8 @@ export default function ReplyFolder({data,reload}) {
         <div className={"admin_layout"}>
 
             <div className="rightContent">
-                    <CreateReply show={isCreate} reload={reload} toggle={toggleCreate}  data={data}/>
-                    <DeletePad show={isDelete}  reload={()=>console.log(data)} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Folders"}/>
+                    <CreateReply show={isCreate} reload={reload} toggle={toggleCreate}  rawData={data} data={filteredData} onclose={fetchBody } />
+                    <DeletePad show={isDelete}  reload={()=>console.log(data)} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Reply"}/>
                     <div className={"search_session"}>
                         <div className="search">
                             <div className="mf_icon_input_block  mf_search_input">

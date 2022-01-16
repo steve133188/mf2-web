@@ -87,13 +87,13 @@ export default function Agents() {
 
 
     const tempData=[
-        ["Marry Tse","DM",'Connected',35,15,10,3,2,27,5,7],
+        ["Sabrina","DM",'Connected',35,15,10,3,2,27,5,7],
         ["Wiva Wei","Maneger",'Connected',50,10,7,1,2,8,7,7],
-        ["Sabrina","Maneger",'Connected',56,10,5,5,0,5,15,20],
-        ["Steve Chak",'Agent','Connected',40,7,7,0,0,14,3.5,2],
-        ["Philip Tam",'Agent','Connected',55,5,5,0,0,9,3,4],
-        ["Alex",'Agent','Connected',60,6,4,0,2,6,8.6,15],
-        ["Jason Fung",'Agent','Connected',42,8,3,3,2,9,7,7],
+        ["Juile Chu","Maneger",'Connected',56,10,5,5,0,5,15,20],
+        ["Agent try",'Agent','Connected',40,7,7,0,0,14,3.5,2],
+        ["Sylvia Tam",'Agent','Connected',55,5,5,0,0,9,3,4],
+        ["Renee Tang",'Agent','Connected',60,6,4,0,2,6,8.6,15],
+        ["Steve Chak",'Agent','Connected',42,8,3,3,2,9,7,7],
         ["Ben Cheng",'Agent','Disconnected',0,0,0,0,0,0,0,0],
     ]
     // ["Golden",'Agent','Disconnected',0,0,0,0,0,0,0,0],
@@ -102,7 +102,6 @@ export default function Agents() {
     const AverDailyOnlineTime = tempData.map(a=>a[3]).reduce((org,cur)=>{
         return org+cur
     })
-
 
     const AssignedContacts= tempData.map(a=>a[4]).reduce((org,cur)=>{
         return org+cur
@@ -185,7 +184,7 @@ export default function Agents() {
             console.log(data,"let me see")
             setDash(data)
             const ado=[35,50,56,40,55,60,42]
-            const list  = data.Agent.map((e,index)=>{return {...e,avgDailyOnline:ado[index]}})
+            // const list  = data.Agent.map((e,index)=>{return {...e,avgDailyOnline:ado[index]}})
             // setFilteredData(list)
         } else {
             const dataIN = Date.parse(dayState.from)/1000
@@ -225,10 +224,10 @@ export default function Agents() {
     const handleClickOut = () => {
         setOpen(true);
     }; const toggleSelectAgents = e => {
-        const { checked ,id} = e.target;
-        setSelectedAgents([...selectedAgents, id]);
+        const { name,checked ,id} = e.target;
+        setSelectedAgents([...selectedAgents, name]);
         if (!checked) {
-            setSelectedAgents(selectedAgents.filter(item => item !== id));
+            setSelectedAgents(selectedAgents.filter(item => item !== name));
         }
         // props.agents(e)
         console.log(selectedAgents ,"slescted")
@@ -243,18 +242,24 @@ export default function Agents() {
         console.log(selectedChannels ,"slescted")
 
     }; const toggleSelectTeams = e => {
-        const { checked ,id} = e.target;
-        setSelectedTeams([...selectedTeams, id]);
+        const { name,checked ,id} = e.target;
+        setSelectedTeams([...selectedTeams, name]);
         if (!checked) {
-            setSelectedTeams(selectedTeams.filter(item => item !== id));
+            setSelectedTeams(selectedTeams.filter(item => item !== name));
         }
         // props.agents(e)
-        console.log(selectedTeams ,"slescted")
+        console.log(selectedTeams ,"slescted team")
     };
     const renderAgents=() => {
 
         return selectedAgents!=-1&&selectedAgents.map((tag)=>{
             return<Pill key={tag} color="lightPurple">{tag}</Pill>
+        })
+    }
+    const renderTeams=() => {
+
+        return selectedTeams!=-1&&selectedTeams.map((tag)=>{
+            return<Pill key={tag} color="primary">{tag}</Pill>
         })
     }
     const namePush = (nameList)=>{
@@ -332,12 +337,12 @@ export default function Agents() {
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter cancelClick={dashClear} confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } teams={toggleSelectTeams} />
+                                                <DashBroadFilter cancelClick={dashClear} confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } team={toggleSelectTeams} />
                                     </div>
                                 </div>
                             </div>
 
-                        {renderAgents()}
+                        {renderAgents()}{renderTeams()}
                 </div>
                 <div className={"right"}>
                     {/* <div style={{position:"relative"}}>

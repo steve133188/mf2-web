@@ -46,7 +46,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
       // setOpen([])
     }    
     useEffect(()=>{
-      props.isclear?clear():""
+      // props.isclear?clear():""
       console.log(selectedTeams,"team")
       console.log(selectedUsers,"use")
     },[props.clear])
@@ -79,7 +79,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
           setSelectedUsers(selectedUsers.filter(item => item !== id));
       }
       props.agents(e)
-      console.log(selectedUsers)
+      console.log(selectedUsers,"usersss")
   };
   const toggleSelectTeams = e => {
     // console.log(e,"electaedTeams in filter")
@@ -111,7 +111,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
             <ListItemText primary={team.name} />
             <div className="newCheckboxContainer right">
                                         <label className="newCheckboxLabel"> 
-                                        <input type="checkbox" id={team.org_id} name="checkbox" 
+                                        <input type="checkbox" id={team.org_id} name={team.name} 
                                          checked={selectedTeams.includes(team.org_id.toString())} onClick={(e)=>{e.stopPropagation();toggleSelectTeams(e)}} onChange={()=>{}}
                                           />
                                         </label>
@@ -132,7 +132,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
                         
                                        <div className="newCheckboxContainer right">
                                         <label className="newCheckboxLabel"> 
-                                        <input type="checkbox" id={agent.user_id} name="checkbox" 
+                                        <input type="checkbox" id={agent.user_id} name={agent.username} 
                                         // checked={checked.indexOf(agent.user_id) !== -1}
                                         checked={selectedUsers.includes(agent.user_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}
                                         />
