@@ -446,8 +446,11 @@ export default function Live_chat() {
     const stickerSend =  async e=>{
         e.preventDefault();
 
+        console.log(selectedChat,"sticker for chat")
         console.log(e.target,"sticker")
-        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:"image",channel:selectedChat.channel,sign_name:user.user.username }
+        const imagetype= selectedChat.channel=="WABA"?"image":"sticker"
+        console.log(imagetype)
+        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:imagetype,channel:selectedChat.channel,sign_name:user.user.username }
         console.log("sticker payload" , data);
         const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
@@ -513,6 +516,7 @@ export default function Live_chat() {
             setChatButtonOn("");
             setIsExpand(false);
             setIsReply(false);
+            setQuotaMsg("")
             filePreview.size>0?setFilePrevier(filePreviewOldState):""
             // console.log(attachFile.current.target)
           }
@@ -521,20 +525,22 @@ export default function Live_chat() {
     const replyClick=click=>{
         console.log(click,"done donedone")
         setReplyMsg(click)
-        const quoteMsg = chatroomMsg.filter(e=>{return click==(e.timestamp)})
-        const m={...quoteMsg[0],hasQuotedMsg:true,quote:quoteMsg[0].message_id,quote_from:quoteMsg.sender}
-        console.log(quoteMsg[0],"raw data to quote")
-        setQuotaMsg(m)
-        !m?setQuotaMsg({}):""
-        if(click==replyMsg){setReplyMsg("")}
+       
+
+        if(click==replyMsg){setReplyMsg("");setQuotaMsg("")}
     }
     const confirmReply=()=>{
-        setReply(!reply)
+        setReply(!reply) 
+        const quote = chatroomMsg.filter(e=>{return replyMsg==(e.timestamp)})
+        const m={...quote[0],hasQuotedMsg:true,quote:quote[0].message_id,quote_from:quote.sender}
+        console.log(quote[0],"raw data to quote")
+        setQuotaMsg(m)
         setReplyMsg("")
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
-
-        setTypedMsg({...typedMsg ,message_type: "text",media_url:quoteMsg.media_url,is_media:true,sign_name:quoteMsg.sign_name})
+        
+        setTypedMsg({...typedMsg ,message_type: "text",hasQuotedMsg:true,media_url:quote.media_url,is_media:true,sign_name:quote.sign_name})
+        // setQuotaMsg("")
     }
     const confirmForward = ()=>{
         setIsForward(!isForward)

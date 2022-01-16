@@ -35,13 +35,16 @@ import Loading from "../../../components/Loading";
 export default function StandardReply() {
     const [isLoading, setIsLoading] = useState(true);
 
-    const {adminInstance, userInstance , user,replyInstance} = useContext(GlobalContext)
+    const {orgInstance, userInstance , user,replyInstance} = useContext(GlobalContext)
     const [standardReply, setStandardReply] = useState([]);
     const [filteredData , setFilteredData] = useState([])
-    const [agents ,setAgents] =useState([]);
     const [useFolder,setUseFolder] = useState("")
-    const [selectedAgents ,setSelectedAgents] =useState([])
+    const [agents ,setAgents] =useState([]);
     const [filteredAgents ,setFilteredAgents] =useState([]);;
+    const [selectedAgents ,setSelectedAgents] =useState([])
+    const [teams ,setTeams] =useState([]);
+    const [filteredTeams ,setFilteredTeams] =useState([]);;
+    const [selectedTeams ,setSelectedTeams] =useState([])
 
     const [isProfileShow , setIsProfileShow] = useState(false)
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
@@ -75,6 +78,12 @@ export default function StandardReply() {
         setAgents(data)
         setFilteredAgents(data)
     }
+    const getTeams = async ()=>{
+        const data = await orgInstance.getOrgTeams()
+        console.log(data)
+        setTeams(data)
+        setFilteredTeams(data)
+    }
     const toggleSelect = e => {
         const { checked ,id} = e.target;
         setSelectedReply([...selectedReply, id]);
@@ -89,7 +98,7 @@ export default function StandardReply() {
         if (selectAll) {
             setSelectedReply([]);
         }
-        console.log(selectedReply,"select ed con")
+
     };
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
@@ -97,10 +106,12 @@ export default function StandardReply() {
     }
     const toggleCreate = ()=>{
         setIsCreate(!isCreate)
+        setSelectedTeams([])
     }
     const toggleEdit = (data)=>{
         setEditData(data)
         setIsEdit(!isEdit)
+        setSelectedTeams([])
         // setSelectedTag({id,tag})
 
     }
@@ -109,7 +120,7 @@ export default function StandardReply() {
         setSelectedReply([]);
     }
     const toggleDelete = (data)=>{
-        console.log(data,"asdfasdf")
+
         data&&setSelectedReply(data)
         setIsDelete(!isDelete)
         setDeleteTag(data)
@@ -120,13 +131,12 @@ export default function StandardReply() {
         console.log("ddddddddddd",selectedReply)
 
         selectedReply.map(async e=> {
-                console.log(e,"loop")
                 const file =await replyInstance.deleteReplyByID(selectedReply)
-            console.log("DeleteStandardReply",file)
+
         })
         
-        fetchStandardReply();
         setSelectedReply([]);
+        fetchStandardReply();
     }
     
     const toggleSelectAgents = (e) =>{
@@ -135,7 +145,15 @@ export default function StandardReply() {
     if (!checked) {
         setSelectedAgents(selectedAgents.filter(item => item !== id));
     }
-    console.log(selectedAgents,"selectedAgents")
+
+    }
+    const toggleSelectTeams = (e) =>{
+         const { checked ,id} = e.target;
+    setSelectedTeams([...selectedTeams, id]);
+    if (!checked) {
+        setSelectedTeams(selectedTeams.filter(item => item !== id));
+    }
+
     }
     const toggleProfile = (key) =>{
         if(!isProfileShow) setUseFolder(key)
@@ -148,14 +166,14 @@ export default function StandardReply() {
     
     useEffect(    async () => {
         if(user.token) {
-            await getAgents ();
+            await getTeams ();
             await fetchStandardReply();
             }
 
     },[]);
 
 
-    const default_cols = ['Folder' , 'Channel' ,'Assignee',"No. of Replies",""]
+    const default_cols = ['Folder' , 'Channel' ,'Team',"No. of Replies",""]
 
 
     return (
@@ -164,9 +182,9 @@ export default function StandardReply() {
             <div className="rightContent">
                 {isProfileShow?   ( <Profile handleClose={toggleProfile}><ReplyFolder data={useFolder} reload={fetchStandardReply }/></Profile>):null}
 
-                <CreateReplyFolder  show={isCreate} reload={fetchStandardReply} toggle={toggleCreate} filteredAgents={filteredAgents} selectedAgents={selectedAgents} toggleSelectAgents={toggleSelectAgents}  />
+                <CreateReplyFolder  show={isCreate} reload={fetchStandardReply} toggle={toggleCreate} filteredTeams={filteredTeams} selectedTeams={selectedTeams} toggleSelectTeams={toggleSelectTeams}  />
+                <EditReplyFolder show={isEdit} toggle={toggleEdit} data={editData} filteredTeams={filteredTeams} selectedTeams={selectedTeams} toggleSelectTeams={toggleSelectTeams} reload={fetchStandardReply}  />
                 <DeletePad show={isDelete} reload={fetchStandardReply} toggle={toggleCancel } submit={submitDelete} data={selectedReply} title={"Folders"}/>
-                <EditReplyFolder show={isEdit} toggle={toggleEdit} data={editData} reload={fetchStandardReply}  />
                 <div className={"search_session"}>
                     <div className="search">
                         <div className="mf_icon_input_block  mf_search_input">
@@ -259,8 +277,10 @@ export default function StandardReply() {
 
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"35%"}}>
-                                            <span key={"team"+index} >{data.variables}</span>
-
+                                            {data.variables.map(e=>
+                                            <span key={"team"+index} >{e} , </span>
+                                            )
+}
                                         </TableCell>
                                         <TableCell align="left" sx={{width:"15%"}}>
                                             <span key={"no"+index} >{data.body.length}</span>

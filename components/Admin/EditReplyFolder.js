@@ -37,22 +37,24 @@ const style ={
 }
 
 
-export default function EditReplyFolder({show, toggle ,reload,data}){
+export default function EditReplyFolder({show, toggle ,reload,data,filteredTeams,}){
 
-    const [roleName , setRoleName] = useState("")
+    const [name , setName] = useState("")
     const [authority , setAuthority] = useState({
-        assignee: null,
+
         channels: [],
-        content: [],
+        body: [],
         id: "",
         name: "",
-        team: "",
+        variables:[],
     })
 
+    const [parent , setParent] = useState({})
     const [filteredUsers ,setFilteredUsers] =useState([]);
     const [selectedUsers ,setSelectedUsers] =useState([]);
 
-    const {contactInstance , userInstance ,replyInstance,orgInstance, user} = useContext(GlobalContext)
+    const [selectedTeams ,setSelectedTeams] =useState([])
+    const {replyInstance , userInstance , user} = useContext(GlobalContext)
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
@@ -62,6 +64,14 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
 
         console.log(selectedUsers)
     };
+    const toggleSelectTeams = (e) =>{
+        const { checked ,id} = e.target;
+   setSelectedTeams([...selectedTeams, id]);
+   if (!checked) {
+       setSelectedTeams(selectedTeams.filter(item => item !== id));
+   }
+   console.log(selectedTeams,"selectedTeams")
+   }
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
         setFilteredUsers(data)
@@ -78,8 +88,10 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
         if(!show)return
         show?console.log(data,"data in"):"";
         setAuthority(data)
-
+        setName(data.name)
+        setSelectedTeams(data.variables)
         setSelectedChannels(data.channels)
+
     },[show])
 
     const [selectedChannels ,setSelectedChannels] =useState([]);
@@ -116,19 +128,19 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
         }
     }
     const handleChange=e =>{
-        setRoleName(e.target.value)
+        setName(e.target.value)
         // console.log(roleName)
     }
     const submit = async ()=>{
         console.log({...authority})
         console.log(selectedChannels)
         
-        const dataupload = {...data,channels:selectedChannels,variables:[...data.variables,selectedUsers]}
+        const dataupload = {...data,name:name,channels:selectedChannels,variables:selectedTeams}
         console.log(dataupload)
-        // const res = await replyInstance.updateOneStandardReply(dataupload )
+        const res = await replyInstance.updateOneStandardReply(dataupload )
 
         
-        // console.log(res)
+        console.log(res)
         reload()
         toggle()
     }
@@ -142,7 +154,7 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
                 </div>
                 <div className="inputField">
                     <span>Folder Name</span>
-                    <MF_Input value={authority.name} onChange={handleChange}/>
+                    <MF_Input value={name} onChange={handleChange}/>
                 </div>
 
 
@@ -159,8 +171,56 @@ export default function EditReplyFolder({show, toggle ,reload,data}){
                 </div>
 
                     <div className={"access_right"} style={{display:"flex",justifyContent:'center',alignItems:"center"}}>
-                    <AgentsDropList filterData={filteredUsers} toggleAgents={toggleSelectUsers} />
-                       
+                    {/* <AgentsDropList filterData={filteredUsers} toggleAgents={toggleSelectUsers} /> */}
+                    <Select
+                        sx={style}
+                        value={parent}
+                        onChange={()=>{}}
+                        label={"Select Division"}
+                        input={<BootstrapInput />}
+                        >     
+                       <div className={"filter_box_agents"}  >
+                    <div className={"agentBroad"} >
+
+                    <div className={"filter_title"} onClick={toggle}> </div>
+                    <div className={"agentSearchArea"}  style={show?{display:"block"}:{display:"none"}}>
+                         {/* <div className={"search_bar"}>    
+                            <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
+                        </div>  */}
+                    
+                        <div className={"channelList"} >
+                            {filteredTeams.map((team)=>{
+                                return(<li className={"channelListitem"} key={team.name} style={{width:"90%"}}>
+                                            <div className={"left"} style={{display:"flex" ,gap:10}}>
+                                                {/* <Tooltip key={team.name} className={""} title={team.name} placement="top-start">
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginLeft:"10px"}} >{team.name.substring(0,2).toUpperCase()}</Avatar>
+                                                </Tooltip> */}
+                                                <div className={"name"}>{team.name}</div>
+                                            </div>
+                                        <div className="newCheckboxContainer right">
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name={team.name} checked={selectedTeams.includes(team.name)} onClick={toggleSelectTeams} />
+                                        </label>
+                                    </div>
+                                </li>) })
+                            }
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                    </Select>
+                        <div className={"taglList"} style={{display:"flex"}}>
+                            {selectedTeams.map((team)=>{
+                                    return(
+
+                                        <div key={team.id} className={""} style={{display:"flex",padding:"7px" ,gap:1}}>
+                                            <div className={"name"}>{team}</div>
+                                            {/* <Tooltip key={team} className={""} title={team} placement="top-start">
+                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{team.substring(0,2).toUpperCase()}</Avatar>
+                                            </Tooltip> */}
+                                        </div>
+                                    )
+                                })}
+                        </div>
                     </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>

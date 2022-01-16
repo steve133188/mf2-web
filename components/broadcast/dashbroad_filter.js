@@ -146,7 +146,8 @@ export default function DashBroadFilter(props){
         if (!checked) {
             setSelectedTeams(selectedTeams.filter(item => item !== id));
         }
-        console.log(selectedTeams)
+        props.team(e)
+        console.log(selectedTeams,"dashbroad+filter")
     };
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;

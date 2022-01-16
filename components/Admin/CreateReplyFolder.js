@@ -37,12 +37,12 @@ const style ={
     height:"2rem"
 }
 
-export default function CreateReplyFolder({show, toggle,filteredAgents,selectedAgents,toggleSelectAgents,check,reload}){
+export default function CreateReplyFolder({show, toggle,filteredTeams,selectedTeams,toggleSelectTeams,check,reload}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
     const [selectedChannels ,setSelectedChannels] =useState([]);
     const [rootDivision , setRootDivision] = useState([])
-    const {replyInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {replyInstance ,adminInstance ,orgInstance, team} = useContext(GlobalContext)
 
     const handleChange = e=>{
         setName(e.target.value)
@@ -70,7 +70,7 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
     //     setRootDivision(data.filter(data=>{return data.type=="division"}))
     },[])
     const submit = async ()=>{
-        const data = {name,variables:[],channels:selectedChannels}
+        const data = {name,variables:selectedTeams,channels:selectedChannels}
         const status = await replyInstance.addOneStandardReply( data)
         console.log(data,"create reply")
         // console.log(status,"create reply")
@@ -104,28 +104,34 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
 
                     <ChannelsDropList data={selectedChannels} toggleChannels={toggleSelectChannels} toggleAll={toggleSelectAllChannels} />                            
                 </div>
-                <div className="inputField"></div>
-                        
-                       {/* <div className={"filter_box_agents"}  >
+                <div className="inputField">Assign to</div>
+                <Select
+                        sx={style}
+                        value={parent}
+                        onChange={handleSelect}
+                        label={"Select Division"}
+                        input={<BootstrapInput />}
+                        >     
+                       <div className={"filter_box_agents"}  >
                     <div className={"agentBroad"} >
 
                     <div className={"filter_title"} onClick={toggle}> </div>
                     <div className={"agentSearchArea"}  style={show?{display:"block"}:{display:"none"}}>
-                         <div className={"search_bar"}>    
+                         {/* <div className={"search_bar"}>    
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
-                        </div> 
+                        </div>  */}
                     
                         <div className={"channelList"} >
-                            {filteredAgents.filter(users=>users.username.includes("")).map((user)=>{
-                                return(<li className={"channelListitem"} key={user.username} style={{width:"90%"}}>
+                            {filteredTeams.map((team)=>{
+                                return(<li className={"channelListitem"} key={team.name} style={{width:"90%"}}>
                                             <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                                <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginLeft:"10px"}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
-                                                </Tooltip>
-                                                <div className={"name"}>{user.username}</div>
+                                                {/* <Tooltip key={team.name} className={""} title={team.name} placement="top-start">
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginLeft:"10px"}} >{team.name.substring(0,2).toUpperCase()}</Avatar>
+                                                </Tooltip> */}
+                                                <div className={"name"}>{team.name}</div>
                                             </div>
-                                    <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedAgents.includes(user.username)} onClick={toggleSelectAgents} />
+                                        <div className="newCheckboxContainer right">
+                                        <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name)} onClick={toggleSelectTeams} />
                                         </label>
                                     </div>
                                 </li>) })
@@ -136,18 +142,18 @@ export default function CreateReplyFolder({show, toggle,filteredAgents,selectedA
                 </div>
                     </Select>
                         <div className={"taglList"} style={{display:"flex"}}>
-                            {selectedAgents.map((user)=>{
+                            {selectedTeams.map((team)=>{
                                     return(
+
                                         <div className={""} style={{display:"flex",padding:"7px" ,gap:1}}>
-                                            <Tooltip key={user} className={""} title={user} placement="top-start">
-                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
-                                            </Tooltip>
-
+                                            <div className={"name"}>{team}</div>
+                                            {/* <Tooltip key={team} className={""} title={team} placement="top-start">
+                                                <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{team.substring(0,2).toUpperCase()}</Avatar>
+                                            </Tooltip> */}
                                         </div>
-
                                     )
                                 })}
-                        </div> */}
+                        </div>
                 </div>
                 <div className={"btn_row"}>
                     <button onClick={submit}>Confirm</button>
