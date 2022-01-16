@@ -244,7 +244,7 @@ export function ImportDropzone({children,...props}) {
                         contacts.</p>
                 </div>
                 <aside style={{marginTop: "38px"}}>
-                    <h4 style={{fontSize: "12px", color: "#444444"}}>Uploaded</h4>
+                    <h4 style={{fontSize: "12px", color: "#444444"}}>Upload</h4>
                     <ul style={{
                         paddingLeft: "0px",
                         listStyle: "none",
@@ -255,7 +255,7 @@ export function ImportDropzone({children,...props}) {
                 </aside>
                 
 
-                <NormalButton><CSVLink data={template} filename={"template.csv"} >Download Template</CSVLink></NormalButton>
+                {props.title=="Import Sticker"?"":<NormalButton><CSVLink data={template} filename={"template.csv"} >Download Template</CSVLink></NormalButton>}
             </div>
         </div>
     );

@@ -206,7 +206,7 @@ export default function Index() {
                     </div>):null}
                 >
 
-                    <MF_Select head={"Team"} top_head={selectedTeam=={}?"Team":selectedTeam.name}
+                    {/* <MF_Select head={"Team"} top_head={selectedTeam=={}?"Team":selectedTeam.name}
                                // submit={advanceFilter}
                                customeDropdown={true}>
                         <li onClick={async ()=> {
@@ -216,7 +216,7 @@ export default function Index() {
                         {teams.map((team)=>{
                             return(<li id={team.name} key={team.org_id} onClick={ (e)=>{setSelectedTeam(team);}}> {team.name}</li>)
                         })}
-                    </MF_Select>
+                    </MF_Select> */}
                 </SelectSession>
                 <TableContainer
                     sx={{minWidth: 750 , minHeight:"60vh"}}

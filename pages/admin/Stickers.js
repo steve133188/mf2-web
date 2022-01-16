@@ -12,7 +12,7 @@ import searchFilter from "../../helpers/searchFilter";
 import {InnerSidebar} from "../../components/InnerSidebar";
 import {GlobalContext} from "../../context/GlobalContext";
 import { AddStickerSVG, DeleteSVG } from "../../public/admin/adminSVG";
-import { ImportDropzone } from "../../components/ImportContact";
+import { ImportDropzone } from "../../components/ImportSticker";
 import DeletePad from "../../components/DeletePannel";
 
 
@@ -41,15 +41,16 @@ export default function Stickers() {
     const [folder,setFolder] = useState([])
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
-    
+
     const getStickers = async ()=>{
         const {folders , files} = await mediaInstance.getStickers()
         const arrfolders = []
-        folders.forEach(e=>arrfolders.push(e.slice(9,-1)))
+        folders.forEach(e=>arrfolders.push(e.slice(8,-1)))
 
+        console.log("arr",arrfolders )
         setStickerData(files)
-        setFilteredData(arrfolders )
-        // console.log("stickers data" , folders,arrfolders , files)
+        setFilteredData(arrfolders)
+        console.log("stickers data" , folders,"arr",arrfolders , files)
 
     }
     let result = currentContacts.map(d=>d.id)
@@ -61,7 +62,7 @@ export default function Stickers() {
             console.log("no file here")
             return
         }
-        console.log(acceptedFiles[0].arrayBuffer())
+        console.log(acceptedFiles[0].arrayBuffer(),"upload sticker part 1")
         acceptedFiles.pop()
     }
     
@@ -78,15 +79,6 @@ export default function Stickers() {
 
         },[isLoading])
 
-    // const fetchRoles = async () =>{
-        //     const data = await roleInstance.getAllRoles()
-        //     console.log("getAllRoles",data)
-        //     setRoles(data)
-        //     setFilteredData(data)
-        // }
-        // useEffect(    async () => {
-            //     await fetchRoles()
-            // },[]);
             
             const toggleSelect = e => {
                 const { checked ,id} = e.target;
@@ -100,7 +92,7 @@ export default function Stickers() {
         // setSelectAll(!selectAll);
         const {checked,id} = e.target
         console.log(e.target)
-        setSelectedContacts([...selectedContacts,id])
+        setSelectedContacts([...selectedContacts,`storage/${id}`])
 
         // setSelectedContacts(currentContacts.map(c => c.id));
         if (!checked) {
@@ -121,7 +113,7 @@ export default function Stickers() {
         selectedReply.map(async e =>{
             
             const res = await mediaInstance.removeSticker(e)
-            console.log(res,"res")
+            console.log(res,"res delete")
             }
         )
         await getStickers()
@@ -147,7 +139,7 @@ export default function Stickers() {
         <div className={"admin_layout"}>
             <InnerSidebar/>
             <div className="rightContent">
-                                <DeletePad show={isDelete}  reload={()=>console.log("")} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Sticker"}/>
+               <DeletePad show={isDelete}  reload={()=>console.log("")} toggle={toggleDelete } submit={sumbitDelete} data={selectedReply} title={"Sticker"}/>
                 <div className="sticker_box">
                     <div className={"search_session"}>
                         <div className="search">
@@ -229,10 +221,10 @@ export default function Stickers() {
 
                                                         <div className="newCheckboxContainer">
                                                             {isSelectRow ? <label className="newCheckboxLabel">
-                                                                <input type="checkbox" name="checkbox" id={data} checked={selectedContacts.includes(data)} onClick={toggleSelectAll} />
+                                                                <input type="checkbox" name="checkbox" id={data} checked={selectedContacts.includes(`storage/${data}`)} onClick={toggleSelectAll} />
                                                             </label> : null}
                                                         </div>
-                                                        <div  style={{margin:"1rem "}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(12)}
+                                                        <div  style={{margin:"1rem "}}>{data==""?"Sticker":data=="tickers/All"?"Sticker":data.slice(13)}
                                                     </div>
                                             </div>
                                         <div className="sticker-row"
@@ -256,12 +248,12 @@ export default function Stickers() {
                                                     }
                                                 <div className={"add_sticker"} id={data.id} onClick={toggleDropzone}>
                                                     <AddStickerSVG size={80}/>
-                                                    <span style={{display: isShowDropzone ? "block" : "none"}}>
+                                                </div> 
+                                                    <span style={{display: isShowDropzone ? "block" : "none"}} >
                                                         {/*DND Import Data start */}
-                                                        <ImportDropzone title={"Import Sticker"} onClose={toggleDropzone} confirm={stickerHandle} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
+                                                        <ImportDropzone title={"Import Sticker"} folder={filteredData} onClose={toggleDropzone} confirm={stickerHandle} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                                                         {/*DND Import Data end */}
                                                     </span>
-                                                </div> 
                                         </div>
                                 </div>
                                 </td></TableRow>

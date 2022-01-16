@@ -437,6 +437,9 @@ export default function Live_chat() {
     const fileAttach = () =>{
         attachFile.current.click();
     }
+    const fileClear = () =>{
+      attachFile.current.value = null
+    }
     const replySelect = async(e) =>{
         e.preventDefault();
         setTypedMsg({...typedMsg , message: e.target.innerHTML})
@@ -510,17 +513,7 @@ export default function Live_chat() {
 
     const wrapperRef1 = useRef();
 
-    const handleClickOutside = (event) => {
 
-        if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
-            setChatButtonOn("");
-            setIsExpand(false);
-            setIsReply(false);
-            setQuotaMsg("")
-            filePreview.size>0?setFilePrevier(filePreviewOldState):""
-            // console.log(attachFile.current.target)
-          }
-    };
 
     const replyClick=click=>{
         console.log(click,"done donedone")
@@ -598,6 +591,18 @@ export default function Live_chat() {
     // useEffect(()=>{
     //     console.log(quoteMsg)
     // },[quoteMsg])
+    const handleClickOutside = (event) => {
+
+        if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
+            setChatButtonOn("");
+            setIsExpand(false);
+            setIsReply(false);
+            setQuotaMsg("")
+            attachFile.current.value&& fileClear()
+            filePreview.size>0?setFilePrevier(filePreviewOldState):""
+            // console.log(attachFile.current.target)
+          }
+    };
 
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
@@ -1053,15 +1058,15 @@ export default function Live_chat() {
 
                                 </div>:""
                             }
-                            <textarea  disabled={!isWABAStart&&selectedChat.channel=="WABA"} onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                            <textarea  disabled={selectedChat.channel=="WABA"&&!isWABAStart} onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                             <Picker  onSelect={(emoji)=> {
                                 setTypedMsg({...typedMsg,message: typedMsg.message+" "+emoji.native+" "})
                             }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
-                            <div  disabled={!isWABAStart&&selectedChat.channel=="WABA"} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
+                            <div  disabled={selectedChat.channel=="WABA"&&!isWABAStart} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
                                 <StickerBox data={stickerData} stickerSend={stickerSend}  />
                             </div>
-                            <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} disabled={!isWABAStart&&selectedChat.channel=="WABA"}>
+                            <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} disabled={selectedChat.channel=="WABA"&&!isWABAStart}>
                                 <QuickReply data={replyData} onclick={replySelect} disabled={isWABAStart} />
                             </div>
 
