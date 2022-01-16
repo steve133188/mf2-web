@@ -439,7 +439,7 @@ export default function Live_chat() {
     }
     const replySelect = async(e) =>{
         e.preventDefault();
-        setTypedMsg({...typedMsg , message: e.target.childNodes[1].innerHTML})
+        setTypedMsg({...typedMsg , message: e.target.innerHTML})
         // setChatButtonOn("");
         // setIsExpand(false)
     }
@@ -1055,22 +1055,22 @@ export default function Live_chat() {
                             <div  disabled={!isWABAStart&&selectedChat.channel=="WABA"} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
                                 <StickerBox data={stickerData} stickerSend={stickerSend}  />
                             </div>
-                            <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} >
-                                <QuickReply data={replyData} onclick={replySelect} />
+                            <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} disabled={!isWABAStart&&selectedChat.channel=="WABA"}>
+                                <QuickReply data={replyData} onclick={replySelect} disabled={isWABAStart} />
                             </div>
 
-                            <div className={"chatroom_input_btn_gp"}>
-                                <div className={"left_btn_gp"}>
-                                    <div  className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"") } onClick={toggleSticker }
+                            <div className={"chatroom_input_btn_gp"} >
+                                <div className={"left_btn_gp"}  >
+                                    <div  className={"sticker_btn"+(ChatButtonOn=="m1"?" active":"")}  style={{pointerEvents:((!isWABAStart)?"none":"") , backgroundColor:((!isWABAStart)?"#dee2e6":""),borderRadius:"10px"}} onClick={toggleSticker }
                                     ><MaskGroup1/></div>
-                                    <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }   onClick={ toggleEmoji }
+                                    <div className={"emoji_btn "+(ChatButtonOn=="m2"?" active":"") }  style={{pointerEvents:((!isWABAStart)?"none":"") , backgroundColor:((!isWABAStart)?"#dee2e6":""),borderRadius:"10px"}}  onClick={ toggleEmoji }
                                         // style={isEmojiOn?{backgroundColor:"#d0e9ff",background: "#d0e9ff 0% 0% no-repeat padding-box",borderRadius: "10px",fill:"#2198FA"}:{fill:"#8b8b8b"}}
                                     ><MaskGroup2/>
                                         {/* <Picker style={{ position: 'absolute', bottom: '35px', right: '20px' }} /> */}
 
                                     </div>
 
-                                    <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"") } onClick={toggleFile }>
+                                    <div className={"attach_btn "+(ChatButtonOn=="m3"?"":"")}  style={{pointerEvents:((!isWABAStart)?"none":"") , backgroundColor:((!isWABAStart)?"#dee2e6":""),borderRadius:"10px"}} onClick={toggleFile }>
                                         {/*<input type="file" name="fileAttach" ref={attachFile} onChange={(e)=>{setInputValue(e.target.value);console.log(e.target)}} ></input>*/}
                                         <input type="file" name="fileAttach" ref={attachFile} onChange={upload} ></input>
                                         <Mask_Group_3/>

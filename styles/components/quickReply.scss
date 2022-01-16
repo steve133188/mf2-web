@@ -10,4 +10,8 @@
         cursor: pointer;
         // color: chocolate;
     }
+    .disabledDiv {
+        pointer-events: none;
+        opacity: 0.4;
+    }
 }

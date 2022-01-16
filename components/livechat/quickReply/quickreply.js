@@ -55,10 +55,10 @@ export default function QuickReply(props) {
             </Box>
                         
                     <TabPanel value={value} sx={{padding:"0 1rem"}}>
-                    {standardReply.filter(e=>e.id==value).map((item,index)=>{console.log(item,"reply folder",value);return(
-                        <div className={'qreply_box'} style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem"}}>
+                    {standardReply.filter(e=>e.id==value).map((item,index)=>{console.log(item,"reply folder",value);return(<>
+                        <div className={'qreply_box' } style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem" , pointerEvents:((item.name!="WABA"&&!props.disabled)?"none":"") , backgroundColor:((item.name!="WABA"&&!props.disabled)?"#dee2e6":""), borderRadius:"10px" }} >
                             {item.body.map((item,index)=>{console.log(item);return (
-                            <div key={index} style={{margin:" 3px"}}>
+                                <div key={index} style={{margin:" 3px"}}>
                                 <div className={'nameTag'} id={item} onClick={props.onclick}>
                                     {item}
                                 </div>
@@ -69,6 +69,7 @@ export default function QuickReply(props) {
 
                         )})}
                         </div>
+</>
                         )})}
                     </TabPanel>
             {/* <TabPanel value="2">Item Two</TabPanel>
