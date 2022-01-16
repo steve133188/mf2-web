@@ -126,15 +126,9 @@ export default function StandardReply() {
         })
         
         fetchStandardReply();
-        // console.log("DeleteStandardReply",data)
         setSelectedReply([]);
-
     }
-    // const deleteReplys= async (id)=>{
-    //     // const res = await tagInstance.deleteTag(id)
-    //     console.log(res)
-    //     await fetchStandardReply()
-    // }
+    
     const toggleSelectAgents = (e) =>{
          const { checked ,id} = e.target;
     setSelectedAgents([...selectedAgents, id]);
