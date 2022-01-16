@@ -48,29 +48,29 @@ export default function QuickReply(props) {
                     sx={{minHeight:"10px"}}
                     // scrollButtons="auto"
                 >
-                    {standardReply.map((item,index)=>(<Tab label={item.name=="WABA"?<img src={`/channel_SVG/WABA.svg`}/>:item.name} key={index} value={`${item.id}`} />))}
+                    {standardReply.map((item,index)=>{console.log( value);return (<Tab label={item.name=="WABA"?<img src={`/channel_SVG/WABA.svg`}/>:item.name} key={index} value={`${item.id}`} />)})}
 
 
                 </Tabs>
             </Box>
-                    {standardReply.map((item,index)=>(
                         
-                    <TabPanel value={value} key={index} sx={{padding:"0 1rem"}}>
+                    <TabPanel value={value} sx={{padding:"0 1rem"}}>
+                    {standardReply.filter(e=>e.id==value).map((item,index)=>{console.log(item,"reply folder",value);return(
                         <div className={'qreply_box'} style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem"}}>
-                            {item.body.map((item,index)=>(
+                            {item.body.map((item,index)=>{console.log(item);return (
                             <div key={index} style={{margin:" 3px"}}>
                                 <div className={'nameTag'} id={item} onClick={props.onclick}>
                                     {item}
-                                <div hidden={true}>{item}</div>
                                 </div>
                             <div >
                             {/* {item.content } */}
                                 </div>
                             </div>
 
-                        ))}
+                        )})}
                         </div>
-                    </TabPanel>))}
+                        )})}
+                    </TabPanel>
             {/* <TabPanel value="2">Item Two</TabPanel>
             <TabPanel value="3">Item Three</TabPanel> */}
           </TabContext>
