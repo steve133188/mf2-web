@@ -56,17 +56,15 @@ export default function Agents() {
 
     let result = currentContacts.map(d=>d.id)
 
+    // ,"All Contacts","Newly Added Contacts",
 
     const default_cols = ["Name","Role","Status",
-    // ,"All Contacts","Newly Added Contacts",
     "Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts",
     "Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
 
     const rolename =["user_name",
     "user_role_name",
     "user_status",
-    // "all_contacts",
-    // "new_added_contacts",
     "avgDailyOnline",
     "assigned_contacts",
     "active_contacts",
@@ -76,6 +74,9 @@ export default function Agents() {
     "avg_resp_time",
     "first_resp_time",
 ]
+    // "all_contacts",
+    // "new_added_contacts",
+
 
     const [handelList,setHandelList] = useState([])
     const [deilverList,setDeliverList] = useState([])
@@ -94,16 +95,15 @@ export default function Agents() {
         ["Alex",'Agent','Connected',60,6,4,0,2,6,8.6,15],
         ["Jason Fung",'Agent','Connected',42,8,3,3,2,9,7,7],
         ["Ben Cheng",'Agent','Disconnected',0,0,0,0,0,0,0,0],
-        // ["Golden",'Agent','Disconnected',0,0,0,0,0,0,0,0],
-        // ["Amy",'Agent','Disconnected',0,0,0,0,0,0,0,0],
-
     ]
+    // ["Golden",'Agent','Disconnected',0,0,0,0,0,0,0,0],
+    // ["Amy",'Agent','Disconnected',0,0,0,0,0,0,0,0],
 
     const AverDailyOnlineTime = tempData.map(a=>a[3]).reduce((org,cur)=>{
         return org+cur
     })
 
-    
+
     const AssignedContacts= tempData.map(a=>a[4]).reduce((org,cur)=>{
         return org+cur
     })
@@ -153,7 +153,7 @@ export default function Agents() {
     useEffect(()=>{
 
         selectedAgents.length>0? filterHandel():selectedAgents.length=0? setFilteredData(tempData):""
-        
+
     },[selectedAgents])
 
     const clear = ()=>{
@@ -172,7 +172,7 @@ export default function Agents() {
     useEffect(async()=>{
         let data = await fetchDefault();
         setDash(data)
-        
+
         if(isLoading){
             setTimeout(function() { //Start the timer
                 setIsLoading(false);
