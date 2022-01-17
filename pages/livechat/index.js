@@ -99,7 +99,7 @@ export default function Live_chat() {
         const [filteredData , setFilteredData] = useState([])
         const [filteredContacts , setFilteredContacts] = useState([])
 
-        const [isWABAStart , setWABA] =useState(false)
+        const [isWABAStart , setWABA] =useState(true)
         useEffect(()=>{
             console.log(isWABAStart,"check state")
         },[isWABAStart])
@@ -492,19 +492,7 @@ export default function Live_chat() {
             // await subChatrooms()
     }
 
-    const wrapperRef1 = useRef();
-
-    const handleClickOutside = (event) => {
-        if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
-            setChatButtonOn("");
-            setIsExpand(false);
-            setIsReply(false);
-            setQuotaMsg("")
-            filePreview.size>0?setFilePrevier(filePreviewOldState):""
-            // console.log(attachFile.current.target)
-          }
-    };
-
+   
     const replyClick=click=>{
         console.log(click,"done donedone")
         setReplyMsg(click)
@@ -574,6 +562,8 @@ export default function Live_chat() {
 
     }
 
+
+    const wrapperRef1 = useRef();
 
 
     // useEffect(()=>{

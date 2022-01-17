@@ -120,7 +120,8 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,c
         // </div>
         // :
         <div id={msg.timestamp} onClick={replyclick}  value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body" +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
-        {msg.body} </div>
+        {/* {`${isValidURL(msg.body)}`} </div> */}
+        {(msg.body)} </div>
         )
             // default:   return  <div value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body"}>{msg.body}</div>
         }

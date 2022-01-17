@@ -6,6 +6,7 @@ export default function CountDownTimer ({dayString,timeCount}) {
     const [timeString,setTimeString] = useState(dayString)
     const [timeLeft, setTimeLeft] = useState("");
     const [endTime,setEndTime] =useState()
+    const [startCount , setCount] =useState(false);
     
     //add 24 hour
     useEffect(()=>{
@@ -13,11 +14,11 @@ export default function CountDownTimer ({dayString,timeCount}) {
         const lastTime= Time -  Date.parse(new Date())
         if(lastTime>0) timeCount(true)
         setEndTime( lastTime  )
-
+        setCount(true);
     },[dayString])
     
     useEffect(()=>{
-
+        if(!startCount){return}
         if(!endTime||endTime<0) {timeCount(false);setTimeLeft("00:00:00");return }
         
                 const timerInt = setInterval(()=> {
