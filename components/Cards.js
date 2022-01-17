@@ -139,7 +139,7 @@ export function LineChartCard({children,...props}) {
                     <div style={{minHeight:"20px",width:"10px"}}></div>
                 </div>
                 <Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} hidden={props.chart?!props.chart:true} />
-                <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${props.channel}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
+                <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${props.channel??"Whatsapp"}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
             </div>
         </div>
     )

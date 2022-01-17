@@ -179,13 +179,10 @@ export default function Agents() {
         }
     },[])
     useEffect(async ()=>{
-        if (dash.agents_no.length == 0) {
+        if (!dash) {
             let data = await fetchDefault();
             console.log(data,"let me see")
             setDash(data)
-            const ado=[35,50,56,40,55,60,42]
-            // const list  = data.Agent.map((e,index)=>{return {...e,avgDailyOnline:ado[index]}})
-            // setFilteredData(list)
         } else {
             const dataIN = Date.parse(dayState.from)/1000
             const dataEND = Date.parse(dayState.to)/1000
@@ -355,28 +352,6 @@ export default function Agents() {
                                     d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                             </svg>
                         </div>
-
-                        <MF_Select head={"Export"}  submit={exportSubmit}  customeDropdown={"topRight"}>
-                        <div className={"channelListitem"} style={{width:"400px"}}>
-                            <div className={"left"}>
-                            <img className={"serachSVG"} src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} />
-                            <div style={{margin:"0 5px"}}> whatsapp</div>
-                            </div>
-                            <div className={"right"}>
-
-                            <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel">
-                                            <input type="checkbox"
-                                                    id={12}
-                                                    name="checkbox"
-                                                    checked={false}
-                                                    // onClick={props.onclick}
-                                                    />
-                                            </label>
-                                        </div>
-                            </div>
-                        </div>
-                        </MF_Select>
                     </div> */}
                 </div>
 

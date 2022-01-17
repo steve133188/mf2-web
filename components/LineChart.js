@@ -217,17 +217,22 @@ export function MultipleBarChart({children,...props}) {
                         columnWidth: '50%',
                     },
                 },
-                xaxis: {
+                xaxis: {  
+                    ticks: {
+                    autoSkip: false,
+                    maxRotation: 90,
+                    minRotation: 90
+                },
                     categories: agents,
                     labels: {
 
                         offsetX: 0,
                         offsetY:0,
                         style: {
-                          fontSize: "16px",
+                          fontSize: "13px",
                           colors: "#828282",
                           fontFamily: "Calibri Regular",
-                          fontWeight: 400,
+                          fontWeight: "200",
                           cssClass: "apexcharts-xaxis-label"
                         }
                       },
