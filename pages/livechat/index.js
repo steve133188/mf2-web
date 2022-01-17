@@ -158,7 +158,7 @@ export default function Live_chat() {
             })
     }
     async function handleChatRoom(chatroom){
-        if(chatroom.name == selectedChat.name) return
+        if(chatroom.name == selectedChat.name && chatroom.room_id === selectedChat.room_id) return
         if(chatroom.channel !== "WABA")setLastMsgFromClient("")
         console.log(chatroom, "while select")
         if (chatroom.unread>0  )await updateChatroomUnread(chatroom);
@@ -176,31 +176,26 @@ export default function Live_chat() {
 
     const getChatroomMessage = async(nextToken)=>{
             let condition ={limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel} }}
-        if(nextToken)condition.nextToken = nextToken
-        console.log("conditions : " ,condition)
-        const result = await API.graphql(graphqlOperation(listMessages,condition))
-            .then(async res=>{
-                setChatroomMsg(prev=>[...prev,...res.data.listMessages.items])
-                console.log("res:" ,res.data.listMessages)
-                if(res.data.listMessages.nextToken ){
-                    console.log("has nextToken", res.data.listMessages.nextToken)
-                    await getChatroomMessage(res.data.listMessages.nextToken)
-                }
-                if(res.data.listMessages.items!==-1){
+            if(nextToken)condition.nextToken = nextToken
+            console.log("conditions : " ,condition)
+            const result = await API.graphql(graphqlOperation(listMessages,condition))
+                .then(async res=>{
+                    setChatroomMsg(prev=>[...prev,...res.data.listMessages.items])
+                    console.log("res:" ,res.data.listMessages)
+                    if(res.data.listMessages.nextToken ){
+                        console.log("has nextToken", res.data.listMessages.nextToken)
+                        await getChatroomMessage(res.data.listMessages.nextToken)
+                    }
+                    if(res.data.listMessages.items!==-1){
 
-                    let notFromMe = res.data.listMessages.items.filter(msg=>{
-                        return msg.from_me ==false
+                        let notFromMe = res.data.listMessages.items.filter(msg=>{
+                            return msg.from_me ==false
                     })
                     if(notFromMe.length==0) return
-                    console.log("no from me :", notFromMe)
                     notFromMe = notFromMe.pop()
-                    console.log(" not from me last msg time : ",  notFromMe.timestamp)
                     setLastMsgFromClient(notFromMe.timestamp)
-                    console.log("last msg time : ",  lastMsgFromClient,)
                     console.log("getChatroomMessage",chatroomMsg)
                 }
-
-
             }).catch(err=>console.log(err))
     }
 
@@ -212,7 +207,6 @@ export default function Live_chat() {
                 return chatroom
             })
             .catch(error => console.log(error))
-        console.log("get chatrooms" ,result)
         await getOwnPinChatList()
         setChatrooms(result)
         setFilteredData(result)
@@ -242,25 +236,20 @@ export default function Live_chat() {
     useEffect(()=>{
         if(ChatButtonOn!="m3") setFilePrevier(filePreviewOldState)
     },[ChatButtonOn])
-    useEffect(()=>{
-        console.log(filePreview,"file attachment show")
-    },[filePreview])
 
     // useEffect(()=>{
-    //     console.log(timerString,"try new input instanly")
-    // },[timerString])
+    //     console.log(filePreview,"file attachment show")
+    // },[filePreview])
+
     useEffect(()=>{
-        // if(selectedChat.room_id)setSelectedChat(prev=>selectedChat)
-        // if(selectedChat.room_id)mf2chat.setChat(selectedChat)
         console.log("mf2chat store : " ,selectedChat)
     },[mf2chat])
+
     const upload = async (e) =>{
         e.preventDefault()
         if(!e.target.files[0]){return}
         const file = e.target.files[0]
         console.log(URL.createObjectURL(file))
-        console.log("file mine type1:"  , file.type)
-
         const filetype =  messageInstance.mediaTypeHandler(file)
         console.log("file type 2" , filetype)
         const path =URL.createObjectURL(file)
@@ -300,8 +289,8 @@ export default function Live_chat() {
         console.log(result,"chatroom selected result")
         setChatUser(result)
     }
-    const [contacts, setContacts] = useState([]);
 
+    const [contacts, setContacts] = useState([]);
 
     const handleTypedMsg = e =>{
         const {name , value} = e.target
@@ -314,7 +303,6 @@ export default function Live_chat() {
     useEffect(()=>{
         setReplyData(replyTemplateList)
         console.log("init mf2chat" , selectedChat)
-        // console.log("total unread",totalUnread)
     },[])
 
     const fetchContacts = async () =>{
@@ -349,7 +337,6 @@ export default function Live_chat() {
     }
 
     const teamFilter =(agents , filter ,contact, chats)=>{
-        // console.log(agents,filter,"testetsetset")
         const gps= agents.filter(d=>{;return filter.includes(d.team_id.toString())})
         const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
         return chats.filter(ch=>{;return gp.map(g=>g.customer_id).includes(ch.customer_id);})
@@ -382,10 +369,6 @@ export default function Live_chat() {
 
     ///////
 
-    useEffect(()=>{
-        console.log(selectedTeams,"selectedTeams change")
-
-    },[selectedTeams])
     // async function handleChatRoom(chatroom){
     //     if(chatroom == selectedChat) return ;
     //     if(chatroom.channel !== "WABA") setLastMsgFromClient("")
@@ -507,13 +490,20 @@ export default function Live_chat() {
         await getAllChatrooms();
         await getChatroomMessage ();
             // await subChatrooms()
-
-
     }
 
     const wrapperRef1 = useRef();
 
-
+    const handleClickOutside = (event) => {
+        if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
+            setChatButtonOn("");
+            setIsExpand(false);
+            setIsReply(false);
+            setQuotaMsg("")
+            filePreview.size>0?setFilePrevier(filePreviewOldState):""
+            // console.log(attachFile.current.target)
+          }
+    };
 
     const replyClick=click=>{
         console.log(click,"done donedone")
@@ -538,8 +528,8 @@ export default function Live_chat() {
     const confirmForward = ()=>{
         setIsForward(!isForward)
         setReplyMsg("")
-
     }
+
     const clearForward = ()=>{
         setSelectedContacts([])
     }
@@ -579,8 +569,6 @@ export default function Live_chat() {
             setIsReply(false)
             setChatButtonOn("")
             setReplyMsg("")
-            // console.log("data sent out :" , data)
-
 
         clearForward();
 
