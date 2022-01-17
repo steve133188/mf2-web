@@ -68,6 +68,7 @@ export const getWhatsapp_node = /* GraphQL */ `
       status
       init
       channel_id
+      url
     }
   }
 `;
@@ -86,6 +87,7 @@ export const listWhatsapp_nodes = /* GraphQL */ `
         status
         init
         channel_id
+        url
       }
       nextToken
     }

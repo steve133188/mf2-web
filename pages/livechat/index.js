@@ -217,6 +217,9 @@ export default function Live_chat() {
             .then(async res =>{
                 let chatroom = res.data.listChatrooms.items
                 setChatrooms(chatroom)
+                chatroom = chatroom.filter(ch=>{
+                    return ch.channel == "WABA"
+                })
                 setFilteredData(chatroom)
                 // setPinChat(pin)
             })
@@ -505,12 +508,12 @@ export default function Live_chat() {
     const replyClick=click=>{
         console.log(click,"done donedone")
         setReplyMsg(click)
-       
+
 
         if(click==replyMsg){setReplyMsg("");setQuotaMsg("")}
     }
     const confirmReply=()=>{
-        setReply(!reply) 
+        setReply(!reply)
         const quote = chatroomMsg.filter(e=>{return replyMsg==(e.timestamp)})
         const m={...quote[0],hasQuotedMsg:true,quote:quote[0].message_id,quote_from:quote.sender}
         console.log(quote[0],"raw data to quote")
@@ -518,7 +521,7 @@ export default function Live_chat() {
         setReplyMsg("")
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
-        
+
         setTypedMsg({...typedMsg ,message_type: "text",hasQuotedMsg:true,media_url:quote.media_url,is_media:true,sign_name:quote.sign_name})
         // setQuotaMsg("")
     }
@@ -922,7 +925,7 @@ export default function Live_chat() {
                          }} >
                                 <div >
 
-                                {filteredContacts.map((user,index) => {
+                                {filteredContacts&&filteredContacts.map((user,index) => {
                                     // console.log(user,"for forward list")
                                     return (<li key={user.customer_name}>
                                 <div style={{ display: "flex", gap: 10 }}>

@@ -13,6 +13,11 @@ import ConnectFacebookMessager from "../../components/integrations/connect_faceb
 import { GlobalContext } from "../../context/GlobalContext";
 import ConnectTempMessager from "../../components/integrations/connect_channels_temp";
 import Loading from "../../components/Loading";
+import {API, graphqlOperation} from "aws-amplify";
+import {listWhatsapp_nodes} from "../../src/graphql/queries";
+import {updateWhatsapp_node} from "../../src/graphql/mutations";
+import {onUpdateWhatsapp_node} from "../../src/graphql/subscriptions";
+import axios from "axios";
 
 export default function Integrations() {
     const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +32,7 @@ export default function Integrations() {
         {name:"Kakao Talk", channelID:"kakaotalk",connectState:false,token:""},
         // {name:"Telegram", channelID:"",connectState:false,token:""},
     ]
-
+    const [whatsapp , setWhatsapp] = useState('')
     const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
     const [allChannel,setAllChannel] = useState(channelList)
     const [connectedChannels,setConnectedChannels] = useState([])
@@ -42,18 +47,18 @@ export default function Integrations() {
     const [signalFetch,setSignalFetch] = useState(false);
     const [telegramFetch,setTelegramFetch] = useState(false);
     const [kakaotalkFetch,setKakaotalkFetch] = useState(false);
-
+    const [qrcode , setQrcode] = useState("")
     const toggleHandeler = (e) =>{
         // console.log(e.target)
         // console.log(e.target.id)
         // console.log("activeChannel")
         setActiveChannel(channelList.filter((item)=>{if(!item.connectState){return item.channelID==e.target.id}}))
         setValue(e.target.id)
-        
-        console.log(activeChannel)    
+
+        console.log(activeChannel)
     }
     const myChannel = async() =>{
-        console.log(user) 
+        console.log(user)
         const activedChannel = user.user.channels??[""]
         const unConlist = channelList.filter(item=>{return item.channelID!=activedChannel.filter(e=>{return item.channelID==e})})
         setAllChannel(unConlist )
@@ -61,9 +66,36 @@ export default function Integrations() {
         setConnectedChannels(activeList.map(item=>{return {...item,connectState:true}}))
 
     }
+
+    const selectWAInstance = async ()=>{
+        const instance = await API.graphql(graphqlOperation(listWhatsapp_nodes, {filter:{status: {eq:"AVAILABLE"} , init : {eq:false}}})).then(res=>res.data.listWhatsapp_nodes.items).catch(err=>console.log(err))
+        const selectedInstance = instance[0]
+        console.log("selected :" ,selectedInstance )
+        // const updatedInstance = await API.graphql(graphqlOperation(updateWhatsapp_node , {input:{
+        //         node_index: selectedInstance.node_index,
+        //         status: "CONNECTING",
+        //         node_name:"Whatsapp"
+        //     }})).then(res=>res.data.updateWhatsapp_node).catch(err=>console.log(err))
+        console.log(selectedInstance)
+        const start = await axios.post(selectedInstance.url+"/connect" , {user_id:user.user.user_id , node_index:selectedInstance.node_index}).then(res=>console.log(res)).catch(err=>console.log(err))
+        const sub =await API.graphql(graphqlOperation(onUpdateWhatsapp_node )).subscribe({
+            next: async (node) => {
+                console.log("qrUpdate" , node)
+                const qr = node.value.data.onUpdateWhatsapp_node.channel_id
+                setQrcode(qr)
+                // if(node.value.data.onUpdateWhatsapp_node.status ==="CONNECTED"){
+                //
+                //     return
+                // }
+            }
+        })
+        sub.unsubscribe()
+        setWhatsapp("CONNECTED")
+    }
+
     useEffect(()=>{
         if(user.token){
-         
+
             myChannel();
             if(isLoading){
                 setTimeout(function() { //Start the timer
@@ -75,10 +107,10 @@ export default function Integrations() {
 
     useEffect(()=>{
         if( activeChannel.length>0 ){ setShowMe(!showMe) };
-        
+
         },[activeChannel])
 
-    const [value, setValue] = useState(""); 
+    const [value, setValue] = useState("");
     const handelSumbit = () =>{
         console.log("send button")
         console.log(value)
@@ -91,7 +123,7 @@ export default function Integrations() {
         if(value=="telegram"){setTelegramFetch(!telegramFetch)}
         if(value=="kakaotalk"){setKakaotalkFetch(!kakaotalkFetch)}
 
-        // ()=>setWhatsappBFetch(!whatsappBFetch)   
+        // ()=>setWhatsappBFetch(!whatsappBFetch)
     }
 
 
@@ -108,8 +140,8 @@ export default function Integrations() {
         const updateuser = await userInstance.updateUser (user.user.phone,{user:{channels:newChannels}})
         console.log(updateuser)
         // !connectState
-    }   
-  
+    }
+
     const wrapperRef = useRef();
     const handleClickOutside = (event) => {
         if (
@@ -145,7 +177,7 @@ export default function Integrations() {
                         <h1  >Channels</h1>
                         <div className="row cardContainer">
                             {allChannel.map(item=>{return (
-                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} onclick={toggleHandeler} state={item.connectState} disconnect={toggleDelete}  />
+                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} qrcode={qrcode}   onclick={toggleHandeler} state={item.connectState} disconnect={toggleDelete}  />
 
                             )})}
                         </div>
@@ -165,7 +197,7 @@ export default function Integrations() {
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
                          <TabContext value={value}  >
 
-                                <TabPanel value="Whatsapp" ><ConnectWhatsapp fetchdata={whatsappFetch}/></TabPanel>
+                                <TabPanel value="Whatsapp" ><ConnectWhatsapp qrcode={qrcode} connect={selectWAInstance} fetchdata={whatsappFetch}/></TabPanel>
                                 <TabPanel value="WhatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
                                 <TabPanel value="Wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
                                 <TabPanel value="Messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>

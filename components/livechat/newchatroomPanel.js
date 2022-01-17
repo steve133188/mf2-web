@@ -1,16 +1,28 @@
 import Avatar from "@mui/material/Avatar";
 import {API, graphqlOperation} from "aws-amplify";
 import {createChatroom} from "../../src/graphql/mutations";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import { Tooltip } from "@mui/material";
 import {getChatroom} from "../../src/graphql/queries";
 
 
 export default function Newchatroom({ setFilteredData ,...props}){
-    const {user , setSelectedChat} = useContext(GlobalContext)
+    const {user , setSelectedChat , contactInstance} = useContext(GlobalContext)
+    const [contacts , setContacts] = useState([])
     // useEffect(()=>{console.log(props, "chatrooms details ")}
     // ,[props])
+
+    useEffect(async ()=>{
+        if(user.token){
+            const data =await contactInstance.getAllContacts()
+            if(data){
+                setContacts(data)
+            }
+        }
+        console.log("contacts : " , contacts )
+
+    },[])
     const createChatroomAction = async (data)=>{
         console.log(user)
         const input = {
@@ -33,6 +45,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
         //     console.log(error)
         //    alert("Something went wrong")
         // })
+
         const result = await API.graphql(graphqlOperation(createChatroom, {input})).then(
             res=>{
                 console.log(res)
@@ -62,7 +75,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
                     New Chatroom
                     </div>
             <div className="contactList" >
-                {props.contacts.map((contact, index)=>{
+                {contacts.length>0&&contacts.map((contact, index)=>{
                     return(
                         <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroomAction(contact)}} >
 
