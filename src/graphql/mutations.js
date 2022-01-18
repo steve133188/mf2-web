@@ -50,6 +50,7 @@ export const createWhatsapp_node = /* GraphQL */ `
       status
       init
       channel_id
+      url
     }
   }
 `;
@@ -63,6 +64,7 @@ export const updateWhatsapp_node = /* GraphQL */ `
       status
       init
       channel_id
+      url
     }
   }
 `;
@@ -76,6 +78,7 @@ export const deleteWhatsapp_node = /* GraphQL */ `
       status
       init
       channel_id
+      url
     }
   }
 `;

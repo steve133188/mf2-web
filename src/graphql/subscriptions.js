@@ -67,6 +67,7 @@ export const onUpdateWhatsapp_node = /* GraphQL */ `
       status
       init
       channel_id
+      url
     }
   }
 `;
