@@ -67,31 +67,7 @@ export default function Integrations() {
 
     }
 
-    const selectWAInstance = async ()=>{
-        const instance = await API.graphql(graphqlOperation(listWhatsapp_nodes, {filter:{status: {eq:"AVAILABLE"} , init : {eq:false}}})).then(res=>res.data.listWhatsapp_nodes.items).catch(err=>console.log(err))
-        const selectedInstance = instance[0]
-        console.log("selected :" ,selectedInstance )
-        // const updatedInstance = await API.graphql(graphqlOperation(updateWhatsapp_node , {input:{
-        //         node_index: selectedInstance.node_index,
-        //         status: "CONNECTING",
-        //         node_name:"Whatsapp"
-        //     }})).then(res=>res.data.updateWhatsapp_node).catch(err=>console.log(err))
-        console.log(selectedInstance)
-        const start = await axios.post(selectedInstance.url+"/connect" , {user_id:user.user.user_id , node_index:selectedInstance.node_index}).then(res=>console.log(res)).catch(err=>console.log(err))
-        const sub =await API.graphql(graphqlOperation(onUpdateWhatsapp_node )).subscribe({
-            next: async (node) => {
-                console.log("qrUpdate" , node)
-                const qr = node.value.data.onUpdateWhatsapp_node.channel_id
-                setQrcode(qr)
-                // if(node.value.data.onUpdateWhatsapp_node.status ==="CONNECTED"){
-                //
-                //     return
-                // }
-            }
-        })
-        sub.unsubscribe()
-        setWhatsapp("CONNECTED")
-    }
+
 
     useEffect(()=>{
         if(user.token){
@@ -197,7 +173,7 @@ export default function Integrations() {
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
                          <TabContext value={value}  >
 
-                                <TabPanel value="Whatsapp" ><ConnectWhatsapp qrcode={qrcode} connect={selectWAInstance} fetchdata={whatsappFetch}/></TabPanel>
+                                <TabPanel value="Whatsapp" ><ConnectWhatsapp  fetchdata={whatsappFetch}/></TabPanel>
                                 <TabPanel value="WhatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
                                 <TabPanel value="Wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
                                 <TabPanel value="Messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
