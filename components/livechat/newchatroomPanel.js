@@ -62,7 +62,7 @@ export default function Newchatroom({ setFilteredData ,...props}){
                     New Chatroom
                     </div>
             <div className="contactList" >
-                {props.contacts.map((contact, index)=>{
+                {props.contacts!=-1&&props.contacts!=undefined&&props.contacts.map((contact, index)=>{
                     return(
                         <div key={index} className={"chatroom_li "} onClick={async ()=>{await createChatroomAction(contact)}} >
 

@@ -209,7 +209,7 @@ export default function Live_chat() {
             .catch(error => console.log(error))
         await getOwnPinChatList()
         setChatrooms(result)
-        setFilteredData(result)
+        setFilteredData(result) 
     }
     const getAllChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString() )
@@ -749,13 +749,25 @@ export default function Live_chat() {
 
         isClear?setClear(false):""
     },[isClear])
+    // const [doubleList,setDoubleList] = useState([])
+    // const [List,setList] = useState([{phone:"123"},])
+    // useEffect(()=>{
+    //     console.log(filteredData,"chatroom volumn")
+    
+    // },[filteredData])
+    // useEffect(()=>{
+    // console.log(doubleList,"doubledoubledouble")
+    // filteredData.map(e=>{
+    //   if(  e.phone=="85265779712"){console.log(e, "double")}
+    // })
+    
+    // },[doubleList])
 
-
-    useEffect(async ()=>{
-        if(selectedChat.unread>0){
-            await updateChatroomUnread(selectedChat)
-        }
-    },[selectedChat])
+    // useEffect(async ()=>{
+    //     if(selectedChat.unread>0){
+    //         await updateChatroomUnread(selectedChat)
+    //     }
+    // },[selectedChat])
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) ;
         if(isEditProfileShow) ;

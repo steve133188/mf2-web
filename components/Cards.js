@@ -163,7 +163,7 @@ export function ChangingPercentageCard({children,...props}) {
             <div className={"dataGroup"}>
                 <div className={"number"}>{data2}</div>
                 <div className={classnamee}>
-                    {changing}
+                    {/* {changing} */}
                 </div>
             </div>
         </div>

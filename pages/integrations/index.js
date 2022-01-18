@@ -54,7 +54,7 @@ export default function Integrations() {
         console.log(activeChannel)    
     }
     const myChannel = async() =>{
-        console.log(user) 
+        console.log(user,"user info") 
         const activedChannel = user.user.channels??[""]
         const unConlist = channelList.filter(item=>{return item.channelID!=activedChannel.filter(e=>{return item.channelID==e})})
         setAllChannel(unConlist )
@@ -96,7 +96,7 @@ export default function Integrations() {
     }
 
 
-    const toggleDelete = async (e)=>{
+    const toggleDisconnect = async (e)=>{
         console.log("disconnet",e.target.id)
         const newChannels =[]
         const newList = connectedChannels.filter(item=>{return(item.channelID!=e.target.id)})
@@ -137,7 +137,7 @@ export default function Integrations() {
                         <h1 >My Channels</h1>
                         <div className="row cardContainer" >
                             {connectedChannels.map(item=>{return (
-                                <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} onclick={toggleHandeler} state={item.connectState} disconnect={toggleDelete}  />
+                                <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} onclick={toggleHandeler} state={item.connectState} disconnect={toggleDisconnect}  />
 
                                 )})}
                         </div>
@@ -146,7 +146,7 @@ export default function Integrations() {
                         <h1  >Channels</h1>
                         <div className="row cardContainer">
                             {allChannel.map(item=>{return (
-                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} onclick={toggleHandeler} state={item.connectState} disconnect={toggleDelete}  />
+                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} onclick={toggleHandeler} state={item.connectState} disconnect={toggleDisconnect}  />
 
                             )})}
                         </div>
@@ -159,7 +159,7 @@ export default function Integrations() {
                             {activeChannel.length>0?activeChannel[0].name:""}
                         </div>
                         <div>
-                           {activeChannel.length>0 && activeChannel[0].channelID=="Whatsapp" ?<button id={activeChannel[0].channelID}  onClick={toggleDelete} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
+                           {activeChannel.length>0 && activeChannel[0].channelID=="Whatsapp" ?<button id={activeChannel[0].channelID}  onClick={toggleDisconnect} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
                         </div>
 
                     </div>

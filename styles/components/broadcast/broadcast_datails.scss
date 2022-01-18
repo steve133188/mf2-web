@@ -46,3 +46,22 @@
         }
     }
 }
+.chart_info{
+    display:"flex";
+    justify-content:"center";
+    align-items:"center";
+    margin:"10px 15px 15px 0px";
+    background-color: "#D0E9FF";
+    border-radius: "5px";
+    width:"18px";
+    height:"18px";
+    .chart_info_details{
+        
+            color: "#495057";
+            font-size: "16px"; 
+            font-weight: "600";
+            width:"fit-content";
+            margin:"10px 15px 15px 0px";
+            opacity:0;
+    }
+}
