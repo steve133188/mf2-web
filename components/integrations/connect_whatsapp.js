@@ -56,10 +56,15 @@ export default function ConnectWhatsapp(props){
     <div className="intergra_container">
         <p>Scan the QR code with your phone and keep your phone connected to internet.</p>
         {qrcode?<div style={{display:"flex",flexDirection:'column'}}>
-                <QRCode value={qrcode}/>
+                <QRCode  id="qr-gen"
+                         value={qrcode}
+                         size={290}
+                         level={"H"}
+                         includeMargin={true}/>
+
         </div>
-        :
-        " Real Whatsapp QRcode API"
+
+        :null
         }
         {subed&& <p>Whatsapp channel connected</p>}
     </div>

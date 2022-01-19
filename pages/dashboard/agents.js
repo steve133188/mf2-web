@@ -35,7 +35,7 @@ export default function Agents() {
     const [selectedPeriod ,setSelectedPeriod] =useState("");
     const [dayState,setDayState] = useState({from:"",to:""});
     const [currentPage , setCurrentPage] = useState(1)
-    const [filteredData , setFilteredData] = useState([])
+    const [filteredData , setFilteredData] = useState([["","",'',0,0,0,0,0,0,0,0],])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
@@ -59,7 +59,7 @@ export default function Agents() {
     // ,"All Contacts","Newly Added Contacts",
 
     const default_cols = ["Name","Role","Status",
-    "Average Daily Onlie Time","Assigned Contacts","Active Contacts","Delivered Contacts",
+    "Average Daily Onlie Time","All Contacts","Active Contacts","Delivered Contacts",
     "Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
 
     const rolename =["user_name",
@@ -93,38 +93,38 @@ export default function Agents() {
         ["Agent try",'Agent','Connected',40,7,7,0,0,14,3.5,2],
         ["Sylvia Tam",'Agent','Connected',55,5,5,0,0,9,3,4],
         ["Renee Tang",'Agent','Connected',60,6,4,0,2,6,8.6,15],
-        ["Steve Chak",'Agent','Connected',42,8,3,3,2,9,7,7],
+        ["Steve Chak",'Agent','Disconnected',42,8,3,3,2,9,7,7],
         ["Ben Cheng",'Agent','Disconnected',0,0,0,0,0,0,0,0],
     ]
     // ["Golden",'Agent','Disconnected',0,0,0,0,0,0,0,0],
     // ["Amy",'Agent','Disconnected',0,0,0,0,0,0,0,0],
 
-    const AverDailyOnlineTime = tempData.map(a=>a[3]).reduce((org,cur)=>{
+    const AverDailyOnlineTime = filteredData.map(a=>a[3]).reduce((org,cur)=>{
         return org+cur
     })
 
-    const AssignedContacts= tempData.map(a=>a[4]).reduce((org,cur)=>{
+    const AllContacts= filteredData.map(a=>a[4]).reduce((org,cur)=>{
         return org+cur
     })
-    const ActiveContacts= tempData.map(a=>a[5]).reduce((org,cur)=>{
+    const ActiveContacts= filteredData.map(a=>a[5]).reduce((org,cur)=>{
         return org+cur
     })
-    const DeliveredContact= tempData.map(a=>a[6]).reduce((org,cur)=>{
+    const DeliveredContact= filteredData.map(a=>a[6]).reduce((org,cur)=>{
         return org+cur
     })
-    const UnhandeledContact= tempData.map(a=>a[7]).reduce((org,cur)=>{
+    const UnhandeledContact= filteredData.map(a=>a[7]).reduce((org,cur)=>{
         return org+cur
     })
-    // const TotalMessagesReceived= tempData.map(a=>a[8]).reduce((org,cur)=>{
+    // const TotalMessagesReceived= filteredData.map(a=>a[8]).reduce((org,cur)=>{
     //     return org+cur
     // })
-    const TotalMessagesSent= tempData.map(a=>a[8]).reduce((org,cur)=>{
+    const TotalMessagesSent= filteredData.map(a=>a[8]).reduce((org,cur)=>{
         return org+cur
     })
-    const AverageResponseTime= tempData.map(a=>a[9]).reduce((org,cur)=>{
+    const AverageResponseTime= filteredData.map(a=>a[9]).reduce((org,cur)=>{
         return org+cur
     })
-    const AverageFirstResponse= tempData.map(a=>a[10]).reduce((org,cur)=>{
+    const AverageFirstResponse= filteredData.map(a=>a[10]).reduce((org,cur)=>{
         return org+cur
     })
 
@@ -179,13 +179,10 @@ export default function Agents() {
         }
     },[])
     useEffect(async ()=>{
-        if (dash.agents_no.length == 0) {
+        if (!dash) {
             let data = await fetchDefault();
             console.log(data,"let me see")
             setDash(data)
-            const ado=[35,50,56,40,55,60,42]
-            // const list  = data.Agent.map((e,index)=>{return {...e,avgDailyOnline:ado[index]}})
-            // setFilteredData(list)
         } else {
             const dataIN = Date.parse(dayState.from)/1000
             const dataEND = Date.parse(dayState.to)/1000
@@ -355,38 +352,16 @@ export default function Agents() {
                                     d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                             </svg>
                         </div>
-
-                        <MF_Select head={"Export"}  submit={exportSubmit}  customeDropdown={"topRight"}>
-                        <div className={"channelListitem"} style={{width:"400px"}}>
-                            <div className={"left"}>
-                            <img className={"serachSVG"} src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} />
-                            <div style={{margin:"0 5px"}}> whatsapp</div>
-                            </div>
-                            <div className={"right"}>
-
-                            <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel">
-                                            <input type="checkbox"
-                                                    id={12}
-                                                    name="checkbox"
-                                                    checked={false}
-                                                    // onClick={props.onclick}
-                                                    />
-                                            </label>
-                                        </div>
-                            </div>
-                        </div>
-                        </MF_Select>
                     </div> */}
                 </div>
 
             </div>
             <div className="lineCardGroupSet">
                 <div className="lineCardGroup1">
-                    <LineChartCard chart={true} img={false} title={"Agents"} data={[tempData.length]}/>
-                    <LineChartCard chart={true} img={false} title={"Connected"} data={[tempData.filter(e=>{return e[2]=="Connected"}).length]}/>
-                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[tempData.filter(e=>e[2]=="Disconnected").length]}/>
-                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={[15]}/>
+                    <LineChartCard chart={true} img={false} title={"Agents"} data={[filteredData.length]}/>
+                    <LineChartCard chart={true} img={false} title={"Connected"} data={[filteredData.filter(e=>{return e[2]=="Connected"}).length]}/>
+                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[filteredData.filter(e=>e[2]=="Disconnected").length]}/>
+                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={[AllContacts]}/>
                     <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={[7]}/>
                     <AverageDailyCard data = {[AverDailyOnlineTime*60]}/>
                     {/* <LineChartCard chart={true} img={false} title={"Agents"} data={dash.agents_no}/>
@@ -397,7 +372,7 @@ export default function Agents() {
                     <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/> */}
                 </div>
                 <div className="lineCardGroup2">
-                    <ChangingPercentageCard title={"Total Assigned Contacts"} data2={AssignedContacts} data1={[5]}/>
+                    {/* <ChangingPercentageCard title={"Total Assigned Contacts"} data2={AssignedContacts} data1={[5]}/> */}
                     <ChangingPercentageCard title={"Active Contacts"} data2={ActiveContacts} data1={[5]}/>
                     <ChangingPercentageCard title={"Delivered Contacts"} data2={DeliveredContact} data1={[5]}/>
                     <ChangingPercentageCard title={"Unhandled Contacts"} data2={UnhandeledContact} data1={[5]}/>

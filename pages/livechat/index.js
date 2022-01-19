@@ -100,7 +100,7 @@ export default function Live_chat() {
         const [filteredData , setFilteredData] = useState([])
         const [filteredContacts , setFilteredContacts] = useState([])
 
-        const [isWABAStart , setWABA] =useState(false)
+        const [isWABAStart , setWABA] =useState(true)
         useEffect(()=>{
             console.log(isWABAStart,"check state")
         },[isWABAStart])
@@ -202,7 +202,7 @@ export default function Live_chat() {
             .catch(error => console.log(error))
         await getOwnPinChatList()
         setChatrooms(result)
-        setFilteredData(result)
+        setFilteredData(result) 
     }
     const getAllChatrooms = async ()=>{
         const user_id = parseInt(user.user.user_id.toString() )
@@ -419,6 +419,9 @@ export default function Live_chat() {
     const fileAttach = () =>{
         attachFile.current.click();
     }
+    const fileClear = () =>{
+      attachFile.current.value = null
+    }
     const replySelect = async(e) =>{
         e.preventDefault();
         setTypedMsg({...typedMsg , message: e.target.innerHTML})
@@ -488,19 +491,7 @@ export default function Live_chat() {
             // await subChatrooms()
     }
 
-    const wrapperRef1 = useRef();
-
-    const handleClickOutside = (event) => {
-        if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
-            setChatButtonOn("");
-            setIsExpand(false);
-            setIsReply(false);
-            setQuotaMsg("")
-            filePreview.size>0?setFilePrevier(filePreviewOldState):""
-            // console.log(attachFile.current.target)
-          }
-    };
-
+   
     const replyClick=click=>{
         console.log(click,"done donedone")
         setReplyMsg(click)
@@ -571,10 +562,24 @@ export default function Live_chat() {
     }
 
 
+    const wrapperRef1 = useRef();
+
 
     // useEffect(()=>{
     //     console.log(quoteMsg)
     // },[quoteMsg])
+    const handleClickOutside = (event) => {
+
+        if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
+            setChatButtonOn("");
+            setIsExpand(false);
+            setIsReply(false);
+            setQuotaMsg("")
+            attachFile.current.value&& fileClear()
+            filePreview.size>0?setFilePrevier(filePreviewOldState):""
+            // console.log(attachFile.current.target)
+          }
+    };
 
     useEffect(()=>{
         document.addEventListener('click', handleClickOutside, true);
@@ -743,13 +748,25 @@ export default function Live_chat() {
 
         isClear?setClear(false):""
     },[isClear])
+    // const [doubleList,setDoubleList] = useState([])
+    // const [List,setList] = useState([{phone:"123"},])
+    // useEffect(()=>{
+    //     console.log(filteredData,"chatroom volumn")
+    
+    // },[filteredData])
+    // useEffect(()=>{
+    // console.log(doubleList,"doubledoubledouble")
+    // filteredData.map(e=>{
+    //   if(  e.phone=="85265779712"){console.log(e, "double")}
+    // })
+    
+    // },[doubleList])
 
-
-    useEffect(async ()=>{
-        if(selectedChat.unread>0){
-            await updateChatroomUnread(selectedChat)
-        }
-    },[selectedChat])
+    // useEffect(async ()=>{
+    //     if(selectedChat.unread>0){
+    //         await updateChatroomUnread(selectedChat)
+    //     }
+    // },[selectedChat])
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) ;
         if(isEditProfileShow) ;
@@ -1030,15 +1047,15 @@ export default function Live_chat() {
 
                                 </div>:""
                             }
-                            <textarea  disabled={!isWABAStart&&selectedChat.channel=="WABA"} onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
+                            <textarea  disabled={selectedChat.channel=="WABA"&&!isWABAStart} onKeyDown={onEnterPress}  className={"chatroom_textField"} placeholder={"Type something..."} name="message" id="message" value={typedMsg.message} onChange={handleTypedMsg} style={{display:(ChatButtonOn=="m1"?"none":"block"),backgroundColor:(ChatButtonOn=="m4"?"#ECF2F8":"") ,borderRadius: "10px"}} >
                     </textarea>
                             <Picker  onSelect={(emoji)=> {
                                 setTypedMsg({...typedMsg,message: typedMsg.message+" "+emoji.native+" "})
                             }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
-                            <div  disabled={!isWABAStart&&selectedChat.channel=="WABA"} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
+                            <div  disabled={selectedChat.channel=="WABA"&&!isWABAStart} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
                                 <StickerBox data={stickerData} stickerSend={stickerSend}  />
                             </div>
-                            <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} disabled={!isWABAStart&&selectedChat.channel=="WABA"}>
+                            <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} disabled={selectedChat.channel=="WABA"&&!isWABAStart}>
                                 <QuickReply data={replyData} onclick={replySelect} disabled={isWABAStart} />
                             </div>
 

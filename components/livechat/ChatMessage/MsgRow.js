@@ -18,9 +18,12 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,c
 
     const [isImageOpen,setImageOpen] = useState(false)
 
-    function isValidURL(string) {
-        var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-        return (res !== null)
+    function isValidURL(text) {console.log(text, "input checking ~~")
+        var urlRegex = /(https?:\/\/[^\s]+)/g;
+        const result = (text.replace(urlRegex, function(url) {
+            return "<a href='" + url + "'>" + url + "</a>";
+          }))
+          console.log(result);return result
       };
     const replyclick=e=>{
         replyHandle(e.target.id);
@@ -91,9 +94,9 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,c
                      </div>;
             case "link": return <div id={msg.timestamp} onClick={replyclick}  className={"url_body"  +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
                                     <div className={"url_box"}>
-                                        <div className={"url_detail"} >
+                                        {/* <div className={"url_detail"} >
                                             <Embed   url={msg.body} />
-                                            </div>
+                                            </div> */}
                                         <div  id={msg.timestamp} onClick={replyclick} value={msg.timestamp} className={"msg_type_url" +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
                                                 <a  href={msg.body} >{msg.body} </a>
 
@@ -101,24 +104,30 @@ export default function MsgRow({msg,isSearch,refProp,replyHandle,confirmReply ,c
                                     </div>
                                 </div>;
 
-            default:   return  (isValidURL(msg.body) ?<div id={msg.timestamp} onClick={replyclick}  className={"url_body"  +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
-                    <div className={"url_box"}>
-                        {/* <div className={"url_detail"} >
-                            <Embed   url={msg.body} />
-                            </div> */}
-                        <div  value={msg.timestamp} className={"msg_type_url" }> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
-                            <p id={msg.timestamp} onClick={replyclick} >
-                                <a  href={msg.body} >{msg.body} </a>
-                                </p>
-                        </div>
-                    </div>
-        </div>:<div id={msg.timestamp} onClick={replyclick}  value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body" +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}{msg.body}</div>)
+            default:   return  (
+                // isValidURL(msg.body) ?
+        //     <div id={msg.timestamp} onClick={replyclick}  className={"url_body"  +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
+        //             <div className={"url_box"}>
+        //                 {/* <div className={"url_detail"} >
+        //                     <Embed   url={msg.body} />
+        //                     </div> */}
+        //                 <div  value={msg.timestamp} className={"msg_type_url" }> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
+        //                     <p id={msg.timestamp} onClick={replyclick} >
+        //                         <a  href={msg.body} >{msg.body} </a>
+        //                         </p>
+        //                 </div>
+        //             </div>
+        // </div>
+        // :
+        <div id={msg.timestamp} onClick={replyclick}  value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body" +( props.replyMsg==msg.timestamp?" replyActive":"")}> {props.replyMsg==msg.timestamp?<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>:""}
+        {/* {`${isValidURL(msg.body)}`} </div> */}
+        {(msg.body)} </div>
+        )
             // default:   return  <div value={msg.timestamp} className={isSearch?"msg_body_highligh":"msg_body"}>{msg.body}</div>
-
-
-
         }
     }
+
+
 
     return(
         <div className={"msg_row"} id={msg.timestamp} >

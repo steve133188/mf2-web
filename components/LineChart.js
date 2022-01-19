@@ -77,7 +77,10 @@ export function LineChart({children,...props}) {
         <div>
             <div id="wrapper">
                 <div id="chart-line">
-                    <div><p style={{color: "#495057", fontSize: "16px", fontWeight: "600"}}>{title}</p>
+                    <div>
+                        <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >
+                            <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}>{title}  </p> <div className={"chart_info"}>?<p className={"chart_info_details"} ></p></div>
+                        </div>
                         <div style={{marginLeft: "25px", fontSize: "12px", color: "#74788D"}}>Total <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>{total}<span style={{marginLeft: "6px", fontSize: "8px", fontWeight: "600", color: "#34C38F"}}>{percentage}</span></div></div>
                     </div>
                     <Chart options={state.options} series={state.series} type="line" />
@@ -217,17 +220,22 @@ export function MultipleBarChart({children,...props}) {
                         columnWidth: '50%',
                     },
                 },
-                xaxis: {
+                xaxis: {  
+                    ticks: {
+                    autoSkip: false,
+                    maxRotation: 90,
+                    minRotation: 90
+                },
                     categories: agents,
                     labels: {
 
                         offsetX: 0,
                         offsetY:0,
                         style: {
-                          fontSize: "16px",
+                          fontSize: "13px",
                           colors: "#828282",
                           fontFamily: "Calibri Regular",
-                          fontWeight: 400,
+                          fontWeight: "200",
                           cssClass: "apexcharts-xaxis-label"
                         }
                       },

@@ -14,10 +14,10 @@ function mediaHelper(){
         return mediaKey
     }
 
-    this.putSticker = async (file)=>{
+    this.putSticker = async (file,folder)=>{
         const mine =file.name.slice(-4).replace('.','')
         console.log(file,"sticker is on the way")
-        const result = await Storage.put(`stickers/${Date.now()}.${mine}` , file , {contentType: file.type})
+        const result = await Storage.put(`${folder}/${Date.now()}.${mine}` , file , {contentType: file.type})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }

@@ -2,9 +2,12 @@ import React, {useContext, useMemo ,useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import { GlobalContext } from '../context/GlobalContext';
 import {NormalButton, NormalButton2, CancelButton} from './Button';
+import MF_Select from './MF_Select';
+import SelectSession from './SelectSession';
 
 export function ImportDropzone({children,title,...props}) {
     const {mediaInstance,adminInstance ,user , messageInstance} = useContext(GlobalContext)
+    const [folder, setFolder]= useState([])
     // const {  onClose } = props;
     const {
         getRootProps,
@@ -56,8 +59,8 @@ export function ImportDropzone({children,title,...props}) {
             return
         }
         
-        const res  = await mediaInstance.putSticker(acceptedFiles[0])
-
+        const res  = await mediaInstance.putSticker(acceptedFiles[0],folder[0])
+        console.log(res,"return key")
         console.log(acceptedFiles[0].arrayBuffer())
         acceptedFiles.pop()
 
@@ -97,6 +100,26 @@ export function ImportDropzone({children,title,...props}) {
                         <span style={{marginLeft: "30px"}} onClick={props.onClose}><CancelButton>Cancel</CancelButton></span>
                     </div>
                 </div>
+
+                        
+                       <div style={{display:"flex",justifyContent:'flex-end'  }}>
+                <div style={{width:"300px",boxShadow:"0px 5px 10px #00000029"}}>
+                    <MF_Select head={"Folder"} top_head={props.folder==[]?"Folder":folder}
+                               // submit={advanceFilter}
+                               style={{widht:"200px"}}
+                               customeDropdown={true}>
+                        {/* <li onClick={async ()=> {
+                            setFolder([]);
+                            // await fetchUsers()
+                        }}>All</li> */}
+                        {props.folder.map((team)=>{
+                            return(<li id={team} key={team} onClick={ (e)=>{setFolder([team]);e.stopPropagation}}> {team}</li>)
+                        })}
+                    </MF_Select>
+
+                        </div> 
+                        </div>
+
                 <div {...getRootProps({style})}>
                     <input {...getInputProps()} />
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="60" fill="#2198FA"
@@ -108,10 +131,10 @@ export function ImportDropzone({children,title,...props}) {
                     </svg>
                     <p style={{marginTop: "30px", color: "#444444"}}>Drag and drop a file or <span
                         style={{fontWeight: "600", color: "#2198FA", cursor: "pointer"}}>browse</span> to upload your
-                        contacts.</p>
+                        sticker.</p>
                 </div>
                 <aside style={{marginTop: "38px"}}>
-                    <h4 style={{fontSize: "12px", color: "#444444"}}>Uploaded</h4>
+                    <h4 style={{fontSize: "12px", color: "#444444"}}>Upload your sticket.</h4>
                     <ul style={{
                         paddingLeft: "0px",
                         listStyle: "none",
@@ -120,7 +143,7 @@ export function ImportDropzone({children,title,...props}) {
                         color: "#444444"
                     }}>{files}</ul>
                 </aside>
-                <NormalButton>Download Template</NormalButton>
+                {/* <NormalButton>Download Template</NormalButton> */}
             </div>
         </div>
     );
