@@ -146,6 +146,7 @@
     .lineCardGroup2 {
       margin-top: 35px;
       .changingPercentageCard {
+        min-width:180px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

@@ -157,10 +157,10 @@ export function ChangingPercentageCard({children,...props}) {
 
     return (
         <div className={"changingPercentageCard"}>
-            <div className={"changingPercentageCardTitle"} style={{display:"flex"}}>
-                {title}  <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >
+            <div className={"changingPercentageCardTitle"} style={{display:"flex",justifyContent:"space-between"}}>
+                {title}  <div style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start", }} >
 
-                                        <div className={"chart_info"} > ?
+                                        <div className={"chart_info"} style={{margin:"0",textAlign:"right"}} > ?
                                         <p  className={"chart_info_details"} style={{top:"0",left:"0",paddingLeft:"0",zIndex:"100",backgroundColor:"#e9ecef",padding:"5px",height:"30px",borderRadius:"10px",font: "normal normal normal 0.9REM Manrope",}} > {props.definData[title]}</p>
                                         </div>
                                     </div>
