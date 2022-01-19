@@ -286,6 +286,17 @@ export default function Agents() {
 
     },[dayState])
 
+    const Defin = {
+       "Total Assigned Contacts": "Number of contacts assigned to agent(s).",
+       "Active Contacts": "Number of contacts with successful conversation. ",
+       "Delivered Contacts": "Number of contacts that agents have responded to.",
+       "Unhandled Contacts": "Number of contacts that are pending or not yet contacted by agents.",
+       "Total Messages Received": "Total number of messages received from contacts.",
+       "Total Messages Sent": "Total number of messages sent from agents.",
+       "Average Response Time": "Average time of agents responding to contacts.",
+       "Average First Response Time": "Average time of agents sending the first response to contacts.",
+    }
+
     return (
         <div className="dashboard-layout">
             <div className="navbarPurple">
@@ -372,14 +383,14 @@ export default function Agents() {
                     <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/> */}
                 </div>
                 <div className="lineCardGroup2">
-                    {/* <ChangingPercentageCard title={"Total Assigned Contacts"} data2={AssignedContacts} data1={[5]}/> */}
-                    <ChangingPercentageCard title={"Active Contacts"} data2={ActiveContacts} data1={[5]}/>
-                    <ChangingPercentageCard title={"Delivered Contacts"} data2={DeliveredContact} data1={[5]}/>
-                    <ChangingPercentageCard title={"Unhandled Contacts"} data2={UnhandeledContact} data1={[5]}/>
-                    <ChangingPercentageCard title={"Total Messages Received"} data2={[70]} data1={[5]}/>
-                    <ChangingPercentageCard title={"Total Messages Sent"} data2={TotalMessagesSent} data1={[5]}/>
-                    <ChangingPercentageCard title={"Average Response Time"} data2={AverageResponseTime} data1={[5]}/>
-                    <ChangingPercentageCard title={"Average First Response Time"} data1={AverageFirstResponse} data2={38} />
+                    <ChangingPercentageCard title={"Total Assigned Contacts"} data2={AllContacts} data1={[5]} definData={Defin} />
+                    <ChangingPercentageCard title={"Active Contacts"} data2={ActiveContacts} data1={[5]} definData={Defin} />
+                    <ChangingPercentageCard title={"Delivered Contacts"} data2={DeliveredContact} data1={[5]} definData={Defin} />
+                    <ChangingPercentageCard title={"Unhandled Contacts"} data2={UnhandeledContact} data1={[5]} definData={Defin} />
+                    <ChangingPercentageCard title={"Total Messages Received"} data2={[70]} data1={[5]} definData={Defin} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} data2={TotalMessagesSent} data1={[5]} definData={Defin} />
+                    <ChangingPercentageCard title={"Average Response Time"} data2={AverageResponseTime} data1={[5]} definData={Defin} />
+                    <ChangingPercentageCard title={"Average First Response Time"} data1={AverageFirstResponse} data2={38}  definData={Defin} />
                 </div>
             </div>
             <div className="chartGroup">

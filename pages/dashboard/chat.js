@@ -159,7 +159,7 @@ export default function Chat() {
 
     useEffect(()=>{
         const tagsTotal = []
-        tags.map(e=>contacts.map(c=>{
+        contacts&&tags.map(e=>contacts.map(c=>{
 
             const values=c.tags.map(t=>{
                 if(t.tag_name == e.tag_name ){
@@ -204,7 +204,7 @@ export default function Chat() {
     //                 data.push
     // })
     return (
-        <div className="dashboard-layout">
+        <div className={"dashboard-layout"}>
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
 
             <div className="navbarPurple">
@@ -321,41 +321,47 @@ export default function Chat() {
                     <div className="dashboardColumn"><LineChart title={"Active Contacts"} definition={"Number of contacts with successful conversation."} data={dash.active_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.active_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={""} data={dash.total_msg_sent}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={dash.total_msg_sent.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={""} data={dash.total_msg_rev} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={dash.total_msg_rev.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} data={dash.total_msg_sent}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={dash.total_msg_sent.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} data={dash.total_msg_rev} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={dash.total_msg_rev.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={""} data={dash.new_added_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.new_added_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={""} data={dash.avg_resp_time} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={"0"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={"Number of contacts that are manually created, or by import, or by new channel integration."} data={dash.new_added_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.new_added_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={"Average time of agents responding to contacts."} data={dash.avg_resp_time} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={"0"} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} definition={""} data={dash.communication_hours} x_cate={[2,4,6,8,10,12,14,16,18,20,22,24]}  xname={"Hours"} yaxis={"Msg Sent"} total={dash.communication_hours.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} definition={"Most active time that agents and contacts communicated within 24 hours."} data={dash.communication_hours} x_cate={[2,4,6,8,10,12,14,16,18,20,22,24]}  xname={"Hours"} yaxis={"Msg Sent"} total={dash.communication_hours.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
                     <div className="dashboardColumn">
                         <div className="tableSet">
                             <div className={"half_session block_session"}>
-                                <div className={"top_row"}>
+                                <div className={"top_row"} style={{justifyContent:"flex-start"}}>
 
 
-                    <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px" ,height:"45px",marginRight:"25%"}}>
-                        <MF_Select top_head={`Tags : ${tags.length}`} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                            setFilteredTags(new_data)
-                        })}} ><div>
+                                <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px" ,height:"45px",marginRight:"5%"}}>
+                                    <MF_Select top_head={`Tags : ${tags.length}`} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                                        setFilteredTags(new_data)
+                                    })}} > <div>
 
-                            {filteredTags.map((tag,index)=>{
-                                // console.log(tag)
-                                return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>
-                                    <div className="newCheckboxContainer">
-                                        <label className="newCheckboxLabel">
-                                            <input type="checkbox" value={tag.tag_id} id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
-                                        </label> </div></li>)
-                            })}
-                        </div>
-                        </MF_Select>
+                                        {filteredTags.map((tag,index)=>{
+                                            // console.log(tag)
+                                            return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>
+                                        
+                                                <div className="newCheckboxContainer">
+                                                    <label className="newCheckboxLabel">
+                                                        <input type="checkbox" value={tag.tag_id} id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
+                                                    </label> </div></li>)
+                                        })}
+                                    </div>
+                                    </MF_Select>
 
-
-                    </div>
+                                </div>
+                                    <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >
+                                        <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}> </p>
+                                        <div className={"chart_info"} > ?
+                                        <p  className={"chart_info_details"}  > Number of tags created and assigned to contacts.</p>
+                                        </div>
+                                    </div>
 
 
                                 </div>
