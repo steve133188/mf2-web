@@ -14,11 +14,13 @@ import roleFetcher from "../helpers/roleHelpers";
 import dashboardFetcher from "../helpers/dashboardHelpers";
 import standardReplyFetcher from "../helpers/standardReplyHelpers";
 import ChatStore from "../store/store";
+import {API, graphqlOperation} from "aws-amplify";
+import {getWhatsapp_node, listWhatsapp_nodes} from "../src/graphql/queries";
 
 export const GlobalContext = createContext({})
 
 export const GlobalContextProvider = ({children}) =>{
-    const [user , setUser] = useState({user:{ },token:null,})
+    const [user , setUser] = useState({user:{ },token:null,channels:[]})
     const [errors , setErrors] = useState("")
     const [selectedChat , setSelectedChat] = useState({})
     const [notification , setNotification] = useState([])
@@ -37,15 +39,27 @@ export const GlobalContextProvider = ({children}) =>{
     const dashboardInstance = dashboardFetcher(user.token)
     const replyInstance = standardReplyFetcher(user.token)
 
-    useEffect(()=>{
+    useEffect(async()=>{
+
         setUser({
             user:JSON.parse(window.localStorage.getItem("user")) || {},
             token:window.localStorage.getItem("token") || null
         })
+
         console.log(user)
     },[])
 
-
+    const getUserChannel = async (uid)=>{
+        const node = await API.graphql(graphqlOperation(listWhatsapp_nodes , {filter:{user_id:{eq:uid}} , limit:400})).then(res=>{
+            console.log( "get whatsapp channel",res)
+           if(res.data.listWhatsapp_nodes.items.length===1) return res.data.listWhatsapp_nodes.items[0]
+           return null
+        }).catch(err=>{
+            console.log(err)
+            return null
+        })
+        return node
+    }
     const login = async (credentials)=>{
         const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
         const res = await axios.post(url , credentials,{
@@ -56,7 +70,7 @@ export const GlobalContextProvider = ({children}) =>{
                 'Access-Control-Allow-Credentials' : true,
 
             }})
-            .then(response => {
+            .then(async response => {
                 console.log(response,"respone")
                 if(response.status != 200){
                     return "something went wrong"
@@ -72,6 +86,7 @@ export const GlobalContextProvider = ({children}) =>{
                 contactInstance.token = user.token
                 tagInstance.token = user.token
                 roleInstance.token = user.token
+                await getUserChannel()
                 // messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
                 messageInstance.setWhatsappURL("https://localhost:8001")
                 return response.status
@@ -101,6 +116,6 @@ export const GlobalContextProvider = ({children}) =>{
         router.push("/login")
     }
     return(
-        <GlobalContext.Provider value={{user, login , logout , errors ,contacts , userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance , replyInstance ,selectedChat , setSelectedChat  }}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{user, login , logout , errors ,contacts ,getUserChannel, userInstance,adminInstance,contactInstance,orgInstance , messageInstance , mediaInstance ,chatHelper ,tagInstance , roleInstance , dashboardInstance , replyInstance ,selectedChat , setSelectedChat  }}>{children}</GlobalContext.Provider>
     )
 }

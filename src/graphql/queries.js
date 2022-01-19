@@ -1,6 +1,35 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const queryMessage = /* GraphQL */ `
+  query QueryMessage($room_id: String!) {
+    queryMessage(room_id: $room_id) {
+      items {
+        room_id
+        timestamp
+        sender
+        recipient
+        body
+        is_media
+        channel
+        link
+        media_url
+        from_me
+        message_type
+        message_id
+        hasQuotedMsg
+        quote
+        is_forwarded
+        v_card
+        read
+        status
+        sign_name
+        quote_from
+      }
+      nextToken
+    }
+  }
+`;
 export const getMF2ChannelInfo = /* GraphQL */ `
   query GetMF2ChannelInfo($channel_id: ID!, $user_id: Int!) {
     getMF2ChannelInfo(channel_id: $channel_id, user_id: $user_id) {
@@ -63,7 +92,7 @@ export const getWhatsapp_node = /* GraphQL */ `
     getWhatsapp_node(node_index: $node_index) {
       node_index
       user_id
-      whatsapp_id
+      node_id
       node_name
       status
       init
@@ -82,7 +111,7 @@ export const listWhatsapp_nodes = /* GraphQL */ `
       items {
         node_index
         user_id
-        whatsapp_id
+        node_id
         node_name
         status
         init

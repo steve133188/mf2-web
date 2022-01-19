@@ -13,7 +13,7 @@ import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "../../components/livechat/newchatroomPanel";
 import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
-import {listChatrooms, listMessages, listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
+import {listChatrooms, queryMessage, listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
 import {createChatroom, updateChatroom, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import {
     subscribeChatroom,
@@ -52,7 +52,7 @@ export default function Live_chat() {
 
         ]
         const router = useRouter()
-        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper ,mf2chat ,selectedChat , setSelectedChat} = useContext(GlobalContext)
+        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper  ,selectedChat , setSelectedChat , getUserChannel} = useContext(GlobalContext)
         const [chatrooms , setChatrooms] = useState([])
         const [chatroomMsg , setChatroomMsg]  = useState([])
         const [attachment , setAttachment ] = useState([])
@@ -63,6 +63,7 @@ export default function Live_chat() {
         const [isReply , setIsReply] = useState(false)
         const [isEmojiOn,setEmojiOn] = useState(false)
         const [ChatButtonOn,setChatButtonOn] = useState(false)
+        const [whatsappChan , setWhatsappChan] = useState()
         const [subscribe,setSubscribe] = useState()
         const [subscribePin,setSubscribePin] = useState()
         const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
@@ -72,7 +73,7 @@ export default function Live_chat() {
         const [replyMsg, setReplyMsg] = useState("")
         const [quoteMsg,setQuotaMsg] = useState({})
         const [reply,setReply] =useState(false)
-
+        const [whatsapp , setWhatsapp ] = useState()
         const [searchResult, setSearchResult] = useState([])
         const [typedMsg , setTypedMsg] = useState({
             channel:"whatsapp",
@@ -112,9 +113,7 @@ export default function Live_chat() {
         const [isMedia , setIsMedia ] = useState(false)
         const [lastMsgFromClient , setLastMsgFromClient] = useState("")
         const [isForward,setIsForward] = useState(false)
-    const gqlFilter = async ()=>{
 
-    }
     const getOwnPinChatList = async ()=>{
         const user_id = user.user.user_id
         const res = await API.graphql(graphqlOperation(listChatrooms , {filter:{user_id: {eq:user_id} , is_pin: {eq:true}} ,limit:1000}))
@@ -161,8 +160,8 @@ export default function Live_chat() {
         if(chatroom.name == selectedChat.name && chatroom.room_id === selectedChat.room_id) return
         if(chatroom.channel !== "WABA")setLastMsgFromClient("")
         console.log(chatroom, "while select")
-        if (chatroom.unread>0  )await updateChatroomUnread(chatroom);
         setChatroomMsg([])
+        if (chatroom.unread>0  )await updateChatroomUnread(chatroom);
         setSelectedChat(chatroom)
         // setLastMsgFromClient(chatroom.last_msg_time)
         console.log(selectedChat,"chat check")
@@ -174,19 +173,14 @@ export default function Live_chat() {
         console.log("typed message" , typedMsg)
     }
 
-    const getChatroomMessage = async(nextToken)=>{
-            let condition ={limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel} }}
-            if(nextToken)condition.nextToken = nextToken
-            console.log("conditions : " ,condition)
-            const result = await API.graphql(graphqlOperation(listMessages,condition))
+    const getChatroomMessage = async()=>{
+            // let condition ={limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel} }}
+            const result = await API.graphql(graphqlOperation(queryMessage,{room_id:selectedChat.room_id}))
                 .then(async res=>{
-                    setChatroomMsg(prev=>[...prev,...res.data.listMessages.items])
-                    console.log("res:" ,res.data.listMessages)
-                    if(res.data.listMessages.nextToken ){
-                        console.log("has nextToken", res.data.listMessages.nextToken)
-                        await getChatroomMessage(res.data.listMessages.nextToken)
-                    }
-                    if(res.data.listMessages.items!==-1){
+                    setChatroomMsg([])
+                    setChatroomMsg(prev=>[...res.data.queryMessage.items])
+                    console.log("getChatroomMessage",chatroomMsg)
+                    if(res.data.queryMessage.items!==-1){
 
                         let notFromMe = res.data.listMessages.items.filter(msg=>{
                             return msg.from_me ==false
@@ -194,9 +188,8 @@ export default function Live_chat() {
                     if(notFromMe.length==0) return
                     notFromMe = notFromMe.pop()
                     setLastMsgFromClient(notFromMe.timestamp)
-                    console.log("getChatroomMessage",chatroomMsg)
                 }
-            }).catch(err=>console.log(err))
+            }).catch(err=>console.log("get message errors" ,err))
     }
 
     const getChatrooms = async ()=>{
@@ -244,9 +237,12 @@ export default function Live_chat() {
     //     console.log(filePreview,"file attachment show")
     // },[filePreview])
 
-    useEffect(()=>{
-        console.log("mf2chat store : " ,selectedChat)
-    },[mf2chat])
+    useEffect(async ()=>{
+        if(user.token){
+          const chan =  await getUserChannel(parseInt(user.user.user_id))
+           setWhatsappChan(chan)
+        }
+    },[])
 
     const upload = async (e) =>{
         e.preventDefault()
@@ -491,7 +487,7 @@ export default function Live_chat() {
     const ReferechHandle=async()=>{
         console.log("refershing")
         await getAllChatrooms();
-        await getChatroomMessage ();
+        await getChatroomMessage();
             // await subChatrooms()
     }
 
