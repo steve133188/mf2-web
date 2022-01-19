@@ -34,7 +34,7 @@ export default function Integrations() {
         // {name:"Telegram", channelID:"",connectState:false,token:""},
     ]
     const [whatsapp , setWhatsapp] = useState()
-    const {contactInstance , userInstance ,adminInstance ,orgInstance,getUserChannel , user} = useContext(GlobalContext)
+    const { userInstance ,getUserChannel , user} = useContext(GlobalContext)
     const [allChannel,setAllChannel] = useState(channelList)
     const [connectedChannels,setConnectedChannels] = useState([])
     const [activeChannel,setActiveChannel] = useState([])
@@ -73,6 +73,7 @@ export default function Integrations() {
         if(user.token){
             const chan = await getUserChannel(user.user.user_id)
             setWhatsapp(chan)
+            setIsLoading(false)
             // myChannel();
             // if(isLoading){
             //     setTimeout(function() { //Start the timer
@@ -80,7 +81,7 @@ export default function Integrations() {
             //     }.bind(this), 100)
             // }
         }
-    },[])
+    },[user])
 
     useEffect(()=>{
         if( activeChannel.length>0 ){ setShowMe(!showMe) };

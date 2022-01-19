@@ -7,24 +7,28 @@ import {onUpdateWhatsapp_node} from "../../src/graphql/subscriptions";
 import {GlobalContext} from "../../context/GlobalContext";
 
 export default function ConnectWhatsapp(props){
-
+    const {chan} = props
     const {user} = useContext(GlobalContext)
     const [qrcode , setQrcode] = useState()
     const [subscript , setSubscript] = useState()
 
     const [subed,setSubed] = useState(false)
     useEffect(async ()=>{
-        await selectWAInstance()
+        // if(user.token){
+            await selectWAInstance()
+
+        // }
     },[])
 
     const selectWAInstance = async ()=>{
-        if(chan.status!=="AVAILABLE"){
-            const instance = await API.graphql(graphqlOperation(listWhatsapp_nodes, {filter:{status: {eq:"AVAILABLE"} , init : {eq:false} , user_id:{eq:user.user.user_id}}})).then(res=>res.data.listWhatsapp_nodes.items).catch(err=>console.log(err))
-            const selectedInstance = instance[0]
-            console.log("selected :" ,selectedInstance )
-            console.log(selectedInstance)
-            const start = await axios.post(selectedInstance.url+"/connect" , {user_id:user.user.user_id , node_index:selectedInstance.node_index , user_name:user.user.user_name}).then(res=>console.log(res)).catch(err=>console.log(err))
-            const sub =await API.graphql(graphqlOperation( onUpdateWhatsapp_node , {node_index:selectedInstance.node_index   })).subscribe({
+        if(chan.status=="AVAILABLE"){
+            console.log(chan)
+            // const instance = await API.graphql(graphqlOperation(listWhatsapp_nodes, {filter:{status: {eq:"AVAILABLE"} , init : {eq:false} , user_id:{eq:user.user.user_id}}})).then(res=>res.data.listWhatsapp_nodes.items).catch(err=>console.log(err))
+            // const selectedInstance = instance[0]
+            // console.log("selected :" ,selectedInstance )
+            // console.log(selectedInstance)
+            const start = await axios.post(chan.url+"/connect" , {user_id:user.user.user_id , node_index:chan.node_index , user_name:user.user.user_name}).then(res=>console.log(res)).catch(err=>console.log(err))
+            const sub =await API.graphql(graphqlOperation( onUpdateWhatsapp_node , {node_index:chan.node_index   })).subscribe({
                 next: async (node) => {
                     console.log("qrUpdate" , node)
                     const qr = node.value.data.onUpdateWhatsapp_node.channel_id
