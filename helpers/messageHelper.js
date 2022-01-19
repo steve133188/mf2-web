@@ -3,8 +3,7 @@ import axios from "axios"
 
 export default function WhatsappFetcher(){
     // this.whatsappURL = "https://f125-118-140-233-2.ngrok.io"
-    this.whatsappURL = "http://localhost:8001"
-    // this.whatsappURL = "https://whatsapp-js-dp6tp.ondigitalocean.app"
+    this.whatsappURL = null
     this.WABAURL ="https://waba-js-666dj.ondigitalocean.app/prod"
 
     this.WABAID = "5e4367dd3c660d5d5e541176"
@@ -12,6 +11,7 @@ export default function WhatsappFetcher(){
     this.setWhatsappURL = (url)=>{
         this.whatsappURL = url
     }
+
 
     this.setWABAURL = (url)=>{
         this.WABAURL = url

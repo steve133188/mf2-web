@@ -32,8 +32,8 @@ export default function Integrations() {
         {name:"Kakao Talk", channelID:"kakaotalk",connectState:false,token:""},
         // {name:"Telegram", channelID:"",connectState:false,token:""},
     ]
-    const [whatsapp , setWhatsapp] = useState('')
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const [whatsapp , setWhatsapp] = useState()
+    const {contactInstance , userInstance ,adminInstance ,orgInstance,getUserChannel , user} = useContext(GlobalContext)
     const [allChannel,setAllChannel] = useState(channelList)
     const [connectedChannels,setConnectedChannels] = useState([])
     const [activeChannel,setActiveChannel] = useState([])
@@ -47,7 +47,6 @@ export default function Integrations() {
     const [signalFetch,setSignalFetch] = useState(false);
     const [telegramFetch,setTelegramFetch] = useState(false);
     const [kakaotalkFetch,setKakaotalkFetch] = useState(false);
-    const [qrcode , setQrcode] = useState("")
     const toggleHandeler = (e) =>{
         // console.log(e.target)
         // console.log(e.target.id)
@@ -68,16 +67,17 @@ export default function Integrations() {
     }
 
 
-
-    useEffect(()=>{
+    //
+    useEffect(async ()=>{
         if(user.token){
-
-            myChannel();
-            if(isLoading){
-                setTimeout(function() { //Start the timer
-                    setIsLoading(false);
-                }.bind(this), 100)
-            }
+            const chan = await getUserChannel(user.user.user_id)
+            setWhatsapp(chan)
+            // myChannel();
+            // if(isLoading){
+            //     setTimeout(function() { //Start the timer
+            //         setIsLoading(false);
+            //     }.bind(this), 100)
+            // }
         }
     },[])
 
@@ -153,7 +153,7 @@ export default function Integrations() {
                         <h1  >Channels</h1>
                         <div className="row cardContainer">
                             {allChannel.map(item=>{return (
-                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} qrcode={qrcode}   onclick={toggleHandeler} state={item.connectState} disconnect={toggleDelete}  />
+                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID}   onclick={toggleHandeler} state={item.connectState} disconnect={toggleDelete}  />
 
                             )})}
                         </div>
@@ -173,7 +173,7 @@ export default function Integrations() {
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
                          <TabContext value={value}  >
 
-                                <TabPanel value="Whatsapp" ><ConnectWhatsapp  fetchdata={whatsappFetch}/></TabPanel>
+                                <TabPanel value="Whatsapp" ><ConnectWhatsapp chan={whatsapp} fetchdata={whatsappFetch}/></TabPanel>
                                 <TabPanel value="WhatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
                                 <TabPanel value="Wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
                                 <TabPanel value="Messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>

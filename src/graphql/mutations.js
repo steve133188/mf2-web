@@ -45,7 +45,7 @@ export const createWhatsapp_node = /* GraphQL */ `
     createWhatsapp_node(input: $input) {
       node_index
       user_id
-      whatsapp_id
+      node_id
       node_name
       status
       init
@@ -59,7 +59,7 @@ export const updateWhatsapp_node = /* GraphQL */ `
     updateWhatsapp_node(input: $input) {
       node_index
       user_id
-      whatsapp_id
+      node_id
       node_name
       status
       init
@@ -73,7 +73,7 @@ export const deleteWhatsapp_node = /* GraphQL */ `
     deleteWhatsapp_node(input: $input) {
       node_index
       user_id
-      whatsapp_id
+      node_id
       node_name
       status
       init

@@ -1,14 +1,10 @@
 import '../styles/globals.scss'
 import Layout from "../layouts/Layout";
 import { GlobalContextProvider} from "../context/GlobalContext";
-import {useEffect , useState} from "react";
 import AuthLayer from "../HOC/AuthLayer"
 import Head from "next/head";
 
 import {Amplify} from "aws-amplify";
-// import {ApolloProvider} from "@apollo/client"
-// import Client from "aws-appsync";
-// import client from "../apollo-client"
 import awsmobile from "../src/aws-exports";
 
 
@@ -24,7 +20,6 @@ function MyApp({ Component, pageProps }) {
           <link rel="icon" href="/MS_logo-square (1).svg"/>
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>
-          {/*<ApolloProvider client={client}>*/}
             <GlobalContextProvider>
                 <AuthLayer>
                     <Layout>
@@ -32,7 +27,6 @@ function MyApp({ Component, pageProps }) {
                     </Layout>
                 </AuthLayer>
             </GlobalContextProvider>
-          {/*</ApolloProvider>*/}
       </>
 )
 }

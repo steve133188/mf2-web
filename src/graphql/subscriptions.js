@@ -46,23 +46,11 @@ export const suballChatroom = /* GraphQL */ `
   }
 `;
 export const onUpdateWhatsapp_node = /* GraphQL */ `
-  subscription OnUpdateWhatsapp_node(
-    $node_index: Int
-    $whatsapp_id: String
-    $node_name: String
-    $status: String
-    $init: Boolean
-  ) {
-    onUpdateWhatsapp_node(
-      node_index: $node_index
-      whatsapp_id: $whatsapp_id
-      node_name: $node_name
-      status: $status
-      init: $init
-    ) {
+  subscription OnUpdateWhatsapp_node($node_index: Int) {
+    onUpdateWhatsapp_node(node_index: $node_index) {
       node_index
       user_id
-      whatsapp_id
+      node_id
       node_name
       status
       init
