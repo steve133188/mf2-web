@@ -79,7 +79,10 @@ export function LineChart({children,...props}) {
                 <div id="chart-line">
                     <div>
                         <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >
-                            <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}>{title}  </p> <div className={"chart_info"}>?<p className={"chart_info_details"} ></p></div>
+                            <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}>{title}  </p>
+                            <div style={{   display:"flex",justifyContent:"center",alignItems:"center",margin:"10px 15px 15px 0px",backgroundColor: "#D0E9FF",borderRadius: "5px",width:"18px",height:"18px",}} className={"chart_info"} > ? 
+                            <p style={{  color: "#495057",fontSize: "16px", fontWeight: "600",width:"fit-content",margin:"10px 15px 15px 0px",display:"none",}} className={"chart_info_details"}  > {props.definition}</p>
+                            </div>
                         </div>
                         <div style={{marginLeft: "25px", fontSize: "12px", color: "#74788D"}}>Total <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>{total}<span style={{marginLeft: "6px", fontSize: "8px", fontWeight: "600", color: "#34C38F"}}>{percentage}</span></div></div>
                     </div>

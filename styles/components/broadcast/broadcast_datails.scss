@@ -55,6 +55,7 @@
     border-radius: "5px";
     width:"18px";
     height:"18px";
+
     .chart_info_details{
         
             color: "#495057";
@@ -64,4 +65,7 @@
             margin:"10px 15px 15px 0px";
             opacity:0;
     }
+}
+p:hover{
+    display: block;
 }
