@@ -157,19 +157,19 @@ export default function Chat() {
 
     },[dash])
 
-    useEffect(()=>{
-        const tagsTotal = []
-        contacts&&tags.map(e=>contacts.map(c=>{
+    // useEffect(()=>{
+    //     const tagsTotal = []
+    //     contacts&&tags!=undefined&&tags.map(e=>contacts.map(c=>{
 
-            const values=c.tags.map(t=>{
-                if(t.tag_name == e.tag_name ){
-                    // const data ={e.tag_name:+=1}
-                    console.log("1")
-                return tagsTotal.push()
-            }
-            })}))
-        console.log(tagsTotal,"tags total volume")
-    },[contacts])
+    //         const values=c.tags.map(t=>{
+    //             if(t.tag_name == e.tag_name ){
+    //                 // const data ={e.tag_name:+=1}
+    //                 console.log("1")
+    //             return tagsTotal.push()
+    //         }
+    //         })}))
+    //     console.log(tagsTotal,"tags total volume")
+    // },[contacts])
 
     // name:"WhastApp",value:"All",channelID:"All",id:0},
 

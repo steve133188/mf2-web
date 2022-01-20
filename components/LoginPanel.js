@@ -22,6 +22,7 @@ export function LoginPanel() {
         console.log('clicked log in')
         validatePassword()
         login(email,password)
+        console.log(email,password)
     }
     function validatePassword() {
         if (login(email,password)=="Something went Wrong") {
