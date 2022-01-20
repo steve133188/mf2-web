@@ -128,7 +128,7 @@ export default function Index() {
     const deleteRole = async (agent)=>{
         console.log(agent ,"agent to delete")
         const cd = await contactInstance.getContactsByUsers (agent.id)
-        cd.map(async e=>{   
+        cd.map(async e=>{
             console.log(e,"delete User")
             const res = await contactInstance.deleteCustomerAgent (e.customer_id,[agent.id])
             console.log(res,"delete User")
@@ -148,7 +148,7 @@ export default function Index() {
     }
 
 
-    const default_cols = ['Name','Role','Email' , "Phone" , "No. Of Leads",""]
+    const default_cols = ['Name','Role','Email' , "Phone" ,""]
 
 
     return (
@@ -277,9 +277,9 @@ export default function Index() {
                                         <TableCell align="left">
                                             {data.phone}
                                         </TableCell>
-                                        <TableCell align="left">
-                                            {data.leads!=0?data.leads : 0}
-                                        </TableCell>
+                                        {/*<TableCell align="left">*/}
+                                        {/*    {data.leads!=0?data.leads : 0}*/}
+                                        {/*</TableCell>*/}
 
 
                                         <TableCell align="right">

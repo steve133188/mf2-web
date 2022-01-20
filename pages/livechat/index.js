@@ -202,13 +202,15 @@ export default function Live_chat() {
             .catch(error => console.log(error))
         await getOwnPinChatList()
         setChatrooms(result)
-        setFilteredData(result) 
+        setFilteredData(result)
     }
     const getAllChatrooms = async ()=>{
-        const user_id = parseInt(user.user.user_id.toString() )
         const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000}))
             .then(async res =>{
                 let chatroom = res.data.listChatrooms.items
+                if(res.data.listChatrooms.nextToken) {
+
+                }
                 setChatrooms(chatroom)
                 chatroom = chatroom.filter(ch=>{
                     return ch.channel == "WABA"
@@ -430,7 +432,6 @@ export default function Live_chat() {
     }
     const stickerSend =  async e=>{
         e.preventDefault();
-
         console.log(selectedChat,"sticker for chat")
         console.log(e.target,"sticker")
         const imagetype= selectedChat.channel=="WABA"?"image":"sticker"
@@ -439,7 +440,6 @@ export default function Live_chat() {
         console.log("sticker payload" , data);
         const res = await messageInstance.sendMessage(data)
         setTypedMsg({...typedMsg , message: ""})
-        // console.log(res)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -491,7 +491,7 @@ export default function Live_chat() {
             // await subChatrooms()
     }
 
-   
+
     const replyClick=click=>{
         console.log(click,"done donedone")
         setReplyMsg(click)
@@ -752,14 +752,14 @@ export default function Live_chat() {
     // const [List,setList] = useState([{phone:"123"},])
     // useEffect(()=>{
     //     console.log(filteredData,"chatroom volumn")
-    
+
     // },[filteredData])
     // useEffect(()=>{
     // console.log(doubleList,"doubledoubledouble")
     // filteredData.map(e=>{
     //   if(  e.phone=="85265779712"){console.log(e, "double")}
     // })
-    
+
     // },[doubleList])
 
     // useEffect(async ()=>{
