@@ -174,8 +174,8 @@ export default function usersFetcher(token){
         return d
     }
 
-    instance.changeUserPassword = async (email , old_password, new_password) =>{
-        const d =await instance.fetcher.put(`/change-password` ,{email , old_password ,new_password}).then(res=>res.status).catch(err=>console.log(err))
+    instance.changeUserPassword = async (user_id , old_password, new_password) =>{
+        const d =await instance.fetcher.put(`/users/change-password` ,{user_id , old_password ,new_password}).then(res=>res.status).catch(err=>console.log(err))
         return d
     }
     return instance

@@ -14,10 +14,10 @@ export default function Setting() {
         confirm_password:""
     })
     const submit = async ()=>{
-        const {email} = profile
+        const {user_id} = profile
         const {old_password , new_password} = password
-        console.log("payload",{email ,old_password,new_password })
-        const res = await userInstance.changeUserPassword(email ,old_password,new_password )
+        console.log("payload",{user_id ,old_password,new_password })
+        const res = await userInstance.changeUserPassword(parseInt(user_id) ,old_password,new_password )
         console.log("res :",res)
     }
     const isConfirmPassword=()=>{
@@ -39,21 +39,21 @@ export default function Setting() {
     return (
             <div className="accountSettingPanel">
                 <div className={"title"}>Account</div>
-                <div className="avatarGroup">
-                    <div className={"avatar_top"}>Avatar</div>
-                    <div className={"avatar_row"}>
-                        <Avatar sx={{
-                            bgcolor: "#FCECD2",
-                            color: "#F1B44C",
-                            width: "90px",
-                            height: "90px",
-                            fontSize: "41px",
-                            fontWeight:500,
-                        }}>MF</Avatar>
-                        <button className={"upload"}>Upload</button>
-                        <button className={"remove"}>Remove</button>
-                    </div>
-                </div>
+                {/*<div className="avatarGroup">*/}
+                {/*    <div className={"avatar_top"}>Avatar</div>*/}
+                {/*    <div className={"avatar_row"}>*/}
+                {/*        <Avatar sx={{*/}
+                {/*            bgcolor: "#FCECD2",*/}
+                {/*            color: "#F1B44C",*/}
+                {/*            width: "90px",*/}
+                {/*            height: "90px",*/}
+                {/*            fontSize: "41px",*/}
+                {/*            fontWeight:500,*/}
+                {/*        }}>MF</Avatar>*/}
+                {/*        <button className={"upload"}>Upload</button>*/}
+                {/*        <button className={"remove"}>Remove</button>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className="form_session">
                     <div className="form_row">
                         <MF_Input disabled="disabled" value={profile.username} title="Username"/>

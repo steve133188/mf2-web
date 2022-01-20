@@ -208,9 +208,7 @@ export default function Live_chat() {
         const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000}))
             .then(async res =>{
                 let chatroom = res.data.listChatrooms.items
-                if(res.data.listChatrooms.nextToken) {
-
-                }
+                if(res.data.listChatrooms.nextToken)
                 setChatrooms(chatroom)
                 chatroom = chatroom.filter(ch=>{
                     return ch.channel == "WABA"
