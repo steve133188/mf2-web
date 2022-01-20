@@ -204,20 +204,49 @@ export default function Live_chat() {
         setChatrooms(result)
         setFilteredData(result)
     }
-    const getAllChatrooms = async ()=>{
-        const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000}))
+    const getAllChatrooms = async (next)=>{
+        const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , nextToken:next}))
             .then(async res =>{
                 let chatroom = res.data.listChatrooms.items
-                if(res.data.listChatrooms.nextToken)
-                setChatrooms(chatroom)
+                if(res.data.listChatrooms.nextToken){
+                    console.log("Have Next Token")
+                    await getAllChatrooms(res.data.listChatrooms.nextToken)
+                }
+                setChatrooms(prev=>[...prev,...chatroom])
+
                 chatroom = chatroom.filter(ch=>{
                     return ch.channel == "WABA"
                 })
-                setFilteredData(chatroom)
+                console.log("chatrooms:",chatroom)
+                setFilteredData(prev=>[...prev , ...chatroom])
                 // setPinChat(pin)
             })
             .catch(error => console.log(error))
+
     }
+
+    // const listAllChat = async (next)=>{
+    //     const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , nextToken:next}))
+    //         .then(async res =>{
+    //             let chatroom = res.data.listChatrooms.items
+    //             if(res.data.listChatrooms.nextToken){
+    //                 const data = await listAllChat(res.data.listChatrooms.nextToken)
+    //             }
+    //             setChatrooms(chatroom)
+    //             chatroom = chatroom.filter(ch=>{
+    //                 return ch.channel == "WABA"
+    //             })
+    //             setFilteredData(chatroom)
+    //             // setPinChat(pin)
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //             return null
+    //         })
+    //
+    //     return result
+    // }
+
     const fetchAttachment = async ()=>{
         let imageKeys = await Storage.list('')
         imageKeys = await Promise.all(imageKeys.map(async k=>{
