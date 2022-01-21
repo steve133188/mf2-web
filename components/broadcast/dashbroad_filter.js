@@ -62,7 +62,7 @@ export default function DashBroadFilter(props){
                         if(selectedAgents.length==0){
                             return data
                         }
-                        return data.agents.some(el=>selectedAgents.includes(el))
+                        return data.agents_id.some(el=>selectedAgents.includes(el))
                     })
                     console.log("agent:",agentFiltered)
                     const tagFiltered = agentFiltered.filter(data=>{

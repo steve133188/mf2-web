@@ -81,7 +81,7 @@ export default function Contacts() {
             if(selectedUsers.length==0){
                 return data
             }
-            return data.agents.some(el=>selectedUsers.includes(el.username))
+            return data.agents_id.some(el=>selectedUsers.includes(el.username))
         })
 
         const tagFiltered = agentFiltered.filter(data=>{
@@ -112,7 +112,7 @@ export default function Contacts() {
                 return data
             }
             if(selectedTeams[0].id==0) return data.agents.length==0
-            return data.agents.some(el=>{return el.team_id==selectedTeams[0].id})
+            return data.agents_id.some(el=>{return el.team_id==selectedTeams[0].id})
             // return data.team==selectedTeams.id
         })
         setFilteredData([...teamFiltered])
