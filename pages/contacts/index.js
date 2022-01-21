@@ -111,7 +111,7 @@ export default function Contacts() {
             if(selectedTeams.length ==0){
                 return data
             }
-            if(selectedTeams[0].id==0) return data.agents.length==0
+            if(selectedTeams[0].id==0) return data.agents_id.length==0
             return data.agents_id.some(el=>{return el.team_id==selectedTeams[0].id})
             // return data.team==selectedTeams.id
         })
@@ -641,7 +641,7 @@ export default function Contacts() {
                                         {/* <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} > */}
                                             <div className={"avaGroupInstead"} >
 
-                                            {data.agents&&data.agents.length!=0 &&data.agents.map((agent , index)=>{
+                                            {data.agents_id&&data.agents_id.length!=0 &&data.agents_id.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent.username?agent.username:"a"} placement="top-start">
                                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>

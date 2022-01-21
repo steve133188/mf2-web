@@ -194,7 +194,7 @@ export default function ProfileGrid({data,toggle}){
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
                         <div className={"session_content"}>
                             {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
-                                {useContact.agents!=null &&useContact.agents.map((agent , index)=>{
+                                {useContact.agents!=null &&useContact.agents_id.map((agent , index)=>{
                                     console.log(agent,"contact file agents")
                                     return(
                                         <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">

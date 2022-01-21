@@ -676,7 +676,7 @@ export default function Live_chat() {
 
     const unassignFilter = (contact ,chats)=>{
         console.log(contact)
-        const data = contact.filter(c=>c.agents.length==0)
+        const data = contact.filter(c=>c.agents_id.length==0)
         console.log(data,"unassign")
         return chats.filter(chat=>{console.log(chat);return data.includes(parseInt(chat.user_id))})
     }
