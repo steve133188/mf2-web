@@ -76,7 +76,7 @@ export default function Contacts() {
 
     const advanceFilter =()=>{        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
         // console.log("filter",filter)
-        // console.log("filter",contacts)
+        console.log("filter check",contacts)
         const agentFiltered = contacts.filter(data=>{
             if(selectedUsers.length==0){
                 return data
@@ -88,6 +88,7 @@ export default function Contacts() {
            if(selectedTags.length==0){
                return data
            }
+           console.log(data,"tags check")
            return data.tags.some(el=>selectedTags.includes(el.tag_name))
         }
             /*
@@ -175,9 +176,9 @@ export default function Contacts() {
     }
     const fetchContacts = async () =>{
         const data =await contactInstance.getAllContacts()
-        console.log("customer data : " , data)
-
+        
         setContacts(data)
+        console.log("customer data : " , data)
         setFilteredData(data)
     }
     useEffect(async () => {
@@ -481,7 +482,7 @@ export default function Contacts() {
                         {/* <DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectUsers} clear={ ()=>{}} isclear={()=>{}} /> */}
                         </div>      
 
-                       {filteredUsers.map((user , index)=>{
+                       {filteredUsers&&filteredUsers.map((user , index)=>{
                             return(<li key={index}>
                                 <div style={{display:"flex" ,gap:10}}>
                                     <Tooltip key={user.username} className={""} title={"a"} placement="top-start">
@@ -644,7 +645,11 @@ export default function Contacts() {
                                             {data.agents_id&&data.agents_id.length!=0 &&data.agents_id.map((agent , index)=>{
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent.username?agent.username:"a"} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} alt={agent.username}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} 
+                                                    // alt={agent.username}
+                                                    >
+                                                        {/* {agent.username.substring(0,2).toUpperCase()} */}{agent.toString().substring(0,2).toUpperCase()}
+                                                    </Avatar>
                                                     </Tooltip>
                                                 )
                                             })}

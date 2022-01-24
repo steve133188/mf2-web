@@ -48,7 +48,8 @@ export default function EditProfileForm({data , toggle}){
         if(user.token){
             await getTags()
             await getUsers()
-            if(editContact.agents)setSelectedUsers(editContact.agents)
+            // if(editContact.agents)setSelectedUsers(editContact.agents)
+            if(editContact.agents_id)setSelectedUsers(editContact.agents_id)
             if(editContact.tags)setSelectedTags(editContact.tags)
         }
         console.log(data,"contact bring in")
