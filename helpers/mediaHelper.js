@@ -1,7 +1,7 @@
  import {Storage , API , graphqlOperation} from "aws-amplify";
  import path from 'path';
 
-
+ 
 function mediaHelper(){
     this.bucketUrl = "https://mf2media00345-dev.s3.ap-southeast-1.amazonaws.com/public/"
 

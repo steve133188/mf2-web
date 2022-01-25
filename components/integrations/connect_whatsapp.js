@@ -27,7 +27,7 @@ export default function ConnectWhatsapp(props){
             // const selectedInstance = instance[0]
             // console.log("selected :" ,selectedInstance )
             // console.log(selectedInstance)
-            const start = await axios.post(chan.url+"/connect" , {user_id:user.user.user_id , node_index:chan.node_index , user_name:user.user.user_name}).then(res=>console.log(res)).catch(err=>console.log(err))
+            const start = await axios.post(chan.url+"/connect" , {user_id:user.user.user_id , node_index:chan.node_index , user_name:user.user.user_name}).then(res=>console.log(res,"url link")).catch(err=>console.log(err))
             const sub =await API.graphql(graphqlOperation( onUpdateWhatsapp_node , {node_index:chan.node_index   })).subscribe({
                 next: async (node) => {
                     console.log("qrUpdate" , node)
