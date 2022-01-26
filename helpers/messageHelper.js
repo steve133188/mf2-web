@@ -3,8 +3,11 @@ import axios from "axios"
 
 export default function WhatsappFetcher(){
     // this.whatsappURL = "https://f125-118-140-233-2.ngrok.io"
-    // this.whatsappURL = "https://whatsapp-js-dp6tp.ondigitalocean.app"
-    this.whatsappURL = null
+    this.whatsappURL = "https://whatsapp-js-dp6tp.ondigitalocean.app"
+    // this.whatsappURL = "https://localhost:8001"
+    // this.whatsappURL = null
+    // const start = await axios.post(chan.url+"/connect" , {user_id:user.user.user_id , node_index:chan.node_index , user_name:user.user.user_name}).then(res=>console.log(res,"url link")).catch(err=>console.log(err))
+
     this.WABAURL ="https://waba-js-666dj.ondigitalocean.app/prod"
 
     this.WABAID = "5e4367dd3c660d5d5e541176"
@@ -62,14 +65,15 @@ export default function WhatsappFetcher(){
                     })
                 break;
             case "Whatsapp":
-                default:
-                    await this.whatsappInstance.post("/send-message" , data)
-                        .then(res=>console.log("Send Message Status : " , res.status))
-                        .catch(err=> {
-                            this.errorHandler(err);
-                            console.log(this.error)
-                        })
+                console.log(data,'data inside whatsapp send')
+                await this.whatsappInstance.post("/send-message" , data)
+                .then(res=>console.log("Send Message Status : " , res.status))
+                .catch(err=> {
+                    this.errorHandler(err);
+                    console.log(this.error)
+                })
                 break;
+                default:
         }
 
     }

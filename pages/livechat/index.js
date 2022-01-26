@@ -492,7 +492,8 @@ export default function Live_chat() {
         e.preventDefault()
         console.log("selected Chat",selectedChat)
         if(typedMsg.message ==""&&mediaUrl=="" &&!isMedia) return
-        const data = {...typedMsg,message:typedMsg.message , phone :selectedChat.phone ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url:mediaUrl ,is_media: isMedia ,sign_name:user.user.username,hasQuotedMsg:quoteMsg.hasQuotedMsg,quote:quoteMsg.message_id,quote_from:quoteMsg.sender}
+        const data = {...typedMsg,message:typedMsg.message , phone :parseInt(selectedChat.phone) ,room_id:selectedChat.room_id,message_type:typedMsg.message_type,channel:selectedChat.channel ,media_url:mediaUrl ,is_media: isMedia ,sign_name:user.user.username,hasQuotedMsg:quoteMsg.hasQuotedMsg,quote:quoteMsg.message_id,quote_from:quoteMsg.sender}
+        // console.log("data",selectedChat)
         setTypedMsg({...typedMsg , message: ""})
         if(quoteMsg){
             setQuotaMsg({})
@@ -501,7 +502,6 @@ export default function Live_chat() {
             setIsMedia(false)
             setFilePrevier(filePreviewOldState)
             setMediaUrl("")
-
         }
         setTypedMsg({channel:"",phone:"",message:"",message_type:"text"})
         setIsExpand(false)

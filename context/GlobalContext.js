@@ -88,7 +88,7 @@ export const GlobalContextProvider = ({children}) =>{
                 roleInstance.token = user.token
                 await getUserChannel()
                 // messageInstance.setWhatsappURL("https://f125-118-140-233-2.ngrok.io")
-                messageInstance.setWhatsappURL("https://localhost:8001")
+                // messageInstance.setWhatsappURL("https://localhost:8001")
                 return response.status
             }).catch(err=>{
                 console.log(err)
