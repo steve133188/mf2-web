@@ -22,10 +22,11 @@ export default function SideBar({setNotificationList , openNoteList , toggleNote
     const [userAuth,setUserAuth] = useState({})
 
    useEffect(async()=>{
+       if(user.token){
+           const data = await roleInstance.getRoleById(user.user.role_id)
+           setUserAuth(data.authority)
 
-    const data = await roleInstance.getAllRoles()
-    // console.log(data.filter(e=>e.role_id==user.user.role_id)[0].authority,"jhihihi")
-    setUserAuth(data.filter(e=>e.role_id==user.user.role_id)[0].authority)
+       }
    },[])
 
    useEffect(()=>{

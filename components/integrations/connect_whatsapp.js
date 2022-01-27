@@ -11,66 +11,57 @@ export default function ConnectWhatsapp(props){
     const {user} = useContext(GlobalContext)
     const [qrcode , setQrcode] = useState()
     const [subscript , setSubscript] = useState()
-
+    const [status , setStatus] = useState()
     const [subed,setSubed] = useState(false)
-    useEffect(async ()=>{
-        // if(user.token){
-            await selectWAInstance()
 
-        // }
+    useEffect(async ()=>{
+        if(user.token){
+            setStatus(chan.status)
+            await selectWAInstance()
+        }
     },[])
 
     const selectWAInstance = async ()=>{
-        if(chan.status=="AVAILABLE"){
+        if(chan.status=="AVAILABLE"||chan.status=="CONNECTING"){
             console.log(chan)
-            // const instance = await API.graphql(graphqlOperation(listWhatsapp_nodes, {filter:{status: {eq:"AVAILABLE"} , init : {eq:false} , user_id:{eq:user.user.user_id}}})).then(res=>res.data.listWhatsapp_nodes.items).catch(err=>console.log(err))
-            // const selectedInstance = instance[0]
-            // console.log("selected :" ,selectedInstance )
-            // console.log(selectedInstance)
-            const start = await axios.post(chan.url+"/connect" , {user_id:user.user.user_id , node_index:chan.node_index , user_name:user.user.user_name}).then(res=>console.log(res)).catch(err=>console.log(err))
-            const sub =await API.graphql(graphqlOperation( onUpdateWhatsapp_node , {node_index:chan.node_index   })).subscribe({
+            const start = await axios.post(chan.url+"/connect" , {user_id:user.user.user_id , node_index:chan.node_index , user_name:user.user.user_name , team_id:user.team_id}).then(res=>console.log(res)).catch(err=>console.log(err))
+            const sub =API.graphql(graphqlOperation(onUpdateWhatsapp_node, {node_index: chan.node_index})).subscribe({
                 next: async (node) => {
-                    console.log("qrUpdate" , node)
+                    setStatus(node.value.data.onUpdateWhatsapp_node.status)
+                    console.log("qrUpdate", node)
                     const qr = node.value.data.onUpdateWhatsapp_node.channel_id
                     setQrcode(qr)
-                    if(node.status === "CONNECTED") {
+                    if (node.status === "CONNECTED") {
                         setSubed(true)
                         subscript.unsubscribe()
                     }
-                    // if(node.value.data.onUpdateWhatsapp_node.status ==="CONNECTED"){
-                    //
-                    //     return
-                    // }
                 }
             })
             setSubscript(sub)
         }
-
-        // const updatedInstance = await API.graphql(graphqlOperation(updateWhatsapp_node , {input:{
-        //         node_index: selectedInstance.node_index,
-        //         status: "CONNECTING",
-        //         node_name:"Whatsapp"
-        //     }})).then(res=>res.data.updateWhatsapp_node).catch(err=>console.log(err))
-
     }
 
+    const restartWhatsapp = async ()=>{
+        const start = await axios.get(chan.url+"/restart").then(res=>console.log(res)).catch(err=>console.log(err))
+    }
 
 
     return(<>
     <div className="intergra_container">
-        <p>Scan the QR code with your phone and keep your phone connected to internet.</p>
-        {qrcode?<div style={{display:"flex",flexDirection:'column'}}>
-                <QRCode  id="qr-gen"
-                         value={qrcode}
-                         size={290}
-                         level={"H"}
-                         includeMargin={true}/>
+        {status == "CONNECTING"&&(<p>Scan the QR code with your phone and keep your phone connected to internet.</p>)}
+        {status == "AVAILABLE"&&(<p>Your Whatsapp is available now ! please ready to scan the QR code to connect and synchronize the data. </p>)}
+            {qrcode?<div style={{display:"flex",flexDirection:'column'}}>
+            <QRCode  id="qr-gen"
+            value={qrcode}
+            size={290}
+            level={"H"}
+            includeMargin={true}/>
+            </div>
+            :null
+            }
 
-        </div>
-
-        :null
-        }
-        {subed&& <p>Whatsapp channel connected</p>}
+        {status == "CONNECTED"&& <p>Whatsapp channel connected</p>}
+        {status == "DISCONNECTED"&&(<><p> </p> <button onClick={async ()=>{await restartWhatsapp()}}>restart server</button></> )}
     </div>
     </>)
 }
