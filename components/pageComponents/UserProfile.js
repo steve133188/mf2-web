@@ -37,7 +37,7 @@ export default function UserProfileGrid({data}){
         console.log(data)
         console.log(data.authority)
         console.log(contactsdata,"contactssss")
-        const assigned = contactsdata.filter(c=>{return c.agents.some(el=>el.username ==data.username)})
+        const assigned = contactsdata.filter(c=>{return c.agents_id.some(el=>el.username ==data.username)})
         console.log(assigned,"contactssss")
         setAssingedContacts(assigned)
 

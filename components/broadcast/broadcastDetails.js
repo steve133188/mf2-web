@@ -60,7 +60,7 @@ export default function BroadcastDetails({data}){
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
                         <div className={"session_content"}>
                             {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
-                                {data.agents!=null &&data.agents.map((agent , index)=>{
+                                {data.agents_id!=null &&data.agents_id.map((agent , index)=>{
                                     return(
                                         <Tooltip key={index} className={""} title={agent} placement="top-start">
                                             <Avatar  className={"mf_bg_warning mf_color_warning"}  size="roundedPill size30" alt={agent}>{agent.substring(0,2).toUpperCase()}</Avatar>

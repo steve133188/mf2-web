@@ -80,9 +80,9 @@ export function LineChart({children,...props}) {
                     <div>
                         <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >
                             <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}>{title}  </p>
-                            <div className={"chart_info"} > ? 
-                            <p  className={"chart_info_details"}  > {props.definition}</p>
-                            </div>
+                            {title=="All Contacts"?"":<div className={"chart_info"} > ? 
+                            <p  className={"chart_info_details"} style={{backgroundColor:"#e9ecef",padding:"5px",height:"30px",borderRadius:"10px"}}  > {props.definition}</p>
+                            </div>}
                         </div>
                         <div style={{marginLeft: "25px", fontSize: "12px", color: "#74788D"}}>Total <div style={{color: "#6279EC", fontSize: "20px", fontWeight: "bold"}}>{total}<span style={{marginLeft: "6px", fontSize: "8px", fontWeight: "600", color: "#34C38F"}}>{percentage}</span></div></div>
                     </div>

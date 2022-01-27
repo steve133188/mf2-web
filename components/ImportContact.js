@@ -110,7 +110,7 @@ export function ImportDropzone({children,...props}) {
     //                     address:element.address,
     //                     country:element.country,
     //                     tags:element.tags.split(","),
-    //                     agents:element.agents.split(",")
+    //                     agents:element.agents_id.split(",")
     //                 }
                     
     //                 if(data.phone) newUser(data)

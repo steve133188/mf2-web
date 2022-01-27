@@ -366,13 +366,13 @@ export default function Live_chat() {
 
     const teamFilter =(agents , filter ,contact, chats)=>{
         const gps= agents.filter(d=>{;return filter.includes(d.team_id.toString())})
-        const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
+        const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents_id.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
         return chats.filter(ch=>{;return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const agentfilter =(agents , filter ,contact, chats)=>{
         console.log(agents , filter , contact, "agent filter testing ")
         const gps= agents.filter(d=>filter.includes( d.user_id.toString() ))
-        const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
+        const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents_id.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
         return chats.filter(ch=>{;return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const tagFilter =(agents , filter , chats)=>{
@@ -676,7 +676,7 @@ export default function Live_chat() {
 
     const unassignFilter = (contact ,chats)=>{
         console.log(contact)
-        const data = contact.filter(c=>c.agents.length==0)
+        const data = contact.filter(c=>c.agents_id.length==0)
         console.log(data,"unassign")
         return chats.filter(chat=>{console.log(chat);return data.includes(parseInt(chat.user_id))})
     }

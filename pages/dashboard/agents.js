@@ -99,32 +99,32 @@ export default function Agents() {
     // ["Golden",'Agent','Disconnected',0,0,0,0,0,0,0,0],
     // ["Amy",'Agent','Disconnected',0,0,0,0,0,0,0,0],
 
-    const AverDailyOnlineTime = filteredData.map(a=>a[3]).reduce((org,cur)=>{
+    const AverDailyOnlineTime = filteredData.length>0&&filteredData.map(a=>a[3]).reduce((org,cur)=>{
         return org+cur
     })
 
-    const AllContacts= filteredData.map(a=>a[4]).reduce((org,cur)=>{
+    const AllContacts= filteredData.length>0&&filteredData.map(a=>a[4]).reduce((org,cur)=>{
         return org+cur
     })
-    const ActiveContacts= filteredData.map(a=>a[5]).reduce((org,cur)=>{
+    const ActiveContacts= filteredData.length>0&&filteredData.map(a=>a[5]).reduce((org,cur)=>{
         return org+cur
     })
-    const DeliveredContact= filteredData.map(a=>a[6]).reduce((org,cur)=>{
+    const DeliveredContact= filteredData.length>0&&filteredData.map(a=>a[6]).reduce((org,cur)=>{
         return org+cur
     })
-    const UnhandeledContact= filteredData.map(a=>a[7]).reduce((org,cur)=>{
+    const UnhandeledContact= filteredData.length>0&&filteredData.map(a=>a[7]).reduce((org,cur)=>{
         return org+cur
     })
     // const TotalMessagesReceived= filteredData.map(a=>a[8]).reduce((org,cur)=>{
     //     return org+cur
     // })
-    const TotalMessagesSent= filteredData.map(a=>a[8]).reduce((org,cur)=>{
+    const TotalMessagesSent= filteredData.length>0&&filteredData.map(a=>a[8]).reduce((org,cur)=>{
         return org+cur
     })
-    const AverageResponseTime= filteredData.map(a=>a[9]).reduce((org,cur)=>{
+    const AverageResponseTime= filteredData.length>0&&filteredData.map(a=>a[9]).reduce((org,cur)=>{
         return org+cur
     })
-    const AverageFirstResponse= filteredData.map(a=>a[10]).reduce((org,cur)=>{
+    const AverageFirstResponse= filteredData.length>0&&filteredData.map(a=>a[10]).reduce((org,cur)=>{
         return org+cur
     })
 
@@ -368,7 +368,7 @@ export default function Agents() {
 
             </div>
             <div className="lineCardGroupSet">
-                <div className="lineCardGroup1">
+                {(selectedAgents.length>0||selectedTeams.length>0)?"":<div className="lineCardGroup1">
                     <LineChartCard chart={true} img={false} title={"Agents"} data={[filteredData.length]}/>
                     <LineChartCard chart={true} img={false} title={"Connected"} data={[filteredData.filter(e=>{return e[2]=="Connected"}).length]}/>
                     <LineChartCard chart={true} img={false} title={"Disconnected"} data={[filteredData.filter(e=>e[2]=="Disconnected").length]}/>
@@ -381,7 +381,7 @@ export default function Agents() {
                     <LineChartCard chart={true} img={false} title={"All Contacts"} data={dash.all_contacts}/>
                     <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={dash.new_added_contacts}/>
                     <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/> */}
-                </div>
+                </div>}
                 <div className="lineCardGroup2">
                     <ChangingPercentageCard title={"Total Assigned Contacts"} data2={AllContacts} data1={[5]} definData={Defin} />
                     <ChangingPercentageCard title={"Active Contacts"} data2={ActiveContacts} data1={[5]} definData={Defin} />
