@@ -52,7 +52,7 @@ export const GlobalContextProvider = ({children}) =>{
     const getUserChannel = async (uid)=>{
         const node = await API.graphql(graphqlOperation(listWhatsapp_nodes , {filter:{user_id:{eq:uid}} , limit:400})).then(res=>{
             console.log( "get whatsapp channel",res)
-           if(res.data.listWhatsapp_nodes.items.length===1) return res.data.listWhatsapp_nodes.items[0]
+           if(res.data.listWhatsapp_nodes.items.length>=1) return res.data.listWhatsapp_nodes.items[0]
            return null
         }).catch(err=>{
             console.log(err)
