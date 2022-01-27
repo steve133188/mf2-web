@@ -30,7 +30,7 @@ export default function ConnectWhatsapp({...props}){
         console.log("status : " , status)
         if(data.status=="AVAILABLE"||data.status=="CONNECTING"){
             console.log({user_id:user.user.user_id , node_index:data.node_index , user_name:user.user.username , team_id:user.user.team_id})
-            const start = await axios.post(data.url+"/connect" , {user_id:user.user.user_id , node_index:data.node_index , user_name:user.user.user_name , team_id:user.user.team_id},{headers:{
+            const start = await axios.post(data.url+"/connect" , {user_id:user.user.user_id , node_index:data.node_index , user_name:user.user.username , team_id:user.user.team_id},{ headers:{
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin' : '*',
                     'Access-Control-Allow-Credentials' : true,
