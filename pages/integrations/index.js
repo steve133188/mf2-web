@@ -81,7 +81,7 @@ export default function Integrations() {
             //     }.bind(this), 100)
             // }
         }
-    },[user])
+    },[])
 
     useEffect(()=>{
         if( activeChannel.length>0 ){ setShowMe(!showMe) };
@@ -176,7 +176,7 @@ export default function Integrations() {
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
                          <TabContext value={value}  >
 
-                                <TabPanel value="Whatsapp" ><ConnectWhatsapp chan={whatsapp} fetchdata={whatsappFetch}/></TabPanel>
+                                <TabPanel value="Whatsapp" ><ConnectWhatsapp  fetchdata={whatsappFetch}/></TabPanel>
                                 <TabPanel value="WhatsappB" ><ConnectWhatsappBiss fetchdata={whatsappBFetch} /></TabPanel>
                                 <TabPanel value="Wechat" ><ConnectWeChat fetchdata={wechatFetch}  /></TabPanel>
                                 <TabPanel value="Messager" ><ConnectFacebookMessager fetchdata={messagerFetch} /></TabPanel>
