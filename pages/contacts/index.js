@@ -67,16 +67,28 @@ export default function Contacts() {
     const [filteredChannel ,setFilteredChannel] =useState([])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts= filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
+
+    let currentContacts= filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
+        .map(c =>{
+        if(c.agents_id==!1) return c.agents =[]
+        let agents = c.agents_id.map( u =>{
+            return users.find(user=>{
+                return user.user_id == u
+            })
+        })
+        c.agents = agents
+        console.log("contact : " , c)
+    })
     let result = currentContacts.map(d=>d.customer_id)
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
     const [deleteRole,setDeleteRole] = useState("")
 
 
-    const advanceFilter =()=>{        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
-        // console.log("filter",filter)
-        console.log("filter check",contacts)
+    const advanceFilter =()=>{
+
+        setFilter({team:selectedTeams, agent:[...selectedUsers] ,channel: [...selectedChannel] , tag:[...selectedTags]})
+
         const agentFiltered = contacts.filter(data=>{
             if(selectedUsers.length==0){
                 return data
@@ -91,20 +103,15 @@ export default function Contacts() {
            console.log(data,"tags check")
            return data.tags.some(el=>selectedTags.includes(el.tag_name))
         }
-            /*
-            ================
-            return OR condition
-            ================
-            return data.tags.some(el=>selectedTags.includes(el.tag_name))
-            */
         )
+
         const channelFiltered = tagFiltered.filter(data=>{
             if(selectedChannel.length ==0){
                 return data
             }
             return selectedChannel.some(el=>data.channels?data.channels.includes(el):false)
-
         })
+
         console.log("channelFiltered:",channelFiltered)
 
         const teamFiltered = channelFiltered.filter(data=>{
@@ -118,12 +125,14 @@ export default function Contacts() {
         })
         setFilteredData([...teamFiltered])
     }
+
     const channels = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
                 {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
                 {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
                 {name:"Messager",value:"Messager",channelID:"Messager",id:3},
                 {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
@@ -176,19 +185,19 @@ export default function Contacts() {
     }
     const fetchContacts = async () =>{
         const data =await contactInstance.getAllContacts()
-        
+
         setContacts(data)
         console.log("customer data : " , data)
         setFilteredData(data)
     }
     useEffect(async () => {
         if(user.token!=null) {
-            await fetchContacts()
             await getTags()
             await getUsers()
             await getTeams()
             await getChannels ()
             await getDivision()
+            await fetchContacts()
         }
         setSelectedUsers([])
         setSelectedContacts([])
@@ -480,7 +489,7 @@ export default function Contacts() {
                         <div>Agents
 
                         {/* <DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectUsers} clear={ ()=>{}} isclear={()=>{}} /> */}
-                        </div>      
+                        </div>
 
                        {filteredUsers&&filteredUsers.map((user , index)=>{
                             return(<li key={index}>
@@ -585,6 +594,7 @@ export default function Contacts() {
                     </TableHead>
                     <TableBody>
                         {filteredData.length!=0 && currentContacts.map((data ,index) => {
+
                             return( <TableRow
                                     key={index}
                                     hover
@@ -642,13 +652,13 @@ export default function Contacts() {
                                         {/* <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} > */}
                                             <div className={"avaGroupInstead"} >
 
-                                            {data.agents_id&&data.agents_id.length!=0 &&data.agents_id.map((agent , index)=>{
+                                            {users.length!==0&&data.agents_id.length!=0 &&data.agents_id.map((agent , index)=>{
+
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent.username?agent.username:"a"} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}} 
-                                                    // alt={agent.username}
-                                                    >
-                                                        {/* {agent.username.substring(0,2).toUpperCase()} */}{agent.toString().substring(0,2).toUpperCase()}
+                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}}>
+                                                        {/* {agent.username.substring(0,2).toUpperCase()} */}
+                                                        {agent.toString().substring(0,2).toUpperCase()}
                                                     </Avatar>
                                                     </Tooltip>
                                                 )
