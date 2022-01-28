@@ -136,8 +136,8 @@ export default function Live_chat() {
             })
         console.log("subscribe chatrooms start : " , sub)
         setChatroomsSub(prev=>sub)
-
     }
+
     const updateChatroomUnread = async (chat)=>{
         console.log("update chatroom start")
         return  await API.graphql(graphqlOperation(updateChatroom , {input:{user_id:chat.user_id  , room_id:chat.room_id , unread:0 , channel:chat.channel } }))
@@ -163,8 +163,8 @@ export default function Live_chat() {
         setChatroomMsg([])
         if (chatroom.unread>0  )await updateChatroomUnread(chatroom);
         setSelectedChat(chatroom)
-        // setLastMsgFromClient(chatroom.last_msg_time)
         console.log(selectedChat,"chat check")
+        // setLastMsgFromClient(chatroom.last_msg_time)
         // setSelectedChat(prev=>chatroom)
         setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
         await getCustomerbyID(chatroom.customer_id)
@@ -479,15 +479,13 @@ export default function Live_chat() {
         }
       }
     const searchBy =()=>{
-    //    e.preventDefault();
-
+            // e.preventDefault();
             // document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:70,which:70}))
             // document.dispatchEvent(new KeyboardEvent("keydown",{ metaKey: true ,which:90}))
             console.log("1")
             // document.dispatchEvent(new KeyboardEvent('keydown',{keyCode:91}))
+        }
 
-
-    }
     const sendMessageToClient = async e=>{
         e.preventDefault()
         console.log("selected Chat",selectedChat)
@@ -590,8 +588,6 @@ export default function Live_chat() {
 
 
     const wrapperRef1 = useRef();
-
-
     // useEffect(()=>{
     //     console.log(quoteMsg)
     // },[quoteMsg])
@@ -665,7 +661,6 @@ export default function Live_chat() {
                 }
             })
         setSubscribe(prev=> sub)
-
     }
 
     useEffect(async ()=>{
