@@ -194,7 +194,7 @@ export default function ProfileGrid({data,toggle}){
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
                         <div className={"session_content"}>
                             {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
-                                {useContact.agents!=null &&useContact.agents_id.map((agent , index)=>{
+                                {useContact.agents!=null &&useContact.agents.map((agent , index)=>{
                                     console.log(agent,"contact file agents")
                                     return(
                                         <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
@@ -241,25 +241,26 @@ export default function ProfileGrid({data,toggle}){
                                     //    setFilteredTags(new_data)
                                     }}>
 
-                                        {filteredTags.map((tag, index) => {
-
-                                            return (<li key={index+index}>
-                                                <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>
-                                                <div className="newCheckboxContainer">
-                                                    <label className="newCheckboxLabel">
-                                                        <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />
-                                                    </label>
-                                                </div>
-                                            </li>)
-                                        })}
+                                        {/*{filteredTags.map((tag, index) => {*/}
+                                            //TODO add tags to render
+                                        {/*    return (<li key={index+index}>*/}
+                                        {/*        <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>*/}
+                                        {/*        <div className="newCheckboxContainer">*/}
+                                        {/*            <label className="newCheckboxLabel">*/}
+                                        {/*                <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />*/}
+                                        {/*            </label>*/}
+                                        {/*        </div>*/}
+                                        {/*    </li>)*/}
+                                        {/*})}*/}
 
                                     </Mf_circle_btn>
 
 
                                     <div style={{paddingTop:"3px", width:"100%"}} >
-                                    {selectedTags != -1 && selectedTags.map((tag, index) => {
-                                        return <Pill key={index} color="vip">{tag.tag_name}</Pill>
-                                    })}
+                                    {/*    TODO add render selected tags*/}
+                                    {/*{selectedTags != -1 && selectedTags.map((tag, index) => {*/}
+                                    {/*    return <Pill key={index} color="vip">{tag.tag_name}</Pill>*/}
+                                    {/*})}*/}
 
                                     </div>
                         </div>

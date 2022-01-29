@@ -69,17 +69,8 @@ export default function Contacts() {
     const indexOfFirstTodo = indexOfLastTodo - 10;
 
     let currentContacts= filteredData.slice(indexOfFirstTodo, indexOfLastTodo)
-        .map(c =>{
-        if(c.agents_id==!1) return c.agents =[]
-        let agents = c.agents_id.map( u =>{
-            return users.find(user=>{
-                return user.user_id == u
-            })
-        })
-        c.agents = agents
-        console.log("contact : " , c)
-    })
-    let result = currentContacts.map(d=>d.customer_id)
+
+    const result =()=>{return currentContacts.map(d=>d.customer_id)}
     const [isDelete , setIsDelete] = useState(false)
     const [isCreate , setIsCreate] = useState(false)
     const [deleteRole,setDeleteRole] = useState("")
@@ -377,8 +368,6 @@ export default function Contacts() {
     };
     useEffect(() => {
         NotificationManager.info('Info message');
-
-
     },[]);
     // confirmation
     const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
@@ -593,8 +582,18 @@ export default function Contacts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
-
+                        {filteredData.length!=0 && currentContacts.map(c =>{
+                            if(c.agents_id==!1) return c.agents =[]
+                            let agents = c.agents_id.map( u =>{
+                                return users.find(user=>{
+                                    return user.user_id == u
+                                })
+                            })
+                            c.agents = agents
+                            console.log("contact : " , c)
+                            return c
+                        }).map((data ,index) => {
+                            console.log("print data " , data)
                             return( <TableRow
                                     key={index}
                                     hover
@@ -634,9 +633,6 @@ export default function Contacts() {
                                             // return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
                                             return(<img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/>)
                                         })}
-                                        {
-
-                                     }
                                     </TableCell>
 
                                     <TableCell align="left">
@@ -652,13 +648,13 @@ export default function Contacts() {
                                         {/* <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} > */}
                                             <div className={"avaGroupInstead"} >
 
-                                            {users.length!==0&&data.agents_id.length!=0 &&data.agents_id.map((agent , index)=>{
+                                            {users&&data.agents&&data.agents.map((agent , index)=>{
 
                                                 return(
                                                     <Tooltip key={index} className={""} title={agent.username?agent.username:"a"} placement="top-start">
                                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}}>
                                                         {/* {agent.username.substring(0,2).toUpperCase()} */}
-                                                        {agent.toString().substring(0,2).toUpperCase()}
+                                                        {agent.username.toString().substring(0,2).toUpperCase()}
                                                     </Avatar>
                                                     </Tooltip>
                                                 )

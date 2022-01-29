@@ -13,7 +13,6 @@ import tagFetcher from "../helpers/tagHelpers";
 import roleFetcher from "../helpers/roleHelpers";
 import dashboardFetcher from "../helpers/dashboardHelpers";
 import standardReplyFetcher from "../helpers/standardReplyHelpers";
-import ChatStore from "../store/store";
 import {API, graphqlOperation} from "aws-amplify";
 import {getWhatsapp_node, listWhatsapp_nodes} from "../src/graphql/queries";
 
@@ -23,9 +22,7 @@ export const GlobalContextProvider = ({children}) =>{
     const [user , setUser] = useState({user:{ },token:null,channels:[]})
     const [errors , setErrors] = useState("")
     const [selectedChat , setSelectedChat] = useState({})
-    const [notification , setNotification] = useState([])
     const [contacts , setContacts] = useState([] )
-    const [message , setMessage] = useState([])
     const router = useRouter()
     const userInstance = usersFetcher(user.token)
     const mediaInstance =new mediaHelper()

@@ -6,6 +6,7 @@ import Head from "next/head";
 
 import {Amplify} from "aws-amplify";
 import awsmobile from "../src/aws-exports";
+import {RootStoreProvider} from "../utils/provider/RootStoreProvider";
 
 
 Amplify.configure(awsmobile)
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }) {
           <link rel="icon" href="/MS_logo-square (1).svg"/>
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>
+          {/*<RootStoreProvider>*/}
             <GlobalContextProvider>
                 <AuthLayer>
                     <Layout>
@@ -27,6 +29,7 @@ function MyApp({ Component, pageProps }) {
                     </Layout>
                 </AuthLayer>
             </GlobalContextProvider>
+          {/*</RootStoreProvider>*/}
       </>
 )
 }
