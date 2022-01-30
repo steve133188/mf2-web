@@ -124,6 +124,7 @@ export default function UserProfileGrid({data , roles , teams}){
                         <div className={"top_row"}><span className={"title"}>Authority</span></div>
                         <div className={"session_content"} style={{padding:0}}>
                             <div className={"authBox"}>
+                                {/* eslint-disable-next-line react/jsx-key */}
                             {data.authority!=null&&Object.keys(data.authority).filter(e=>{return data.authority[e]==true?"true":""}).map(e=>{return <div className={"authContainer"}>{e}</div>})}
 
                             </div>
@@ -135,7 +136,7 @@ export default function UserProfileGrid({data , roles , teams}){
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
                             { data.channels!=null && data.channels.map((chan , index)=>{console.log(data,"chan1111");
-                                return(<div><img key={index} width="24px" height="24px" style={{ margin:"15px 30px"}} src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
+                                return(<><img key={index} width="24px" height="24px" style={{ margin:"15px 30px"}} src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</>)
                             })}
 
                             <div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}>

@@ -525,7 +525,7 @@ export default function Contacts() {
                             <TableCell>
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
-                                        <input type="checkbox" value={"all"} name="checkbox" checked={result().every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll}  onChange={()=>{}} />
+                                        <input type="checkbox" value={"all"} name="checkbox" checked={contacts&&result().every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll}  onChange={()=>{}} />
                                     </label> : null}
                                 </div>
                             </TableCell>
@@ -563,7 +563,7 @@ export default function Contacts() {
                                         </div>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"8%"}}>
-                                        <span >{data.customer_id}</span>
+                                        <span >{data.customer_id&&data.customer_id}</span>
                                     </TableCell>
                                     <TableCell align="left" sx={{width:"8%"}}>
                                         <span >{data.ECMID || "-"}</span>

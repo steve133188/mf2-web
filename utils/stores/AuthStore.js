@@ -63,12 +63,15 @@ class AuthStore {
 
 
     onLoad = async () => {
-        const token = window.localStorage.getItem("token");
-        const user = window.localStorage.getItem("user");
-        runInAction(() => {
-            this.token = token;
-            this.user = JSON.parse(user);
-        });
+        if(typeof window !== 'undefined'){
+            const token = window.localStorage.getItem("token");
+            const user = window.localStorage.getItem("user");
+            runInAction(() => {
+                this.token = token;
+                this.user = JSON.parse(user);
+            });
+        }
+
     };
 
 
