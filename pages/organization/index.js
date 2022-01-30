@@ -57,16 +57,17 @@ const style ={
 
 
 export default function Organization() {
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {contactInstance , userInstance ,adminInstance ,roleInstance,orgInstance, user} = useContext(GlobalContext)
     const [users, setUsers] = useState([]);
     const [org, set_org] = useState([]);
+    const [teams, setTeams] = useState([]);
     const [filteredData , setFilteredData] = useState([])
     const [isLoading, setIsLoading] = useState(true);
 
     const [curr_org , set_curr_org] = useState({})
     const [useUser , setUseUser] = useState()
     const [isProfileShow , setIsProfileShow] = useState(false)
-    const [isEditProfileShow , setIsEditProfileShow] = useState(false)
+    const [roles , setRoles] = useState(false)
 
     const [isCreateDivisionShow , setIsCreateDivisionShow] = useState(false)
     const [isCreateTeamShow , setIsCreateTeamShow] = useState(false)
@@ -106,6 +107,16 @@ export default function Organization() {
         setFilteredData(newData)
 
     }
+    const getRoles = async()=>{
+        const data = await roleInstance.getAllRoles()
+        setRoles(data)
+    }
+    const getAllTeams = async ()=>{
+        const data = await orgInstance.getOrgTeams()
+        console.log("getTeams :",data)
+        setTeams(data)
+    }
+
     const fetchTeamUsers = async (id)=>{
         const data = await userInstance.getUsersByTeamId(id)
         setUsers(data)
@@ -120,6 +131,8 @@ export default function Organization() {
         set_curr_org({})
         if(user.token)
         {
+            await getAllTeams()
+            await getRoles()
             await fetchRootORG()
             await fetchUsers()
         }
@@ -200,6 +213,22 @@ export default function Organization() {
     const toggleDelete = ()=>{
         setIsDelete(!isDelete)
     }
+    const renderTeam = (tid , teams)=>{
+        if(tid==0 ||!tid) return "-"
+        console.log("tid: " ,tid)
+        const team =teams.find(t=>t.org_id== tid)
+        console.log("team :" ,team)
+        if(team)return team.name
+        if(team==0)return "-"
+    }
+
+    const renderRole = (rid , roles)=>{
+        if(!rid|| rid==0) return "-"
+        const role =roles.find(r=>r.role_id== rid)
+
+        if(role) return role.role_name
+    }
+
     const delete_org = async (id)=>{
         const res = await orgInstance.deleteOrgById(id)
         console.log(`deleted ${id} ${res}`)
@@ -239,7 +268,7 @@ export default function Organization() {
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
             <ORGSidebar orgData={org} selection={curr_org} setSelection={displayTeam}/>
             <div className="rightContent">
-                {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
+                {isProfileShow?(<Profile handleClose={toggleProfile}><UserProfileGrid data={useUser} teams={teams} roles={roles}/></Profile>):null}
                 {/*toggle Modal Start */}
 
                 <CreateDivisionForm show={isCreateDivisionShow} toggle={toggleNewDivision} reload={fetchRootORG}/>
@@ -362,8 +391,8 @@ export default function Organization() {
                                         }}>
                                             <div className="newCheckboxContainer">
                                                 {isSelectRow ? <label className="newCheckboxLabel">
-                                                    <input type="checkbox" id={data.phone} value={data.username} name="checkbox" 
-                                                        /*toString() is need. it can only compare to same type*/ 
+                                                    <input type="checkbox" id={data.phone} value={data.username} name="checkbox"
+                                                        /*toString() is need. it can only compare to same type*/
                                                         checked={selectedUsers.includes(data.phone.toString())}
                                                         onClick={isSelectRow?toggleSelect:null} />
                                                 </label>: null}
@@ -373,10 +402,10 @@ export default function Organization() {
                                             <span >{data.username}</span>
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
-                                            {data.team.name}
+                                            {data.team_id&&teams&&renderTeam(data.team_id , teams)}
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
-                                            {data.role_name}
+                                            {data.role_id&&roles&&renderRole(data.role_id,roles)}
                                         </TableCell>
                                         <TableCell align="left" style={{padding: ".9rem 1rem"}}>
                                             {data.email}

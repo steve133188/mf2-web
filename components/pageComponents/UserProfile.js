@@ -12,14 +12,30 @@ import {Pill} from "../Pill";
 import Profile from "../profile";
 import EditAgent from "../../pages/admin/Agent/editAgent";
 
-export default function UserProfileGrid({data}){
+export default function UserProfileGrid({data , roles , teams}){
 
     const {contactInstance } = useContext(GlobalContext)
     const [log , setLog]  = useState([])
     const [assingedContacts, setAssingedContacts] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [isReload,setReload] = useState(false)
+    const [role,setRole] = useState()
 
+
+    const renderTeam = (tid , teams)=>{
+        if(tid==0 ||!tid) return "-"
+        console.log("tid: " ,tid)
+        const team =teams.find(t=>t.org_id== tid)
+        console.log("team :" ,team)
+        if(team)return team.name
+        if(team==0)return "-"
+    }
+
+    const renderRole = (rid , roles)=>{
+        if(!rid|| rid==0) return "-"
+        const agent_role =roles.find(r=>r.role_id== rid)
+        if(agent_role) return agent_role.role_name
+    }
 
     console.log(data)
     useEffect(async()=>{
@@ -27,7 +43,7 @@ export default function UserProfileGrid({data}){
         //    fetch log by customer_id
         //    fetch assignee by customer_id
         //    fetch team by customer_id
-        
+
     },[])
     useEffect(()=>{
         console.log(data,"agent profile")
@@ -50,9 +66,9 @@ export default function UserProfileGrid({data}){
     const toggleEdit = ()=>{
       console.log(data, "toggleEdit")
         toggleEditProfile(data)
-    }   
+    }
     const toggleEditProfile =async (key) =>{
-        if(!isEditProfileShow) 
+        if(!isEditProfileShow)
         // setUseUser(key);
         if(isEditProfileShow) ;
         setIsEditProfileShow(!isEditProfileShow)
@@ -78,7 +94,7 @@ export default function UserProfileGrid({data}){
             <div className={"info_session"}>
             <div className={"info_row"}>
                 <span className={"info_label"}>Organization</span>
-                <span className={"info_content"}>{data.team.name}</span>
+                <span className={"info_content"}>{renderTeam(data.team_id ,teams)}</span>
                 {/* team.id > */}
             </div>
             <div className={"info_row"}>
@@ -103,7 +119,7 @@ export default function UserProfileGrid({data}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Role</span></div>
                         <div className={"session_content"}>
-                            {data.role_id? `${data.role_name}`:"No Role Assigned"}
+                            {data.role_id? `${renderRole(data.role_id , roles)}`:"No Role Assigned"}
                         </div>
                         <div className={"top_row"}><span className={"title"}>Authority</span></div>
                         <div className={"session_content"} style={{padding:0}}>
@@ -121,7 +137,7 @@ export default function UserProfileGrid({data}){
                             { data.channels!=null && data.channels.map((chan , index)=>{console.log(data,"chan1111");
                                 return(<div><img key={index} width="24px" height="24px" style={{ margin:"15px 30px"}} src={`/channel_SVG/${chan}.svg`} alt=""/> {data.phone}</div>)
                             })}
-                            
+
                             <div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}>
                                 <img width="40px" height="40px" style={{ margin:"15px 30px"}} src={`/channel_SVG/whatsapp.svg`} alt=""/> </div>
                         </div>
@@ -149,7 +165,7 @@ export default function UserProfileGrid({data}){
                                     {default_cols.map((col,index)=>{
                                         return ( <TableCell key={index}>{col}</TableCell>)
                                     })}
-    
+
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -176,14 +192,14 @@ export default function UserProfileGrid({data}){
                                             <TableCell align="left" style={{width: "35%",}}>
                                                 <span >+{item.country_code} {item.phone}</span>
                                             </TableCell>
-                                            <TableCell align="left" style={{width: "12%",}}> 
+                                            <TableCell align="left" style={{width: "12%",}}>
                                                 {item.channels?<img src={`/channel_SVG/${item.channels}.svg`} style={{width:"20px",margin:"0 5px"}}></img>:""}
                                             </TableCell>
                                             <TableCell align="left">
 
                                             </TableCell>
-    
-    
+
+
                                             {/*<TableCell align="right">*/}
                                             {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
                                             {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
@@ -193,14 +209,14 @@ export default function UserProfileGrid({data}){
                             </TableBody>
                         </Table>
                     </TableContainer>
-    
-                        
-                        
-                        
-                        
-                        
-                        
-                    
+
+
+
+
+
+
+
+
 
                 </div>
             </div>
