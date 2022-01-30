@@ -2,7 +2,6 @@ import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 import Link from 'next/link';
 import {ImportDropzone} from '../../components/ImportContact.js'
-import axios from "axios";
 import styles from "../../styles/Contacts.module.css";
 import SelectSession from "../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
@@ -20,19 +19,18 @@ import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
 import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
 import searchContactsFilter from "../../helpers/searchContactsFilter";
 import * as React from "react";
-import { width } from "@mui/system";
-import Mf_circle_btn from "../../components/mf_circle_btn";
 import Loading from "../../components/Loading";
 import CancelConfirmation from "../../components/CancelConfirmation"
 import DeletePad from "../../components/DeletePannel";
 import {CSVLink, CSVDownload} from 'react-csv';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import DivisionDropDown from "../../components/filter/divisionDropDown";
+import {renderAgentAVA} from "../../components/common/AgentAVA";
+import {renderTags} from "../../components/common/RenderTags";
+import {renderChannelsIcon} from "../../components/common/RenderChannelsIcon";
 
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
@@ -72,8 +70,7 @@ export default function Contacts() {
 
     const result =()=>{return currentContacts.map(d=>d.customer_id)}
     const [isDelete , setIsDelete] = useState(false)
-    const [isCreate , setIsCreate] = useState(false)
-    const [deleteRole,setDeleteRole] = useState("")
+    const [isDeleteMany , setIsDeleteMany] = useState(false)
 
 
     const advanceFilter =()=>{
@@ -91,8 +88,7 @@ export default function Contacts() {
            if(selectedTags.length==0){
                return data
            }
-           console.log(data,"tags check")
-           return data.tags.some(el=>selectedTags.includes(el.tag_name))
+           return data.tags_id.some(el=>selectedTags.includes(el.tags_id))
         }
         )
 
@@ -103,10 +99,7 @@ export default function Contacts() {
             return selectedChannel.some(el=>data.channels?data.channels.includes(el):false)
         })
 
-        console.log("channelFiltered:",channelFiltered)
-
         const teamFiltered = channelFiltered.filter(data=>{
-            console.log(selectedTeams,"teamfilstedf before")
             if(selectedTeams.length ==0){
                 return data
             }
@@ -139,7 +132,7 @@ export default function Contacts() {
             })}
         </AvatarGroup>
     }
-    const renderTags=() => {
+    const renderSelectedTags=() => {
         return selectedTags!=-1&&selectedTags.map((tag)=>{
             return<Pill key={tag} color="vip">{tag}</Pill>
         })
@@ -151,6 +144,7 @@ export default function Contacts() {
     }
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
+        console.log("Get Tags " , data)
         setTags(data)
         setFilteredTags(data)
 
@@ -290,11 +284,13 @@ export default function Contacts() {
         if(isEditProfileShow) await fetchContacts();
         setIsEditProfileShow(!isEditProfileShow)
     }
-    const toggleDelete = (name)=>{
+    const toggleDelete = (id)=>{
         setIsDelete(!isDelete)
-        setDeleteRole(name)
+        setDeleteID(id)
     }
-
+    const toggleDeleteMany =()=>{
+        setIsDeleteMany(!isDeleteMany)
+    }
     const removeContact = async (id)=>{
         const res =await contactInstance.deleteContact (id)
         setDeleteID("")
@@ -304,19 +300,21 @@ export default function Contacts() {
     }
 
     const removeManyContact = async ()=>{
-        let items =[]
-        if(selectedContacts!=-1){
-            selectedContacts.forEach((c)=>{
-                items.push(c)
-            })
-        }
-        const res = contactInstance.deleteContacts(items)
+        console.log("selected delete contacts",selectedContacts)
+        // let items =[]
+        // if(selectedContacts!=-1){
+        //     selectedContacts.forEach((c)=>{
+        //         items.push(parseInt(c))
+        //     })
+        // }
+        const res =await contactInstance.deleteContacts(selectedContacts)
+        setSelectedContacts([])
         console.log(res)
         await fetchContacts()
         setSelectedContacts([])
 
     }
-    const default_cols = [ 'Name' , 'Channels','Tags' ,'Assignee']
+    const default_cols = [ "Customer ID" ,"ECMID" ,'Name' , 'Channels','Tags' ,'Assignee']
     const [isSelectRow, setSelectRow] = useState( false);
 
     function toggleSelectRow() {
@@ -366,19 +364,13 @@ export default function Contacts() {
             setSelectedChannel([]);
         }
     };
-    useEffect(() => {
-        NotificationManager.info('Info message');
-    },[]);
+    // useEffect(() => {
+    //     NotificationManager.info('Info message');
+    // },[]);
     // confirmation
     const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
     const [deleteID, setDeleteID] = useState()
-    const openConfirmation = (id) => {
-        setDeleteID(id);
-        setIsOpenConfirmation(true)
-    };
-    const closeConfitmation = () => {
-        setIsOpenConfirmation(false)
-    };
+
 
     return (
         <div className={styles.layout}  style={{maxWidth:"2200px"}}>
@@ -386,15 +378,16 @@ export default function Contacts() {
 
                     {/* <NotificationContainer/> */}
 
-            {isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}
-            {isProfileShow?           ( <Profile handleClose={()=>{toggleProfile();fetchContacts()}}><ProfileGrid data={useContact} toggle={toggleEditProfile}/></Profile>):null}
-            {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} toggle={toggleEditProfile}/></Profile>):null}
+            {/*{isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}*/}
+            {isProfileShow?           ( <Profile handleClose={()=>{toggleProfile();fetchContacts()}}><ProfileGrid data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
+            {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
                 <ImportDropzone title={"Import Contacts"} onClose={toggleDropzone} accept={".csv,.xlsx,.xls"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
-             <DeletePad show={isDelete} reload={fetchContacts} toggle={toggleDelete } submit={removeManyContact} data={selectedContacts} title={"Contacts"}/>
+             <DeletePad show={isDeleteMany} reload={fetchContacts} toggle={toggleDeleteMany } submit={removeManyContact} data={selectedContacts} title={"Contacts"}/>
+             <DeletePad show={isDelete} reload={fetchContacts} toggle={toggleDelete } deleteId={deleteID} submit={removeContact}  title={"Contacts"}/>
             <div className={"search_session"}>
                 <div className="search">
                     <div className="mf_icon_input_block  mf_search_input">
@@ -427,45 +420,13 @@ export default function Contacts() {
             <SelectSession
                 btn={isSelectRow?(<div className={"select_session_btn_group"}>
                     <div className={"select_session_btn"}>
-                        {/* <Mf_icon_dropdownform svg={tagSVG}>
 
-                        </Mf_icon_dropdownform> */}
-                        {/* <Mf_circle_btn svg={"tagSVG"} style={'top:"0px",'} customButton={""} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                            setFilteredTags(new_data)
-                        })}}>
-                                        {filteredTags.map((tag)=>{
-                                            return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
-                                                <div className="newCheckboxContainer">
-                                                    <label className="newCheckboxLabel">
-                                                        <input type="checkbox" id={tag.tag} name="checkbox" checked={addedTags.includes(tag.tag)} onClick={toggleAddTags} />
-                                                    </label> </div></li>)
-                                        })}
-                                    </Mf_circle_btn> */}
-
-
-                    {/* <div className={"tagsGroup"} >
-                                {selectedTags!=-1&&selectedTags.map((tag)=>{
-                                    return<Pill key={tag} color="vip">{tag}</Pill>
-                                })}
-                                <Mf_circle_btn handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                                    setFilteredTags(new_data)
-                                })}}>
-                                    {filteredTags.map((tag)=>{
-                                        return(<li key={tag.id}><Pill key={tag.id} color="vip">{tag.tag}</Pill>
-                                            <div className="newCheckboxContainer">
-                                                <label className="newCheckboxLabel">
-                                            <input type="checkbox" id={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag)} onClick={toggleSelectTags} />
-                                        </label> </div></li>)
-                                    })}
-                                </Mf_circle_btn>
-
-                            </div> */}
                         </div>
                  <div className={"select_session_btn"}>
                         {/* <button onClick={()=>{console.log(contacts.filter(d => selectedContacts.includes(d.customer_id.toString())).map(d => d.agents=d.agents.user_name))}}>click me</button> */}
                         <CSVLink data={contacts.filter(d => selectedContacts.includes(d.customer_id.toString()))} filename={"contact.csv"} >{editSVG}</CSVLink>
                     </div>
-                    <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDelete}>{deleteSVG}</div> </div>
+                    <div className={"select_session_btn"}><div svg={deleteSVG} onClick={toggleDeleteMany}>{deleteSVG}</div> </div>
                 </div>):null}
             >
             <div className="top_bar">
@@ -528,14 +489,14 @@ export default function Contacts() {
                                     </label> </div></li>)
                         })}
                     </MF_Select>
-                    <MF_Select top_head={selectedTags.length!=0? renderTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
+                    <MF_Select top_head={selectedTags.length!=0? renderSelectedTags():"Tags"} submit={advanceFilter} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
                         setFilteredTags(new_data)
                     })}} >
                         {filteredTags.map((tag , index)=>{
                             return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" id={tag.tag_name} value={tag.tag} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} onChange={()=>{}} />
+                                        <input type="checkbox" id={tag.tag_name} value={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} onChange={()=>{}} />
                                     </label> </div></li>)
                         })}
                     </MF_Select>
@@ -564,13 +525,11 @@ export default function Contacts() {
                             <TableCell>
                                 <div className="newCheckboxContainer">
                                     {isSelectRow ? <label className="newCheckboxLabel">
-                                        <input type="checkbox" value={"all"} name="checkbox" checked={result.every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll}  onChange={()=>{}} />
+                                        <input type="checkbox" value={"all"} name="checkbox" checked={result().every(el=>selectedContacts.includes(el.toString()))} onClick={toggleSelectAll}  onChange={()=>{}} />
                                     </label> : null}
                                 </div>
                             </TableCell>
-                            <TableCell align="left" style={{width:"200px"}}>
-                                        <span >Customer ID</span>
-                                    </TableCell>
+
                             {default_cols.map((col,index)=>{
                                 return ( <TableCell key={index}>{col}</TableCell>)
                             })}
@@ -582,18 +541,7 @@ export default function Contacts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length!=0 && currentContacts.map(c =>{
-                            if(c.agents_id==!1) return c.agents =[]
-                            let agents = c.agents_id.map( u =>{
-                                return users.find(user=>{
-                                    return user.user_id == u
-                                })
-                            })
-                            c.agents = agents
-                            console.log("contact : " , c)
-                            return c
-                        }).map((data ,index) => {
-                            console.log("print data " , data)
+                        {filteredData.length!=0 && currentContacts.map((data ,index) => {
                             return( <TableRow
                                     key={index}
                                     hover
@@ -617,29 +565,22 @@ export default function Contacts() {
                                     <TableCell align="left" sx={{width:"8%"}}>
                                         <span >{data.customer_id}</span>
                                     </TableCell>
+                                    <TableCell align="left" sx={{width:"8%"}}>
+                                        <span >{data.ECMID || "-"}</span>
+                                    </TableCell>
                                     <TableCell align="left" sx={{width:"14%"}}>
                                         <div className={"name_td"} style={{display: "flex", alignItems: "center"}}>
                                             <Avatar alt={data.username} sx={{width:27 , height:27}} src={data.img_url||""}/>
                                             <span style={{marginLeft: "11px"}}>{data.customer_name}</span>
                                         </div>
                                     </TableCell>
-                                    {/*<TableCell align="left" sx={{width:"7%"}}>*/}
-                                    {/*    <div>{data.team.org_id!=0?data.team.org_name:"No Assigned"}</div>*/}
-                                    {/*    /!* <Pill color="teamA"></Pill> *!/*/}
-                                    {/*</TableCell>*/}
-
                                     <TableCell align="left">
-                                        { data.channels == null?  "":data.channels!=null && data.channels.map((chan , index)=>{
-                                            // return(<img key={index} width="24px" height="24px" src={`./${chan}Channel.svg`} alt=""/>)
-                                            return(<img key={index} width="24px" height="24px" src={`/channel_SVG/${chan}.svg`} alt=""/>)
-                                        })}
+                                        {renderChannelsIcon(data.channels)}
                                     </TableCell>
 
                                     <TableCell align="left">
                                         <div className="tagsGroup">
-                                            {data.tags&&data.tags.map((tag , index)=>{
-                                                return( <Pill key={index}  color="lightBlue">{tag.tag_name}</Pill>)
-                                            })}
+                                            {renderTags(data.tags_id , tags)}
                                         </div>
                                     </TableCell>
 
@@ -647,18 +588,7 @@ export default function Contacts() {
                                     <TableCell sx={{width:"165px",overflow:"hidden",textOverflow:"ellipsis"}} >
                                         {/* <AvatarGroup className={"AvatarGroup"} sx={{flexDirection:"row",width:"20px" , height:"20px"}} max={5} spacing={1} > */}
                                             <div className={"avaGroupInstead"} >
-
-                                            {users&&data.agents&&data.agents.map((agent , index)=>{
-
-                                                return(
-                                                    <Tooltip key={index} className={""} title={agent.username?agent.username:"a"} placement="top-start">
-                                                    <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:30 , height:30 ,fontSize:14}}>
-                                                        {/* {agent.username.substring(0,2).toUpperCase()} */}
-                                                        {agent.username.toString().substring(0,2).toUpperCase()}
-                                                    </Avatar>
-                                                    </Tooltip>
-                                                )
-                                            })}
+                                                {users&&data.agents_id&& renderAgentAVA(data.agents_id , users)}
                                             </div>
                                         {/* </AvatarGroup> */}
                                     </TableCell>
@@ -671,7 +601,7 @@ export default function Contacts() {
                                         >
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditProfile(data);}}> Edit </li>
                                             {/*<li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>*/}
-                                            <li onClick={(e)=>{e.stopPropagation();openConfirmation(data.customer_id);}}> Delete </li>
+                                            <li onClick={(e)=>{e.stopPropagation();toggleDelete(data.customer_id);}}> Delete </li>
                                         </Mf_icon_dropdown_select_btn>
                                     </TableCell>
                                 </TableRow>

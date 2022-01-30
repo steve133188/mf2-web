@@ -14,6 +14,7 @@ module.exports = withSass({
 
 
 module.exports = {
+  reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
   },

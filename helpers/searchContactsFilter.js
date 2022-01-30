@@ -6,9 +6,7 @@ export default function searchContactsFilter(keyword , data ,callback ){
         if(keyword.trim() == ""){
             return data
         }
-        console.log(d)
-        console.log("dddddd")
-        return d.customer_name.toLowerCase().includes(keyword)
+        return d.customer_name.toLowerCase().includes(keyword)|| d.customer_id.toString().includes(keyword)
     })
     callback(newData)
 }

@@ -12,30 +12,31 @@
     flex-direction: column;
     position: relative;
   }
-  
+
 }
 
-.modal_form{
+.mf_modal_form{
   // width: 400px;
   min-height: 230px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  .modal_title{
+  .mf_modal_title{
     text-align: left;
     font: normal normal bold 1rem Manrope;
+    font-size: 15px;
     letter-spacing: 0px;
     color: #444444;
     padding: 15px;
-  } 
+  }
    .inputField{
 
     align-self: center;
     margin: 15px 0 0 ;
   }
 
-  
+
 }
 .access_right{
   display: flex;
@@ -73,7 +74,7 @@
       opacity: 1;
     }
   }
-  
+
 }
 
 .reply_temp_box{
@@ -86,7 +87,7 @@
     padding: 3rem 15px;
 
     font: normal normal normal 16px/22px Manrope;
-    
+
   }
   .box_left{
 
@@ -112,7 +113,7 @@
        color: #8B8B8B;
        border:10px none;
     }
-       
+
     .message_box{
       width: 100%;
       height: 10vw;
@@ -140,6 +141,6 @@
   .box_right{
 
     width:23%
-    
+
   }
 }

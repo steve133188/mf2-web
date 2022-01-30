@@ -13,9 +13,11 @@ import { GlobalContext } from "../../context/GlobalContext";
 import {API, graphqlOperation} from "aws-amplify";
 import {listChatrooms, listNotesTables} from "../../src/graphql/queries";
 import {createNotesTable} from "../../src/graphql/mutations";
+import {renderTags} from "../common/RenderTags";
+import {renderAgentAVA} from "../common/AgentAVA";
+import {renderChannelsIcon} from "../common/RenderChannelsIcon";
 
-export default function ProfileGrid({data,toggle}){
-    // const notesData = ([{id:"dsafdsfd",wroteBy:"Lawrance",date:"10-12-2012",content:"Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us."},{id:"dsafds32",wroteBy:"Maric",date:"10-09-2021",content:"Nice to meet you."},])
+export default function ProfileGrid({data,toggle , ...props}){
     const {contactInstance , user ,tagInstance, setSelectedChat} = useContext(GlobalContext)
 
     const [notes,setNotes] = useState([])
@@ -23,7 +25,7 @@ export default function ProfileGrid({data,toggle}){
     const [unread, setUnread] = useState(false)
     const [writenote,setWritenote] = useState("")
     const [useContact , setUseContact] = useState(data)
-    const [selectedTags, setSelectedTags] = useState(data.tags)
+    const [selectedTags, setSelectedTags] = useState(data.tags_id)
     const [filteredTags, setFilteredTags] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [assingedContacts, setAssingedContacts] = useState([])
@@ -33,6 +35,13 @@ export default function ProfileGrid({data,toggle}){
         if(!isEditProfileShow) setUseContact(key);
         if(isEditProfileShow) await fetchContacts();
         setIsEditProfileShow(!isEditProfileShow)
+    }
+
+    const updateTags = async (newSelectTags)=>{
+        const data = {...useContact , tags_id: newSelectTags}
+        console.log("update data : " , data)
+        const res = await contactInstance.updateContact(data)
+            .then(res=>console.log(res)).catch(error => console.log(error))
     }
 
     const fetchNotes = async (data)=>{
@@ -62,33 +71,24 @@ export default function ProfileGrid({data,toggle}){
         // setAlltags(data)
     }
     const isContainTags = (id) => {
-        if (selectedTags != null) {
-            return selectedTags.some(selectedtag => selectedtag.tag_id === id)
+        if (selectedTags && selectedTags.length>0) {
+            return selectedTags.some(selectedtag => selectedtag.toString() === id.toString())
         } else return false
     }
     const toggleSelectTags = async e => {
+        if(!selectedTags)  setSelectedTags([])
         const { checked, id } = e.target;
-        const tag = await tagInstance.getTagById(parseInt(id))
-        // get all selectedtags.tag_id
-        setSelectedTags([...selectedTags, tag]);
-        // const uploadTags = {
-        //     tag_id: tag.tag_id,
-        //     tag_name: tag.tag_name,
-        //     update_at: parseInt(tag.update_at),
-        //     create_at: parseInt(tag.create_at)
-
-        // }
+        let newSelectTags
         if (!checked) {
-            setSelectedTags(selectedTags.filter(item =>  item.tag_id != parseInt(id) ));
-
-            console.log(useContact.customer_id, tag.tag_id)
-            const res = await contactInstance.deleteCustomerTag(useContact.customer_id, [tag.tag_id])
+            newSelectTags= new Array(selectedTags).filter(item =>  parseInt(item) !== parseInt(id))
+            setSelectedTags(prev =>newSelectTags );
+            console.log("newSelectTags 1 :",newSelectTags)
         }else{
-
-            const res = await contactInstance.updateContactTags(useContact.customer_id, [tag.tag_id])
-            console.log(res)
+            newSelectTags= new Array(selectedTags).push(parseInt(id))
+            setSelectedTags(prev=>newSelectTags);
+            console.log("newSelectTags 2 :",newSelectTags)
         }
-        fetchAfterModify(useContact.customer_id)
+        const res = await updateTags(newSelectTags)
     };
     const fetchAfterModify= async(cid)=>{
         const data = await contactInstance.getContactById(cid)
@@ -163,23 +163,23 @@ export default function ProfileGrid({data,toggle}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
-                <span className={"info_content"}>{useContact.email}</span>
+                <span className={"info_content"}>{useContact.email ||"-"}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Birthday</span>
-                <span className={"info_content"}>{useContact.birthday}</span>
+                <span className={"info_content"}>{useContact.birthday||"-"}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Gender</span>
-                <span className={"info_content"}>{useContact.gender}</span>
+                <span className={"info_content"}>{useContact.gender||"-"}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Address</span>
-                <span className={"info_content"}>{useContact.address}</span>
+                <span className={"info_content"}>{useContact.address||"-"}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Created Date</span>
-                <span className={"info_content"}>{new Date(useContact.created_at*1000).toLocaleDateString('en-US')}</span>
+                <span className={"info_content"}>{useContact.created_at!==0?new Date(useContact.created_at/1000).toLocaleDateString('en-US'):"-"}</span>
             </div>
             {/* <div className={"info_row"}>
                 <span className={"info_label"}>Contact Owner</span>
@@ -193,82 +193,47 @@ export default function ProfileGrid({data,toggle}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Assignee</span></div>
                         <div className={"session_content"}>
-                            {/*<AvatarGroup className={"AvatarGroup"} xs={{flexDirection:"row"}} max={10} spacing={"1"} align="left">*/}
-                                {useContact.agents!=null &&useContact.agents.map((agent , index)=>{
-                                    console.log(agent,"contact file agents")
-                                    return(
-                                        <Tooltip key={index} className={""} title={agent.username?agent.username:""} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning"}  style={{margin:"0 3px"}}sx={{width:35 , height:35 ,fontSize:18}} alt={agent}>{agent.username.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-                                    )
-                                })}
-                            {/*</AvatarGroup>*/}
+                                {useContact.agents_id&& renderAgentAVA(useContact.agents_id , props.agents)}
                         </div>
                     </div>
-                    {/*<div className={"half_session block_session"}>*/}
-                    {/*    <div className={"top_row"}><span className={"title"}>Team</span></div>*/}
-                    {/*    <div className={"session_content"}>{data.team?data.team.org_name:"Not yet assigned."}</div>*/}
-                    {/*</div>*/}
                 </div>
                 <div className={"block_session grid_box block"}>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Channels</span></div>
                         <div className={"session_content"}>
-                            { useContact.channels!=null && useContact.channels.map((chan , index)=>{console.log(chan,"chan1111");
-                                return(<div className={'channel_row'} key={index}>
-                                    <div className={"channel_row_lf"}>
-                                            <div>
-                                        <   img key={index} width="40px" height="40px"   style={{ margin:"15px 3px",textAlign:"center"}}   src={`/channel_SVG/${chan}.svg`} alt=""/>
-                                            {useContact.chan}
-                                    </div>
-                                            </div>
-
-                                    <div style={{width:"80%",display:"flex", fontSize:"16px",alignItems:"center"}} >
-
-                                        </div>
-                                </div>)
-                            })}
-                            {/*<div style={{width:"80%",display:"flex",justifyContent:"flex-start", fontSize:"16px",alignItems:"center"}}><img width="40px" height="40px"  style={{ margin:"15px 30px"}}  src={`/channel_SVG/whatsapp.svg`} alt=""/> {`+${data.customer_id.toString().slice(0,3)} ${data.customer_id.toString().slice(3)}`}</div>*/}
+                            { useContact.channels&& renderChannelsIcon(useContact.channels)}
                         </div>
                     </div>
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Tags</span></div>
                         <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "98%", height: "8vw", marginTop:"18px"}} >
-
                                     <Mf_circle_btn isDisable={disable} switchs={() => { setUnread(!unread) }} handleChange={(e) => {
-                                    console.log(alltags,"alltags")
-                                    //    const new_data = alltags.filter(i => i.tag_name.toLowerCase().includes(e.target.value.toLowerCase()))
-                                    //    setFilteredTags(new_data)
+                                       const new_data = props.tags.filter(i => i.tag_name.toLowerCase().includes(e.target.value.toLowerCase()))
+                                       setFilteredTags(new_data)
                                     }}>
 
-                                        {/*{filteredTags.map((tag, index) => {*/}
-                                            //TODO add tags to render
-                                        {/*    return (<li key={index+index}>*/}
-                                        {/*        <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>*/}
-                                        {/*        <div className="newCheckboxContainer">*/}
-                                        {/*            <label className="newCheckboxLabel">*/}
-                                        {/*                <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />*/}
-                                        {/*            </label>*/}
-                                        {/*        </div>*/}
-                                        {/*    </li>)*/}
-                                        {/*})}*/}
+                                        {filteredTags.map((tag , index)=>{
+                                            return (<li key={index+index}>
+                                                <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>
+                                                <div className="newCheckboxContainer">
+                                                    <label className="newCheckboxLabel">
+                                                        <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={(e) => { }} />
+                                                    </label>
+                                                </div>
+                                            </li>)
+                                        })}
 
                                     </Mf_circle_btn>
 
 
                                     <div style={{paddingTop:"3px", width:"100%"}} >
-                                    {/*    TODO add render selected tags*/}
-                                    {/*{selectedTags != -1 && selectedTags.map((tag, index) => {*/}
-                                    {/*    return <Pill key={index} color="vip">{tag.tag_name}</Pill>*/}
-                                    {/*})}*/}
+                                        {props.tags&&renderTags(data.tags_id, props.tags)}
 
                                     </div>
                         </div>
-                            {/* <div className={"session_content"} style={{maxWidth:"25vw",display:"flex",flexWrap:"wrap"}}>
-                                {useContact.tags.map((tag , index)=>{
-                                    return( <Pill key={index} color="lightBlue">{tag.tag_name}</Pill>)
-                                    })}
-                                </div> */}
+
+
+
                     </div>
                 </div>
             </div>
@@ -303,14 +268,9 @@ export default function ProfileGrid({data,toggle}){
                     <div className={"message_pad_write"}>
                         <input type="text" className={"write_note"} onChange={(e)=>setWritenote(e.target.value)} value={writenote} placeholder={"Start typing to log activities..."}></input>
                         <div className={"log_button"} onClick={async(e)=>{await submitNote(e)}}>
-                        {/*<div className={"log_button"} onClick={()=>{setWritenote(notes.push({id:"dsafdsfd",wroteBy:"Lawrance",date:new Date().toDateString,content:writenote}))}}>*/}
                             Log
                         </div>
-                            {/* <NoteButtonSVG /> */}
                     </div>
-                    {/* <ul>{log!=-1&& log.map((l , i )=>{
-                        return <li key={i}> {l} </li>
-                    })}</ul> */}
                 </div>
             </div>
         </div>

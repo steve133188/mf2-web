@@ -140,7 +140,7 @@ export default function contactsFetcher(token) {
             return d
         }
         instance.deleteContacts = async (data) => {
-            const d = await instance.fetcher.delete("/customers", {data: data}).then(res => res.status).catch(err => console.log(err))
+            const d = await instance.fetcher.post("/customers/delete", {customer_id: data}).then(res => res.status).catch(err => console.log(err))
             return d
         }
 
