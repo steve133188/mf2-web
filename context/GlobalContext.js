@@ -36,6 +36,7 @@ export const GlobalContextProvider = ({children}) =>{
     const dashboardInstance = dashboardFetcher(user.token)
     const replyInstance = standardReplyFetcher(user.token)
 
+
     useEffect(async()=>{
 
         setUser({

@@ -5,17 +5,16 @@ export default function dashboardFetcher(token){
     instance.token =token
     instance.fetcher= axios.create({
         headers:{
-            'Content-Type': 'application/json',
-            'Authorization':`Bearer ${instance.token}`,
             'Access-Control-Allow-Origin' : '*',
-            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-            'Access-Control-Allow-Credentials' : true,
+            "Accept":"*/*",
+            'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials': true,
         },
-        timeout:5000,
-        baseURL:"https://mkw892fwn0.execute-api.ap-southeast-1.amazonaws.com/prod/dashboard"
+        timeout:10000,
+        baseURL:"https://mf2-tco-dashboard-python-bfymj.ondigitalocean.app"
     })
-    instance.getLiveChatDefaultData = async (start, end)=>{
-        return await instance.fetcher.get(`/livechat` , {params: {start , end} }).then(res=>res.data).catch(err=>{
+    instance.getLiveChatDefaultData = async ()=>{
+        return await instance.fetcher.get(`/default` ).then(res=>res.data).catch(err=>{
             console.log(err)})
     }
 

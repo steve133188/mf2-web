@@ -19,8 +19,7 @@ export default function DashBroadFilter(props){
     // const [users ,setUsers] =useState([]);
     // const [selectedUsers ,setSelectedUsers] =useState([]);
     const channelData = [
-        // name:"WhastApp",value:"All",channelID:"All",id:0},
-                {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
+                {name:"WhatsApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
                 {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
                 {name:"Messager",value:"Messager",channelID:"Messager",id:3},
                 {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
@@ -57,21 +56,18 @@ export default function DashBroadFilter(props){
 
         const advanceFilter =()=>{
                     setFilter({division:[...selectedDivision],team:[...selectedTeams], agent:[...selectedAgents] ,channels: [...selectedChannels] , tag:[...selectedTags]})
-                    console.log("filter",filter)
                     const agentFiltered = channels.filter(data=>{
                         if(selectedAgents.length==0){
                             return data
                         }
                         return data.agents_id.some(el=>selectedAgents.includes(el))
                     })
-                    console.log("agent:",agentFiltered)
                     const tagFiltered = agentFiltered.filter(data=>{
                         if(selectedTags.length ==0){
                             return data
                         }
                            return data.tags.some(el=>selectedTags.includes(el))
                     })
-                    console.log("tagFiltered:",tagFiltered)
 
                     setFilteredData([...tagFiltered])
                 }
@@ -79,41 +75,26 @@ export default function DashBroadFilter(props){
 
                 const getTags = async ()=>{
                     const data = await tagInstance.getAllTags()
-                    console.log("tag")
-                    console.log(data)
                     setTags(data,"dashboard filter tags")
                     setFilteredTags(data)
 
                 }
                 const getAgents = async ()=>{
                     const data = await userInstance.getAllUser()
-                    console.log("AAAA")
-                    console.log(data)
                     setAgents(data)
                     setFilteredAgents(data)
                 }
                 const getDivision = async ()=>{
                     const data = await orgInstance.getAllORG ()
-                    console.log("DDDDD")
-                    console.log(data)
+
                     setDivision(data)
                     setFilteredDivision(data)
                 }
                 const getTeams = async ()=>{
-                    console.log("TTTTT")
                     const data = await orgInstance.getOrgTeams()
-                    console.log(data)
                     setTeams(data)
                     setFilteredTeams(data)
                 }
-
-
-                // const getChannels = async ()=>{
-                //     const data = await contactInstance.getContactsByChannels()
-                //     console.log(data)
-                //     console.log("CCCCC")
-                //     setChannels(data)
-                // }
 
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
@@ -121,7 +102,6 @@ export default function DashBroadFilter(props){
         if (!checked) {
             setSelectedTags(selectedTags.filter(item => item !== id));
         }
-        console.log(selectedTags)
     };
     const toggleSelectAgents = e => {
         const { checked ,id} = e.target;
@@ -130,7 +110,6 @@ export default function DashBroadFilter(props){
             setSelectedAgents(selectedAgents.filter(item => item !== id));
         }
         props.agents&&props.agents(e)
-        console.log(selectedAgents)
     };
     const toggleSelectDivision = e => {
         const { checked ,id} = e.target;
@@ -138,7 +117,6 @@ export default function DashBroadFilter(props){
         if (!checked) {
             setSelectedDivision(selectedDivision.filter(item => item !== id));
         }
-        console.log(selectedDivision)
     };
     const toggleSelectTeams = e => {
         const { checked ,id} = e.target;
@@ -147,7 +125,6 @@ export default function DashBroadFilter(props){
             setSelectedTeams(selectedTeams.filter(item => item !== id));
         }
         props.team(e)
-        console.log(selectedTeams,"dashbroad+filter")
     };
     const toggleSelectAllChannels = e => {
         const { checked ,id} = e.target;
@@ -180,22 +157,13 @@ export default function DashBroadFilter(props){
         // let abortController = new AbortController();
         // async () => {
         if(user.token!=null) {
-
-            // await getUsers()
             await getTags()
             await getTeams()
             await getAgents()
             await getDivision()
-            // await getChannels()
-            // await fetchContacts()
-
         }
 
     channelOri()
-        // setSelectedUsers([])
-        // return () => {
-        //     abortController.abort();
-        //   }
     },[]);
 
     const channelOri =()=>{

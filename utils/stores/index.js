@@ -13,7 +13,6 @@ import { authStore } from './AuthStore';
 // };
 export default {
     authStore
-
 };
 
 export class RootStore {

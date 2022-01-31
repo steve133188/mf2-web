@@ -1,6 +1,3 @@
-import {LineChart, MultipleLineChart} from "../../components/LineChart";
-import {LabelSelect2, SingleSelect2} from "../../components/Select";
-// import {EnhancedTable3} from "../../components/EnhancedTable3";
 import {BigChangingPercentageCard, LineChartCard} from "../../components/Cards";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {Checkbox} from "../../components/Checkbox";
@@ -32,51 +29,13 @@ export default function Chat() {
     const [selectedTags , setSelectedTags] =useState([])
     const [contacts, setContacts] = useState([]);
     const [tags, setTags] =useState([])
-    const [open, setOpen] = useState(false);
     const [isFilterOpen , setIsFilterOpen] = useState(false)
-    const [tagColumn,setTagColumn] = useState(["Tags","Total",""])
-    const [dash  , setDash ] = useState(
-        {
-            all_contacts :[0] ,
-            active_contacts:[0] ,
-            total_msg_sent:[0] ,
-            total_msg_rev:[0] ,
-            new_added_contacts:[0] ,
-            avg_resp_time :[0] ,
-            communication_hours :[0] ,
-            tags:[0],
-            ChannelContact: [
-                {ChannelName: "", ChannelTotalContact: 0},
-                {ChannelName: "", ChannelTotalContact: 0},
-                {ChannelName: "", ChannelTotalContact: 0},
-                {ChannelName: "", ChannelTotalContact: 0}
-            ]
-        }
-        )
+    const [dash  , setDash ] = useState({})
 
-    const [selectedData,setselectedDate] =useState([])
-
-
-    const handleClickAway = () => {
-        setOpen(false);
-    };
-
-
-    const exportSubmit = () =>{
-        console.log("export : ")
-
-    }
-    const periodFilter = () =>{
-        console.log("filter period : "+selectedPeriod)
-        // dayState <<<timestamp for comparing range
-    }
-    const [selectedPeriod ,setSelectedPeriod] =useState("")
     const [dayState,setDayState] = useState({from:"",to:""})
 
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
-      console.log(range,"day tiem range ")
-      console.log(typeof(range.from),"day tiem range ")
       setDayState(range);
     }
     const toggleSelectTags = e => {
@@ -91,42 +50,17 @@ export default function Chat() {
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
         const totallist  = [3,2,3,4,1,5,8,7]
-
         setTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
-        console.log(data,"tagsss")
         setFilteredTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
-
     }
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
-
-        console.log(data,"contactssss")
         setContacts(data)
-
-    }
-    const renderTags=() => {
-        return selectedTags!=-1&&selectedTags.map((tag)=>{
-            return<Pill key={tag.tag_id} color="vip">{tag.tag_name}</Pill>
-        })
-    }
-    const changeTags=()=>{
-        if(selectedTags.length==0) return setTags(filteredTags)
-        setTags(filteredTags.filter(tag=>{return selectedTags.some(el=>parseInt(tag.tag_id)==el)}));
-        // setSelectedTags([])
     }
 
-    // const toggleSelectAgents = e => {
-    //     const { checked ,id} = e.target;
-    //     setSelectedAgents([...selectedAgents, id]);
-    //     if (!checked) {
-    //         setSelectedAgents(selectedAgents.filter(item => item !== id));
-    //     }
-    //     // props.agents(e)
-    //     console.log(selectedAgents ,"slescted")
-    // };
     function tagSearchFilter(keyword , data ,callback ){
         if(keyword.includes(":")){
-            // console.log("trigger regex search")
+            console.log("trigger regex search")
         }
         const newData = data.filter(d=> {
             if(keyword.trim() == ""){
@@ -139,77 +73,29 @@ export default function Chat() {
     const fetchDefault = async ()=>{
         let end = new window.Date().getTime() / 1000
         let start = end - 3600 * 24*7
-        const data = await dashboardInstance.getLiveChatDefaultData(start ,end)
-        return data
-
+        const data = await dashboardInstance.getLiveChatDefaultData()
+        setDash(data)
+        console.log("fetch data : " , data)
     }
 
     useEffect(async ()=>{
-        // if (isLoading ) {
-        //     let data = await fetchDefault();
-        //     setDash(data)
-        //     setIsLoading(!isLoading)
-        // }
-        setIsLoading(false)
-        await getTags();
-        await fetchContacts();
+        if (isLoading ) {
+            await fetchDefault()
+            await getTags();
+            await fetchContacts();
+            setIsLoading(false)
+        }
+
         console.log("dashboard = ",dash)
 
-    },[dash])
-
-    // useEffect(()=>{
-    //     const tagsTotal = []
-    //     contacts&&tags!=undefined&&tags.map(e=>contacts.map(c=>{
-
-    //         const values=c.tags.map(t=>{
-    //             if(t.tag_name == e.tag_name ){
-    //                 // const data ={e.tag_name:+=1}
-    //                 console.log("1")
-    //             return tagsTotal.push()
-    //         }
-    //         })}))
-    //     console.log(tagsTotal,"tags total volume")
-    // },[contacts])
-
-    // name:"WhastApp",value:"All",channelID:"All",id:0},
-
-    const channelData = [{name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1, number : 0},
-                {name:"WhatsApp Business api",value:"WABA",channelID:"WhatsappB",id:2, number : 0},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3, number : 0},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4, number :0}];
-    const [channels, setChannelData] = useState([] )
-    // useEffect(()=>{
-    //     setChannelData(channelData)
-    // },[channelData ])
-    useEffect(()=>{
-
-        let isMounted = true;
-        if(dayState.from==null||dayState.from==""){return setSelectedPeriod("Period")}
-        else{
-            setSelectedPeriod(dayState.from.toLocaleDateString()+" - ")
-        }
-        if(dayState.to==null||dayState.to==""){return }
-        else{
-            setSelectedPeriod(dayState.from.toLocaleDateString()+" - "+dayState.to.toLocaleDateString())}
-
-            return () => { isMounted = false };
-    },[dayState])
-
-    useEffect(()=>{
-        let isMounted = true;
-        return () => { isMounted = false };
     },[])
-    // tags.map(item=>{ const data = []
-    //                 data.push(item)
-    //                 data.push
-    // })
-    return (
-        <div className={"dashboard-layout"}>
-            {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
 
+    return (
+        // {isLoading?<Loading state={"preloader"}/>:
+                <div className={"dashboard-layout"}>
             <div className="navbarPurple">
                 <div className={"left"}>
-                    <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>
+                    <MF_Select head={"Period"} top_head={"Period"} customeDropdown={"calender"}>
 
                         <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
                         <div style={{position:"absolute"}}>
@@ -305,148 +191,142 @@ export default function Chat() {
                     <div className={"card_holder1"}>
                     <div style={{margin:"6px 20px auto"}}>Channels</div>
                         <div className={"card_holder"}>
-                        {channelData.map((data2,index)=>{
-                            return  <LineChartCard key={index} title={data2.name} chart={false} img={true} d={data2} data = {[data2.number]} channel={data2.value} />
-                        })
-                        }
+                        {/*{channelData.map((data2,index)=>{*/}
+                        {/*    return  <LineChartCard key={index} title={data2.name} chart={false} img={true} d={data2} data = {[data2.number]} channel={data2.value} />*/}
+                        {/*})*/}
+                        {/*}*/}
                         </div>
                     </div>
 
                     {/* <AverageDailyCard/> */}
                 </div>
             </div>
-            <div className="chartGroup" >
-                <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"All Contacts"} definition={""} data={dash.all_contacts} x_cate={dash.yaxis}   xname={"Date"} yaxis={"Contacts"} total={dash.all_contacts.slice(-1)} percentage={""} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} definition={"Number of contacts with successful conversation."} data={dash.active_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.active_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
-                </div>
-                <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} data={dash.total_msg_sent}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={dash.total_msg_sent.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} data={dash.total_msg_rev} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={dash.total_msg_rev.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
-                </div>
-                <div className="dashboardRow">
-                    {/*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={"Number of contacts that are manually created, or by import, or by new channel integration."} data={dash.new_added_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.new_added_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={"Average time of agents responding to contacts."} data={dash.avg_resp_time} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={"0"} percentage={"+5%"} /></div>
-                </div>
-                <div className="dashboardRow">
-                    {/*<div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} definition={"Most active time that agents and contacts communicated within 24 hours."} data={dash.communication_hours} x_cate={[2,4,6,8,10,12,14,16,18,20,22,24]}  xname={"Hours"} yaxis={"Msg Sent"} total={dash.communication_hours.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn">
-                        <div className="tableSet">
-                            <div className={"half_session block_session"}>
-                                <div className={"top_row"} style={{justifyContent:"flex-start"}}>
+            {/*<div className="chartGroup" >*/}
+            {/*    <div className="dashboardRow">*/}
+            {/*        <div className="dashboardColumn"><LineChart title={"All Contacts"} definition={""} data={dash.all_contacts} x_cate={dash.yaxis}   xname={"Date"} yaxis={"Contacts"} total={dash.all_contacts} percentage={""} /></div>*/}
+            {/*        <div className="dashboardColumn"><LineChart title={"Active Contacts"} definition={"Number of contacts with successful conversation."} data={dash.active_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={0} percentage={"+5%"} /></div>*/}
+            {/*    </div>*/}
+            {/*    <div className="dashboardRow">*/}
+            {/*        <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} data={dash.total_msg_sent}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={dash.total_msg_sent.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>*/}
+            {/*        <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} data={dash.total_msg_rev} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={dash.total_msg_rev.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>*/}
+            {/*    </div>*/}
+            {/*    <div className="dashboardRow">*/}
+            {/*        /!*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*!/*/}
+            {/*        <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={"Number of contacts that are manually created, or by import, or by new channel integration."} data={dash.new_added_contacts}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={dash.new_added_contacts.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>*/}
+            {/*        <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={"Average time of agents responding to contacts."} data={dash.avg_resp_time} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={"0"} percentage={"+5%"} /></div>*/}
+            {/*    </div>*/}
+            {/*    <div className="dashboardRow">*/}
+            {/*        /!*<div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>*!/*/}
+            {/*        <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} definition={"Most active time that agents and contacts communicated within 24 hours."} data={dash.communication_hours} x_cate={[2,4,6,8,10,12,14,16,18,20,22,24]}  xname={"Hours"} yaxis={"Msg Sent"} total={dash.communication_hours.reduce((partial_sum, a) => partial_sum + a, 0)} percentage={"+5%"} /></div>*/}
+            {/*        <div className="dashboardColumn">*/}
+            {/*            <div className="tableSet">*/}
+            {/*                <div className={"half_session block_session"}>*/}
+            {/*                    <div className={"top_row"} style={{justifyContent:"flex-start"}}>*/}
 
 
-                                <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px" ,height:"45px",marginRight:"5%"}}>
-                                    <MF_Select top_head={`Tags : ${tags.length}`} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{
-                                        setFilteredTags(new_data)
-                                    })}} > <div>
+            {/*                    <div style={{borderWidth:"1px",borderStyle:"solid",width:"100px",padding:"3px .1px",borderRadius:"10px" ,height:"45px",marginRight:"5%"}}>*/}
+            {/*                        <MF_Select top_head={`Tags : ${tags.length}`} submit={changeTags} head={"Tags"} handleChange={(e)=>{ tagSearchFilter(e.target.value , tags,(new_data)=>{*/}
+            {/*                            setFilteredTags(new_data)*/}
+            {/*                        })}} > <div>*/}
 
-                                        {filteredTags.map((tag,index)=>{
-                                            // console.log(tag)
-                                            return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>
-                                        
-                                                <div className="newCheckboxContainer">
-                                                    <label className="newCheckboxLabel">
-                                                        <input type="checkbox" value={tag.tag_id} id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />
-                                                    </label> </div></li>)
-                                        })}
-                                    </div>
-                                    </MF_Select>
+            {/*                            {filteredTags.map((tag,index)=>{*/}
+            {/*                                return(<li key={index}><Pill size="30px"color="vip">{tag.tag_name}</Pill>*/}
 
-                                </div>
-                                    <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >
-                                        <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}> </p>
-                                        <div className={"chart_info"} > ?
-                                        <p  className={"chart_info_details"}  > Number of tags created and assigned to contacts.</p>
-                                        </div>
-                                    </div>
+            {/*                                    <div className="newCheckboxContainer">*/}
+            {/*                                        <label className="newCheckboxLabel">*/}
+            {/*                                            <input type="checkbox" value={tag.tag_id} id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id)} onClick={toggleSelectTags} onChange={()=>{}} />*/}
+            {/*                                        </label> </div></li>)*/}
+            {/*                            })}*/}
+            {/*                        </div>*/}
+            {/*                        </MF_Select>*/}
+
+            {/*                    </div>*/}
+            {/*                        <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >*/}
+            {/*                            <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}> </p>*/}
+            {/*                            <div className={"chart_info"} > ?*/}
+            {/*                            <p  className={"chart_info_details"}  > Number of tags created and assigned to contacts.</p>*/}
+            {/*                            </div>*/}
+            {/*                        </div>*/}
 
 
-                                </div>
-                                {/* <div style={{width:"400px",overflow:"scroll",height:"50px"}}>
+            {/*                    </div>*/}
+            {/*                    <div className={"session_content"}>*/}
+            {/*                        <div className={"session_content_tag"}>*/}
 
-                                </div> */}
+            {/*                            <TableContainer*/}
+            {/*                                sx={{minWidth: 450 ,}}*/}
+            {/*                                className={"table_container"}*/}
+            {/*                            >*/}
+            {/*                                <Table*/}
+            {/*                                    sx={{minWidth: 450 }}*/}
+            {/*                                    aria-labelledby="tableTitle"*/}
+            {/*                                    size={'medium'}*/}
+            {/*                                    stickyHeader={true}*/}
+            {/*                                >*/}
+            {/*                                    <TableHead>*/}
+            {/*                                        <TableRow>*/}
 
-                                <div className={"session_content"}>
-                                    <div className={"session_content_tag"}>
+            {/*                                            {tagColumn.map((col,index)=>{*/}
+            {/*                                                return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)*/}
+            {/*                                            })}*/}
+            {/*                                            {selectedAgents&&selectedAgents.map((col,index)=>{*/}
+            {/*                                                return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)*/}
+            {/*                                            })}*/}
 
-                                        <TableContainer
-                                            sx={{minWidth: 450 ,}}
-                                            className={"table_container"}
-                                        >
-                                            <Table
-                                                sx={{minWidth: 450 }}
-                                                aria-labelledby="tableTitle"
-                                                size={'medium'}
-                                                stickyHeader={true}
-                                            >
-                                                <TableHead>
-                                                    <TableRow>
+            {/*                                        </TableRow>*/}
+            {/*                                    </TableHead>*/}
+            {/*                                    <TableBody>*/}
+            {/*                                        {tags.map((item,index)=>{*/}
+            {/*                                            return( <TableRow*/}
+            {/*                                                    key={index}*/}
+            {/*                                                    hover*/}
+            {/*                                                    // role="checkbox"*/}
+            {/*                                                    name={item.tag_name}*/}
+            {/*                                                    // checked={selectedUsers.includes(data.phone)}*/}
 
-                                                        {tagColumn.map((col,index)=>{
-                                                            return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
-                                                        })}
-                                                        {selectedAgents&&selectedAgents.map((col,index)=>{
-                                                            return (  <TableCell style={{fontWeight:"bold",fontSize:"14px"}} key={index}>{col}</TableCell>)
-                                                        })}
+            {/*                                                >*/}
+            {/*                                                    <TableCell style={{width: "35%",}}>*/}
 
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {tags.map((item,index)=>{
-                                                        return( <TableRow
-                                                                key={index}
-                                                                hover
-                                                                // role="checkbox"
-                                                                name={item.tag_name}
-                                                                // checked={selectedUsers.includes(data.phone)}
+            {/*                                                        <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>*/}
+            {/*                                                    </TableCell>*/}
+            {/*                                                    <TableCell align="left" style={{width: "50%",}}>*/}
+            {/*                                                        <span >{item.total}</span>*/}
+            {/*                                                    </TableCell>*/}
+            {/*                                                    <TableCell align="left" style={{width: "50%",}}>*/}
 
-                                                            >
-                                                                <TableCell style={{width: "35%",}}>
+            {/*                                                    </TableCell>*/}
 
-                                                                    <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>
-                                                                </TableCell>
-                                                                <TableCell align="left" style={{width: "50%",}}>
-                                                                    <span >{item.total}</span>
-                                                                </TableCell>
-                                                                <TableCell align="left" style={{width: "50%",}}>
+            {/*                                                    /!* {selectedData&&selectedData.map(item=>{return  <*/}
+            {/*                                                        TableCell align="left" style={{width: "auto",}}>*/}
+            {/*                                                        {item.tag_name}*/}
+            {/*                                                    </TableCell>})}*/}
 
-                                                                </TableCell>
+            {/*                                                    <TableCell align="left" style={{width: "auto",}}>*/}
 
-                                                                {/* {selectedData&&selectedData.map(item=>{return  <
-                                                                    TableCell align="left" style={{width: "auto",}}>
-                                                                    {item.tag_name}
-                                                                </TableCell>})}
+            {/*                                                    </TableCell> *!/*/}
+            {/*                                                    /!*<TableCell align="right">*!/*/}
+            {/*                                                    /!*    <span className={"right_icon_btn"}>{editSVG}</span>*!/*/}
+            {/*                                                    /!*    <span className={"right_icon_btn"}>{deleteSVG}</span>*!/*/}
+            {/*                                                    /!*</TableCell>*!/*/}
+            {/*                                                </TableRow>*/}
+            {/*                                            ) })}*/}
+            {/*                                    </TableBody>*/}
+            {/*                                </Table>*/}
+            {/*                            </TableContainer>*/}
 
-                                                                <TableCell align="left" style={{width: "auto",}}>
+            {/*                        </div>*/}
+            {/*                    </div>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
 
-                                                                </TableCell> */}
-                                                                {/*<TableCell align="right">*/}
-                                                                {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
-                                                                {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
-                                                                {/*</TableCell>*/}
-                                                            </TableRow>
-                                                        ) })}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/*<div className="dashboardColumn" style={{width: "55%"}}><EnhancedTable3/></div>*/}
-                        </div>
-                    </div>
-
-                </div>
-                </div>
+            {/*    </div>*/}
+            {/*    </div>*/}
                 <div className="dashboardRow">
 
             </div>
         </div>
+// }
 
     )
 }
