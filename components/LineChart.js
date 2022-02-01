@@ -6,14 +6,10 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function LineChart({children,...props}) {
-    const {xname, title, data, yaxis, x_cate, total, percentage} = props;
+    const {xname, title, series,names, yaxis, x_cate, total, percentage} = props;
     const [loading, setLoading] = useState(true)
     const [state, setState] = useState({
-        series: [{
-            name: "Contacts",
-            data: data,
-            yaxis: "contacts"
-        }],
+        series: series,
         options: {
             chart: {
                 id: 'fb',
@@ -23,7 +19,7 @@ export function LineChart({children,...props}) {
                     enabled: false
                 }
             },
-            colors: ['#5B73E8'],
+            colors: ['#5B73E8','#74788D','#34C38F'],
             stroke: {
                 curve: 'straight'
             },
@@ -58,20 +54,20 @@ export function LineChart({children,...props}) {
         },
     })
 
-    useEffect(() => {
-        if (data != []) {
-            setState({...state,
-                series: [{
-                    name: "Contacts",
-                    data: data,
-                    yaxis: "contacts"
-                }],
-
-            })
-        }
-    }, [
-        props.data
-    ])
+    // useEffect(() => {
+    //     if (series) {
+    //         setState({...state,
+    //             series: [{
+    //                 name: "Contacts",
+    //                 data: data,
+    //                 yaxis: "contacts"
+    //             }],
+    //
+    //         })
+    //     }
+    // }, [
+    //     props.data
+    // ])
 
     return (
         <div>
@@ -80,7 +76,7 @@ export function LineChart({children,...props}) {
                     <div>
                         <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center" }} >
                             <p style={{color: "#495057", fontSize: "16px", fontWeight: "600",width:"fit-content", margin:"10px 15px 15px 0px"}}>{title}  </p>
-                            {title=="All Contacts"?"":<div className={"chart_info"} > ? 
+                            {title=="All Contacts"?"":<div className={"chart_info"} > ?
                             <p  className={"chart_info_details"} style={{backgroundColor:"#e9ecef",padding:"5px",height:"30px",borderRadius:"10px"}}  > {props.definition}</p>
                             </div>}
                         </div>
@@ -223,7 +219,7 @@ export function MultipleBarChart({children,...props}) {
                         columnWidth: '50%',
                     },
                 },
-                xaxis: {  
+                xaxis: {
                     ticks: {
                     autoSkip: false,
                     maxRotation: 90,
@@ -254,11 +250,11 @@ export function MultipleBarChart({children,...props}) {
                     // opacity: 1,
                     // colors: ["#2198FA","#6279EC", '#34C38F']
                 },
-                
+
             },
          })
 
-         
+
         useEffect(()=>{
             console.log("props",active)
             console.log("props",props)
@@ -272,7 +268,7 @@ export function MultipleBarChart({children,...props}) {
                 }, {
                     name: 'Unhandled Contacts',
                     data: unhandled
-                }], 
+                }],
                 xaxis: {
                     categories: agents,
                 },
