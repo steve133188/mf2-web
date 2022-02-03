@@ -134,11 +134,11 @@ export function LineChartCard({children,...props}) {
             <div className={"lineChartCardTitle"}>{props.title}</div>
             <div className={"contentGroup"}>
                 <div className={"dataGroup"}>
-                    <div className={"number"}>{data[data.length -1]}</div>
+                    <div className={"number"}>{props.number}</div>
                     {/* <div className={"changingPercentagePos"}>{(data[data.length -1] -data[data.length -2]) / data[data.length -1]* 100 + "%"}</div> */}
                     <div style={{minHeight:"20px",width:"10px"}}></div>
                 </div>
-                <Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} hidden={props.chart?!props.chart:true} />
+                {/*<Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} hidden={props.chart?!props.chart:true} />*/}
                 <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${props.channel??"Whatsapp"}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
             </div>
         </div>

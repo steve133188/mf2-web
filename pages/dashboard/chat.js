@@ -145,6 +145,41 @@ export default function Chat() {
         console.log("fetch data : " , data.new_added_contacts , data.avg_resp_time , data.communication_hours)
     }
 
+    const renderChannelsContacts = (data)=>{
+
+        let allData = []
+        const messager = {
+            name:"Facebook Messager",
+            number:0,
+            channel:"Messager"
+        }
+
+        const wechat = {
+            name:"WeChat",
+            number:0,
+            channel:"WeChat"
+        }
+        console.log("render data cards : ",data )
+        for (let d in data){
+            console.log("looped card data :",data[d])
+            console.log("d== ", d)
+            const newData = {
+                name:d,
+                channel:d,
+                number:data[d][data[d].length -1]
+            }
+            console.log("New data === " , newData)
+            allData.push(newData)
+        }
+
+        allData.push(messager , wechat)
+
+        return( allData.map((data , index)=>{
+                return <LineChartCard key={index} title={data.name} chart={false} img={true} number={data.number} channel={data.channel}/>
+        })
+    )
+    }
+
     useEffect(async ()=>{
         if (isLoading ) {
             await fetchDefault()
@@ -213,39 +248,39 @@ export default function Chat() {
 
                             </div>
                 <div className={"right"}>
-                     <div style={{position:"relative"}}>
-                        <div >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2198fa"
-                                className="bi bi-upload" viewBox="0 0 16 16" style={{cursor: "pointer"}}>
-                                <path
-                                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path
-                                    d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                        </div>
+                    {/* <div style={{position:"relative"}}>*/}
+                    {/*    <div >*/}
+                    {/*        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2198fa"*/}
+                    {/*            className="bi bi-upload" viewBox="0 0 16 16" style={{cursor: "pointer"}}>*/}
+                    {/*            <path*/}
+                    {/*                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>*/}
+                    {/*            <path*/}
+                    {/*                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>*/}
+                    {/*        </svg>*/}
+                    {/*    </div>*/}
 
-                        <MF_Select head={"Export"}   customeDropdown={"topRight"}>
-                        <div className={"channelListitem"} style={{width:"400px"}}>
-                            <div className={"left"}>
-                            <img className={"serachSVG"} src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} />
-                            <div style={{margin:"0 5px"}}> whatsapp</div>
-                            </div>
-                            <div className={"right"}>
+                    {/*    <MF_Select head={"Export"}   customeDropdown={"topRight"}>*/}
+                    {/*    <div className={"channelListitem"} style={{width:"400px"}}>*/}
+                    {/*        <div className={"left"}>*/}
+                    {/*        <img className={"serachSVG"} src={`livechat/MF_LiveChat_Landing/Search_Bar/MF_LiveChat_Filter/Whatsapp.svg`} />*/}
+                    {/*        <div style={{margin:"0 5px"}}> whatsapp</div>*/}
+                    {/*        </div>*/}
+                    {/*        <div className={"right"}>*/}
 
-                            <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel">
-                                            <input type="checkbox"
-                                                    id={12}
-                                                    name="checkbox"
-                                                    checked={false}
-                                                    // onClick={props.onclick}
-                                                    />
-                                            </label>
-                                        </div>
-                            </div>
-                        </div>
-                        </MF_Select>
-                    </div>
+                    {/*        <div className="newCheckboxContainer right">*/}
+                    {/*                        <label className="newCheckboxLabel">*/}
+                    {/*                        <input type="checkbox"*/}
+                    {/*                                id={12}*/}
+                    {/*                                name="checkbox"*/}
+                    {/*                                checked={false}*/}
+                    {/*                                // onClick={props.onclick}*/}
+                    {/*                                />*/}
+                    {/*                        </label>*/}
+                    {/*                    </div>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*    </MF_Select>*/}
+                    {/*</div>*/}
                 </div>
             </div>
             <div className="lineCardGroupSet">
@@ -257,6 +292,8 @@ export default function Chat() {
                     <div className={"card_holder1"}>
                     <div style={{margin:"6px 20px auto"}}>Channels</div>
                         <div className={"card_holder"}>
+
+                            {dash.all_contacts&&renderChannelsContacts(dash.all_contacts)}
                         {/*{channelData.map((data2,index)=>{*/}
                         {/*    return  <LineChartCard key={index} title={data2.name} chart={false} img={true} d={data2} data = {[data2.number]} channel={data2.value} />*/}
                         {/*})*/}
@@ -264,7 +301,7 @@ export default function Chat() {
                         </div>
                     </div>
 
-                     <AverageDailyCard/>
+                     {/*<AverageDailyCard/>*/}
                 </div>
             </div>
             <div className="chartGroup" >
@@ -274,7 +311,7 @@ export default function Chat() {
                 </div>
                 <div className="dashboardRow">
                     <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_sent)}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={0} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_rev)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={0} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_recv)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={0} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*/}
