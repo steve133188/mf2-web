@@ -31,14 +31,18 @@ export default function Agents() {
     const [selectedChannels ,setSelectedChannels] =useState([]);
     const [selectedTeams ,setSelectedTeams] =useState([]);
     const [selectedAgents , setSelectedAgents] = useState([])
+    const [users , setUsers] = useState([])
+    const [contacts , setContacts] = useState([])
     const [isFilterOpen , setIsFilterOpen] = useState(false);
     const [selectedPeriod ,setSelectedPeriod] =useState("");
     const [dayState,setDayState] = useState({from:"",to:""});
+    const [filteredData , setFilteredData] = useState()
+    // pagination
     const [currentPage , setCurrentPage] = useState(1)
-    const [filteredData , setFilteredData] = useState([["","",'',0,0,0,0,0,0,0,0],])
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
+    const currentContacts = users.slice(indexOfFirstTodo, indexOfLastTodo);
+    //
     const [displayNameTag, setDisplayNameTag] = useState([])
     const [show,setShow] =useState(false)
     const [dash  , setDash ] = useState({
@@ -50,19 +54,13 @@ export default function Agents() {
         avg_resp_time : [],avg_total_first_resp_time : [], longest_resp_time : [],
         chart : {unhandled :[], delivered :[], active :[], user_name :[], user_id :[], team_id :[]},
         data_collected : 0
-
     })
 
+    // const default_cols = ["Name","Role","Status","Average Daily Onlie Time","All Contacts","Active Contacts","Delivered Contacts","Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
+    const default_cols = ["Name","Role","Team","All Contacts","Active Contacts","Delivered Contacts","Unhandeled Contacts","Total Messages Recv","Total Messages Sent","Average Response Time","Average First Response Time",""];
 
-    let result = currentContacts.map(d=>d.id)
-
-    // ,"All Contacts","Newly Added Contacts",
-
-    const default_cols = ["Name","Role","Status",
-    "Average Daily Onlie Time","All Contacts","Active Contacts","Delivered Contacts",
-    "Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
-
-    const rolename =["user_name",
+    const rolename =[
+        "user_name",
     "user_role_name",
     "user_status",
     "avgDailyOnline",
@@ -74,219 +72,79 @@ export default function Agents() {
     "avg_resp_time",
     "first_resp_time",
 ]
-    // "all_contacts",
-    // "new_added_contacts",
 
-
-    const [handelList,setHandelList] = useState([])
-    const [deilverList,setDeliverList] = useState([])
-    const [unhandelList,setUnhandelList] = useState([])
-    const [agentsList,setAgentsList] = useState([])
-
-
-
-
-    const tempData=[
-        ["Sabrina","DM",'Connected',35,15,10,3,2,27,5,7],
-        ["Wiva Wei","Maneger",'Connected',50,10,7,1,2,8,7,7],
-        ["Juile Chu","Maneger",'Connected',56,10,5,5,0,5,15,20],
-        ["Agent try",'Agent','Connected',40,7,7,0,0,14,3.5,2],
-        ["Sylvia Tam",'Agent','Connected',55,5,5,0,0,9,3,4],
-        ["Renee Tang",'Agent','Connected',60,6,4,0,2,6,8.6,15],
-        ["Steve Chak",'Agent','Disconnected',42,8,3,3,2,9,7,7],
-        ["Ben Cheng",'Agent','Disconnected',0,0,0,0,0,0,0,0],
-    ]
-    // ["Golden",'Agent','Disconnected',0,0,0,0,0,0,0,0],
-    // ["Amy",'Agent','Disconnected',0,0,0,0,0,0,0,0],
-
-    const AverDailyOnlineTime = filteredData.length>0&&filteredData.map(a=>a[3]).reduce((org,cur)=>{
-        return org+cur
-    })
-
-    const AllContacts= filteredData.length>0&&filteredData.map(a=>a[4]).reduce((org,cur)=>{
-        return org+cur
-    })
-    const ActiveContacts= filteredData.length>0&&filteredData.map(a=>a[5]).reduce((org,cur)=>{
-        return org+cur
-    })
-    const DeliveredContact= filteredData.length>0&&filteredData.map(a=>a[6]).reduce((org,cur)=>{
-        return org+cur
-    })
-    const UnhandeledContact= filteredData.length>0&&filteredData.map(a=>a[7]).reduce((org,cur)=>{
-        return org+cur
-    })
-    // const TotalMessagesReceived= filteredData.map(a=>a[8]).reduce((org,cur)=>{
-    //     return org+cur
-    // })
-    const TotalMessagesSent= filteredData.length>0&&filteredData.map(a=>a[8]).reduce((org,cur)=>{
-        return org+cur
-    })
-    const AverageResponseTime= filteredData.length>0&&filteredData.map(a=>a[9]).reduce((org,cur)=>{
-        return org+cur
-    })
-    const AverageFirstResponse= filteredData.length>0&&filteredData.map(a=>a[10]).reduce((org,cur)=>{
-        return org+cur
-    })
-
-
-    useEffect(()=>{
-        setFilteredData(tempData)
-    },[])
-
-    useEffect(()=>{
-        setHandelList(filteredData.map(h=>h[5]),"handeled")
-        setDeliverList(filteredData.map(d=>d[6]))
-        setUnhandelList(filteredData.map(u=>u[7]),"unhandeled")
-        setAgentsList(filteredData.map(n=>n[0]),"unhandeled")
-    console.log(agentsList,"agadsfads");
-
-    },[filteredData])
-
-    const filterHandel =()=>{
-
-        // setFilteredData(tempData)
-        const data = tempData.filter(f=>{return  (selectedAgents.filter(el=>{return el == f[0]})==f[0])})
-        console.log(data,"after data")
-        setFilteredData(data)
-    }
-    useEffect(()=>{
-
-        selectedAgents.length>0? filterHandel():selectedAgents.length=0? setFilteredData(tempData):""
-
-    },[selectedAgents])
-
-    const clear = ()=>{
-        setSelectedAgents([])
+    const getUsers = async ()=>{
+        const data = await userInstance.getAllUser()
+        console.log(`users len : ` ,data.length)
+        setUsers(data)
     }
 
-
+    const getContacts = async () =>{
+        const data = await contactInstance.getAllContacts()
+        console.log(`contacts len : ` ,data.length)
+        setContacts(data)
+    }
 
     const fetchDefault = async ()=>{
-        let end = new window.Date().getTime() / 1000
-        let start = end - 3600 * 24 * 7
-        console.log(start,end,"default")
-        const data = await dashboardInstance.getAgentDefaultData(start ,end)
-        return data
+        const data = await dashboardInstance.getLiveChatDefaultData()
+        setDash(data)
     }
     useEffect(async()=>{
-        let data = await fetchDefault();
-        setDash(data)
 
         if(isLoading){
-            setTimeout(function() { //Start the timer
-                setIsLoading(false);
-            }.bind(this), 100)
+            await getUsers()
+            await getContacts()
+            await fetchDefault()
+            setIsLoading(false)
         }
     },[])
-    useEffect(async ()=>{
-        if (!dash) {
-            let data = await fetchDefault();
-            console.log(data,"let me see")
-            setDash(data)
-        } else {
-            const dataIN = Date.parse(dayState.from)/1000
-            const dataEND = Date.parse(dayState.to)/1000
-            console.log("date form fetch dashbroad data",dataIN,dataEND)
-            const data = await dashboardInstance.getAgentRangeData(dataIN,dataEND)
-            console.log("fetch data by range",data)
-            // setDash(data)
 
-            // setFilteredData(dash.Agent)
+    const sortData = (data)=>{
+        if(!data) return [{"name":"no data" , "data":[0]}]
+        const keys = Object.keys(data)
+        const res = [];
+        const all = []
+        for(let d in data){
+            if (data[d].length==1){
+                if(all[0] ==undefined) all[0] = 0
+                all[0]  += data[d][0]
+            }else{
+                for(let i =0; i< data[d].length ; i++){
+                    if(all[i] ==undefined) all[i] = 0
+                    all[i]  += data[d][i]
+                }
+            }
         }
-        console.log("dashboard = ",dash)
-        console.log("dashboard dayState = ",dayState)
-
-    },[dayState.to])
-
-
-    useEffect(async()=>{
-        console.log(dash,"determin time ")
-        setShow(!show)
-    },[filteredData])
-
-    const periodFilter = () =>{
-        console.log("filter period : "+selectedPeriod)
-        // dayState <<<timestamp for comparing range
+        res.push({"name":"All" , data:all})
+        for(let i = 0 ; i <keys.length ; i++){
+            res.push({
+                "name":keys[i],
+                "data":data[keys[i]]
+            })
+        }
+        return res
     }
 
-    const handleDayClick=(day) => {
-        const range = DateUtils.addDayToRange(day, dayState);
-        console.log(range)
-        console.log(Date.parse(range.from)/1000,"try")
-        setDayState(range);
+    const sortAgents = (data , user , attr)=>{
+        if(!data) return[]
+
+        const keyname = user.user_id.toString()
+        console.log("process agents data : " , data)
+
+        console.log(`keyname : ${keyname} , attr : ${attr}`)
+        console.log(`attr data : ${data[attr]} `)
+        return data[attr][keyname]
+
     }
-    const handleClickAway = () => {
-        setOpen(false);
-    };
-    const handleClickOut = () => {
-        setOpen(true);
-    }; const toggleSelectAgents = e => {
-        const { name,checked ,id} = e.target;
-        setSelectedAgents([...selectedAgents, name]);
-        if (!checked) {
-            setSelectedAgents(selectedAgents.filter(item => item !== name));
-        }
-        // props.agents(e)
-        console.log(selectedAgents ,"slescted")
 
-    }; const toggleSelectChannels = e => {
-        const { checked ,id} = e.target;
-        setSelectedChannels([...selectedChannels, id]);
-        if (!checked) {
-            setSelectedChannels(selectedChannels.filter(item => item !== id));
-        }
-        // props.agents(e)
-        console.log(selectedChannels ,"slescted")
-
-    }; const toggleSelectTeams = e => {
-        const { name,checked ,id} = e.target;
-        setSelectedTeams([...selectedTeams, name]);
-        if (!checked) {
-            setSelectedTeams(selectedTeams.filter(item => item !== name));
-        }
-        // props.agents(e)
-        console.log(selectedTeams ,"slescted team")
-    };
-    const renderAgents=() => {
-
-        return selectedAgents!=-1&&selectedAgents.map((tag)=>{
-            return<Pill key={tag} color="lightPurple">{tag}</Pill>
-        })
-    }
     const renderTeams=() => {
 
         return selectedTeams!=-1&&selectedTeams.map((tag)=>{
             return<Pill key={tag} color="primary">{tag}</Pill>
         })
     }
-    const namePush = (nameList)=>{
-        setDisplayNameTag(nameList)
-        console.log(nameList,"from filter")
-    }
-    const dashClear = () =>{
-        setIsFilterOpen(!isFilterOpen)
-        setSelectedAgents([])
-        setSelectedChannels([])
-        setSelectedTeams([])
-        setFilteredData(tempData)
 
-    }
-    useEffect(()=>{
-
-        let isMounted = true;
-        if(dayState.from==null||dayState.from==""){return setSelectedPeriod("Period")}
-        else{
-            setSelectedPeriod(dayState.from.toLocaleDateString()+" - ")
-        }
-        if(dayState.to==null||dayState.to==""){return }
-        else{
-            setSelectedPeriod(dayState.from.toLocaleDateString()+" - "+dayState.to.toLocaleDateString())}
-
-            return () => { isMounted = false };
-
-    },[dayState])
-
-    const Defin = {
+    const Define = {
        "Total Assigned Contacts": "Number of contacts assigned to agent(s).",
        "Active Contacts": "Number of contacts with successful conversation. ",
        "Delivered Contacts": "Number of contacts that agents have responded to.",
@@ -303,54 +161,54 @@ export default function Agents() {
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
 
                 <div className={"left"}>
-                    <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>
+                    {/*<MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>*/}
 
-                        <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
-                        <div style={{position:"absolute"}}>
-                            <DayPicker
-                                className="Selectable"
-                                //   numberOfMonths={this.props.numberOfMonths}
-                                selectedDays={[dayState.from,{ from:dayState.from, to:dayState.to }]}
-                                modifiers={{ start: dayState.from, end: dayState.to }}
-                                onDayClick={(day)=>handleDayClick(day)}
-                                />
-                                    <Helmet>
-                                    <style>{`
-                                            .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-                                                background-color: #f0f8ff !important;
-                                                color: #4a90e2;
-                                            }
-                                            .Selectable .DayPicker-Day {
-                                                border-radius: 0 !important;
-                                            }
-                                            .Selectable .DayPicker-Day--start {
-                                                border-top-left-radius: 50% !important;
-                                                border-bottom-left-radius: 50% !important;
-                                            }
-                                            .Selectable .DayPicker-Day--end {
-                                                border-top-right-radius: 50% !important;
-                                                border-bottom-right-radius: 50% !important;
-                                            }
-                                            `}</style>
-                                    </Helmet>
-                                </div>
-                        </div>
+                    {/*    <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>*/}
+                    {/*    <div style={{position:"absolute"}}>*/}
+                    {/*        <DayPicker*/}
+                    {/*            className="Selectable"*/}
+                    {/*            //   numberOfMonths={this.props.numberOfMonths}*/}
+                    {/*            selectedDays={[dayState.from,{ from:dayState.from, to:dayState.to }]}*/}
+                    {/*            modifiers={{ start: dayState.from, end: dayState.to }}*/}
+                    {/*            // onDayClick={(day)=>handleDayClick(day)}*/}
+                    {/*            />*/}
+                    {/*                <Helmet>*/}
+                    {/*                <style>{`*/}
+                    {/*                        .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {*/}
+                    {/*                            background-color: #f0f8ff !important;*/}
+                    {/*                            color: #4a90e2;*/}
+                    {/*                        }*/}
+                    {/*                        .Selectable .DayPicker-Day {*/}
+                    {/*                            border-radius: 0 !important;*/}
+                    {/*                        }*/}
+                    {/*                        .Selectable .DayPicker-Day--start {*/}
+                    {/*                            border-top-left-radius: 50% !important;*/}
+                    {/*                            border-bottom-left-radius: 50% !important;*/}
+                    {/*                        }*/}
+                    {/*                        .Selectable .DayPicker-Day--end {*/}
+                    {/*                            border-top-right-radius: 50% !important;*/}
+                    {/*                            border-bottom-right-radius: 50% !important;*/}
+                    {/*                        }*/}
+                    {/*                        `}</style>*/}
+                    {/*                </Helmet>*/}
+                    {/*            </div>*/}
+                    {/*    </div>*/}
 
-                        {/* {status.map((team)=>{
-                            return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedStatus(e.target.id);advanceFilter()}}> {team.name}</li>)
-                        })} */}
-                    </MF_Select>
+                    {/*    /!* {status.map((team)=>{*/}
+                    {/*        return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedStatus(e.target.id);advanceFilter()}}> {team.name}</li>)*/}
+                    {/*    })} *!/*/}
+                    {/*</MF_Select>*/}
                             <div className={"filter_box "+(isFilterOpen?"active":"")}>
                                  <div className={"filter_icon"}  onClick={()=>setIsFilterOpen(!isFilterOpen)}></div>
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                <DashBroadFilter cancelClick={dashClear} confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } team={toggleSelectTeams} />
+                                                {/*<DashBroadFilter  confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } team={toggleSelectTeams} />*/}
                                     </div>
                                 </div>
                             </div>
 
-                        {renderAgents()}{renderTeams()}
+                        {/*{renderAgents()}{renderTeams()}*/}
                 </div>
                 <div className={"right"}>
                     {/* <div style={{position:"relative"}}>
@@ -369,12 +227,12 @@ export default function Agents() {
             </div>
             <div className="lineCardGroupSet">
                 {(selectedAgents.length>0||selectedTeams.length>0)?"":<div className="lineCardGroup1">
-                    <LineChartCard chart={true} img={false} title={"Agents"} data={[filteredData.length]}/>
-                    <LineChartCard chart={true} img={false} title={"Connected"} data={[filteredData.filter(e=>{return e[2]=="Connected"}).length]}/>
-                    <LineChartCard chart={true} img={false} title={"Disconnected"} data={[filteredData.filter(e=>e[2]=="Disconnected").length]}/>
-                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={[AllContacts]}/>
-                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={[7]}/>
-                    <AverageDailyCard data = {[AverDailyOnlineTime*60]}/>
+                    <LineChartCard chart={true} img={false} title={"Agents"} data={{data:users.length}}/>
+                    {/*<LineChartCard chart={true} img={false} title={"Connected"} data={[filteredData.filter(e=>{return e[2]=="Connected"}).length]}/>*/}
+                    {/*<LineChartCard chart={true} img={false} title={"Disconnected"} data={[filteredData.filter(e=>e[2]=="Disconnected").length]}/>*/}
+                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={{data:contacts.length}}/>
+                    <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={sortData(dash.new_added_contacts)[0]}/>
+                    {/*<AverageDailyCard data={null}/>*/}
                     {/* <LineChartCard chart={true} img={false} title={"Agents"} data={dash.agents_no}/>
                     <LineChartCard chart={true} img={false} title={"Connected"} data={dash.connected}/>
                     <LineChartCard chart={true} img={false} title={"Disconnected"} data={dash.disconnected}/>
@@ -383,25 +241,33 @@ export default function Agents() {
                     <AverageDailyCard data = {dash.avg_resp_time[1] * dash.total_msg_sent[1]}/> */}
                 </div>}
                 <div className="lineCardGroup2">
-                    <ChangingPercentageCard title={"Total Assigned Contacts"} data2={AllContacts} data1={[5]} definData={Defin} />
-                    <ChangingPercentageCard title={"Active Contacts"} data2={ActiveContacts} data1={[5]} definData={Defin} />
-                    <ChangingPercentageCard title={"Delivered Contacts"} data2={DeliveredContact} data1={[5]} definData={Defin} />
-                    <ChangingPercentageCard title={"Unhandled Contacts"} data2={UnhandeledContact} data1={[5]} definData={Defin} />
-                    <ChangingPercentageCard title={"Total Messages Received"} data2={[70]} data1={[5]} definData={Defin} />
-                    <ChangingPercentageCard title={"Total Messages Sent"} data2={TotalMessagesSent} data1={[5]} definData={Defin} />
-                    <ChangingPercentageCard title={"Average Response Time"} data2={AverageResponseTime} data1={[5]} definData={Defin} />
-                    <ChangingPercentageCard title={"Average First Response Time"} data1={AverageFirstResponse} data2={38}  definData={Defin} />
+                    <ChangingPercentageCard title={"Total Assigned Contacts"} data={sortData(dash.assigned_contacts)[0]} definData={Define} />
+                    <ChangingPercentageCard title={"Active Contacts"} data={sortData(dash.active_contacts)[0]}  definData={Define} />
+                    <ChangingPercentageCard title={"Delivered Contacts"} data={sortData(dash.delivered_contacts)[0]} definData={Define} />
+                    <ChangingPercentageCard title={"Unhandled Contacts"} data={sortData(dash.unhandled_contact)[0]}  definData={Define} />
+                    <ChangingPercentageCard title={"Total Messages Received"} data={sortData(dash.total_msg_recv)[0]}  definData={Define} />
+                    <ChangingPercentageCard title={"Total Messages Sent"} data={sortData(dash.total_msg_sent)[0]}  definData={Define} />
+                    <ChangingPercentageCard title={"Average Response Time"} data={sortData(dash.avg_resp_time)[0]}  definData={Define} />
+                    <ChangingPercentageCard title={"Average First Response Time"} data={sortData(dash.avg_total_first_resp_time)[0]}   definData={Define} />
                 </div>
             </div>
             <div className="chartGroup">
                 <div className="dashboardRow" style={{maxWidth:"1500px",width:"70w",display:"flex",justifyContent:"center",minHeight:"400px",margin:"0 auto"}}  >
                     <div className="dashboardBarColumn" >
-                        <MultipleBarChart title={"Agents"} yaxis={"Contacts"} h={"750px"}
-                                                                        active={handelList}
-                                                                        unhandled={unhandelList}
-                                                                        delivered={deilverList}
-                                                                        agents={agentsList}
-                                                                        min1={12} min2={12} min3={12} show={show}/></div>
+                        {/*<MultipleBarChart*/}
+                        {/*    title={"Agents"}*/}
+                        {/*    yaxis={"Contacts"}*/}
+                        {/*    h={"750px"}*/}
+                        {/*    min1={12}*/}
+                        {/*    min2={12}*/}
+                        {/*    min3={12}*/}
+                        {/*    show={show}*/}
+                        {/*    // active={handelList}*/}
+                        {/*    // unhandled={unhandelList}*/}
+                        {/*    // delivered={deilverList}*/}
+                        {/*    // agents={agentsList}*/}
+                        {/*/>*/}
+                    </div>
                 </div>
 
                 <div className="dashboardRow" style={{display:"flex",flexDirection:"column"}}>
@@ -427,7 +293,8 @@ export default function Agents() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {filteredData.length!=0 && currentContacts.map((data ,index) => {
+                                {/*{filteredData.length!=0 && currentContacts.map((data ,index) => {*/}
+                                {users.length!=0 && currentContacts.map((data ,index) => {
                                     return( <TableRow
                                             key={index}
                                             hover
@@ -444,27 +311,29 @@ export default function Agents() {
 
                                             </TableCell>
                                             <TableCell align="left">
-                                                <span >{data[0]}</span></TableCell>
+                                                <span >{data.username}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[1]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"role")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[2]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"team")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[3]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"assigned_contact")+sortAgents(dash.agents , data ,"delivered_contact")+sortAgents(dash.agents , data ,"unhandled_contact")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[4]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"assigned_contact")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[5]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"delivered_contact")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[6]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"unhandled_contact")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[7]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"message_recv")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[8]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"message_sent")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[9]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"avg_response_time")}</span></TableCell>
                                             <TableCell align="left">
-                                                <span >{data[10]}</span></TableCell>
+                                                <span >{sortAgents(dash.agents , data ,"first_response_time")}</span></TableCell>
+                                            {/*<TableCell align="left">*/}
+                                            {/*    <span >{sortAgents(dash.agents , data ,"all_contacts")}</span></TableCell>*/}
                                             {/* <TableCell align="left">
                                                 <span >{data[rolename[0]]}</span></TableCell>
                                             <TableCell align="left">
@@ -500,7 +369,7 @@ export default function Agents() {
                         </Table>
                     </TableContainer>
 
-                    <Pagination count={Math.ceil(filteredData.length/10)} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
+                    <Pagination count={Math.ceil(users.length/10)} page={currentPage} onChange={(e,value)=>{setCurrentPage(value)}}/>
 
                 </div>
             </div>

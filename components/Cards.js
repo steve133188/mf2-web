@@ -4,6 +4,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 import { DisconnectSVG, RefreshSVG } from '../public/intergration/intergSVG';
+import {array} from "i/lib/util";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function Card_channel(props) {
@@ -81,11 +82,10 @@ export function Card_channel(props) {
 
 export function LineChartCard({children,...props}) {
     const {data} = props;
+
     const [chartState, setChartState] = useState({
-        series1: [{
-            data: data
-        }],
-        options1: {
+        series:data.data||[],
+        options: {
             chart: {
                 type: 'line',
                 width: 100,
@@ -121,39 +121,31 @@ export function LineChartCard({children,...props}) {
 
     })
 
-    useEffect(() => {
-        setChartState({...chartState,
-            series1: [{
-                data: data,
-            }]
-        })
-    }, [])
 
     return (
         <div className="lineChartCard">
             <div className={"lineChartCardTitle"}>{props.title}</div>
             <div className={"contentGroup"}>
                 <div className={"dataGroup"}>
-                    <div className={"number"}>{props.number}</div>
+                    <div className={"number"}>{!Array.isArray(data.data)? data.data:data.data[data.data.length-1] }</div>
                     {/* <div className={"changingPercentagePos"}>{(data[data.length -1] -data[data.length -2]) / data[data.length -1]* 100 + "%"}</div> */}
                     <div style={{minHeight:"20px",width:"10px"}}></div>
                 </div>
                 {/*<Chart options={chartState.options1} series={chartState.series1} type="line" height={35} width={100} hidden={props.chart?!props.chart:true} />*/}
-                <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${props.channel??"Whatsapp"}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
+                <img key={"id"} width="32px" height="32px" src={`/channel_SVG/${data.channel??"Whatsapp"}.svg`}  hidden={props.img?!props.img:true}  alt=""/>
             </div>
         </div>
     )
 }
 
 export function ChangingPercentageCard({children,...props}) {
-    const {title, data1, data2} = props;
+    const {title, data} = props;
     let classnamee=  "changingPercentagePos"
     // let changing = ((data2 - data1) / data2 * 100).toFixed(2) + "%"
-    let changing = data1 + "%"
-
-    if(changing.charAt(0)=='-') {
-        classnamee = "changingPercentageNeg";
-    }
+    let changing = data.data + "%"
+    // if(changing.charAt(0)=='-') {
+    //     classnamee = "changingPercentageNeg";
+    // }
 
     return (
         <div className={"changingPercentageCard"}>
@@ -166,7 +158,7 @@ export function ChangingPercentageCard({children,...props}) {
                                     </div>
             </div>
             <div className={"dataGroup"}>
-                <div className={"number"}>{data2}</div>
+                <div className={"number"}>{data.data[data.data.length-1]}</div>
                 <div className={classnamee}>
                     {/* {changing} */}
                 </div>

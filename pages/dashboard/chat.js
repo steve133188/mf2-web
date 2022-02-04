@@ -150,13 +150,13 @@ export default function Chat() {
         let allData = []
         const messager = {
             name:"Facebook Messager",
-            number:0,
+            data:0,
             channel:"Messager"
         }
 
         const wechat = {
             name:"WeChat",
-            number:0,
+            data:0,
             channel:"WeChat"
         }
         console.log("render data cards : ",data )
@@ -166,7 +166,7 @@ export default function Chat() {
             const newData = {
                 name:d,
                 channel:d,
-                number:data[d][data[d].length -1]
+                data:data[d][data[d].length -1]
             }
             console.log("New data === " , newData)
             allData.push(newData)
@@ -175,7 +175,7 @@ export default function Chat() {
         allData.push(messager , wechat)
 
         return( allData.map((data , index)=>{
-                return <LineChartCard key={index} title={data.name} chart={false} img={true} number={data.number} channel={data.channel}/>
+                return <LineChartCard key={index} title={data.name} chart={false} img={true} data={data} channel={data.channel}/>
         })
     )
     }
@@ -307,16 +307,16 @@ export default function Chat() {
             <div className="chartGroup" >
                 <div className="dashboardRow">
                     <div className="dashboardColumn"><LineChart title={"All Contacts"} definition={""} series={sortData(dash.all_contacts)} x_cate={""}   xname={"Date"} yaxis={"Contacts"} total={dash.all_contacts.Whatsapp[dash.all_contacts.Whatsapp.length-1]} percentage={""} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} definition={"Number of contacts with successful conversation."} series={sortData(dash.active_contacts)}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={0} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} definition={"Number of contacts with successful conversation."} series={sortData(dash.active_contacts)}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={sortData(dash.active_contacts)[0].data[sortData(dash.active_contacts)[0].data.length-1]} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_sent)}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={0} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_recv)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={0} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_sent)}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={sortData(dash.total_msg_sent)[0].data[sortData(dash.total_msg_sent)[0].data.length-1]} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_recv)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={sortData(dash.total_msg_recv)[0].data[sortData(dash.total_msg_recv)[0].data.length-1]} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={"Number of contacts that are manually created, or by import, or by new channel integration."} series={sortData(dash.new_added_contacts)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Contacts"} total={0} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={"Average time of agents responding to contacts."} series={sortData(dash.avg_resp_time)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={"0"} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={"Number of contacts that are manually created, or by import, or by new channel integration."} series={sortData(dash.new_added_contacts)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Contacts"} total={sortData(dash.new_added_contacts)[0].data[sortData(dash.new_added_contacts).length-1]} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={"Average time of agents responding to contacts."} series={sortData(dash.avg_resp_time)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={sortData(dash.avg_resp_time)[0].data[sortData(dash.avg_resp_time)[0].data.length-1]} percentage={"+5%"} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>*/}
