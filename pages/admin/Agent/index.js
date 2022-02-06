@@ -25,7 +25,7 @@ import Loading from "../../../components/Loading";
 export default function Index() {
     const [isLoading, setIsLoading] = useState(true);
 
-    const {adminInstance ,contactInstance, userInstance, orgInstance,user} = useContext(GlobalContext)
+    const {roleInstance ,contactInstance, userInstance, orgInstance,user} = useContext(GlobalContext)
     const [selectedUsers , setSelectedUsers] = useState([])
 
     const searchRef = useRef(null)
@@ -56,7 +56,7 @@ export default function Index() {
     }
 
     const fetchUsers = async () =>{
-        const data = await userInstance.getAllUser()
+        const data = await roleInstance.getAllRoles()
         console.log("fetchUsers",data)
         setRoles(data)
         setFilteredData(data)
@@ -157,7 +157,7 @@ export default function Index() {
 
             <InnerSidebar/>
             <div className="rightContent">
-                {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser}/></Profile>):null}
+                {isProfileShow?           ( <Profile handleClose={toggleProfile}><UserProfileGrid data={useUser} teams={teams} roles={roles}/></Profile>):null}
                 {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditAgent data={selectedUsers[0]} toggle={toggleEditProfile} reload={reload} /></Profile>):null}
                 <MF_Modal show={isDelete} toggle={toggleDelete}>
                 <div className={"modal_form"}style={{minHeight:"130px",height:"130px"}}>

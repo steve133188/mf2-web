@@ -13,7 +13,13 @@ import Team_Select from "../../components/livechat/filter/Team_Select";
 import Newchatroom from "../../components/livechat/newchatroomPanel";
 import VoiceRecorder from "../../components/VoiceRecorder";
 import {Storage , API , graphqlOperation} from "aws-amplify";
-import {listChatrooms, queryMessage, listMF2TCOCHATROOMS, listMF2TCOMESSAGGES} from "../../src/graphql/queries";
+import {
+    listChatrooms,
+    queryMessage,
+    listMF2TCOCHATROOMS,
+    listMF2TCOMESSAGGES,
+    getMessageByMsgId
+} from "../../src/graphql/queries";
 import {createChatroom, updateChatroom, updateMF2TCOCHATROOM} from "../../src/graphql/mutations"
 import {
     subscribeChatroom,
@@ -173,16 +179,16 @@ export default function Live_chat() {
         console.log("typed message" , typedMsg)
     }
 
+
+
     const getChatroomMessage = async()=>{
-            // let condition ={limit:1000 , filter:{room_id:{eq:selectedChat.room_id} , channel:{eq:selectedChat.channel} }}
             const result = await API.graphql(graphqlOperation(queryMessage,{room_id:selectedChat.room_id}))
                 .then(async res=>{
                     setChatroomMsg([])
-                    setChatroomMsg(prev=>[...res.data.queryMessage.items])
-                    console.log("getChatroomMessage",chatroomMsg)
+                    setChatroomMsg([...res.data.queryMessage.items])
+                    console.log("getChatroomMessage",res.data.queryMessage.items)
                     if(res.data.queryMessage.items!==-1){
-
-                        let notFromMe = res.data.listMessages.items.filter(msg=>{
+                        let notFromMe = res.data.queryMessage.items.filter(msg=>{
                             return msg.from_me ==false
                     })
                     if(notFromMe.length==0) return
@@ -224,6 +230,8 @@ export default function Live_chat() {
             .catch(error => console.log(error))
 
     }
+
+
 
     // const listAllChat = async (next)=>{
     //     const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , nextToken:next}))
@@ -984,20 +992,19 @@ export default function Live_chat() {
                             >
                                 {/* <MsgRow msg={quoteMsg}/> */}
                                 <div style={{}} className="reply_box">
-                                                                            <div>
-                                                                                <div>{quoteMsg.from_me?quoteMsg.sign_name:chatUser.customer_name}</div>
-                                                                                    <div>{quoteMsg.message_type=="document"?<img src={"/livechat/attach.svg"}/>:""}{quoteMsg.body}</div>
-                                                                                    {quoteMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
-
-                                                                                    {quoteMsg.message_type=="video"?"Video":""}
-                                                                            </div>
-                                                                            <div className="media_div">
-                                                                                    {quoteMsg.message_type=="image"?<img src={quoteMsg.media_url}/>:""}
-                                                                                    {quoteMsg.message_type=="video"?<Player    className={"videoBox"} playsInline fluid={false} width={100} muted={true}>
-                                                                                    <source  src={quoteMsg.media_url}   type="video/mp4"/></Player>:""}
-                                                                                    {/* <div>{filePreview.size/1000}kb</div> */}
-                                                                            </div>
-                                                                        </div>
+                                    <div>
+                                        <div>{quoteMsg.from_me?quoteMsg.sign_name:chatUser.customer_name}</div>
+                                        <div>{quoteMsg.message_type=="document"?<img src={"/livechat/attach.svg"}/>:""}{quoteMsg.body}</div>
+                                        {quoteMsg.message_type=="voice"?<img src={"/livechat/recording.svg"}/>:""}
+                                        {quoteMsg.message_type=="video"?"Video":""}
+                                    </div>
+                                    <div className="media_div">
+                                        {quoteMsg.message_type=="image"?<img src={quoteMsg.media_url}/>:""}
+                                        {quoteMsg.message_type=="video"?<Player    className={"videoBox"} playsInline fluid={false} width={100} muted={true}>
+                                            <source  src={quoteMsg.media_url}   type="video/mp4"/></Player>:""}
+                                        {/* <div>{filePreview.size/1000}kb</div> */}
+                                    </div>
+                                </div>
                             </div>
                             }
 

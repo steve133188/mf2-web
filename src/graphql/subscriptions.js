@@ -42,6 +42,45 @@ export const suballChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
+    }
+  }
+`;
+export const subOwnChatroom = /* GraphQL */ `
+  subscription SubOwnChatroom($user_id: Int) {
+    subOwnChatroom(user_id: $user_id) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+      team_id
+    }
+  }
+`;
+export const subTeamChatroom = /* GraphQL */ `
+  subscription SubTeamChatroom($team_id: Int) {
+    subTeamChatroom(team_id: $team_id) {
+      channel
+      customer_id
+      is_pin
+      name
+      phone
+      room_id
+      country_code
+      unread
+      user_id
+      avatar
+      last_msg_time
+      bot_on
+      team_id
     }
   }
 `;
@@ -163,9 +202,9 @@ export const onUpdateActivity = /* GraphQL */ `
     }
   }
 `;
-export const eventListenr = /* GraphQL */ `
-  subscription EventListenr {
-    eventListenr {
+export const eventListener = /* GraphQL */ `
+  subscription EventListener($user_id: Int!) {
+    eventListener(user_id: $user_id) {
       timestamp
       payload
       action
@@ -321,6 +360,7 @@ export const onCreateChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
     }
   }
 `;
@@ -351,6 +391,7 @@ export const onUpdateChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
     }
   }
 `;
@@ -381,6 +422,7 @@ export const onDeleteChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
     }
   }
 `;

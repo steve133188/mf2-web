@@ -48,6 +48,7 @@ export default function ContantDetail({ data, ...props }) {
         const data = await contactInstance.getContactById(cid)
         setContact(data)
         const { tags, agents } = data
+        console.log("get Contact : " , )
         setSelectedTags(tags)
         setSelectedUsers(agents)
     }

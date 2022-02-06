@@ -34,12 +34,14 @@ export default function UserProfileGrid({data , roles , teams}){
     const renderRole = (rid , roles)=>{
         if(!rid|| rid==0) return "-"
         const agent_role =roles.find(r=>r.role_id== rid)
-        if(agent_role) return agent_role.role_name
+        console.log("agent role == " , agent_role )
+        if(agent_role) setRole(agent_role)
     }
 
     console.log(data)
     useEffect(async()=>{
-             await  fetchContacts()
+        renderRole(data.role_id , roles)
+        await  fetchContacts()
         //    fetch log by customer_id
         //    fetch assignee by customer_id
         //    fetch team by customer_id
@@ -105,7 +107,7 @@ export default function UserProfileGrid({data , roles , teams}){
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Email</span>
-                <span className={"info_content"}>{data.email}</span>
+                <span className={"info_content"}>{data.email||"-"}</span>
             </div>
             <div className={"info_row"}>
                 <span className={"info_label"}>Last Login</span>
@@ -119,7 +121,7 @@ export default function UserProfileGrid({data , roles , teams}){
                     <div className={"half_session block_session"}>
                         <div className={"top_row"}><span className={"title"}>Role</span></div>
                         <div className={"session_content"}>
-                            {data.role_id? `${renderRole(data.role_id , roles)}`:"No Role Assigned"}
+                            {role? role.role_name:"No Role Assigned"}
                         </div>
                         <div className={"top_row"}><span className={"title"}>Authority</span></div>
                         <div className={"session_content"} style={{padding:0}}>

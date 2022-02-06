@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import NotificationAlert from "../components/custom/noti";
 import {API, graphqlOperation} from "aws-amplify";
-import {eventListenr, subscribeToChatroom, subscribeToChatroomUpdate} from "../src/graphql/subscriptions";
+import {eventListener} from "../src/graphql/subscriptions";
 
 
 
@@ -42,14 +42,14 @@ export default function Layout({children}) {
 
     const sub = async ()=>{
         if(notiSub) notiSub.unsubscribe()
-        const s =await API.graphql(graphqlOperation(eventListenr ,{action:"RECEIVED_MESSAGE"})).subscribe({
+        const s =await API.graphql(graphqlOperation(eventListener ,{user_id:user.user_id})).subscribe({
             next:async newData=>{
                 console.log(newData)
-                if(newData.value.data.eventListenr.action == "RECEIVED_MESSAGE"){
+                if(newData.value.data.eventListener.action == "RECEIVED_MESSAGE"){
                     setUnread(unread=>unread+1)
                     if(openNoteList) setUnread(0)
-                    const res = await contactInstance.getContactById(parseInt(newData.value.data.eventListenr.customer_id))
-                    const data = {...newData.value.data.eventListenr , ...res}
+                    const res = await contactInstance.getContactById(parseInt(newData.value.data.eventListener.customer_id))
+                    const data = {...newData.value.data.eventListener , ...res}
                     console.log("data:",data)
                     setNotificationList(prev=>[data ,...prev ])
                     setShowNotificationList(prev=>[data, ...prev] )

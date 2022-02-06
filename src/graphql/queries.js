@@ -1,9 +1,82 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getChatroomByTeam = /* GraphQL */ `
+  query GetChatroomByTeam($team_id: Int!) {
+    getChatroomByTeam(team_id: $team_id) {
+      items {
+        channel
+        customer_id
+        is_pin
+        name
+        phone
+        room_id
+        country_code
+        unread
+        user_id
+        avatar
+        last_msg_time
+        bot_on
+        team_id
+      }
+      nextToken
+    }
+  }
+`;
+export const getChatroomByUser = /* GraphQL */ `
+  query GetChatroomByUser($user_id: Int!) {
+    getChatroomByUser(user_id: $user_id) {
+      items {
+        channel
+        customer_id
+        is_pin
+        name
+        phone
+        room_id
+        country_code
+        unread
+        user_id
+        avatar
+        last_msg_time
+        bot_on
+        team_id
+      }
+      nextToken
+    }
+  }
+`;
 export const queryMessage = /* GraphQL */ `
   query QueryMessage($room_id: String!) {
     queryMessage(room_id: $room_id) {
+      items {
+        room_id
+        timestamp
+        sender
+        recipient
+        body
+        is_media
+        channel
+        link
+        media_url
+        from_me
+        message_type
+        message_id
+        hasQuotedMsg
+        quote
+        is_forwarded
+        v_card
+        read
+        status
+        sign_name
+        quote_from
+      }
+      nextToken
+    }
+  }
+`;
+export const getMessageByMsgId = /* GraphQL */ `
+  query GetMessageByMsgId($message_id: String!) {
+    getMessageByMsgId(message_id: $message_id) {
       items {
         room_id
         timestamp
@@ -391,6 +464,7 @@ export const getChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
     }
   }
 `;
@@ -414,6 +488,7 @@ export const listChatrooms = /* GraphQL */ `
         avatar
         last_msg_time
         bot_on
+        team_id
       }
       nextToken
     }

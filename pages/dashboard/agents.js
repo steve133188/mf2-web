@@ -56,22 +56,21 @@ export default function Agents() {
         data_collected : 0
     })
 
-    // const default_cols = ["Name","Role","Status","Average Daily Onlie Time","All Contacts","Active Contacts","Delivered Contacts","Unhandeled Contacts","Total Messages Sent","Average Response Time","Average First Response Time",""];
     const default_cols = ["Name","Role","Team","All Contacts","Active Contacts","Delivered Contacts","Unhandeled Contacts","Total Messages Recv","Total Messages Sent","Average Response Time","Average First Response Time",""];
 
     const rolename =[
         "user_name",
-    "user_role_name",
-    "user_status",
-    "avgDailyOnline",
-    "assigned_contacts",
-    "active_contacts",
-    "delivered_contacts",
-    "unhandled_contact",
-    "msg_sent",
-    "avg_resp_time",
-    "first_resp_time",
-]
+        "user_role_name",
+        "user_status",
+        "avgDailyOnline",
+        "assigned_contacts",
+        "active_contacts",
+        "delivered_contacts",
+        "unhandled_contact",
+        "msg_sent",
+        "avg_resp_time",
+        "first_resp_time",
+    ]
 
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()

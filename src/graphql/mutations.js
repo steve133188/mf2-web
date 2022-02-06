@@ -388,6 +388,7 @@ export const createChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
     }
   }
 `;
@@ -406,6 +407,7 @@ export const updateChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
     }
   }
 `;
@@ -424,6 +426,7 @@ export const deleteChatroom = /* GraphQL */ `
       avatar
       last_msg_time
       bot_on
+      team_id
     }
   }
 `;
