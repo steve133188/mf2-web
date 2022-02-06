@@ -3,8 +3,8 @@
 
 .reply_box{
   width: 100%;
-  border-radius: 0px 5px 0px 0px;
-  padding: .5rem 0.9rem;
+  border-radius: 0px ;
+  padding: 0 0.9rem;
   border-left: 3px solid#2198FA;;
   display: flex;
   justify-content: space-between;
@@ -21,7 +21,7 @@
       height: 100%;
     }
   }}
- 
+
 .msg_row{
   position: relative;
   padding: 0.75rem;
@@ -59,7 +59,7 @@ audio{
   .reply{
     .msg_body{
    max-width: 100%;
-   padding: 0 3px;
+   padding: 0.25rem 3px;
    min-width: 40%;
    white-space:pre-wrap;
     width: fit-content;
@@ -76,8 +76,8 @@ audio{
     }}
   .reply_box{
     width: 100%;
-    border-radius: 8px 5px 3px 0px;
-    padding: .5rem 0.9rem;
+    border-radius: 0px;
+    padding: 0.25rem 0.5rem;
     background-color: #BBDEFF;
     border-left: 3px solid#2198FA;;
     display: flex;
@@ -85,7 +85,7 @@ audio{
     overflow: hidden;
     text-overflow: ellipsis;
     .media_div{
-  
+
       width: fit-content;
       height: 100%;
       max-height: 150px;
@@ -107,18 +107,18 @@ audio{
     .pop_half{
       padding: 3px 15px;
       height: 50%;
-  
+
       display: flex;
       justify-content: space-between;
         &:hover{
-  
+
       background: #2198FA 0% 0% no-repeat;
       border-radius: 10px;
       color:#FFF
       }
-      
+
     }
-  
+
   }
 .replyActive{
   box-shadow: -5px 10px 10px #0000001A;
@@ -137,8 +137,8 @@ audio{
     letter-spacing: 0.08px;
     color: #4E4E4E;
     opacity: 1;
-    padding: 1.5rem 1.5rem;  
-    
+    padding: 1.5rem 1.5rem;
+
   }
   .msg_body_highligh{
     max-width: 60%;
@@ -155,7 +155,7 @@ audio{
     padding: 0.5rem 1rem;
   }
 
-  .msg_type_image{ 
+  .msg_type_image{
     width: 45%;
     max-width: 450px;
     min-width: 200px;
@@ -167,18 +167,18 @@ audio{
     color: #4E4E4E;
     border-radius: 10px;
     opacity: 1;
-  
+
     .imageBox{
       background:#D0E9FF 0% 0% no-repeat padding-box;
       width: 100%;
       object-fit: contain;
       border-radius: 10px;
-      padding: 0.5rem 0.5rem;  
-    } 
+      padding: 0.5rem 0.5rem;
+    }
   }
 
   .msg_type_imageCaption{
-    
+
     width: 45%;
     max-width: 450px;
     min-width: 200px;
@@ -194,15 +194,15 @@ audio{
       letter-spacing: 0.08px;
       border-radius: 10px;
       opacity: 1;
-      // padding: 0.5rem 0.5rem;  
+      // padding: 0.5rem 0.5rem;
     .imageBox{
       width: 100%;
       // max-width: 360px;
       min-width: 200px;
       height: auto;
       border-radius: 10px;
-      padding: 0.5rem 0.5rem; 
-    } 
+      padding: 0.5rem 0.5rem;
+    }
     .imageMessage{
         white-space:pre-wrap;
     margin-left: auto;
@@ -211,7 +211,7 @@ audio{
     letter-spacing: 0.08px;
     color: #4E4E4E;
     opacity: 1;
-    padding: 0.5rem 1rem 1rem; 
+    padding: 0.5rem 1rem 1rem;
     border-radius: 10px;
     // background: #D0E9FF 0% 0% no-repeat padding-box;
 
@@ -220,7 +220,7 @@ audio{
     .bigImageBox{
       width: 30vw;
       height: auto;
-      position: absolute; 
+      position: absolute;
       right: 0;
       bottom: 3rem;
 
@@ -229,7 +229,7 @@ audio{
   }
 
   .msg_type_video{
-    
+
       width: 40%;
       max-width: 420px;
       min-width: 375px;
@@ -246,13 +246,13 @@ audio{
       letter-spacing: 0.08px;
       border-radius: 10px;
       opacity: 1;
-      padding: 0.5rem 0.5rem;  
+      padding: 0.5rem 0.5rem;
     .videoBox{
       width: 100%;
       max-width: 420px;
       min-width: 200px;
       height: auto;
-    } 
+    }
     .imageMessage{
         white-space:pre-wrap;
       width: 100%;
@@ -262,11 +262,11 @@ audio{
       letter-spacing: 0.08px;
       color: #4E4E4E;
       opacity: 1;
-      padding: .7rem 1rem; 
+      padding: .7rem 1rem;
       border-radius: 10px;
       // background: #D0E9FF 0% 0% no-repeat padding-box;
-  
-  
+
+
       }
   }
   .msg_type_attachment{
@@ -282,7 +282,7 @@ audio{
     color: #4E4E4E;
     border-radius: 10px;
     opacity: 1;
-    padding: 0.3rem 0.3rem;  
+    padding: 0.3rem 0.3rem;
 
     // div{
     // }
@@ -295,7 +295,7 @@ audio{
         align-items: center;
         background:white 0% 0% no-repeat padding-box;
         border-radius: 10px;
-        padding: 1rem 1rem; 
+        padding: 1rem 1rem;
           .attachmentPinLogo{
             padding: 1rem;
             // fill: red;
@@ -328,7 +328,7 @@ audio{
     color: #4E4E4E;
     border-radius: 26px 26px 0px 26px;
     opacity: 1;
-    padding: 0.5rem 0.5rem;     
+    padding: 0.5rem 0.5rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -345,7 +345,6 @@ audio{
     }
     .msg_type_url{
       display: block;
-      
       height: 35px;
       max-height: 400px;
       width: fit-content;
@@ -361,12 +360,10 @@ audio{
       overflow: hidden;
 
       a{
-
         max-width: 200px;
         display: inline-block;
-      min-width: 120px;
+        min-width: 120px;
         max-height: 350px;
-
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -387,7 +384,7 @@ audio{
     color: #4E4E4E;
     border-radius: 30px 30px 0px 30px;
     opacity: 1;
-    padding: 0.2rem .1rem 0rem;  
+    padding: 0.2rem .1rem 0rem;
 
 
     // .voice_box{
@@ -400,7 +397,7 @@ audio{
     //   object-fit: contain;
     //   // border-radius: 10px;
     // }
-  
+
     .voice_detail{
       width: 100%;
       height:100%;
@@ -408,7 +405,7 @@ audio{
       // height: fit-content;
       // background: #FFFFFF 0% 0% no-repeat padding-box;
       border-radius: 26px 26px 0px 0px;
-      padding: 0.3rem 0.3rem;  
+      padding: 0.3rem 0.3rem;
       opacity: 1;
     }
     .msg_voice_box{
@@ -443,12 +440,12 @@ audio{
     opacity: 1;
     border-radius: 10px;
     opacity: 1;
-  
+
     .imageBox{
       background: transparent 0% 0% no-repeat padding-box;
       width: 100%;
       object-fit: contain;
-  
+
     }
   }
     .msg_timestamp{
@@ -470,13 +467,13 @@ audio{
   }
   .reply{
     .msg_body{
-   max-width: 100%;
-   padding: 0 3px;
+   width: 100%;
+   padding: 0.25rem 3px;
     }}
   .reply_box{
     width: 100%;
-    border-radius: 8px 5px 3px 0px;
-    padding: .5rem 0.9rem;
+    border-radius: 0px;
+    padding: 0rem 0.9rem;
     background-color: white;
     border-left: 3px solid#2198FA;;
     display: flex;
@@ -485,7 +482,7 @@ audio{
     overflow: hidden;
     text-overflow: ellipsis;
     .media_div{
-  
+
       width: fit-content;
       height: 100%;
       max-height: 150px;
@@ -517,12 +514,12 @@ audio{
     border-radius: 10px;
     color:#FFF
     }
-    
+
   }
 
 }
   .msg_body{
-      white-space:pre-wrap;
+    white-space:pre-wrap;
     max-width: 60%;
     width: fit-content;
     background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -534,7 +531,7 @@ audio{
     letter-spacing: 0.08px;
     color: #4E4E4E;
     opacity: 1;
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 1rem;
   }
   .msg_body_highligh{
     max-width: 60%;
@@ -551,7 +548,7 @@ audio{
     padding: 0.5rem 1rem;
   }
 
-  .msg_type_image{    
+  .msg_type_image{
     width: 45%;
     max-width: 450px;
     min-width: 200px;
@@ -563,17 +560,17 @@ audio{
     color: #4E4E4E;
     border-radius: 10px;
     opacity: 1;
-  
+
     .imageBox{
       background: white 0% 0% no-repeat padding-box;
       width: 100%;
       object-fit: contain;
       border-radius: 10px;
-      padding: 0.5rem 0.5rem;  
-    } 
+      padding: 0.5rem 0.5rem;
+    }
   }
   .msg_type_imageCaption{
-    
+
     width: 45%;
     max-width: 450px;
     min-width: 200px;
@@ -589,15 +586,15 @@ audio{
     letter-spacing: 0.08px;
     border-radius: 10px;
     opacity: 1;
-    // padding: 0.5rem 0.5rem;  
+    // padding: 0.5rem 0.5rem;
   .imageBox{
     width: 100%;
     // max-width: 360px;
     min-width: 200px;
     height: auto;
     border-radius: 10px;
-    padding: 0.5rem 0.5rem; 
-  } 
+    padding: 0.5rem 0.5rem;
+  }
   .imageMessage{
     white-space:pre-wrap;
     width: 100%;
@@ -607,7 +604,7 @@ audio{
     letter-spacing: 0.08px;
     color: #4E4E4E;
     opacity: 1;
-    padding: .7rem 1rem; 
+    padding: .7rem 1rem;
     border-radius: 10px;
     // background: #D0E9FF 0% 0% no-repeat padding-box;
 
@@ -616,14 +613,14 @@ audio{
     .bigImageBox{
       width: 30vw;
       height: auto;
-      position: absolute; 
+      position: absolute;
       left: 0;
       bottom: 3rem;
-    } 
+    }
   }
   .msg_type_video{
-    
-     
+
+
       width: 40%;
       max-width: 420px;
       min-width: 375px;
@@ -641,7 +638,7 @@ audio{
       letter-spacing: 0.08px;
       border-radius: 10px;
       opacity: 1;
-      padding: 0.5rem 0.5rem;  
+      padding: 0.5rem 0.5rem;
       .videoBox{
         width: 100%;
         max-width: 420px;
@@ -657,11 +654,11 @@ audio{
       letter-spacing: 0.08px;
       color: #4E4E4E;
       opacity: 1;
-      padding: .7rem 1rem; 
+      padding: .7rem 1rem;
       border-radius: 10px;
       // background: #D0E9FF 0% 0% no-repeat padding-box;
-  
-    
+
+
         }
   }
 
@@ -678,7 +675,7 @@ audio{
     color: #4E4E4E;
     border-radius: 30px 30px 30px 0px;
     opacity: 1;
-    padding: 0.2rem .1rem 0rem;  
+    padding: 0.2rem .1rem 0rem;
 
 
     // .voice_box{
@@ -691,7 +688,7 @@ audio{
     //   object-fit: contain;
     //   // border-radius: 10px;
     // }
-  
+
     .voice_detail{
       width: 100%;
       height:100%;
@@ -699,7 +696,7 @@ audio{
       // height: fit-content;
       // background: #FFFFFF 0% 0% no-repeat padding-box;
       border-radius: 26px 26px 0px 0px;
-      padding: 0.3rem 0.3rem;  
+      padding: 0.3rem 0.3rem;
       opacity: 1;
     }
     .msg_voice_box{
@@ -733,7 +730,7 @@ audio{
     color: #4E4E4E;
     border-radius: 10px;
     opacity: 1;
-    padding: 0.3rem 0.3rem;  
+    padding: 0.3rem 0.3rem;
 
     // div{
     // }
@@ -746,7 +743,7 @@ audio{
         align-items: center;
         background:white 0% 0% no-repeat padding-box;
         border-radius: 10px;
-        padding: 1rem 1rem; 
+        padding: 1rem 1rem;
           .attachmentPinLogo{
             padding: 1rem;
             // fill: red;
@@ -779,12 +776,12 @@ audio{
     color: #4E4E4E;
     border-radius: 26px 26px 0px 26px;
     opacity: 1;
-    padding: 0.5rem 0.5rem;  
+    padding: 0.5rem 0.5rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 
-  
+
     .url_detail{
       // width: fit-content;
       min-height: 60px;
@@ -792,14 +789,14 @@ audio{
       background: #FFFFFF 0% 0% no-repeat padding-box;
       border-radius: 26px 26px 0px 0px;
 
-      padding: 0.5rem 0.8rem;  
+      padding: 0.5rem 0.8rem;
       opacity: 1;
     }.url_box{
-      
+
     }
     .msg_type_url{
       display: block;
-      
+
       height: 35px;
       max-height: 400px;
       width: fit-content;
@@ -863,7 +860,7 @@ audio{
 
 
 .msg_type_emoji{
-  
+
 }
 
 

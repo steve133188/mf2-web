@@ -54,6 +54,9 @@ export default function MsgRow({msg, isSearch, refProp, replyHandle, confirmRepl
             await getQuoteMsg(msg.message_id)
         }
     },[])
+    const renderQuote = (msg)=>{
+        return (<div>{messageType(msg)}</div>)
+    }
 
     const messageType = (msg) => {
         // console.log(msg.room_id,"msg.room_id msg.room_id",msg.room_id,"sadasdsad",msg.timestamp)
@@ -197,7 +200,7 @@ export default function MsgRow({msg, isSearch, refProp, replyHandle, confirmRepl
                     <div style={{
                         width: "fit-content",
                         maxWidth: "50%",
-                        padding: "2%",
+                        padding: "1%",
                         borderRadius: "10px",
                         marginLeft: msg.from_me ? "auto" : "0",
                         backgroundColor: (msg.from_me ? "#D0E9FF" : "white")
