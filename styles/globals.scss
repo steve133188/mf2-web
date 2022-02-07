@@ -304,10 +304,9 @@ svg{
   flex-direction: column;
   gap:1rem;
 }
+
 .msg_noti_popup{
   min-width:350px;
-  //height: 56px;
-  //margin:2rem 0 2rem 2rem;
   padding: 0.5rem;
   cursor: pointer;
   display: flex;
@@ -344,11 +343,7 @@ svg{
     width:26px;
     height:26px;
   }
-  // .MuiAvatar-root{
-  //   background-color: #D0E9FF !important;
-  //   color:#2198FA !important;
 
-  // }
   .MuiTab-root {
     min-height: 30px;
   }
