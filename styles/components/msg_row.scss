@@ -30,7 +30,7 @@ audio::-webkit-media-controls-panel{
   margin: 5px 0;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 26px 26px 26px 0px;
-  width: 60%;
+  max-width: 50%;
   white-space:pre-wrap;
   width: fit-content;
   opacity: 1;
@@ -38,29 +38,34 @@ audio::-webkit-media-controls-panel{
   color: #4E4E4E;
   opacity: 1;
   height: auto;
-  padding: 0.5rem ;
+  padding: 0.25rem ;
 
   .content{
-    padding: 0.25rem 1rem;
+    white-space:pre-wrap;
+    max-width: 400px;
+    padding: 0.5rem 1rem;
     text-align: left;
     font: normal normal normal 1rem Manrope;
   }
 
   img{
-    max-height: 200px;
-    object-fit:contain;
+    height: 400px;
+    width: 100%;
+    //object-fit:cover;
     height: 100%;
     border-radius: 26px 26px 26px 0px !important;
   }
 
   .videoBox  {
-    margin:  0 auto;
+    //margin:  0 ;
     width: 100%;
     height: auto;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    video{
-      border-radius: 26px 26px 26px 0px;
-    }
+    //max-height: 30vh;
+    background:inherit;
+    border-radius: 26px;
+    display: flex !important;
+    video{border-radius: 26px 26px 26px 0px;}
+
   }
 
 }
@@ -69,16 +74,15 @@ audio::-webkit-media-controls-panel{
 
   .msg_timestamp{ text-align: right; }
 
-  .msg_body{
-    margin-left: auto;
-    border-radius: 26px 26px 0px 26px;
-  }
+  .msg_body , img {border-radius: 26px 26px 0px 26px  !important;}
+
+  .msg_body{margin-left: auto;}
 
   .msg_type_imageCaption , .msg_body{ background: #D0E9FF 0% 0% no-repeat padding-box; }
 
-  video{ border-radius: 26px 26px 26px 0px; }
+  video{ border-radius: 26px 26px 0px 26px  !important; }
 
-}
+  }
 
 
 
@@ -152,19 +156,13 @@ audio::-webkit-media-controls-panel{
   border-radius: 10px;
   opacity: 1;
 
-  .imageBox{
-    background: white 0% 0% no-repeat padding-box;
-    width: 100%;
-    object-fit: contain;
-    border-radius: 10px;
-    padding: 0.5rem 0.5rem;
-  }
+
 }
 .msg_type_imageCaption{
   width: 100%;
-  max-width: 450px;
   min-width: 200px;
   height: auto;
+  border-radius: inherit;
   background: var(--unnamed-color-d0e9ff) 0% 0% no-repeat padding-box;
   background: white 0% 0% no-repeat padding-box;
   margin-left: 0;
@@ -174,18 +172,7 @@ audio::-webkit-media-controls-panel{
   text-align: left;
   font: normal normal normal 1rem Manrope;
   letter-spacing: 0.08px;
-  border-radius: 10px;
   opacity: 1;
-  // padding: 0.5rem 0.5rem;
-  .imageBox{
-    width: 100%;
-    // max-width: 360px;
-    min-width: 200px;
-    //height: auto;
-    border-radius: 10px;
-    //padding: 0.5rem 0.5rem;
-  }
-
   .bigImageBox{
     width: 30vw;
     height: auto;
@@ -195,8 +182,6 @@ audio::-webkit-media-controls-panel{
   }
 }
 .msg_type_video{
-
-
   width: 40%;
   max-width: 420px;
   min-width: 375px;
@@ -221,31 +206,19 @@ audio::-webkit-media-controls-panel{
 .imageMessage{
   white-space:pre-wrap;
   width: 100%;
+  display: flex;
+  justify-content: center;
   //margin-left: auto;
   text-align: left;
   font: normal normal normal 1rem Manrope;
-  letter-spacing: 0.08px;
+  //letter-spacing: 0.08px;
   color: #4E4E4E;
   opacity: 1;
-  //padding: 1rem;
+  padding: 1rem;
   border-radius: 10px;
-  // background: #D0E9FF 0% 0% no-repeat padding-box;
+  margin: 0;
 }
-.imageMessage{
-  //white-space:pre-wrap;
-  width: 100%;
-  margin-left: auto;
-  text-align: left;
-  //font: normal normal normal 1rem Manrope;
-  letter-spacing: 0.08px;
-  color: #4E4E4E;
-  opacity: 1;
-  //padding: .5rem;
-  //border-radius: 10px;
-  // background: #D0E9FF 0% 0% no-repeat padding-box;
 
-
-}
 .msg_type_voice{
   min-height: 40px;
   width: 40%;
@@ -262,23 +235,10 @@ audio::-webkit-media-controls-panel{
   padding: 0.2rem .1rem 0rem;
 
 
-  // .voice_box{
-
-  //   max-width: 350px;
-  //   width: fit-content;
-  //   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
-  //   border-radius: 26px 26px 0px 26px;
-  //   height: auto;
-  //   object-fit: contain;
-  //   // border-radius: 10px;
-  // }
-
   .voice_detail{
     width: 100%;
     height:100%;
     min-height: 50px;
-    // height: fit-content;
-    // background: #FFFFFF 0% 0% no-repeat padding-box;
     border-radius: 26px 26px 0px 0px;
     padding: 0.3rem 0.3rem;
     opacity: 1;
@@ -315,10 +275,6 @@ audio::-webkit-media-controls-panel{
   border-radius: 10px;
   opacity: 1;
   padding: 0.3rem 0.3rem;
-
-  // div{
-  // }
-
 }
 .url_body{
   min-height: 30px;
@@ -395,13 +351,6 @@ audio::-webkit-media-controls-panel{
   opacity: 1;
   border-radius: 10px;
   opacity: 1;
-
-  .imageBox{
-    background: transparent 0% 0% no-repeat padding-box;
-    width: 100%;
-    object-fit: contain;
-
-  }
 }
 
 .msg_timestamp{
@@ -413,17 +362,14 @@ audio::-webkit-media-controls-panel{
 }
 .attachmentBox{
   height: 77px;
-  //max-width: 350px;
   display: flex;
   flex-direction: row;
-  // justify-content: space-between;
   align-items: center;
   background:white 0% 0% no-repeat padding-box;
   border-radius: 10px;
   padding: 1rem 1rem;
   .attachmentPinLogo{
     padding: 1rem;
-    // fill: red;
   }
 
   .attachmentBody{

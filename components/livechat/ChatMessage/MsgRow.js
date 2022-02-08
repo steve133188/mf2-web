@@ -8,7 +8,7 @@ import {API, graphqlOperation} from "aws-amplify";
 import {getMessageByMsgId} from "../../../src/graphql/queries";
 
 
-export default function MsgRow({msg, refProp, replyHandle, confirmReply, confirmForward, ...props}) {
+export default function MsgRow({msg, confirmReply, confirmForward, ...props}) {
 
     const {user} = useContext(GlobalContext)
     const [isLoading , setIsLoading]  = useState(true)
@@ -53,16 +53,17 @@ export default function MsgRow({msg, refProp, replyHandle, confirmReply, confirm
     const messageType = (msg) => {
         switch (msg.message_type) {
             case "replyMsg":
-                return <div id={"reply" + msg.timestamp} value={msg.timestamp}
-                            className={"msg_type_image" + (props.replyMsg == msg.timestamp ? " replyActive" : "")}></div>;
+                return <div id={"reply" + msg.timestamp} value={msg.timestamp} className={"msg_type_image"}></div>;
+            // <div id={"reply" + msg.timestamp} value={msg.timestamp}
+            //                 className={"msg_type_image" + (props.replyMsg == msg.timestamp ? " replyActive" : "")}></div>;
             case "sticker":
                 return <img id={msg.timestamp}  value={msg.timestamp} className={"imageBox"} src={msg.media_url}/>;
             case "IMAGE":
             case "image":
                 if (msg.body) {
                     return <div id={msg.timestamp} value={msg.timestamp}
-                                className={"msg_type_imageCaption" + (props.replyMsg == msg.timestamp ? " replyActive" : "")}>
-                        {props.replyMsg&&<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>}
+                                className={"msg_type_imageCaption" }>
+                        {/*{props.replyMsg&&<Reply confirmReply={confirmReply} confirmForward={confirmForward}/>}*/}
                         <img id={msg.timestamp} className={"imageBox"} src={msg.media_url} onClick={() => {
                             setImageOpen(!isImageOpen)
                         }}/>
