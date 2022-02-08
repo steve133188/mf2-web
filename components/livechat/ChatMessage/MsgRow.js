@@ -66,10 +66,7 @@ export default function MsgRow({msg, refProp, replyHandle, confirmReply, confirm
                         <img id={msg.timestamp} className={"imageBox"} src={msg.media_url} onClick={() => {
                             setImageOpen(!isImageOpen)
                         }}/>
-                        {/*<div id={msg.timestamp} value={msg.timestamp}*/}
-                        {/*     className={"imageMessage"}>*/}
                             <div className={"content"}>{msg.body}</div>
-                        {/*</div>*/}
                     </div>
                 }else{
                     return <img id={msg.timestamp}className={"imageBox"}src={msg.media_url}/>
