@@ -66,8 +66,10 @@ export default function MsgRow({msg, refProp, replyHandle, confirmReply, confirm
                         <img id={msg.timestamp} className={"imageBox"} src={msg.media_url} onClick={() => {
                             setImageOpen(!isImageOpen)
                         }}/>
-                        <div id={msg.timestamp} value={msg.timestamp}
-                             className={"imageMessage"}><div className={"content"}>{msg.body}</div> </div>
+                        {/*<div id={msg.timestamp} value={msg.timestamp}*/}
+                        {/*     className={"imageMessage"}>*/}
+                            <div className={"content"}>{msg.body}</div>
+                        {/*</div>*/}
                     </div>
                 }else{
                     return <img id={msg.timestamp}className={"imageBox"}src={msg.media_url}/>
@@ -75,12 +77,16 @@ export default function MsgRow({msg, refProp, replyHandle, confirmReply, confirm
             case "VIDEO":
             case "video":
                 return <>
-                    <Player className={"videoBox"} playsInline fluid={false} width={360} muted={true}>
+                    <Player className={"videoBox"} playsInline fluid={false}  muted={true}>
                         <BigPlayButton position="center"/>
                         <source src={msg.media_url} type="video/mp4"/>
                     </Player>
-                    <div id={msg.timestamp}  value={msg.timestamp}
-                         className={"imageMessage"}>{msg.body}</div>
+                    {msg.body&& <div id={msg.timestamp}
+                                     value={msg.timestamp}
+                                     className={"imageMessage"}
+                    >
+                        {msg.body}
+                    </div>}
                     </>;
 
             case "ptt":
@@ -117,7 +123,6 @@ export default function MsgRow({msg, refProp, replyHandle, confirmReply, confirm
 
     return (
         <div className={"msg_row "+(msg.from_me&&"msg_from_me")} id={msg.timestamp}>
-            {/*Message bubble*/}
             {/*Message body start*/}
             <div className={"msg_body "}>
                 {msg.hasQuotedMsg ?
