@@ -19,27 +19,27 @@ export default function dashboardFetcher(token){
     }
 
     instance.getLiveChatTimeRangeData = async (start , end)=>{
-        return await instance.fetcher.get(`/livechat` ,{params: {start , end} }).then(res=>res.data).catch(err=>{
+        return await instance.fetcher.get(`/dashboard/livechat` ,{params: {start , end} }).then(res=>res.data).catch(err=>{
             console.log(err)})
     }
 
     instance.getLiveChatTimeChannelData = async (start , end, channel)=>{
-        return await instance.fetcher.get(`/livechat/channel` ,{params: {start , end, channel} }).then(res=>res.data).catch(err=>{
+        return await instance.fetcher.get(`/dashboard/livechat/channel` ,{params: {start , end, channel} }).then(res=>res.data).catch(err=>{
             console.log(err)})
     }
 
     instance.getAgentDefaultData = async (start , end)=>{
-        return await instance.fetcher.get(`/agent` , {params: {start , end}}).then(res=>res.data).catch(err=>{
+        return await instance.fetcher.get(`/dashboard/agent` , {params: {start , end}}).then(res=>res.data).catch(err=>{
             console.log(err)})
     }
 
     instance.getAgentRangeData = async (start , end)=>{
-        return await instance.fetcher.get(`/agent` ,{params: {start , end} }).then(res=>res.data).catch(err=>{
+        return await instance.fetcher.get(`/dashboard/agent` ,{params: {start , end} }).then(res=>res.data).catch(err=>{
             console.log(err)})
     }
 
     instance.getAgentTimeChannelData = async (start , end, channel)=>{
-        return await instance.fetcher.get(`/agent/channel` ,{params: {start , end, channel} }).then(res=>res.data).catch(err=>{
+        return await instance.fetcher.get(`/dashboard/agent/channel` ,{params: {start , end, channel} }).then(res=>res.data).catch(err=>{
             console.log(err)})
     }
 

@@ -44,6 +44,7 @@ export default function Chat() {
     const [totalMessageReceived , setTotalMessageReceived] =useState()
     const [totalMessageSent, setTotalMessageSent] =useState()
     const [unHandleContacts , setUnHandleContacts] =useState()
+    const [chartData , setChartData] =useState()
 
     const [dayState,setDayState] = useState({from:"",to:""})
 
@@ -70,10 +71,43 @@ export default function Chat() {
 
     }
 
+    const submitDate =async ()=>{
+        let s = Date.parse(dayState.from)/1000 , e = Date.parse(dayState.to)/1000
+        console.log("day state from : " ,s )
+        console.log("day state to :" ,e)
+        setIsLoading(true)
+        const data = await dashboardInstance.getLiveChatTimeRangeData(s,e)
+
+        console.log("get dashboard data : " , data)
+
+        setDash(data)
+
+        processData(data)
+        setIsLoading(false)
+    }
+
+    const processData = (data)=>{
+
+        let all_contact, com_hour , active_contact , msg_sent, msg_recv , new_add , avg_res;
+
+        active_contact = sortData(data.active_contacts)
+        msg_sent = sortData(data.total_msg_sent)
+        msg_recv = sortData(data.total_msg_recv)
+        new_add = sortData(data.new_added_contacts)
+        avg_res = sortData(data.avg_resp_time)
+        all_contact = sortData(data.all_contacts)
+        com_hour = sortData(data.communication_hours)
+
+
+        setChartData({ active_contact, msg_sent , msg_recv , new_add , avg_res , all_contact , com_hour})
+        console.log(active_contact)
+    }
+
+
     const sortData = (data)=>{
         if(!data) return [{"name":"no data" , "data":[0]}]
         const keys = Object.keys(data)
-        console.log("keys : " , keys)
+
         const res = [];
         const all = []
         for(let d in data){
@@ -86,24 +120,33 @@ export default function Chat() {
                     all[i]  += data[d][i]
                 }
             }
-            console.log(data[d])
-
         }
-        console.log("all data : " , all)
-        res.push({"name":"All" , data:all})
+        res.push({name:"All" ,data:all})
         for(let i = 0 ; i <keys.length ; i++){
             res.push({
                 "name":keys[i],
                 "data":data[keys[i]]
             })
         }
-        console.log("render data : " , res)
+
         return res
+    }
+
+    const initDate = ()=>{
+        let s = new Date() , e = new Date()
+
+        s.setDate(s.getDate()-1)
+
+        e.setDate(e.getDate()-7)
+
+        setDayState({from:s,to:e })
+
     }
 
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
       setDayState(range);
+        console.log("date = " , range)
     }
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
@@ -143,7 +186,11 @@ export default function Chat() {
         let data = await dashboardInstance.getLiveChatDefaultData()
 
         setDash(prevState => data)
-        console.log("fetch data : " , data )
+
+        processData(data)
+
+
+        console.log(chartData)
     }
 
     const renderChannelsContacts = (data)=>{
@@ -160,16 +207,15 @@ export default function Chat() {
             data:0,
             channel:"Wechat"
         }
-        console.log("render data cards : ",data )
+
         for (let d in data){
-            console.log("looped card data :",data[d])
-            console.log("d== ", d)
+
             const newData = {
                 name:d,
                 channel:d,
                 data:data[d][data[d].length -1]
             }
-            console.log("New data === " , newData)
+
             allData.push(newData)
         }
 
@@ -186,6 +232,7 @@ export default function Chat() {
             await fetchDefault()
             await getTags();
             await fetchContacts();
+            initDate()
             setIsLoading(false)
         }
 
@@ -197,7 +244,7 @@ export default function Chat() {
                 <div className={"dashboard-layout"}>
             <div className="navbarPurple">
                 <div className={"left"}>
-                    <MF_Select head={"Period"} top_head={"Period"} customeDropdown={"calender"}>
+                    <MF_Select head={"Period"} top_head={"Period"} submit={submitDate} customeDropdown={"calender"}>
 
                         <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
                         <div style={{position:"absolute"}}>
@@ -218,12 +265,10 @@ export default function Chat() {
                                                 border-radius: 0 !important;
                                             }
                                             .Selectable .DayPicker-Day--start {
-                                                border-top-left-radius: 50% !important;
-                                                border-bottom-left-radius: 50% !important;
+                                                border-radius: 50% !important;
                                             }
                                             .Selectable .DayPicker-Day--end {
-                                                border-top-right-radius: 50% !important;
-                                                border-bottom-right-radius: 50% !important;
+                                                 border-radius: 50% !important;
                                             }
                                             `}</style>
                                     </Helmet>
@@ -295,10 +340,7 @@ export default function Chat() {
                         <div className={"card_holder"}>
 
                             {dash.all_contacts&&renderChannelsContacts(dash.all_contacts)}
-                        {/*{channelData.map((data2,index)=>{*/}
-                        {/*    return  <LineChartCard key={index} title={data2.name} chart={false} img={true} d={data2} data = {[data2.number]} channel={data2.value} />*/}
-                        {/*})*/}
-                        {/*}*/}
+
                         </div>
                     </div>
 
@@ -307,21 +349,21 @@ export default function Chat() {
             </div>
             <div className="chartGroup" >
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"All Contacts"} definition={""} series={sortData(dash.all_contacts)} x_cate={""}   xname={"Date"} yaxis={"Contacts"} total={dash.all_contacts.Whatsapp[dash.all_contacts.Whatsapp.length-1]} percentage={""} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} definition={"Number of contacts with successful conversation."} series={sortData(dash.active_contacts)}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={sortData(dash.active_contacts)[0].data[sortData(dash.active_contacts)[0].data.length-1]} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"All Contacts"} definition={""} series={chartData.all_contact} x_cate={""}   xname={"Date"} yaxis={"Contacts"} total={chartData.all_contact[0].data[chartData.all_contact[0].data.length-1]}  /></div>
+                    <div className="dashboardColumn"><LineChart title={"Active Contacts"} definition={"Number of contacts with successful conversation."} series={chartData.active_contact}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Contacts"} total={chartData.active_contact[0].data[chartData.active_contact[0].data.length-1]} /></div>
                 </div>
                 <div className="dashboardRow">
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_sent)}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={sortData(dash.total_msg_sent)[0].data[sortData(dash.total_msg_sent)[0].data.length-1]} percentage={"+5%"} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} series={sortData(dash.total_msg_recv)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={sortData(dash.total_msg_recv)[0].data[sortData(dash.total_msg_recv)[0].data.length-1]} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Sent"} definition={"Total number of messages received from contacts."} series={chartData.msg_sent}  x_cate={dash.yaxis} xname={"Date"} yaxis={"Messages"} total={chartData.msg_sent[0].data[chartData.msg_sent[0].data.length-1]}  /></div>
+                    <div className="dashboardColumn"><LineChart title={"Total Messages Received"} definition={"Total number of messages received from contacts."} series={chartData.msg_recv} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Messages"} total={chartData.msg_recv[0].data[chartData.msg_recv[0].data.length-1]}/></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"All Contacts"} data={[40, 24, 37, 39, 21, 14, 19, 36, 27, 31, 28, 14]}  x_cate={[]} yaxis={"Enquiries"} total={"14"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={"Number of contacts that are manually created, or by import, or by new channel integration."} series={sortData(dash.new_added_contacts)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Contacts"} total={sortData(dash.new_added_contacts)[0].data[sortData(dash.new_added_contacts).length-1]} /></div>
-                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={"Average time of agents responding to contacts."} series={sortData(dash.avg_resp_time)} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={sortData(dash.avg_resp_time)[0].data[sortData(dash.avg_resp_time)[0].data.length-1]} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Newly Added Contacts"} definition={"Number of contacts that are manually created, or by import, or by new channel integration."} series={chartData.new_add} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Contacts"} total={chartData.new_add[0].data[chartData.new_add[0].data.length-1]} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Average Response Time"} definition={"Average time of agents responding to contacts."} series={chartData.avg_res} x_cate={dash.yaxis}  xname={"Date"} yaxis={"Minus"} total={chartData.avg_res[0].data[chartData.avg_res[0].data.length-1]} /></div>
                 </div>
                 <div className="dashboardRow">
                     {/*<div className="dashboardColumn"><LineChart title={"Average Response Time"} data={[16, 24, 23, 36, 19, 20, 25, 29, 29, 22, 34, 37]} x_cate={[]}  yaxis={"Mintes"} total={"37"} percentage={"+5%"} /></div>*/}
-                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} definition={"Most active time that agents and contacts communicated within 24 hours."} series={sortData(dash.communication_hours)}   xname={"Hours"} yaxis={"Msg Sent"} total={0} percentage={"+5%"} /></div>
+                    <div className="dashboardColumn"><LineChart title={"Most Communication Hours"} definition={"Most active time that agents and contacts communicated within 24 hours."} series={chartData.com_hour}   xname={"Hours"} yaxis={"Msg Sent"} total={0} percentage={"+5%"} /></div>
                     <div className="dashboardColumn">
                         <div className="tableSet">
                             <div className={"half_session block_session"}>

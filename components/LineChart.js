@@ -54,20 +54,16 @@ export function LineChart({children,...props}) {
         },
     })
 
-    // useEffect(() => {
-    //     if (series) {
-    //         setState({...state,
-    //             series: [{
-    //                 name: "Contacts",
-    //                 data: data,
-    //                 yaxis: "contacts"
-    //             }],
-    //
-    //         })
-    //     }
-    // }, [
-    //     props.data
-    // ])
+    useEffect(() => {
+        if (series) {
+            setState({...state,
+                series: series
+
+            })
+        }
+    }, [
+        series
+    ])
 
     return (
         <div>
