@@ -156,9 +156,9 @@ export default function Chat() {
         }
 
         const wechat = {
-            name:"WeChat",
+            name:"Wechat",
             data:0,
-            channel:"WeChat"
+            channel:"Wechat"
         }
         console.log("render data cards : ",data )
         for (let d in data){
