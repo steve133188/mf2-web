@@ -208,6 +208,22 @@ export default function Agents() {
 
     //  Sort Data functions End************************************************************************************************************************
 
+    const initDate = ()=>{
+        let s = new Date() , e = new Date()
+
+        s.setDate(s.getDate()-1)
+
+        e.setDate(e.getDate()-7)
+
+        setDayState({from:s,to:e })
+
+    }
+
+    const handleDayClick=(day) => {
+        const range = DateUtils.addDayToRange(day, dayState);
+        setDayState(range);
+        console.log("date = " , range)
+    }
 
     const Define = {
        "Total Assigned Contacts": "Number of contacts assigned to agent(s).",
@@ -220,10 +236,29 @@ export default function Agents() {
        "Average First Response Time": "Average time of agents sending the first response to contacts.",
     }
 
+    const submitDate =async ()=>{
+        let s = Date.parse(dayState.from)/1000 , e = Date.parse(dayState.to)/1000
+        console.log("day state from : " ,s )
+        console.log("day state to :" ,e)
+        setIsLoading(true)
+        const data = await dashboardInstance.getAgentRangeData(s,e)
+
+        console.log("get dashboard data : " , data)
+
+        setDash(data)
+
+        const bar = sortBarChart(data.teams)
+
+        setBarChart(bar)
+
+        setIsLoading(false)
+    }
+
+
     useEffect(async()=>{
 
         if(isLoading){
-
+            initDate()
             await getUsers()
             await getContacts()
             await fetchDefault()
@@ -239,43 +274,43 @@ export default function Agents() {
             {isLoading?(<Loading state={"preloader"}/> ): (<Loading state={"preloader preloaderFadeOut"}/>)}
 
                 <div className={"left"}>
-                    {/*<MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={periodFilter}   customeDropdown={"calender"}>*/}
+                    <MF_Select head={"Period"} top_head={selectedPeriod==""?"Period":selectedPeriod} submit={submitDate}   customeDropdown={"calender"}>
 
-                    {/*    <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>*/}
-                    {/*    <div style={{position:"absolute"}}>*/}
-                    {/*        <DayPicker*/}
-                    {/*            className="Selectable"*/}
-                    {/*            //   numberOfMonths={this.props.numberOfMonths}*/}
-                    {/*            selectedDays={[dayState.from,{ from:dayState.from, to:dayState.to }]}*/}
-                    {/*            modifiers={{ start: dayState.from, end: dayState.to }}*/}
-                    {/*            // onDayClick={(day)=>handleDayClick(day)}*/}
-                    {/*            />*/}
-                    {/*                <Helmet>*/}
-                    {/*                <style>{`*/}
-                    {/*                        .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {*/}
-                    {/*                            background-color: #f0f8ff !important;*/}
-                    {/*                            color: #4a90e2;*/}
-                    {/*                        }*/}
-                    {/*                        .Selectable .DayPicker-Day {*/}
-                    {/*                            border-radius: 0 !important;*/}
-                    {/*                        }*/}
-                    {/*                        .Selectable .DayPicker-Day--start {*/}
-                    {/*                            border-top-left-radius: 50% !important;*/}
-                    {/*                            border-bottom-left-radius: 50% !important;*/}
-                    {/*                        }*/}
-                    {/*                        .Selectable .DayPicker-Day--end {*/}
-                    {/*                            border-top-right-radius: 50% !important;*/}
-                    {/*                            border-bottom-right-radius: 50% !important;*/}
-                    {/*                        }*/}
-                    {/*                        `}</style>*/}
-                    {/*                </Helmet>*/}
-                    {/*            </div>*/}
-                    {/*    </div>*/}
+                        <div className="calender" style={{width:"280px",height:"280px",position:"relative"}}>
+                        <div style={{position:"absolute"}}>
+                            <DayPicker
+                                className="Selectable"
+                                //   numberOfMonths={this.props.numberOfMonths}
+                                selectedDays={[dayState.from,{ from:dayState.from, to:dayState.to }]}
+                                modifiers={{ start: dayState.from, end: dayState.to }}
+                                onDayClick={(day)=>handleDayClick(day)}
+                                />
+                                    <Helmet>
+                                    <style>{`
+                                            .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+                                                background-color: #f0f8ff !important;
+                                                color: #4a90e2;
+                                            }
+                                            .Selectable .DayPicker-Day {
+                                                border-radius: 0 !important;
+                                            }
+                                            .Selectable .DayPicker-Day--start {
+                                                border-top-left-radius: 50% !important;
+                                                border-bottom-left-radius: 50% !important;
+                                            }
+                                            .Selectable .DayPicker-Day--end {
+                                                border-top-right-radius: 50% !important;
+                                                border-bottom-right-radius: 50% !important;
+                                            }
+                                            `}</style>
+                                    </Helmet>
+                                </div>
+                        </div>
 
-                    {/*    /!* {status.map((team)=>{*/}
-                    {/*        return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedStatus(e.target.id);advanceFilter()}}> {team.name}</li>)*/}
-                    {/*    })} *!/*/}
-                    {/*</MF_Select>*/}
+                        {/* {status.map((team)=>{
+                            return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedStatus(e.target.id);advanceFilter()}}> {team.name}</li>)
+                        })} */}
+                    </MF_Select>
                             <div className={"filter_box "+(isFilterOpen?"active":"")}>
                                  <div className={"filter_icon"}  onClick={()=>setIsFilterOpen(!isFilterOpen)}></div>
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>

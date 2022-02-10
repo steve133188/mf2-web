@@ -232,7 +232,10 @@ export function MultipleBarChart({children,...props}) {
                 colors: ["#2198FA","#6279EC", '#34C38F']
             },
          })
+            useEffect(()=>{
+                setState({...state , series: [...chartData]})
 
+            },[])
 
             return (
             <div id="chart">
