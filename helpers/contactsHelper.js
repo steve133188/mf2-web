@@ -16,7 +16,6 @@ export default function contactsFetcher(token) {
     instance.fetcher = axios.create({
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${instance.token}`,
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
                 'Access-Control-Allow-Credentials': true,

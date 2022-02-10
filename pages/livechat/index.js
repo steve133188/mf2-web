@@ -136,7 +136,10 @@ export default function Live_chat() {
                 next: async (chat) => {
                     console.log("new message" , chat)
                     const newChat = chat.value.data.suballChatroom
-                    await getAllChatrooms()
+                    const filteredChat = chatrooms.filter(chat=>chat.room_id==newChat.room_id)
+                    let newChatList = [newChat , ...filteredChat]
+                    setChatrooms(newChatList)
+                    // await getAllChatrooms()
                 }
             })
         console.log("subscribe chatrooms start : " , sub)

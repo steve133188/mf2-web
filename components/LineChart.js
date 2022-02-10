@@ -173,31 +173,16 @@ export function MultipleLineChart({children,...props}) {
 
 export function MultipleBarChart({children,...props}) {
 
-    const {title, active, delivered, unhandled,agents, min1, min2, min3, yaxis,show,h} = props;
+    const {chartTitle, chartData, agents,x_cat,show,h} = props;
 
-    useEffect(()=>{
-        console.log(agents,"in chart")
-    },[agents])
     const [state, setState] = useState({
-        series: [{
-            name: 'Active Contacts',
-            data: active
-        }, {
-            name: 'Delivered Contacts',
-            data: delivered
-        }, {
-            name: 'Unhandled Contacts',
-            data: unhandled
-    }],
+        series: [...chartData],
             options: {
                 chart: {
                     type: 'bar',
                     height: {h},
-
+                    width:"100%",
                     stacked: true,
-                    toolbar: {
-                        show: true
-                    },
                     zoom: {
                         enabled: true
                     }
@@ -225,16 +210,15 @@ export function MultipleBarChart({children,...props}) {
                     maxRotation: 90,
                     minRotation: 90
                 },
-                    categories: agents,
+                    categories: x_cat,
                     labels: {
-
                         offsetX: 0,
                         offsetY:0,
                         style: {
-                          fontSize: "13px",
+                          fontSize: "15px",
                           colors: "#828282",
                           fontFamily: "Calibri Regular",
-                          fontWeight: "200",
+                          fontWeight: "500",
                           cssClass: "apexcharts-xaxis-label"
                         }
                       },
@@ -247,39 +231,11 @@ export function MultipleBarChart({children,...props}) {
                     offsetY: 0
                 },
                 fill: {
-                    // opacity: 1,
-                    // colors: ["#2198FA","#6279EC", '#34C38F']
+                    opacity: 1
                 },
-
+                colors: ["#2198FA","#6279EC", '#34C38F']
             },
          })
-
-
-        useEffect(()=>{
-            console.log("props",active)
-            console.log("props",props)
-            setState({...state,
-                series: [{
-                    name: 'Active Contacts',
-                    data: active
-                }, {
-                    name: 'Delivered Contacts',
-                    data: delivered
-                }, {
-                    name: 'Unhandled Contacts',
-                    data: unhandled
-                }],
-                xaxis: {
-                    categories: agents,
-                },
-
-
-            })
-        },[
-            show
-        ])
-
-
 
 
             return (

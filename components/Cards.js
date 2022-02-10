@@ -140,26 +140,26 @@ export function LineChartCard({children,...props}) {
 
 export function ChangingPercentageCard({children,...props}) {
     const {title, data} = props;
-    let classnamee=  "changingPercentagePos"
+    let classnames=  "changingPercentagePos"
     // let changing = ((data2 - data1) / data2 * 100).toFixed(2) + "%"
-    let changing = data.data + "%"
+    // let changing = data.data + "%"
     // if(changing.charAt(0)=='-') {
-    //     classnamee = "changingPercentageNeg";
+    //     classnames = "changingPercentageNeg";
     // }
 
     return (
         <div className={"changingPercentageCard"}>
             <div className={"changingPercentageCardTitle"} style={{display:"flex",justifyContent:"space-between"}}>
-                {title}  <div style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start", }} >
-
-                                        <div className={"chart_info"} style={{margin:"0",textAlign:"right"}} > ?
-                                        <p  className={"chart_info_details"} style={{top:"0",left:"0",paddingLeft:"0",zIndex:"100",backgroundColor:"#e9ecef",padding:"5px",height:"30px",borderRadius:"10px",font: "normal normal normal 0.9REM Manrope",}} > {props.definData[title]}</p>
-                                        </div>
-                                    </div>
+                {title}
+                <div style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start", }} >
+                    <div className={"chart_info"} style={{margin:"0",textAlign:"right"}} > ?
+                        <p  className={"chart_info_details"} style={{top:"0",left:"0",paddingLeft:"0",zIndex:"100",backgroundColor:"#e9ecef",padding:"5px",height:"30px",borderRadius:"10px",font: "normal normal normal 0.9REM Manrope",}} > {props.definData[title]}</p>
+                    </div>
+                </div>
             </div>
             <div className={"dataGroup"}>
-                <div className={"number"}>{data.data[data.data.length-1]}</div>
-                <div className={classnamee}>
+                <div className={"number"}>{data&&data!==undefined ? data.data[data.data.length-1] : "null"}</div>
+                <div className={classnames}>
                     {/* {changing} */}
                 </div>
             </div>

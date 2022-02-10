@@ -140,9 +140,10 @@ export default function Chat() {
     const fetchDefault = async ()=>{
         let end = new window.Date().getTime() / 1000
         let start = end - 3600 * 24*7
-        const data = await dashboardInstance.getLiveChatDefaultData()
+        let data = await dashboardInstance.getLiveChatDefaultData()
+
         setDash(prevState => data)
-        console.log("fetch data : " , data.new_added_contacts , data.avg_resp_time , data.communication_hours)
+        console.log("fetch data : " , data )
     }
 
     const renderChannelsContacts = (data)=>{

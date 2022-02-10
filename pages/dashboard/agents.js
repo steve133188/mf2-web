@@ -26,9 +26,8 @@ export default function Agents() {
     const [isLoading, setIsLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
-
-
     const [selectedChannels ,setSelectedChannels] =useState([]);
+    const [barChart ,setBarChart] =useState();
     const [selectedTeams ,setSelectedTeams] =useState([]);
     const [selectedAgents , setSelectedAgents] = useState([])
     const [users , setUsers] = useState([])
@@ -72,66 +71,127 @@ export default function Agents() {
         "first_resp_time",
     ]
 
+    //  fetch Data functions Start************************************************************************************************************************
+
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
-        console.log(`users len : ` ,data.length)
         setUsers(data)
     }
 
     const getContacts = async () =>{
         const data = await contactInstance.getAllContacts()
-        console.log(`contacts len : ` ,data.length)
         setContacts(data)
     }
 
     const fetchDefault = async ()=>{
+
         const data = await dashboardInstance.getLiveChatDefaultData()
         setDash(data)
-    }
-    useEffect(async()=>{
 
-        if(isLoading){
-            await getUsers()
-            await getContacts()
-            await fetchDefault()
-            setIsLoading(false)
+        console.log("data : " , data.teams)
+
+        const bar = sortBarChart(data.teams)
+
+        setBarChart(bar)
+    }
+
+    //  fetch Data functions End************************************************************************************************************************
+
+    //  Sort Data functions Start************************************************************************************************************************
+
+
+    const sortBarChart = (data) =>{
+
+        console.log("input: " , data)
+
+        let output = {data:[] , cate:[]} ,
+            active_contacts = {name:"Active Contacts" , data : []} ,
+            unhandle_contacts = {name:"Unhandle Contacts" , data :[]} ,
+            delivered_contacts = {name:"Delivered Contacts" , data : []} ;
+
+        //add x cat and sort active_contact first
+        for (let d in data.active_contact){
+
+            if(d == "MatrixSense"||d === "None") continue
+
+            output.cate.push(d)
+
+            active_contacts.data.push(data.active_contact[d])
+
         }
-    },[])
+
+        for (let d in data.unhandled_contact){
+
+            if(d == "MatrixSense"||d === "None") continue
+
+            unhandle_contacts.data.push(data.unhandled_contact[d])
+
+        }
+
+        for (let d in data.delivered_contact){
+
+            if(d == "MatrixSense"||d === "None") continue
+
+            delivered_contacts.data.push(data.delivered_contact[d])
+
+        }
+
+        output.data.push(active_contacts,unhandle_contacts,delivered_contacts)
+
+        console.log(
+         "output : " ,output
+        )
+
+
+        return output
+
+    }
 
     const sortData = (data)=>{
-        if(!data) return [{"name":"no data" , "data":[0]}]
-        const keys = Object.keys(data)
-        const res = [];
-        const all = []
+
+        if(!data || data == undefined) return []
+
+        const keys = Object.keys(data) , res = [] , all = []
+
         for(let d in data){
-            if (data[d].length==1){
+
+            if (data[d].length===1){
+
                 if(all[0] ==undefined) all[0] = 0
                 all[0]  += data[d][0]
+
             }else{
+
                 for(let i =0; i< data[d].length ; i++){
+
                     if(all[i] ==undefined) all[i] = 0
                     all[i]  += data[d][i]
+
                 }
             }
         }
+
         res.push({"name":"All" , data:all})
+
         for(let i = 0 ; i <keys.length ; i++){
+
             res.push({
                 "name":keys[i],
                 "data":data[keys[i]]
             })
+
         }
+
         return res
+
     }
 
     const sortAgents = (data , user , attr)=>{
+
         if(!data) return[]
 
         const keyname = user.user_id.toString()
-        console.log("process agents data : " , data)
 
-        console.log(`keyname : ${keyname} , attr : ${attr}`)
-        console.log(`attr data : ${data[attr]} `)
         return data[attr][keyname]
 
     }
@@ -139,9 +199,15 @@ export default function Agents() {
     const renderTeams=() => {
 
         return selectedTeams!=-1&&selectedTeams.map((tag)=>{
+
             return<Pill key={tag} color="primary">{tag}</Pill>
+
         })
+
     }
+
+    //  Sort Data functions End************************************************************************************************************************
+
 
     const Define = {
        "Total Assigned Contacts": "Number of contacts assigned to agent(s).",
@@ -153,6 +219,19 @@ export default function Agents() {
        "Average Response Time": "Average time of agents responding to contacts.",
        "Average First Response Time": "Average time of agents sending the first response to contacts.",
     }
+
+    useEffect(async()=>{
+
+        if(isLoading){
+
+            await getUsers()
+            await getContacts()
+            await fetchDefault()
+            setIsLoading(false)
+
+        }
+
+    },[])
 
     return (
         <div className="dashboard-layout">
@@ -229,7 +308,7 @@ export default function Agents() {
                     <LineChartCard chart={true} img={false} title={"Agents"} data={{data:users.length}}/>
                     {/*<LineChartCard chart={true} img={false} title={"Connected"} data={[filteredData.filter(e=>{return e[2]=="Connected"}).length]}/>*/}
                     {/*<LineChartCard chart={true} img={false} title={"Disconnected"} data={[filteredData.filter(e=>e[2]=="Disconnected").length]}/>*/}
-                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={{data:contacts.length}}/>
+                    <LineChartCard chart={true} img={false} title={"All Contacts"} data={{data:(contacts?contacts.length:0)}}/>
                     <LineChartCard chart={true} img={false} title={"Newly Added Contacts"} data={sortData(dash.new_added_contacts)[0]}/>
                     {/*<AverageDailyCard data={null}/>*/}
                     {/* <LineChartCard chart={true} img={false} title={"Agents"} data={dash.agents_no}/>
@@ -243,29 +322,26 @@ export default function Agents() {
                     <ChangingPercentageCard title={"Total Assigned Contacts"} data={sortData(dash.assigned_contacts)[0]} definData={Define} />
                     <ChangingPercentageCard title={"Active Contacts"} data={sortData(dash.active_contacts)[0]}  definData={Define} />
                     <ChangingPercentageCard title={"Delivered Contacts"} data={sortData(dash.delivered_contacts)[0]} definData={Define} />
-                    <ChangingPercentageCard title={"Unhandled Contacts"} data={sortData(dash.unhandled_contact)[0]}  definData={Define} />
+                    <ChangingPercentageCard title={"Unhandled Contacts"} data={sortData(dash.unhandled_contacts)[0]}  definData={Define} />
                     <ChangingPercentageCard title={"Total Messages Received"} data={sortData(dash.total_msg_recv)[0]}  definData={Define} />
                     <ChangingPercentageCard title={"Total Messages Sent"} data={sortData(dash.total_msg_sent)[0]}  definData={Define} />
                     <ChangingPercentageCard title={"Average Response Time"} data={sortData(dash.avg_resp_time)[0]}  definData={Define} />
-                    <ChangingPercentageCard title={"Average First Response Time"} data={sortData(dash.avg_total_first_resp_time)[0]}   definData={Define} />
+                    <ChangingPercentageCard title={"Average First Response Time"} data={sortData(dash.avg_first_time)[0]}   definData={Define} />
                 </div>
             </div>
             <div className="chartGroup">
                 <div className="dashboardRow" style={{maxWidth:"1500px",width:"70w",display:"flex",justifyContent:"center",minHeight:"400px",margin:"0 auto"}}  >
                     <div className="dashboardBarColumn" >
-                        {/*<MultipleBarChart*/}
-                        {/*    title={"Agents"}*/}
-                        {/*    yaxis={"Contacts"}*/}
-                        {/*    h={"750px"}*/}
-                        {/*    min1={12}*/}
-                        {/*    min2={12}*/}
-                        {/*    min3={12}*/}
-                        {/*    show={show}*/}
-                        {/*    // active={handelList}*/}
-                        {/*    // unhandled={unhandelList}*/}
-                        {/*    // delivered={deilverList}*/}
-                        {/*    // agents={agentsList}*/}
-                        {/*/>*/}
+                        {barChart &&
+                        <MultipleBarChart
+                            title={"Branch"}
+                            yaxis={"Contacts"}
+                            h={"750px"}
+                            show={show}
+                            chartData={barChart.data}
+                            x_cat={barChart.cate}
+
+                        />}
                     </div>
                 </div>
 
