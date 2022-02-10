@@ -181,9 +181,10 @@ export default function Chat() {
         callback(newData)
     }
     const fetchDefault = async ()=>{
-        let end = new window.Date().getTime() / 1000
-        let start = end - 3600 * 24*7
+
         let data = await dashboardInstance.getLiveChatDefaultData()
+
+        console.log("data : " ,data)
 
         setDash(prevState => data)
 
@@ -229,14 +230,14 @@ export default function Chat() {
 
     useEffect(async ()=>{
         if (isLoading ) {
+
             await fetchDefault()
             await getTags();
             await fetchContacts();
             initDate()
             setIsLoading(false)
-        }
 
-        console.log("dashboard = ",dash)
+        }
 
     },[])
 
@@ -423,21 +424,21 @@ export default function Chat() {
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    {tags.map((item,index)=>{
+                                                    {Object.keys(dash.tags).map((key)=>{
                                                         return( <TableRow
-                                                                key={index}
+                                                                key={key}
                                                                 hover
                                                                 // role="checkbox"
-                                                                name={item.tag_name}
+                                                                name={key}
                                                                 // checked={selectedUsers.includes(data.phone)}
 
                                                             >
                                                                 <TableCell style={{width: "35%",}}>
 
-                                                                    <Pill key={item.tag_id} size="30px" color="vip">{item.tag_name}</Pill>
+                                                                    <Pill key={key} size="30px" color="vip">{key}</Pill>
                                                                 </TableCell>
                                                                 <TableCell align="left" style={{width: "50%",}}>
-                                                                    <span >{item.total}</span>
+                                                                    <span >{dash.tags[key]}</span>
                                                                 </TableCell>
                                                                 <TableCell align="left" style={{width: "50%",}}>
 
