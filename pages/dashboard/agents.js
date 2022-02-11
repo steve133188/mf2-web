@@ -101,6 +101,9 @@ export default function Agents() {
 
         const { id } = e.target
 
+        console.log("id " , selectedTeams.includes(id))
+
+
         if(selectedTeams.includes(id)){
 
             let newTeam = selectedTeams.filter(t=>t!==id)
@@ -113,6 +116,8 @@ export default function Agents() {
         setSelectedTeams([...selectedTeams , id])
 
         console.log("toggle id : " , selectedTeams)
+
+
 
     }
 
@@ -249,6 +254,12 @@ export default function Agents() {
         e.setDate(e.getDate()-7)
 
         setDayState({from:s,to:e })
+
+    }
+
+    const closeFilter = e =>{
+
+        setIsFilterOpen(false)
 
     }
 
@@ -485,7 +496,8 @@ export default function Agents() {
                                                     users={ users }
                                                     auth={3}
                                                     teams={teams}
-                                                    selectedTeams={teams}
+                                                    cancelClick={closeFilter}
+                                                    selectedTeams={selectedTeams}
                                                     selectedUsers={selectedUsers}
                                                     toggleSelectedTeams={toggleSelectedTeams}
                                                     toggleSelectedUsers={toggleSelectedUsers}

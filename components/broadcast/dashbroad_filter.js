@@ -19,7 +19,6 @@ export default function DashBroadFilter(props){
         auth ,
         cancelClick ,
         submit ,
-        onChange ,
         toggleSelectedTeams ,
         toggleSelectedUsers,
         selectedUsers,
@@ -89,7 +88,6 @@ export default function DashBroadFilter(props){
 
         if(val.trim()=="") filter=users
 
-
         return(
             filter&&filter.map((user , i)=>{
               return<li className={"channelListitem"} key={i} style={{width:"100%"}}>
@@ -100,10 +98,36 @@ export default function DashBroadFilter(props){
                       <div className={"name"}>{user.username}</div>
                   </div>
                   <div className="newCheckboxContainer right">
-                      <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={selectedUsers.includes(user.user_id)} onClick={toggleSelectedUsers} />
+                      <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={selectedUsers.includes(user.user_id.toString())} onClick={toggleSelectedUsers} onChange={()=>{}}/>
                       </label>
                   </div>
               </li>
+            })
+        )
+
+
+    }
+
+    const renderTeamList = ()=>{
+
+        let filter = teams
+
+        let check = (name)=>{
+           return  selectedTeams.includes(name)
+        }
+
+
+        return(
+            filter&&filter.map((team , i)=>{
+                return<li className={"channelListitem"} key={i} style={{width:"100%"}}>
+                    <div className={"left"} style={{display:"flex" ,gap:10}}>
+                        <div className={"name"}>{team.name}</div>
+                    </div>
+                    <div className="newCheckboxContainer right">
+                        <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={check(team.name)} onClick={toggleSelectedTeams} onChange={()=>{}} />
+                        </label>
+                    </div>
+                </li>
             })
         )
 
@@ -173,10 +197,11 @@ export default function DashBroadFilter(props){
                  </div>
                  <div className={"taglList"}>
                      {selectedUsers.map((user,i)=>{
+                         let usr = users.find(u=>u.user_id== parseInt(user))
                          return(
                              <div key={i} className={"tag"} style={{display:"flex" ,gap:10}}>
                                  <Tooltip key={user} className={""} title={user} placement="top-start">
-                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
+                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{usr.username.substring(0,2).toUpperCase()}</Avatar>
                                  </Tooltip>
                              </div>
                          )
@@ -195,21 +220,32 @@ export default function DashBroadFilter(props){
                             </div> */}
                             <div className={"channelList"} >
 
-                                {teams&&teams.map((team , i)=>{
-                                    return(<li className={"channelListitem"} key={i} style={{width:"100%"}}>
-                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                            <div className={"name"}>{team.name}</div>
-                                        </div>
-                                        <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name.toString())} onClick={toggleSelectedTeams} />
-                                            </label>
-                                        </div>
-                                    </li>) })
-                                }
+                                {teams&&renderTeamList()}
+                                {/*teams.map((team , i)=>{*/}
+                                {/*    return(<li className={"channelListitem"} key={i} style={{width:"100%"}}>*/}
+                                {/*        <div className={"left"} style={{display:"flex" ,gap:10}}>*/}
+                                {/*            <div className={"name"}>{team.name}</div>*/}
+                                {/*        </div>*/}
+                                {/*        <div className="newCheckboxContainer right">*/}
+                                {/*            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name)} onClick={toggleSelectedTeams} onChange={()=>{}} />*/}
+                                {/*            </label>*/}
+                                {/*        </div>*/}
+                                {/*    </li>) })*/}
+                                {/*}*/}
                             </div>
                         </div>
                     </div>
-
+                 <div className={"taglList"}>
+                     {selectedTeams.length>0&&selectedTeams.map((team,i)=>{
+                         return(
+                             <div key={i} className={"tag"} style={{display:"flex" ,gap:10}}>
+                                 <Tooltip key={i} className={""} title={user} placement="top-start">
+                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{team.substring(0,2).toUpperCase()}</Avatar>
+                                 </Tooltip>
+                             </div>
+                         )
+                     })}
+                 </div>
                 </div>:""}
 
 
