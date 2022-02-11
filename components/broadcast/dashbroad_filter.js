@@ -2,7 +2,7 @@ import { Checkbox } from "@mui/material";
 import { CheckBoxM,Whatsapp,WhatsappB,Messager,Wechat } from "../../public/livechat/MF_LiveChat_Landing/Search_Bar/filter-icon";
 import MF_Select from "../MF_Select";
 import ChannelListItem from "../livechat/serach_filter/filter.js/channelListItem";
-import { useContext, useEffect,useState } from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -14,168 +14,101 @@ import DivisionDropDown from "../filter/divisionDropDown";
 
 
 export default function DashBroadFilter(props){
+    const {users ,
+        teams ,
+        auth ,
+        cancelClick ,
+        submit ,
+        onChange ,
+        toggleSelectedTeams ,
+        toggleSelectedUsers,
+        selectedUsers,
+        selectedTeams
+    } = props
+    const { orgInstance, user} = useContext(GlobalContext);
 
-    const { userInstance ,tagInstance ,orgInstance, user,contactInstance} = useContext(GlobalContext);
-    // const [users ,setUsers] =useState([]);
-    // const [selectedUsers ,setSelectedUsers] =useState([]);
-    const channelData = [
-                {name:"WhatsApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-                {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
-                {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-                {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
-    const [tags ,setTags] =useState([]);
-    const [teams ,setTeams] =useState([]);
-    const [agents ,setAgents] =useState([]);
     const [division ,setDivision] =useState([]);
-    const [channels ,setChannels] =useState([]);
-    const [selectedTags ,setSelectedTags] =useState([])
-    const [selectedTeams ,setSelectedTeams] =useState([]);
+    const [root_org, set_root_org] = useState([]);
     const [selectedAgents ,setSelectedAgents] =useState([]);
     const [selectedDivision ,setSelectedDivision] =useState([]);
     const [selectedChannels ,setSelectedChannels] =useState([]);
-    const [filteredTags ,setFilteredTags] =useState([]);
     const [filteredTeams ,setFilteredTeams] =useState([]);
     const [filteredAgents ,setFilteredAgents] =useState([]);
     const [filteredDivision ,setFilteredDivision] =useState([]);
-    const [filteredChannels ,setFilteredChannels] =useState([]);
-    // const [filteredUsers ,setFilteredUsers] =useState([]);
     const [filteredData , setFilteredData] = useState([])
     const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[], division:[], })
-
+    const [agentSearch , setAgentSearch] = useState("")
     const [agentBarOpen,setAgentBar] = useState(false)
-    const [dBarOpen,setDBar] = useState(false)
     const [teamBarOpen,setTeamBar] = useState(false)
-    const [agentSearchValue, setAgentValue]= useState("")
 
 
-    useEffect(()=>{() =>{
+    // Fetch data  ##########################################################
 
-        props.change(selectedAgents)
+    const fetchRootORG = async () =>{
+
+        const data = await orgInstance.getAllORG()
+
+        set_root_org(data)
+
     }
-        },[selectedAgents])
-
-        const advanceFilter =()=>{
-                    setFilter({division:[...selectedDivision],team:[...selectedTeams], agent:[...selectedAgents] ,channels: [...selectedChannels] , tag:[...selectedTags]})
-                    const agentFiltered = channels.filter(data=>{
-                        if(selectedAgents.length==0){
-                            return data
-                        }
-                        return data.agents_id.some(el=>selectedAgents.includes(el))
-                    })
-                    const tagFiltered = agentFiltered.filter(data=>{
-                        if(selectedTags.length ==0){
-                            return data
-                        }
-                           return data.tags.some(el=>selectedTags.includes(el))
-                    })
-
-                    setFilteredData([...tagFiltered])
-                }
 
 
-                const getTags = async ()=>{
-                    const data = await tagInstance.getAllTags()
-                    setTags(data,"dashboard filter tags")
-                    setFilteredTags(data)
+    const getDivision = async ()=>{
 
-                }
-                const getAgents = async ()=>{
-                    const data = await userInstance.getAllUser()
-                    setAgents(data)
-                    setFilteredAgents(data)
-                }
-                const getDivision = async ()=>{
-                    const data = await orgInstance.getAllORG ()
+        const data = await orgInstance.getAllORG ()
 
-                    setDivision(data)
-                    setFilteredDivision(data)
-                }
-                const getTeams = async ()=>{
-                    const data = await orgInstance.getOrgTeams()
-                    setTeams(data)
-                    setFilteredTeams(data)
-                }
+        setDivision(data)
 
-    const toggleSelectTags = e => {
-        const { checked ,id} = e.target;
-        setSelectedTags([...selectedTags, id]);
-        if (!checked) {
-            setSelectedTags(selectedTags.filter(item => item !== id));
-        }
-    };
-    const toggleSelectAgents = e => {
-        const { checked ,id} = e.target;
-        setSelectedAgents([...selectedAgents, id]);
-        if (!checked) {
-            setSelectedAgents(selectedAgents.filter(item => item !== id));
-        }
-        props.agents&&props.agents(e)
-    };
-    const toggleSelectDivision = e => {
-        const { checked ,id} = e.target;
-        setSelectedDivision([...selectedDivision, id]);
-        if (!checked) {
-            setSelectedDivision(selectedDivision.filter(item => item !== id));
-        }
-    };
-    const toggleSelectTeams = e => {
-        const { checked ,id} = e.target;
-        setSelectedTeams([...selectedTeams, id]);
-        if (!checked) {
-            setSelectedTeams(selectedTeams.filter(item => item !== id));
-        }
-        props.team(e)
-    };
-    const toggleSelectAllChannels = e => {
-        const { checked ,id} = e.target;
-        setSelectedChannels(["All","Whatsapp","WABA","Wechat","Messager"]);
-        if (!checked) {
-            setSelectedChannels([]);
-        }
+        setFilteredDivision(data)
 
-    };
-    const toggleSelectChannels = e => {
-        const { checked ,id} = e.target;
+    }
 
-        setSelectedChannels([...selectedChannels, id]);
-        if (!checked) {
-            setSelectedChannels(selectedChannels.filter(item => item !== id));
-        }
-        // console.log(selectedChannels)
-    };
+
+    // Fetch data  ##########################################################
+
+
+
     const clearFilter=()=>{
-        props.cancelClick()
-        setSelectedTeams([])
-        setSelectedChannels([])
-        setSelectedDivision([])
-        setSelectedTags([])
-        setSelectedAgents([])
+        cancelClick()
     }
 
     useEffect(   async()=>{
 
-        // let abortController = new AbortController();
-        // async () => {
         if(user.token!=null) {
-            await getTags()
-            await getTeams()
-            await getAgents()
+
             await getDivision()
+            await fetchRootORG()
+
         }
 
-    channelOri()
     },[]);
 
-    const channelOri =()=>{
-    setChannels(channelData)
-    setFilteredChannels(channelData)
+    const renderUserList = (val)=>{
+
+        let filter = users.filter(user=>user.username.toLowerCase().includes(val.toLowerCase()))
+
+        if(val.trim()=="") filter=users
+
+
+        return(
+            filter&&filter.map((user , i)=>{
+              return<li className={"channelListitem"} key={i} style={{width:"100%"}}>
+                  <div className={"left"} style={{display:"flex" ,gap:10}}>
+                      <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
+                          <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
+                      </Tooltip>
+                      <div className={"name"}>{user.username}</div>
+                  </div>
+                  <div className="newCheckboxContainer right">
+                      <label className="newCheckboxLabel"> <input type="checkbox" id={user.user_id} name="checkbox" checked={selectedUsers.includes(user.user_id)} onClick={toggleSelectedUsers} />
+                      </label>
+                  </div>
+              </li>
+            })
+        )
+
 
     }
-
-    useEffect(()=>{
-        advanceFilter()
-    },[tags,channels])
-
 
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
@@ -192,51 +125,83 @@ export default function DashBroadFilter(props){
             })}
         </AvatarGroup>
     }
-    const [root_org, set_root_org] = useState([]);
 
-    useEffect(    async () => {
-        if(user.token)
-        {
-            await fetchRootORG()
-        }
-
-    },[]);
-    const fetchRootORG = async () =>{
-        const data = await orgInstance.getAllORG()
-        console.log(data,"org data")
-        set_root_org(data)
-    }
 
     return(
-         <div><div className={"filter_title"}>Filter</div>
+         <div>
+             <div className={"filter_title"}><h5> Filter  </h5> </div>
 
-                {props.auth==1?<div className={"filter_box_channel"}  >
-                    <div className={"channelList"}>
-                        Channel<br/>
-                        <ChannelListItem name={"All Channels"} value={"All"} id={"All"} key={"All"} checked={selectedChannels.includes("All")} onclick={toggleSelectAllChannels } />
-                        {channels.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}
-                    </div>
-                </div>:""}
-                {/* {props.auth==2?<FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>:""} */}
-                {props.auth==2?<DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectAgents} clear={ ()=>{}} isclear={clearFilter} />:"" }
-                {props.auth==3?<div className={"filter_box_agents"}  >Team
+                {/*{auth==1?<div className={"filter_box_channel"}  >*/}
+                {/*    <div className={"channelList"}>*/}
+                {/*        Channel<br/>*/}
+                {/*        <ChannelListItem name={"All Channels"} value={"All"} id={"All"} key={"All"} checked={selectedChannels.includes("All")} onclick={toggleSelectAllChannels } />*/}
+                {/*        {channels.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} key={e.id} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } agentSearchValue={agentSearchValue} />})}*/}
+                {/*    </div>*/}
+                {/*</div>:""}*/}
+                {/* {auth==2?<FilterDropDown title={"Teams & Division"} orgData={root_org} filterdata={filteredTeams} selecteddata={selectedTeams} expand={teamBarOpen} expandClick={()=>setTeamBar(!teamBarOpen)} onchange={(e)=>setAgentValue(e.target.value)} toggle={toggleSelectTeams} agentSearchValue={agentSearchValue} iname={"name"}/>:""} */}
+                {/*{auth==2?<DivisionDropDown data={division} division={"divisionSelect"} team={toggleSelectTeams} agents={toggleSelectAgents} clear={ ()=>{}} isclear={clearFilter} />:"" }*/}
+             {auth==3?<div className={"filter_box_agents"}  >
+                 <h6>Agents</h6>
+                 <div className={"agentBroad"} >
+
+                     <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent(s)</div>
+                     <div className={"agentSearchArea"}  style={agentBarOpen?{display:"block"}:{display:"none"}}>
+                         <div className={"search_bar"}>
+                             <input type="text" className={"search_area"} placeholder={"Search"}  onChange={e=>{setAgentSearch(prev=>e.target.value)}} defaultValue="" />
+                         </div>
+
+
+                         <div className={"channelList"} >
+
+                             {users && renderUserList(agentSearch)}
+                             {/*{users.filter(users=>users.username.toLowerCase().includes(agentSearchRef.current.value.toLowerCase())).map((user , i)=>{*/}
+                             {/*    return(<li className={"channelListitem"} key={i} style={{width:"100%"}}>*/}
+                             {/*        <div className={"left"} style={{display:"flex" ,gap:10}}>*/}
+                             {/*            <Tooltip key={user.username} className={""} title={user.username} placement="top-start">*/}
+                             {/*                <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>*/}
+                             {/*            </Tooltip>*/}
+                             {/*            <div className={"name"}>{user.username}</div>*/}
+                             {/*        </div>*/}
+                             {/*        <div className="newCheckboxContainer right">*/}
+                             {/*            <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedAgents.includes(user.username)} onClick={toggleSelectedUsers} onChange={()=>{}} />*/}
+                             {/*            </label>*/}
+                             {/*        </div>*/}
+                             {/*    </li>) })*/}
+                             {/*}*/}
+                         </div>
+                     </div>
+                 </div>
+                 <div className={"taglList"}>
+                     {selectedUsers.map((user,i)=>{
+                         return(
+                             <div key={i} className={"tag"} style={{display:"flex" ,gap:10}}>
+                                 <Tooltip key={user} className={""} title={user} placement="top-start">
+                                     <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
+                                 </Tooltip>
+                             </div>
+                         )
+                     })}
+                 </div>
+             </div>:""}
+
+             {auth==3?<div className={"filter_box_agents"}  >
+                    <h6>Teams</h6>
                     <div className={"agentBroad"} >
 
-                        <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
+                        <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team(s)</div>
                         <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
                                 {/* <div className={"search_bar"}>
                                 <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
                             </div> */}
                             <div className={"channelList"} >
 
-                                {teams.map((team)=>{
-                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
+                                {teams&&teams.map((team , i)=>{
+                                    return(<li className={"channelListitem"} key={i} style={{width:"100%"}}>
                                         <div className={"left"} style={{display:"flex" ,gap:10}}>
-
                                             <div className={"name"}>{team.name}</div>
                                         </div>
                                         <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.org_id} name="checkbox" checked={selectedTeams.includes(team.org_id.toString())} onClick={toggleSelectTeams} onChange={()=>{}}/>
+                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.name} name="checkbox" checked={selectedTeams.includes(team.name.toString())} onClick={toggleSelectedTeams} />
                                             </label>
                                         </div>
                                     </li>) })
@@ -246,46 +211,7 @@ export default function DashBroadFilter(props){
                     </div>
 
                 </div>:""}
-                {props.auth==3?<div className={"filter_box_agents"}  >Agent
-                    <div className={"agentBroad"} >
 
-                    <div className={"filter_title"} onClick={()=>{setAgentBar(!agentBarOpen)}}>Choose Agent</div>
-                    <div className={"agentSearchArea"}  style={agentBarOpen?{display:"block"}:{display:"none"}}>
-                         <div className={"search_bar"}>
-                            <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
-                        </div>
-
-
-                        <div className={"channelList"} >
-                            {filteredAgents.filter(users=>users.username.includes(agentSearchValue)).map((user)=>{
-                                return(<li className={"channelListitem"} key={user.username} style={{width:"100%"}}>
-                                    <div className={"left"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip key={user.username} className={""} title={user.username} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14}} >{user.username.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-                                        <div className={"name"}>{user.username}</div>
-                                    </div>
-                                    <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> <input type="checkbox" id={user.username} name="checkbox" checked={selectedAgents.includes(user.username)} onClick={toggleSelectAgents} onChange={()=>{}} />
-                                        </label>
-                                    </div>
-                                </li>) })
-                            }
-                        </div>
-                    </div>
-                    </div>
-                    <div className={"taglList"}>
-                        {selectedAgents.map((user,i)=>{
-                                return(
-                                    <div key={i} className={"tag"} style={{display:"flex" ,gap:10}}>
-                                        <Tooltip key={user} className={""} title={user} placement="top-start">
-                                            <Avatar  className={"mf_bg_warning mf_color_warning text-center "}  sx={{width:27.5 , height:27.5 ,fontSize:14}} >{user.substring(0,2).toUpperCase()}</Avatar>
-                                        </Tooltip>
-                                    </div>
-                                )
-                            })}
-                    </div>
-                </div>:""}
 
 
 
@@ -307,8 +233,8 @@ export default function DashBroadFilter(props){
 
                 <div className="confirm_btn_set">
 
-                    <button className={"confirmButton"} style={{margin:" 0 10px"}} onClick={props.confirm}  color="neutral">Confirm</button>
-                    <button className={"cancelButton"} onClick={clearFilter} >Cancel</button>
+                    <button className={"confirmButton"} style={{margin:" 0 10px"}} onClick={props.confirm}  color="neutral"> Confirm </button>
+                    <button className={"cancelButton"} onClick={clearFilter} > Cancel </button>
                 </div>
          </div>
     )

@@ -235,7 +235,7 @@ export function MultipleBarChart({children,...props}) {
             useEffect(()=>{
                 setState({...state , series: [...chartData]})
 
-            },[])
+            },[chartData])
 
             return (
             <div id="chart">

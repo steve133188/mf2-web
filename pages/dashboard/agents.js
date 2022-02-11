@@ -24,26 +24,27 @@ import Loading from "../../components/Loading";
 
 export default function Agents() {
     const [isLoading, setIsLoading] = useState(true);
-    const [open, setOpen] = useState(false);
-    const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
-    const [selectedChannels ,setSelectedChannels] =useState([]);
-    const [barChart ,setBarChart] =useState();
-    const [selectedTeams ,setSelectedTeams] =useState([]);
-    const [selectedAgents , setSelectedAgents] = useState([])
+
     const [users , setUsers] = useState([])
     const [contacts , setContacts] = useState([])
+    const [teams , setTeams] = useState([])
+    const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
+    const [barChart ,setBarChart] =useState();
+    const [teamsChart ,setTeamsChart] =useState();
+    const [agentsChart ,setAgentsChart] =useState();
+    const [selectedTeams ,setSelectedTeams] =useState([]);
+    const [selectedUsers , setSelectedUsers] = useState([])
     const [isFilterOpen , setIsFilterOpen] = useState(false);
     const [selectedPeriod ,setSelectedPeriod] =useState("");
     const [dayState,setDayState] = useState({from:"",to:""});
-    const [filteredData , setFilteredData] = useState()
+
     // pagination
     const [currentPage , setCurrentPage] = useState(1)
     const indexOfLastTodo = currentPage * 10; // 10 represent the numbers of page
     const indexOfFirstTodo = indexOfLastTodo - 10;
-    const currentContacts = users.slice(indexOfFirstTodo, indexOfLastTodo);
+    let currentUsers = users.slice(indexOfFirstTodo, indexOfLastTodo);
+
     //
-    const [displayNameTag, setDisplayNameTag] = useState([])
-    const [show,setShow] =useState(false)
     const [dash  , setDash ] = useState({
         agents_no:[],
         connected :[], disconnected:[],
@@ -60,26 +61,77 @@ export default function Agents() {
 
     //  fetch Data functions Start************************************************************************************************************************
 
-    const getUsers = async ()=>{
+    const getUsers = async () =>{
+
         const data = await userInstance.getAllUser()
+
         setUsers(data)
+
     }
 
     const getContacts = async () =>{
+
         const data = await contactInstance.getAllContacts()
+
         setContacts(data)
+
+    }
+
+    const fetchTeams = async () =>{
+
+        const data = await orgInstance.getOrgTeams()
+
+        setTeams(data)
+
     }
 
     const fetchDefault = async ()=>{
 
         const data = await dashboardInstance.getLiveChatDefaultData()
-        setDash(data)
 
-        console.log("data : " , data.teams)
+        setDash(data)
 
         const bar = sortBarChart(data.teams)
 
         setBarChart(bar)
+
+    }
+
+    const toggleSelectedTeams = e =>{
+
+        const { id } = e.target
+
+        if(selectedTeams.includes(id)){
+
+            let newTeam = selectedTeams.filter(t=>t!==id)
+            setSelectedTeams([...newTeam])
+            return
+
+        }
+
+
+        setSelectedTeams([...selectedTeams , id])
+
+        console.log("toggle id : " , selectedTeams)
+
+    }
+
+    const toggleSelectedUsers = e =>{
+
+        const { id } = e.target
+
+        if(selectedUsers.includes(id)){
+
+            let newUser = selectedUsers.filter(t=>t!==id)
+            setSelectedUsers([...newUser])
+            return
+
+        }
+
+        setSelectedUsers([...selectedUsers , id])
+
+        console.log("toggle id : " , selectedUsers)
+
     }
 
     //  fetch Data functions End************************************************************************************************************************
@@ -89,11 +141,9 @@ export default function Agents() {
 
     const sortBarChart = (data) =>{
 
-        console.log("input: " , data)
-
         let output = {data:[] , cate:[]} ,
             active_contacts = {name:"Active Contacts" , data : []} ,
-            unhandle_contacts = {name:"Unhandle Contacts" , data :[]} ,
+            unhandle_contacts = {name:"Unhandled Contacts" , data :[]} ,
             delivered_contacts = {name:"Delivered Contacts" , data : []} ;
 
         //add x cat and sort active_contact first
@@ -124,11 +174,6 @@ export default function Agents() {
         }
 
         output.data.push(active_contacts,unhandle_contacts,delivered_contacts)
-
-        console.log(
-         "output : " ,output
-        )
-
 
         return output
 
@@ -185,7 +230,7 @@ export default function Agents() {
 
     const renderTeams=() => {
 
-        return selectedTeams!=-1&&selectedTeams.map((tag)=>{
+        return dataGrp.teams!=-1&&dataGrp.teams.map((tag)=>{
 
             return<Pill key={tag} color="primary">{tag}</Pill>
 
@@ -196,6 +241,7 @@ export default function Agents() {
     //  Sort Data functions End************************************************************************************************************************
 
     const initDate = ()=>{
+
         let s = new Date() , e = new Date()
 
         s.setDate(s.getDate()-1)
@@ -207,9 +253,11 @@ export default function Agents() {
     }
 
     const handleDayClick=(day) => {
+
         const range = DateUtils.addDayToRange(day, dayState);
+
         setDayState(range);
-        console.log("date = " , range)
+
     }
 
     const Define = {
@@ -224,10 +272,11 @@ export default function Agents() {
     }
 
     const submitDate =async ()=>{
+
         let s = Date.parse(dayState.from)/1000 , e = Date.parse(dayState.to)/1000
-        console.log("day state from : " ,s )
-        console.log("day state to :" ,e)
+
         setIsLoading(true)
+
         const data = await dashboardInstance.getAgentRangeData(s,e)
 
         console.log("get dashboard data : " , data)
@@ -239,7 +288,126 @@ export default function Agents() {
         setBarChart(bar)
 
         setIsLoading(false)
+
     }
+
+    const submitFilter = ()=>{
+
+        let filter = []
+
+        if(selectedUsers.length>0){
+
+        }
+        if(selectedTeams.length>0){
+
+        }
+
+
+
+        setBarChart(filter)
+    }
+
+    const loadBarChartData = (teams , users ) =>{
+
+        if(teams.length==0&&users.length) return
+
+        if(teams.length==0) return users
+
+        if(users.length==0) return teams
+
+        let bar = {cate : [] , data:[] }
+
+        bar.cate = [...teams.cate , ...users.cate]
+
+        for(let i =0 ; i < teams.data.length ; i ++){
+
+            bar.data[i].name = teams.data[i].name
+
+            bar.data[i].data = [...teams.data[0].data , ...users.data[0].data]
+
+        }
+
+        setBarChart(bar)
+    }
+
+    const usersFilter = () =>{
+
+        let filter = {cate : [] , data:[] }
+
+        let active_contact = {
+            name:"Active Contacts",
+            data:[]
+        }
+
+        let unhandled = {
+            name:"Unhandled Contacts",
+            data:[]
+        }
+
+        let delivered = {
+            name:"Delivered Contacts",
+            data:[]
+        }
+
+        for(let i = 0 ; i < selectedUsers.length ; i ++){
+
+            const select = selectedUsers[i].toString()
+
+            active_contact.data.push(dash.agents.active_contact[select])
+            unhandled.data.push(dash.agents.unhandled[select])
+            delivered.data.push(dash.agents.delivered[select])
+
+            const user = users.find(u=>{
+                return u.user_id ==user
+            })
+
+            filter.cate.push(user.username)
+
+        }
+
+        filter.data.push(active_contact,unhandled,delivered)
+
+        return filter
+
+    }
+
+    const teamsFilter = () =>{
+
+        let filter = {cate : [] , data:[] }
+
+        let active_contact = {
+            name:"Active Contacts",
+            data:[]
+        }
+
+        let unhandled = {
+            name:"Unhandled Contacts",
+            data:[]
+        }
+
+        let delivered = {
+            name:"Delivered Contacts",
+            data:[]
+        }
+
+        for(let i = 0 ; i < selectedTeams.length ; i ++){
+
+            const select = selectedTeams[i]
+
+            active_contact.data.push(dash.team.active_contact[select])
+            unhandled.data.push(dash.team.unhandled[select])
+            delivered.data.push(dash.team.delivered[select])
+
+            filter.cate.push(select)
+
+        }
+
+        filter.data.push(active_contact,unhandled,delivered)
+
+        return filter
+        
+    }
+
 
 
     useEffect(async()=>{
@@ -248,6 +416,7 @@ export default function Agents() {
 
             initDate()
             await getUsers()
+            await fetchTeams()
             await getContacts()
             await fetchDefault()
             setIsLoading(false)
@@ -255,6 +424,9 @@ export default function Agents() {
         }
 
     },[])
+
+
+
 
     return (
         <div className="dashboard-layout">
@@ -300,16 +472,32 @@ export default function Agents() {
                         })} */}
                     </MF_Select>
                             <div className={"filter_box "+(isFilterOpen?"active":"")}>
+
                                  <div className={"filter_icon"}  onClick={()=>setIsFilterOpen(!isFilterOpen)}></div>
+
                                      <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
 
                                     <div className={"chatlist_filter_box"} >
-                                                {/*<DashBroadFilter  confirm={()=>setIsFilterOpen(!isFilterOpen)} change={namePush} agents={ toggleSelectAgents} auth={2} channels={toggleSelectChannels } team={toggleSelectTeams} />*/}
+
+                                                <DashBroadFilter
+                                                    submit={()=>setIsFilterOpen(!isFilterOpen)}
+                                                    onChange={()=>console.log("Filter On Change !!!")}
+                                                    users={ users }
+                                                    auth={3}
+                                                    teams={teams}
+                                                    selectedTeams={teams}
+                                                    selectedUsers={selectedUsers}
+                                                    toggleSelectedTeams={toggleSelectedTeams}
+                                                    toggleSelectedUsers={toggleSelectedUsers}
+                                                />
+
                                     </div>
+
                                 </div>
+
                             </div>
 
-                        {/*{renderAgents()}{renderTeams()}*/}
+                        {/*{renderTeams()}*/}
                 </div>
                 <div className={"right"}>
                     {/* <div style={{position:"relative"}}>
@@ -327,7 +515,7 @@ export default function Agents() {
 
             </div>
             <div className="lineCardGroupSet">
-                {(selectedAgents.length>0||selectedTeams.length>0)?"":<div className="lineCardGroup1">
+                {(selectedUsers.length>0||selectedTeams.length>0)?"":<div className="lineCardGroup1">
                     <LineChartCard chart={true} img={false} title={"Agents"} data={{data:users.length}}/>
                     {/*<LineChartCard chart={true} img={false} title={"Connected"} data={[filteredData.filter(e=>{return e[2]=="Connected"}).length]}/>*/}
                     {/*<LineChartCard chart={true} img={false} title={"Disconnected"} data={[filteredData.filter(e=>e[2]=="Disconnected").length]}/>*/}
@@ -355,16 +543,19 @@ export default function Agents() {
             <div className="chartGroup">
                 <div className="dashboardRow" style={{maxWidth:"1500px",width:"70w",display:"flex",justifyContent:"center",minHeight:"400px",margin:"0 auto"}}  >
                     <div className="dashboardBarColumn" >
+
+                        {/*    Chart Start */}
                         {barChart &&
                         <MultipleBarChart
                             title={"Branch"}
                             yaxis={"Contacts"}
                             h={"750px"}
-                            show={show}
+                            show={true}
                             chartData={barChart.data}
                             x_cat={barChart.cate}
 
                         />}
+                    {/*    Chart End */}
                     </div>
                 </div>
 
@@ -391,14 +582,13 @@ export default function Agents() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {/*{filteredData.length!=0 && currentContacts.map((data ,index) => {*/}
-                                {users.length!=0 && currentContacts.map((data ,index) => {
+                                {/*{filteredData.length!=0 && currentUsers.map((data ,index) => {*/}
+                                {users.length!=0 && currentUsers&& currentUsers.map((data ,index) => {
                                     return( <TableRow
                                             key={index}
                                             hover
                                             role="checkbox"
                                             name={index}
-                                            // checked={selectedContacts.includes(data.id)}
                                             // onClick={isSelectRow?toggleSelect:null}
                                         >
                                             <TableCell style={{
@@ -430,35 +620,6 @@ export default function Agents() {
                                                 <span >{sortAgents(dash.agents , data ,"avg_response_time")}</span></TableCell>
                                             <TableCell align="left">
                                                 <span >{sortAgents(dash.agents , data ,"first_response_time")}</span></TableCell>
-                                            {/*<TableCell align="left">*/}
-                                            {/*    <span >{sortAgents(dash.agents , data ,"all_contacts")}</span></TableCell>*/}
-                                            {/* <TableCell align="left">
-                                                <span >{data[rolename[0]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[1]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[2]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[3]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[4]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[5]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[6]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[7]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[8]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[9]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[10]]}</span></TableCell> */}
-                                            {/* <TableCell align="left">
-                                                <span >{data[rolename[11]]}</span></TableCell>
-                                            <TableCell align="left">
-                                                <span >{data[rolename[12]]}</span></TableCell>
-                                            <TableCell align="left"></TableCell> */}
 
                                         </TableRow>
                                     )

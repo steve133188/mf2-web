@@ -11,7 +11,7 @@
     top:105px;
     width: 15vw;
     min-width: 370px;
-    max-width: 500px;   
+    max-width: 500px;
     display: flex;
 
     justify-content: center;
@@ -42,14 +42,14 @@
       letter-spacing: 0px;
       // color: #444444;
     }
-    
+
     .filter_box_status{
       display: flex;
       // justify-content: space-between;
       // align-items: center;
       padding-right: 35px;
       margin:10px 0;
-      
+
       label{
         // margin: 0;ont-family: system-ui, sans-serif;
         font-weight: bold;
@@ -62,7 +62,7 @@
         display: -moz-box;
         display: flex;
       }
-      
+
     .status_box{
       display: flex;
       align-items: center;
@@ -85,7 +85,7 @@
       //   cursor: pointer;
       //   height: 30;
       //   width: 30;
-       
+
       //   &:checked ~ .checkboxStyle{
       //     padding: 2px;
       //     background: #4F97F4 0% 0% no-repeat padding-box;
@@ -138,8 +138,8 @@
       // }
       }
 
-        
-          
+
+
     }
 
     .filter_box_channel{
@@ -151,7 +151,7 @@
       max-width: 500px;
       // overflow-y: auto;
       // overflow-x: hidden;
-      
+
       .serachSVG{
         width: 20;
         height: 20;
@@ -164,7 +164,7 @@
         height: 90%;
         justify-content: space-between;
         width: 98%;
-        
+
         .channelListitem{
           // width: 90%;
           display: flex;
@@ -221,18 +221,19 @@
         .channelList{
           // padding: 3%;
           min-height: 150px;
-          max-height: 30vh;
+          max-height: 20vh;
           overflow: auto;
-     
+
           .channelListitem{
             margin:2px 1rem;
             font: normal normal normal w00 0.9REM Manrope;
+            height: 100%;
             .name{
               width: 80%;
             }
           }
         }
-        .search_bar{  
+        .search_bar{
           width: 90%;
           display:flex;
           background: #FFF 0% no-repeat padding-box;
@@ -241,7 +242,7 @@
           color: #8B8B8B;
           border-width: 0;
           margin: 10px 5%;
-          
+
           .search_area{
             width: 100%;
             text-align: left;
@@ -331,7 +332,7 @@
             padding: 3px 15px 5px 15px;
             height: 25px;
             font: normal normal normal 15px/22px Manrope;
-           
+
 
           }
           .left{
@@ -376,7 +377,7 @@
   max-width: 500px;
   overflow: none;
   .taglList{
-    
+
     display: flex;
     justify-content:  flex-start;
     align-items: center;
