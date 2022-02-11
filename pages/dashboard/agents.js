@@ -291,20 +291,16 @@ export default function Agents() {
 
     }
 
-    const submitFilter = ()=>{
+    const submitFilter = e =>{
 
-        let filter = []
+        const usersData = usersFilter()
 
-        if(selectedUsers.length>0){
+        const teamsData = teamsFilter()
 
-        }
-        if(selectedTeams.length>0){
+        loadBarChartData(teamsData , usersData)
 
-        }
+        setIsFilterOpen(!isFilterOpen)
 
-
-
-        setBarChart(filter)
     }
 
     const loadBarChartData = (teams , users ) =>{
@@ -321,9 +317,13 @@ export default function Agents() {
 
         for(let i =0 ; i < teams.data.length ; i ++){
 
-            bar.data[i].name = teams.data[i].name
+            let data = {name:"" , data:[]}
 
-            bar.data[i].data = [...teams.data[0].data , ...users.data[0].data]
+            data.name = teams.data[i].name
+
+            data.data= [...teams.data[i].data , ...users.data[i].data]
+
+            bar.data.push(data)
 
         }
 
@@ -354,11 +354,11 @@ export default function Agents() {
             const select = selectedUsers[i].toString()
 
             active_contact.data.push(dash.agents.active_contact[select])
-            unhandled.data.push(dash.agents.unhandled[select])
-            delivered.data.push(dash.agents.delivered[select])
+            unhandled.data.push(dash.agents.unhandled_contact[select])
+            delivered.data.push(dash.agents.delivered_contact[select])
 
             const user = users.find(u=>{
-                return u.user_id ==user
+                return u.user_id ==selectedUsers[i]
             })
 
             filter.cate.push(user.username)
@@ -394,9 +394,9 @@ export default function Agents() {
 
             const select = selectedTeams[i]
 
-            active_contact.data.push(dash.team.active_contact[select])
-            unhandled.data.push(dash.team.unhandled[select])
-            delivered.data.push(dash.team.delivered[select])
+            active_contact.data.push(dash.teams.active_contact[select])
+            unhandled.data.push(dash.teams.unhandled_contact[select])
+            delivered.data.push(dash.teams.delivered_contact[select])
 
             filter.cate.push(select)
 
@@ -405,7 +405,7 @@ export default function Agents() {
         filter.data.push(active_contact,unhandled,delivered)
 
         return filter
-        
+
     }
 
 
@@ -480,7 +480,7 @@ export default function Agents() {
                                     <div className={"chatlist_filter_box"} >
 
                                                 <DashBroadFilter
-                                                    submit={()=>setIsFilterOpen(!isFilterOpen)}
+                                                    submit={submitFilter}
                                                     onChange={()=>console.log("Filter On Change !!!")}
                                                     users={ users }
                                                     auth={3}

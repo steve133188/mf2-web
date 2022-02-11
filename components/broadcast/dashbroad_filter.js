@@ -233,7 +233,7 @@ export default function DashBroadFilter(props){
 
                 <div className="confirm_btn_set">
 
-                    <button className={"confirmButton"} style={{margin:" 0 10px"}} onClick={props.confirm}  color="neutral"> Confirm </button>
+                    <button className={"confirmButton"} style={{margin:" 0 10px"}} onClick={submit}  color="neutral"> Confirm </button>
                     <button className={"cancelButton"} onClick={clearFilter} > Cancel </button>
                 </div>
          </div>

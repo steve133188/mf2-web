@@ -173,7 +173,7 @@ export function MultipleBarChart({children,...props}) {
 
     const [state, setState] = useState({
         series: [...chartData],
-            options: {
+        options: {
                 chart: {
                     type: 'bar',
                     height: {h},
@@ -233,7 +233,66 @@ export function MultipleBarChart({children,...props}) {
             },
          })
             useEffect(()=>{
-                setState({...state , series: [...chartData]})
+                setState({
+                    series: [...chartData],
+                    options: {
+                        chart: {
+                            type: 'bar',
+                            height: {h},
+                            width:"100%",
+                            stacked: true,
+                            zoom: {
+                                enabled: true
+                            }
+                        },
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                legend: {
+                                    position: 'bottom',
+                                    offsetX: -10,
+                                    offsetY: 0
+                                }
+                            }
+                        }],
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                borderRadius: 10,
+                                columnWidth: '50%',
+                            },
+                        },
+                        xaxis: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 90,
+                                minRotation: 90
+                            },
+                            categories: x_cat,
+                            labels: {
+                                offsetX: 0,
+                                offsetY:0,
+                                style: {
+                                    fontSize: "15px",
+                                    colors: "#828282",
+                                    fontFamily: "Calibri Regular",
+                                    fontWeight: "500",
+                                    cssClass: "apexcharts-xaxis-label"
+                                }
+                            },
+                            type: 'string',
+
+
+                        },
+                        legend: {
+                            position: 'bottom',
+                            offsetY: 0
+                        },
+                        fill: {
+                            opacity: 1
+                        },
+                        colors: ["#2198FA","#6279EC", '#34C38F']
+                    },})
 
             },[chartData])
 
