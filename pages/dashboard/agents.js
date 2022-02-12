@@ -491,16 +491,16 @@ export default function Agents() {
                                     <div className={"chatlist_filter_box"} >
 
                                                 <DashBroadFilter
-                                                    submit={submitFilter}
-                                                    onChange={()=>console.log("Filter On Change !!!")}
-                                                    users={ users }
                                                     auth={3}
+                                                    users={ users }
                                                     teams={teams}
-                                                    cancelClick={closeFilter}
                                                     selectedTeams={selectedTeams}
                                                     selectedUsers={selectedUsers}
                                                     toggleSelectedTeams={toggleSelectedTeams}
                                                     toggleSelectedUsers={toggleSelectedUsers}
+                                                    submit={submitFilter}
+                                                    cancelClick={closeFilter}
+
                                                 />
 
                                     </div>

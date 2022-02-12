@@ -54,10 +54,8 @@ const style ={
     height:"2rem"
 }
 
-
-
 export default function Organization() {
-    const {contactInstance , userInstance ,adminInstance ,roleInstance,orgInstance, user} = useContext(GlobalContext)
+    const { userInstance  ,roleInstance,orgInstance, user} = useContext(GlobalContext)
     const [users, setUsers] = useState([]);
     const [org, set_org] = useState([]);
     const [teams, setTeams] = useState([]);
@@ -83,11 +81,12 @@ export default function Organization() {
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isEditNameActive,setisEditNameActive] = useState(false)
     const [editedName,setEditedName] = useState("")
+
     const handleEditName=(e)=>{
 
         if(editedName){
             // fetch change name
-            console.log(editedName)
+
             setEditedName("")
         }
         setisEditNameActive(!isEditNameActive)
@@ -113,7 +112,6 @@ export default function Organization() {
     }
     const getAllTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
-        console.log("getTeams :",data)
         setTeams(data)
     }
 
@@ -125,7 +123,6 @@ export default function Organization() {
     const fetchRootORG = async () =>{
         const data = await orgInstance.getAllORG()
         set_org(data)
-        console.log("org data",data)
     }
     useEffect(    async () => {
         set_curr_org({})
@@ -145,7 +142,7 @@ export default function Organization() {
 
     },[]);
     useEffect(    async () => {
-        console.log(curr_org,"curr_org")
+
         if(user.token&&!curr_org.name){
             await fetchUsers()
         }else if(user.token&&curr_org.name=="Not Assigned"){
@@ -155,9 +152,7 @@ export default function Organization() {
         }
     },[curr_org]);
 
-    useEffect(()=>{
-        console.log(selectedUsers)
-    },[selectedUsers])
+
     const toggleSelect = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
@@ -183,7 +178,7 @@ export default function Organization() {
         }
         const newData = users.filter(u=> {
             if(search.trim() == ""){
-                console.log("no input")
+
                 return users
             }
             return u.username.toLowerCase().includes(search)
@@ -194,7 +189,7 @@ export default function Organization() {
 
     const toggleProfile = (key) =>{
         if(!isProfileShow) setUseUser(key)
-        console.log(key,"use users")
+
         setIsProfileShow(!isProfileShow)
     }
     const toggleNewTeam = async () =>{
@@ -215,9 +210,7 @@ export default function Organization() {
     }
     const renderTeam = (tid , teams)=>{
         if(tid==0 ||!tid) return "-"
-        console.log("tid: " ,tid)
         const team =teams.find(t=>t.org_id== tid)
-        console.log("team :" ,team)
         if(team)return team.name
         if(team==0)return "-"
     }
@@ -231,7 +224,6 @@ export default function Organization() {
 
     const delete_org = async (id)=>{
         const res = await orgInstance.deleteOrgById(id)
-        console.log(`deleted ${id} ${res}`)
         await fetchRootORG()
 
     }
@@ -251,11 +243,9 @@ export default function Organization() {
     const displayTeam=(name)=>{
         set_curr_org(name)
         setisEditNameActive(false)
-        console.log(name,"show   team name")
     }
     const handleChangeName=e=>{
         setEditedName(e.target.value)
-        console.log(e.target.value,"edited name")
 
     }
     const comfirmTeamNameEdit = async()=>{

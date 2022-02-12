@@ -15,7 +15,6 @@ import EditAgent from "../../pages/admin/Agent/editAgent";
 export default function UserProfileGrid({data , roles , teams}){
 
     const {contactInstance } = useContext(GlobalContext)
-    const [log , setLog]  = useState([])
     const [assingedContacts, setAssingedContacts] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [isReload,setReload] = useState(false)
@@ -24,9 +23,7 @@ export default function UserProfileGrid({data , roles , teams}){
 
     const renderTeam = (tid , teams)=>{
         if(tid==0 ||!tid) return "-"
-        console.log("tid: " ,tid)
         const team =teams.find(t=>t.org_id== tid)
-        console.log("team :" ,team)
         if(team)return team.name
         if(team==0)return "-"
     }
@@ -34,44 +31,38 @@ export default function UserProfileGrid({data , roles , teams}){
     const renderRole = (rid , roles)=>{
         if(!rid|| rid==0) return "-"
         const agent_role =roles.find(r=>r.role_id== rid)
-        console.log("agent role == " , agent_role )
         if(agent_role) setRole(agent_role)
     }
 
-    console.log(data)
     useEffect(async()=>{
         renderRole(data.role_id , roles)
         await  fetchContacts()
-        //    fetch log by customer_id
-        //    fetch assignee by customer_id
-        //    fetch team by customer_id
-
     },[])
+
+
     useEffect(()=>{
         console.log(data,"agent profile")
     },[])
     const fetchContacts = async () =>{
         const contactsdata = await contactInstance.getAllContacts()
-        console.log(data)
-        console.log(data.authority)
-        console.log(contactsdata,"contactssss")
+
         const assigned = contactsdata.filter(c=>{return c.agents_id.some(el=>el.username ==data.username)})
-        console.log(assigned,"contactssss")
+
         setAssingedContacts(assigned)
 
         const date = new Date(data.last_login)
-        console.log(data.last_login)
-        console.log(Date.now())
-        console.log(date.toUTCString())
-        // setFilteredData(data)
+
     }
     const toggleEdit = ()=>{
-      console.log(data, "toggleEdit")
+
         toggleEditProfile(data)
+
     }
+
+
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow)
-        // setUseUser(key);
+
         if(isEditProfileShow) ;
         setIsEditProfileShow(!isEditProfileShow)
     }
@@ -151,7 +142,7 @@ export default function UserProfileGrid({data , roles , teams}){
             <div className={"log_input half_session grid_box"}>
                 <div className={"block_session"}>
                     <div className={"top_row"}><span className={"title"}>No . of Assigned Contacts ({assingedContacts.length})</span></div>
-                    {/* {data.agents.map(agent=>{<div>agent.username</div>})} */}
+
                     <TableContainer
                         sx={{minWidth: 600 ,}}
                         className={"table_container"}
@@ -176,10 +167,7 @@ export default function UserProfileGrid({data , roles , teams}){
                                     return( <TableRow
                                             key={index}
                                             hover
-                                            // role="checkbox"
                                             name={index}
-                                            // checked={selectedUsers.includes(data.phone)}
-
                                         >
                                             <TableCell style={{width: "20%",}}>
                                                 {item.customer_id}
@@ -201,12 +189,6 @@ export default function UserProfileGrid({data , roles , teams}){
                                             <TableCell align="left">
 
                                             </TableCell>
-
-
-                                            {/*<TableCell align="right">*/}
-                                            {/*    <span className={"right_icon_btn"}>{editSVG}</span>*/}
-                                            {/*    <span className={"right_icon_btn"}>{deleteSVG}</span>*/}
-                                            {/*</TableCell>*/}
                                         </TableRow>
                                     ) })}
                             </TableBody>

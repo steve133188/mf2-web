@@ -54,7 +54,6 @@ export default function Contacts() {
     const [tags ,setTags] =useState([])
     const [teams ,setTeams] =useState([])
 
-    const [division ,setDivision] =useState([]);
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
@@ -81,16 +80,19 @@ export default function Contacts() {
             if(selectedUsers.length==0){
                 return data
             }
-            return data.agents_id.some(el=>selectedUsers.includes(el.username))
+            return data.agents_id.some(el=>selectedUsers.includes(el.toString()))
         })
 
         const tagFiltered = agentFiltered.filter(data=>{
            if(selectedTags.length==0){
                return data
            }
-           return data.tags_id.some(el=>selectedTags.includes(el.tags_id))
+           if (data.tags_id && data.tags_id.length > 0){
+               return data.tags_id.some(el=>selectedTags.includes(el.toString()))
+           }
         }
         )
+
 
         const channelFiltered = tagFiltered.filter(data=>{
             if(selectedChannel.length ==0){
@@ -107,6 +109,7 @@ export default function Contacts() {
             return data.agents_id.some(el=>{return el.team_id==selectedTeams[0].id})
             // return data.team==selectedTeams.id
         })
+
         setFilteredData([...teamFiltered])
     }
 
@@ -118,15 +121,19 @@ export default function Contacts() {
                 {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
 
     const renderUsers = ()=>{
+
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
+                const user = users.find(u=>{
+                    return u.user_id.toString() === agent
+                })
                 return (
-                    <Tooltip key={index} className={""} title={agent} placement="top-start">
+                    <Tooltip key={index} className={""} title={user.username} placement="top-start">
                         <Avatar className={"mf_bg_warning mf_color_warning text-center 123"} sx={{
                             width: 22,
                             height: 22,
                             fontSize: 14
-                        }}>{agent.substring(0, 2).toUpperCase()}</Avatar>
+                        }}>{user.username.substring(0, 2).toUpperCase()}</Avatar>
                     </Tooltip>
                 )
             })}
@@ -134,7 +141,10 @@ export default function Contacts() {
     }
     const renderSelectedTags=() => {
         return selectedTags!=-1&&selectedTags.map((tag)=>{
-            return<Pill key={tag} color="vip">{tag}</Pill>
+
+            const selected = tags.find(t=>t.tag_id.toString() === tag)
+
+            return<Pill key={tag} color="vip">{selected.tag_name}</Pill>
         })
     }
     const renderChannels=() => {
@@ -144,26 +154,23 @@ export default function Contacts() {
     }
     const getTags = async ()=>{
         const data = await tagInstance.getAllTags()
-        console.log("Get Tags " , data)
+
         setTags(data)
         setFilteredTags(data)
 
     }
     const getUsers = async ()=>{
         const data = await userInstance.getAllUser()
-        console.log(data,"User Data")
+
         setUsers(data)
         setFilteredUsers(data)
     }
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
-        console.log(data,"TEAM INFO")
+
         setTeams(data)
     }
-    const getDivision = async () =>{
-        const data = await orgInstance.getAllORG ()
-        setDivision(data.filter(e=>{return e.type=="division"}))
-    }
+
     const getChannels = async ()=>{
         // const data = await orgInstance.getOrgTeams()
         setFilteredChannel(channels)
@@ -172,7 +179,7 @@ export default function Contacts() {
         const data =await contactInstance.getAllContacts()
 
         setContacts(data)
-        console.log("customer data : " , data)
+
         setFilteredData(data)
     }
     useEffect(async () => {
@@ -181,7 +188,6 @@ export default function Contacts() {
             await getUsers()
             await getTeams()
             await getChannels ()
-            await getDivision()
             await fetchContacts()
         }
         setSelectedUsers([])
@@ -200,7 +206,7 @@ export default function Contacts() {
         if (!checked) {
             setSelectedContacts(selectedContacts=>selectedContacts.filter(item => item !== id));
         }
-        console.log(selectedContacts, "TMP selceted contacts")
+
     };
     const toggleSelectChannel = e => {
         const { checked ,id} = e.target;
@@ -208,7 +214,7 @@ export default function Contacts() {
         if (!checked) {
             setSelectedChannel(selectedChannel.filter(item => item !== id));
         }
-        console.log(selectedChannel)
+
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
@@ -216,15 +222,16 @@ export default function Contacts() {
         if (selectAll) {
             setSelectedContacts([]);
         }
-        console.log(selectedContacts)
+
     };
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
-        setSelectedTags([...selectedTags, id]);
         if (!checked) {
             setSelectedTags(selectedTags.filter(item => item !== id));
+            return
         }
-        console.log(selectedTags)
+        setSelectedTags([...selectedTags, id]);
+
     };
     const toggleAddTags = e => {
         const { checked ,id} = e.target;
@@ -232,19 +239,20 @@ export default function Contacts() {
         if (!checked) {
             setAddedTags(addedTags.filter(item => item !== id));
         }
-        console.log(addedTags)
+
     };
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
-        console.log(checked,id)
 
-        setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
+            return
         }
+        setSelectedUsers([...selectedUsers, id]);
+
     };
     const toggleSelectTeams = e => {
-        // console.log(e,"electaedTeams in filter")
+
         const { checked ,id} = e.target;
         setSelectedTeams(prev=>[...selectedTeams, id]);
         if (!checked) {
@@ -294,22 +302,14 @@ export default function Contacts() {
     const removeContact = async (id)=>{
         const res =await contactInstance.deleteContact (id)
         setDeleteID("")
-            console.log(id)
-            console.log(res)
-            await fetchContacts()
+        await fetchContacts()
     }
 
     const removeManyContact = async ()=>{
-        console.log("selected delete contacts",selectedContacts)
-        // let items =[]
-        // if(selectedContacts!=-1){
-        //     selectedContacts.forEach((c)=>{
-        //         items.push(parseInt(c))
-        //     })
-        // }
+
         const res =await contactInstance.deleteContacts(selectedContacts)
         setSelectedContacts([])
-        console.log(res)
+
         await fetchContacts()
         setSelectedContacts([])
 
@@ -332,7 +332,7 @@ export default function Contacts() {
     }
     useEffect(()=>{
         advanceFilter()
-    },[selectedTeams])
+    },[selectedTeams , selectedUsers, selectedChannel , selectedTags])
 
     const editSVG =(
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2198fa"
@@ -450,7 +450,7 @@ export default function Contacts() {
                                     <div className={"name"}>{user.username}</div>
                                 </div>
                                 <div className="newCheckboxContainer">
-                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.username} name="checkbox" checked={selectedUsers.includes(user.username)} onClick={toggleSelectUsers} onChange={()=>{}}/>
+                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.user_id} name="checkbox" checked={selectedUsers.includes(user.user_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}/>
                                     </label>
                                 </div>
                             </li>)
@@ -496,7 +496,7 @@ export default function Contacts() {
                             return(<li key={index}><Pill size="30px"  color="vip">{tag.tag_name}</Pill>
                                 <div className="newCheckboxContainer">
                                     <label className="newCheckboxLabel">
-                                        <input type="checkbox" id={tag.tag_name} value={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_name)} onClick={toggleSelectTags} onChange={()=>{}} />
+                                        <input type="checkbox" id={tag.tag_id} value={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id.toString())} onClick={toggleSelectTags} onChange={()=>{}} />
                                     </label> </div></li>)
                         })}
                     </MF_Select>
