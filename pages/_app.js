@@ -18,6 +18,7 @@ function MyApp({ Component, pageProps }) {
       <Head>
           <title>MatrixForce 2.0</title>
           <meta name="description" content="The best social commerce solution"/>
+          <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
           <link rel="icon" href="/MS_logo-square (1).svg"/>
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>

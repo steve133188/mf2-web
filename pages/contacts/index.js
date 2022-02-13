@@ -176,7 +176,7 @@ export default function Contacts() {
     }
     const fetchContacts = async () =>{
         let data =await contactInstance.getOwnContact(user.user.user_id)
-        
+
         // if(userAuth.authority.all){
         //     data =await contactInstance.getAllContacts()
         //
