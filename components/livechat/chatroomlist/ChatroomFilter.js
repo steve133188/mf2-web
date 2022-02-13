@@ -7,7 +7,7 @@ import DropDown from "../../filter/teamDropDown";
 
 export default function ChatroomFilter( props){
 
-    const {  onClick , users, tags ,confirm  , clear , teams ,chats ,contacts} = props
+    const {  onClick , users, tags ,confirm  , clear , teams ,chats ,contacts } = props
 
     const channelData = [
         {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
@@ -22,10 +22,20 @@ export default function ChatroomFilter( props){
     const [selectedTags ,setSelectedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([]);
     const [agentBarOpen,setAgentBar] = useState(false)
+    const [isUnread,setIsUnread] = useState(false)
+    const [isUnassigned,setIsUnassigned] = useState(false)
     const [agentSearchValue, setAgentValue]= useState("")
     const [selectedDivision ,setSelectedDivision] =useState([])
     const [teamBarOpen,setTeamBar] = useState(false)
     const [dBarOpen,setDBar] = useState(false)
+
+    const toggleUnread=e=>{
+        setIsUnread(!isUnread)
+    }
+
+    const toggleUnassigned=e=>{
+        setIsUnassigned(!isUnassigned)
+    }
 
     useEffect(    async () => {
         setFilteredTags(tags)
@@ -82,19 +92,33 @@ export default function ChatroomFilter( props){
         onClick();
     }
     const tagFilter =( chats ,filter ,contacts)=>{
-
-        const gp= contacts.filter(c=>c.tags_id.filter(d=>{return filter.includes(d.toString())}))
-        return chats.filter(ch=>{return gp.map(g=>g.customer_id.toString()).includes(ch.customer_id.toString())})
-
+        let data = contacts.filter(con => filter.includes(con.tags_id))
+        // const gp= contacts.filter(c=>c.tags_id.filter(d=>{return filter.includes(d.toString())}))
+        if(data.length==0 ||!data) return []
+        let res =  chats.filter(ch=>{return data.find(d=>d.customer_id== ch.customer_id ).customer_id==ch.customer_id })
+        if(!res|| res.length==0) return []
+        return res
     }
+    const unreadFilter = (data) =>{
+        console.log("unreadFilter")
+        let res = data.filter(d=>d.unread!==0)
+        return res
+    }
+    const unassignedFilter = (data) =>{
+        console.log("unassignedFilter")
 
+        let res = data.filter(d=>d.user_id==null || d.user_id==undefined || d.user_id==0)
+        return res
+    }
     const filterData =()=>{
         let data = [...chats]
 
-        console.log("selectedUsers" , selectedUsers)
-        console.log("selectedTeams " , selectedTeams)
+        console.log("isUnread" , isUnread)
+        console.log("isUnassigned " , isUnassigned)
         console.log("selectedTags " , selectedTags)
         console.log("selectedChannels " , selectedChannels)
+        if(isUnread)data=unreadFilter(data)
+        if(isUnassigned)data=unassignedFilter(data)
         if(selectedUsers.length>0){
             data =  data.filter(d=>selectedUsers.includes(d.user_id.toString()))
         }
@@ -140,14 +164,14 @@ export default function ChatroomFilter( props){
             <div className={"filter_box_status"}  >
                 <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                        <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} onClick={props.unread} />
+                        <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}}  checked={isUnread} onClick={toggleUnread} />
                         </label>
                     </div>
                     Unread
                 </div>
                 <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                        <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} onClick={props.unassigned}/>
+                        <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} checked={isUnassigned} onClick={toggleUnassigned}/>
                         </label>
                     </div>
                     Unassign
@@ -258,9 +282,9 @@ export default function ChatroomFilter( props){
                                 <label className="newCheckboxLabel">
                                     <input
                                         type="checkbox"
-                                        id={tag.tag_name}
+                                        id={tag.tag_id}
                                         name="checkbox"
-                                        checked={selectedTags.includes(tag.tag_name)}
+                                        checked={selectedTags.includes(tag.tag_id.toString())}
                                         onClick={toggleSelectTags}
                                         onChange={()=>{}}
                                     />

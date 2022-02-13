@@ -28,6 +28,11 @@ export default function contactsFetcher(token) {
         const d = await instance.fetcher.get("/customers").then(res => res.data).catch(err => console.log(err))
         return d
     }
+
+    instance.getOwnContact = async (uid)=>{
+        const d = await instance.fetcher.get(`/customers/agent/${uid}`).then(res => res.data).catch(err => console.log(err))
+        return d
+    }
     instance.createContact = async (data) => {
         const d = await instance.fetcher.post("/customer", data).then(res => res.data).catch(err => console.log(err))
         return d
