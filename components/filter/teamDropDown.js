@@ -11,18 +11,15 @@ import Avatar from "@mui/material/Avatar";
 import { GlobalContext } from "../../context/GlobalContext";
 
 export default function DropDown ({teamData,setSelection,...props}) {
-
+        const {agents , selectedUsers , selectedTeams , updateSelectedUsers , updateSelectedTeams} = props
 
         const getUsers = async()=>{
           const res = await userInstance.getAllUser()
          setLevelTwoData(res)
         }
         const fetchTeamAgents = async (id) =>{
-          // console.log(id)
           const res = await userInstance.getUsersByTeamId(id)
-          console.log(res)
 
-        //  setLevelTwoData(res)
         }
 
     const { userInstance } = useContext(GlobalContext);
@@ -30,73 +27,46 @@ export default function DropDown ({teamData,setSelection,...props}) {
     const [levelOneData, setLevelOneData] = useState([]);
     const [levelTwoData, setLevelTwoData] = useState([]);
 
-    const [selectedUsers ,setSelectedUsers] =useState([]);
-    const [selectedTeams ,setSelectedTeams] =useState([])
 
     useEffect(async()=>{
       setLevelOneData(teamData)
       await getUsers()
-      // setLevelTwoData(AgentsList)
-        // console.log(teamData)
-    },[teamData])
+
+    },[])
 
     const clear = () =>{
-      setSelectedUsers([]);
-      setSelectedTeams([]);
-      // setOpen([])
-    }    
-    useEffect(()=>{
-      // props.isclear?clear():""
-      console.log(selectedTeams,"team")
-      console.log(selectedUsers,"use")
-    },[props.clear])
-
-    const handleClick = async (name,id) => {
-      console.log(name,id)
-      // await fetchTeamAgents(id)
-      setOpen(prev=>[...open,name]);
-        if(open.includes(name)){setOpen(open.filter(e=>e!==name))}
-
-    };
-   
-    const [checked, setChecked] = useState([0]);
-    // const handleToggle = (value) => () => {
-    //   const currentIndex = checked.indexOf(value);
-    //   const newChecked = [...checked];
-  
-    //   if (currentIndex === -1) {
-    //     newChecked.push(value);
-    //   } else {
-    //     newChecked.splice(currentIndex, 1);
-    //   }
-  
-    //   setChecked(newChecked);
-    // };
-    const toggleSelectUsers = e => {
-      const { checked ,id} = e.target;
-      setSelectedUsers([...selectedUsers, id]);
-      if (!checked) {
-          setSelectedUsers(selectedUsers.filter(item => item !== id));
-      }
-      props.agents(e)
-      console.log(selectedUsers,"usersss")
-  };
-  const toggleSelectTeams = e => {
-    // console.log(e,"electaedTeams in filter")
-    const { checked ,id} = e.target;
-    setSelectedTeams([...selectedTeams, id]);
-    // console.log(levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)}),"dsafdasfadfdasfs")
-    const list = levelTwoData&&levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
-    setSelectedUsers(list.map(e=>e.user_id.toString()))
-    if (!checked) {
-        setSelectedTeams(selectedTeams.filter(item => item !== id));
-        setSelectedUsers([])
+        updateSelectedUsers([])
+        updateSelectedTeams([]);
     }
 
-    props.team(e)
-    console.log(selectedTeams,"electaedTeams in filter")
-    
-};
+
+    const handleClick = async (name,id) => {
+      setOpen(prev=>[...open,name]);
+        if(open.includes(name)){setOpen(open.filter(e=>e!==name))}
+    };
+
+
+    const toggleSelectUsers = e => {
+      const {  id} = e.target;
+      if (selectedUsers.includes(id)) {
+          updateSelectedUsers(selectedUsers.filter(item => item !== id));
+          return
+      }
+        updateSelectedUsers([...selectedUsers, id]);
+
+    };
+  const toggleSelectTeams = e => {
+
+      const {  id} = e.target;
+      if (selectedTeams.includes(id)) {
+          updateSelectedTeams(selectedTeams.filter(item => item !== id));
+          updateSelectedUsers(levelTwoData.filter(item => item.team_id==parseInt(id)))
+          return
+      }
+      updateSelectedTeams([...selectedTeams, id]);
+      const list = levelTwoData&&levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
+      updateSelectedUsers(list.map(e=>e.user_id.toString()))
+    };
     return (
         <List
           sx={{ width: '95%', maxWidth: 360, bgcolor: 'transparent',paddingTop:"0",paddingBottom:"0"}}
@@ -110,8 +80,8 @@ export default function DropDown ({teamData,setSelection,...props}) {
           <ListItemButton onClick={()=>{handleClick(team.name,team.org_id);}} id={team.org_id}  sx={{padding:"0 1rem "}} >
             <ListItemText primary={team.name} />
             <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> 
-                                        <input type="checkbox" id={team.org_id} name={team.name} 
+                                        <label className="newCheckboxLabel">
+                                        <input type="checkbox" id={team.org_id} name={team.name}
                                          checked={selectedTeams.includes(team.org_id.toString())} onClick={(e)=>{e.stopPropagation();toggleSelectTeams(e)}} onChange={()=>{}}
                                           />
                                         </label>
@@ -129,21 +99,21 @@ export default function DropDown ({teamData,setSelection,...props}) {
                                             <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:25 , height:25 ,fontSize:14,marginRight:"10px"}} >{agent.username.substring(0,2).toUpperCase()}</Avatar>
                                         </Tooltip>
                                     <ListItemText primary={agent.username} />
-                        
+
                                        <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel"> 
-                                        <input type="checkbox" id={agent.user_id} name={agent.username} 
+                                        <label className="newCheckboxLabel">
+                                        <input type="checkbox" id={agent.user_id} name={agent.username}
                                         // checked={checked.indexOf(agent.user_id) !== -1}
                                         checked={selectedUsers.includes(agent.user_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}
                                         />
                                         </label>
                                     </div>
-                                    </ListItemButton>)} 
+                                    </ListItemButton>)}
                         )}
-                        
+
                 </List>
             </Collapse>
-            
+
           </div>
 
              }
@@ -152,4 +122,3 @@ export default function DropDown ({teamData,setSelection,...props}) {
         </List>
       );
     }
-    

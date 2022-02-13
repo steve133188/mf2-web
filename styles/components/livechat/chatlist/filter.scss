@@ -218,6 +218,8 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
+        max-height: 600px;
+        overflow: scroll;
         .channelList{
           // padding: 3%;
           min-height: 150px;

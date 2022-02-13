@@ -17,35 +17,16 @@ import {Avatar } from "@mui/material";
 export default function SideBar({setNotificationList , openNoteList , toggleNoteList,...props}  ) {
     //data for notify box
     // const {data} = useSubscription(GET_NOTIFICATIONS)
-    const { user ,subInstance,roleInstance } = useContext(GlobalContext)
+    const { user ,subInstance,roleInstance ,userAuth } = useContext(GlobalContext)
 
-    const [userAuth,setUserAuth] = useState({})
 
-   useEffect(async()=>{
-       if(user.token){
-           const data = await roleInstance.getRoleById(user.user.role_id)
-           setUserAuth(data.authority)
 
-       }
-   },[])
 
    useEffect(()=>{
     console.log(userAuth)
    },[userAuth])
 
     const {  logout } = useContext(GlobalContext);
-    const sample_data = [
-        {
-            id:1,
-            notify_from:"Tim",
-            notify_reason:"replied you",
-            notify_content:"Lorem ipsum dolor sit amet.",
-            unreadCount:2,
-            profile_pic_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT81NV-e-gLTLGZmD2Ffa3dsDCms_o-sde3xlC4Fiz8ppcUABMvYywhvaxI1_NGrMSw3kQ&usqp=CAU",
-            receive_time:"3:45PM"
-        }
-    ]
-
     const router = useRouter()
     const [isDashOpen, setIsDashOpen] = useState(false)
     const [isTurnUp, setIsTurnUp] = useState(false)
@@ -86,7 +67,6 @@ export default function SideBar({setNotificationList , openNoteList , toggleNote
 
     useEffect(()=>{
           size.width<1500?setIsCollapse(true):setIsCollapse(false)
-        //   useWindowSize()
       },[size])
 
 
@@ -160,13 +140,13 @@ export default function SideBar({setNotificationList , openNoteList , toggleNote
                                     </Link>
                                 </>) : null}
                         </div>)}
-                        {userAuth&&userAuth.livechat? <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")} />:""}
-                        {userAuth&&userAuth.contact? <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>:""}
+                        {userAuth&&userAuth.authority.livechat? <NavItem url={"/livechat"} name={"Live Chat"} icon={(<CommentsAltSVG size="16"/>)} active={isActiveURL("/livechat")} />:""}
+                        {userAuth&&userAuth.authority.contact? <NavItem url={"/contacts"} name={"Contacts"} icon={(<ContactSVG size="16"/>)} active={isActiveURL("/contacts")}/>:""}
                         {/* <NavItem url={"/broadcast"} name={"Broadcast"} icon={(<BroadcastSVG size="16"/>)} active={isActiveURL("/broadcast")}/> */}
-                       {userAuth&&userAuth.integrations?  <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="16"/>)} active={isActiveURL("/integrations")}/>:""}
+                       {userAuth&&userAuth.authority.integrations?  <NavItem url={"/integrations"} name={"Integrations"} icon={(<IntegrationsSVG size="16"/>)} active={isActiveURL("/integrations")}/>:""}
                         {/* <NavItem url={"/products"} name={"Products"} icon={(<ProductsSVG size="16"/>)} active={isActiveURL("/products")}/> */}
-                        {userAuth&&userAuth.organization? <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="16"/>)} active={isActiveURL("/organization")}/>:""}
-                        {userAuth&&userAuth.admin? <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="16"/>)} active={isActiveURL("/admin")}/>:""}
+                        {userAuth&&userAuth.authority.organization? <NavItem url={"/organization"} name={"Organization"} icon={(<OrganizationSVG size="16"/>)} active={isActiveURL("/organization")}/>:""}
+                        {userAuth&&userAuth.authority.admin? <NavItem url={"/admin"} name={"Admin"} icon={(<AdminSVG size="16"/>)} active={isActiveURL("/admin")}/>:""}
 
 
                         {/*{navItems.map((i,index)=>{*/}

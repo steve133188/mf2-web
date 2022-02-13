@@ -23,24 +23,12 @@ import {
     subscribeChatroom,
     suballChatroom,
 } from "../../src/graphql/subscriptions"
-import Avatar from "@mui/material/Avatar";
-import StickerBox from "../../components/livechat/sticker/sticker_box";
-import QuickReply from "../../components/livechat/quickReply/quickreply";
 import searchFilter from "../../helpers/searchFilter";
-import CountDownTimer from "../../components/CountDownTimer";
-import NotificationList from "../../components/NotificationList";
-import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
-import { getURL } from "next/dist/shared/lib/utils";
-import { padding } from "@mui/system";
-import BigPlayButton from "video-react/lib/components/BigPlayButton";
-import Player from "video-react/lib/components/Player";
 import Profile from "../../components/profile";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import {useRouter} from "next/router";
-import Forward from "../../components/livechat/forward";
-import {  Tooltip } from "@mui/material";
-import { forward } from "video-react/lib/actions/player";
 import Chatroom from "../../components/livechat/chatroom/Chatroom";
+import LiveChatLeftColumn from "../../components/livechat/chatroomlist/LiveChatLeftColumn";
 
 
 export default function Live_chat() {
@@ -57,22 +45,15 @@ export default function Live_chat() {
 
         ]
         const router = useRouter()
-        const {contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper  ,selectedChat , setSelectedChat , getUserChannel} = useContext(GlobalContext)
-        const [chatrooms , setChatrooms] = useState([])
+        const {  updateSelectedChatroom, contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user , messageInstance , chatHelper  ,selectedChat , setSelectedChat , getUserChannel} = useContext(GlobalContext)
         const [chatroomMsg , setChatroomMsg]  = useState([])
-        const [attachment , setAttachment ] = useState([])
-        const [chatSearch, setSearch] = useState(false)
-        const [isRobotOn , setIsRobotOn] = useState(false)
-        const [chatboxSearch, setChatBoxSearch] = useState("")
-        const [isExpand , setIsExpand] = useState(false)
+        const [chats , setChats]  = useState([])
+    const [contacts, setContacts] = useState([]);
+    const [chatboxSearch, setChatBoxSearch] = useState("")
         const [isReply , setIsReply] = useState(false)
-        const [isEmojiOn,setEmojiOn] = useState(false)
         const [ChatButtonOn,setChatButtonOn] = useState(false)
-        const [whatsappChan , setWhatsappChan] = useState()
         const [subscribe,setSubscribe] = useState()
-        const [subscribePin,setSubscribePin] = useState()
         const [subscribeToNewMessage,setSubscribeToNewMessage] = useState()
-        const [isUpdating , setIsUpdating] = useState(false)
         const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
         const [replyData ,setReplyData] = useState([])
         const [replyMsg, setReplyMsg] = useState("")
@@ -87,7 +68,6 @@ export default function Live_chat() {
             message_type:"text"
         })
         const [chatroomsSub , setChatroomsSub] = useState()
-
         const [isEditProfileShow , setIsEditProfileShow] = useState(false)
         const [users ,setUsers] =useState([])
         const [teams ,setTeams] =useState([])
@@ -99,16 +79,10 @@ export default function Live_chat() {
         const [selectedTeams ,setSelectedTeams] =useState([])
         const [selectedChannels ,setSelectedChannels] =useState([]);
         const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
-        const [chatroomsInfo, setChatroomsInfo] = useState([])
         const [filteredTags ,setFilteredTags] =useState([])
         const [filteredUsers ,setFilteredUsers] =useState([])
-        const [filteredData , setFilteredData] = useState([])
+        const [filteredData , setFilteredData] = useState([...chats])
         const [filteredContacts , setFilteredContacts] = useState([])
-
-        const [isWABAStart , setWABA] =useState(true)
-        useEffect(()=>{
-            console.log(isWABAStart,"check state")
-        },[isWABAStart])
         // const [totalUnread, setTotalUnread] = useState(0)
         const [unread,setUnread] = useState(false)
         const [unassigned,setUnassigned] = useState(false)
@@ -119,14 +93,14 @@ export default function Live_chat() {
         const [lastMsgFromClient , setLastMsgFromClient] = useState("")
         const [isForward,setIsForward] = useState(false)
 
-    const getOwnPinChatList = async ()=>{
-        const user_id = user.user.user_id
-        const res = await API.graphql(graphqlOperation(listChatrooms , {filter:{user_id: {eq:user_id} , is_pin: {eq:true}} ,limit:1000}))
-            .then(response=>{
-            setPinChat(prev=>response.data.listChatrooms.items)
-        })
-            .catch(err=>alert(err))
+
+    const updateFilteredData = (data)=>{
+            setFilteredData([...data])
+        console.log("filtered data: " ,data)
     }
+
+
+
     const subChatrooms= async ()=>{
         let user_id= user.user.user_id
         if(chatroomsSub) chatroomsSub.unsubscribe()
@@ -136,10 +110,9 @@ export default function Live_chat() {
                 next: async (chat) => {
                     console.log("new message" , chat)
                     const newChat = chat.value.data.suballChatroom
-                    const filteredChat = chatrooms.filter(chat=>chat.room_id==newChat.room_id)
+                    const filteredChat = chats.filter(chat=>chat.room_id==newChat.room_id)
                     let newChatList = [newChat , ...filteredChat]
-                    setChatrooms(newChatList)
-                    // await getAllChatrooms()
+                    setChats(newChatList)
                 }
             })
         console.log("subscribe chatrooms start : " , sub)
@@ -182,90 +155,33 @@ export default function Live_chat() {
     }
 
 
+    const getChats = async () =>{
+        const data = await chatHelper.getOwnedChatrooms(user.user.user_id)
+        setChats([...data])
+        setFilteredData([...data])
+        console.log("context chats:" , data)
 
+    }
     const getChatroomMessage = async()=>{
-            const result = await API.graphql(graphqlOperation(queryMessage,{room_id:selectedChat.room_id}))
-                .then(async res=>{
-                    setChatroomMsg([])
-                    setChatroomMsg([...res.data.queryMessage.items])
-                    console.log("getChatroomMessage",res.data.queryMessage.items)
-                    if(res.data.queryMessage.items!==-1){
-                        let notFromMe = res.data.queryMessage.items.filter(msg=>{
-                            return msg.from_me ==false
-                    })
-                    if(notFromMe.length==0) return
-                    notFromMe = notFromMe.pop()
-                    setLastMsgFromClient(notFromMe.timestamp)
-                }
-            }).catch(err=>console.log("get message errors" ,err))
-    }
+            setChatroomMsg([])
 
-    const getChatrooms = async ()=>{
-        const user_id = parseInt(user.user.user_id.toString() )
-        const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , filter:{user_id:{eq:user_id} , is_pin:{eq:false} }}))
-            .then(async res =>{
-                const chatroom = res.data.listChatrooms.items
-                return chatroom
-            })
-            .catch(error => console.log(error))
-        await getOwnPinChatList()
-        setChatrooms(result)
-        setFilteredData(result)
-    }
-    const getAllChatrooms = async (next)=>{
-        const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , nextToken:next}))
-            .then(async res =>{
-                let chatroom = res.data.listChatrooms.items
-                if(res.data.listChatrooms.nextToken){
-                    console.log("Have Next Token")
-                    await getAllChatrooms(res.data.listChatrooms.nextToken)
-                }
-                setChatrooms(prev=>[...prev,...chatroom])
+            const result = await chatHelper.getMessages(selectedChat.room_id)
 
-                chatroom = chatroom.filter(ch=>{
-                    return ch.channel == "WABA"
-                })
-                console.log("chatrooms:",chatroom)
-                setFilteredData(prev=>[...prev , ...chatroom])
-                // setPinChat(pin)
-            })
-            .catch(error => console.log(error))
+            if(result) setChatroomMsg(result)
 
     }
 
 
 
-    // const listAllChat = async (next)=>{
-    //     const result = await API.graphql(graphqlOperation(listChatrooms , {limit:1000 , nextToken:next}))
-    //         .then(async res =>{
-    //             let chatroom = res.data.listChatrooms.items
-    //             if(res.data.listChatrooms.nextToken){
-    //                 const data = await listAllChat(res.data.listChatrooms.nextToken)
-    //             }
-    //             setChatrooms(chatroom)
-    //             chatroom = chatroom.filter(ch=>{
-    //                 return ch.channel == "WABA"
-    //             })
-    //             setFilteredData(chatroom)
-    //             // setPinChat(pin)
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //             return null
-    //         })
-    //
-    //     return result
+    // const fetchAttachment = async ()=>{
+    //     let imageKeys = await Storage.list('')
+    //     imageKeys = await Promise.all(imageKeys.map(async k=>{
+    //         const signedUrl = await Storage.get(k.key)
+    //         return signedUrl
+    //     }))
+    //     console.log("imgKeys : " , imageKeys)
+    //     setAttachment(imageKeys)
     // }
-
-    const fetchAttachment = async ()=>{
-        let imageKeys = await Storage.list('')
-        imageKeys = await Promise.all(imageKeys.map(async k=>{
-            const signedUrl = await Storage.get(k.key)
-            return signedUrl
-        }))
-        console.log("imgKeys : " , imageKeys)
-        setAttachment(imageKeys)
-    }
     const filePreviewOldState = {name:"",size:0,type:""}
     const [filePreview,setFilePrevier] = useState(filePreviewOldState)
     useEffect(()=>{
@@ -276,29 +192,21 @@ export default function Live_chat() {
     useEffect(async ()=>{
         if(user.token){
           const chan =  await getUserChannel(parseInt(user.user.user_id))
-           setWhatsappChan(chan)
+           setWhatsapp(chan)
         }
     },[])
 
 
     const getCustomerbyID = async (id)=>{
-        console.log(id,"chatroom selected")
         const result = await contactInstance.getContactById(id)
-        console.log(result,"chatroom selected result")
         setChatUser(result)
     }
 
-    const [contacts, setContacts] = useState([]);
 
 
-    useEffect(()=>{
-        setReplyData(replyTemplateList)
-        console.log("init mf2chat" , selectedChat)
-    },[])
 
     const fetchContacts = async () =>{
         const data = await contactInstance.getAllContacts()
-        console.log(data,"contact fetch at start")
         setContacts(data)
         setFilteredContacts(data)
     }
@@ -311,6 +219,7 @@ export default function Live_chat() {
     const getTeams = async ()=>{
         const data = await orgInstance.getOrgTeams()
         setTeams(data)
+
     }
 
     const getTags = async ()=>{
@@ -328,145 +237,52 @@ export default function Live_chat() {
     }
 
     const teamFilter =(agents , filter ,contact, chats)=>{
-        const gps= agents.filter(d=>{;return filter.includes(d.team_id.toString())})
+        const gps= agents.filter(d=>{return filter.includes(d.team_id.toString())})
         const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents_id.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
         return chats.filter(ch=>{;return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
     const agentfilter =(agents , filter ,contact, chats)=>{
-        console.log(agents , filter , contact, "agent filter testing ")
         const gps= agents.filter(d=>filter.includes( d.user_id.toString() ))
         const gp = contact.filter(c=> {return gps.filter(g=> {return c.agents_id.some(el=>{return el.user_id==g.user_id})   }).length>0  }  )
         return chats.filter(ch=>{;return gp.map(g=>g.customer_id).includes(ch.customer_id);})
     }
-    const tagFilter =(agents , filter , chats)=>{
+    const tagFilter =(contacts , filter , chats)=>{
 
-        const gp= agents.filter(a=>a.tags.filter(d=>{return filter.includes(d.tag_name)}).length>0)
-        console.log("TagF" , gp)
-        return chats.filter(ch=>{return gp.map(g=>g.customer_id).includes(parseInt(ch.customer_id))})
+        const gp= contacts.filter(c=>c.tags_id.filter(d=>{return filter.includes(d.tags_id.toString())}))
+        return chats.filter(ch=>{return gp.map(g=>g.customer_id.toString()).includes(ch.customer_id.toString())})
     }
     const messagesSearchRef = useRef()
     const scrollToMSG = () => {messagesSearchRef.current?.scrollIntoView({behavior: "auto", block:"nearest"})}
-    useEffect(()=>{scrollToMSG()
-        ,[chatboxSearch]})
     //////Chatroom End Point
-    const messagesEndRef = useRef()
-    const scrollToBottom = () => {messagesEndRef.current?.scrollIntoView({behavior: "auto", block: "end"})}
-    useEffect(()=>{
-        setTimeout(()=>{
-            scrollToBottom()
-        },500)
-        }
-        ,[chatroomMsg])
+
 
     ///////
 
-    // async function handleChatRoom(chatroom){
-    //     if(chatroom == selectedChat) return ;
-    //     if(chatroom.channel !== "WABA") setLastMsgFromClient("")
-    //     setChatroomMsg([])
-    //     setSelectedChat(chatroom)
-    //     setTypedMsg(typedMsg=>({...typedMsg ,phone:selectedChat.phone}))
-    //     if (chatroom.unread!==0)await updateChatroomUnread(chatroom);
-    //     await getCustomerbyID(chatroom.customer_id)
-    //     if(typeof chatroom.customer_id !=="number") return
-    //     console.log("selected Chat" , selectedChat)
-    //     console.log("typed message" , typedMsg)
-    // }
 
 
+    const RefreshHandle=async()=>{
 
-
-    const searchBy =()=>{
-            // e.preventDefault();
-            // document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:70,which:70}))
-            // document.dispatchEvent(new KeyboardEvent("keydown",{ metaKey: true ,which:90}))
-            console.log("1")
-            // document.dispatchEvent(new KeyboardEvent('keydown',{keyCode:91}))
-        }
-
-
-
-    const ReferechHandle=async()=>{
-        console.log("refershing")
-        await getAllChatrooms();
         await getChatroomMessage();
             // await subChatrooms()
     }
 
-
-    const replyClick=click=>{
-        console.log(click,"done donedone")
-        setReplyMsg(click)
-
-
-        if(click==replyMsg){setReplyMsg("");setQuotaMsg("")}
-    }
     const confirmReply=()=>{
         setReply(!reply)
         const quote = chatroomMsg.filter(e=>{return replyMsg==(e.timestamp)})
         const m={...quote[0],hasQuotedMsg:true,quote:quote[0].message_id,quote_from:quote.sender}
-        console.log(quote[0],"raw data to quote")
         setQuotaMsg(m)
         setReplyMsg("")
         setChatButtonOn(ChatButtonOn=="mr"?"":"mr");
         setIsReply(isReply&&ChatButtonOn=="mr"?false:true);
 
         setTypedMsg({...typedMsg ,message_type: "text",hasQuotedMsg:true,media_url:quote.media_url,is_media:true,sign_name:quote.sign_name})
-        // setQuotaMsg("")
     }
     const confirmForward = ()=>{
         setIsForward(!isForward)
         setReplyMsg("")
     }
 
-    const clearForward = ()=>{
-        setSelectedContacts([])
-    }
 
-    const handleForward =async()=>{
-
-            const data = {...quoteMsg,message:quoteMsg.body,message_type:quoteMsg.message_type,channel:selectedChat.channel ,media_url:quoteMsg.media_url ,is_media: quoteMsg.is_media ,is_forwarded:true,quote:quoteMsg.message_id,hasQuotedMsg:false}
-
-            selectedContacts.map(async e=>{
-                const recipients = contacts.filter(c=>parseInt(e)==c.customer_id)
-                if(recipients[0].channels[0]&&recipients[0].channels[0]=="WABA") {
-                    const senddata = {...data,room_id:e,recipient:e,phone:recipients[0].country_code.toString()+recipients[0].phone.toString()}
-                console.log("data to be send out", senddata)
-
-                const res = await messageInstance.sendMessage(senddata).catch(error => console.log(error))
-                ;return }
-                if(recipients[0].channels[0]&&recipients[0].channels[0]=="") {
-                    const senddata = {...data,room_id:e+"-"+user.user.user_id,recipient:e}
-                console.log("data to be send out", senddata)
-
-                const res = await messageInstance.sendMessage(senddata).catch(error => console.log(error))
-                ;return }
-
-            })
-            setTypedMsg({...typedMsg , message: ""})
-            if(quoteMsg){
-                setQuotaMsg({})
-            }
-            if(isMedia){
-                setIsMedia(false)
-                setFilePrevier(filePreviewOldState)
-                setMediaUrl("")
-
-            }
-            setTypedMsg({channel:"",phone:"",message:"",message_type:"text"})
-            setIsExpand(false)
-            setIsReply(false)
-            setChatButtonOn("")
-            setReplyMsg("")
-
-        clearForward();
-
-    }
-
-
-    // useEffect(()=>{
-    //     console.log(quoteMsg)
-    // },[quoteMsg])
     const handleClickOutside = (event) => {
 
         // if (wrapperRef1.current &&!wrapperRef1.current.contains(event.target)){
@@ -480,13 +296,13 @@ export default function Live_chat() {
         //   }
     };
 
-    useEffect(()=>{
-        document.addEventListener('click', handleClickOutside, true);
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside, true);
-        };
-    },[])
+    // useEffect(()=>{
+    //     document.addEventListener('click', handleClickOutside, true);
+    //
+    //     return () => {
+    //         document.removeEventListener('click', handleClickOutside, true);
+    //     };
+    // },[])
 
     const getStickers = async ()=>{
         const {folders , files} = await mediaInstance.getStickers()
@@ -497,24 +313,16 @@ export default function Live_chat() {
 
     }
 
-    const fetchHandle = async() => {
-        await fetchContacts()
-        await getTags()
-        await getUsers()
-        await getTeams()
-    }
-
     useEffect(    async () => {
         if(user.token!=null) {
-            await getAllChatrooms()
+            await getChats()
             await subChatrooms()
             await fetchContacts()
-            // await getTags()
-            // await getUsers()
-            // await getTeams()
-            // await fetchHandle()
-            // await getChatrooms()
+            await getTags()
+            await getUsers()
+            await getTeams()
             await getStickers()
+            setReplyData(replyTemplateList)
         }
     },[]);
 
@@ -523,14 +331,11 @@ export default function Live_chat() {
         const sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:chatroom.room_id ,channel:selectedChat.channel } ))
             .subscribe({
                 next: async (chatmessage)=>{
-                    if(router.pathname == "/livechat") await updateChatroomUnread(chatroom)
+                    if(router.pathname == "/livechat") await updateSelectedChatroom(chatroom)
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
                     if(!newMessage.from_me)setLastMsgFromClient(newMessage.timestamp)
-                    setTimeout(()=>{
-                        scrollToBottom()
-                    },500)
                     console.log("new message: " , newMessage)
                     // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                 }
@@ -545,14 +350,9 @@ export default function Live_chat() {
     },[selectedChat])
 
     const unassignFilter = (contact ,chats)=>{
-        console.log(contact)
         const data = contact.filter(c=>c.agents_id.length==0)
-        console.log(data,"unassign")
         return chats.filter(chat=>{console.log(chat);return data.includes(parseInt(chat.user_id))})
     }
-    useEffect(()=>{
-        console.log(selectedContacts)
-    },[selectedContacts])
     const advanceFilter =()=>{
         setFilter({team:[...selectedTeams], agent:[...selectedUsers] ,channel: [...selectedChannels] , tag:[...selectedTags]})
         let newData = [...chatrooms]
@@ -583,47 +383,6 @@ export default function Live_chat() {
         advanceFilter();
     }
 
-    const toggleSelectChannels = e => {
-        const { checked ,id} = e.target;
-        setSelectedChannels([...selectedChannels, id]);
-        if (!checked) {
-            setSelectedChannels(selectedChannels.filter(item => item !== id));
-        }
-    };
-    const toggleSelectUsers = e => {
-        const { checked ,id} = e.target;
-        setSelectedUsers([...selectedUsers, id]);
-        if (!checked) {
-            setSelectedUsers(selectedUsers.filter(item => item !== id));
-        }
-        console.log(selectedUsers)
-    };
-    const toggleSelectTags = e => {
-        const { checked ,id} = e.target;
-        setSelectedTags([...selectedTags, id]);
-        if (!checked) {
-            setSelectedTags(selectedTags.filter(item => item !== id));
-        }
-        console.log(selectedTags)
-    };
-    const toggleSelectTeams = e => {
-        const { checked ,id} = e.target;
-
-        console.log(e.target.id,id,"electaedTeams in filter")
-        setSelectedTeams([...selectedTeams, id]);
-        if (!checked) {
-            setSelectedTeams(selectedTeams.filter(item => item !== id));
-        }
-        console.log(selectedTeams,"selectedTeam")
-    };
-    const toggleSelectContacts = e => {
-        const { checked ,id} = e.target;
-        setSelectedContacts([...selectedContacts, id]);
-        if (!checked) {
-            setSelectedContacts(selectedContacts.filter(item => item !== id));
-        }
-        console.log(selectedContacts)
-    };
     const isContainContact = (id) => {
 
         if (selectedContacts) {
@@ -639,31 +398,8 @@ export default function Live_chat() {
         setSelectedTeams([])
         setClear(true)
         advanceFilter()
-
     }
-    useEffect(()=>{
 
-        isClear?setClear(false):""
-    },[isClear])
-    // const [doubleList,setDoubleList] = useState([])
-    // const [List,setList] = useState([{phone:"123"},])
-    // useEffect(()=>{
-    //     console.log(filteredData,"chatroom volumn")
-
-    // },[filteredData])
-    // useEffect(()=>{
-    // console.log(doubleList,"doubledoubledouble")
-    // filteredData.map(e=>{
-    //   if(  e.phone=="85265779712"){console.log(e, "double")}
-    // })
-
-    // },[doubleList])
-
-    // useEffect(async ()=>{
-    //     if(selectedChat.unread>0){
-    //         await updateChatroomUnread(selectedChat)
-    //     }
-    // },[selectedChat])
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) ;
         if(isEditProfileShow) ;
@@ -671,15 +407,13 @@ export default function Live_chat() {
     }
     const refreshChatrooms = async ()=>{
         clear()
-        await getChatrooms()
+        // await getChatrooms()
     }
     const updateChatroomPin = async (input)=>{
         await chatHelper.toggleIsPin(input ,(newData)=>{
             // setIsUpdating(true)
         const oldFilter = filteredData.filter(d=> d.name !== newData.name)
         const newPinChat = pinChat.filter(d=>d.name !== newData.name)
-        console.log("oldFilter : " , oldFilter)
-        console.log("newPinChat : " , newPinChat)
         // const indexOfDate = filteredData.indexOf(el=>newData.room_id==el.room_id)
         if(newData.is_pin ){
             setFilteredData(filteredData=> [...oldFilter])
@@ -697,7 +431,6 @@ export default function Live_chat() {
             const result = chatroomMsg.filter(i => {
                 return i.body.toLowerCase().includes(e.target.value.toLowerCase());
             });
-            console.log(result,"search result");
             setSearchResult(result);
             if(result.length==0)setResultMoreThanOne(false)
             if(result.length>0) {document.getElementById(result[result.length-1].timestamp).scrollIntoView({behavior: "smooth"});}
@@ -710,9 +443,8 @@ export default function Live_chat() {
 
     //record and send audio
     const getAudioFile = async (audioFile) => {
-        console.log("calling getAudioFile")
+
         if(audioFile){
-            console.log(audioFile,"dfasdfd")
             const path =URL.createObjectURL(audioFile)
             setIsMedia(true)
             setIsExpand(true);
@@ -732,60 +464,17 @@ export default function Live_chat() {
 
             {isEditProfileShow?  (<Profile handleClose={toggleEditProfile}><EditProfileForm data={chatUser } toggle={toggleEditProfile}/></Profile>):null}
             </div>
-            <div className={"chat_list"}>
-                <div className={"chatlist_ss"} style={{}}>
-                    <div  className={"chatlist_ss_filter"}>
-                        <div className={"filter_bar_left"}>
-                               <div className={"search_ss"}>
-                                   <div className="mf_icon_input_block  mf_search_input"  >
-                                        <div className={"mf_inside_icon mf_search_icon "} > </div>
-                                        <input
-                                            className={"mf_input mf_bg_light_grey"}
-                                            // type={type}
-                                            // value={state}
-                                            onChange={(e)=> {
-                                                console.log(e.target.value ,"searching chatlist")
-                                                searchFilter(e.target.value , chatrooms,(new_data)=>{
-                                                    setFilteredData(new_data);
-                                                    console.log(new_data,"after searching");
-                                                })
-                                            }}
-                                            placeholder={"Search"}
-                                        />
-                                    {/* <Livechat/> */}
-                                        </div>
-                                </div>
-                        </div>
-                        <div className={"filter_box "+(isFilterOpen?"active":"")} onClick={async()=>{ setIsFilterOpen(!isFilterOpen);!isFilterOpen?await fetchHandle():"" ;}}>
-                                        <div className={"filter_icon"}></div>
-                            </div>
-                            <div className={"add_button"} onClick={()=>{setChatButtonOn("")}}  style={{display:ChatButtonOn=="m0"?"block":"none"}}>
-                            <AddButtonSVG c={"#D0E9FF"}/>
-                            </div>
-                            <div className={"add_button"} onClick={()=>{setChatButtonOn("m0"),setIsFilterOpen(false)}}  style={{display:ChatButtonOn!=="m0"?"block":"none"}}>
-                            <AddButtonSVG c={"#f5f6f8"} />
-                            </div>
-                    </div>
-                        <div className={"chatlist_filter_box"} style={{display:isFilterOpen?"flex":"none",overflowY:"scroll"}}>
-                           {isFilterOpen? <ChatlistFilter click={()=>setIsFilterOpen(!isFilterOpen)} channel={toggleSelectChannels} tag={toggleSelectTags} team={toggleSelectTeams} confirm={advanceFilter} clear={clear} unread={unreadHandle}
-                             agents={toggleSelectUsers} unassigned={unassigneHandle}  isclear={isClear} />:""}
-                        </div>
-                        <div className={"chatlist_newChat_box"} style={{display:ChatButtonOn=="m0"?"flex":"none"}}>
-                                    <Newchatroom contacts={contacts} setFilteredData={setFilteredData}/>
-                        </div>
-                    <ul  className={"chatlist_ss_list"} style={{display:!isFilterOpen?ChatButtonOn!=="m0"?"":"none":("none")}}>
-                        {/*{pinChat.length!==0&&pinChat.map((d , index)=>{*/}
-                        {/*    // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
-                        {/*    return ( <ChatroomList  chatroom={d} key={d.room_id} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )*/}
-                        {/*sort((first , second)=>{return second.unread-first.unread}).*/}
-                        {/*})}*/}
-                        {filteredData.length!==0&&filteredData.sort(function (a,b){return parseInt(b.last_msg_time)- parseInt(a.last_msg_time)}).map((d , index)=>{
-                            // return ( <ChatroomList  chatroom={d} key={index} chose={selectedChat} togglePin={updateChatroomPin} refresh={refreshChatrooms} className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation(); handleChatRoom(d)}}/> )
-                            return ( <ChatroomList  chatroom={d} selectedChat={selectedChat} key={index} chose={selectedChat} togglePin={updateChatroomPin}  className={" "+(index==0&& "active")} onClick={ (e)=>{e.preventDefault() ; e.stopPropagation();handleChatRoom(d)}}/> )
-                        })}
-                    </ul>
-                </div>
-            </div>
+            <LiveChatLeftColumn
+                filteredData={filteredData}
+                chats = {chats}
+                searchFilter={searchFilter}
+                tags={tags}
+                users={users}
+                teams={teams}
+                updateFilteredData={updateFilteredData}
+                clear={clear}
+                contacts={contacts}
+            />
             <Chatroom
             selectedChat={selectedChat}
             lastMsgFromClient={lastMsgFromClient}
@@ -795,19 +484,6 @@ export default function Live_chat() {
             confirmForward={confirmForward}
             confirmReply={confirmReply}
             />
-            {/*<div className={"chatroom"}>*/}
-            {/*    {selectedChat.room_id?*/}
-            {/*        <>*/}
-
-
-            {/*            /!*Map Chat record Start*!/*/}
-
-            {/*            /!*Map Chat record End*!/*/}
-
-
-            {/*            </> : <div className={"center_text"}> Select a conversation </div>}*/}
-
-            {/*</div>*/}
             <ChatroomInfo data={selectedChat} click={toggleEditProfile }/>
         </div>
     )

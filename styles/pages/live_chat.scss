@@ -260,6 +260,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
+            max-height: 600px;
             .search_bar{
               width: 80%;
               display:flex;
@@ -719,7 +720,7 @@
         height: 22vh;
         max-height: 275rem;
         min-height: 20rem;
-        
+
       }
       &.replyArea{
 
