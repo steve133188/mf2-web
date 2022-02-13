@@ -113,7 +113,7 @@ export const GlobalContextProvider = ({children}) =>{
         if(update) {
             setSelectedChat(update)
             let newchats = chats.map(chat=>(chat.room_id === update.room_id || chat))
-            setChats([...newchats])
+            setChats([...newchats , ...chats])
         }
 
     }
