@@ -12,7 +12,9 @@ export default function ChatHelper(){
     this.ownedPinChatFilter ={user_id:{eq:this.user_id} ,is_pin:{eq:true} }
 
     this.ownedChatFilter = {
+
         user_id:{eq:this.user_id}
+
     }
 
     this.getOwnedChatrooms = async (uid) =>{
