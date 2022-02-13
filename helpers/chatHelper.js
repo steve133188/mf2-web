@@ -19,7 +19,7 @@ export default function ChatHelper(){
 
     this.getOwnedChatrooms = async (uid) =>{
 
-        const chats = await axios.get(`http://ec2-18-162-45-91.ap-east-1.compute.amazonaws.com:30310/api/chatrooms/user/${uid}`)
+        const chats = await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user/${uid}`)
             .then(res=>res.data)
             .catch(err=> {
                 console.log(err)
@@ -31,7 +31,7 @@ export default function ChatHelper(){
     }
 
     this.getMessages = async (rid)=>{
-        const chats = await axios.get(`http://ec2-18-167-59-56.ap-east-1.compute.amazonaws.com:30311/api/messages/chatroom/${rid}`)
+        const chats = await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/messages/chatroom/${rid}`)
             .then(res=>res.data)
             .catch(err=> {
                 console.log(err)

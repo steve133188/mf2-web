@@ -104,7 +104,7 @@ export const GlobalContextProvider = ({children}) =>{
 
         if(userAuth.authority.all && chat.user_id !== user.user_id) return
 
-        const update =  await axios.put(`http://ec2-18-162-45-91.ap-east-1.compute.amazonaws.com:30310/api/chatroom/channel/{channel}/room/${chat.room_id}`)
+        const update =  await axios.put(`http://ec2-18-162-45-91.ap-east-1.compute.amazonaws.com:30310/api/chatroom/channel/${chat.channel}/room/${chat.room_id}`)
             .then(res=>res.data).catch(err=> {
                 console.log(err)
                 return null
