@@ -46,12 +46,10 @@ class ChatroomStore{
     }
 
     sort(){
-        console.log("sort start")
         if(this.messages.length>25){
             this.currShowStart = this.messages.length-26
             this.currShowEnd = this.messages.length-1
             let shows =this.messages.slice( this.currShowStart , this.currShowEnd)
-            console.log("print show message" , shows)
             this.updateShow(shows)
         }else{
             this.updateShow(this.messages)
@@ -71,6 +69,7 @@ class ChatroomStore{
 
     clear(){
         runInAction(()=>{
+            this.showMessage=[]
             this.messages =[]
         })
     }
@@ -82,13 +81,11 @@ class ChatroomStore{
                 runInAction(()=>{
                     this.messages = res.data
                     this.sort()
-                    console.log("getMessage :",this.messages.length)
                 })
             })
             .catch(err=> {
                 runInAction(()=>{
                     this.error = err
-                    console.log("fetch Message Error :",err)
                 })
             })
     }

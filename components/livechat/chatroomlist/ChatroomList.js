@@ -10,18 +10,31 @@ function ChatroomList(props){
     const selected = (id) =>{
         return id === selectedChat.room_id
     }
+    const handleScroll = e =>{
+        const {scrollTop } = e.target
+        if(scrollTop==0){
+            setChatroomScroll(chatroomRef.current.scrollHeight)
+            renderMore()
+            let position = chatroomRef.current.scrollHeight - chatrommSroll
+            chatroomRef.current.scrollTop = position
 
+
+            // setTimeout(()=>{
+            // },1500)
+
+        }
+    }
     const handleSelectClick = async (e, data) =>{
         e.preventDefault() ;
         e.stopPropagation();
-        selectChat(data)
         clear()
+        selectChat(data)
         await getMessage(data.room_id)
     }
 
     const renderChatroomList=()=>{
         return (showChatList.map((chat ,index)=>(
-                <Collapse key={index} in={!isLoading} style={{ transitionDelay: '3000ms'  }}>
+                <Collapse key={index} mountOnEnter={true} >
                     <ChatroomRow
                         key={index}
                         chat={chat}

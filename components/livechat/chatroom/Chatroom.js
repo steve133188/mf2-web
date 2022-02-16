@@ -15,10 +15,13 @@ function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refre
     const messagesEndRef = useRef()
     const chatroomRef = useRef()
     const [disabled, setDisabled] = useState(true);
+    const [chatrommSroll, setChatroomScroll] = useState(true);
     const scrollToBottom = () => {messagesEndRef.current&&messagesEndRef.current.scrollIntoView()}
 
 
+
     useEffect( ()=>{
+        // chatroomRef.current.scrollTop = chatroomRef.current.scrollHeight
         if(selectedChat){
             const {  channel} = selectedChat
             switch(channel) {
@@ -36,19 +39,24 @@ function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refre
         if(messagesEndRef.current){
             setTimeout(()=>{
                 scrollToBottom()
-            },500)
+            },1000)
         }
 
         }
-        ,[msg])
+        ,[selectedChat])
 
     const handleScroll = e =>{
-        const {scrollTop} = e.target
+        const {scrollTop } = e.target
+        if(scrollTop==0){
+            setChatroomScroll(chatroomRef.current.scrollHeight)
+            renderMore()
+            let position = chatroomRef.current.scrollHeight - chatrommSroll
+            chatroomRef.current.scrollTop = position
 
-        if(scrollTop<100){
-            setTimeout(()=>{
-                renderMore()
-            },1500)
+
+            // setTimeout(()=>{
+            // },1500)
+
         }
     }
 
