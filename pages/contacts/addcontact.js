@@ -11,11 +11,11 @@ import {AvatarGroup} from "@mui/lab";
 import {Tooltip} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AddIcon from '@mui/icons-material/Add';
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
+import Mf_icon_dropdown_select_btn from "../../components/common/mf_dropdown_select";
 import styles from "../../styles/Contacts.module.css";
 import searchFilter from "../../helpers/searchFilter";
 import MF_Select from "../../components/MF_Select";
-import Mf_circle_btn from "../../components/mf_circle_btn";
+import Mf_circle_btn from "../../components/common/mf_circle_btn";
 
 export default function AddContact() {
     const [newContact , setNewContact] = useState({

@@ -4,144 +4,106 @@ import ChannelListItem from "../serach_filter/filter.js/channelListItem";
 import {Pill} from "../../Pill";
 import List from "@mui/material/List";
 import DropDown from "../../filter/teamDropDown";
+import {inject, observer} from "mobx-react";
 
-export default function ChatroomFilter( props){
+function ChatroomFilter( props){
 
-    const {  onClick , users, tags ,confirm  , clear , teams ,chats ,contacts } = props
+    const {  onClick , users, tags ,confirm  , clear , teams ,chats ,contacts ,chatListStore:{filter , updateFilter ,checkFilter,filterChatList} ,customerStore:{customers}} = props
 
     const channelData = [
-        {name:"WhastApp",value:"Whatsapp",channelID:"Whatsapp",id:1},
-        {name:"WhatsApp Business",value:"WABA",channelID:"WhatsappB",id:2},
-        {name:"Messager",value:"Messager",channelID:"Messager",id:3},
-        {name:"WeChat",value:"Wechat",channelID:"Wechat",id:4},];
+        {name:"Whatsapp",channelID:"Whatsapp",id:1},
+        {name:"WABA",channelID:"WhatsappB",id:2},
+        {name:"Messager",channelID:"Messager",id:3},
+        {name:"WeChat",channelID:"Wechat",id:4},];
 
-    const [filteredTags ,setFilteredTags] =useState([]);
-    const [filteredUsers ,setFilteredUsers] =useState([]);
-    const [selectedTeams ,setSelectedTeams] =useState([])
-    const [selectedChannels ,setSelectedChannels] =useState(["all","Whatsapp","WABA","Wechat","Messager"]);
-    const [selectedTags ,setSelectedTags] =useState([])
+
     const [selectedUsers ,setSelectedUsers] =useState([]);
     const [agentBarOpen,setAgentBar] = useState(false)
-    const [isUnread,setIsUnread] = useState(false)
-    const [isUnassigned,setIsUnassigned] = useState(false)
-    const [agentSearchValue, setAgentValue]= useState("")
-    const [selectedDivision ,setSelectedDivision] =useState([])
-    const [teamBarOpen,setTeamBar] = useState(false)
-    const [dBarOpen,setDBar] = useState(false)
 
-    const toggleUnread=e=>{
-        setIsUnread(!isUnread)
+
+
+    const toggleStatusFilter =e=>{
+        const {name } = e.target
+
+        let newValue = {...filter.status,[name]:!filter.status[name]}
+
+        updateFilter("status",newValue)
     }
 
-    const toggleUnassigned=e=>{
-        setIsUnassigned(!isUnassigned)
-    }
 
-    useEffect(    async () => {
-        setFilteredTags(tags)
-        setFilteredUsers(users)
 
-    },[]);
 
-   const updateSelectedTeams = (data)=>{
-       setSelectedTeams(data)
-   }
-    const updateSelectedUsers = (data)=>{
-        setSelectedUsers(data)
-    }
     const toggleSelectTags = e => {
         const { id} = e.target;
-        if (selectedTags.includes(id)) {
-            setSelectedTags(selectedTags.filter(item => item !== id));
+
+        if (checkFilter("tags",id ,true)) {
+            let newValue = filter.tags.filter(item=>item!==id)
+            updateFilter("tags",newValue)
             return
         }
-        setSelectedTags(prev=>[...selectedTags, id]);
+        let newValue = [...filter.tags , id]
+        updateFilter("tags",newValue)
 
     };
     const toggleSelectChannels = e => {
-        const { id} = e.target;
-        if (selectedChannels.includes(id)) {
-            setSelectedChannels(selectedChannels.filter(item => item !== id));
-            return
-        }
-        setSelectedChannels(prev=>[...selectedChannels, id]);
+        const {name , checked} = e.target;
+
+        let newValue={...filter.channels, [name]:checked}
+
+        updateFilter("channels" ,newValue)
+
     };
     const toggleSelectAllChannels = e => {
-        const { checked ,id} = e.target;
 
-        setSelectedChannels(["all","Whatsapp","WABA","Wechat","Messager"]);
-        if (!checked) {
-            setSelectedChannels([]);
+        let newValue={...filter.channels}
+
+        let val = !filter.channels.All
+        for(let v in filter.channels) {
+            newValue[v]=val
         }
+
+        updateFilter("channels" ,newValue)
+
     };
+
     const handleConfirm = ()=>{
-        const result = filterData()
-        updateSelectedUsers([])
-        updateSelectedTeams([])
-        setSelectedTags([])
-        confirm(result);
+        filterChatList(contacts)
         onClick();
     }
+
     const handleClear = ()=>{
-        setSelectedUsers([])
-        setSelectedChannels([])
-        setSelectedTags([])
         clear();
     }
+
     const handleCancel = ()=>{
         onClick();
     }
-    const tagFilter =( chats ,filter ,contacts)=>{
-        let data = contacts.filter(con => filter.includes(con.tags_id))
-        // const gp= contacts.filter(c=>c.tags_id.filter(d=>{return filter.includes(d.toString())}))
-        if(data.length==0 ||!data) return []
-        let res =  chats.filter(ch=>{return data.find(d=>d.customer_id== ch.customer_id ).customer_id==ch.customer_id })
-        if(!res|| res.length==0) return []
-        return res
-    }
-    const unreadFilter = (data) =>{
-        console.log("unreadFilter")
-        let res = data.filter(d=>d.unread!==0)
-        return res
-    }
-    const unassignedFilter = (data) =>{
-        console.log("unassignedFilter")
 
-        let res = data.filter(d=>d.user_id==null || d.user_id==undefined || d.user_id==0)
-        return res
-    }
-    const filterData =()=>{
-        let data = [...chats]
+    const renderChannels = ()=>{
 
-        console.log("isUnread" , isUnread)
-        console.log("isUnassigned " , isUnassigned)
-        console.log("selectedTags " , selectedTags)
-        console.log("selectedChannels " , selectedChannels)
-        if(isUnread)data=unreadFilter(data)
-        if(isUnassigned)data=unassignedFilter(data)
-        if(selectedUsers.length>0){
-            data =  data.filter(d=>selectedUsers.includes(d.user_id.toString()))
-        }
-        if(selectedTeams.length>0)data = data.filter(d=>selectedUsers.includes(d.team_id.toString()))
-        if(selectedTags.length>0)data = tagFilter(data , selectedTags ,contacts)
-        console.log("filter channel " ,selectedChannels)
-        console.log("filter channel data " ,data)
-        if(selectedChannels.includes('all')){
-            return data
-        }
-        if(selectedChannels.includes("Whatsapp"))data = whatsappFilter(data);
-        if(selectedChannels.includes("WABA"))data=WABAFilter(data);
-        if(selectedChannels.includes("Messager"))data=[];
-        if(selectedChannels.includes("Wechat"))data=[];
+        return channelData.map((props , index) =>
+            <div key={index} className={"channelListitem"} style={{padding:0}}>
+            <div className={"left"}>
+                <img className={"serachSVG"} src={`/channel_SVG/${props.name}.svg`} />
+                <div style={{margin:"0 5px", minWidth:"180px"}}> {props.name}</div>
+            </div>
+            <div className={"right"} style={{width:"24",height:"24"}}>
+                <div className="newCheckboxContainer right" style={{width:"24",height:"24"}}>
+                    <label className="newCheckboxLabel">
+                        <input type="checkbox"
+                               id={props.id}
+                               // value={filter.channels[props.name]}
+                               name={props.name}
+                               checked={filter.channels[props.name]}
+                               onChange={()=>{}}
+                               onClick={toggleSelectChannels}
+                        />
+                    </label>
+                </div>
+            </div>
+        </div>)
+    }
 
-        return data
-    }
-    const whatsappFilter = (chats)=>{
-        return chats.filter(chat=>chat.channel=="Whatsapp")
-    }
-    const WABAFilter = (chats)=>{
-        return chats.filter(chat=>chat.channel=="WABA")
-    }
     const renderUsers = ()=>{
         return<AvatarGroup className={"AvatarGroup"} xs={{flexFlow:"row",justifyContent:"flex-start"}} max={5} spacing={"1"} >
             {selectedUsers.map((agent, index) => {
@@ -164,21 +126,21 @@ export default function ChatroomFilter( props){
             <div className={"filter_box_status"}  >
                 <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                        <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}}  checked={isUnread} onClick={toggleUnread} />
+                        <label className="newCheckboxLabel"> <input type="checkbox"  name="unread" onChange={()=>{}}  checked={filter.status.unread} onClick={toggleStatusFilter} />
                         </label>
                     </div>
                     Unread
                 </div>
                 <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                        <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} checked={isUnassigned} onClick={toggleUnassigned}/>
+                        <label className="newCheckboxLabel"> <input type="checkbox"  name="unAssigned" onChange={()=>{}} checked={filter.status.unAssigned} onClick={toggleStatusFilter}/>
                         </label>
                     </div>
                     Unassign
                 </div>
                 <div className={"status_box"}>
                     <div className="newCheckboxContainer">
-                        <label className="newCheckboxLabel"> <input type="checkbox"  name="checkbox" onChange={()=>{}} />
+                        <label className="newCheckboxLabel"> <input type="checkbox"  name="ChatBot" checked={filter.status.ChatBot} onChange={()=>{}} onClick={toggleStatusFilter} />
                         </label>
                     </div>
                     ChatBot Off
@@ -187,13 +149,13 @@ export default function ChatroomFilter( props){
             <div className={"filter_box_channel"}  >
                 <div className={"channelList"}>
                     Channels<br/>
-                    <ChannelListItem name={"All Channels"} value={"All"} id={"All"} key={"All"} checked={selectedChannels.includes("all")} onclick={toggleSelectAllChannels } />
-                    {channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={e.value} id={e.value} key={i} checked={selectedChannels.includes(e.value)} onclick={toggleSelectChannels } />})}
+                    <ChannelListItem name={"All"}  id={"All"} checked={filter.channels["All"]} onclick={toggleSelectAllChannels } />
+                    {renderChannels()}
+                    {/*{channelData.map((e,i)=>{ return <ChannelListItem name={e.name} value={filter.channels[e.name]} id={e.id} key={i} checked={filter.channels[e.name]} onclick={toggleSelectChannels } />})}*/}
                 </div>
             </div>
             <div >Agents
                 <div style={{backgroundColor:"#F8F9FB"}}>
-
                     <div style={{padding:'15px 15px 0',font:"16px",display:"flex" ,width:"100%",justifyContent:"space-between"}} onClick={()=>{setAgentBar(!agentBarOpen)}} >
                         <div className={"filter_title"} >Choose Agent</div>
                         <div style={{margin:'0 15px 0 0'}}> { !agentBarOpen? (
@@ -227,10 +189,6 @@ export default function ChatroomFilter( props){
                                 teamData={teams}
                                 clear={clear}
                                 agents={users}
-                                selectedUsers={selectedUsers}
-                                selectedTeams={selectedTeams}
-                                updateSelectedTeams={updateSelectedTeams}
-                                updateSelectedUsers={updateSelectedUsers}
                             />
 
                             <div style={{display:"flex",justifyContent:"flex-end",}}>
@@ -241,50 +199,19 @@ export default function ChatroomFilter( props){
                 </div>
             </div>
 
-            {/* <div className={"filter_box_agents"}  >Team
-                    <div className={"agentBroad"} >
-
-                        <div className={"filter_title"} onClick={()=>{setTeamBar(!teamBarOpen)}}>Choose Team</div>
-                        <div className={"agentSearchArea"}  style={teamBarOpen?{display:"block"}:{display:"none"}}>
-                                <div className={"search_bar"}>
-                                <input type="text" className={"search_area"} onChange={(e)=>setTeamValue(e.target.value)} placeholder={"Search"}></input>
-                            </div>
-                            <div className={"channelList"} >
-
-                                {teams.map((team)=>{
-                                    return(<li className={"channelListitem"} key={team.name} style={{width:"100%"}}>
-                                        <div className={"left"} style={{display:"flex" ,gap:10}}>
-
-                                            <div className={"name"}>{team.name}</div>
-                                        </div>
-                                        <div className="newCheckboxContainer right">
-                                            <label className="newCheckboxLabel"> <input type="checkbox" id={team.org_id} name="checkbox" checked={selectedTeams.includes(team.org_id.toString())} onClick={toggleSelectTeams} onChange={()=>{}}/>
-                                            </label>
-                                        </div>
-                                    </li>) })
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                </div> */}
-
-
-
             <div className={"filter_box_tag"}  >
                 <div className={"channelList"}>
                     <div className={"filter_title"}>Tag</div>
 
-
-                    {filteredTags.map((tag)=>{
+                    {tags.map((tag)=>{
                         return(<li className={"channelListitem"}  key={tag.tag_id}><Pill key={tag.tag_id} size="30px" color="vip">{tag.tag_name}</Pill>
                             <div className="newCheckboxContainer">
                                 <label className="newCheckboxLabel">
                                     <input
                                         type="checkbox"
                                         id={tag.tag_id}
-                                        name="checkbox"
-                                        checked={selectedTags.includes(tag.tag_id.toString())}
+                                        name="tags"
+                                        checked={checkFilter("tags",tag.tag_id.toString(),true)}
                                         onClick={toggleSelectTags}
                                         onChange={()=>{}}
                                     />
@@ -304,3 +231,4 @@ export default function ChatroomFilter( props){
         </div>
     )
 }
+export default inject("chatListStore" ,"chatroomStore" , "customerStore")(observer(ChatroomFilter))

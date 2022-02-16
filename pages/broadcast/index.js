@@ -20,8 +20,8 @@ import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import { Tooltip } from '@mui/material';
 import {AvatarGroup, CalendarPicker} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
+import Mf_icon_dropdownform from "../../components/common/mf_icon_dropdownform";
+import Mf_icon_dropdown_select_btn from "../../components/common/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
 import * as React from "react";
 import { EditPenSVG } from "../../public/broadcast/broadcastSVG";
@@ -54,7 +54,7 @@ export default function Broadcast() {
     const [users ,setUsers] =useState([])
     const [status ,setStatus] =useState([])
     const [period ,setPeriod] =useState([])
-    
+
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [selectedStatus ,setSelectedStatus] =useState("")
     const [selectedPeriod ,setSelectedPeriod] =useState("")
@@ -381,7 +381,7 @@ export default function Broadcast() {
                 {/*<MF_Select head={"Channel"}  >*/}
                 {/*    /!*    waiting to fetch the channels*!/*/}
                 {/*</MF_Select>*/}
-            </SelectSession>    
+            </SelectSession>
             <TableContainer
                 sx={{minWidth: 750 , minHeight:"60vh"}}
                 className={"table_container"}
@@ -493,7 +493,7 @@ export default function Broadcast() {
                                             <li onClick={(e)=>{e.stopPropagation();toggleEditBroadcasts(data);}}> Edit </li>
                                             <li onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}> Delete </li>
                                         </Mf_icon_dropdown_select_btn> */}
-                                        <div className="broadcast_edit_btn"style={{display:"flex",justifyContent:"space-around"}} > 
+                                        <div className="broadcast_edit_btn"style={{display:"flex",justifyContent:"space-around"}} >
                                         <div onClick={(e)=>{e.stopPropagation();toggleEditBroadcasts(data);}}><EditPenSVG size={16}/></div>
                                         <div className={"select_session_btn"}><div svg={deleteSVG} onClick={(e)=>{e.stopPropagation();removeContact(data.id);}}>{deleteSVG}</div> </div>
                                         </div>

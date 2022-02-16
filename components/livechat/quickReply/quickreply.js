@@ -8,10 +8,12 @@ import { GlobalContext } from '../../../context/GlobalContext';
 
 export default function QuickReply(props) {
 
+    const {disabled , onclick , replyData} =props
+
     const {user,replyInstance} = useContext(GlobalContext)
     const [standardReply, setStandardReply] = useState([]);
-    const [value, setValue] = useState("1");
-  
+    const [value, setValue] = useState("0");
+
     const fetchStandardReply = async () =>{
         const data = await replyInstance.getStandardReplyAll()
         console.log("getAllStandardReply",data)
@@ -19,8 +21,8 @@ export default function QuickReply(props) {
         // setFilteredData(data)
 
     }
-    const handleChange = (event, newValue) => {
-      setValue(`${newValue}`);
+    const handleChange = event => {
+      setValue(`${event.target.value}`);
     }
     useEffect(    async () => {
         if(user.token) {
@@ -31,7 +33,7 @@ export default function QuickReply(props) {
     return(
         < div className="reply_template_box">
              <TabContext value={value} sx={{ width: '100%',height:"fit-content", typography: 'body1' ,whiteSpace: 'normal',overflow:'scroll'}}  >
-            <Box component="div" 
+            <Box component="div"
                     visibleScrollbar={true}
                     scrollButtons={"on"}
                     sx={{ borderBottom: 1, borderColor: 'divider',overflow: 'auto' , my: 2,}}>
@@ -43,23 +45,22 @@ export default function QuickReply(props) {
                     indicatorColor="primary"
                     variant="scrollable"
                     scrollButtons={false}
-                    ref={props.ref}
                     visibleScrollbar
                     sx={{minHeight:"10px"}}
                     // scrollButtons="auto"
                 >
-                    {standardReply.map((item,index)=>{console.log( value);return (<Tab label={item.name=="WABA"?<img src={`/channel_SVG/WABA.svg`}/>:item.name} key={index} value={`${item.id}`} />)})}
+                    {replyData.map((item,index)=>{console.log( value);return (<Tab label={item.name=="WABA"?<img src={`/channel_SVG/WABA.svg`}/>:item.name} key={index} value={`${index}`} />)})}
 
 
                 </Tabs>
             </Box>
-                        
+
                     <TabPanel value={value} sx={{padding:"0 1rem"}}>
                     {standardReply.filter(e=>e.id==value).map((item,index)=>{console.log(item,"reply folder",value);return(<>
-                        <div className={'qreply_box' } style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem" , pointerEvents:((item.name!="WABA"&&!props.disabled)?"none":"") , backgroundColor:((item.name!="WABA"&&!props.disabled)?"#dee2e6":""), borderRadius:"10px" }} >
+                        <div className={'qreply_box' } style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem" , pointerEvents:((item.name!="WABA"&&!disabled)?"none":"") , backgroundColor:((item.name!="WABA"&&!disabled)?"#dee2e6":""), borderRadius:"10px" }} >
                             {item.body.map((item,index)=>{console.log(item);return (
                                 <div key={index} style={{margin:" 3px"}}>
-                                <div className={'nameTag'} id={item} onClick={props.onclick}>
+                                <div className={'nameTag'} id={item} onClick={onclick}>
                                     {item}
                                 </div>
                             <div >

@@ -20,8 +20,8 @@ import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
+import Mf_icon_dropdownform from "../../components/common/mf_icon_dropdownform";
+import Mf_icon_dropdown_select_btn from "../../components/common/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
 import {getAllContacts} from "../../helpers/contactsHelper"
 import {InnerSidebar} from "../../components/InnerSidebar";
@@ -105,7 +105,7 @@ export default function Role() {
     const [deleteRolename,setDeleteRole] = useState("")
     const submitDelete = () =>{
         deleteRole(deleteRolename);
-        
+
         setIsDelete(!isDelete)
     }
     const deleteRole = async (id)=>{
@@ -128,7 +128,7 @@ export default function Role() {
             <div className={"modal_form"} style={{minHeight:"130px",height:"130px"}}>
                 <div className={"modal_title"} style={{textAlign:"center"}}>
                     <span>Delete agent role?</span>
-                </div> 
+                </div>
                 <div className={"btn_row"}>
                     <button onClick={submitDelete }>Confirm</button>
                     <button className={"cancel_btn"} onClick={toggleDelete}>Cancel</button>

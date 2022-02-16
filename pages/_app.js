@@ -5,6 +5,8 @@ import AuthLayer from "../HOC/AuthLayer"
 import Head from "next/head";
 
 import {Amplify} from "aws-amplify";
+import { Provider, observer } from 'mobx-react';
+import stores from '../utils/stores'
 import awsmobile from "../src/aws-exports";
 import {RootStoreProvider} from "../utils/provider/RootStoreProvider";
 
@@ -22,6 +24,7 @@ function MyApp({ Component, pageProps }) {
           <link rel="icon" href="/MS_logo-square (1).svg"/>
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>
+          <Provider {...stores}>
           {/*<RootStoreProvider>*/}
             <GlobalContextProvider>
                 <AuthLayer>
@@ -31,6 +34,7 @@ function MyApp({ Component, pageProps }) {
                 </AuthLayer>
             </GlobalContextProvider>
           {/*</RootStoreProvider>*/}
+          </Provider>
       </>
 )
 }

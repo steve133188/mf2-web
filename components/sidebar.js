@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -25,7 +24,7 @@ function Sidebar(props) {
         setMobileOpen(!mobileOpen);
     };
 
-    
+
     const drawer = (
         <div>
             <Toolbar />
@@ -43,17 +42,6 @@ function Sidebar(props) {
                     </ListItem>
                 ))}
             </List>
-            {/*<Divider />*/}
-            {/*<List>*/}
-            {/*    {['All mail', 'Trash', 'Spam'].map((text, index) => (*/}
-            {/*        <ListItem button key={text}>*/}
-            {/*            <ListItemIcon>*/}
-            {/*                /!*{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}*!/*/}
-            {/*            </ListItemIcon>*/}
-            {/*            <ListItemText primary={text} />*/}
-            {/*        </ListItem>*/}
-            {/*    ))}*/}
-            {/*</List>*/}
         </div>
     );
 

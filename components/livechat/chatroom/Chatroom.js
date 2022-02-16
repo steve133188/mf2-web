@@ -1,12 +1,37 @@
 import ChatroomHead from "./ChatroomHead";
 import MsgRow from "../ChatMessage/MsgRow";
 import ChatroomFooter from "./ChatroomFooter";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
+import { inject, observer } from 'mobx-react'
+import {TransitionGroup} from "react-transition-group";
+import {Collapse} from "@mui/material";
 
+function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refresh ,fetchingMsg , fetchingContact ,stickers,...props}){
 
-export default function Chatroom({selectedChat , lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refresh ,confirmForward , confirmReply}){
+    const {chatListStore:{selectedChat} , chatroomStore:{showMessage  ,renderMore}} = props
+
+    const {sendMessage} = props
+
     const messagesEndRef = useRef()
-    const scrollToBottom = () => {messagesEndRef.current&&messagesEndRef.current.scrollIntoView({behavior: "smooth", block: "end"})}
+    const chatroomRef = useRef()
+    const [disabled, setDisabled] = useState(true);
+    const scrollToBottom = () => {messagesEndRef.current&&messagesEndRef.current.scrollIntoView()}
+
+
+    useEffect( ()=>{
+        if(selectedChat){
+            const {  channel} = selectedChat
+            switch(channel) {
+
+                case "WABA":
+                    if(checkMsgDisabled())setDisabled(true)
+
+                    break
+                default:
+                    setDisabled(false)
+            }
+        }
+    },[selectedChat])
     useEffect(()=>{
         if(messagesEndRef.current){
             setTimeout(()=>{
@@ -17,31 +42,55 @@ export default function Chatroom({selectedChat , lastMsgFromClient ,msg ,isRobot
         }
         ,[msg])
 
+    const handleScroll = e =>{
+        const {scrollTop} = e.target
+
+        if(scrollTop<100){
+            setTimeout(()=>{
+                renderMore()
+            },1500)
+        }
+    }
+
+    const checkMsgDisabled = () => {
+        const end = new Date.now()
+        const start = parseInt(lastMsgFromClient)
+        if(start - end >86400) return false
+        return true
+    }
 
     return(
         <div className={"chatroom"} >
             {selectedChat.room_id?<>
-        <ChatroomHead
-            selectedChat={selectedChat}
-            lastMsgFromClient={lastMsgFromClient}
-            hasMsg
-            isRobotOn={isRobotOn}
-            handleRobot={handleRobot}
-            refresh={refresh}
-            />
-            <div className={"chatroom_records"} >
-                {msg.map((r , i)=>{
-                    return (
-                        <MsgRow msg={r} key={i} confirmForward={confirmForward} confirmReply={confirmReply} />
-                    )
-                })}
-                <div ref={messagesEndRef}></div>
-            </div>
-            <ChatroomFooter
-                selectedChat
-            />
+                <ChatroomHead
+                    selectedChat={selectedChat}
+                    lastMsgFromClient={lastMsgFromClient}
+                    hasMsg
+                    isRobotOn={isRobotOn}
+                    handleRobot={handleRobot}
+                    refresh={refresh}
+                />
+                <div className={"chatroom_records"} ref={chatroomRef} onScroll={handleScroll} >
+                    <TransitionGroup>
+                        {showMessage.map((r , i)=>{
+                            return (
+                                <Collapse key={i} mountOnEnter={true}>
+                                    <MsgRow msg={r}   />
+                                </Collapse>
+                            )
+                        })}
+                    </TransitionGroup>
+                    <div ref={messagesEndRef} />
+                </div>
+                <ChatroomFooter
+                    selectedChat
+                    disabled={disabled}
+                    stickers={stickers}
+                    sendMessage={sendMessage}
+                />
             </> : <div className={"center_text"}> Select a conversation </div>}
         </div>
-        )
-
+    )
 }
+
+export default inject("chatListStore" , "chatroomStore")(observer(Chatroom))

@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import * as React from "react";
 
 const renderAgentAVA = (uids , users) =>{
-    if(!uids||uids.length==0) return <span>-</span>
+    if(!uids||uids.length==0||uids==undefined) return <span>-</span>
 
     return (uids.map(c =>{
         return users.find(user=>{

@@ -1,16 +1,18 @@
 import ChatroomList from "./ChatroomList";
 import ChatroomFilter from "./ChatroomFilter";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {inject, observer} from "mobx-react";
 
-export default function LiveChatLeftColumn(props){
 
-    const {searchFilter, filteredData  , chats , updateFilteredData   , tags, users , teams  , contacts } = props
+function LiveChatLeftColumn(props){
+
+    const {user_id,tags, users , teams  , contacts ,chatListStore:{getChatList , search ,filterChatList ,filteredChatList,showChatList ,clear ,searchByInput} } = props
 
     const [isFilterOpen,setIsFilterOpen] = useState(false)
 
-    const clear = ()=>{
-        updateFilteredData(chats)
-    }
+    useEffect(async ()=>{
+        await getChatList(user_id)
+    },[])
 
     return(<>
         <div className={"chat_list"}>
@@ -21,12 +23,9 @@ export default function LiveChatLeftColumn(props){
                             <div className="mf_icon_input_block  mf_search_input"  >
                                 <div className={"mf_inside_icon mf_search_icon "} > </div>
                                 <input
+                                    value={search}
                                     className={"mf_input mf_bg_light_grey"}
-                                    onChange={(e)=> {
-                                        searchFilter(e.target.value , chats,(new_data)=>{
-                                            updateFilteredData(new_data);
-                                        })
-                                    }}
+                                    onChange={searchByInput}
                                     placeholder={"Search"}
                                 />
                                 {/* <Livechat/> */}
@@ -49,15 +48,14 @@ export default function LiveChatLeftColumn(props){
                         tags={tags}
                         teams={teams}
                         users={users}
-                        confirm={updateFilteredData}
+                        confirm={filterChatList}
                         clear={clear}
-                        chats={chats}
+                        chats={filteredChatList}
                         contacts={contacts}
                     />:""}
                 </div>
 
                     <ChatroomList
-                        chats={filteredData}
                         show={!isFilterOpen}
                     />
 
@@ -66,3 +64,4 @@ export default function LiveChatLeftColumn(props){
     </>)
 
 }
+export default inject("chatListStore")(observer(LiveChatLeftColumn))

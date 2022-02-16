@@ -1,16 +1,11 @@
 
 import { Player,BigPlayButton } from 'video-react';
-import Embed from 'react-embed';
-import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../../../context/GlobalContext';
-import Reply from '../replyBox';
+import {  useEffect, useState } from 'react';
 import {API, graphqlOperation} from "aws-amplify";
 import {getMessageByMsgId} from "../../../src/graphql/queries";
 
+export default function MsgRow({msg,...props}) {
 
-export default function MsgRow({msg, confirmReply, confirmForward, ...props}) {
-
-    const {user} = useContext(GlobalContext)
     const [isLoading , setIsLoading]  = useState(true)
     const [quote , setQuote ] = useState()
     const [isImageOpen, setImageOpen] = useState(false)
@@ -28,7 +23,6 @@ export default function MsgRow({msg, confirmReply, confirmForward, ...props}) {
 
     const getQuoteMsg = async (msg_id) => {
         const data =await API.graphql(graphqlOperation(getMessageByMsgId, {message_id: msg_id})).then(res => {
-            console.log("res.data.getMessageByMsgId.items[0] : ", res.data.getMessageByMsgId.items[0])
 
             let quoteMsg = res.data.getMessageByMsgId.items[0]
             return quoteMsg
@@ -70,7 +64,7 @@ export default function MsgRow({msg, confirmReply, confirmForward, ...props}) {
                             <div className={"content"}>{msg.body}</div>
                     </div>
                 }else{
-                    return <img id={msg.timestamp}className={"imageBox"}src={msg.media_url}/>
+                    return <img id={msg.timestamp}className={"imageBox"}src={`${msg.media_url}?q=10`}/>
                 }
             case "VIDEO":
             case "video":

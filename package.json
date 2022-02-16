@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.5",
     "@aws-sdk/client-appsync": "^3.43.0",
     "@date-io/date-fns": "^1.3.13",
     "@emotion/react": "^11.5.0",
@@ -29,16 +28,17 @@
     "mobx": "^6.3.13",
     "mobx-react": "^7.2.1",
     "mobx-react-lite": "^3.2.3",
-    "next": "^11.1.3",
+    "next": "12",
     "nextjs-websocket": "^1.0.7",
     "npm": "^8.3.1",
     "papaparse": "^5.3.1",
+    "process": "^0.11.10",
     "qrcode.react": "^1.0.1",
-    "react": "17.0.2",
+    "react": "^17.0.2",
     "react-apexcharts": "^1.3.9",
     "react-csv": "^2.2.1",
     "react-day-picker": "^7.4.10",
-    "react-dom": "17.0.2",
+    "react-dom": "^17.0.2",
     "react-dropzone": "^11.4.2",
     "react-embed": "^3.3.3",
     "react-helmet": "^6.1.0",
@@ -48,6 +48,7 @@
     "react-router": "^6.0.2",
     "react-router-dom": "^6.0.2",
     "react-s3": "^1.3.1",
+    "react-transition-group": "^4.4.2",
     "react-validation": "^3.0.7",
     "sass": "^1.42.1",
     "subscriptions-transport-ws": "^0.11.0",
@@ -72,10 +73,19 @@
     "type": "git",
     "url": "git+https://github.com/steve133188/mf2-web.git"
   },
-  "author": "",
+  "author": "Steve",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/steve133188/mf2-web/issues"
   },
-  "homepage": "https://github.com/steve133188/mf2-web#readme"
+  "homepage": "https://github.com/steve133188/mf2-web#readme",
+  "browser": {
+    "crypto": false,
+    "fs": false,
+    "path": false,
+    "os": false,
+    "net": false,
+    "stream": false,
+    "tls": false
+  }
 }

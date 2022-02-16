@@ -10,13 +10,8 @@ import {Skeleton} from "@mui/material";
 
 export function ORGSidebar({orgData, selection ,setSelection}) {
 
-    const {orgInstance } = useContext(GlobalContext)
     const [isLoading, setIsLoading] = useState(true)
-    const [isShow, setShow] = useState(false)
     const [data, setData] = useState([])
-    function toggleIsShow() {
-        setShow(!isShow);
-    }
     const handleClick =  (team)=>{
         setSelection(team)
     }
@@ -59,9 +54,9 @@ function TreeNode ({node ,handleClick, selection}) {
     const [childVisible , setChildVisible] = useState(false)
 
     const hasChild = node.children ? true : false ;
-    
+
     return(
-        
+
         <li className={"blueMenuLink "+(selection && selection.name == node.name ?("active"):null)} onClick={(e)=> {
             e.preventDefault()
             e.stopPropagation()

@@ -1,8 +1,4 @@
-export function Menu() {
-    return (
-        <div></div>
-    )
-}
+
 
 export function ThreeDotsHoriMenu() {
     return (

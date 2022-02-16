@@ -12,6 +12,7 @@ import axios from "axios"
 //     }
 export default function contactsFetcher(token) {
     const instance = {}
+
     instance.token = token
     instance.fetcher = axios.create({
             headers: {
@@ -23,9 +24,11 @@ export default function contactsFetcher(token) {
             timeout: 10000,
             baseURL: "https://46bgula199.execute-api.ap-southeast-1.amazonaws.com/prod"
         },
+
     )
-    instance.getAllContacts = async () => {
-        const d = await instance.fetcher.get("/customers").then(res => res.data).catch(err => console.log(err))
+    instance.getAllContacts = async (data) => {
+
+        const d = await instance.fetcher.post("/customers/user",data).then(res => res.data).catch(err => console.log(err))
         return d
     }
 

@@ -1,6 +1,4 @@
 import Link from "next/link";
-import {CommentsAltSVG} from "../public/side_bar_icon_svg/side_bar_icon_svg";
-
 
 export default function NavItem ({url , name , icon , active}) {
 

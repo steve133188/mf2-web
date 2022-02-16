@@ -9,18 +9,19 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Tooltip } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
 import { GlobalContext } from "../../context/GlobalContext";
+import {inject ,observer} from "mobx-react";
 
-export default function DropDown ({teamData,setSelection,...props}) {
-        const {agents , selectedUsers , selectedTeams , updateSelectedUsers , updateSelectedTeams} = props
+function DropDown ({teamData,setSelection,...props}) {
+    const {chatListStore:{checkFilter , filter , updateFilter} } = props;
 
-        const getUsers = async()=>{
-          const res = await userInstance.getAllUser()
-         setLevelTwoData(res)
-        }
-        const fetchTeamAgents = async (id) =>{
-          const res = await userInstance.getUsersByTeamId(id)
+    const getUsers = async()=>{
+        const res = await userInstance.getAllUser()
+        setLevelTwoData(res)
+    }
 
-        }
+    const fetchTeamAgents = async (id) =>{
+        const res = await userInstance.getUsersByTeamId(id)
+    }
 
     const { userInstance } = useContext(GlobalContext);
     const [open, setOpen] = useState([]);
@@ -29,43 +30,49 @@ export default function DropDown ({teamData,setSelection,...props}) {
 
 
     useEffect(async()=>{
-      setLevelOneData(teamData)
-      await getUsers()
+
+        setLevelOneData(teamData)
+        await getUsers()
 
     },[])
 
-    const clear = () =>{
-        updateSelectedUsers([])
-        updateSelectedTeams([]);
-    }
 
 
-    const handleClick = async (name,id) => {
+
+    const handleClick =  (name,id) => {
       setOpen(prev=>[...open,name]);
         if(open.includes(name)){setOpen(open.filter(e=>e!==name))}
     };
 
-
     const toggleSelectUsers = e => {
-      const {  id} = e.target;
-      if (selectedUsers.includes(id)) {
-          updateSelectedUsers(selectedUsers.filter(item => item !== id));
-          return
-      }
-        updateSelectedUsers([...selectedUsers, id]);
-
+        const {  id} = e.target;
+        let data ;
+        if (checkFilter("users" , id)) {
+            data = filter.users.filter(u=>u!==id)
+            updateFilter("users",data)
+            return
+        }
+        data = [...filter.users , id]
+        updateFilter("users",data)
     };
-  const toggleSelectTeams = e => {
 
-      const {  id} = e.target;
-      if (selectedTeams.includes(id)) {
-          updateSelectedTeams(selectedTeams.filter(item => item !== id));
-          updateSelectedUsers(levelTwoData.filter(item => item.team_id==parseInt(id)))
-          return
-      }
-      updateSelectedTeams([...selectedTeams, id]);
-      const list = levelTwoData&&levelTwoData.filter(agent=>{return agent.team_id==parseInt(id)})
-      updateSelectedUsers(list.map(e=>e.user_id.toString()))
+    const toggleSelectTeams = e => {
+        const {  id} = e.target;
+        let data ;
+        let usersData;
+        if (checkFilter("teams" , id)) {
+            data = filter.teams.filter(u=>u!==id)
+            updateFilter("teams",data)
+            updateFilter("users",data)
+            return
+        }
+        data = [...filter.teams , id]
+        usersData = levelTwoData.filter(u=>u.team_id.toString() === id).map(u=>u.user_id.toString())
+
+
+        updateFilter("teams",data)
+        updateFilter("users",usersData)
+
     };
     return (
         <List
@@ -75,20 +82,19 @@ export default function DropDown ({teamData,setSelection,...props}) {
         >
 
           {levelOneData&&levelOneData.map((team,index)=>{return<div key={index}>
-            <div style={{display:"flex",padding:"0 16px 0 0 "}}>
+                  <div style={{display:"flex",padding:"0 16px 0 0 "}}>
 
           <ListItemButton onClick={()=>{handleClick(team.name,team.org_id);}} id={team.org_id}  sx={{padding:"0 1rem "}} >
             <ListItemText primary={team.name} />
             <div className="newCheckboxContainer right">
-                                        <label className="newCheckboxLabel">
-                                        <input type="checkbox" id={team.org_id} name={team.name}
-                                         checked={selectedTeams.includes(team.org_id.toString())} onClick={(e)=>{e.stopPropagation();toggleSelectTeams(e)}} onChange={()=>{}}
-                                          />
-                                        </label>
-                                    </div>
+                <label className="newCheckboxLabel">
+                    <input type="checkbox" id={team.org_id} name={team.name} checked={filter.teams.includes(team.org_id.toString())} onClick={(e)=>{e.stopPropagation();toggleSelectTeams(e)}} onChange={()=>{}}
+                    />
+                </label>
+            </div>
             {open.includes(team.name) ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-</div>
+    </div>
             <Collapse in={open.includes(team.name)} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     {levelTwoData&&levelTwoData.filter(agent=>agent.team_id==team.org_id).map((agent,i)=>{
@@ -104,7 +110,7 @@ export default function DropDown ({teamData,setSelection,...props}) {
                                         <label className="newCheckboxLabel">
                                         <input type="checkbox" id={agent.user_id} name={agent.username}
                                         // checked={checked.indexOf(agent.user_id) !== -1}
-                                        checked={selectedUsers.includes(agent.user_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}
+                                        checked={checkFilter("users" , agent.user_id.toString())} onClick={toggleSelectUsers} onChange={()=>{}}
                                         />
                                         </label>
                                     </div>
@@ -121,4 +127,6 @@ export default function DropDown ({teamData,setSelection,...props}) {
              }
         </List>
       );
-    }
+}
+
+export default inject("chatListStore")(observer(DropDown))

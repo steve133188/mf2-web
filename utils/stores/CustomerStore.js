@@ -8,10 +8,11 @@ class CustomerStore {
 
     instance = {}
 
+
+
     token=null
 
     constructor() {
-       this.init()
         makeObservable(this, {
             customers: observable,
             getAll:action
@@ -19,7 +20,7 @@ class CustomerStore {
     }
 
     init = ()=>{
-       const token = window.localStorage.getItem("token");
+       const token = localStorage.getItem("token");
        runInAction(()=>{
            this.token = token
            this.instance=axios.create({

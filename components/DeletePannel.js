@@ -1,20 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import MF_Modal from "./MF_Modal";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { styled } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import { GlobalContext } from "../context/GlobalContext";
 
-
-const style ={
-    background:" #FFFFFF",
-    // border: "1px solid #E5E7EC",
-    borderRadius: "10px",
-    opacity: 1,
-    width:"100%",
-    height:"2rem"
-}
 
 export default function DeletePad({show, toggle,reload,data,submit,title , deleteId , deleteIds}){
     const [name , setName] = useState("")

@@ -4,8 +4,6 @@ import {NormalButton2} from "./Button"
 import {Switch} from "./Switch";
 import {GlobalContext} from "../context/GlobalContext";
 import {useContext , useState} from "react";
-import {Alert} from "./Alert";
-import {Note} from "./Note";
 
 export function LoginPanel() {
     const { login,user } = useContext(GlobalContext);

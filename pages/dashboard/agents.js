@@ -1,5 +1,5 @@
 import {AverageDailyCard, ChangingPercentageCard, LineChartCard} from "../../components/Cards";
-import {MultipleBarChart, MultipleLineChart} from "../../components/LineChart";
+import {MultipleBarChart, MultipleLineChart} from "../../components/Chart/LineChart";
 import {useContext, useEffect, useState} from "react";
 import {CancelButton, NormalButton2} from "../../components/Button";
 import {LabelSelect2} from "../../components/Select";
@@ -70,8 +70,10 @@ export default function Agents() {
     }
 
     const getContacts = async () =>{
+        const {user:{user_id,role_id,team_id}}=user
 
-        const data = await contactInstance.getAllContacts()
+
+        const data = await contactInstance.getAllContacts({user_id,role_id,team_id})
 
         setContacts(data)
 

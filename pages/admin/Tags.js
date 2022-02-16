@@ -16,8 +16,8 @@ import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
+import Mf_icon_dropdownform from "../../components/common/mf_icon_dropdownform";
+import Mf_icon_dropdown_select_btn from "../../components/common/mf_dropdown_select";
 import searchTagFilter from "../../helpers/searchTagFilter";
 import {getAllContacts} from "../../helpers/contactsHelper"
 import {getAllTags} from "../../helpers/adminHelpers";

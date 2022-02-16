@@ -1,44 +1,45 @@
-import {useContext} from "react";
-import {GlobalContext} from "../../../context/GlobalContext";
 import ChatroomRow from "./ChatroomRow";
-import OnLoad from "./OnLoad";
+import {inject, observer} from "mobx-react";
+import {Collapse , Zoom} from '@mui/material';
+import { TransitionGroup } from 'react-transition-group';
 
-export default function ChatroomList(props){
+function ChatroomList(props){
 
-    const {selectedChat , updateSelectedChatroom } = useContext(GlobalContext)
-
-    const { show  , chats} =props
-
+    const { show  , chatListStore:{selectChat , selectedChat ,showChatList , isLoading},chatroomStore:{clear ,getMessage}} =props
 
     const selected = (id) =>{
         return id === selectedChat.room_id
     }
 
-    const handleSelectClick = (e, data) =>{
+    const handleSelectClick = async (e, data) =>{
         e.preventDefault() ;
         e.stopPropagation();
-        updateSelectedChatroom(data)
+        selectChat(data)
+        clear()
+        await getMessage(data.room_id)
     }
 
     const renderChatroomList=()=>{
-
-            return (chats.map((chat ,index)=>{
-                return <ChatroomRow
-                    key={index}
-                    chat={chat}
-                    selected={selected}
-                    onClick={handleSelectClick}
-                />
-
-            })
-)
+        return (showChatList.map((chat ,index)=>(
+                <Collapse key={index} in={!isLoading} style={{ transitionDelay: '3000ms'  }}>
+                    <ChatroomRow
+                        key={index}
+                        chat={chat}
+                        selected={selected}
+                        onClick={handleSelectClick}
+                    />
+                </Collapse>)
+            )
+        )
     }
 
     return(<>
             {show&&<ul  className={"chatlist_ss_list"} style={{display:show?"":("none")}}>
-                {renderChatroomList()}
+                <TransitionGroup>
+                    {renderChatroomList()}
+                </TransitionGroup>
             </ul>}
-    </>
-
+        </>
     )
 }
+export default inject("chatListStore" , "chatroomStore")(observer(ChatroomList))

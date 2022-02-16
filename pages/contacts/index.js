@@ -19,7 +19,7 @@ import ProfileGrid from "../../components/pageComponents/ProfieGrid";
 import EditProfileForm from "../../components/pageComponents/EditProfileForm";
 import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdown_select_btn from "../../components/mf_dropdown_select";
+import Mf_icon_dropdown_select_btn from "../../components/common/mf_dropdown_select";
 import searchContactsFilter from "../../helpers/searchContactsFilter";
 import * as React from "react";
 import Loading from "../../components/Loading";
@@ -175,7 +175,9 @@ export default function Contacts() {
         setFilteredChannel(channels)
     }
     const fetchContacts = async () =>{
-        let data =await contactInstance.getOwnContact(user.user.user_id)
+        const {user:{user_id,role_id,team_id}}=user
+
+        let data =await contactInstance.getAllContacts({user_id,role_id,team_id})
 
         // if(userAuth.authority.all){
         //     data =await contactInstance.getAllContacts()

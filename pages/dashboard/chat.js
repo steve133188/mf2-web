@@ -19,57 +19,21 @@ import {TableCell, TableHead} from "@mui/material";
 
 import searchFilter from "../../helpers/searchFilter";
 import dashboardFetcher from "../../helpers/dashboardHelpers";
-import {LineChart} from "../../components/LineChart";
+import {LineChart} from "../../components/Chart/LineChart";
 
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
-    const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
-    const [filteredAgents , setFilteredAgents] = useState([])
-    const [selectedAgents , setSelectedAgents] = useState([])
+    const {dashboardInstance,contactInstance ,tagInstance , user} = useContext(GlobalContext)
     const [filteredTags , setFilteredTags] = useState([])
     const [selectedTags , setSelectedTags] =useState([])
     const [contacts, setContacts] = useState([]);
     const [tags, setTags] =useState([])
     const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [dash  , setDash ] = useState({})
-    const [activeContacts ,setActiveContacts] =useState()
-    const [agents , setAgents] =useState()
-    const [allContacts , setAllContacts] =useState()
-    const [assignedContacts , setAssignedContacts] =useState()
-    const [AvgFirstTime , setAvgFirstTime] =useState()
-    const [AvgRestTime  , setAvgRestTime] =useState()
-    const [deliveredContacts , setDeliveredContacts] =useState()
-    const [newAddedContacts , setNewAddedContacts] =useState()
-    const [tags_data , setTags_data] =useState()
-    const [totalMessageReceived , setTotalMessageReceived] =useState()
-    const [totalMessageSent, setTotalMessageSent] =useState()
-    const [unHandleContacts , setUnHandleContacts] =useState()
     const [chartData , setChartData] =useState()
 
     const [dayState,setDayState] = useState({from:"",to:""})
 
-    const dataProcess = (data)=>{
-    //    construct the data
-        const {active_contacts ,
-            agents ,
-            all_contacts ,
-            assigned_contacts,
-            avg_first_time,
-            avg_rest_time,
-            communication_hours,
-            delivered_contacts,
-            new_added_contacts,
-            tags,
-            total_msg_recv,
-            total_msg_sent,
-            unhandled_contacts
-        } = data
-    //   calculate the data
-
-    //    set States
-
-
-    }
 
     const submitDate =async ()=>{
         let s = Date.parse(dayState.from)/1000 , e = Date.parse(dayState.to)/1000
@@ -146,7 +110,6 @@ export default function Chat() {
     const handleDayClick=(day) => {
       const range = DateUtils.addDayToRange(day, dayState);
       setDayState(range);
-        console.log("date = " , range)
     }
     const toggleSelectTags = e => {
         const { checked ,id} = e.target;
@@ -164,7 +127,8 @@ export default function Chat() {
         setFilteredTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
     }
     const fetchContacts = async () =>{
-        const data = await contactInstance.getAllContacts()
+        const {user: {user_id, role_id, team_id}} = user
+        const data = await contactInstance.getAllContacts({user_id,role_id,team_id})
         setContacts(data)
     }
 

@@ -1,9 +1,9 @@
 import React, {useContext, useMemo ,useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import { GlobalContext } from '../context/GlobalContext';
-import {NormalButton, NormalButton2, CancelButton} from './Button';
+import { CancelButton} from './Button';
 import MF_Select from './MF_Select';
-import SelectSession from './SelectSession';
+
 
 export function ImportDropzone({children,title,...props}) {
     const {mediaInstance,adminInstance ,user , messageInstance} = useContext(GlobalContext)
@@ -17,10 +17,6 @@ export function ImportDropzone({children,title,...props}) {
         isDragReject,
         acceptedFiles
     } = useDropzone();
-
-    const api = "localhost:3020/"
-
-    // const [file , setFile] = useState(null)
 
     const baseStyle = {
         flex: 1,
@@ -58,13 +54,12 @@ export function ImportDropzone({children,title,...props}) {
             console.log("no file here")
             return
         }
-        
+
         const res  = await mediaInstance.putSticker(acceptedFiles[0],folder[0])
         console.log(res,"return key")
         console.log(acceptedFiles[0].arrayBuffer())
         acceptedFiles.pop()
 
-        // axios.post("api/uploadfile", formData);
     }
 
     const activeStyle = {
@@ -101,7 +96,7 @@ export function ImportDropzone({children,title,...props}) {
                     </div>
                 </div>
 
-                        
+
                        <div style={{display:"flex",justifyContent:'flex-end'  }}>
                 <div style={{width:"300px",boxShadow:"0px 5px 10px #00000029"}}>
                     <MF_Select head={"Folder"} top_head={props.folder==[]?"Folder":folder}
@@ -117,7 +112,7 @@ export function ImportDropzone({children,title,...props}) {
                         })}
                     </MF_Select>
 
-                        </div> 
+                        </div>
                         </div>
 
                 <div {...getRootProps({style})}>

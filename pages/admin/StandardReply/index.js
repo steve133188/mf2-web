@@ -17,8 +17,8 @@ import MF_Select from "../../../components/MF_Select";
 // import Pagination from '@mui/material/Pagination';
 // import { Tooltip } from '@mui/material';
 import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../../components/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../../components/mf_dropdown_select";
+import Mf_icon_dropdownform from "../../../components/common/mf_icon_dropdownform";
+import Mf_icon_dropdown_select_btn from "../../../components/common/mf_dropdown_select";
 import searchFilter from "../../../helpers/searchFilter";
 import {getAllReply} from "../../../helpers/contactsHelper"
 import {getAllStandardReply} from "../../../helpers/adminHelpers";
@@ -63,7 +63,7 @@ export default function StandardReply() {
     const [editData,setEditData] = useState({})
     let result = currentReply.map(d=>d.id)
 
-   
+
     const fetchStandardReply = async () =>{
         const data = await replyInstance.getStandardReplyAll()
         console.log("getAllStandardReply",data)
@@ -134,11 +134,11 @@ export default function StandardReply() {
                 const file =await replyInstance.deleteReplyByID(selectedReply)
 
         })
-        
+
         setSelectedReply([]);
         fetchStandardReply();
     }
-    
+
     const toggleSelectAgents = (e) =>{
          const { checked ,id} = e.target;
     setSelectedAgents([...selectedAgents, id]);
@@ -163,7 +163,7 @@ export default function StandardReply() {
         console.log(standardReply,"reply")
         console.log(useFolder,"reply")
     },[useFolder])
-    
+
     useEffect(    async () => {
         if(user.token) {
             await getTeams ();

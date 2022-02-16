@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import { RootStore } from '../stores/';
 
-const StoreContext = createContext;
+const StoreContext = createContext(null);
 StoreContext.displayName = 'RootStoreContext';
 
 const useRootStore = () => {

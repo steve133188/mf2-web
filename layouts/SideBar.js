@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {useQuery, gql, useSubscription} from "@apollo/client";
 import {useEffect, useState ,useContext, useLayoutEffect} from "react";
 import {Pill} from "../components/Pill";
 import {DashboardSVG,CommentsAltSVG,ContactSVG,IntegrationsSVG,OrganizationSVG,AdminSVG,BroadcastSVG,ProductsSVG} from "../public/side_bar_icon_svg/side_bar_icon_svg"

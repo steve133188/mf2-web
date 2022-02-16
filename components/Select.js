@@ -2,7 +2,7 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import {Pill} from "./Pill";
+
 
 export function LabelSelect() {
     const [age, setAge] = React.useState('');

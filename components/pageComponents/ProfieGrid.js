@@ -5,7 +5,7 @@ import {Tooltip} from "@mui/material";
 import {AvatarGroup} from "@mui/lab";
 import Link from 'next/link';
 import { useRouter } from "next/router";
-import Mf_circle_btn from "../mf_circle_btn";
+import Mf_circle_btn from "../common/mf_circle_btn";
 import { NoteButtonSVG } from "../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import Profile from "../profile";
 import EditProfileForm from "./EditProfileForm";

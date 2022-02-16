@@ -47,19 +47,20 @@ export const GlobalContextProvider = ({children}) =>{
         })
 
         const auth = await roleInstance.getRoleById(JSON.parse(window.localStorage.getItem("user")).role_id|| {})
-
+        window.localStorage.setItem("auth",JSON.stringify(auth))
         setUserAuth(auth)
     },[])
 
-    const getUserChannel = async (uid)=>{
-        const node = await API.graphql(graphqlOperation(listWhatsapp_nodes , {filter:{user_id:{eq:uid}} , limit:400})).then(res=>{
-            console.log( "get whatsapp channel",res)
-            if(res.data.listWhatsapp_nodes.items.length>=1) return res.data.listWhatsapp_nodes.items[0]
-            return null
+    const getUserChannel = async ()=>{
+        console.log("get chan start")
+        const node = await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${user.user.user_id}`).then(res=>{
+            return res.data
         }).catch(err=>{
             console.log(err)
             return null
         })
+        console.log("get chan " ,node)
+        messageInstance.setWhatsappURL(node.url)
         return node
     }
     const login = async (credentials)=>{

@@ -1,12 +1,10 @@
 
 import { useContext, useEffect, useState } from "react";
-import { AvatarGroup, ListItem } from "@mui/material";
-import { display, flexbox } from "@mui/system";
 import { NoteButtonSVG } from "../../../public/livechat/MF_LiveChat_Landing/chat_svg";
 import { Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { Pill } from "../../Pill";
-import Mf_circle_btn from "../../mf_circle_btn";
+import Mf_circle_btn from "../../common/mf_circle_btn";
 import { GlobalContext } from "../../../context/GlobalContext";
 import {API, graphqlOperation} from "aws-amplify";
 import {listNotesTables} from "../../../src/graphql/queries";
@@ -15,13 +13,10 @@ import {createNotesTable} from "../../../src/graphql/mutations";
 
 export default function ContantDetail({ data, ...props }) {
 
-    const notesData = ([{ id: "dsafdsfd", wroteBy: "Lawrance", date: "2012-12-10", content: "Today is 20th December 2021. Chrismas's eva is coming in town. lalala. Come to visit us." }, { id: "dsafds32", wroteBy: "Maric", date: "2021-10-09", content: "Nice to meet you." },])
     const [notes, setNotes] = useState([])
     const [writenote, setWritenote] = useState("")
     const [disable, setDisable] = useState(false)
     const [start, setStart] = useState(false)
-    const [users, setUsers] = useState([])
-    const [tags, setTags] = useState([])
     const [selectedTags, setSelectedTags] = useState([])
     const [filteredTags, setFilteredTags] = useState([])
     const [alltags, setAlltags] = useState([])
@@ -48,7 +43,6 @@ export default function ContantDetail({ data, ...props }) {
         const data = await contactInstance.getContactById(cid)
         setContact(data)
         const { tags, agents } = data
-        console.log("get Contact : " , )
         setSelectedTags(tags)
         setSelectedUsers(agents)
     }
@@ -83,12 +77,10 @@ export default function ContantDetail({ data, ...props }) {
         if (!checked) {
             setSelectedTags(selectedTags.filter(item =>  item.tag_id != parseInt(id) ));
 
-            console.log(contact.customer_id, tag.tag_id)
             const res = await contactInstance.deleteCustomerTag(contact.customer_id, [tag.tag_id])
         }else{
 
             const res = await contactInstance.updateContactTags(contact.customer_id, [tag.tag_id])
-            console.log(res)
         }
     };
     const toggleSelectUsers = async e => {
