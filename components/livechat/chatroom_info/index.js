@@ -5,11 +5,12 @@ import {EditPenButtonSVG} from "../../../public/livechat/MF_LiveChat_Landing/cha
 import Profile from "../../profile";
 import EditProfileForm from "../../pageComponents/EditProfileForm";
 import { GlobalContext } from "../../../context/GlobalContext";
+import {inject ,observer} from "mobx-react";
 
 
-export default function ChatroomInfo (props){
+function ChatroomInfo (props){
 
-    const {selectedChat ,handleEdit} = props
+    const {handleEdit , chatListStore:{selectedChat}} = props
     const {contactInstance } = useContext(GlobalContext)
      const [tabActive,setTabActive] = useState("info")
     const [useContact , setUseContact] = useState({})
@@ -74,3 +75,6 @@ export default function ChatroomInfo (props){
     </div>
     )
 }
+
+
+export default inject( "chatListStore")(observer(ChatroomInfo))

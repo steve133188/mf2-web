@@ -1,18 +1,28 @@
 import ChatroomList from "./ChatroomList";
 import ChatroomFilter from "./ChatroomFilter";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {inject, observer} from "mobx-react";
+import {GlobalContext} from "../../../context/GlobalContext";
 
 
 function LiveChatLeftColumn(props){
 
-    const {user_id,tags, users , teams  , contacts ,chatListStore:{getChatList , search ,filterChatList ,filteredChatList,showChatList ,clear ,searchByInput} } = props
+    const {tags, users , teams  , contacts ,chatListStore:{getChatList , search ,filterChatList ,filteredChatList,showChatList ,clear ,searchByInput} } = props
+
+    const {   user     } = useContext(GlobalContext)
 
     const [isFilterOpen,setIsFilterOpen] = useState(false)
 
     useEffect(async ()=>{
-        await getChatList(user_id)
-    },[])
+        if(user.user.user_id){
+            const {user:{user_id , team_id , role_id}} = user
+
+            console.log("creds :" , {user_id , team_id , role_id})
+            // await getChatList({user_id , team_id , role_id})
+            await getChatList({user_id , team_id , role_id} )
+        }
+
+    },[user])
 
     return(<>
         <div className={"chat_list"}>

@@ -18,9 +18,9 @@ import axios from "axios";
 
 
 function Live_chat(props) {
-        const {messageActionsStore} = props
+        const {messageActionsStore , chatListStore:{selectedChat}} = props
         const router = useRouter()
-        const {  updateSelectedChatroom, contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user  , chatHelper  ,selectedChat , setSelectedChat } = useContext(GlobalContext)
+        const {   contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user  , chatHelper    } = useContext(GlobalContext)
         const [chatroomMsg , setChatroomMsg]  = useState([])
         const [chats , setChats]  = useState([])
         const [contacts, setContacts] = useState([]);
@@ -40,15 +40,7 @@ function Live_chat(props) {
         const [users ,setUsers] =useState([])
         const [teams ,setTeams] =useState([])
         const [tags ,setTags] =useState([])
-        const [selectedTags ,setSelectedTags] =useState([])
-        const [selectedUsers ,setSelectedUsers] =useState([])
         const [chatUser , setChatUser] = useState({})
-        const [selectedTeams ,setSelectedTeams] =useState([])
-        const [selectedChannels ,setSelectedChannels] =useState([]);
-
-        const [unread,setUnread] = useState(false)
-        const [unassigned,setUnassigned] = useState(false)
-        const [pinChat , setPinChat] = useState([])
         const [mediaUrl , setMediaUrl] = useState('')
         const [isMedia , setIsMedia ] = useState(false)
         const [lastMsgFromClient , setLastMsgFromClient] = useState("")
@@ -162,7 +154,7 @@ function Live_chat(props) {
 
     useEffect(    async () => {
         if(user.token!=null) {
-            await getChats()
+            // await getChats()
             await subChatrooms()
             await fetchContacts()
             await getTags()
@@ -230,7 +222,7 @@ function Live_chat(props) {
                 users={users}
                 teams={teams}
                 contacts={contacts}
-                user_id={user.user.user_id}
+                user={user.user}
             />
             <Chatroom
             selectedChat={selectedChat}
@@ -243,9 +235,9 @@ function Live_chat(props) {
             fetchingContact
             sendMessage={messageActionsStore.sendMessage}
             />
-            <ChatroomInfo selectedChat handleEdit={toggleEditProfile }/>
+            <ChatroomInfo  handleEdit={toggleEditProfile }/>
         </div>
     )
 }
 
-export default inject("messageActionsStore")(observer(Live_chat))
+export default inject("messageActionsStore" , "chatListStore")(observer(Live_chat))

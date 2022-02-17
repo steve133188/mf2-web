@@ -116,8 +116,15 @@ class ChatListStore {
         }
     }
 
-    async getChatList(uid){
-        await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user/${uid}`)
+    async getChatList(data){
+        console.log("post creds :" , data)
+        // await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user/${uid}`)
+        await axios.post(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user`, data,{headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                'Access-Control-Allow-Credentials': true,
+            }})
             .then(res=>{
                 runInAction(()=>{
                     this.chatList = res.data
