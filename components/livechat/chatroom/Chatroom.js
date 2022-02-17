@@ -52,11 +52,6 @@ function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refre
             renderMore()
             let position = chatroomRef.current.scrollHeight - chatrommSroll
             chatroomRef.current.scrollTop = position
-
-
-            // setTimeout(()=>{
-            // },1500)
-
         }
     }
 

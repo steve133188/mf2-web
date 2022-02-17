@@ -41,6 +41,7 @@ audio::-webkit-media-controls-panel{
   padding: 0.25rem ;
 
   .content{
+    overflow-wrap: break-word;
     white-space:pre-wrap;
     max-width: 400px;
     padding: 0.5rem 1rem;
@@ -49,7 +50,7 @@ audio::-webkit-media-controls-panel{
   }
 
   img{
-    height: 400px;
+    max-height: 400px;
     width: 100%;
     //object-fit:cover;
     height: 100%;
@@ -59,7 +60,9 @@ audio::-webkit-media-controls-panel{
   .videoBox  {
     //margin:  0 ;
     width: 100%;
+    max-width: 400px;
     height: auto;
+    max-height: 400px;
     //max-height: 30vh;
     background:inherit;
     border-radius: 26px;
