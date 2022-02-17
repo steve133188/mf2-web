@@ -42,7 +42,7 @@ export default function ChatroomRow(props){
 
                     <img src={`/channel_SVG/${chat.channel}.svg`} alt="Channel icon" width={20} height={20}  />
                 </div>
-                <div style={{display:"flex",height:"50%",opacity:0}}>    {`+${chat.country_code} ${chat.phone}`}  </div>
+                {/*<div style={{display:"flex",height:"50%",opacity:0}}>    {`+${chat.country_code} ${chat.phone}`}  </div>*/}
 
                 {/* <div className={""}>Team {chatroom.team}</div> */}
                 {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
