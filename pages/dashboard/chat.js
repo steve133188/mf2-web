@@ -16,9 +16,6 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell, TableHead} from "@mui/material";
-
-import searchFilter from "../../helpers/searchFilter";
-import dashboardFetcher from "../../helpers/dashboardHelpers";
 import {LineChart} from "../../components/Chart/LineChart";
 
 export default function Chat() {
@@ -244,17 +241,17 @@ export default function Chat() {
                             return(<li id={team.name} key={team.id} onClick={(e)=>{setSelectedStatus(e.target.id);advanceFilter()}}> {team.name}</li>)
                         })} */}
                     </MF_Select>
-                            <div className={"filter_box "+(isFilterOpen?"active":"")}>
-                                 <div className={"filter_icon"}  onClick={()=>setIsFilterOpen(!isFilterOpen)}></div>
+                            {/*<div className={"filter_box "+(isFilterOpen?"active":"")}>*/}
+                            {/*     <div className={"filter_icon"}  onClick={()=>setIsFilterOpen(!isFilterOpen)}></div>*/}
 
-                                     <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>
+                            {/*         <div className={"filter_panel"} style={{display:isFilterOpen?"flex":"none"}}>*/}
 
-                                        <div className={"chatlist_filter_box"} >
-                                                    <DashBroadFilter cancelClick={()=>setIsFilterOpen(!isFilterOpen)} confirm={()=>setIsFilterOpen(!isFilterOpen)} auth={1} />
-                                        </div>
+                            {/*            <div className={"chatlist_filter_box"} >*/}
+                            {/*                        <DashBroadFilter cancelClick={()=>setIsFilterOpen(!isFilterOpen)} confirm={()=>setIsFilterOpen(!isFilterOpen)} auth={1} />*/}
+                            {/*            </div>*/}
 
-                                    </div>
-                            </div>
+                            {/*        </div>*/}
+                            {/*</div>*/}
 
 
                             </div>

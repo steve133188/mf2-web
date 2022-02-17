@@ -51,7 +51,6 @@ class ChatListStore {
     sub=null
 
     constructor() {
-        // makeAutoObservable(this)
         makeObservable(this,{
             userCredential:observable,
             isLoading:observable,
