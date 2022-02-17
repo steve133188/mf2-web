@@ -31,13 +31,12 @@ export default function ChatroomRow(props){
                         {/* <Avatar className={"mf_bg_warning mf_color_warning text-center"}  sx={{width:50 , height:50 ,fontSize:20,marginRight:"10px"}} >{chatroom.name.substring(1,3).toUpperCase()}</Avatar> */}
                     </Tooltip>
 
-
             </div>
             <div className={"chatroom_name_ss"}>
 
                 <div className={"name_row"} style={{display:"flex",height:"50%",justifyContent:"flex-start"}}>
 
-                        <div style={{display:"flex",whiteSpace:"nowrap",maxHeight:"100%",justifyContent:"flex-start",gap:4,width:"fit-content"}}>
+                        <div className={"name_box"}>
                             {chat.name??`+${chat.country_code} ${chat.phone}`}
                         </div>
 
@@ -48,17 +47,20 @@ export default function ChatroomRow(props){
                 {/* <div className={""}>Team {chatroom.team}</div> */}
                 {/*{chatroom.unreadCount!=0 &&<div className={"chatroom_badge"}>{chatroom.unreadCount}</div>}*/}
             </div>
-            <div style={{width:"50%",display:"flex",justifyContent:"flex-end",alignItems:"flex-end"}}>
-                {!selected(chat.room_id) && <Avatar className={" mf_color_white text-center"}
-                                                               sx={{
-                                                                   width: 23,
-                                                                   height: 23,
-                                                                   fontSize: 13,
-                                                                   color: "#D0E9FF",
-                                                                   backgroundColor: "#2198fa",
-                                                                   marginRight: "20px",
-                                                                   opacity: chat.unread == 0 ? 0 : chat.unread == null ? 0 : 1
-                                                               }}>{chat.unread}</Avatar>}
+            <div className={"chatroom_li_right"}>
+                <div className={"date"}>{new Date(parseInt(chat.last_msg_time)).toLocaleDateString()}</div>
+                <div className={'unread'}>
+                    {!selected(chat.room_id) && <Avatar className={"mf_color_white text-center "}
+                                                        sx={{
+                                                            width: 18,
+                                                            height: 18,
+                                                            fontSize: 10,
+                                                            color: "#D0E9FF",
+                                                            backgroundColor: "#2198fa",
+                                                            opacity: chat.unread == 0 ? 0 : chat.unread == null ? 0 : 1
+                                                        }}>{chat.unread}</Avatar>}
+                </div>
+
             </div>
             {/*<div className={"chatroom_time"}>{chatroom.last_msg_time}</div>*/}
             {/*<div className={"pin"}></div>*/}

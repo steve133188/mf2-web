@@ -39,7 +39,7 @@ function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refre
         if(messagesEndRef.current){
             setTimeout(()=>{
                 scrollToBottom()
-            },1000)
+            },500)
         }
 
         }
@@ -56,9 +56,9 @@ function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refre
     }
 
     const checkMsgDisabled = () => {
-        const end = new Date.now()
+        const end = Date.now()
         const start = parseInt(lastMsgFromClient)
-        if(start - end >86400) return false
+        if(end-start   >86400) return false
         return true
     }
 

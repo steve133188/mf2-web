@@ -55,8 +55,8 @@
     .chatlist_ss{
       display: flex;
       flex-direction: column;
-      padding:0.5rem 0rem;
-      max-height: 97vh;
+      padding:0rem;
+      max-height: 100%;
       // min-width: 320px;
       .chatlist_ss_filter{
         display: flex;
@@ -387,17 +387,17 @@
 
       }
       .chatlist_ss_list{
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         position: relative;
         flex-grow: 1;
-        padding-top: 1.2rem;;
+        //padding-top: 1rem;;
         padding-left: 0;
+        max-width: 100%;
+        margin:0;
         .activeRoom{
           background: #DEF0FF 0% 0% no-repeat border-box;
           border-radius: 10px;
-
-          // border: 5px transparent #73AD21;
-
         }
         .chatroom_badge{
           position: absolute;
@@ -413,7 +413,7 @@
         // min-width: 30px;
         height: 100vh;
         .chatroom_li{
-          margin: 3px 0;
+          //margin: 3px 0;
           cursor:pointer;
           padding:  .8rem;
           width: 100%;
@@ -446,8 +446,8 @@
           }
           .chatroom_name_ss{
             display: flex;
-            //width: 30%;
-            // min-width: 140px;
+            overflow-wrap: break-word;
+            width: 80%;
             flex-direction: column;
             justify-content: space-between;
             align-items:flex-start;
@@ -458,6 +458,7 @@
             img{
               margin: 0 5px;
             }
+
             .team{
               width:fit-content;
               background: #cdd4ff 0% 0% no-repeat padding-box;
@@ -471,12 +472,40 @@
               padding: 3px 12px;
 
             }
+            .name_row{
+              display:flex;
+              max_width:100%;
+            }
             .chatroom_contacts_cardname{
               display:flex;
               white-space:nowrap;
               max-height:100%;
               justify-content:flex-start;
               gap:.5rem;
+            }
+          }
+          .chatroom_li_right{
+            display:flex;
+            maxWidth:20%;
+            flex-direction: column;
+            font: normal normal normal 10px/14px Manrope;
+            justify-content:space-between;
+            .date{
+              display:flex;
+              padding:0.2rem;
+              font: inherit;
+              width:100%;
+              height:50%;
+            }
+            .unread{
+              width:100%;
+              height:50%;
+              display: flex;
+              flex-direction:column;
+              justify-content:center;
+              div{
+                margin:auto auto;
+              }
             }
           }
           .chatroom_time{

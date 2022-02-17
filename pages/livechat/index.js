@@ -18,7 +18,7 @@ import axios from "axios";
 
 
 function Live_chat(props) {
-        const {messageActionsStore , chatListStore:{selectedChat}} = props
+        const {messageActionsStore , chatListStore:{selectedChat , init}} = props
         const router = useRouter()
         const {   contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user  , chatHelper    } = useContext(GlobalContext)
         const [chatroomMsg , setChatroomMsg]  = useState([])
@@ -82,11 +82,6 @@ function Live_chat(props) {
 
     const refreshChatrooms = async e=>{
         await getChatroomMessage(selectedChat.room_id)
-    }
-
-    const getChats = async () =>{
-        const data = await chatHelper.getOwnedChatrooms(user.user.user_id)
-        setChats([...data])
     }
 
     const getChatroomMessage = async()=>{
@@ -154,7 +149,7 @@ function Live_chat(props) {
 
     useEffect(    async () => {
         if(user.token!=null) {
-            // await getChats()
+            await init()
             await subChatrooms()
             await fetchContacts()
             await getTags()
@@ -171,7 +166,7 @@ function Live_chat(props) {
         const sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:chatroom.room_id ,channel:selectedChat.channel } ))
             .subscribe({
                 next: async (chatmessage)=>{
-                    if(router.pathname == "/livechat") await updateSelectedChatroom(chatroom)
+                    await updateSelectedChatroom(chatroom)
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
@@ -201,14 +196,13 @@ function Live_chat(props) {
             const path =URL.createObjectURL(audioFile)
             setIsMedia(true)
             setIsExpand(true);
-
-        setChatButtonOn("m3");
-        var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
-        const result = await mediaInstance.putVoice(file)
-        setMediaUrl(result)
+            setChatButtonOn("m3");
+            var file = new File([audioFile], new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_") +'.oga')
+            const result = await mediaInstance.putVoice(file)
+            setMediaUrl(result)
             setFilePreview({name:(new Date().toISOString().replace(/:/g,"_").replace(/\./g,"_")),size:audioFile.size,type:"AUDIO",path:path})
-        setTypedMsg({...typedMsg ,message_type: "AUDIO"})
-        console.log(result,"audioFile")}
+            setTypedMsg({...typedMsg ,message_type: "AUDIO"})
+        }
 
     }
     return (

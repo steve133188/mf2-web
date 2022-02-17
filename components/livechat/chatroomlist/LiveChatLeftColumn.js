@@ -7,22 +7,20 @@ import {GlobalContext} from "../../../context/GlobalContext";
 
 function LiveChatLeftColumn(props){
 
-    const {tags, users , teams  , contacts ,chatListStore:{getChatList , search ,filterChatList ,filteredChatList,showChatList ,clear ,searchByInput} } = props
-
-    const {   user     } = useContext(GlobalContext)
+    const {tags, users , teams  , contacts ,chatListStore:{ search ,filterChatList ,filteredChatList,clear ,searchByInput} } = props
 
     const [isFilterOpen,setIsFilterOpen] = useState(false)
 
-    useEffect(async ()=>{
-        if(user.user.user_id){
-            const {user:{user_id , team_id , role_id}} = user
-
-            console.log("creds :" , {user_id , team_id , role_id})
-            // await getChatList({user_id , team_id , role_id})
-            await getChatList({user_id , team_id , role_id} )
-        }
-
-    },[user])
+    // useEffect(async ()=>{
+    //     if(user.user.user_id){
+    //         const {user:{user_id , team_id , role_id}} = user
+    //
+    //         console.log("creds :" , {user_id , team_id , role_id})
+    //         // await getChatList({user_id , team_id , role_id})
+    //         await getChatList({user_id , team_id , role_id} )
+    //     }
+    //
+    // },[user])
 
     return(<>
         <div className={"chat_list"}>
@@ -65,9 +63,9 @@ function LiveChatLeftColumn(props){
                     />:""}
                 </div>
 
-                    <ChatroomList
-                        show={!isFilterOpen}
-                    />
+                <ChatroomList
+                    show={!isFilterOpen}
+                />
 
             </div>
         </div>

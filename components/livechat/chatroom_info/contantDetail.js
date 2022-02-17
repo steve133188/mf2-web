@@ -27,7 +27,7 @@ export default function ContantDetail({ data, ...props }) {
     const [contact, setContact] = useState([]);
     const [unread, setUnread] = useState(false)
     const [unassigned, setUnAssigned] = useState(false)
-    const { userInstance, tagInstance, contactInstance, orgInstance, user } = useContext(GlobalContext);
+    const { userInstance, tagInstance, contactInstance, user } = useContext(GlobalContext);
 
     const getTags = async () => {
         const data = await tagInstance.getAllTags()
@@ -67,13 +67,6 @@ export default function ContantDetail({ data, ...props }) {
         const tag = await tagInstance.getTagById(parseInt(id))
         // get all selectedtags.tag_id
         setSelectedTags([...selectedTags, tag]);
-        // const uploadTags = {
-        //     tag_id: tag.tag_id,
-        //     tag_name: tag.tag_name,
-        //     update_at: parseInt(tag.update_at),
-        //     create_at: parseInt(tag.create_at)
-
-        // }
         if (!checked) {
             setSelectedTags(selectedTags.filter(item =>  item.tag_id != parseInt(id) ));
 
@@ -122,11 +115,9 @@ export default function ContantDetail({ data, ...props }) {
 
     }, [unread])
     const fetchNotes = async (data)=>{
-        console.log(data)
-        const res = API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} } , limit:1000})).then(res=>{
+        await API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} } , limit:1000})).then(res=>{
             setNotes(prev=>res.data.listNotesTables.items)
         }).catch(err=>console.log(err))
-        console.log("fetch notes" ,res)
     }
 
     const dropNote = async (input)=>{

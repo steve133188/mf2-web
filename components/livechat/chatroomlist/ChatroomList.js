@@ -5,23 +5,15 @@ import { TransitionGroup } from 'react-transition-group';
 
 function ChatroomList(props){
 
-    const { show  , chatListStore:{selectChat , selectedChat ,showChatList , isLoading},chatroomStore:{clear ,getMessage}} =props
+    const { show  , chatListStore:{selectChat , selectedChat ,showChatList , isLoading , renderMore},chatroomStore:{clear ,getMessage}} =props
 
     const selected = (id) =>{
         return id === selectedChat.room_id
     }
     const handleScroll = e =>{
-        const {scrollTop } = e.target
-        if(scrollTop==0){
-            setChatroomScroll(chatroomRef.current.scrollHeight)
+        const {scrollTop ,scrollHeight ,clientHeight} = e.target
+        if(scrollHeight-scrollTop ===clientHeight){
             renderMore()
-            let position = chatroomRef.current.scrollHeight - chatrommSroll
-            chatroomRef.current.scrollTop = position
-
-
-            // setTimeout(()=>{
-            // },1500)
-
         }
     }
     const handleSelectClick = async (e, data) =>{
@@ -47,7 +39,7 @@ function ChatroomList(props){
     }
 
     return(<>
-            {show&&<ul  className={"chatlist_ss_list"} style={{display:show?"":("none")}}>
+            {show&&<ul  className={"chatlist_ss_list"} style={{display:show?"":("none")}} onScroll={handleScroll}>
                 <TransitionGroup>
                     {renderChatroomList()}
                 </TransitionGroup>

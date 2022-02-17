@@ -1,8 +1,10 @@
-import {makeObservable, observable, action, runInAction} from 'mobx'
+import {makeObservable, observable, action, runInAction, makeAutoObservable} from 'mobx'
 import axios from "axios";
 
 
 class ChatListStore {
+
+    userCredential = null
 
     init_filter = {
         channels:{
@@ -49,7 +51,9 @@ class ChatListStore {
     sub=null
 
     constructor() {
+        // makeAutoObservable(this)
         makeObservable(this,{
+            userCredential:observable,
             isLoading:observable,
             search:observable,
             sub:observable,
@@ -64,13 +68,15 @@ class ChatListStore {
             updateChatList:action,
             filterChatList:action.bound,
             updateFilter: action.bound,
-            init:action,
+            init:action.bound,
             clear:action.bound,
-            subscription:action,
-            sort:action,
+            subscription:action.bound,
+            sort:action.bound,
             searchByInput:action.bound,
             selectChat:action.bound,
             checkFilter:action.bound,
+            renderMore:action.bound,
+            sortLatest:action.bound,
         })
     }
 
@@ -83,8 +89,17 @@ class ChatListStore {
         })
     }
 
-    async init(uid){
-        await this.getChatList(uid)
+    async init(){
+        if(window!==undefined&& !this.userCredential){
+
+            let cred = JSON.parse(localStorage.getItem("user"))
+            runInAction(()=>{
+                this.userCredential = cred
+            })
+
+            await this.getChatList()
+
+        }
     }
 
     selectChat(chat){
@@ -101,10 +116,17 @@ class ChatListStore {
 
     }
 
+    sortLatest(){
+        runInAction(()=>{
+            this.chatList= this.chatList.sort((a,b)=>parseInt(b.last_msg_time)-parseInt(a.last_msg_time))
+        })
+    }
+
     sort(){
+
         if(this.filteredChatList.length>25){
-            this.currShowStart = this.filteredChatList.length-26
-            this.currShowEnd = this.filteredChatList.length-1
+            this.currShowStart = 0
+            this.currShowEnd = this.currShowStart+this.numOfShow-1
             let shows =this.filteredChatList.slice( this.currShowStart , this.currShowEnd)
             runInAction(()=>{
                 this.updateShow(shows)
@@ -116,17 +138,20 @@ class ChatListStore {
         }
     }
 
-    async getChatList(data){
-        console.log("post creds :" , data)
-        await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user/${data.user_id}`)
-        // await axios.post(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user`, data,{headers: {
-        //         'Content-Type': 'application/json',
-        //
-        //     }})
+    async getChatList(){
+        console.log("post creds :" , this.userCredential)
+        const {user_id , team_id , role_id} = this.userCredential
+        // await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user/${data.user_id}`)
+        await axios.post(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user`, {user_id , team_id , role_id},{headers: {
+                'Content-Type': 'application/json',
+
+            }})
             .then(res=>{
+                console.log("get chats : " , res.data.length)
                 runInAction(()=>{
                     this.chatList = res.data
-                    this.filteredChatList = res.data
+                    this.sortLatest()
+                    this.filteredChatList = this.chatList
                     this.sort()
                 })
             })
@@ -186,10 +211,10 @@ class ChatListStore {
             newData = newData.filter(d=>d.unread>0)
         }
         if(newData.length&&teams.length>0){
-            newData = newData.filter(d=>teams.includes(d.org_id))
+            newData = newData.filter(d=>teams.includes(d.org_id.toString()))
         }
         if(newData.length&&users.length>0){
-            newData = newData.filter(d=>users.includes(d.user_id))
+            newData = newData.filter(d=>users.includes(d.user_id.toString()))
         }
         if(channels.All){
             runInAction(()=>{
@@ -239,16 +264,16 @@ class ChatListStore {
 
 
     renderMore(){
-        if(this.currShowStart-this.numOfShow <0){
-            this.currShowEnd=this.currShowStart
-            this.currShowStart = 0
+        if(this.currShowStart+this.numOfShow-1 >this.chatList.length-1){
+            this.currShowEnd=this.chatList.length-1
+            this.currShowStart =this.currShowStart+this.numOfShow- this.chatList.length-1
         }else{
-            this.currShowStart -=this.numOfShow
-            this.currShowEnd -=this.numOfShow
+            this.currShowStart +=this.numOfShow
+            this.currShowEnd +=this.numOfShow
         }
         let more = this.filteredChatList.slice(this.currShowStart,this.currShowEnd)
         runInAction(()=>{
-            this.showMessage =  [...more , ...this.showMessage]
+            this.showChatList =  [ ...this.showChatList ,...more ]
         })
     }
 

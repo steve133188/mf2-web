@@ -75,7 +75,6 @@ class ChatroomStore{
     }
 
     async getMessage(rid){
-        console.log("rid : " , rid)
         await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/messages/chatroom/${rid}`)
             .then(res=>{
                 runInAction(()=>{
