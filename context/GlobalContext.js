@@ -51,9 +51,9 @@ export const GlobalContextProvider = ({children}) =>{
         setUserAuth(auth)
     },[])
 
-    const getUserChannel = async ()=>{
+    const getUserChannel = async (user_id=user.user.user_id) => {
         console.log("get chan start")
-        const node = await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${user.user.user_id}`).then(res=>{
+        const node = await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${user_id}`).then(res=>{
             return res.data
         }).catch(err=>{
             console.log(err)
@@ -87,7 +87,7 @@ export const GlobalContextProvider = ({children}) =>{
                 contactInstance.token = user.token
                 tagInstance.token = user.token
                 roleInstance.token = user.token
-                await getUserChannel()
+                await getUserChannel(user.user_id)
                 return response.status
             }).catch(err=>{
                 console.log(err)
