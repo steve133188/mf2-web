@@ -4,89 +4,174 @@ import axios from "axios";
 
 class AuthStore {
     //
+
+    is_loading=true
+
+    isAuth=false;
+
     token = null;
 
-    user = {};
+    user = null;
 
-    notifications = [];
+    userAuth = null
 
     unread=0
 
+    channelInfo = null
 
-    constructor() {
-        // makeAutoObservable(this);
-        this.onLoad();
+    error = null
+
+    constructor(rootStore) {
+
+        this.rootStore = rootStore
+
         makeObservable(this, {
             token: observable,
+            is_loading: observable,
             user: observable,
-            onLoad: action,
-            logout: action,
-            login:action
+            userAuth:observable,
+            channelInfo:observable,
+            isAuth:observable,
+            error:observable,
+            onLoad: action.bound,
+            logout: action.bound,
+            login:action.bound,
+            checkAuth:action.bound,
+            getAuth:action.bound,
+            getChannel:action.bound,
+            init:action.bound
         });
     }
 
-    login = async (data) =>{
+    async init(){
+        const {contactsStore,chatListStore,chatroomStore,orgActionsStore,adminActionsStore,messageActionsStore , usersActionsStore}=this.rootStore
+        await this.onLoad()
+        await usersActionsStore.init()
+        await contactsStore.init()
+        await chatListStore.init()
+        await chatroomStore.init()
+        await orgActionsStore.init()
+        await adminActionsStore.init()
+        await messageActionsStore.init()
+        this.is_loading = false
+    }
+
+    async login(data){
+        console.log("received login creds : " , data)
         const url = "https://mbvrwr4a06.execute-api.ap-southeast-1.amazonaws.com/prod/api/users/login"
-        const res = await axios.post(url , data,{
+        await axios.post(url , data,{
             headers:{
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin':'*',
                 'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
                 'Access-Control-Allow-Credentials' : true,
-
             }})
             .then(async response => {
-                console.log(response,"respone")
                 if(response.status != 200){
                     return "something went wrong"
                 }
                 const { token, user } = response.data;
+                console.log("response : ",token , user)
                 localStorage.setItem("token", token)
                 localStorage.setItem("user", JSON.stringify(user))
-                console.log("login data ",response.data.data)
-                return response.status
+                runInAction(()=>{
+                    this.token = token
+                    this.user = user
+                    this.error = null
+                })
+
             }).catch(err=>{
                 console.log(err)
-                return err
+                runInAction(()=>{
+                    this.error="Invalid email or password or something went wrong, please try again."
+                })
             })
-        console.log(res)
-        if(res ==200 ) {
-            this.onLoad()
-            // await router.push("/dashboard/chat")
-            // router.reload()
-
-            // window.location.reload(true)
-            // router.push("/dashboard/chat")
-            // setTimeout(()=>window.location.reload(true) , 100)
+        if(!this.error){
+            await this.getChannel()
+            await this.getAuth()
+            this.checkAuth()
         }
+
     }
 
-
-    onLoad = async () => {
-        if(typeof window !== 'undefined'){
+    async onLoad() {
+        if(!this.isAuth){
             const token = window.localStorage.getItem("token");
             const user = window.localStorage.getItem("user");
+            const userAuth = window.localStorage.getItem("auth");
             runInAction(() => {
                 this.token = token;
                 this.user = JSON.parse(user);
+                this.userAuth = JSON.parse(userAuth);
             });
+            this.checkAuth()
+            if(this.isAuth){
+                await this.getChannel()
+            }
         }
-
     };
 
+    async getChannel(user_id=this.user.user_id){
+        await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${user_id}`).then(res=>{
+            if(res.data!== null || res.data!==undefined){
+
+                runInAction(()=>{
+                    this.channelInfo = res.data
+                })
+
+            }
+            return null
+        }).catch(err=>{
+            console.log(err)
+            return null
+        })
+    }
+
+    async getAuth(role_id=this.user.role_id){
+        await axios.get(`https://8a516swpa8.execute-api.ap-southeast-1.amazonaws.com/prod/api/admin/role/id/${role_id}`).then(res=>{
+            if(res.data!== null || res.data!==undefined){
+                localStorage.setItem("auth",JSON.stringify(res.data))
+                runInAction(()=>{
+                    this.userAuth = res.data
+                })
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+
+    checkAuth(){
+
+        // if(!this.token|| !this.user||!this.userAuth){
+        if(window.localStorage.getItem("token")==null){
+            console.log("unAuth")
+            runInAction(()=>{
+                this.isAuth = false
+            })
+        }else{
+            console.log("isAuth")
+            runInAction(()=>{
+                this.isAuth = true
+            })
+        }
+
+    }
 
     logout = async () => {
         await window.localStorage.removeItem('user');
         await window.localStorage.removeItem('token');
         runInAction(() => {
             this.token = null;
-            this.user = {};
+            this.user = null;
+            this.userAuth=null
+            this.isAuth=false
+            this.channelInfo = null
         });
     };
 }
 
-const authStore = new AuthStore();
-
-export { authStore };
+// const authStore = new AuthStore();
+//
+// export { authStore };
 
 export default AuthStore;

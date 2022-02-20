@@ -50,7 +50,8 @@ class ChatListStore {
 
     sub=null
 
-    constructor() {
+    constructor(rootStore) {
+        this.rootStore = rootStore
         makeObservable(this,{
             userCredential:observable,
             isLoading:observable,
@@ -89,14 +90,15 @@ class ChatListStore {
     }
 
     async init(){
-        if(window!==undefined&& !this.userCredential){
+        if(this.rootStore.authStore.user){
+            console.log("init chatList")
 
-            let cred = JSON.parse(localStorage.getItem("user"))
+            // let cred = JSON.parse(localStorage.getItem("user"))
             runInAction(()=>{
-                this.userCredential = cred
+                this.userCredential = this.rootStore.authStore.user
             })
 
-            await this.getChatList()
+            // await this.getChatList()
 
         }
     }
@@ -286,8 +288,5 @@ class ChatListStore {
 
 }
 
-const chatListStore = new ChatListStore();
-
-export {chatListStore}
 
 export default ChatListStore

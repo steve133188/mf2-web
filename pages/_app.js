@@ -1,15 +1,15 @@
 import '../styles/globals.scss'
 import Layout from "../layouts/Layout";
 import { GlobalContextProvider} from "../context/GlobalContext";
-import AuthLayer from "../HOC/AuthLayer"
 import Head from "next/head";
 
 import {Amplify} from "aws-amplify";
 import { Provider, observer } from 'mobx-react';
-import stores from '../utils/stores'
+import RootStore from '../utils/stores'
 import awsmobile from "../src/aws-exports";
 import {RootStoreProvider} from "../utils/provider/RootStoreProvider";
 
+const rootStore = new RootStore()
 
 Amplify.configure(awsmobile)
 
@@ -24,17 +24,15 @@ function MyApp({ Component, pageProps }) {
           <link rel="icon" href="/MS_logo-square (1).svg"/>
           <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'/>
       </Head>
-          <Provider {...stores}>
+          <RootStoreProvider store={rootStore}>
           {/*<RootStoreProvider>*/}
-            <GlobalContextProvider>
-                <AuthLayer>
+          {/*  <GlobalContextProvider>*/}
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
-                </AuthLayer>
-            </GlobalContextProvider>
+            {/*</GlobalContextProvider>*/}
           {/*</RootStoreProvider>*/}
-          </Provider>
+          </RootStoreProvider>
       </>
 )
 }

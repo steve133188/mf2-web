@@ -2,10 +2,11 @@ import {useContext , useState , useEffect} from 'react'
 import {GlobalContext} from "../context/GlobalContext";
 import {checkAuthHelper} from "../helpers/authHelper";
 import {useRouter} from "next/router";
+import {useRootStore} from "../utils/provider/RootStoreProvider";
 
 export default function AuthLayer({children}){
     const router = useRouter()
-    const {user} = useContext(GlobalContext)
+    const {authStore} = useRootStore()
 
     useEffect(()=>{
         // const res = await checkAuthHelper()
@@ -14,7 +15,7 @@ export default function AuthLayer({children}){
             router.replace('/login' )
         }
         if(user.token&&router.pathname.includes("login")) router.replace("/")
-    },[user])
+    },[authStore.isAuth])
 
     return (<div>{children}</div>)
 }

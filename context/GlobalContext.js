@@ -39,22 +39,13 @@ export const GlobalContextProvider = ({children}) =>{
     const replyInstance = standardReplyFetcher(user.token)
 
 
-    useEffect(async()=>{
-
-        setUser({
-            user:JSON.parse(window.localStorage.getItem("user")) || {},
-            token:window.localStorage.getItem("token") || null
-        })
-
-        const auth = await roleInstance.getRoleById(JSON.parse(window.localStorage.getItem("user")).role_id|| {})
-        window.localStorage.setItem("auth",JSON.stringify(auth))
-        setUserAuth(auth)
-    },[])
 
     const getUserChannel = async (user_id=user.user.user_id) => {
         console.log("get chan start")
         const node = await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${user_id}`).then(res=>{
-            return res.data
+            if(res.data!== null || res.data!==undefined) return res.data
+            return null
+
         }).catch(err=>{
             console.log(err)
             return null
@@ -81,17 +72,17 @@ export const GlobalContextProvider = ({children}) =>{
                 localStorage.setItem("token", token)
                 localStorage.setItem("user", JSON.stringify(user))
                 setErrors(null)
-                userInstance.token = user.token
-                orgInstance.token = user.token
-                adminInstance.token = user.token
-                contactInstance.token = user.token
-                tagInstance.token = user.token
-                roleInstance.token = user.token
+                userInstance.token = token
+                orgInstance.token = token
+                adminInstance.token = token
+                contactInstance.token = token
+                tagInstance.token = token
+                roleInstance.token = token
                 await getUserChannel(user.user_id)
                 return response.status
             }).catch(err=>{
                 console.log(err)
-                setErrors("Invaild email or password, please try again.")
+                setErrors("Invalid email or password, please try again.")
                 return err
             })
 

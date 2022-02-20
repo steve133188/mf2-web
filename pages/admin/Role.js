@@ -31,12 +31,13 @@ import EditRole from "../../components/Admin/EditRole";
 import MF_Modal from "../../components/MF_Modal";
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 import Loading from "../../components/Loading";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function Role() {
     const [isLoading, setIsLoading] = useState(true);
 
     const [roles, setRoles] = useState([]);
-    const { user, roleInstance} = useContext(GlobalContext)
+    const { authStore:{isAuth}, orgActionsStore} = useRootStore()
 
     const [currentPage , setCurrentPage] = useState(1)
     const [filteredData , setFilteredData] = useState([])
@@ -55,13 +56,13 @@ export default function Role() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchRoles = async () =>{
-        const data = await roleInstance.getAllRoles()
-        setRoles(data)
-        console.log(data,"role~")
-        setFilteredData(data)
+        await orgActionsStore.getAllRoles()
+        setRoles(orgActionsStore.roles)
+        console.log(orgActionsStore.roles,"role~")
+        setFilteredData(orgActionsStore.roles)
     }
     useEffect(    async () => {
-        if(user.token)await fetchRoles()
+        if(isAuth)await fetchRoles()
         if(isLoading){
             setTimeout(function() { //Start the timer
                 setIsLoading(false);
@@ -102,15 +103,14 @@ export default function Role() {
         setDeleteRole(name)
     }
     const [editRolename,setEditRole] = useState("")
-    const [deleteRolename,setDeleteRole] = useState("")
-    const submitDelete = () =>{
-        deleteRole(deleteRolename);
+    const [deleteRolename,setDeleteRole] = useState()
+    const submitDelete = async () =>{
+        await deleteRole(deleteRolename);
 
         setIsDelete(!isDelete)
     }
     const deleteRole = async (id)=>{
-        const res = await roleInstance.deleteRole(id)
-        console.log(res)
+        await orgActionsStore.deleteRole(id)
         await fetchRoles()
     }
     const default_cols = ['Role' , 'No. of User' ,' ']

@@ -17,15 +17,14 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell, TableHead} from "@mui/material";
 import {LineChart} from "../../components/Chart/LineChart";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function Chat() {
     const [isLoading, setIsLoading] = useState(true);
-    const {dashboardInstance,contactInstance ,tagInstance , user} = useContext(GlobalContext)
+    const {dashStore , authStore , tagStore } = useRootStore()
     const [filteredTags , setFilteredTags] = useState([])
     const [selectedTags , setSelectedTags] =useState([])
-    const [contacts, setContacts] = useState([]);
     const [tags, setTags] =useState([])
-    const [isFilterOpen , setIsFilterOpen] = useState(false)
     const [dash  , setDash ] = useState({})
     const [chartData , setChartData] =useState()
 
@@ -37,7 +36,7 @@ export default function Chat() {
         console.log("day state from : " ,s )
         console.log("day state to :" ,e)
         setIsLoading(true)
-        const data = await dashboardInstance.getLiveChatTimeRangeData(s,e)
+        const data = await dashStore.getLiveChatTimeRangeData(s,e)
 
         console.log("get dashboard data : " , data)
 
@@ -118,17 +117,11 @@ export default function Chat() {
         console.log(selectedTags)
     };
     const getTags = async ()=>{
-        const data = await tagInstance.getAllTags()
+        await tagStore.getTags()
         const totallist  = [3,2,3,4,1,5,8,7]
-        setTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
-        setFilteredTags(data.map((e,index)=>{return {...e,total:[totallist[index]]}}))
+        setTags(tagStore.tags)
+        setFilteredTags(tagStore.tags)
     }
-    const fetchContacts = async () =>{
-        const {user: {user_id, role_id, team_id}} = user
-        const data = await contactInstance.getAllContacts({user_id,role_id,team_id})
-        setContacts(data)
-    }
-
     function tagSearchFilter(keyword , data ,callback ){
         if(keyword.includes(":")){
             console.log("trigger regex search")
@@ -143,13 +136,11 @@ export default function Chat() {
     }
     const fetchDefault = async ()=>{
 
-        let data = await dashboardInstance.getLiveChatDefaultData()
+        await dashStore.getLiveChatDefaultData()
 
-        console.log("data : " ,data)
+        setDash(prevState => dashStore.dash)
 
-        setDash(prevState => data)
-
-        processData(data)
+        processData(dashStore.dash)
 
 
         console.log(chartData)
@@ -190,11 +181,10 @@ export default function Chat() {
     }
 
     useEffect(async ()=>{
-        if (isLoading ) {
+        if (isLoading&&authStore.isAuth ) {
 
             await fetchDefault()
             await getTags();
-            await fetchContacts();
             initDate()
             setIsLoading(false)
 

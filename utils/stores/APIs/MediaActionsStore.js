@@ -1,20 +1,70 @@
- import {Storage , API , graphqlOperation} from "aws-amplify";
- import path from 'path';
+import {makeObservable , action , observable ,runInAction} from "mobx"
+import axios from "axios";
+import {Storage} from "aws-amplify";
 
 
-function mediaHelper(){
-    this.bucketUrl = "https://mf2media00345-dev.s3.ap-southeast-1.amazonaws.com/public/"
+class MediaActionsStore {
 
-    this.objUrl = (objKey) =>{
+    replyBaseURL="https://kj1j3zbmy4.execute-api.ap-southeast-1.amazonaws.com/prod/api/admin"
+
+    bucketUrl = "https://mf2media00345-dev.s3.ap-southeast-1.amazonaws.com/public/"
+
+    constructor(rootStore) {
+        this.rootStore = rootStore
+        makeObservable(this,{
+            objUrl:action.bound,
+            getMedia:action.bound,
+            putSticker:action.bound,
+            putVoice:action.bound,
+            getStickers:action.bound,
+            putImg:action.bound,
+            putVideo:action.bound,
+            putDoc:action.bound,
+            processStorageList:action.bound,
+            processStorageListSet:action.bound,
+            getStandardReplyAll:action.bound,
+            getStandardReplyById:action.bound,
+            addOneStandardReply:action.bound,
+            updateOneStandardReply:action.bound,
+            deleteReplyByID:action.bound,
+        })
+    }
+    getStandardReplyAll = async ()=>{
+        const d = await axios.get(`${this.replyBaseURL}/replies` ).then(res=>res.data).catch(err=>console.log(err))
+        return d
+    }
+
+    getStandardReplyById = async (id)=>{
+        const d = await axios.get(`${this.replyBaseURL}/reply/id/${id}`  ).then(res=>res.data).catch(err=>console.log(err))
+        return d
+    }
+
+    addOneStandardReply = async (data)=>{
+        const d = await axios.post(`${this.replyBaseURL}/reply` ,data).then(res=>{
+            return res.status
+        }).catch(err=>console.log(err))
+        return d
+    }//name,channels,body,variables
+
+    updateOneStandardReply = async (data)=>{
+        const d = await axios.put(`${this.replyBaseURL}/reply` , data).then(res=>res.status).catch(err=>console.log(err))
+        return d
+    }//id,channels,name,body,varibales
+
+    deleteReplyByID = async (id)=>{
+        const d = await axios.delete(`${this.replyBaseURL}/reply/id/${id}` ).then(res=>res.status).catch(err=>console.log(err))
+        return d
+    }
+    objUrl = (objKey) =>{
         return this.bucketUrl+objKey
     }
-    this.getMedia= async (key)=>{
+    getMedia= async (key)=>{
         let mediaKey = await Storage.get(key)
         console.log("imgKeys : " , mediaKey)
         return mediaKey
     }
 
-    this.putSticker = async (file,folder)=>{
+    putSticker = async (file,folder)=>{
         const mine =file.name.slice(-4).replace('.','')
         console.log(file,"sticker is on the way")
         const result = await Storage.put(`${folder}/${Date.now()}.${mine}` , file , {contentType: file.type})
@@ -22,28 +72,28 @@ function mediaHelper(){
         return this.objUrl(result.key)
     }
 
-    this.putVoice = async (file )=>{
+    putVoice = async (file )=>{
         const mine =file.name.slice(-4).replace('.','')
         const result = await Storage.put(`voice/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putImg = async (file )=>{
+    putImg = async (file )=>{
         const mine =file.name.slice(-4).replace('.','')
         const result = await Storage.put(`image/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putVideo = async (file )=>{
+    putVideo = async (file )=>{
         const mine =file.name.slice(-4).replace('.','')
         const result = await Storage.put(`video/${Date.now()}.${mine}` , file , {contentType: file.type})
         console.log("result : " , result)
         return this.objUrl(result.key)
     }
 
-    this.putDoc = async (file )=>{
+    putDoc = async (file )=>{
         const mine =file.name.slice(-4).replace('.','')
         const result = await Storage.put(`documents/${Date.now()}.${mine}` , file, {contentType: file.type} )
         console.log("result : " , result)
@@ -51,13 +101,13 @@ function mediaHelper(){
     }
 
 
-    this.getStickers = async ()=>{
+    getStickers = async ()=>{
         let mediaKey = await Storage.list("storage/stickers/All/" )
         const {files, folders} = await this.processStorageListSet(mediaKey)
         console.log("nested res : ", {files, folders})
         return {files, folders}
     }
-    this.processStorageList=async (results)=>{
+    processStorageList=async (results)=>{
         const filesystem = {}
         const add = async (source, target, item) => {
             const url = await Storage.get(source)
@@ -76,7 +126,7 @@ function mediaHelper(){
         }
         return filesystem
     }
-    this.processStorageListSet=async (result)=> {
+    processStorageListSet=async (result)=> {
         let files = []
         let folders = new Set()
         for (const res of result) {
@@ -93,7 +143,7 @@ function mediaHelper(){
         }
         return {files, folders}
     }
-    this.removeSticker= async (fileName)=>{
+    removeSticker= async (fileName)=>{
         const path = `${fileName}`
         const remove = await Storage.remove(path).then(res=>console.log(res)).catch(err=> {
             alert(`${fileName} not found!`)
@@ -102,6 +152,8 @@ function mediaHelper(){
 
         })
     }
+
+
 }
 
-export default mediaHelper
+export default MediaActionsStore

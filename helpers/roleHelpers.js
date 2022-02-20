@@ -23,7 +23,10 @@ export default function roleFetcher(token){
         return d
     }
     instance.getRoleById = async  (id)=>{
-        const d =await instance.fetcher.get(`/role/id/${id}`).then(res=>res.data).catch(err=>console.log(err))
+        const d =await instance.fetcher.get(`/role/id/${id}`).then(res=>res.data).catch(err=> {
+            console.log(err)
+            return null
+        })
         return d
     }
 
@@ -31,14 +34,17 @@ export default function roleFetcher(token){
         const d =await instance.fetcher.get(`/roles-name`).then(res=>res.data).catch(err=>console.log(err))
         return d
     }
+
     instance.createRole = async (data)=>{
         const d =await instance.fetcher.post(`/role` ,data).then(res=>res.status).catch(err=>console.log(err))
         return d
     }
+
     instance.updateRole = async (data)=>{
         const d =await instance.fetcher.put(`/role`,data).then(res=>res.status).catch(err=>console.log(err))
         return d
     }
+
     instance.deleteRole = async (role_id)=>{
         const d =await instance.fetcher.delete(`/role/id/${role_id}`).then(res=>res.status).catch(err=>console.log(err))
         return d

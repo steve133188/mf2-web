@@ -12,23 +12,37 @@ import Avatar from "@mui/material/Avatar";
 import NotificationAlert from "../components/custom/noti";
 import {API, graphqlOperation} from "aws-amplify";
 import {eventListener} from "../src/graphql/subscriptions";
+import { observer} from "mobx-react";
+import {useRootStore} from "../utils/provider/RootStoreProvider";
 
 
 
+function Layout({children}) {
 
-export default function Layout({children}) {
-
-    const [isAuth , setIsAuth] = useState(false)
-    const router = useRouter()
-    const {user , logout , subInstance , contactInstance} = useContext(GlobalContext)
-    const u = user.user
-    // const [notificationList,setNotificationList]= useState([{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"},{type:"disconnect",channel:"Whatsapp",content:"Please connect again.",sender:"Disconnected"}])
+    const {authStore:{onLoad,init,is_loading,isAuth},contactsStore , chatListStore , chatroomStore , orgActionsStore , adminActionsStore , messageActionsStore} = useRootStore()
     const [notificationList,setNotificationList]= useState([])
     const [showNotificationList,setShowNotificationList]= useState([])
+    const [isLoading,setIsLoading]= useState(true)
     const [notiSub , setNotiSub] = useState()
     const [unread , setUnread] = useState(0)
     const [openNoteList , setOpenNoteList] = useState(false)
     const [isManyNotificationShow , setIsManyNotificationShow] = useState(false)
+
+    const router = useRouter()
+
+    useEffect(async ()=>{
+        if (localStorage.getItem("token")==null){
+            console.log("please log in ")
+            router.replace('/login' )
+        }
+        if(isAuth&&router.pathname.includes("login")) router.replace("/livechat")
+        if(is_loading){
+            await init()
+        }
+
+    },[isAuth])
+
+
     const handleCount = () =>{
         setUnread(0)
     }
@@ -94,18 +108,8 @@ export default function Layout({children}) {
 
     const unAuth = (<div className={"unauth"}>{children}</div>)
 
-    useEffect( async ()=>{
-        if(user.token != null){
-            setIsAuth(true)
-            await sub()
-        }else {
-            setIsAuth(false)
-        }
-        console.log("is auth :" , isAuth)
-    },[user])
-
-
     return (
         isAuth ? layout : unAuth
     )
 }
+export default observer(Layout)

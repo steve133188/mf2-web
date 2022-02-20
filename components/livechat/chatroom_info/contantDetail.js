@@ -9,9 +9,14 @@ import { GlobalContext } from "../../../context/GlobalContext";
 import {API, graphqlOperation} from "aws-amplify";
 import {listNotesTables} from "../../../src/graphql/queries";
 import {createNotesTable} from "../../../src/graphql/mutations";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 
-export default function ContantDetail({ data, ...props }) {
+export default function ContantDetail(props ) {
+
+    const {selectedChat, tab,tags,users , contact} = props
+
+    const {tagStore , authStore , usersActionsStore , contactsStore:{targetContact}} = useRootStore()
 
     const [notes, setNotes] = useState([])
     const [writenote, setWritenote] = useState("")
@@ -19,101 +24,74 @@ export default function ContantDetail({ data, ...props }) {
     const [start, setStart] = useState(false)
     const [selectedTags, setSelectedTags] = useState([])
     const [filteredTags, setFilteredTags] = useState([])
-    const [alltags, setAlltags] = useState([])
+    const [showTags, setShowTags] = useState([])
+    const [showUsers, setShowUsers] = useState([])
 
     const [selectedUsers, setSelectedUsers] = useState([])
     const [filteredUsers, setFilteredUsers] = useState([])
-    const [alluser, setAlluser] = useState([])
-    const [contact, setContact] = useState([]);
     const [unread, setUnread] = useState(false)
-    const [unassigned, setUnAssigned] = useState(false)
-    const { userInstance, tagInstance, contactInstance, user } = useContext(GlobalContext);
 
-    const getTags = async () => {
-        const data = await tagInstance.getAllTags()
-        setFilteredTags(data)
-        setAlltags(data)
+
+    useEffect(()=>{
+        let vals = users.filter(t=>selectedUsers.includes(t.user_id.toString()))
+        setShowUsers(vals)
+
+    },[selectedUsers])
+
+    useEffect(()=>{
+        let vals = tags.filter(t=>selectedTags.includes(t.tag_id.toString()))
+        setShowTags(vals)
+
+    },[selectedTags])
+
+    const onLoad = () =>{
+        setFilteredTags([...tags])
+        setFilteredUsers([...users])
+        let tagList = targetContact.tags.map(tag => tag.tag_id.toString())
+        let userList = targetContact.agents.map(agent => agent.user_id.toString())
+        console.log("onload : " , tagList, userList)
+        setSelectedTags(tagList)
+        setSelectedUsers(userList)
     }
-    const getUsers = async () => {
-        const data = await userInstance.getAllUser()
-        setFilteredUsers(data)
-        setAlluser(data)
-    }
-    const fetchContact = async (cid) => {
-        const data = await contactInstance.getContactById(cid)
-        setContact(data)
-        const { tags, agents } = data
-        setSelectedTags(tags)
-        setSelectedUsers(agents)
-    }
+
     useEffect(async () => {
-        if (user.token != null) {
-            await getTags()
-            await getUsers()
+        if (authStore.isAuth) {
+            onLoad()
         }
     }, []);
-    useEffect(async () => {
-        if (!start) { return setStart(true) }
-        if (data && user.token) { await fetchContact(data.customer_id);await fetchNotes(data.customer_id)
-        }
-        if (data.customer_id == null) setDisable(true)
-        else
-            setDisable(false)
-
-    }, [data])
 
     const toggleSelectTags = async e => {
-        const { checked, id } = e.target;
-        const tag = await tagInstance.getTagById(parseInt(id))
-        // get all selectedtags.tag_id
-        setSelectedTags([...selectedTags, tag]);
-        if (!checked) {
-            setSelectedTags(selectedTags.filter(item =>  item.tag_id != parseInt(id) ));
+        let newValue
 
-            const res = await contactInstance.deleteCustomerTag(contact.customer_id, [tag.tag_id])
-        }else{
+        const {  id } = e.target;
 
-            const res = await contactInstance.updateContactTags(contact.customer_id, [tag.tag_id])
+        if(selectedTags.includes(id)){
+            newValue = selectedTags.filter(t=>t!==id)
+            setSelectedTags(newValue);
+            console.log("let newValue :" , newValue)
+            return
         }
+        newValue = [...selectedTags, id]
+        setSelectedTags(newValue);
+        console.log("let newValue :" , newValue)
     };
     const toggleSelectUsers = async e => {
 
-        const { checked, id } = e.target;
+        let newValue
 
-        const user = filteredUsers.find(t => t.user_id == id)
-        setSelectedUsers([...selectedUsers, user]);
+        const {  id } = e.target;
 
-        if (!checked) {
-            setSelectedUsers(selectedUsers.filter(u => { return u.user_id != id }));
-
-
-            await contactInstance.deleteCustomerAgent(contact.customer_id, [user.user_id])
-
-        }else{
-
-            await contactInstance.updateContactAgent(contact.customer_id, [user.user_id])
+        if(selectedUsers.includes(id)){
+            newValue = selectedUsers.filter(t=>t!==id)
+            setSelectedUsers(newValue);
+            console.log("let newValue :" , newValue)
+            return
         }
+        newValue = [...selectedUsers, id]
+        setSelectedUsers(newValue);
+        console.log("let newValue :" , newValue)
     };
-    useEffect(async () => {
 
-        if (unassigned) {
-
-            const data = { ...contact, agents: selectedUsers }
-            //const res = await contactInstance.updateContact(data)
-            setUnAssigned(!unassigned)
-        }
-
-    }, [unassigned])
-
-    useEffect(async () => {
-        if (unread) {
-
-            const data = { ...contact, tags: selectedTags }
-            //const res = await contactInstance.updateContact(data)
-            setUnread(!unread)
-        }
-
-    }, [unread])
     const fetchNotes = async (data)=>{
         await API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} } , limit:1000})).then(res=>{
             setNotes(prev=>res.data.listNotesTables.items)
@@ -127,23 +105,33 @@ export default function ContantDetail({ data, ...props }) {
         }).catch(err=>console.log(err))
     }
 
-    useEffect(async () => {
-        if (data.customer_id == null) setDisable(true)
-
-    }, [])
-
-    const isContainTags = (id) => {
-        if (selectedTags != null) {
-            return selectedTags.some(selectedtag => selectedtag.tag_id === id)
-        } else return false
+    const renderTags = ()=>{
+        let vals = tags.filter(t=>selectedTags.includes(t.tag_id.toString()))
+        console.log("tags selected : " , vals)
+        return showTags.map((val , index)=><Pill key={index} color="vip">{val.tag_name}</Pill>)
     }
-    const isContainUser = (id) => {
 
-        if (selectedUsers) {
-            return selectedUsers.some(selecteduser => selecteduser.user_id == id)
-        }
-        else { return false }
+    const renderUsers = ()=>{
+
+        if(showUsers.length > 0) return showUsers.map((val , index)=> (
+            <Tooltip  style={{ pointerEvents: "null" }} key={index} title={val.username} placement="top-start">
+                <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{ width: 25, height: 25, fontSize: 14 }} >{val.username.substring(0, 2).toUpperCase()}</Avatar>
+            </Tooltip>
+        ))
+
     }
+
+    const isContainTags = e => {
+
+        return selectedTags.includes(e.target.tag_id)
+
+    }
+    const isContainUser = e=> {
+
+        return selectedUsers.includes(e.target.tag_id)
+
+    }
+
     const submitNote = async (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -167,20 +155,14 @@ export default function ContantDetail({ data, ...props }) {
                     <div className={"keys"} >Address</div>
                     <div className={"keys"} >Country</div>
                     <div className={"keys"} >Created Date</div>
-
-                    {/*{Object.keys(data).map((item=>(*/}
-                    {/*    <>               */}
-                    {/*    <div className={"keys"} style={{}}>{item}</div>*/}
-                    {/*    </>*/}
-                    {/*)))}*/}
                 </div>
                 <div className={"valueList"} style={{}}>
-                    <div className={"values"}>{contact.phone}</div>
-                    <div className={"values"}>{contact.email}</div>
-                    <div className={"values"}>{contact.birthday}</div>
-                    <div className={"values"}>{contact.address}</div>
-                    <div className={"values"}>{contact.country}</div>
-                    <div className={"values"}>{new Date(contact.created_at*1000).toLocaleDateString('en-US')}</div>
+                    <div className={"values"}>{targetContact.phone}</div>
+                    <div className={"values"}>{targetContact.email}</div>
+                    <div className={"values"}>{targetContact.birthday}</div>
+                    <div className={"values"}>{targetContact.address}</div>
+                    <div className={"values"}>{targetContact.country}</div>
+                    <div className={"values"}>{new Date(targetContact.created_at*1000).toLocaleDateString('en-US')}</div>
                 </div>
             </div>
             <div style={{ width: "110%", height: "1px", backgroundColor: "#d3d3d3", marginBottom: ".5rem", marginLeft: "-10px" }}></div>
@@ -192,8 +174,8 @@ export default function ContantDetail({ data, ...props }) {
 
 
 
-                    <Mf_circle_btn isDisable={disable} switchs={() => { setUnAssigned(!unassigned) }} handleChange={(e) => {
-                            const new_data = alluser.filter(i => i.username.toLowerCase().includes(e.target.value.toLowerCase()))
+                    <Mf_circle_btn isDisable={disable}  handleChange={(e) => {
+                            const new_data = users.filter(i => i.username.toLowerCase().includes(e.target.value.toLowerCase()))
                             setFilteredUsers(new_data)
                     }} >
 
@@ -207,7 +189,7 @@ export default function ContantDetail({ data, ...props }) {
                                 </div>
                                 <div className="newCheckboxContainer">
 
-                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.user_id} name="checkbox" onClick={toggleSelectUsers} checked={isContainUser(user.user_id)} onChange={() => { }} />
+                                    <label className="newCheckboxLabel"> <input type="checkbox" value={user.user_id} id={user.user_id} name="checkbox"  checked={selectedUsers.includes(user.user_id.toString())} onChange={toggleSelectUsers} />
                                     </label>
                                 </div>
                             </li>)
@@ -215,14 +197,15 @@ export default function ContantDetail({ data, ...props }) {
                     </Mf_circle_btn>
                     {/* <AvatarGroup className={"AvatarGroup"} sx={{ display: 'flex', flexDirection: 'row-reverse', width: "fit-content", margin: "10px 0" }} spacing={-5} > */}
                     <div className={"avaGroupInstead"} >
-                        {selectedUsers && selectedUsers.map((agent, index) => {
+                        {/*{selectedUsers && selectedUsers.map((agent, index) => {*/}
 
-                            return (
-                                <Tooltip onClick={null} style={{ pointerEvents: "null" }} key={index} title={agent.username} placement="top-start">
-                                    <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{ width: 25, height: 25, fontSize: 14 }} >{agent.username.substring(0, 2).toUpperCase()}</Avatar>
-                                </Tooltip>
-                            )
-                        })}
+                        {/*    return (*/}
+                        {/*        <Tooltip onClick={null} style={{ pointerEvents: "null" }} key={index} title={agent.username} placement="top-start">*/}
+                        {/*            <Avatar className={"mf_bg_warning mf_color_warning text-center"} sx={{ width: 25, height: 25, fontSize: 14 }} >{agent.username.substring(0, 2).toUpperCase()}</Avatar>*/}
+                        {/*        </Tooltip>*/}
+                        {/*    )*/}
+                        {/*})}*/}
+                        {users&&selectedUsers.length !=0 &&renderUsers()}
                         </div>
                     {/* </AvatarGroup> */}
                 </div>
@@ -231,7 +214,7 @@ export default function ContantDetail({ data, ...props }) {
                 <div className={"tagsGroup"} style={{ display: "flex", maxWidth: "230px", height: "8vw", marginTop:"18px"}} >
 
                         <Mf_circle_btn isDisable={disable} switchs={() => { setUnread(!unread) }} handleChange={(e) => {
-                           console.log(alltags,"alltags")
+                           console.log(tags,"alltags")
                         //    const new_data = alltags.filter(i => i.tag_name.toLowerCase().includes(e.target.value.toLowerCase()))
                         //    setFilteredTags(new_data)
                         }}>
@@ -242,7 +225,7 @@ export default function ContantDetail({ data, ...props }) {
                                     <Pill onClick={null} key={tag.tag_id+index} color="vip">{tag.tag_name}</Pill>
                                     <div className="newCheckboxContainer">
                                         <label className="newCheckboxLabel">
-                                            <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={isContainTags(tag.tag_id)} onClick={toggleSelectTags} onChange={() => { }} />
+                                            <input type="checkbox" value={tag.tag_name}  id={tag.tag_id} name="checkbox" checked={selectedTags.includes(tag.tag_id.toString())}  onChange={toggleSelectTags} />
                                         </label>
                                     </div>
                                 </li>)
@@ -252,10 +235,11 @@ export default function ContantDetail({ data, ...props }) {
 
 
                     <div style={{paddingTop:"3px"}} >
-                        {selectedTags != -1 && selectedTags.map((tag, index) => {
-                            return <Pill key={index} color="vip">{tag.tag_name}</Pill>
-                        })}
-
+                        {/*{selectedTags.length != -1 && selectedTags.map(tag => alltags*/}
+                        {/*    .find(t=>t.tag_id.toString() == tag)).map((tag, index) => {*/}
+                        {/*    return <Pill key={index} color="vip">{tag.tag_name}</Pill>*/}
+                        {/*})}*/}
+                        {tags&&selectedTags.length!==0&& renderTags()}
                     </div>
                 </div>
 
@@ -263,7 +247,7 @@ export default function ContantDetail({ data, ...props }) {
             </div>
         </div>
 
-        <div className={'noteBox'} style={props.tab == "note" ? { display: "block" } : { display: "none" }}>
+        <div className={'noteBox'} style={tab == "note" ? { display: "block" } : { display: "none" }}>
             <div className={"notesVolumn"}>Note : {notes.length}</div>
             <div className={"write_pad"}>
                 <input type="text" value={writenote} className={"write_note"} onChange={(e) => setWritenote(e.target.value)} placeholder={"Write a note..."}>
@@ -301,7 +285,7 @@ export default function ContantDetail({ data, ...props }) {
 
 
                             <div className={"message_box"}>
-                                <div className={"message"} style={props.tab == "note" ? { display: "flex" } : { display: "none" }}>{note.message}</div>
+                                <div className={"message"} style={tab == "note" ? { display: "flex" } : { display: "none" }}>{note.message}</div>
                             </div>
 
 

@@ -14,22 +14,19 @@ import {GlobalContext} from "../../context/GlobalContext";
 import { AddStickerSVG, DeleteSVG } from "../../public/admin/adminSVG";
 import { ImportDropzone } from "../../components/ImportSticker";
 import DeletePad from "../../components/DeletePannel";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 
 
 export default function Stickers() {
 
-    const {mediaInstance, userInstance ,user , } = useContext(GlobalContext)
-
-    const [roles, setRoles] = useState([]);
-    const [stickers, setStickerList] = useState([]);
-
+    const {mediaActionsStore ,authStore , } = useRootStore()
     const [filteredData , setFilteredData] = useState([])
 
-    const [isLoading, setIsLoading] = useState(false);   
+    const [isLoading, setIsLoading] = useState(false);
      const [isDelete , setIsDelete] = useState(false)
      const [selectedReply , setSelectedReply] = useState([])
-    // const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
+
 
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
@@ -38,12 +35,11 @@ export default function Stickers() {
     const indexOfFirstTodo = indexOfLastTodo - 5;
     const currentContacts = filteredData.slice(indexOfFirstTodo, indexOfLastTodo);
     const [isSelectRow, setIsSelectRow] = useState( false);
-    const [folder,setFolder] = useState([])
 
     const [stickerData ,setStickerData] = useState({folders:[] , files:[]})
 
     const getStickers = async ()=>{
-        const {folders , files} = await mediaInstance.getStickers()
+        const {folders , files} = await mediaActionsStore.getStickers()
         const arrfolders = []
         folders.forEach(e=>arrfolders.push(e.slice(8,-1)))
 
@@ -54,8 +50,8 @@ export default function Stickers() {
 
     }
     let result = currentContacts.map(d=>d.id)
-   
-    const stickerHandle=(e)=>{ 
+
+    const stickerHandle=(e)=>{
         e.preventDefault()
         console.log("file",files)
         if (acceptedFiles.length == 0 ){
@@ -65,7 +61,7 @@ export default function Stickers() {
         console.log(acceptedFiles[0].arrayBuffer(),"upload sticker part 1")
         acceptedFiles.pop()
     }
-    
+
     useEffect(async()=>{
         await getStickers()
 
@@ -75,11 +71,11 @@ export default function Stickers() {
                 // setFilteredData(stickerData)
                 setIsLoading(!isLoading)
                 return
-            } 
+            }
 
         },[isLoading])
 
-            
+
             const toggleSelect = e => {
                 const { checked ,id} = e.target;
         setSelectedContacts([...selectedContacts, id]);
@@ -111,14 +107,14 @@ export default function Stickers() {
     }
     const sumbitDelete=async ()=>{
         selectedReply.map(async e =>{
-            
+
             const res = await mediaInstance.removeSticker(e)
             console.log(res,"res delete")
             }
         )
         await getStickers()
     }
-    
+
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
@@ -144,7 +140,7 @@ export default function Stickers() {
                     <div className={"search_session"}>
                         <div className="search">
                             <div className="mf_icon_input_block  mf_search_input">
-                                <div className={"mf_inside_icon mf_search_icon "} > </div>  
+                                <div className={"mf_inside_icon mf_search_icon "} > </div>
                                 <input
                                     className={"mf_input mf_bg_light_grey"}
                                     type="search"
@@ -169,7 +165,7 @@ export default function Stickers() {
                         </div>
                     </div>
                     <SelectSession
-                        btn={isSelectRow?(<div className={"select_session_btn_group"}>     
+                        btn={isSelectRow?(<div className={"select_session_btn_group"}>
                         <div className={"select_session_btn"}><div onClick={toggleDelete}><DeleteSVG/></div> </div>
                         </div>):null}
                     >Sticker
@@ -177,14 +173,14 @@ export default function Stickers() {
                     <TableContainer
                         sx={{minWidth: 750 , minHeight:"60vh"}}
                         className={"table_container"}
-                        
+
                     >
                         <Table
                             sx={{minWidth: 750 }}
                             aria-labelledby="tableTitle"
                             size={'medium'}
                             stickyHeader={true}
-                            
+
                         >
                             <TableHead>
                                 {/* <TableRow>
@@ -211,7 +207,7 @@ export default function Stickers() {
                                             role="checkbox"
                                             name={index}
                                             sx={{margin:"0rem",}}
-                                            
+
                                             // checked={selectedContacts.includes(data.id)}
                                             // onClick={isSelectRow?toggleSelect:null}
                                         >
@@ -230,9 +226,9 @@ export default function Stickers() {
                                         <div className="sticker-row"
                                             key={index}
                                             name={index}
-                                            id={index} 
+                                            id={index}
                                             // style={{margin:"1rem 0",}}
-                                            > 
+                                            >
 
                                                 {stickerData.filter(s=>{return s.key.includes(data)}).map((item , index)=>{
 
@@ -248,7 +244,7 @@ export default function Stickers() {
                                                     }
                                                 <div className={"add_sticker"} id={data.id} onClick={toggleDropzone}>
                                                     <AddStickerSVG size={80}/>
-                                                </div> 
+                                                </div>
                                                     <span style={{display: isShowDropzone ? "block" : "none"}} >
                                                         {/*DND Import Data start */}
                                                         <ImportDropzone title={"Import Sticker"} folder={filteredData} onClose={toggleDropzone} confirm={stickerHandle} accept={"image/*"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>

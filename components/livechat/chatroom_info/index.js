@@ -6,14 +6,15 @@ import Profile from "../../profile";
 import EditProfileForm from "../../pageComponents/EditProfileForm";
 import { GlobalContext } from "../../../context/GlobalContext";
 import {inject ,observer} from "mobx-react";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 
 function ChatroomInfo (props){
 
-    const {handleEdit , chatListStore:{selectedChat}} = props
-    const {contactInstance } = useContext(GlobalContext)
+    const {handleEdit ,tags , users} = props
+    const { chatListStore:{selectedChat} , contactsStore} = useRootStore()
      const [tabActive,setTabActive] = useState("info")
-    const [useContact , setUseContact] = useState({})
+    const [useContact , setUseContact] = useState()
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
 
     const toggleEditProfile = (key) =>{
@@ -22,16 +23,15 @@ function ChatroomInfo (props){
         setIsEditProfileShow(!isEditProfileShow)
     }
     const fetchContact = async (cid) =>{
-        const data = await contactInstance.getContactById(cid)
-        setUseContact(prev=>data)
+        await contactsStore.getById(cid)
+        setUseContact(contactsStore.targetContact)
     }
 
     useEffect(async()=>{
-
         if(selectedChat.customer_id){
             await fetchContact(selectedChat.customer_id)
         }
-    },[])
+    },[selectedChat])
 
     return (
     <div className={"chatroom_info"}>
@@ -66,7 +66,8 @@ function ChatroomInfo (props){
                 </div>
                 <div className={"contact_content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
 
-                    <ContantDetail data={selectedChat} tab={tabActive} />
+                    {useContact&&<ContantDetail  selectedChat={selectedChat} tab={tabActive} tags={tags}
+                                    users={users}/>}
                 </div>
             </div>
         </div>
@@ -77,4 +78,4 @@ function ChatroomInfo (props){
 }
 
 
-export default inject( "chatListStore")(observer(ChatroomInfo))
+export default observer(ChatroomInfo)

@@ -3,7 +3,7 @@ import {GlobalContext} from "../../context/GlobalContext";
 import 'emoji-mart-next/css/emoji-mart.css'
 import ChatroomInfo from "../../components/livechat/chatroom_info";
 import {Storage , API , graphqlOperation} from "aws-amplify";
-import { inject, observer } from 'mobx-react';
+import {  observer } from 'mobx-react';
 
 import {
     subscribeChatroom,
@@ -15,12 +15,14 @@ import {useRouter} from "next/router";
 import Chatroom from "../../components/livechat/chatroom/Chatroom";
 import LiveChatLeftColumn from "../../components/livechat/chatroomlist/LiveChatLeftColumn";
 import axios from "axios";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 
 function Live_chat(props) {
-        const {messageActionsStore , chatListStore:{selectedChat , init}} = props
+
+    const {messageActionsStore ,chatListStore:{selectedChat } , authStore:{user , isAuth} , contactsStore , tagStore , orgActionsStore ,chatroomStore, usersActionsStore} = useRootStore()
+
         const router = useRouter()
-        const {   contactInstance ,mediaInstance, userInstance ,tagInstance ,orgInstance, user  , chatHelper    } = useContext(GlobalContext)
         const [chatroomMsg , setChatroomMsg]  = useState([])
         const [chats , setChats]  = useState([])
         const [contacts, setContacts] = useState([]);
@@ -49,7 +51,7 @@ function Live_chat(props) {
 
     const getUserChannel = async ()=>{
 
-        const node = await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${user.user.user_id}`).then(res=>{
+        const node = await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${user.user_id}`).then(res=>{
             return res.data
         }).catch(err=>{
             console.log(err)
@@ -61,7 +63,6 @@ function Live_chat(props) {
 
 
     const subChatrooms= async ()=>{
-        let user_id= user.user.user_id
         if(chatroomsSub) chatroomsSub.unsubscribe()
         console.log("subscribe all start")
         const sub = API.graphql(graphqlOperation(suballChatroom))
@@ -81,7 +82,7 @@ function Live_chat(props) {
 
 
     const refreshChatrooms = async e=>{
-        await getChatroomMessage(selectedChat.room_id)
+        await getChatroomMessage()
     }
 
     const getChatroomMessage = async()=>{
@@ -90,13 +91,7 @@ function Live_chat(props) {
 
         setFetchingMsg(true)
 
-        setChatroomMsg([])
-
-        const result = await chatHelper.getMessages(selectedChat.room_id)
-
-        if(!result) return
-
-        setChatroomMsg(result)
+        const result = await chatroomStore.getMessage()
 
         if(selectedChat.channel =="WABA"){
             lastTime =result[result.length-1].timestamp
@@ -120,44 +115,46 @@ function Live_chat(props) {
     // }
 
     const fetchContacts = async () =>{
-        const data = await contactInstance.getAllContacts()
-        setContacts(data)
+        // const data = await contactInstance.getAllContacts()
+
+        await contactsStore.getAll()
+        setContacts(contactsStore.contacts)
     }
 
     const getUsers = async ()=>{
-        const data = await userInstance.getAllUser()
-        setUsers(data)
+        // const data = await userInstance.getAllUser()
+        await usersActionsStore.init()
+        await usersActionsStore.getAll()
+        setUsers(usersActionsStore.users)
     }
     const getTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
-        setTeams(data)
+        // const data = await orgInstance.getOrgTeams()
+        await orgActionsStore.getOrgTeams()
+        setTeams(orgActionsStore.teams)
 
     }
 
     const getTags = async ()=>{
-        const data = await tagInstance.getAllTags()
-        setTags(data)
+        await tagStore.getTags()
+        setTags(tagStore.tags)
     }
 
-    const getStickers = async ()=>{
-        const {folders , files} = await mediaInstance.getStickers()
-        const arrfolders = Array.from(folders)
-
-        setStickerData({folders: arrfolders , files: files})
-
-    }
+    // const getStickers = async ()=>{
+    //     const {folders , files} = await mediaInstance.getStickers()
+    //     const arrfolders = Array.from(folders)
+    //
+    //     setStickerData({folders: arrfolders , files: files})
+    //
+    // }
 
     useEffect(    async () => {
-        if(user.token!=null) {
-            await init()
+        if(isAuth) {
             await subChatrooms()
             await fetchContacts()
             await getTags()
             await getUsers()
             await getTeams()
-            await getStickers()
-            const node =await getUserChannel()
-            messageActionsStore.init(node.url)
+            // await getStickers()
         }
     },[]);
 
@@ -179,7 +176,7 @@ function Live_chat(props) {
     }
 
     useEffect(async ()=>{
-        if(selectedChat)  await getChatroomMessage() ;
+        // if(selectedChat)  await getChatroomMessage() ;
         await handleSub(selectedChat)
 
     },[selectedChat])
@@ -216,7 +213,7 @@ function Live_chat(props) {
                 users={users}
                 teams={teams}
                 contacts={contacts}
-                user={user.user}
+                user={user}
             />
             <Chatroom
             selectedChat={selectedChat}
@@ -229,9 +226,9 @@ function Live_chat(props) {
             fetchingContact
             sendMessage={messageActionsStore.sendMessage}
             />
-            <ChatroomInfo  handleEdit={toggleEditProfile }/>
+            <ChatroomInfo users={users} tags={tags} handleEdit={toggleEditProfile }/>
         </div>
     )
 }
 
-export default inject("messageActionsStore" , "chatListStore")(observer(Live_chat))
+export default observer(Live_chat)

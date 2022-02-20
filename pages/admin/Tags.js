@@ -28,16 +28,15 @@ import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 import CreateTag from "../../components/Admin/CreateTag";
 import EditTag from "../../components/Admin/EditTag";
 import DeleteTag from "../../components/Admin/DeleteTag";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function Tags() {
 
     const [tags, setTags] = useState([]);
-    const {tagInstance , user} = useContext(GlobalContext)
+    const {authStore:{isAuth} , tagStore} = useRootStore()
 
     const [filteredData , setFilteredData] = useState([])
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[] })
 
     const [currentPage , setCurrentPage] = useState(1)
     const [selectedContacts , setSelectedContacts] = useState([])
@@ -54,13 +53,12 @@ export default function Tags() {
     let result = currentContacts.map(d=>d.id)
 
     const fetchTags = async () =>{
-        const data = await tagInstance.getAllTags()
-        console.log("getAllTags()",data)
-        setTags(data)
-        setFilteredData(data)
+        await tagStore.getTags()
+        setTags(tagStore.tags)
+        setFilteredData(tagStore.tags)
     }
     useEffect(    async () => {
-        if(user.token)await fetchTags()
+        if(isAuth)await fetchTags()
     },[]);
 
     const toggleSelect = e => {

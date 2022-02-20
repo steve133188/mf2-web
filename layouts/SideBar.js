@@ -1,31 +1,21 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {useEffect, useState ,useContext, useLayoutEffect} from "react";
-import {Pill} from "../components/Pill";
+import {useEffect, useState , useLayoutEffect} from "react";
 import {DashboardSVG,CommentsAltSVG,ContactSVG,IntegrationsSVG,OrganizationSVG,AdminSVG,BroadcastSVG,ProductsSVG} from "../public/side_bar_icon_svg/side_bar_icon_svg"
 import NotificationList from "../components/NotificationList";
-import {GlobalContext} from "../context/GlobalContext";
 import NavItem from "../components/SideItem";
 import {API , graphqlOperation} from "aws-amplify";
 import {listMF2TCOMESSAGGES,listMF2TCOCHATROOMS} from "../src/graphql/queries";
 import {subscribeToChatroom, subscribeToNewMessage} from "../src/graphql/subscriptions"
 
 import {Avatar } from "@mui/material";
+import {observer} from "mobx-react";
+import {useRootStore} from "../utils/provider/RootStoreProvider";
 
 
-export default function SideBar({setNotificationList , openNoteList , toggleNoteList,...props}  ) {
-    //data for notify box
-    // const {data} = useSubscription(GET_NOTIFICATIONS)
-    const { user ,subInstance,roleInstance ,userAuth } = useContext(GlobalContext)
+function SideBar({setNotificationList , openNoteList , toggleNoteList,...props}  ) {
 
-
-
-
-   useEffect(()=>{
-    console.log(userAuth)
-   },[userAuth])
-
-    const {  logout } = useContext(GlobalContext);
+    const {  authStore:{logout ,userAuth} } = useRootStore()
     const router = useRouter()
     const [isDashOpen, setIsDashOpen] = useState(false)
     const [isTurnUp, setIsTurnUp] = useState(false)
@@ -255,3 +245,4 @@ export default function SideBar({setNotificationList , openNoteList , toggleNote
         </div>
     )
 }
+export default observer(SideBar)

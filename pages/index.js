@@ -3,11 +3,12 @@ import styles from '../styles/Home.module.css'
 import {useContext, useEffect} from "react";
 import {useRouter} from "next/router";
 import {GlobalContext} from "../context/GlobalContext";
+import {useRootStore} from "../utils/provider/RootStoreProvider";
 
 export default function Home() {
-    const {user} = useContext(GlobalContext)
+    const {authStore:{token}} = useRootStore()
     const router = useRouter()
-    useEffect(()=>{ if( !user.token) {
+    useEffect(()=>{ if( !token) {
         router.push("/login")
     }else{
         router.push("/dashboard/chat")

@@ -24,6 +24,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import Loading from "../../components/Loading";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -55,7 +56,8 @@ const style ={
 }
 
 export default function Organization() {
-    const { userInstance  ,roleInstance,orgInstance, user} = useContext(GlobalContext)
+    // const { userInstance  ,roleInstance,orgInstance, user} = useContext(GlobalContext)
+    const { usersActionsStore  ,orgActionsStore, authStore:{isAuth}} = useRootStore()
     const [users, setUsers] = useState([]);
     const [org, set_org] = useState([]);
     const [teams, setTeams] = useState([]);
@@ -95,38 +97,38 @@ export default function Organization() {
     //filtered Data
     let result = currentContacts.map(d=>d.phone)
     const fetchUsers = async()=>{
-        const data = await userInstance.getAllUser()
-        setUsers(data)
-        setFilteredData(data)
+        await usersActionsStore.getAll()
+        setUsers(usersActionsStore.users)
+        setFilteredData(usersActionsStore.users)
     }
     const fetchNoTeamUsers = async()=>{
-        const data = await userInstance.getAllUser()
-        const newData = data.filter(d=>d.team_id==0)
-        setUsers(newData)
-        setFilteredData(newData)
+        await usersActionsStore.getAll()
+        usersActionsStore.users.filter(d=>d.team_id==0)
+        setUsers(usersActionsStore.users)
+        setFilteredData(usersActionsStore.users)
 
     }
     const getRoles = async()=>{
-        const data = await roleInstance.getAllRoles()
-        setRoles(data)
+        await orgActionsStore.getAllRoles()
+        setRoles(orgActionsStore.roles)
     }
     const getAllTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
-        setTeams(data)
+        await orgActionsStore.getOrgTeams()
+        setTeams(orgActionsStore.teams)
     }
 
     const fetchTeamUsers = async (id)=>{
-        const data = await userInstance.getUsersByTeamId(id)
-        setUsers(data)
-        setFilteredData(data)
+        await usersActionsStore.getByTeamId(id)
+        setUsers(usersActionsStore.users)
+        setFilteredData(usersActionsStore.users)
     }
     const fetchRootORG = async () =>{
-        const data = await orgInstance.getAllORG()
-        set_org(data)
+        await orgActionsStore.getAllORG()
+        set_org(orgActionsStore.orgs)
     }
     useEffect(    async () => {
         set_curr_org({})
-        if(user.token)
+        if(isAuth)
         {
             await getAllTeams()
             await getRoles()
@@ -143,9 +145,9 @@ export default function Organization() {
     },[]);
     useEffect(    async () => {
 
-        if(user.token&&!curr_org.name){
+        if(isAuth&&!curr_org.name){
             await fetchUsers()
-        }else if(user.token&&curr_org.name=="Not Assigned"){
+        }else if(isAuth&&curr_org.name=="Not Assigned"){
             await fetchNoTeamUsers()
         }else{
             curr_org.org_id&& await fetchTeamUsers(curr_org.org_id)
@@ -243,13 +245,14 @@ export default function Organization() {
     const displayTeam=(name)=>{
         set_curr_org(name)
         setisEditNameActive(false)
+        console.log("name="+name)
     }
     const handleChangeName=e=>{
         setEditedName(e.target.value)
 
     }
     const comfirmTeamNameEdit = async()=>{
-        await orgInstance.updateOrgName(curr_org.org_id,editedName)
+        await orgActionsStore.updateOrgName(curr_org.org_id,editedName)
         setisEditNameActive(false)
         window.location.reload(false);
     }

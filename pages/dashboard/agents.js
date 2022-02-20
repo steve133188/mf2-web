@@ -21,6 +21,7 @@ import Pagination from '@mui/material/Pagination';
 import { DeleteSVG, EditSVG } from "../../public/admin/adminSVG";
 import {GlobalContext} from "../../context/GlobalContext";
 import Loading from "../../components/Loading";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function Agents() {
     const [isLoading, setIsLoading] = useState(true);
@@ -28,10 +29,8 @@ export default function Agents() {
     const [users , setUsers] = useState([])
     const [contacts , setContacts] = useState([])
     const [teams , setTeams] = useState([])
-    const {dashboardInstance,contactInstance , userInstance ,tagInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {dashStore , contactsStore , usersActionsStore ,orgActionsStore ,authStore:{user,isAuth}} = useRootStore()
     const [barChart ,setBarChart] =useState();
-    const [teamsChart ,setTeamsChart] =useState();
-    const [agentsChart ,setAgentsChart] =useState();
     const [selectedTeams ,setSelectedTeams] =useState([]);
     const [selectedUsers , setSelectedUsers] = useState([])
     const [isFilterOpen , setIsFilterOpen] = useState(false);
@@ -63,37 +62,37 @@ export default function Agents() {
 
     const getUsers = async () =>{
 
-        const data = await userInstance.getAllUser()
+        await usersActionsStore.getAll()
 
-        setUsers(data)
+        setUsers(usersActionsStore.users)
 
     }
 
     const getContacts = async () =>{
-        const {user:{user_id,role_id,team_id}}=user
+        const {user_id,role_id,team_id}=user
 
 
-        const data = await contactInstance.getAllContacts({user_id,role_id,team_id})
+        await contactsStore.getAll({user_id,role_id,team_id})
 
-        setContacts(data)
+        setContacts(contactsStore.contacts)
 
     }
 
     const fetchTeams = async () =>{
 
-        const data = await orgInstance.getOrgTeams()
+        await orgActionsStore.getOrgTeams()
 
-        setTeams(data)
+        setTeams(orgActionsStore.teams)
 
     }
 
     const fetchDefault = async ()=>{
 
-        const data = await dashboardInstance.getLiveChatDefaultData()
+        await dashStore.getLiveChatDefaultData()
 
-        setDash(data)
+        setDash(dashStore.dash)
 
-        const bar = sortBarChart(data.teams)
+        const bar = sortBarChart(dashStore.dash.teams)
 
         setBarChart(bar)
 
@@ -290,13 +289,13 @@ export default function Agents() {
 
         setIsLoading(true)
 
-        const data = await dashboardInstance.getAgentRangeData(s,e)
+        await dashStore.getAgentRangeData(s,e)
 
-        console.log("get dashboard data : " , data)
+        console.log("get dashboard data : " , dashStore.dash)
 
-        setDash(data)
+        setDash(dashStore.dash)
 
-        const bar = sortBarChart(data.teams)
+        const bar = sortBarChart(dashStore.dash.teams)
 
         setBarChart(bar)
 
@@ -425,7 +424,7 @@ export default function Agents() {
 
     useEffect(async()=>{
 
-        if(isLoading){
+        if(isAuth){
 
             initDate()
             await getUsers()

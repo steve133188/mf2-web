@@ -3,11 +3,15 @@ import ChatroomFilter from "./ChatroomFilter";
 import {useContext, useEffect, useState} from "react";
 import {inject, observer} from "mobx-react";
 import {GlobalContext} from "../../../context/GlobalContext";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 
 function LiveChatLeftColumn(props){
 
-    const {tags, users , teams  , contacts ,chatListStore:{ search ,filterChatList ,filteredChatList,clear ,searchByInput} } = props
+    const {tags, users , teams  , contacts } = props
+
+    const {  chatListStore:{ search ,filterChatList ,filteredChatList,clear ,searchByInput} } = useRootStore()
+
 
     const [isFilterOpen,setIsFilterOpen] = useState(false)
 
@@ -72,4 +76,4 @@ function LiveChatLeftColumn(props){
     </>)
 
 }
-export default inject("chatListStore")(observer(LiveChatLeftColumn))
+export default observer(LiveChatLeftColumn)

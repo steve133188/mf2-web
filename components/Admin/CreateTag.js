@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -37,7 +38,7 @@ const style ={
 export default function CreateTag({show, toggle,reload}){
     const [name , setName] = useState("")
     const [parent , setParent] = useState({})
-    const {contactInstance , tagInstance  ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const { tagStore  } = useRootStore()
 
     const handleChange = e=>{
         console.log(e.target.value)
@@ -45,11 +46,12 @@ export default function CreateTag({show, toggle,reload}){
     }
 
     const submit = async ()=>{
-        const status = await tagInstance .addTag({tag_name:name})
-        console.log(status)
-        reload()
-        toggle()
-        setName("")
+        await tagStore.addTag({tag_name:name})
+        if(tagStore.errors ==null){
+            reload()
+            toggle()
+            setName("")
+        }
     }
     return(
         <MF_Modal show={show} toggle={toggle}>

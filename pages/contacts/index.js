@@ -31,13 +31,15 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import {renderAgentAVA} from "../../components/common/AgentAVA";
 import {renderTags} from "../../components/common/RenderTags";
 import {renderChannelsIcon} from "../../components/common/RenderChannelsIcon";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 // import {getAllContacts} from "../../helpers/contactsHelper"
 
 export default function Contacts() {
     const [isLoading, setIsLoading] = useState(true);
-    const [contacts, setContacts] = useState([]);
-    const {contactInstance , userInstance ,tagInstance ,orgInstance, user ,userAuth} = useContext(GlobalContext)
+
+    // const {contactInstance , userInstance ,tagInstance ,orgInstance, user ,userAuth} = useContext(GlobalContext)
+    const {contactsStore:{contacts ,init ,deleteContact, getAll},authStore:{user,auth ,isAuth, token} , tagStore,usersActionsStore , orgActionsStore} = useRootStore()
     const [filteredData , setFilteredData] = useState([])
 
     const [filter , setFilter] = useState({agent:[] , team:"" , channel:[] , tag:[] })
@@ -106,8 +108,7 @@ export default function Contacts() {
                 return data
             }
             if(selectedTeams[0].id==0) return data.agents_id.length==0
-            return data.agents_id.some(el=>{return el.team_id==selectedTeams[0].id})
-            // return data.team==selectedTeams.id
+            return data.team_id == selectedTeams[0].id
         })
 
         setFilteredData([...teamFiltered])
@@ -140,6 +141,7 @@ export default function Contacts() {
         </AvatarGroup>
     }
     const renderSelectedTags=() => {
+
         return selectedTags!=-1&&selectedTags.map((tag)=>{
 
             const selected = tags.find(t=>t.tag_id.toString() === tag)
@@ -147,58 +149,47 @@ export default function Contacts() {
             return<Pill key={tag} color="vip">{selected.tag_name}</Pill>
         })
     }
+
     const renderChannels=() => {
         return selectedChannel!=-1&&selectedChannel.map((channel , index)=>{
             return<div key={index}><img style={{width:'18px',margin:'3px'}}src={`/channel_SVG/${channel}.svg`} /></div>
         })
     }
     const getTags = async ()=>{
-        const data = await tagInstance.getAllTags()
-        setTags(data)
-        setFilteredTags(data)
+        await tagStore.getTags()
+        setTags(tagStore.tags)
+        setFilteredTags(tagStore.tags)
 
     }
     const getUsers = async ()=>{
-        const data = await userInstance.getAllUser()
+        await usersActionsStore.getAll()
 
-        setUsers(data)
-        setFilteredUsers(data)
+        setUsers(usersActionsStore.users)
+        setFilteredUsers(usersActionsStore.users)
     }
     const getTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
+        await orgActionsStore.getOrgTeams()
 
-        setTeams(data)
+        setTeams(orgActionsStore.teams)
     }
 
     const getChannels = async ()=>{
         // const data = await orgInstance.getOrgTeams()
         setFilteredChannel(channels)
     }
-    const fetchContacts = async () =>{
-        const {user:{user_id,role_id,team_id}}=user
 
-        let data =await contactInstance.getAllContacts({user_id,role_id,team_id})
 
-        // if(userAuth.authority.all){
-        //     data =await contactInstance.getAllContacts()
-        //
-        // }else{
-        //     data =await contactInstance.getOwnContact(user.user.user_id)
-        //
-        // }
-
-        setContacts(data)
-
-        setFilteredData(data)
-    }
     useEffect(async () => {
-        if(user.token!=null) {
+        if(isAuth) {
+            await getAll()
             await getTags()
             await getUsers()
             await getTeams()
-            await getChannels ()
-            await fetchContacts()
+            await getChannels()
+            // await getChannels ()
+            // await fetchContacts()
         }
+        setFilteredData([...contacts])
         setSelectedUsers([])
         setSelectedContacts([])
         if(isLoading){
@@ -206,7 +197,7 @@ export default function Contacts() {
                 setIsLoading(false);
             }.bind(this), 100)
         }
-    },[]);
+    },[isAuth]);
 
     const toggleSelect = e => {
         const { checked ,id} = e.target;
@@ -263,10 +254,12 @@ export default function Contacts() {
     const toggleSelectTeams = e => {
 
         const { checked ,id} = e.target;
-        setSelectedTeams(prev=>[...selectedTeams, id]);
-        if (!checked) {
+
+        if(selectedTeams.includes(id)){
             setSelectedTeams(selectedTeams.filter(item => item !== id));
+            return
         }
+        setSelectedTeams(prev=>[...selectedTeams, id]);
     };
     function userSearchFilter(keyword , data ,callback ){
         if(keyword.includes(":")){
@@ -298,7 +291,7 @@ export default function Contacts() {
     }
     const toggleEditProfile =async (key) =>{
         if(!isEditProfileShow) setUseContact(key);
-        if(isEditProfileShow) await fetchContacts();
+        if(isEditProfileShow) await getAll();
         setIsEditProfileShow(!isEditProfileShow)
     }
     const toggleDelete = (id)=>{
@@ -309,18 +302,21 @@ export default function Contacts() {
         setIsDeleteMany(!isDeleteMany)
     }
     const removeContact = async (id)=>{
-        const res =await contactInstance.deleteContact (id)
+        await deleteContact(id)
+        // const res =await contactInstance.deleteContact (id)
         setDeleteID("")
-        await fetchContacts()
+        await getAll()
+        let newValue = filteredData.filter(contact => contact.customer_id!==id)
+        setFilteredData(newValue)
+
     }
 
     const removeManyContact = async ()=>{
 
-        const res =await contactInstance.deleteContacts(selectedContacts)
+        // const res =await contactInstance.deleteContacts(selectedContacts)
         setSelectedContacts([])
 
-        await fetchContacts()
-        setSelectedContacts([])
+        // await fetchContacts()
 
     }
     const default_cols = [ "Customer ID" ,"ECMID" ,'Name' , 'Channels','Tags' ,'Assignee']
@@ -334,7 +330,7 @@ export default function Contacts() {
     }
     const clearFilter=async()=>{
         setSelectedTeams([]);setSelectedTags([]);setSelectedChannel([]);advanceFilter();
-            await fetchContacts()
+        setFilteredData(contacts);
         setSelectedUsers([])
         setSelectedContacts([])
 
@@ -388,15 +384,15 @@ export default function Contacts() {
                     {/* <NotificationContainer/> */}
 
             {/*{isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}*/}
-            {isProfileShow?           ( <Profile handleClose={()=>{toggleProfile();fetchContacts()}}><ProfileGrid data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
+            {isProfileShow?           ( <Profile handleClose={()=>{toggleProfile();getAll()}}><ProfileGrid data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}
                 <ImportDropzone title={"Import Contacts"} onClose={toggleDropzone} accept={".csv,.xlsx,.xls"} isShowDropzone={isShowDropzone} setIsShowDropzone={setIsShowDropzone}/>
                 {/*DND Import Data end */}
             </span>
-             <DeletePad show={isDeleteMany} reload={fetchContacts} toggle={toggleDeleteMany } submit={removeManyContact} data={selectedContacts} title={"Contacts"}/>
-             <DeletePad show={isDelete} reload={fetchContacts} toggle={toggleDelete } deleteId={deleteID} submit={removeContact}  title={"Contacts"}/>
+             <DeletePad show={isDeleteMany} reload={getAll} toggle={toggleDeleteMany } submit={removeManyContact} data={selectedContacts} title={"Contacts"}/>
+             <DeletePad show={isDelete} reload={getAll} toggle={toggleDelete } deleteId={deleteID} submit={removeContact}  title={"Contacts"}/>
             <div className={"search_session"}>
                 <div className="search">
                     <div className="mf_icon_input_block  mf_search_input">

@@ -3,10 +3,12 @@ import {useDropzone} from 'react-dropzone';
 import { GlobalContext } from '../context/GlobalContext';
 import { CancelButton} from './Button';
 import MF_Select from './MF_Select';
+import {useRootStore} from "../utils/provider/RootStoreProvider";
 
 
 export function ImportDropzone({children,title,...props}) {
-    const {mediaInstance,adminInstance ,user , messageInstance} = useContext(GlobalContext)
+
+    const {mediaActionsStore} =useRootStore()
     const [folder, setFolder]= useState([])
     // const {  onClose } = props;
     const {
@@ -55,7 +57,7 @@ export function ImportDropzone({children,title,...props}) {
             return
         }
 
-        const res  = await mediaInstance.putSticker(acceptedFiles[0],folder[0])
+        const res  = await mediaActionsStore.putSticker(acceptedFiles[0],folder[0])
         console.log(res,"return key")
         console.log(acceptedFiles[0].arrayBuffer())
         acceptedFiles.pop()

@@ -31,11 +31,13 @@ import ReplyFolder from "../../../components/Admin/replyFolder";
 import Profile from "../../../components/profile";
 import EditReplyFolder from "../../../components/Admin/EditReplyFolder";
 import Loading from "../../../components/Loading";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 export default function StandardReply() {
     const [isLoading, setIsLoading] = useState(true);
 
-    const {orgInstance, userInstance , user,replyInstance} = useContext(GlobalContext)
+    // const {orgInstance, userInstance , user,replyInstance} = useContext(GlobalContext)
+    const {orgActionsStore, usersActionsStore , authStore:{isAuth},mediaActionsStore} = useRootStore()
     const [standardReply, setStandardReply] = useState([]);
     const [filteredData , setFilteredData] = useState([])
     const [useFolder,setUseFolder] = useState("")
@@ -65,24 +67,21 @@ export default function StandardReply() {
 
 
     const fetchStandardReply = async () =>{
-        const data = await replyInstance.getStandardReplyAll()
+        const data = await mediaActionsStore.getStandardReplyAll()
         console.log("getAllStandardReply",data)
         setStandardReply(data)
         setFilteredData(data)
 
     }
     const getAgents = async ()=>{
-        const data = await userInstance.getAllUser()
-        console.log("AAAA")
-        console.log(data)
-        setAgents(data)
-        setFilteredAgents(data)
+        await usersActionsStore.getAllUser()
+        setAgents(usersActionsStore.users)
+        setFilteredAgents(usersActionsStore.users)
     }
     const getTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
-        console.log(data)
-        setTeams(data)
-        setFilteredTeams(data)
+        await orgActionsStore.getOrgTeams()
+        setTeams(orgActionsStore.teams)
+        setFilteredTeams(orgActionsStore.teams)
     }
     const toggleSelect = e => {
         const { checked ,id} = e.target;
@@ -128,15 +127,12 @@ export default function StandardReply() {
     const [deleteTagname,setDeleteTag] = useState("")
     const submitDelete = async() =>{
         setIsDelete(!isDelete)
-        console.log("ddddddddddd",selectedReply)
 
         selectedReply.map(async e=> {
-                const file =await replyInstance.deleteReplyByID(selectedReply)
-
+            await mediaActionsStore.deleteReplyByID(selectedReply)
         })
-
         setSelectedReply([]);
-        fetchStandardReply();
+        await fetchStandardReply();
     }
 
     const toggleSelectAgents = (e) =>{
@@ -159,13 +155,9 @@ export default function StandardReply() {
         if(!isProfileShow) setUseFolder(key)
         setIsProfileShow(!isProfileShow)
     }
-    useEffect(()=>{
-        console.log(standardReply,"reply")
-        console.log(useFolder,"reply")
-    },[useFolder])
 
     useEffect(    async () => {
-        if(user.token) {
+        if(isAuth) {
             await getTeams ();
             await fetchStandardReply();
             }

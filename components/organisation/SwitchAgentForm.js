@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
 import { padding } from "@mui/system";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -40,16 +41,16 @@ const style ={
 export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clear}){
     const [team , setTeam] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    // const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {usersActionsStore ,orgActionsStore} = useRootStore()
 
     const handleSelect =e=>{
         setSelectedTeam(e.target.value)
     }
-    
+
     useEffect(    async () => {
-        const data = await orgInstance.getOrgTeams()
-        console.log(data,"team data")
-        setTeam(data)
+        await orgActionsStore.getOrgTeams()
+        setTeam(orgActionsStore.teams)
     },[]);
     const submit = async ()=>{
         console.log(selectedUsers,"selected ")
@@ -58,10 +59,12 @@ export default function SwitchAgentForm({show, toggle ,selectedUsers,reload,clea
             const user_phone = selectedUsers[i]
             const team_id = selectedTeam.org_id
             console.log(user_phone,team_id,"transferinf user team")
-            const res = await userInstance.updateUserTeamIdById(parseInt(user_phone) ,parseInt(team_id))
-            console.log(res)
-            clear()
-            reload()
+            await usersActionsStore.updateUserTeamIdById(parseInt(user_phone) ,parseInt(team_id))
+            if(!usersActionsStore.errors){
+                clear()
+                reload()
+            }
+
         }
     }
     return(

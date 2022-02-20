@@ -5,17 +5,19 @@ import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
 import { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../context/GlobalContext';
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 export default function QuickReply(props) {
 
     const {disabled , onclick , replyData} =props
 
-    const {user,replyInstance} = useContext(GlobalContext)
+
+    const {authStore:{isAuth} ,mediaActionsStore} = useRootStore()
     const [standardReply, setStandardReply] = useState([]);
     const [value, setValue] = useState("0");
 
     const fetchStandardReply = async () =>{
-        const data = await replyInstance.getStandardReplyAll()
+        const data = await mediaActionsStore.getStandardReplyAll()
         console.log("getAllStandardReply",data)
         setStandardReply(data)
         // setFilteredData(data)
@@ -25,7 +27,7 @@ export default function QuickReply(props) {
       setValue(`${event.target.value}`);
     }
     useEffect(    async () => {
-        if(user.token) {
+        if(isAuth) {
             await fetchStandardReply();
             }
 

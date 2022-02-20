@@ -5,10 +5,13 @@ import {Pill} from "../../Pill";
 import List from "@mui/material/List";
 import DropDown from "../../filter/teamDropDown";
 import {inject, observer} from "mobx-react";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 function ChatroomFilter( props){
 
-    const {  onClick , users, tags ,confirm  , clear , teams ,chats ,contacts ,chatListStore:{filter , updateFilter ,checkFilter,filterChatList} ,customerStore:{customers}} = props
+    const {  onClick , users, tags ,confirm  , clear , teams ,chats ,contacts ,} = props
+
+    const {chatListStore:{filter , updateFilter ,checkFilter,filterChatList} ,customerStore:{customers}} = useRootStore()
 
     const channelData = [
         {name:"Whatsapp",channelID:"Whatsapp",id:1},
@@ -231,4 +234,4 @@ function ChatroomFilter( props){
         </div>
     )
 }
-export default inject("chatListStore" ,"chatroomStore" , "customerStore")(observer(ChatroomFilter))
+export default observer(ChatroomFilter)

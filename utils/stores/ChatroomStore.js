@@ -1,4 +1,4 @@
-import {makeObservable , action , observable , runInAction} from "mobx";
+import {makeObservable, action, observable, runInAction, makeAutoObservable} from "mobx";
 import axios from "axios";
 import {API, graphqlOperation} from "aws-amplify";
 import {subscribeChatroom} from "../../src/graphql/subscriptions";
@@ -26,7 +26,11 @@ class ChatroomStore{
 
     sub=null
 
-    constructor() {
+    userCredential = null
+
+    constructor(rootStore) {
+        this.rootStore = rootStore
+
         makeObservable(this,{
             currShowStart:observable,
             currShowEnd:observable,
@@ -42,7 +46,17 @@ class ChatroomStore{
             updateShow:action,
             renderMore:action.bound,
             clear:action.bound,
+            sort:action.bound,
+            // getLastMsgFromClient:action.bound,
         })
+    }
+
+    init(){
+        if(!this.userCredential){
+            runInAction(()=>{
+                this.userCredential =this.rootStore.authStore.user
+            })
+        }
     }
 
     sort(){
@@ -56,16 +70,16 @@ class ChatroomStore{
         }
     }
 
-    getLastMsgFromClient(){
-        for(let i = this.messages.length ; !this.lastMsgFromClient ; i--){
-            if(this.messages[i].from_me){
-                runInAction(()=>{
-                    this.lastMsgFromClient = this.messages[i].timestamp
-                })
-                return
-            }
-        }
-    }
+    // getLastMsgFromClient(){
+    //     for(let i = this.messages.length ; !this.lastMsgFromClient ; i--){
+    //         if(this.messages[i].from_me){
+    //             runInAction(()=>{
+    //                 this.lastMsgFromClient = this.messages[i].timestamp
+    //             })
+    //             return
+    //         }
+    //     }
+    // }
 
     clear(){
         runInAction(()=>{
@@ -74,8 +88,9 @@ class ChatroomStore{
         })
     }
 
-    async getMessage(rid){
-        await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/messages/chatroom/${rid}`)
+    async getMessage(){
+        const {room_id} = this.rootStore.chatListStore.selectedChat
+        await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/messages/chatroom/${room_id}`)
             .then(res=>{
                 runInAction(()=>{
                     this.messages = res.data
@@ -137,8 +152,5 @@ class ChatroomStore{
 
 }
 
-const chatroomStore = new ChatroomStore
-
-export {chatroomStore}
 
 export default ChatroomStore

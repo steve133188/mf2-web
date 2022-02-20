@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -46,24 +47,24 @@ export default function DeleteDivisionForm({show, toggle,reload ,org}){
         setTeam(e.target.value)
         // setDiv(" ")
     }
-    const {contactInstance , userInstance ,adminInstance ,orgInstance, user} = useContext(GlobalContext)
+    const {orgActionsStore} = useRootStore()
     const teams = []
     const[teamlist,setTeamlist]=useState([])
-    
+
     const fetchOrg = async (div) => {
         if(div=="") return "Please Select A Division"
-        const allTeam = await orgInstance.getOrgTeams()
+        await orgActionsStore.getOrgTeams()
     //    console.log( allTeam.filter(t=>t.parent_id==div ),"team by divivxion")
-        setTeamlist(allTeam.filter(t=>t.parent_id==div ))
+        setTeamlist(orgActionsStore.teams.filter(t=>t.parent_id==div ))
     }
 
-    useEffect( ()=>{
-        fetchOrg(div )
+    useEffect( async ()=>{
+        await fetchOrg(div )
 
 
       },[div ])
-    useEffect( ()=>{
-        fetchOrg()
+    useEffect( async ()=>{
+        await fetchOrg()
 
         setRootDivision(getDivisionTree(org))
       },[org])
@@ -76,23 +77,23 @@ export default function DeleteDivisionForm({show, toggle,reload ,org}){
         // const newDivision = {type:"division"}
         // console.log(newDivision)
         if(div!==" "&&team!==" "){
-            const status = await orgInstance.deleteOrgById(team)
+            const status = await orgActionsStore.deleteOrgById(team)
             console.log(status,"delete Division team")
         }else if((div!==" "&&team===" "))
         {
-            const status = await orgInstance.deleteOrgById(div)
+            const status = await orgActionsStore.deleteOrgById(div)
             console.log(status,"delete Division")
         }else
         {
-            
-            const status = await orgInstance.deleteOrgById(team)
+
+            const status = await orgActionsStore.deleteOrgById(team)
             console.log(status,"delete team")
         }
         clearData()
         toggle()
         reload()
     }
-   
+
     const getDivisionTree =  (data) => {
         let tree = [];
         for(let i = 0; i < data.length; i++){
@@ -122,7 +123,7 @@ export default function DeleteDivisionForm({show, toggle,reload ,org}){
                         >
                         <MenuItem value=" ">Please Select</MenuItem>
                         {rootDivision.map((d,i)=>{
-                            
+
                             return (<MenuItem key={i} value={d.org_id}>{d.name}</MenuItem>)
                         })}
                     </Select>

@@ -2,7 +2,7 @@ import {makeObservable , action , observable ,runInAction} from "mobx"
 import axios from "axios";
 
 
-class MessageActionsStore {
+class ChannelsActionsStore {
 
     defaultSettings =  {
         headers:{
@@ -18,15 +18,15 @@ class MessageActionsStore {
     WhatsappUrl = ''
 
     Whatsapp =  axios.create( {
-        headers:{
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin' : '*',
-            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-            'Access-Control-Allow-Credentials' : true,
-        },
-        timeout:10000,
-    }
-        )
+            headers:{
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                'Access-Control-Allow-Credentials' : true,
+            },
+            timeout:10000,
+        }
+    )
 
     WABA = axios.create( this.defaultSettings)
 
@@ -43,10 +43,9 @@ class MessageActionsStore {
         })
     }
 
-    async init (){
-        await this.getUserChannel()
+    init (url){
         runInAction(()=>{
-
+            this.WhatsappUrl = url
             this.Whatsapp =  axios.create( {
                     headers:{
                         'Content-Type': 'application/json',
@@ -55,7 +54,7 @@ class MessageActionsStore {
                         'Access-Control-Allow-Credentials' : true,
                     },
                     timeout:10000,
-                baseURL:this.WhatsappUrl
+                    baseURL:this.WhatsappUrl
                 }
             )
         })
@@ -64,6 +63,7 @@ class MessageActionsStore {
     }
 
     async sendMessage(data ){
+
 
         switch (data.channel){
             case "WABA" :
@@ -100,18 +100,6 @@ class MessageActionsStore {
         }
     }
 
-    async getUserChannel(){
-        await axios.get(`https://4ou47a9qd9.execute-api.ap-southeast-1.amazonaws.com/prod/api/user/whatsapp/${this.rootStore.authStore.user.user_id}`).then(res=>{
-            runInAction(()=>{
-                this.WhatsappUrl = res.data.url
-            })
-
-        }).catch(err=>{
-            console.log(err)
-            return null
-        })
-    }
-
     mediaTypeHandler(file){
         const mine = file.type
 
@@ -135,8 +123,4 @@ class MessageActionsStore {
     }
 }
 
-const messageActionsStore = new MessageActionsStore()
-
-export {messageActionsStore}
-
-export default MessageActionsStore
+export default ChannelsActionsStore

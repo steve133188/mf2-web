@@ -5,10 +5,11 @@ import {useEffect, useRef, useState} from "react";
 import { inject, observer } from 'mobx-react'
 import {TransitionGroup} from "react-transition-group";
 import {Collapse} from "@mui/material";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refresh ,fetchingMsg , fetchingContact ,stickers,...props}){
 
-    const {chatListStore:{selectedChat} , chatroomStore:{showMessage  ,renderMore}} = props
+    const {chatListStore:{selectedChat} , chatroomStore:{showMessage  ,renderMore}} = useRootStore()
 
     const {sendMessage} = props
 
@@ -96,4 +97,4 @@ function Chatroom({lastMsgFromClient ,msg ,isRobotOn=false , handleRobot , refre
     )
 }
 
-export default inject("chatListStore" , "chatroomStore")(observer(Chatroom))
+export default observer(Chatroom)

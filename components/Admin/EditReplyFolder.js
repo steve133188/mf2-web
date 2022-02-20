@@ -8,6 +8,7 @@ import InputBase from '@mui/material/InputBase';
 import {GlobalContext} from "../../context/GlobalContext";
 import ChannelsDropList from "../droplist/ChannelsList";
 import AgentsDropList from "../droplist/AgentsList";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
@@ -54,15 +55,14 @@ export default function EditReplyFolder({show, toggle ,reload,data,filteredTeams
     const [selectedUsers ,setSelectedUsers] =useState([]);
 
     const [selectedTeams ,setSelectedTeams] =useState([])
-    const {replyInstance , userInstance , user} = useContext(GlobalContext)
+
+    const {mediaActionsStore , usersActionsStore , authStore:{isAuth}} = useRootStore()
     const toggleSelectUsers = e => {
         const { checked ,id} = e.target;
         setSelectedUsers([...selectedUsers, id]);
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !== id));
         }
-
-        console.log(selectedUsers)
     };
     const toggleSelectTeams = (e) =>{
         const { checked ,id} = e.target;
@@ -73,15 +73,15 @@ export default function EditReplyFolder({show, toggle ,reload,data,filteredTeams
    console.log(selectedTeams,"selectedTeams")
    }
     const getUsers = async ()=>{
-        const data = await userInstance.getAllUser()
-        setFilteredUsers(data)
+        await usersActionsStore.getAll()
+        setFilteredUsers(usersActionsStore.users)
     }
     useEffect(    async () => {
-        if(user.token!=null) {
+        if(isAuth!=null) {
             await getUsers()
         }
         setSelectedUsers([])
-       
+
     },[]);
 
     useEffect(()=>{
@@ -134,18 +134,18 @@ export default function EditReplyFolder({show, toggle ,reload,data,filteredTeams
     const submit = async ()=>{
         console.log({...authority})
         console.log(selectedChannels)
-        
+
         const dataupload = {...data,name:name,channels:selectedChannels,variables:selectedTeams}
         console.log(dataupload)
-        const res = await replyInstance.updateOneStandardReply(dataupload )
+        const res = await mediaActionsStore.updateOneStandardReply(dataupload )
 
-        
+
         console.log(res)
         reload()
         toggle()
     }
 
-    
+
     return(
         <MF_Modal show={show} toggle={toggle}>
             <div className={"modal_form"} style={{width:"100%",display:"flex",justifyContent:'center'}}>
@@ -164,7 +164,7 @@ export default function EditReplyFolder({show, toggle ,reload,data,filteredTeams
                 <div className={"access_right"} style={{display:"flex",justifyContent:'center',alignItems:"center"}}>
 
 
-                    <ChannelsDropList data={selectedChannels} toggleChannels={toggleSelectChannels} toggleAll={toggleSelectAllChannels} />                            
+                    <ChannelsDropList data={selectedChannels} toggleChannels={toggleSelectChannels} toggleAll={toggleSelectAllChannels} />
                 </div>
                 <div className="inputField">
                     <span>Assign to</span>
@@ -178,16 +178,16 @@ export default function EditReplyFolder({show, toggle ,reload,data,filteredTeams
                         onChange={()=>{}}
                         label={"Select Division"}
                         input={<BootstrapInput />}
-                        >     
+                        >
                        <div className={"filter_box_agents"}  >
                     <div className={"agentBroad"} >
 
                     <div className={"filter_title"} onClick={toggle}> </div>
                     <div className={"agentSearchArea"}  style={show?{display:"block"}:{display:"none"}}>
-                         {/* <div className={"search_bar"}>    
+                         {/* <div className={"search_bar"}>
                             <input type="text" className={"search_area"} onChange={(e)=>setAgentValue(e.target.value)} placeholder={"Search"}></input>
                         </div>  */}
-                    
+
                         <div className={"channelList"} >
                             {filteredTeams.map((team)=>{
                                 return(<li className={"channelListitem"} key={team.name} style={{width:"90%"}}>

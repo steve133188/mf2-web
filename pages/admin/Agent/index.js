@@ -21,11 +21,12 @@ import { DeleteSVG, EditSVG } from "../../../public/admin/adminSVG";
 import MF_Modal from "../../../components/MF_Modal";
 import UserProfileGrid from "../../../components/pageComponents/UserProfile";
 import Loading from "../../../components/Loading";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 export default function Index() {
     const [isLoading, setIsLoading] = useState(true);
 
-    const {roleInstance ,contactInstance, userInstance, orgInstance,user} = useContext(GlobalContext)
+    const {orgActionsStore ,contactsStore, usersActionsStore,authStore:{isAuth}} = useRootStore()
     const [selectedUsers , setSelectedUsers] = useState([])
 
     const searchRef = useRef(null)
@@ -50,29 +51,33 @@ export default function Index() {
 
     let result = currentUsers.map(d=>d.phone)
     const fetchTeamUsers = async (id)=>{
-        const data = await userInstance.getUsersByTeamId(id)
-        setUsers(data)
-        setFilteredData(data)
+        await usersActionsStore.getUsersByTeamId(id)
+        if(!usersActionsStore.error) setFilteredData(usersActionsStore.users)
+    }
+
+    const fetchRoles=async ()=>{
+        await orgActionsStore.getAllRoles()
+        setRoles(orgActionsStore.roles)
     }
 
     const fetchUsers = async () =>{
-        const data = await roleInstance.getAllRoles()
-        console.log("fetchUsers",data)
-        setRoles(data)
-        setFilteredData(data)
+        await usersActionsStore.getAll()
+        setUsers(usersActionsStore.users)
+        setFilteredData(usersActionsStore.users)
     }
     const getTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
-        setTeams(data)
+        await orgActionsStore.getOrgTeams()
+        setTeams(orgActionsStore.teams)
     }
     useEffect(    async () => {
-        if(user.token!=null){
+        if(isAuth){
             if(!selectedTeam.name){
                 await fetchUsers()
             }else{
                 await fetchTeamUsers(selectedTeam.org_id)
             }
             await getTeams()
+            await fetchRoles()
         }
         if(isLoading){
             setTimeout(function() { //Start the timer
@@ -121,19 +126,18 @@ export default function Index() {
         setDeleteRole({id,name})
     }
 
-    const submitDelete = () =>{
-        deleteRole(deleteRolename);
+    const submitDelete = async () =>{
+        await deleteRole(deleteRolename);
         setIsDelete(!isDelete)
     }
     const deleteRole = async (agent)=>{
         console.log(agent ,"agent to delete")
-        const cd = await contactInstance.getContactsByUsers (agent.id)
-        cd.map(async e=>{
+        await contactsStore.getContactsByUsers (agent.id)
+        contactsStore.contacts.map(async e=>{
             console.log(e,"delete User")
-            const res = await contactInstance.deleteCustomerAgent (e.customer_id,[agent.id])
-            console.log(res,"delete User")
+            await contactsStore.deleteCustomerAgent (e.customer_id,[agent.id])
         })
-        const res = await userInstance.deleteUserById (agent.id)
+        usersActionsStore.deleteUserById (agent.id)
         await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
@@ -269,7 +273,7 @@ export default function Index() {
                                             <span >{data.username}</span>
                                         </TableCell>
                                         <TableCell align="left">
-                                            {data.role_name}
+                                            {roles.find(r=>data.role_id==r.role_id).role_name}
                                         </TableCell>
                                         <TableCell align="left">
                                             {data.email}

@@ -16,6 +16,7 @@ import styles from "../../styles/Contacts.module.css";
 import searchFilter from "../../helpers/searchFilter";
 import MF_Select from "../../components/MF_Select";
 import Mf_circle_btn from "../../components/common/mf_circle_btn";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function AddContact() {
     const [newContact , setNewContact] = useState({
@@ -36,24 +37,24 @@ export default function AddContact() {
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
-    const {userInstance ,tagInstance, user , contactInstance} = useContext(GlobalContext)
+    const {usersActionsStore ,tagStore , authStore , contactsStore} = useRootStore()
 
     const router = useRouter()
 
     const getTags = async ()=>{
-        const data = await tagInstance.getAllTags()
-        setTags(data)
-        setFilteredTags(data)
+        await tagStore.getTags()
+        setTags(tagStore.tags)
+        setFilteredTags(tagStore.tags)
 
     }
     const getUsers = async ()=>{
-        const data = await userInstance.getAllUser()
-        setUsers(data)
-        setFilteredUsers(data)
+        usersActionsStore.getAll()
+        setUsers(usersActionsStore.users)
+        setFilteredUsers(usersActionsStore.users)
     }
 
     useEffect(async ()=>{
-        if(user.token){
+        if(authStore.isAuth){
            await getTags()
             await getUsers()
         }
@@ -112,11 +113,10 @@ export default function AddContact() {
         const name =` ${newContact.first_name} ${newContact.last_name}`
         const phone = parseInt(newContact.phone)
         const tags_id = selectedTags.map(t=>t.tag_id)
-        const agents_id = selectedUsers.map(a => a.user_id )
+        // const agents_id = selectedUsers.map(a => a.user_id )
         const country_code = parseInt(newContact.country_code)
-        console.log(selectedUsers,"tagsss",agents_id)
-         const res = await contactInstance.createContact({...newContact , customer_name: name , phone:phone,country_code, tags_id , agents_id})
-        console.log(res)
+        await contactsStore.create({...newContact , customer_name: name , phone:phone,country_code, tags_id , agents_id:[authStore.user.user_id]})
+        await  contactsStore.getAll()
         router.back()
     }
     const curr_tag = tags.filter(el=>selectedTags.indexOf(el.tag_id)!=-1)

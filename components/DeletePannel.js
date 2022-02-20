@@ -13,7 +13,7 @@ export default function DeletePad({show, toggle,reload,data,submit,title , delet
 
     const confirm = async (e)=>{
         e.preventDefault()
-        await submit(deleteId)
+        await submit(parseInt(deleteId))
         console.log(data)
         reload();
         toggle()

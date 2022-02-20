@@ -16,13 +16,14 @@ import {GlobalContext} from "../../../context/GlobalContext";
 import MFToggleButtonGroup from "../../common/ToggleButtonGroup/MFToggleButtonGroup";
 import axios from "axios";
 import {inject ,observer} from "mobx-react";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 
 function ChatroomFooter(props){
 
-    const {messageActionsStore}=props
     const {disabled , stickers} = props
-    const {mediaInstance, user , messageInstance , chatHelper  ,selectedChat , getUserChannel} = useContext(GlobalContext)
+    // const {mediaInstance, user , messageInstance , chatHelper  ,selectedChat , getUserChannel} = useContext(GlobalContext)
+    const {mediaActionsStore , authStore:{isAuth , user} , messageActionsStore , chatListStore:{selectedChat} } = useRootStore()
     const [isExpand , setIsExpand] = useState(false)
     const [isReply , setIsReply] = useState(false)
     const filePreviewOldState = {name:"",size:0,type:""}
@@ -39,7 +40,7 @@ function ChatroomFooter(props){
         message_type:"TEXT" ,
         is_media:false ,
         media_url:'',
-        sign_name:user.user.username,
+        sign_name:user.username,
         room_id:selectedChat.room_id
     }
     const [typedMsg , setTypedMsg] = useState(initTypedMsg)
@@ -122,30 +123,30 @@ function ChatroomFooter(props){
         e.preventDefault()
         if(!e.target.files[0]){return}
         const file = e.target.files[0]
-        const filetype =  messageInstance.mediaTypeHandler(file)
+        const filetype =  messageActionsStore.mediaTypeHandler(file)
         const path =URL.createObjectURL(file)
         setHasMedia(true)
         setIsExpand(true);
         setChatButtonOn("m3");
         if(filetype.includes("image")){
-            const result = await mediaInstance.putImg(file , filetype)
+            const result = await mediaActionsStore.putImg(file , filetype)
             setFilePreview({ name: file.name, size: file.size, type: "IMAGE", path: path,time:new Date() });
             // setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "IMAGE" , media_url: result})
         }
         if(filetype.includes("video")){
-            const result = await mediaInstance.putVideo(file , filetype)
+            const result = await mediaActionsStore.putVideo(file , filetype)
             setFilePreview({name:file.name,size:file.size,type:"VIDEO",path:path})
             // setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "VIDEO" , media_url: result})
         }
         if(filetype.includes("audio")){
-            const result = await mediaInstance.putVoice(file , filetype)
+            const result = await mediaActionsStore.putVoice(file , filetype)
             setFilePreview({name:file.name,size:file.size,type:"AUDIO",path:path})
             setTypedMsg({...typedMsg ,message_type: "AUDIO" , media_url: result})
         }
         if(filetype.includes("document")){
-            const result = await mediaInstance.putDoc(file , filetype)
+            const result = await mediaActionsStore.putDoc(file , filetype)
             setFilePreview({name:file.name,size:file.size,type:"FILE",path:path})
             // setMediaUrl(result)
             setTypedMsg({...typedMsg ,message_type: "FILE" , message:file.name , media_url: result})
@@ -311,4 +312,4 @@ function ChatroomFooter(props){
 }
 
 
-export default inject("messageActionsStore")(observer(ChatroomFooter))
+export default observer(ChatroomFooter)

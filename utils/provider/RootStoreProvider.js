@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
-import { RootStore } from '../stores/';
+import  RootStore  from '../stores/';
 
-const StoreContext = createContext(null);
+const StoreContext = createContext( new RootStore());
 StoreContext.displayName = 'RootStoreContext';
 
 const useRootStore = () => {
@@ -12,10 +12,10 @@ const useRootStore = () => {
     return context;
 };
 
-const RootStoreProvider = children => {
+const RootStoreProvider = ({ store, children }) => {
     // only create root store once (store is a singleton)
-    const root = new RootStore();
-    return <StoreContext.Provider value={root}>{children}</StoreContext.Provider>;
+    // const root =useRootStore;
+    return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
 };
 
 export { useRootStore, StoreContext, RootStoreProvider };

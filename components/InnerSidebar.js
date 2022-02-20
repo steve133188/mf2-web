@@ -13,6 +13,7 @@ export function ORGSidebar({orgData, selection ,setSelection}) {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState([])
     const handleClick =  (team)=>{
+        console.log("click", team)
         setSelection(team)
     }
 

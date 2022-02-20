@@ -2,10 +2,19 @@ import ChatroomRow from "./ChatroomRow";
 import {inject, observer} from "mobx-react";
 import {Collapse , Zoom} from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
+import {useEffect} from "react";
 
 function ChatroomList(props){
 
-    const { show  , chatListStore:{selectChat , selectedChat ,showChatList , isLoading , renderMore},chatroomStore:{clear ,getMessage}} =props
+    const { show  } =props
+
+    const { chatListStore:{selectChat , selectedChat ,showChatList , isLoading ,getChatList, renderMore ,init},chatroomStore:{clear ,getMessage}} =  useRootStore()
+
+    useEffect(async ()=>{
+        await init()
+        await getChatList()
+    },[])
 
     const selected = (id) =>{
         return id === selectedChat.room_id
@@ -21,7 +30,7 @@ function ChatroomList(props){
         e.stopPropagation();
         clear()
         selectChat(data)
-        await getMessage(data.room_id)
+        await getMessage()
     }
 
     const renderChatroomList=()=>{
@@ -47,4 +56,4 @@ function ChatroomList(props){
         </>
     )
 }
-export default inject("chatListStore" , "chatroomStore")(observer(ChatroomList))
+export default observer(ChatroomList)

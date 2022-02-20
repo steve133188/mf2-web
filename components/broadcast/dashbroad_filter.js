@@ -11,6 +11,7 @@ import { AvatarGroup } from "@mui/material";
 import { getThemeProps } from "@mui/system";
 import FilterDropDown from "./filterDropDown";
 import DivisionDropDown from "../filter/divisionDropDown";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 
 export default function DashBroadFilter(props){
@@ -25,17 +26,12 @@ export default function DashBroadFilter(props){
         selectedTeams
     } = props
     const { orgInstance, user} = useContext(GlobalContext);
+    const {orgActionsStore,authStore:{isAuth}} = useRootStore()
 
     const [division ,setDivision] =useState([]);
     const [root_org, set_root_org] = useState([]);
     const [selectedAgents ,setSelectedAgents] =useState([]);
-    const [selectedDivision ,setSelectedDivision] =useState([]);
-    const [selectedChannels ,setSelectedChannels] =useState([]);
-    const [filteredTeams ,setFilteredTeams] =useState([]);
-    const [filteredAgents ,setFilteredAgents] =useState([]);
     const [filteredDivision ,setFilteredDivision] =useState([]);
-    const [filteredData , setFilteredData] = useState([])
-    const [filter , setFilter] = useState({agent:[] , team:[] , channel:[] , tag:[], division:[], })
     const [agentSearch , setAgentSearch] = useState("")
     const [agentBarOpen,setAgentBar] = useState(false)
     const [teamBarOpen,setTeamBar] = useState(false)
@@ -45,20 +41,20 @@ export default function DashBroadFilter(props){
 
     const fetchRootORG = async () =>{
 
-        const data = await orgInstance.getAllORG()
+        await orgActionsStore.getAllRootORG()
 
-        set_root_org(data)
+        set_root_org(orgActionsStore.root_orgs)
 
     }
 
 
     const getDivision = async ()=>{
 
-        const data = await orgInstance.getAllORG ()
+        await orgActionsStore.getAllORG ()
 
-        setDivision(data)
+        setDivision(orgActionsStore.orgs)
 
-        setFilteredDivision(data)
+        setFilteredDivision(orgActionsStore.orgs)
 
     }
 
@@ -73,7 +69,7 @@ export default function DashBroadFilter(props){
 
     useEffect(   async()=>{
 
-        if(user.token!=null) {
+        if(isAuth) {
 
             await getDivision()
             await fetchRootORG()
