@@ -35,13 +35,14 @@ function ChatroomFooter(props){
     const [whatsappUrl, setWhatsappUrl] = useState("");
     let initTypedMsg ={
         channel:selectedChat.channel,
-        phone:parseInt(selectedChat.phone) ,
+        phone:selectedChat.phone,
         message:"",
         message_type:"TEXT" ,
         is_media:false ,
         media_url:'',
         sign_name:user.username,
-        room_id:selectedChat.room_id
+        room_id:selectedChat.room_id,
+        team_id:user.team_id,
     }
     const [typedMsg , setTypedMsg] = useState(initTypedMsg)
 

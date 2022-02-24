@@ -9,7 +9,7 @@ function ChatroomList(props){
 
     const { show  } =props
 
-    const { chatListStore:{selectChat , selectedChat ,showChatList , isLoading ,getChatList, renderMore ,init},chatroomStore:{clear ,getMessage}} =  useRootStore()
+    const { chatListStore:{selectChat , selectedChat ,showChatList  ,getChatList, renderMore ,init},chatroomStore:{clear ,getMessage}} =  useRootStore()
 
     useEffect(async ()=>{
         await init()

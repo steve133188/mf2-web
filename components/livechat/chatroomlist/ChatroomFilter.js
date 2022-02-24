@@ -4,14 +4,14 @@ import ChannelListItem from "../serach_filter/filter.js/channelListItem";
 import {Pill} from "../../Pill";
 import List from "@mui/material/List";
 import DropDown from "../../filter/teamDropDown";
-import {inject, observer} from "mobx-react";
+import { observer} from "mobx-react";
 import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 function ChatroomFilter( props){
 
-    const {  onClick , users, tags ,confirm  , clear , teams ,chats ,contacts ,} = props
+    const {  onClick , users, tags ,confirm  , clear , teams ,chats  } = props
 
-    const {chatListStore:{filter , updateFilter ,checkFilter,filterChatList} ,customerStore:{customers}} = useRootStore()
+    const {chatListStore:{filter , updateFilter ,checkFilter,filterChatList} ,contactsStore:{contacts}} = useRootStore()
 
     const channelData = [
         {name:"Whatsapp",channelID:"Whatsapp",id:1},

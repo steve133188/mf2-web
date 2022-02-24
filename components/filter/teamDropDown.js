@@ -10,20 +10,20 @@ import { Tooltip } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
 import { GlobalContext } from "../../context/GlobalContext";
 import {inject ,observer} from "mobx-react";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 function DropDown ({teamData,setSelection,...props}) {
-    const {chatListStore:{checkFilter , filter , updateFilter} } = props;
+    const {chatListStore:{checkFilter , filter , updateFilter} , usersActionsStore:{getAll ,users} } = useRootStore();
 
     const getUsers = async()=>{
-        const res = await userInstance.getAllUser()
-        setLevelTwoData(res)
+        await getAll()
+        setLevelTwoData(users)
     }
 
-    const fetchTeamAgents = async (id) =>{
-        const res = await userInstance.getUsersByTeamId(id)
-    }
+    // const fetchTeamAgents = async (id) =>{
+    //     const res = await userInstance.getUsersByTeamId(id)
+    // }
 
-    const { userInstance } = useContext(GlobalContext);
     const [open, setOpen] = useState([]);
     const [levelOneData, setLevelOneData] = useState([]);
     const [levelTwoData, setLevelTwoData] = useState([]);
@@ -129,4 +129,4 @@ function DropDown ({teamData,setSelection,...props}) {
       );
 }
 
-export default inject("chatListStore")(observer(DropDown))
+export default observer(DropDown)

@@ -65,7 +65,7 @@ class ChatListStore {
             selectedChat:observable,
             error:observable,
             getChatList:action.bound,
-            updateChatList:action,
+            updateChatList:action.bound,
             filterChatList:action.bound,
             updateFilter: action.bound,
             init:action.bound,
