@@ -106,7 +106,8 @@ class ChatroomStore{
 
     updateMessage(msg){
         runInAction(()=>{
-            this.newMessage.push(msg)
+            this.messages.push(msg)
+            this.showMessage.push(msg)
         })
     }
 
@@ -130,15 +131,15 @@ class ChatroomStore{
         })
     }
 
-    async subscription(chat){
+    async subscription(){
         if(this.sub)this.sub.unsubscribe()
-        this.sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:chat.room_id ,channel:chat.channel } ))
+        this.sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:this.rootStore.chatListStore.selectedChat.room_id ,channel:this.rootStore.chatListStore.selectedChat.channel } ))
             .subscribe({
                 next: async (chatmessage)=>{
-                    if(router.pathname == "/livechat") await updateSelectedChatroom(chat)
+                    // if(router.pathname == "/livechat") await updateSelectedChatroom(chat)
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     runInAction(()=>{
-                        this.newMessage.push(newMessage)
+                        this.messages.push(newMessage)
                         this.sort()
                         if(!newMessage.from_me)this.lastMsgFromClient = newMessage.timestamp
                     })

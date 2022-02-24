@@ -11,10 +11,11 @@ import {Tooltip} from "@mui/material";
 import {Pill} from "../Pill";
 import Profile from "../profile";
 import EditAgent from "../../pages/admin/Agent/editAgent";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function UserProfileGrid({data , roles , teams}){
 
-    const {contactInstance } = useContext(GlobalContext)
+    const { contactsStore} = useRootStore()
     const [assingedContacts, setAssingedContacts] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [isReload,setReload] = useState(false)
@@ -39,23 +40,19 @@ export default function UserProfileGrid({data , roles , teams}){
         await  fetchContacts()
     },[])
 
-
-    useEffect(()=>{
-        console.log(data,"agent profile")
-    },[])
     const fetchContacts = async () =>{
-        const contactsdata = await contactInstance.getAllContacts()
+        await contactsStore.getAll()
 
-        const assigned = contactsdata.filter(c=>{return c.agents_id.some(el=>el.username ==data.username)})
+        const assigned = contactsStore.contacts.filter(c=>{return c.agents_id.some(el=>el.username ==data.username)})
 
         setAssingedContacts(assigned)
 
-        const date = new Date(data.last_login)
+        // const date = new Date(data.last_login)
 
     }
-    const toggleEdit = ()=>{
+    const toggleEdit = async ()=>{
 
-        toggleEditProfile(data)
+        await toggleEditProfile(data)
 
     }
 

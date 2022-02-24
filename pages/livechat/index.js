@@ -150,6 +150,7 @@ function Live_chat(props) {
     useEffect(    async () => {
         if(isAuth) {
             await subChatrooms()
+            await chatroomStore.subscription()
             await fetchContacts()
             await getTags()
             await getUsers()
@@ -163,7 +164,7 @@ function Live_chat(props) {
         const sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:chatroom.room_id ,channel:selectedChat.channel } ))
             .subscribe({
                 next: async (chatmessage)=>{
-                    await updateSelectedChatroom(chatroom)
+                    await chatroomStore.updateSelectedChatroom(chatroom)
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     // let updatedPost = [ ...chatroomMsg,newMessage ]
                     setChatroomMsg(chatroomMsg=>[...chatroomMsg ,newMessage ])
@@ -177,7 +178,7 @@ function Live_chat(props) {
 
     useEffect(async ()=>{
         // if(selectedChat)  await getChatroomMessage() ;
-        await handleSub(selectedChat)
+        await chatroomStore.subscription()
 
     },[selectedChat])
 

@@ -5,21 +5,25 @@ import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
 import {useContext, useEffect, useState} from 'react';
 import { GlobalContext } from '../../../context/GlobalContext';
+import {observable} from "mobx";
+import {observer} from "mobx-react";
 
 
-export default function StickerBox({data , stickerSend ,ref }){
+function StickerBox({data , stickerSend ,ref }){
+
     const handleChange = (event, newValue) => {
-      setValue(newValue);
+        setValue(newValue);
     };
-   
+
     const [value, setValue] = useState(0);
     const filtered = data.files.filter((d)=>{
         return d.key.includes(data.folders[value])
     })
+
     return(
 
           <TabContext value={"sticker"}  sx={{ width: '100%', typography: 'body1' ,whiteSpace: 'nowrap',overflow:'auto'}} >
-            <Box component="div" 
+            <Box component="div"
                     visibleScrollbar={true}
                     ref={ref}
                     sx={{ borderBottom: 1, borderColor: 'divider',overflow: 'auto' , my: 2,padding:"8px",marginTop:0}}>
@@ -33,11 +37,9 @@ export default function StickerBox({data , stickerSend ,ref }){
                     variant="scrollable"
                     // sx={{padding:"8px",}}
                     scrollButtons={false}
-                    // visibleScrollbar="true" 
+                    // visibleScrollbar="true"
                 >
                     {data.folders&&data.folders.map((item , index)=>(<Tab key={index} label={item} value={index} />))}
-
-
                 </Tabs>
             </Box>
             {/* <TabPanel> */}
@@ -58,3 +60,6 @@ export default function StickerBox({data , stickerSend ,ref }){
 
       )
 }
+
+
+export default observer(StickerBox)

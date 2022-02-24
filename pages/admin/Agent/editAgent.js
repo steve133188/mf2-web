@@ -8,10 +8,12 @@ import * as React from "react";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import FilterDropDown from "../../../components/broadcast/filterDropDown";
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 export default function EditAgent(props){
     const router = useRouter()
-    const {user ,userInstance,orgInstance ,roleInstance,contactInstance} =useContext(GlobalContext)
+    // const {user ,userInstance,orgInstance ,roleInstance,contactInstance} =useContext(GlobalContext)
+    const {authStore:{token },usersActionsStore,orgActionsStore} =useRootStore()
     const [userCredential , setUserCredential] = useState({
         username:"",
         email:"",
@@ -25,20 +27,18 @@ export default function EditAgent(props){
         channels:"",
         authority:{},
 
-    })  
+    })
     const channelData = [
         // name:"WhastApp",value:"All",channelID:"All",id:0},
                 {name:"WhastApp",value:"Whatsapp",channelID:"whatsapp",id:1},
                 {name:"WhatsApp Business",value:"WABA",channelID:"waba",id:2},
                 {name:"Messager",value:"Messager",channelID:"messager",id:3},
                 {name:"WeChat",value:"Wechat",channelID:"wechat",id:4},];
-   
+
     const [agent,setAgent] = useState({})
     const [teams , setTeams] = useState([{org_id:0,name:""}])
     const [filteredTeams ,setFilteredTeams] =useState([]);
 
-    const [searchValue, setSearchValue]= useState("")
-    const [teamBarOpen,setTeamBar] = useState(false)
     const [roles , setRoles] = useState([])
     const [selectedTeam , setSelectedTeam] = useState({})
     const [selectedRole , setSelectedRole] = useState({})
@@ -54,27 +54,23 @@ export default function EditAgent(props){
             email:userCredential.email,
             phone:parseInt(userCredential.phone),
             team_id:selectedTeam.org_id,
-            role_id:selectedRole.role_id, 
+            role_id:selectedRole.role_id,
             country_code:parseInt(userCredential.country_code),
             chat_access:authChannel,
         }
-        console.log("payload",data)
-        const res = await userInstance.updateUser(data )
-        console.log("res :",res)
+        await usersActionsStore.updateUser(data )
         // if(res == 201) router.back()
         // if(res == 200) router.back()
     }
-    
+
     const fetchUser = async (id) =>{
-        console.log(id)
-        const data = await userInstance.getUserById (id)
-        console.log(data,"user will edit")
+        await usersActionsStore.getById(id)
         // setAgent((data.filter((data)=>{return (data.phone==id)}))[0])
         // console.log(agent,"i am Agent")
-        setAgent(data)
-        setUserCredential(data)
-        setAuthChannel([data.authority.whatsapp,data.authority.wechat,data.authority.waba,data.authority.messager])
-        setSelectedTeam(data.team)
+        setAgent(usersActionsStore.targetUser)
+        setUserCredential(usersActionsStore.targetUser)
+        setAuthChannel([usersActionsStore.targetUser.authority.whatsapp,usersActionsStore.targetUser.authority.wechat,usersActionsStore.targetUser.authority.waba,usersActionsStore.targetUser.authority.messager])
+        setSelectedTeam(usersActionsStore.targetUser.team)
 
     }
     useEffect(async()=>{
@@ -82,15 +78,13 @@ export default function EditAgent(props){
       setSelectedRole({role_name:agent.role_name,role_id:agent.role_id})
     },[agent])
     const fetchRoles = async () =>{
-        const data = await roleInstance.getAllRoles()
-        setRoles(data)
-        console.log(data,"role")
+        await orgActionsStore.getAllRoles()
+        setRoles(orgActionsStore.roles)
     }
     const getTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
-        console.log(data,"team")
-        setTeams(data)
-        setFilteredTeams(data)
+        await orgActionsStore.getOrgTeams()
+        setTeams(orgActionsStore.teams)
+        setFilteredTeams(orgActionsStore.teams)
     }
     // const toggleSelectTeams = e => {
     //     const { checked ,id} = e.target;
@@ -107,14 +101,11 @@ export default function EditAgent(props){
             ...userCredential,
             [name]:value
         })
-        console.log(userCredential)
-        console.log(agent)
     }
     const handleChannelSelect =e=>{
-        
+
         const {name ,value ,checked,id} = e.target
-        console.log(name )
-        
+
         setAuthChannel({
             ...authChannel,
             [name]:true
@@ -125,13 +116,11 @@ export default function EditAgent(props){
                 [name]:false
             }  )
         }
-        console.log(authChannel)
         }
     const handleChannelAssSelect =e=>{
-        
+
         const {name ,value ,checked,id} = e.target
-        console.log(id)
-        
+
         setAuthChannel({
             ...authChannel,
             [name]:false
@@ -145,11 +134,11 @@ export default function EditAgent(props){
         }
 
     useEffect(async ()=>{
-        if(user.token){
+        if(token){
             await getTeams()
             await fetchRoles()
             await fetchUser (props.data)
-      
+
             // setSelectedTeam(agent.team)
         }
     },[])

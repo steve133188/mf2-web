@@ -14,18 +14,19 @@ export default function QuickReply(props) {
 
     const {authStore:{isAuth} ,mediaActionsStore} = useRootStore()
     const [standardReply, setStandardReply] = useState([]);
-    const [value, setValue] = useState("0");
+    const [value, setValue] = useState(0);
 
     const fetchStandardReply = async () =>{
         const data = await mediaActionsStore.getStandardReplyAll()
-        console.log("getAllStandardReply",data)
+
         setStandardReply(data)
         // setFilteredData(data)
 
     }
-    const handleChange = event => {
-      setValue(`${event.target.value}`);
-    }
+    const handleChange = (event, newValue) => {
+
+        setValue(newValue);
+    };
     useEffect(    async () => {
         if(isAuth) {
             await fetchStandardReply();
@@ -46,21 +47,20 @@ export default function QuickReply(props) {
                     textColor="primary"
                     indicatorColor="primary"
                     variant="scrollable"
-                    scrollButtons={false}
+                    scrollButtons={"auto"}
                     visibleScrollbar
                     sx={{minHeight:"10px"}}
-                    // scrollButtons="auto"
                 >
-                    {replyData.map((item,index)=>{console.log( value);return (<Tab label={item.name=="WABA"?<img src={`/channel_SVG/WABA.svg`}/>:item.name} key={index} value={`${index}`} />)})}
+                    {standardReply.map((item,index)=>{return (<Tab label={item.name=="WABA"?<img src={`/channel_SVG/WABA.svg`}/>:item.name} key={index} value={item.name} />)})}
 
 
                 </Tabs>
             </Box>
 
                     <TabPanel value={value} sx={{padding:"0 1rem"}}>
-                    {standardReply.filter(e=>e.id==value).map((item,index)=>{console.log(item,"reply folder",value);return(<>
+                    {standardReply.filter(e=>e.name==value).map((item,index)=>{return(<>
                         <div className={'qreply_box' } style={{display:"flex",flexWrap:"wrap",overflowY:"auto",maxHeight:"70px",padding:"0 1rem" , pointerEvents:((item.name!="WABA"&&!disabled)?"none":"") , backgroundColor:((item.name!="WABA"&&!disabled)?"#dee2e6":""), borderRadius:"10px" }} >
-                            {item.body.map((item,index)=>{console.log(item);return (
+                            {item.body.map((item,index)=>{return (
                                 <div key={index} style={{margin:" 3px"}}>
                                 <div className={'nameTag'} id={item} onClick={onclick}>
                                     {item}

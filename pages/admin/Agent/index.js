@@ -92,7 +92,6 @@ export default function Index() {
     }
     const toggleSelect = e => {
         const { checked ,id} = e.target;
-        console.log(id)
         setSelectedUsers([...selectedUsers, parseInt(id)]);
         if (!checked) {
             setSelectedUsers(selectedUsers.filter(item => item !==  parseInt(id)));
@@ -108,10 +107,9 @@ export default function Index() {
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
     }
-    const toggleEdit = (agent)=>{
-        console.log(agent,"toggle")
+    const toggleEdit = async (agent)=>{
         agent?setSelectedUsers([agent]):null
-        toggleEditProfile(agent)
+        await toggleEditProfile(agent)
         if (selectedUsers.length!=1){
             return
         }
@@ -137,7 +135,7 @@ export default function Index() {
             console.log(e,"delete User")
             await contactsStore.deleteCustomerAgent (e.customer_id,[agent.id])
         })
-        usersActionsStore.deleteUserById (agent.id)
+        await usersActionsStore.deleteUserById (agent.id)
         await fetchUsers()
     }
     const toggleEditProfile =async (key) =>{
@@ -273,7 +271,7 @@ export default function Index() {
                                             <span >{data.username}</span>
                                         </TableCell>
                                         <TableCell align="left">
-                                            {roles.find(r=>data.role_id==r.role_id).role_name}
+                                            {roles.find(r=>data.role_id==r.role_id)?.role_name}
                                         </TableCell>
                                         <TableCell align="left">
                                             {data.email}

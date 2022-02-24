@@ -21,7 +21,7 @@ import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 function ChatroomFooter(props){
 
-    const {disabled , stickers} = props
+    const {disabled } = props
     // const {mediaInstance, user , messageInstance , chatHelper  ,selectedChat , getUserChannel} = useContext(GlobalContext)
     const {mediaActionsStore , authStore:{isAuth , user} , messageActionsStore , chatListStore:{selectedChat} } = useRootStore()
     const [isExpand , setIsExpand] = useState(false)
@@ -32,7 +32,7 @@ function ChatroomFooter(props){
     const [replyData ,setReplyData] = useState([])
     const [isEmojiOn,setEmojiOn] = useState(false)
     const [hasMedia, setHasMedia] = useState(false);
-    const [whatsappUrl, setWhatsappUrl] = useState("");
+    const [stickers, setStickers] = useState();
     let initTypedMsg ={
         channel:selectedChat.channel,
         phone:selectedChat.phone,
@@ -53,7 +53,15 @@ function ChatroomFooter(props){
         if(ChatButtonOn!="m3") setFilePreview(filePreviewOldState)
     },[ChatButtonOn])
 
+    useEffect(async ()=>{
+        if(isAuth){
+            const  {folders , files} = await mediaActionsStore.getStickers()
+            const arrfolders = Array.from(folders)
+            setStickers({files ,folders:arrfolders })
+            const res = await messageActionsStore.getrep
+        }
 
+    },[])
 
 
 
@@ -156,14 +164,12 @@ function ChatroomFooter(props){
     }
     const stickerSend =  async e=>{
         e.preventDefault();
-        console.log(selectedChat,"sticker for chat")
-        console.log(e.target,"sticker")
         const imagetype= selectedChat.channel=="WABA"?"image":"sticker"
-        console.log(imagetype)
-        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:imagetype,channel:selectedChat.channel,sign_name:user.user.username }
+
+        const data = {media_url:e.target.src , message:"", phone : selectedChat.phone ,room_id:selectedChat.room_id,message_type:imagetype,channel:selectedChat.channel,sign_name:user.username }
         // const res = await messageInstance.sendMessage(data)
-        const res = await sendMessage(data)
-        setTypedMsg({...typedMsg , message: ""})
+        await messageActionsStore.sendMessage(data)
+        setTypedMsg(initTypedMsg)
         setChatButtonOn("");
         setIsExpand(false)
     }
@@ -270,7 +276,7 @@ function ChatroomFooter(props){
                 setTypedMsg({...typedMsg,message: typedMsg.message+" "+emoji.native+" "})
             }} style={ChatButtonOn=="m2"?{display:'block',position: 'absolute', bottom: '90px'}:{display:'none' }} />
             <div  disabled={disabled} style={{maxWidth:"95%",display:(ChatButtonOn=="m1"?"block":"none"),whiteSpace: 'nowrap' }}  >
-                <StickerBox data={stickers} stickerSend={stickerSend}  />
+                {stickers&&<StickerBox data={stickers} stickerSend={stickerSend}/>}
             </div>
             <div style={{maxWidth:"95%",height:"100%",display:(ChatButtonOn=="m4"?"block":"none"),whiteSpace: 'nowrap' }} disabled={selectedChat.channel=="WABA"&&!disabled}>
                 <QuickReply replyData={replyData} onclick={replySelect} disabled={disabled} />

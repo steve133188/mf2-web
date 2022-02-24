@@ -49,7 +49,6 @@ export default function ContantDetail(props ) {
         setFilteredUsers([...users])
         let tagList = targetContact.tags.map(tag => tag.tag_id.toString())
         let userList = targetContact.agents.map(agent => agent.user_id.toString())
-        console.log("onload : " , tagList, userList)
         setSelectedTags(tagList)
         setSelectedUsers(userList)
     }
@@ -68,12 +67,10 @@ export default function ContantDetail(props ) {
         if(selectedTags.includes(id)){
             newValue = selectedTags.filter(t=>t!==id)
             setSelectedTags(newValue);
-            console.log("let newValue :" , newValue)
             return
         }
         newValue = [...selectedTags, id]
         setSelectedTags(newValue);
-        console.log("let newValue :" , newValue)
     };
     const toggleSelectUsers = async e => {
 
@@ -84,12 +81,11 @@ export default function ContantDetail(props ) {
         if(selectedUsers.includes(id)){
             newValue = selectedUsers.filter(t=>t!==id)
             setSelectedUsers(newValue);
-            console.log("let newValue :" , newValue)
             return
         }
         newValue = [...selectedUsers, id]
         setSelectedUsers(newValue);
-        console.log("let newValue :" , newValue)
+
     };
 
     const fetchNotes = async (data)=>{
@@ -101,13 +97,11 @@ export default function ContantDetail(props ) {
     const dropNote = async (input)=>{
         const res = API.graphql(graphqlOperation(createNotesTable , {input:input})).then(res=>{
             setNotes(prev=>[...prev , res.data.createNotesTable])
-            console.log("create Note success")
         }).catch(err=>console.log(err))
     }
 
     const renderTags = ()=>{
         let vals = tags.filter(t=>selectedTags.includes(t.tag_id.toString()))
-        console.log("tags selected : " , vals)
         return showTags.map((val , index)=><Pill key={index} color="vip">{val.tag_name}</Pill>)
     }
 

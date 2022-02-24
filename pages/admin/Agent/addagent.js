@@ -6,10 +6,12 @@ import {useRouter} from "next/router";
 import MF_Select from "../../../components/MF_Select";
 import * as React from "react";
 import Link from 'next/link';
+import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 export default function AddAgent(){
     const router = useRouter()
-    const {user ,userInstance,orgInstance ,adminInstance,roleInstance} =useContext(GlobalContext)
+    // const {user ,userInstance,orgInstance ,adminInstance,roleInstance} =useContext(GlobalContext)
+    const {authStore:{token },usersActionsStore,orgActionsStore} =useRootStore()
     const [userCredential , setUserCredential] = useState({
         username:"",
         email:"",
@@ -38,7 +40,7 @@ export default function AddAgent(){
                 {name:"WhatsApp Business",value:"WABA",channelID:"waba",id:2},
                 {name:"Messager",value:"Messager",channelID:"messager",id:3},
                 {name:"WeChat",value:"Wechat",channelID:"wechat",id:4},];
-    
+
     const fieldCheck=()=>{
         if(userCredential.username.length<1){console.log("username to short");return }
     }
@@ -56,20 +58,17 @@ export default function AddAgent(){
             country_code:parseInt(userCredential.country_code),
             // chat_access:authChannel,
         }
-        console.log("payload",data)
-        const res = await userInstance.createUser(data )
-        console.log("res :",res)
-        if(res == 201) router.back()
-        if(res == 200) router.back()
+        await usersActionsStore.createUser(data )
+        if(!usersActionsStore.error == 201) router.back()
         setSubmitCheck(!submitCheck )
     }
     const fetchRoles = async () =>{
-        const data = await roleInstance.getAllRoles()
-        setRoles(data)
+        await orgActionsStore.getAllRoles()
+        setRoles(orgActionsStore.roles)
     }
     const getTeams = async ()=>{
-        const data = await orgInstance.getOrgTeams()
-        setTeams(data)
+        await orgActionsStore.getOrgTeams()
+        setTeams(orgActionsStore.teams)
     }
     const handleChange=e=>{
         const {name , value} = e.target
@@ -80,10 +79,10 @@ export default function AddAgent(){
         console.log(userCredential)
     }
     const handleChannelSelect =e=>{
-        
+
         const {name ,value ,checked,id} = e.target
         console.log(name )
-        
+
         setAuthChannel({
             ...authChannel,
             [name]:"all"
@@ -97,10 +96,10 @@ export default function AddAgent(){
         console.log(authChannel)
         }
     const handleChannelAssSelect =e=>{
-        
+
         const {name ,value ,checked,id} = e.target
         console.log(id)
-        
+
         setAuthChannel({
             ...authChannel,
             [name]:"assign"
@@ -114,7 +113,7 @@ export default function AddAgent(){
         }
 
     useEffect(async ()=>{
-        if(user.token){
+        if(token){
             await getTeams()
             await fetchRoles()
         }
@@ -146,7 +145,7 @@ export default function AddAgent(){
                     <MF_Input name={"username"}  value={userCredential.username} onChange={handleChange} title="Username" minlength={1} />
                     <MF_Input name={"email"} value={userCredential.email} onChange={handleChange} title="Email" type={"email"}/>
                 </div>
-                <div className="form_row"> 
+                <div className="form_row">
                     <MF_Input name={"country_code"} value={userCredential.country_code} onChange={handleChange} title="Country Code" placeholder={"852 HK"} style={{width:"110px"}} />
                     <MF_Input name={"phone"} value={userCredential.phone} onChange={handleChange} title="Phone" />
                 </div>
