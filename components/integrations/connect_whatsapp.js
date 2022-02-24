@@ -5,9 +5,11 @@ import QRCode from "qrcode.react";
 import axios from "axios";
 import {onUpdateWhatsapp_node} from "../../src/graphql/subscriptions";
 import {GlobalContext} from "../../context/GlobalContext";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function ConnectWhatsapp({...props}){
-    const {user , getUserChannel} = useContext(GlobalContext)
+    const {authStore:{user , auth , token ,getChannel ,error , channelInfo}} = useRootStore()
+    // const {user , getUserChannel} = useContext(GlobalContext)
     const [qrcode , setQrcode] = useState()
     const [subscript , setSubscript] = useState()
     const [status , setStatus] = useState("")
@@ -15,12 +17,15 @@ export default function ConnectWhatsapp({...props}){
     const [subed,setSubed] = useState(false)
 
     useEffect(async ()=>{
-        if(user.token){
-            const data = await getUserChannel(user.user.user_id)
-            setChan(data)
-            console.log("channel info : " ,data.status)
-            setStatus(prev=>data.status)
-            await selectWAInstance(data)
+        if(token){
+            await getChannel()
+            if(!error){
+                setChan(channelInfo)
+                console.log("channel info : " ,channelInfo.status)
+                setStatus(prev=>channelInfo.status)
+            }
+
+            await selectWAInstance(channelInfo)
         }
 
     },[])

@@ -19,8 +19,10 @@ import {listWhatsapp_nodes} from "../../src/graphql/queries";
 import {updateWhatsapp_node} from "../../src/graphql/mutations";
 import {onUpdateWhatsapp_node} from "../../src/graphql/subscriptions";
 import axios from "axios";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function Integrations() {
+    const {authStore:{user, auth , token  , getChannel ,channelInfo , error}} = useRootStore()
     const [isLoading, setIsLoading] = useState(true);
     const channelList = [
         {name:"WhatsApp",channelID:"Whatsapp",connectState:false,token:""},
@@ -34,7 +36,7 @@ export default function Integrations() {
         // {name:"Telegram", channelID:"",connectState:false,token:""},
     ]
     const [whatsapp , setWhatsapp] = useState()
-    const { userInstance ,getUserChannel , user} = useContext(GlobalContext)
+    // const { userInstance ,getUserChannel , user} = useContext(GlobalContext)
     const [allChannel,setAllChannel] = useState(channelList)
     const [connectedChannels,setConnectedChannels] = useState([])
     const [activeChannel,setActiveChannel] = useState([])
@@ -49,9 +51,6 @@ export default function Integrations() {
     const [telegramFetch,setTelegramFetch] = useState(false);
     const [kakaotalkFetch,setKakaotalkFetch] = useState(false);
     const toggleHandeler = (e) =>{
-        // console.log(e.target)
-        // console.log(e.target.id)
-        // console.log("activeChannel")
         setActiveChannel(channelList.filter((item)=>{if(!item.connectState){return item.channelID==e.target.id}}))
         setValue(e.target.id)
 
@@ -59,7 +58,7 @@ export default function Integrations() {
     }
     const myChannel = async() =>{
         console.log(user,"user info")
-        const activedChannel = user.user.channels??[""]
+        const activedChannel = user.channels??[""]
         const unConlist = channelList.filter(item=>{return item.channelID!=activedChannel.filter(e=>{return item.channelID==e})})
         setAllChannel(unConlist )
         const activeList = channelList.filter(item=>{return activedChannel.some(el=>item.channelID==el)})
@@ -70,10 +69,14 @@ export default function Integrations() {
 
     //
     useEffect(async ()=>{
-        if(user.token){
-            const chan = await getUserChannel(user.user.user_id)
-            setWhatsapp(chan)
-            setIsLoading(false)
+        if(token){
+
+            await getChannel()
+            if(!error){
+                setWhatsapp(channelInfo)
+                setIsLoading(false)
+            }
+
             // myChannel();
             // if(isLoading){
             //     setTimeout(function() { //Start the timer
@@ -147,7 +150,6 @@ export default function Integrations() {
                         <div className="row cardContainer" >
                             {connectedChannels.map(item=>{return (
                                 <Card_channel src={`/channel_SVG/${item.channelID}.svg`} name={item.name} disabled={!item.connectState} channelID={item.channelID} onclick={toggleHandeler} state={item.connectState} disconnect={toggleDisconnect}  />
-
                                 )})}
                         </div>
                     </div>
@@ -171,7 +173,6 @@ export default function Integrations() {
                         <div>
                            {activeChannel.length>0 && activeChannel[0].channelID=="Whatsapp" ?<button id={activeChannel[0].channelID}  onClick={toggleDisconnect} className={"mf_bg_light_blue mf_color_delete"} style={{font: "normal normal normal 13px/24px Manrope"}}>Stop Server</button>:""}
                         </div>
-
                     </div>
                     <div className={"broad_content " +(`${activeChannel.channelID}`)}  >
                          <TabContext value={value}  >

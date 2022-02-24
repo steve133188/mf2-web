@@ -116,14 +116,15 @@ class AuthStore {
             if(res.data!== null || res.data!==undefined){
 
                 runInAction(()=>{
+                    this.error = null
                     this.channelInfo = res.data
                 })
 
             }
-            return null
         }).catch(err=>{
-            console.log(err)
-            return null
+            runInAction(()=>{
+                this.error = err
+            })
         })
     }
 
