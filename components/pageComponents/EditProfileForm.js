@@ -16,6 +16,7 @@ import {route} from "next/dist/server/router";
 import {API ,graphqlOperation} from "aws-amplify";
 import {updateChatroom} from "../../src/graphql/mutations";
 import {listChatrooms} from "../../src/graphql/queries";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function EditProfileForm({data , toggle}){
     const router = useRouter()
@@ -27,25 +28,25 @@ export default function EditProfileForm({data , toggle}){
     const [selectedUsers ,setSelectedUsers] =useState([])
     const [filteredTags ,setFilteredTags] =useState([])
     const [filteredUsers ,setFilteredUsers] =useState([])
-    const {userInstance ,tagInstance,contactInstance, user} = useContext(GlobalContext)
+    // const {userInstance ,tagStore,contactsStore, user} = useContext(GlobalContext)
+    const { tagStore , contactsStore , usersActionsStore , authStore:{isAuth}} = useRootStore()
 
 
 
     const getTags = async ()=>{
-        const data = await tagInstance.getAllTags()
-        setTags(data)
-        setFilteredTags(data)
+        await tagStore.getTags()
+        setTags(tagStore.tags)
+        setFilteredTags(tagStore.tags)
 
     }
     const getUsers = async ()=>{
-        const data = await userInstance.getAllUser()
-        console.log(data,"User fetch")
-        setUsers(data)
-        setFilteredUsers(data)
+        await usersActionsStore.getAll()
+        setUsers(usersActionsStore.users)
+        setFilteredUsers(usersActionsStore.users)
     }
 
     useEffect(async ()=>{
-        if(user.token){
+        if(isAuth){
             await getTags()
             await getUsers()
             // if(editContact.agents)setSelectedUsers(editContact.agents)
@@ -134,31 +135,30 @@ export default function EditProfileForm({data , toggle}){
     const country_code = parseInt(editContact.country_code)
         const name =` ${editContact.first_name} ${editContact.last_name}`
         const data = {...editContact,customer_name:name ,phone:phone,country_code,  tags_id:tagslist , agents_id:userslist }
-        console.log(data,"edit data")
-        const res = await contactInstance.updateContact (data)
-        console.log(res)
+        await contactsStore.update(data)
         if(origin.customer_name !== name){
             for (const ch of editContact.channels) {
                 const chatroom = await API.graphql(graphqlOperation(listChatrooms , {filter:{customer_id:{eq:editContact.customer_id.toString()} , channel:{eq:ch} } , limit:1000}))
                     .then(res=>{
+                        console.log("res.data.listChatrooms.items : ", res.data.listChatrooms.items)
                         return res.data.listChatrooms.items[0]
                     }).catch(err=>alert("the customer chatroom not found"))
-                const setChatroom = await API.graphql(graphqlOperation(updateChatroom , {
-                    input: {
-                        room_id: chatroom.room_id,
-                        channel: chatroom.channel,
-                        name: name
-                    }
-                }))
-                    .then(res=> res).catch(err=> {  alert("update customer chatroom info fail");
-                console.log(err)
-            })
+
+               if(chatroom&&chatroom.length>0){
+                   const setChatroom = await API.graphql(graphqlOperation(updateChatroom , {
+                       input: {
+                           room_id: chatroom.room_id,
+                           channel: chatroom.channel,
+                           name: name
+                       }
+                   }))
+                       .then(res=> res).catch(err=> {  alert("update customer chatroom info fail");
+                           console.log(err)
+                       })
+               }
             }
         }
-
-        if(res == 200 ){
-            router.reload()
-        }
+        router.reload()
 
     }
     function cancel(e){

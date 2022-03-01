@@ -36,7 +36,8 @@ class ContactsStore {
             updateContactAgent:action.bound,
             deleteCustomerAgent:action.bound,
             getById:action.bound,
-            deleteContact:action.bound
+            deleteContact:action.bound,
+            updateContactTags:action.bound
         });
     }
 
@@ -104,6 +105,11 @@ class ContactsStore {
 
     }
 
+    async update(data){
+        await this.instance.put("/customer", data).then(res => res.status).catch(err => console.log(err))
+
+    }
+
     create = async (data)=>{
         await this.instance.post("/customer", data).then(res => res.data).catch(err => console.log(err))
     }
@@ -118,6 +124,9 @@ class ContactsStore {
             customer_id,
             agents_id
         }).then(res => res.status).catch(err => console.log(err))
+    }
+    async updateContactTags(data) {
+        await this.instance.put("/customer/add-tag", data).then(res => res.status).catch(err => console.log(err))
     }
     async deleteCustomerAgent(customer_id, agents_id){
         await this.instance.put("/customer/del-agent", {

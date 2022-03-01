@@ -55,7 +55,6 @@ export default function Contacts() {
     const [users ,setUsers] =useState([])
     const [tags ,setTags] =useState([])
     const [teams ,setTeams] =useState([])
-
     const [selectedTags ,setSelectedTags] =useState([])
     const [addedTags ,setAddedTags] =useState([])
     const [selectedUsers ,setSelectedUsers] =useState([])
@@ -72,7 +71,6 @@ export default function Contacts() {
     const result =()=>{return currentContacts.map(d=>d.customer_id)}
     const [isDelete , setIsDelete] = useState(false)
     const [isDeleteMany , setIsDeleteMany] = useState(false)
-
 
     const advanceFilter =()=>{
 
@@ -217,11 +215,15 @@ export default function Contacts() {
 
     };
     const toggleSelectAll = e => {
-        setSelectAll(!selectAll);
-        setSelectedContacts(currentContacts.map(c => c.customer_id.toString()));
-        if (selectAll) {
-            setSelectedContacts([]);
+        const currContactsId = currentContacts.map(c => c.customer_id.toString())
+        const all = currContactsId.every(el=>selectedContacts.includes(el))
+        console.log("all " , all)
+        if (all) {
+            selectedContacts.filter(se=>!currContactsId.includes(se))
+                return
         }
+        setSelectedContacts([...selectedContacts , ...currContactsId]);
+
 
     };
     const toggleSelectTags = e => {
@@ -384,7 +386,7 @@ export default function Contacts() {
                     {/* <NotificationContainer/> */}
 
             {/*{isOpenConfirmation?(<CancelConfirmation  onClose={closeConfitmation} onConfirm={removeContact} data={deleteID}/>):null}*/}
-            {isProfileShow?           ( <Profile handleClose={()=>{toggleProfile();getAll()}}><ProfileGrid data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
+            {isProfileShow?           ( <Profile handleClose={async ()=>{toggleProfile(); await getAll()}}><ProfileGrid data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
             {isEditProfileShow?           ( <Profile handleClose={toggleEditProfile}><EditProfileForm data={useContact} agants={users} tags={tags} agents={users} tesms={teams} toggle={toggleEditProfile}/></Profile>):null}
             <span style={{display: isShowDropzone ? "block" : "none"}}>
                 {/*DND Import Data start */}

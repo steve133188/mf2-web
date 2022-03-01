@@ -16,16 +16,17 @@ import {createNotesTable} from "../../src/graphql/mutations";
 import {renderTags} from "../common/RenderTags";
 import {renderAgentAVA} from "../common/AgentAVA";
 import {renderChannelsIcon} from "../common/RenderChannelsIcon";
+import {useRootStore} from "../../utils/provider/RootStoreProvider";
 
 export default function ProfileGrid({data,toggle , ...props}){
-    const {contactInstance , user ,tagInstance, setSelectedChat} = useContext(GlobalContext)
+    const {tagStore , contactsStore , chatListStore} = useRootStore()
 
     const [notes,setNotes] = useState([])
     const [disable, setDisable] = useState(false)
     const [unread, setUnread] = useState(false)
     const [writenote,setWritenote] = useState("")
     const [useContact , setUseContact] = useState(data)
-    const [selectedTags, setSelectedTags] = useState(data.tags_id)
+    const [selectedTags, setSelectedTags] = useState([])
     const [filteredTags, setFilteredTags] = useState([])
     const [isEditProfileShow , setIsEditProfileShow] = useState(false)
     const [assingedContacts, setAssingedContacts] = useState([])
@@ -37,19 +38,16 @@ export default function ProfileGrid({data,toggle , ...props}){
         setIsEditProfileShow(!isEditProfileShow)
     }
 
-    const updateTags = async (newSelectTags)=>{
+    const updateContact = async (newSelectTags)=>{
         const data = {...useContact , tags_id: newSelectTags}
-        console.log("update data : " , data)
-        const res = await contactInstance.updateContact(data)
-            .then(res=>console.log(res)).catch(error => console.log(error))
+        await contactsStore.update(data)
+        await fetchContacts()
     }
 
     const fetchNotes = async (data)=>{
-        console.log(data)
         const res = API.graphql(graphqlOperation(listNotesTables ,{filter:{customer_id: {eq:data} }})).then(res=>{
             setNotes(prev=>res.data.listNotesTables.items)
         }).catch(err=>console.log(err))
-        console.log("fetch notes" ,notes)
     }
 
     const dropNote = async (input)=>{
@@ -59,16 +57,14 @@ export default function ProfileGrid({data,toggle , ...props}){
         }).catch(err=>console.log(err))
     }
     const fetchContacts = async () =>{
-        const contactsdata = await contactInstance.getAllContacts()
-        console.log(contactsdata,"contactssss")
-        const assigned = contactsdata.filter(c=>c.agents.includes(data.username))
-        console.log(assigned,"contactssss")
+        await contactsStore.getAll()
+        const assigned = contactsStore.contacts.filter(c=>c.agents_id&&c.agents_id.length>0)
         setAssingedContacts(assigned)
     }
-    const getTags = async () => {
-        const data = await tagInstance.getAllTags()
-        setFilteredTags(data)
-        // setAlltags(data)
+    const getTags = async ()=>{
+        await tagStore.getTags()
+        setFilteredTags(tagStore.tags)
+
     }
     const isContainTags = (id) => {
         if (selectedTags && selectedTags.length>0) {
@@ -76,22 +72,21 @@ export default function ProfileGrid({data,toggle , ...props}){
         } else return false
     }
     const toggleSelectTags = async e => {
-        if(!selectedTags)  setSelectedTags([])
-        const { checked, id } = e.target;
+        const {  id } = e.target;
+        console.log("selectedTags " ,selectedTags)
         let newSelectTags
-        if (!checked) {
-            newSelectTags= new Array(selectedTags).filter(item =>  parseInt(item) !== parseInt(id))
-            setSelectedTags(prev =>newSelectTags );
-            console.log("newSelectTags 1 :",newSelectTags)
+        if (selectedTags.includes(parseInt(id))) {
+            newSelectTags= selectedTags.filter(item =>  parseInt(item) !== parseInt(id) )
+            console.log("newSelectTags : " , newSelectTags)
+            setSelectedTags(newSelectTags );
         }else{
-            newSelectTags= new Array(selectedTags).push(parseInt(id))
+            newSelectTags= [...selectedTags , parseInt(id)]
             setSelectedTags(prev=>newSelectTags);
-            console.log("newSelectTags 2 :",newSelectTags)
         }
-        const res = await updateTags(newSelectTags)
+        await updateContact(newSelectTags)
     };
     const fetchAfterModify= async(cid)=>{
-        const data = await contactInstance.getContactById(cid)
+        const data = await contactsStore.getContactById(cid)
         setUseContact(data)
         const { tags} = data
         setSelectedTags(tags)
@@ -106,7 +101,7 @@ export default function ProfileGrid({data,toggle , ...props}){
                 }).catch(err=>{
                     alert(err)
                 })
-            setSelectedChat(prev=>chat)
+            chatListStore.selectChat(chat)
             const n = router.pathname
             return n.includes("/livechat")
         }else{
@@ -132,12 +127,10 @@ export default function ProfileGrid({data,toggle , ...props}){
     }
 
     useEffect(async ()=>{
+        if(data.tags_id) setSelectedTags([...data.tags_id])
         await fetchNotes(data.customer_id)
         await getTags()
-        if (data.customer_id == null) setDisable(true)
-        else
-            setDisable(false)
-            console.log(useContact,"data check")
+        setDisable((data.customer_id == null))
     },[])
 
 
