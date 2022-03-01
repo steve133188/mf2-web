@@ -220,7 +220,7 @@ export default function Contacts() {
         console.log("all " , all)
         if (all) {
             selectedContacts.filter(se=>!currContactsId.includes(se))
-                return
+            return
         }
         setSelectedContacts([...selectedContacts , ...currContactsId]);
 
