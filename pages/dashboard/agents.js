@@ -113,7 +113,6 @@ export default function Agents() {
 
         }
 
-
         setSelectedTeams([...selectedTeams , id])
 
         console.log("toggle id : " , selectedTeams)

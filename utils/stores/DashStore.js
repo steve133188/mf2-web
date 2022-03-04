@@ -9,12 +9,11 @@ class DashStore{
     instance =axios.create({
         headers:{
             'Access-Control-Allow-Origin' : '*',
-            "Accept":"*/*",
+            'Content-Type': 'application/json',
             'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-            'Access-Control-Allow-Credentials': true,
         },
         timeout:10000,
-        baseURL:"https://mf2-tco-dashboard-python-bfymj.ondigitalocean.app"
+        baseURL: "https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/dbd-api/"
     })
 
     error=null
@@ -34,12 +33,11 @@ class DashStore{
             this.instance= axios.create({
                 headers:{
                     'Access-Control-Allow-Origin' : '*',
-                    "Accept":"*/*",
+                    'Content-Type': 'application/json',
                     'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-                    'Access-Control-Allow-Credentials': true,
                 },
                 timeout:10000,
-                baseURL:"https://mf2-tco-dashboard-python-bfymj.ondigitalocean.app"
+                baseURL: "https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/dbd-api/"
             })
         })
     }

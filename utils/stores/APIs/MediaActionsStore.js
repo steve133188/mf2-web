@@ -104,7 +104,6 @@ class MediaActionsStore {
     getStickers = async ()=>{
         let mediaKey = await Storage.list("storage/stickers/All/" )
         const {files, folders} = this.processStorageListSet(mediaKey)
-        console.log("nested res : ", {files, folders})
         return {files, folders}
     }
     // processStorageList=async (results)=>{

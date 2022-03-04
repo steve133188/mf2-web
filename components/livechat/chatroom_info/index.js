@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import ContantDetail from "./contantDetail";
+import ContactDetail from "./contantDetail";
 import Avatar from "@mui/material/Avatar";
 import {EditPenButtonSVG} from "../../../public/livechat/MF_LiveChat_Landing/chat_svg"
 import Profile from "../../profile";
@@ -66,7 +66,7 @@ function ChatroomInfo (props){
                 </div>
                 <div className={"contact_content"} style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
 
-                    {useContact&&<ContantDetail  selectedChat={selectedChat} tab={tabActive} tags={tags}
+                    {useContact&&<ContactDetail  selectedChat={selectedChat} tab={tabActive} tags={tags}
                                     users={users}/>}
                 </div>
             </div>

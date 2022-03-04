@@ -12,11 +12,11 @@ import {createNotesTable} from "../../../src/graphql/mutations";
 import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 
-export default function ContantDetail(props ) {
+export default function ContactDetail(props ) {
 
     const {selectedChat, tab,tags,users , contact} = props
 
-    const {tagStore , authStore , usersActionsStore , contactsStore:{targetContact}} = useRootStore()
+    const {tagStore , authStore , usersActionsStore , contactsStore:{targetContact , update , getById}} = useRootStore()
 
     const [notes, setNotes] = useState([])
     const [writenote, setWritenote] = useState("")
@@ -49,6 +49,10 @@ export default function ContantDetail(props ) {
         setFilteredUsers([...users])
         let tagList = targetContact.tags.map(tag => tag.tag_id.toString())
         let userList = targetContact.agents.map(agent => agent.user_id.toString())
+
+        // if (targetContact.tags_id.length>0){
+        //     console.log("targetContact : " ,targetContact.tags_id)
+        // }
         setSelectedTags(tagList)
         setSelectedUsers(userList)
     }
@@ -57,20 +61,40 @@ export default function ContantDetail(props ) {
         if (authStore.isAuth) {
             onLoad()
         }
-    }, []);
+        console.log("targetContact 2 :" ,targetContact )
+    }, [targetContact]);
+
+
+    const updateContact = async () =>{
+        const data ={...targetContact , tags_id:[...selectedTags]}
+
+        console.log("update contact : " , data)
+
+        await update(data)
+
+        await getById(targetContact.customer_id)
+
+    }
 
     const toggleSelectTags = async e => {
+
         let newValue
 
-        const {  id } = e.target;
+        const { id } = e.target;
 
         if(selectedTags.includes(id)){
             newValue = selectedTags.filter(t=>t!==id)
             setSelectedTags(newValue);
+            await updateContact()
             return
         }
+
         newValue = [...selectedTags, id]
+
         setSelectedTags(newValue);
+
+        await updateContact()
+
     };
     const toggleSelectUsers = async e => {
 
