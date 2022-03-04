@@ -14,14 +14,13 @@ import {useRootStore} from "../../../utils/provider/RootStoreProvider";
 
 export default function ContactDetail(props ) {
 
-    const {selectedChat, tab,tags,users , contact} = props
+    const {tab,tags,users } = props
 
-    const {tagStore , authStore , usersActionsStore , contactsStore:{targetContact , update , getById}} = useRootStore()
+    const {  authStore  , contactsStore:{targetContact , update , getById}} = useRootStore()
 
     const [notes, setNotes] = useState([])
     const [writenote, setWritenote] = useState("")
     const [disable, setDisable] = useState(false)
-    const [start, setStart] = useState(false)
     const [selectedTags, setSelectedTags] = useState([])
     const [filteredTags, setFilteredTags] = useState([])
     const [showTags, setShowTags] = useState([])
@@ -61,7 +60,6 @@ export default function ContactDetail(props ) {
         if (authStore.isAuth) {
             onLoad()
         }
-        console.log("targetContact 2 :" ,targetContact )
     }, [targetContact]);
 
 
@@ -96,6 +94,7 @@ export default function ContactDetail(props ) {
         await updateContact()
 
     };
+
     const toggleSelectUsers = async e => {
 
         let newValue

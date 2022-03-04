@@ -1,9 +1,4 @@
-import {useContext, useEffect, useRef, useState} from "react";
-import {GlobalContext} from "../../context/GlobalContext";
-import Link from 'next/link';
-import {ImportDropzone} from '../../components/ImportContact.js'
-import axios from "axios";
-import styles from "../../styles/Contacts.module.css";
+import { useEffect, useState} from "react";
 import SelectSession from "../../components/SelectSession";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -12,18 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import {TableCell} from "@mui/material";
 import TableHead from "@mui/material/TableHead";
 import Pagination from '@mui/material/Pagination';
-import Avatar from "@mui/material/Avatar";
-import {Pill} from "../../components/Pill";
-import MF_Select from "../../components/MF_Select";
-import Profile from "../../components/profile";
-import ProfileGrid from "../../components/pageComponents/ProfieGrid";
-import EditProfileForm from "../../components/pageComponents/EditProfileForm";
-import { Tooltip } from '@mui/material';
-import {AvatarGroup} from "@mui/lab";
-import Mf_icon_dropdownform from "../../components/common/mf_icon_dropdownform";
-import Mf_icon_dropdown_select_btn from "../../components/common/mf_dropdown_select";
 import searchFilter from "../../helpers/searchFilter";
-import {getAllContacts} from "../../helpers/contactsHelper"
 import {InnerSidebar} from "../../components/InnerSidebar";
 import * as React from "react";
 import CreateRole from "../../components/Admin/CreateRole";
@@ -58,7 +42,6 @@ export default function Role() {
     const fetchRoles = async () =>{
         await orgActionsStore.getAllRoles()
         setRoles(orgActionsStore.roles)
-        console.log(orgActionsStore.roles,"role~")
         setFilteredData(orgActionsStore.roles)
     }
     useEffect(    async () => {
@@ -76,7 +59,6 @@ export default function Role() {
         if (!checked) {
             setSelectedContacts(selectedContacts.filter(item => item !== id));
         }
-        console.log(selectedContacts)
     };
     const toggleSelectAll = e => {
         setSelectAll(!selectAll);
@@ -84,7 +66,6 @@ export default function Role() {
         if (selectAll) {
             setSelectedContacts([]);
         }
-        console.log(selectedContacts)
     };
     const toggleSelectRow = ()=>{
         setIsSelectRow(!isSelectRow)
@@ -95,10 +76,8 @@ export default function Role() {
     const toggleEdit = (name)=>{
         setIsEdit(!isEdit)
         setEditRole(name)
-        console.log(editRolename,"toggleEdit")
     }
     const toggleDelete = (name)=>{
-        console.log(name,"delete test name")
         setIsDelete(!isDelete)
         setDeleteRole(name)
     }

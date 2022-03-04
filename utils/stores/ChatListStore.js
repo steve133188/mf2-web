@@ -91,8 +91,6 @@ class ChatListStore {
 
     async init(){
         if(this.rootStore.authStore.user){
-            console.log("init chatList")
-
             // let cred = JSON.parse(localStorage.getItem("user"))
             runInAction(()=>{
                 this.userCredential = this.rootStore.authStore.user
@@ -140,7 +138,6 @@ class ChatListStore {
     }
 
     async getChatList(){
-        console.log("post creds :" , this.userCredential)
         const {user_id , team_id , role_id} = this.userCredential
         // await axios.get(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user/${data.user_id}`)
         await axios.post(`https://4vribegcfl.execute-api.ap-east-1.amazonaws.com/api/chatrooms/user`, {user_id , team_id , role_id},{headers: {
@@ -252,8 +249,6 @@ class ChatListStore {
         runInAction(()=>{
             this.filter = update
         })
-
-        console.log("updateFilter :",value)
     }
 
     updateShow(show){

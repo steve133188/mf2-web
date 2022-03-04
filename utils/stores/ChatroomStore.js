@@ -69,18 +69,6 @@ class ChatroomStore{
             this.updateShow(this.messages)
         }
     }
-
-    // getLastMsgFromClient(){
-    //     for(let i = this.messages.length ; !this.lastMsgFromClient ; i--){
-    //         if(this.messages[i].from_me){
-    //             runInAction(()=>{
-    //                 this.lastMsgFromClient = this.messages[i].timestamp
-    //             })
-    //             return
-    //         }
-    //     }
-    // }
-
     clear(){
         runInAction(()=>{
             this.showMessage=[]
@@ -136,7 +124,7 @@ class ChatroomStore{
         this.sub =await API.graphql(graphqlOperation(    subscribeChatroom,{room_id:this.rootStore.chatListStore.selectedChat.room_id ,channel:this.rootStore.chatListStore.selectedChat.channel } ))
             .subscribe({
                 next: async (chatmessage)=>{
-                    // if(router.pathname == "/livechat") await updateSelectedChatroom(chat)
+
                     const newMessage = chatmessage.value.data.subscribeChatroom
                     runInAction(()=>{
                         this.messages.push(newMessage)
@@ -144,7 +132,6 @@ class ChatroomStore{
                         if(!newMessage.from_me)this.lastMsgFromClient = newMessage.timestamp
                     })
                     console.log("new message: " , newMessage)
-                    // setNotis({type:"newMsg",channel:newMessage.channel??"whatsapp",content:newMessage.body,sender:newMessage.sender})
                 },
                 error: error => console.log(error)
             })

@@ -43,7 +43,12 @@ export default function UserProfileGrid({data , roles , teams}){
     const fetchContacts = async () =>{
         await contactsStore.getAll()
 
-        const assigned = contactsStore.contacts.filter(c=>{return c.agents_id.some(el=>el.username ==data.username)})
+        console.log("contacts : " ,contactsStore.contacts[0] )
+
+        const assigned = contactsStore.contacts.filter(c=>{
+            if(!c.agents_id) return []
+            return c.agents_id.some(el=>el ==data.user_id)
+        })
 
         setAssingedContacts(assigned)
 
